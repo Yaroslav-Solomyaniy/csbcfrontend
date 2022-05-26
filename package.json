@@ -10,6 +10,7 @@
     "@types/node": "^16.11.36",
     "@types/react": "^18.0.9",
     "@types/react-dom": "^18.0.5",
+    "axios": "^0.27.2",
     "firebase": "^9.8.1",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
@@ -19,10 +20,19 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint --fix --ext **/*.ts **/*.tsx",
+    "start": "env-cmd -f .env.local react-scripts start",
+    "start:dev": "env-cmd -f .env.development react-scripts start",
+    "start:stage": "env-cmd -f .env.stage react-scripts start",
+    "build": "env-cmd -f .env.local react-scripts build",
+    "build:dev": "env-cmd -f .env.development react-scripts build",
+    "build:stage": "env-cmd -f .env.stage react-scripts build",
+    "deploy:dev": "firebase deploy --only hosting:development",
+    "deploy:stage": "firebase deploy --only hosting:stage",
+    "build-and-deploy:dev": "npm run lint && npm run build:dev && npm run deploy:dev",
+    "build-and-deploy:stage": "npm run lint && npm run build:stage && npm run deploy:stage"
   },
   "eslintConfig": {
     "extends": [
@@ -52,5 +62,6 @@
     "eslint-plugin-react-hooks": "^4.5.0",
     "eslint-plugin-sort-imports-es6-autofix": "^0.6.0",
     "prettier": "2.6.2"
-  }
+  },
+  "proxy": "https://dev-csbc.fox.ck.ua"
 }

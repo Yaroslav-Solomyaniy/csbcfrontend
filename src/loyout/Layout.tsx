@@ -1,23 +1,22 @@
 import React from 'react';
-import Header from "../components/Header";
-import Navigation from "../components/Navigation";
+import Header from '../components/Header';
+import Navigation from '../components/Navigation';
 
-const Layout = () => {
+function Layout() {
+  // let list:Array<{ Namelink:string, path:string }> = [
+  //     { Namelink: "home", path: "/home"},
+  //     { Namelink: "tools", path: "/tools"},
+  //     { Namelink: "rom", path: "/rom"}
+  // ];
 
-    // let list:Array<{ Namelink:string, path:string }> = [
-    //     { Namelink: "home", path: "/home"},
-    //     { Namelink: "tools", path: "/tools"},
-    //     { Namelink: "rom", path: "/rom"}
-    // ];
-
-    return (
-        <div>
-            <Header/>
-            <div className="content">
-                <Navigation/>
-            </div>
-        </div>
-    );
-};
+  return (
+    <div>
+      <Header />
+      <div className="content">
+        <Navigation />
+      </div>
+    </div>
+  );
+}
 
 export default Layout;

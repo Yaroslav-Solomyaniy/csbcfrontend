@@ -1,10 +1,13 @@
 import React from 'react';
-
-import './App.css';
+import './style/normalize.css';
+import './style/App.css';
+import Group from './pages/Group';
 
 function App() {
   return (
-      <div></div>
+      <div>
+    <Group/>
+      </div>
   );
 }
 

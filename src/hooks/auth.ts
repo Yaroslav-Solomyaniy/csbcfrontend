@@ -33,3 +33,17 @@ export const useLogin = () => {
 
   return { fetch };
 };
+
+// export const useLogin = () => {
+//   // const [] = useState();
+//
+//   const fetch = (params: Login) => {
+//     axios.post('/auth/login', params).then((e) => {
+//       console.log(e);
+//     }).catch((e) => {
+//       console.error(e);
+//     });
+//   };
+//
+//   return { fetch };
+// };

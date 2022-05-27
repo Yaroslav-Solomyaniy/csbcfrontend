@@ -1,6 +1,8 @@
 import TitlePage from '../../components/TitlePage';
 import Selectoptions from '../../UI/Select/Selectoptions';
+
 import './Group.css';
+
 const options = [
   { value: '1P20', label: '1П-20' },
   { value: '2P20', label: '2П-20' },

@@ -7,7 +7,7 @@ function Header() {
     <header className="header">
       <div>
         <NavigationButton />
-        <img className="logo" src="../images/logo.png" alt="logo" />
+        <img className="logo" src="logo.png" alt="logo" />
       </div>
       <div>
         <span className="user">name</span>

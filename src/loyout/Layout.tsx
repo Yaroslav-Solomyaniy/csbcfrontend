@@ -12,7 +12,7 @@ function Layout() {
   return (
     <div>
       <Header />
-      <div className="content">
+      <div>
         <Navigation />
       </div>
     </div>

@@ -1,22 +1,20 @@
-import React, {FC} from 'react';
+import React, { FC } from 'react';
 import Select from 'react-select';
 import './Selectoptions.css';
 
-
-
-export interface IselectOptions{
-    select:{value:string,label:string}[],
-    placeholder:string
+export interface Iselectoptions{
+    select:{value:string;label:string;}[];
+    placeholder:string;
 }
 
-const Selectoptions:FC<IselectOptions> = (props) => {
-    return (
-        <div>
-            <Select options={props.select}
-                    placeholder={props.placeholder}
-                    classNamePrefix='custom-select'/>
-        </div>
-    );
-};
+const Selectoptions:FC<Iselectoptions> = (select:Iselectoptions) => (
+  <div>
+    <Select
+      options={select.select}
+      placeholder={select.placeholder}
+      classNamePrefix="custom-select"
+    />
+  </div>
+);
 
 export default Selectoptions;

@@ -5,11 +5,10 @@ import {
   Route, Link,
 } from 'react-router-dom';
 
-import Home from './pages/home';
-import Students from './pages/students';
-
-import './App.css';
+import './style/App.css';
 import { useLogin } from './hooks/auth';
+import Students from './pages/Students/Students';
+import Table from './UI/Table/Table';
 
 function App() {
   const { fetch } = useLogin();
@@ -28,7 +27,7 @@ function App() {
         <Link to="/students">Students</Link>
       </nav>
       <Routes>
-        <Route index element={<Home />} />
+        <Route index element={<Table />} />
         <Route path="/students" element={<Students />} />
       </Routes>
     </BrowserRouter>

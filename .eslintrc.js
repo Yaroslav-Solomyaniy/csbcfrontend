@@ -31,10 +31,11 @@ module.exports = {
   ],
   settings: {
     react: {
-      version: 'latest',
+      version: 'detect',
     },
   },
   rules: {
+    'linebreak-style': 0,
     camelcase: 'off',
     'max-len': ['error', { code: 120 }],
     'no-bitwise': 'off',
@@ -104,5 +105,10 @@ module.exports = {
     'jest/no-identical-title': 'error',
     'jest/prefer-to-have-length': 'warn',
     'jest/valid-expect': 'error',
+    // "react/function-component-definition": [1, {
+    //   "namedComponents": "function-declaration" | "function-expression" | "arrow-function" | Array<"function-declaration" | "function-expression" | "arrow-function">,
+    //   "unnamedComponents": "function-expression" | "arrow-function" | Array<"function-expression" | "arrow-function">
+    // }]
   },
+
 };

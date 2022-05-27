@@ -1,14 +1,22 @@
 import './Table.css';
 import React from 'react';
 
-function Table() {
+interface TableHeader {
+  name: string;
+  title: string;
+}
+
+interface Table {
+  header: TableHeader[];
+  list: Record<string, string | number>[]
+}
+
+function Table({ header }: Table) {
   return (
     <div className="table">
-      <div className="table__header table__header_left">Номер групи</div>
-      <div className="table__header">Куратор</div>
-      <div className="table__header">Номер наказу</div>
-      <div className="table__header">К-сть студентів</div>
-      <div className="table__header table__header_right">Дії</div>
+        {header.map(({ title}) => (
+          <div className="table__header">{title}</div>
+        ))}
 
       <div className="table__item">2П-18</div>
       <div className="table__item">Фай Вікторія Степанівна</div>

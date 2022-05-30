@@ -5,7 +5,7 @@ import { useLogin } from './hooks/auth';
 import Layout from './loyout/Layout';
 
 function App() {
-  const { postLogin } = useLogin();
+  const { postLogin, data } = useLogin();
 
   useEffect(() => {
     postLogin({ email: 'root@gmail.com', password: 'root@gmail.com' });

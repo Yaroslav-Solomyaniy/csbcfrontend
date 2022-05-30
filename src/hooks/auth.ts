@@ -14,6 +14,7 @@
 // /auth/change-password
 
 import axios, { responseEncoding } from 'axios';
+import { useEffect, useState } from 'react';
 
 interface Login {
   email: string;
@@ -48,15 +49,32 @@ interface ChangePassword {
 }
 
 export const useLogin = () => {
+  const [data, setData] = useState();
+
   const postLogin = (params: Login) => {
-    axios.post('/auth/login', params).then((e) => {
-      console.log(e);
+    axios.post('/auth/login', params).then((respons) => {
+      setData(respons.data);
     }).catch((e) => {
       console.error(e);
     });
   };
 
-  return { postLogin };
+  useEffect(() => {
+    if (data) {
+      localStorage.setItem('auth', data);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    const auth = localStorage.getItem('auth');
+
+    if (auth) {
+      // @ts-ignore !!!!!!!!!!!!!!!!!!!!!!!!
+      setData(auth);
+    }
+  }, []);
+
+  return { data, postLogin };
 };
 
 export const useRefreshToken = () => {

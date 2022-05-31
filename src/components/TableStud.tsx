@@ -1,17 +1,25 @@
 import React from 'react';
 
-function Table(list: Array<any>) {
+interface Stringa {
+  edb: string;
+  eda: string;
+  edg: string;
+  ede: string;
+}
+
+function TableStud(ggg: Array<Stringa>) {
   return (
     <div>
-      {list.map((strl: any) => {
-        <div>
-          {strl.map((elem: any) => {
-            <span>{elem}</span>;
-          })}
-        </div>;
-      })}
+      {ggg.map(({ edb, eda, edg, ede }) => (
+        <>
+          <div>{edb}</div>
+          <div>{eda}</div>
+          <div>{edg}</div>
+          <div>{ede}</div>
+        </>
+      ))}
     </div>
   );
 }
 
-export default Table;
+export default TableStud;

@@ -23,7 +23,10 @@ function Navigation() {
     <BrowserRouter>
       <div className="navAndContent">
         <div className="navMenu">
-          <Link className="link" to="/">Групи</Link>
+          <Link className="link" to="/">
+            {/* <img src="../" /> */}
+            Групи
+          </Link>
           <Link className="link" to="/students">Студенти</Link>
           <Link className="link" to="/curators">Куратори</Link>
           <Link className="link" to="/teachers">Викладачі</Link>

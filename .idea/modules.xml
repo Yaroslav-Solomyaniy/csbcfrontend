@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/csbcfrontend.iml" filepath="$PROJECT_DIR$/.idea/csbcfrontend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/csbs-front.iml" filepath="$PROJECT_DIR$/csbs-front.iml" />
     </modules>
   </component>
 </project>

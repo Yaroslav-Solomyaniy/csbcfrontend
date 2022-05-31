@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Individual_plan() {
+function IndividualPlan() {
   return (
     <div>
       Individual_plan
@@ -8,4 +8,4 @@ function Individual_plan() {
   );
 }
 
-export default Individual_plan;
+export default IndividualPlan;

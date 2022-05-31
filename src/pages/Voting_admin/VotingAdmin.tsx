@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Voting_admin() {
+function VotingAdmin() {
   return (
     <div>
       Voting_admin
@@ -8,4 +8,4 @@ function Voting_admin() {
   );
 }
 
-export default Voting_admin;
+export default VotingAdmin;

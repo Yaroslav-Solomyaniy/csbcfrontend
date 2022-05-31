@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Voting_students() {
+function VotingStudents() {
   return (
     <div>
       Voting_students
@@ -8,4 +8,4 @@ function Voting_students() {
   );
 }
 
-export default Voting_students;
+export default VotingStudents;

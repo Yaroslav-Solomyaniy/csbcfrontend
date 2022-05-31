@@ -10,6 +10,7 @@
     font-weight: normal;
 }
 body{
+    min-height: 100vh;
     font-family: HalveticaBlack, Arial,sans-serif;
     font-size: 21px;
 }

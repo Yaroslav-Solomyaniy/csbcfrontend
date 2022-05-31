@@ -1,11 +1,11 @@
 import React from 'react';
 
-function Guardian() {
+function Curators() {
   return (
     <div>
-      Guardian
+      Curators
     </div>
   );
 }
 
-export default Guardian;
+export default Curators;

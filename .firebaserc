@@ -1,5 +1,17 @@
 {
   "projects": {
     "default": "csbcfrontend"
+  },
+  "targets": {
+    "csbcfrontend": {
+      "hosting": {
+        "development": [
+          "csbcfrontend"
+        ],
+        "stage": [
+          "csbcstage"
+        ]
+      }
+    }
   }
 }

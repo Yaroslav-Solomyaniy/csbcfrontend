@@ -6,8 +6,8 @@ function NavigationButton() {
     <button className="navigationButton" type="button">
       <svg
         className="navButtonSvg"
-        width="4.5vh"
-        height="4.5vh"
+        width="24"
+        height="24"
         viewBox="0 0 24 24"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

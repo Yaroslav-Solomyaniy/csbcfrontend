@@ -1,19 +1,32 @@
 .navAndContent {
     display: flex;
-    height: 91vh;
+    min-height: 91vh;
 }
 
 .navMenu {
-    font-family: Helvetica, serif;
-    font-size: 14px;
     font-weight: 400;
-    width: 18%;
+    width: 208px;
     background-color: #ECF3FE;
 }
 
-.link {
+.navMenuLinks {
     margin: 16px;
+}
+
+.link {
+    margin: 0;
+    width: 176px;
+    color: #607180;
     display: block;
     text-decoration: none;
     border-radius: 8px;
+}
+
+.link span {
+    display: inline-block;
+    margin: 12px;
+}
+
+.Active {
+    background-color: #ffffff;
 }

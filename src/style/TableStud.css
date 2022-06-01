@@ -1,11 +1,18 @@
 .tableStud {
-
+    border-radius: 8px;
+    margin: 23px;
 }
 
 .studentLine {
-
+    border: #adadad 2px solid;
 }
 
 .studentCell {
     display: inline-block;
+    padding: 10px;
 }
+
+.doingsStud {width: 158px;}
+.w187p {width: 187px;}
+.w95p {width: 95px;}
+.borderRadTop{border-radius: 8px 8px 0 0}

@@ -1,11 +1,11 @@
 .navigationButton {
     float: left;
-    height: 6vh;
-    width: 6vh;
+    height: 30px;
+    width: 30px;
     background-color: #428BCA;
     border: 0;
     border-radius: 8px;
-    padding: 0.7vh;
+    padding: 3px;
 }
 
 .navigationButton .navButtonSvg {

@@ -1,8 +1,9 @@
 import React from 'react';
-import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom';
 import Administrators from '../pages/Administrators/Administrators';
 import Students from '../pages/Students/Students';
 import '../style/Navigation.css';
+import '../style/App.css';
 import Group from '../pages/Group/Group';
 import Curators from '../pages/Сurators/Curators';
 import Teachers from '../pages/Teachers/Teachers';
@@ -23,24 +24,84 @@ function Navigation() {
     <BrowserRouter>
       <div className="navAndContent">
         <div className="navMenu">
-          <Link className="link" to="/">
-            {/* <img src="../" /> */}
-            Групи
-          </Link>
-          <Link className="link" to="/students">Студенти</Link>
-          <Link className="link" to="/curators">Куратори</Link>
-          <Link className="link" to="/teachers">Викладачі</Link>
-          <Link className="link" to="/subjects">Предмети</Link>
-          <Link className="link" to="/estimates">Оцінки</Link>
-          <Link className="link" to="/voting_admin">Голосування адмінка</Link>
-          <Link className="link" to="/administrators">Адміністратори</Link>
-          {/* студент */}
-          <Link className="link" to="/individual_plan">Індивідуальний план</Link>
-          <Link className="link" to="/voting_students">Голосування студенти</Link>
-          {/* викладач */}
-          <Link className="link" to="/teacher">Викладач</Link>
-
-          <Link className="link" to="/curator">Куратор</Link>
+          <div className="navMenuLinks">
+            <NavLink
+              className={({ isActive }) => (isActive ? 'link Active h42p' : 'link h42p')}
+              to="/"
+            >
+              {/* <img src="../" /> */}
+              <span>Групи</span>
+            </NavLink>
+            <NavLink
+              className={({ isActive }) => (isActive ? 'link Active h42p' : 'link h42p')}
+              to="/students"
+            >
+              <span>Студенти</span>
+            </NavLink>
+            <NavLink
+              className={({ isActive }) => (isActive ? 'link Active h42p' : 'link h42p')}
+              to="/curators"
+            >
+              <span>Куратори</span>
+            </NavLink>
+            <NavLink
+              className={({ isActive }) => (isActive ? 'link Active h42p' : 'link h42p')}
+              to="/teachers"
+            >
+              <span>Викладачі</span>
+            </NavLink>
+            <NavLink
+              className={({ isActive }) => (isActive ? 'link Active h42p' : 'link h42p')}
+              to="/subjects"
+            >
+              <span>Предмети</span>
+            </NavLink>
+            <NavLink
+              className={({ isActive }) => (isActive ? 'link Active h42p' : 'link h42p')}
+              to="/estimates"
+            >
+              <span>Оцінки</span>
+            </NavLink>
+            <NavLink
+              className={({ isActive }) => (isActive ? 'link Active h42p' : 'link h42p')}
+              to="/voting_admin"
+            >
+              <span>Голосування адмінка</span>
+            </NavLink>
+            <NavLink
+              className={({ isActive }) => (isActive ? 'link Active h42p' : 'link h42p')}
+              to="/administrators"
+            >
+              <span>Адміністратори</span>
+            </NavLink>
+            {/* студент */}
+            <NavLink
+              className={({ isActive }) => (isActive ? 'link Active h42p' : 'link h42p')}
+              to="/individual_plan"
+            >
+              <span>Індивідуальний план</span>
+            </NavLink>
+            <NavLink
+              className={({ isActive }) => (isActive ? 'link Active h42p' : 'link h42p')}
+              to="/voting_students"
+            >
+              <span>Голосування студенти</span>
+            </NavLink>
+            {/* викладач */}
+            <NavLink
+              className={({ isActive }) => (isActive ? 'link Active h42p' : 'link h42p')}
+              to="/teacher"
+            >
+              <span>Викладач</span>
+            </NavLink>
+            {/* куратор */}
+            <NavLink
+              className={({ isActive }) => (isActive ? 'link Active h42p' : 'link h42p')}
+              to="/curator"
+            >
+              <span>Куратор</span>
+            </NavLink>
+          </div>
         </div>
         <Routes>
           <Route index element={<Group />} />

@@ -2,31 +2,32 @@
     color: #FFFFFF;
     margin: 0;
     background-color: #003366;
-    padding: 0.5vh;
+    padding: 0;
     display: flex;
     justify-content: space-between;
-    height: 7.5vh;
+    height: 56px;
+
 }
 
 .header div * {
-    margin: 0.5vh;
+    margin: 6px;
 }
 
 .avatarka {
     background-color: #428BCA;
-    width: 5.6vh;
-    height: 5.6vh;
-    border-radius: 2.8vh;
-    font-size: 3vh;
+    width: 30px;
+    height: 30px;
+    border-radius: 20px;
     border: 0;
-    padding: 0.7vh;
+    padding: 7px 0;
+    font-size: 14px;
 }
 
 .logo {
-    height: 6vh;
-    width: 20vh;
+    height: 30px;
+    width: 100px;
 }
 
 .user {
-    font-size: 3vh;
+
 }

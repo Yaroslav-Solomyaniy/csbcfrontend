@@ -12,5 +12,9 @@
 body{
     min-height: 100vh;
     font-family: HalveticaBlack, Arial,sans-serif;
-    font-size: 21px;
+    font-size: 14px;
+}
+
+.h42p {
+    height: 42px;
 }

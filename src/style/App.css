@@ -1,4 +1,8 @@
-* {margin: 0;}
+* {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
 
 @font-face {
     font-family: "HelveticaBlack";
@@ -10,11 +14,17 @@
     font-weight: normal;
 }
 body{
-    min-height: 100vh;
+    height: 100vh;
     font-family: HalveticaBlack, Arial,sans-serif;
     font-size: 14px;
 }
 
 .h42p {
     height: 42px;
+}
+
+body #root {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }

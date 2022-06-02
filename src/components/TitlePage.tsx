@@ -7,7 +7,10 @@ interface ITitlePage{
 
 function TitlePage({ title }:ITitlePage) {
   return (
-    <h1 className="title">{title}</h1>
+    <div className="headerPage">
+      <h1 className="title">{title}</h1>
+      <button className="buttonCreate" type="button">Створити</button>
+    </div>
   );
 }
 export default TitlePage;

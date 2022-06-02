@@ -4,15 +4,17 @@
 }
 
 .studentLine {
-    border: #adadad 2px solid;
+    display: flex;
+    border: #eeeeee 2px solid;
 }
 
 .studentCell {
+    flex-grow: 0;
     display: inline-block;
     padding: 10px;
 }
 
-.doingsStud {width: 158px;}
-.w187p {width: 187px;}
-.w95p {width: 95px;}
+.doingsStud {width: 9%;}
+.w187p {width: 14%;}
+.w95p {width: 8%;}
 .borderRadTop{border-radius: 8px 8px 0 0}

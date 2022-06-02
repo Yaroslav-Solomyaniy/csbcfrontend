@@ -1,6 +1,6 @@
 .navAndContent {
     display: flex;
-    min-height: 91vh;
+    flex-grow: 1;
 }
 
 .navMenu {

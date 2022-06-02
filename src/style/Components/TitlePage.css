@@ -1,7 +1,22 @@
+.headerPage {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 16px 24px 8px;
+}
+
 .title{
     font-size: 24px;
     font-weight: 700;
     line-height: 32px;
     color: rgba(0, 0, 0, 0.85);
-    padding-left: 24px;
 }
+
+.buttonCreate {
+    background: #428BCA;
+    border-radius: 8px;
+    padding: 10px 24px;
+    font-size: 14px;
+    color: #ffffff;
+}
+

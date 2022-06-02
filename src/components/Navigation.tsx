@@ -14,9 +14,16 @@ import IndividualPlan from '../pages/Individual_plan/IndividualPlan';
 import VotingStudents from '../pages/Voting_students/VotingStudents';
 import Teacher from '../pages/Teacher/Teacher';
 import Curator from '../pages/Сurator/Curator';
-// import svgAdministrators from '../images/Administrators.svg';
-// import svgGroup from '../images/Group.svg';
-// import svgStudents from '../images/Students.svg';
+
+import svgGroup from '../images/Group.svg';
+import svgStudents from '../images/Students.svg';
+import svgAdministrators from '../images/Administrators.svg';
+import svgCurators from '../images/Curators.svg';
+import svgTeachers from '../images/Teachers.svg';
+import svgSubjects from '../images/Subjects.svg';
+import svgEstimates from '../images/Estimates.svg';
+import svgIndividualPlan from '../images/individual_plan.svg';
+import svgVotingAdmin from '../images/VotingAdmin.svg';
 
 function Navigation() {
   /* куратор */
@@ -29,49 +36,56 @@ function Navigation() {
               className={({ isActive }) => (isActive ? 'link Active h42p' : 'link h42p')}
               to="/"
             >
-              {/* <img src="../" /> */}
+              <img className="icon" src={svgGroup} alt=" " />
               <span>Групи</span>
             </NavLink>
             <NavLink
               className={({ isActive }) => (isActive ? 'link Active h42p' : 'link h42p')}
               to="/students"
             >
+              <img className="icon" src={svgStudents} alt=" " />
               <span>Студенти</span>
             </NavLink>
             <NavLink
               className={({ isActive }) => (isActive ? 'link Active h42p' : 'link h42p')}
               to="/curators"
             >
+              <img className="icon" src={svgCurators} alt=" " />
               <span>Куратори</span>
             </NavLink>
             <NavLink
               className={({ isActive }) => (isActive ? 'link Active h42p' : 'link h42p')}
               to="/teachers"
             >
+              <img className="icon" src={svgTeachers} alt=" " />
               <span>Викладачі</span>
             </NavLink>
             <NavLink
               className={({ isActive }) => (isActive ? 'link Active h42p' : 'link h42p')}
               to="/subjects"
             >
+              <img className="icon" src={svgSubjects} alt=" " />
               <span>Предмети</span>
             </NavLink>
             <NavLink
               className={({ isActive }) => (isActive ? 'link Active h42p' : 'link h42p')}
               to="/estimates"
             >
+              <img className="icon" src={svgEstimates} alt=" " />
               <span>Оцінки</span>
             </NavLink>
             <NavLink
               className={({ isActive }) => (isActive ? 'link Active h42p' : 'link h42p')}
               to="/voting_admin"
             >
-              <span>Голосування адмінка</span>
+              <img className="icon" src={svgVotingAdmin} alt=" " />
+              <span>Голоc. адмін</span>
             </NavLink>
             <NavLink
               className={({ isActive }) => (isActive ? 'link Active h42p' : 'link h42p')}
               to="/administrators"
             >
+              <img className="icon" src={svgAdministrators} alt=" " />
               <span>Адміністратори</span>
             </NavLink>
             {/* студент */}
@@ -79,13 +93,15 @@ function Navigation() {
               className={({ isActive }) => (isActive ? 'link Active h42p' : 'link h42p')}
               to="/individual_plan"
             >
-              <span>Індивідуальний план</span>
+              <img className="icon" src={svgIndividualPlan} alt=" " />
+              <span>Індив. план</span>
             </NavLink>
             <NavLink
               className={({ isActive }) => (isActive ? 'link Active h42p' : 'link h42p')}
               to="/voting_students"
             >
-              <span>Голосування студенти</span>
+              <img className="icon" src={svgVotingAdmin} alt=" " />
+              <span>Голос. студ.</span>
             </NavLink>
             {/* викладач */}
             <NavLink

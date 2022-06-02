@@ -14,12 +14,19 @@
 }
 
 .link {
-    margin: 0;
-    width: 176px;
-    color: #607180;
-    display: block;
-    text-decoration: none;
-    border-radius: 8px;
+  margin: 0;
+  width: 176px;
+  color: #607180;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  border-radius: 8px;
+}
+
+.icon {
+  height: 15px;
+  width: 15px;
+  margin: 6px;
 }
 
 .link span {

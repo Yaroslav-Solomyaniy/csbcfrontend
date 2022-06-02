@@ -10,6 +10,7 @@ function Students() {
     { edb: 'wevwdgbrsef', eda: '2П-18', edg: 'wevdbdrwef', ede: 'wevsrvsrwef' },
     { edb: 'wevwdgbrsef', eda: '2П-18', edg: 'wevdbdrwef', ede: 'wevsrvsrwef' },
   ];
+
   const options = [
     { value: '1P20', label: '1П-20' },
     { value: '2P20', label: '2П-20' },

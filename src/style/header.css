@@ -6,7 +6,7 @@
     display: flex;
     justify-content: space-between;
     height: 43px;
-
+    width: 100%;
 }
 
 .header div * {

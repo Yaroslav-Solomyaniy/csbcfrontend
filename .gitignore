@@ -13,14 +13,19 @@
 
 # misc
 .DS_Store
+
 .env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env.development
+.env.stage
 
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-.idea/
-.env.development
-.env.stage
+
+.idea
+.firebase
+firebase-debug.log
+
+.eslintcache
+.husky
+package-lock.json

@@ -4,7 +4,7 @@ import TableStud, { Stringa } from '../../components/TableStud';
 import './Students.css';
 import Selectoptions from '../../UI/Select/Selectoptions';
 
-function Students() {
+const Students = ():JSX.Element => {
   const list: Array<Stringa> = [
     { edb: 'wevwdgbrsef', eda: '2П-18', edg: 'wevdbdrwef', ede: 'wevsrvsrwef' },
     { edb: 'wevwdgbrsef', eda: '2П-18', edg: 'wevdbdrwef', ede: 'wevsrvsrwef' },
@@ -35,6 +35,6 @@ function Students() {
       <TableStud list={list} />
     </div>
   );
-}
+};
 
 export default Students;

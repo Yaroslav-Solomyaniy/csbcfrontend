@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useLogin } from '../hooks/auth';
 
-export const useAuthContext = () => {
+export const useAuthContext = ():JSX.Element => {
   const { postLogin, data } = useLogin();
 
   useEffect(() => {

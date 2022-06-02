@@ -4,19 +4,19 @@
     padding: 0;
 }
 
-@font-face {
-    font-family: "HelveticaBlack";
-    src: url("../fonts/HelveticaBlack/HelveticaBlack.eot");
-    src: url("../fonts/HelveticaBlack/HelveticaBlack.eot?#iefix")format("embedded-opentype"),
-    url("../fonts/HelveticaBlack/HelveticaBlack.woff") format("woff"),
-    url("../fonts/HelveticaBlack/HelveticaBlack.ttf") format("truetype");
-    font-style: normal;
-    font-weight: normal;
-}
-body{
-    height: 100vh;
-    font-family: HalveticaBlack, Arial, sans-serif;
-    font-size: 14px;
+/*@font-face {*/
+/*    font-family: "HelveticaBlack";*/
+/*    src: url("../fonts/HelveticaBlack/HelveticaBlack.eot");*/
+/*    src: url("../fonts/HelveticaBlack/HelveticaBlack.eot?#iefix")format("embedded-opentype"),*/
+/*    url("../fonts/HelveticaBlack/HelveticaBlack.woff") format("woff"),*/
+/*    url("../fonts/HelveticaBlack/HelveticaBlack.ttf") format("truetype");*/
+/*    font-style: normal;*/
+/*    font-weight: normal;*/
+/*}*/
+body {
+  height: 100vh;
+  font-family: HalveticaBlack, Arial, sans-serif;
+  font-size: 14px;
 }
 
 .h42p {

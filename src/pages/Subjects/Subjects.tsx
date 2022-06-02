@@ -1,11 +1,9 @@
 import React from 'react';
 
-function Subjects() {
-  return (
-    <div>
-      Subjects
-    </div>
-  );
-}
+const Subjects = ():JSX.Element => (
+  <div>
+    Subjects
+  </div>
+);
 
 export default Subjects;

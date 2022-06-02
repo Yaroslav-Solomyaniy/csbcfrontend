@@ -1,11 +1,9 @@
 import React from 'react';
 
-function IndividualPlan() {
-  return (
-    <div>
-      Individual_plan
-    </div>
-  );
-}
+const IndividualPlan = ():JSX.Element => (
+  <div>
+    Individual_plan
+  </div>
+);
 
 export default IndividualPlan;

@@ -1,11 +1,9 @@
 import React from 'react';
 
-function Curators() {
-  return (
-    <div>
-      Curators
-    </div>
-  );
-}
+const Curators = ():JSX.Element => (
+  <div>
+    Curators
+  </div>
+);
 
 export default Curators;

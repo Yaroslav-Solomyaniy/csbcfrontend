@@ -1,11 +1,9 @@
 import React from 'react';
 
-function Estimates() {
-  return (
-    <div>
-      Estimates
-    </div>
-  );
-}
+const Estimates = ():JSX.Element => (
+  <div>
+    Estimates
+  </div>
+);
 
 export default Estimates;

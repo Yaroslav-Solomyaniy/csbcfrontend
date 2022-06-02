@@ -10,17 +10,14 @@ export interface IselectOptions{
     placeholder:string;
 }
 
-// eslint-disable-next-line react/function-component-definition
-function Selectoptions({ select, placeholder }: IselectOptions) {
-  return (
-    <div>
-      <Select
-        options={select}
-        placeholder={placeholder}
-        classNamePrefix="custom-select"
-      />
-    </div>
-  );
-}
+const Selectoptions = ({ select, placeholder }: IselectOptions):JSX.Element => (
+  <div>
+    <Select
+      options={select}
+      placeholder={placeholder}
+      classNamePrefix="custom-select"
+    />
+  </div>
+);
 
 export default Selectoptions;

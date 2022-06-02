@@ -1,11 +1,9 @@
 import React from 'react';
 
-function Teacher() {
-  return (
-    <div>
-      Teacher
-    </div>
-  );
-}
+const Teacher = ():JSX.Element => (
+  <div>
+    Teacher
+  </div>
+);
 
 export default Teacher;

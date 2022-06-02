@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { useEffect, useState } from 'react';
 
 interface Login {
   email: string;
@@ -16,7 +17,7 @@ interface Register {
   password: string;
 }
 
-interface StudentData{
+interface StudentData {
   dateOfBirth: string;
   group: string;
   orderNumber: string;
@@ -24,7 +25,7 @@ interface StudentData{
   isFullTime: boolean;
 }
 
-interface ForgotPassword{
+interface ForgotPassword {
   login: string;
 }
 

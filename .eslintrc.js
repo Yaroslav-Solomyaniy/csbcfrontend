@@ -32,6 +32,7 @@ module.exports = {
   },
   rules: {
     camelcase: 'off',
+    'linebreak-style': 0,
     'max-len': ['error', { code: 120 }],
     'no-bitwise': 'off',
     'import/namespace': 'off',

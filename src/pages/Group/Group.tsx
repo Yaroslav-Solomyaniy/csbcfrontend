@@ -12,10 +12,6 @@ const name = [
   { value: 'YaroslavSolomianiy', label: "Ярослав Солом'яний" },
   { value: 'VadimSirenko', label: 'Вадим Сіренко' },
 ];
-const formstudy = [
-  { value: 'fulltime', label: 'Очна' },
-  { value: 'parttime', label: 'Заочна' },
-];
 
 interface TableGroupRow {
   groupNumber: string;
@@ -26,12 +22,11 @@ interface TableGroupRow {
 }
 
 const Group = (): JSX.Element => (
-  <div>
+  <div className="group">
     <TitlePage title="Групи" />
     <div className="filter__block">
       <Selectoptions select={options} placeholder="Групи" />
       <Selectoptions select={name} placeholder="ПІБ" />
-      <Selectoptions select={formstudy} placeholder="Форма навчання" />
     </div>
     <Table
       header={[

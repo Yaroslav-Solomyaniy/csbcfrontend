@@ -5,11 +5,11 @@
 }
 
 @font-face {
-    /*font-family: "HelveticaBlack";*/
-    /*src: url("../fonts/HelveticaBlack/HelveticaBlack.eot");*/
-    /*src: url("../fonts/HelveticaBlack/HelveticaBlack.eot?#iefix")format("embedded-opentype"),*/
-    /*url("../fonts/HelveticaBlack/HelveticaBlack.woff") format("woff"),*/
-    /*url("../fonts/HelveticaBlack/HelveticaBlack.ttf") format("truetype");*/
+    font-family: "HelveticaBlack";
+    src: url("../fonts/HelveticaBlack/HelveticaBlack.eot");
+    src: url("../fonts/HelveticaBlack/HelveticaBlack.eot?#iefix")format("embedded-opentype"),
+    url("../fonts/HelveticaBlack/HelveticaBlack.woff") format("woff"),
+    url("../fonts/HelveticaBlack/HelveticaBlack.ttf") format("truetype");
     font-style: normal;
     font-weight: normal;
 }

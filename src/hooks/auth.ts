@@ -1,20 +1,4 @@
-// POST
-// /auth/login
-//
-// GET
-// /auth/refresh-token
-//
-// POST
-// /auth/register
-//
-// POST
-// /auth/forgot-password
-//
-// PATCH
-// /auth/change-password
-
-import axios, { responseEncoding } from 'axios';
-import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 interface Login {
   email: string;

@@ -8,7 +8,6 @@ interface ITitlePage {
 const TitlePage = ({ title }: ITitlePage):JSX.Element => (
   <div className="headerPage">
     <h1 className="title">{title}</h1>
-    <button className="buttonCreate" type="button">Створити</button>
   </div>
 );
 

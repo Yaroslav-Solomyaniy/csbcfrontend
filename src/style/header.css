@@ -1,0 +1,32 @@
+.header {
+    color: #FFFFFF;
+    margin: 0;
+    background-color: #003366;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    height: 43px;
+    width: 100%;
+}
+
+.header div * {
+    margin: 6px;
+}
+
+.avatarka {
+    background-color: #428BCA;
+    width: 30px;
+    height: 30px;
+    border-radius: 20px;
+    padding: 7px 0;
+    font-size: 14px;
+}
+
+.logo {
+    height: 30px;
+    width: 100px;
+}
+
+.user {
+
+}

@@ -1,0 +1,39 @@
+.navAndContent {
+    display: flex;
+    flex-grow: 1;
+}
+
+.navMenu {
+    font-weight: 400;
+    width: 208px;
+    background-color: #ECF3FE;
+}
+
+.navMenuLinks {
+    margin: 16px;
+}
+
+.link {
+  margin: 0;
+  width: 176px;
+  color: #607180;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  border-radius: 8px;
+}
+
+.icon {
+  height: 15px;
+  width: 15px;
+  margin: 6px;
+}
+
+.link span {
+    display: inline-block;
+    margin: 12px;
+}
+
+.Active {
+    background-color: #ffffff;
+}

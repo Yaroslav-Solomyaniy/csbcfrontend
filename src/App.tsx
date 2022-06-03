@@ -1,19 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
-import './style/App.css';
-import { useLogin } from './hooks/auth';
-import Layout from './loyout/Layout';
+import './App.css';
 
-const App = ():JSX.Element => {
-  const { postLogin } = useLogin();
-
-  useEffect(() => {
-    postLogin({ email: 'root@gmail.com', password: 'root@gmail.com' });
-  }, []);
-
+function App() {
   return (
-    <Layout />
+      <div></div>
   );
-};
+}
 
 export default App;

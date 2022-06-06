@@ -1,14 +1,20 @@
 import React from 'react';
-import '../style/Components/TitlePage.css';
+import styles from '../style/Components/TitlePage.module.scss';
 
 interface ITitlePage {
   title: string;
+  action?: JSX.Element;
 }
 
-const TitlePage = ({ title }: ITitlePage):JSX.Element => (
-  <div className="headerPage">
-    <h1 className="title">{title}</h1>
+const TitlePage = ({ title, action }: ITitlePage):JSX.Element => (
+  <div className={styles.headerPage}>
+    <h1 className={styles.title}>{title}</h1>
+    {action}
   </div>
 );
+
+TitlePage.defaultProps = {
+  action: '',
+};
 
 export default TitlePage;

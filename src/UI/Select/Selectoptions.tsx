@@ -1,6 +1,7 @@
 import React from 'react';
 import Select from 'react-select';
-import './Selectoptions.css';
+import styles from './Selectoptions.module.scss';
+import Group from '../../pages/Group/Group';
 
 export interface IselectOptions{
     select:{
@@ -8,11 +9,13 @@ export interface IselectOptions{
         label:string;
     }[];
     placeholder:string;
+    className?:string;
 }
 
-const Selectoptions = ({ select, placeholder }: IselectOptions):JSX.Element => (
-  <div>
+const Selectoptions = ({ className, select, placeholder }: IselectOptions):JSX.Element => (
+  <div className={`${`${styles.select} ${className}`}`}>
     <Select
+      className={styles.customSelect__control}
       options={select}
       placeholder={placeholder}
       classNamePrefix="custom-select"
@@ -20,5 +23,9 @@ const Selectoptions = ({ select, placeholder }: IselectOptions):JSX.Element => (
     />
   </div>
 );
+
+Selectoptions.defaultProps = {
+  className: '',
+};
 
 export default Selectoptions;

@@ -28,6 +28,36 @@ const Table = ({ header }: Table): JSX.Element => (
     <div className="table__item">AO22F1</div>
     <div className="table__item">25</div>
     <div className="table__item">copm | comp</div>
+
+    <div className="table__item">1П-18</div>
+    <div className="table__item">Куцевський Сергій Миколайович</div>
+    <div className="table__item">AO22F1</div>
+    <div className="table__item">25</div>
+    <div className="table__item">copm | comp</div>
+
+    <div className="table__item">1П-18</div>
+    <div className="table__item">Куцевський Сергій Миколайович</div>
+    <div className="table__item">AO22F1</div>
+    <div className="table__item">25</div>
+    <div className="table__item">copm | comp</div>
+
+    <div className="table__item">1П-18</div>
+    <div className="table__item">Куцевський Сергій Миколайович</div>
+    <div className="table__item">AO22F1</div>
+    <div className="table__item">25</div>
+    <div className="table__item">copm | comp</div>
+
+    <div className="table__item">1П-18</div>
+    <div className="table__item">Куцевський Сергій Миколайович</div>
+    <div className="table__item">AO22F1</div>
+    <div className="table__item">25</div>
+    <div className="table__item">copm | comp</div>
+
+    <div className="table__item">1П-18</div>
+    <div className="table__item">Куцевський Сергій Миколайович</div>
+    <div className="table__item">AO22F1</div>
+    <div className="table__item">25</div>
+    <div className="table__item">copm | comp</div>
   </div>
 );
 

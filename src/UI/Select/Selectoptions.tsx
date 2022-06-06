@@ -16,6 +16,7 @@ const Selectoptions = ({ select, placeholder }: IselectOptions):JSX.Element => (
       options={select}
       placeholder={placeholder}
       classNamePrefix="custom-select"
+      isClearable
     />
   </div>
 );

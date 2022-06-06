@@ -1,5 +1,6 @@
 import React from 'react';
 import NavigationButton from '../UI/NavigationButtons/NavigationButton';
+import logo from '../images/logo.png';
 import '../style/header.css';
 import logo from '../images/logo.png';
 

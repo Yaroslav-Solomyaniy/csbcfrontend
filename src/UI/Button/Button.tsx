@@ -1,5 +1,5 @@
 import React from 'react';
-import './Button.css';
+import styles from './button.module.scss';
 
 interface Ibutton{
   buttonText:string;
@@ -7,7 +7,7 @@ interface Ibutton{
 }
 
 const Button = ({ buttonText, onClick }:Ibutton):JSX.Element => (
-  <button className="button" type="button" onClick={onClick}>{buttonText}</button>
+  <button className={styles.button} type="button" onClick={onClick}>{buttonText}</button>
 );
 
 export default Button;

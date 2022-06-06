@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import './Login.css';
-import { useLogin } from '../../hooks/auth';
-import Header from '../../components/Header';
+import styles from './login.module.scss';
+import { useLogin } from '../../hooks/Auth';
+import Header from '../../components/Header/Header';
 
 const Login = ():JSX.Element => {
   const [{ userEmail, userPassword }, setCredentials] = useState({
@@ -15,11 +15,11 @@ const Login = ():JSX.Element => {
   }, [userEmail, userEmail]);
 
   return (
-    <div className="login">
+    <div className={styles.login}>
 
       <Header setOpen={() => undefined} isAuth />
 
-      <div className="login__form">
+      <div className={styles.login__form}>
         <label>
           Email
           <input
@@ -48,7 +48,7 @@ const Login = ():JSX.Element => {
           Зберегти дані
           <input type="checkbox" name="SaveData" id="Зберегти дані" />
         </label>
-        <button type="submit" className="login__button">Вхід</button>
+        <button type="submit" className={styles.login__button}>Вхід</button>
       </div>
     </div>
   );

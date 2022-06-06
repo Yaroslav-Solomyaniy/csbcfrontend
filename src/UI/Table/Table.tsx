@@ -1,5 +1,5 @@
-import './Table.css';
 import React from 'react';
+import styles from './table.module.scss';
 
 interface TableHeader {
   name: string;
@@ -12,52 +12,16 @@ interface Table {
 }
 
 const Table = ({ header }: Table): JSX.Element => (
-  <div className="table">
+  <div className={styles.table}>
     {header.map(({ title }) => (
-      <div className="table__header" key={title}>{title}</div>
+      <div className={styles.table__header} key={title}>{title}</div>
     ))}
 
-    <div className="table__item">2П-18</div>
-    <div className="table__item">Фай Вікторія Степанівна</div>
-    <div className="table__item">AO23F2</div>
-    <div className="table__item">24</div>
-    <div className="table__item">copm | comp</div>
-
-    <div className="table__item">1П-18</div>
-    <div className="table__item">Куцевський Сергій Миколайович</div>
-    <div className="table__item">AO22F1</div>
-    <div className="table__item">25</div>
-    <div className="table__item">copm | comp</div>
-
-    <div className="table__item">1П-18</div>
-    <div className="table__item">Куцевський Сергій Миколайович</div>
-    <div className="table__item">AO22F1</div>
-    <div className="table__item">25</div>
-    <div className="table__item">copm | comp</div>
-
-    <div className="table__item">1П-18</div>
-    <div className="table__item">Куцевський Сергій Миколайович</div>
-    <div className="table__item">AO22F1</div>
-    <div className="table__item">25</div>
-    <div className="table__item">copm | comp</div>
-
-    <div className="table__item">1П-18</div>
-    <div className="table__item">Куцевський Сергій Миколайович</div>
-    <div className="table__item">AO22F1</div>
-    <div className="table__item">25</div>
-    <div className="table__item">copm | comp</div>
-
-    <div className="table__item">1П-18</div>
-    <div className="table__item">Куцевський Сергій Миколайович</div>
-    <div className="table__item">AO22F1</div>
-    <div className="table__item">25</div>
-    <div className="table__item">copm | comp</div>
-
-    <div className="table__item">1П-18</div>
-    <div className="table__item">Куцевський Сергій Миколайович</div>
-    <div className="table__item">AO22F1</div>
-    <div className="table__item">25</div>
-    <div className="table__item">copm | comp</div>
+    <div className={styles.table__item}>2П-18</div>
+    <div className={styles.table__item}>Фай Вікторія Степанівна</div>
+    <div className={styles.table__item}>AO23F2</div>
+    <div className={styles.table__item}>24</div>
+    <div className={styles.table__item}>copm | comp</div>
   </div>
 );
 

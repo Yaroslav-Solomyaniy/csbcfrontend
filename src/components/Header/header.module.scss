@@ -1,0 +1,63 @@
+.header {
+  color: #FFFFFF;
+  margin: 0;
+  background-color: #003366;
+  padding: 0 24px 0 20px;
+  display: flex;
+  justify-content: space-between;
+  height: 56px;
+
+  &__item {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.navigation__button {
+  float: left;
+  height: 30px;
+  width: 30px;
+  background-color: #428BCA;
+  border: 0;
+  border-radius: 8px;
+  padding: 3px;
+  margin-right: 12px;
+  cursor: pointer;
+  transform: rotate(0deg);
+  transition: all .5s;
+  &.navButtonSvg {
+    margin: 0;
+  }
+  &__revert{
+    transform: rotate(180deg);
+    transition: all .5s;
+  }
+}
+
+.logo {
+  height: 30px;
+  width: 100px;
+}
+
+.user {
+  margin-right: 12px;
+  font-family: 'Roboto', serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.avatar {
+  background-color: #428BCA;
+  font-family: 'Roboto', serif;
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  cursor: pointer;
+
+  padding: 0;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+}

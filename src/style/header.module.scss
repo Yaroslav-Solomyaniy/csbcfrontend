@@ -26,6 +26,30 @@
   font-weight: 400;
 }
 
+.avatarka__modal {
+  display: none;
+  position: fixed;
+  background: #F3F3F3;
+  border-radius: 8px;
+  transform: scale(0.5);
+  transition: all .5s;
+}
+
+.avatarka__modal__open {
+  top: 56px;
+  right: 26px;
+  display: inline-block;
+  position: fixed;
+  transform: scale(1);
+  transition: all .4s;
+}
+
+.avatarka__modal__item {
+  display: inline-block;
+  width: 148px;
+  margin: 10px 14px 10px 16px;
+}
+
 .logo {
     height: 30px;
     width: 100px;

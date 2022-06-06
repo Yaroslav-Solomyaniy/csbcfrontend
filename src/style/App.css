@@ -19,10 +19,6 @@ body {
   font-size: 14px;
 }
 
-.h42p {
-    height: 42px;
-}
-
 body #root {
     height: 100%;
     display: flex;

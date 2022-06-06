@@ -1,4 +1,4 @@
-.modal{
+.modal {
   width: 100vw;
   height: 100vh;
   position: fixed;
@@ -7,7 +7,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(0,0,0,0.4);
+  background: rgba(0, 0, 0, 0.4);
   opacity: 0;
   pointer-events: none;
   transition: all 0.5s;
@@ -18,20 +18,24 @@
 }
 .modalContent{
   width: 700px;
+  min-height: 300px;
   height: auto;
   background: #F3F3F3;
   border-radius: 8px;
   transform: scale(0.5);
   transition: all .5s;
+  padding: 15px;
 }
 .modalContent.active{
   transform: scale(1);
  transition: all .4s;
+}
+.modalContainer{
+  width: 100%;
 }
 .modalTitle{
   font-weight: 700;
   font-size: 20px;
   line-height: 28px;
   text-align: center;
-  margin: 15px 0;
 }

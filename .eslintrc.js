@@ -79,7 +79,6 @@ module.exports = {
     'import/no-extraneous-dependencies': 'off',
     'object-curly-newline': 'off',
     'no-confusing-arrow': 'off',
-    'react/jsx-fragments': 'off',
     'jest/no-disabled-tests': 'warn',
     'jest/no-focused-tests': 'error',
     'jest/no-identical-title': 'error',

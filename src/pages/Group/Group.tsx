@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
+import Select from 'react-select';
 import TitlePage from '../../components/TitlePage';
 import Selectoptions from '../../UI/Select/Selectoptions';
 import Table from '../../UI/Table/Table';
 import ModalWindow from '../../UI/ModalWindow/ModalWindow';
 import Button from '../../UI/Button/Button';
-import './Group.css';
+import styles from './Group.module.scss';
 
 const options = [
   { value: '1P20', label: '1П-20' },
@@ -14,39 +15,30 @@ const name = [
   { value: 'YaroslavSolomianiy', label: "Ярослав Солом'яний" },
   { value: 'VadimSirenko', label: 'Вадим Сіренко' },
 ];
-
 const number = [
   { value: '2F9345N2', label: '2F9345N2' },
   { value: 'L23524Z7', label: 'L23524Z7' },
 ];
 
-interface TableGroupRow {
-  groupNumber: string;
-  curator: string;
-  numberNakazy: string;
-  studentCounter: number;
-  actions: string;
-}
 function createGroup() {
-  console.log('Create Group');
+  alert('Create Group');
 }
 
-const Group = ():JSX.Element => {
+interface Igroup{
+  filter?:JSX.Element;
+}
+
+const Group = ({ filter }:Igroup):JSX.Element => {
   const [modalActive, setModalActive] = useState(false);
 
   return (
-    <div className="group">
-      <div className="titleBlock">
-        <TitlePage title="Групи" />
-        <div className="buttonBlock">
-          <Button buttonText="Створити" onClick={() => setModalActive(true)} />
-        </div>
+    <div className={styles.group}>
+      <TitlePage title="Групи" action={<Button buttonText="Створити" onClick={() => setModalActive(true)} />} />
+      <div className={styles.filterBlock}>
+        <Selectoptions select={options} placeholder="Група" />
+        <Selectoptions select={name} placeholder="Куратор" />
       </div>
 
-      <div className="filter__block">
-        <Selectoptions select={name} placeholder="Куратор" />
-        <Selectoptions select={options} placeholder="Група" />
-      </div>
       <Table
         header={[
           {
@@ -81,35 +73,60 @@ const Group = ():JSX.Element => {
         ]}
       />
       <ModalWindow modalTitle="Створення групи" active={modalActive} setActive={setModalActive}>
-        <div className="modal__body">
-          <div className="modal__select">
-            <div className="modal__Select_Title">Назва групи</div>
-            <div className="modal__Select_input">
-              <Selectoptions select={options} placeholder="Група" />
-            </div>
+        <form className={styles.form}>
+          <div className={styles.formInput}>
+            <label className={styles.formLabel}>Назва групи</label>
+            <Select
+              className={styles.input}
+              options={options}
+              placeholder="Назва групи"
+              isClearable
+            />
           </div>
-
-          <div className="modal__select">
-            <div className="modal__Select_Title">Номер наказу</div>
-            <div className="modal__Select_input">
-              <Selectoptions select={number} placeholder="Номер наказу" />
-            </div>
+          <div className={styles.formInput}>
+            <label className={styles.formLabel}>Номер наказу</label>
+            <Select
+              className={styles.input}
+              options={number}
+              placeholder="Номер наказу"
+              isClearable
+            />
           </div>
-
-          <div className="modal__select">
-            <div className="modal__Select_Title">Куратор</div>
-            <div className="modal__Select_input">
-              <Selectoptions select={name} placeholder="Куратор" />
-            </div>
+          <div className={styles.formInput}>
+            <label className={styles.formLabel}>Куратор</label>
+            <Select
+              className={styles.input}
+              options={name}
+              placeholder="Куратор"
+              isClearable
+            />
           </div>
-        </div>
-        <div className="modal__exit">
-          <Button buttonText="Відміна" onClick={() => { setModalActive(false); }} />
-          <Button buttonText="Створити" onClick={createGroup} />
+        </form>
+        <div className={styles.modalExit}>
+          <button
+            type="button"
+            className={styles.modalRevert}
+            onClick={() => {
+              setModalActive(false);
+            }}
+          >
+            Відміна
+          </button>
+          <button
+            type="button"
+            className={styles.modalSubmit}
+            onClick={createGroup}
+          >
+            Створити
+          </button>
         </div>
       </ModalWindow>
     </div>
   );
+};
+
+Group.defaultProps = {
+  filter: '',
 };
 
 export default Group;

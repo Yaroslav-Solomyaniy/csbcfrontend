@@ -1,0 +1,29 @@
+.header {
+  background-color: #003366;
+  height: 43px;
+  width: 100%;
+}
+
+.logo {
+  height: 30px;
+  width: 100px;
+  margin: 5px;
+}
+
+.login {
+  display: flex;
+  flex-direction: column;
+}
+
+.login__form{
+  width: 280px;
+  display: flex;
+}
+
+.login__button {
+  background: #428BCA;
+  border-radius: 8px;
+  padding: 10px 24px;
+  font-size: 14px;
+  color: #ffffff;
+}

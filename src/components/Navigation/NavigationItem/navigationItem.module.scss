@@ -21,14 +21,24 @@
   text-decoration: none;
   border-radius: 8px;
   .title {
-    min-width: 155px;
+    overflow: hidden;
+    width: 155px;
+    transition: all 0.5s;
+    white-space: nowrap;
+  }
+  .icon {
+    transition: all 0.5s;
+    margin: 12px;
   }
 
 }
 
 .hidden {
   .title {
-    display: none;
+    overflow: hidden;
+    transition: all 0.5s;
+    width: 0;
+    transform: scale(0);
   }
 
   .icon {

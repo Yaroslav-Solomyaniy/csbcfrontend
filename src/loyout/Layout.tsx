@@ -3,7 +3,7 @@ import Header from '../components/Header/Header';
 import Navigation from '../components/Navigation/Navigation/Navigation';
 
 const Layout = ():JSX.Element => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   const setOpen = ():void => {
     setIsOpen(!isOpen);

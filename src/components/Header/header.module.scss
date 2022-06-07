@@ -5,7 +5,7 @@
   padding: 0 24px 0 20px;
   display: flex;
   justify-content: space-between;
-  height: 56px;
+  min-height: 56px;
 
   &__item {
     display: flex;
@@ -35,27 +35,35 @@
 }
 
 .avatarka__modal {
-  display: none;
-  position: fixed;
+  display: inline-block;
   background: #F3F3F3;
-  border-radius: 8px;
-  transform: scale(0.5);
+  border-radius: 0 0 8px 8px;
+  padding: 4px 0;
+  line-height: 22px;
+
+  width: 178px;
+  position: fixed;
+  top: 56px;
+  right: 26px;
+
   transition: all .5s;
+  overflow: hidden;
+  height: 0;
 }
 
 .avatarka__modal__open {
-  top: 56px;
-  right: 26px;
-  display: inline-block;
-  position: fixed;
-  transform: scale(1);
-  transition: all .4s;
+  transition: all .5s;
+  overflow: hidden;
+  height: 86px;
 }
 
 .avatarka__modal__item {
-  display: inline-block;
+  display: block;
   width: 148px;
-  margin: 10px 14px 10px 16px;
+  padding: 10px 14px 10px 16px;
+  .item__div {
+    margin: 0;
+  }
 }
 
 .logo {

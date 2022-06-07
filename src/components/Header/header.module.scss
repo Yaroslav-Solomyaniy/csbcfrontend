@@ -17,6 +17,7 @@
   float: left;
   height: 30px;
   width: 30px;
+  font-family: Roboto, sans-serif;
   background-color: #428BCA;
   border: 0;
   border-radius: 8px;
@@ -38,7 +39,6 @@
   display: inline-block;
   background: #F3F3F3;
   border-radius: 0 0 8px 8px;
-  padding: 4px 0;
   line-height: 22px;
 
   width: 178px;
@@ -49,15 +49,19 @@
   transition: all .5s;
   overflow: hidden;
   height: 0;
+  padding: 0;
 }
 
 .avatarka__modal__open {
   transition: all .5s;
-  overflow: hidden;
   height: 86px;
+  padding: 4px 0;
 }
 
 .avatarka__modal__item {
+  color: #000;
+  text-decoration: none;
+  font-family: Halvetica, sans-serif;
   display: block;
   width: 148px;
   padding: 10px 14px 10px 16px;
@@ -73,7 +77,7 @@
 
 .user {
   margin-right: 12px;
-  font-family: 'Roboto', serif;
+  font-family: Roboto, sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 14px;

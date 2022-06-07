@@ -1,7 +1,8 @@
 import React from 'react';
+import styles from './subjects.module.scss';
 
 const Subjects = ():JSX.Element => (
-  <div>
+  <div className={styles.subjects}>
     Subjects
   </div>
 );

@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from './votingstudents.module.scss';
 
 const VotingStudents = ():JSX.Element => (
   <div>

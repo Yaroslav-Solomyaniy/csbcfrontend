@@ -1,5 +1,6 @@
+import clsx from 'clsx';
 import React, { Dispatch, SetStateAction } from 'react';
-import './ModalWindow.css';
+import styles from './modalWindow.module.scss';
 
 interface ImodalWindow{
   modalTitle:string;
@@ -9,10 +10,10 @@ interface ImodalWindow{
 }
 
 const ModalWindow = ({ modalTitle, active, setActive, children }:ImodalWindow):JSX.Element => (
-  <div className={active ? 'modal active' : 'modal'} onClick={() => { setActive(false); }}>
-    <div className={active ? 'modalContent active' : 'modalContent'} onClick={(e) => e.stopPropagation()}>
-      <div className="modalContainer">
-        <div className="modalTitle">{modalTitle}</div>
+  <div className={clsx(styles.modal, active && styles.active)} onClick={() => { setActive(false); }}>
+    <div className={clsx(styles.modal__content, active && styles.active)} onClick={(e) => e.stopPropagation()}>
+      <div className={styles.modal__container}>
+        <div className={styles.modal__title}>{modalTitle}</div>
         {children}
       </div>
     </div>

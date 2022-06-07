@@ -1,0 +1,15 @@
+.login {
+  display: flex;
+  flex-direction: column;
+  &__form{
+    width: 280px;
+    display: flex;
+  }
+  &__button{
+    background: #428BCA;
+    border-radius: 8px;
+    padding: 10px 24px;
+    font-size: 14px;
+    color: #ffffff;
+  }
+}

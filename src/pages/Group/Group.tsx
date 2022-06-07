@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import Select from 'react-select';
-import TitlePage from '../../components/TitlePage';
+import TitlePage from '../../components/TitlePage/TitlePage';
 import Selectoptions from '../../UI/Select/Selectoptions';
 import Table from '../../UI/Table/Table';
 import ModalWindow from '../../UI/ModalWindow/ModalWindow';
 import Button from '../../UI/Button/Button';
-import styles from './Group.module.scss';
+import styles from './group.module.scss';
 
 const options = [
   { value: '1P20', label: '1П-20' },
@@ -34,7 +34,7 @@ const Group = ({ filter }:Igroup):JSX.Element => {
   return (
     <div className={styles.group}>
       <TitlePage title="Групи" action={<Button buttonText="Створити" onClick={() => setModalActive(true)} />} />
-      <div className={styles.filterBlock}>
+      <div className={styles.filters}>
         <Selectoptions select={options} placeholder="Група" />
         <Selectoptions select={name} placeholder="Куратор" />
       </div>
@@ -74,38 +74,38 @@ const Group = ({ filter }:Igroup):JSX.Element => {
       />
       <ModalWindow modalTitle="Створення групи" active={modalActive} setActive={setModalActive}>
         <form className={styles.form}>
-          <div className={styles.formInput}>
-            <label className={styles.formLabel}>Назва групи</label>
+          <div className={styles.form__input}>
+            <label className={styles.input__label}>Назва групи</label>
             <Select
-              className={styles.input}
+              className={styles.input__select}
               options={options}
               placeholder="Назва групи"
               isClearable
             />
           </div>
-          <div className={styles.formInput}>
-            <label className={styles.formLabel}>Номер наказу</label>
+          <div className={styles.form__input}>
+            <label className={styles.input__label}>Номер наказу</label>
             <Select
-              className={styles.input}
+              className={styles.input__select}
               options={number}
               placeholder="Номер наказу"
               isClearable
             />
           </div>
-          <div className={styles.formInput}>
-            <label className={styles.formLabel}>Куратор</label>
+          <div className={styles.form__input}>
+            <label className={styles.input__label}>Куратор</label>
             <Select
-              className={styles.input}
+              className={styles.input__select}
               options={name}
               placeholder="Куратор"
               isClearable
             />
           </div>
         </form>
-        <div className={styles.modalExit}>
+        <div className={styles.modal__buttons}>
           <button
             type="button"
-            className={styles.modalRevert}
+            className={styles.modal_revert}
             onClick={() => {
               setModalActive(false);
             }}
@@ -114,7 +114,7 @@ const Group = ({ filter }:Igroup):JSX.Element => {
           </button>
           <button
             type="button"
-            className={styles.modalSubmit}
+            className={styles.modal_submit}
             onClick={createGroup}
           >
             Створити

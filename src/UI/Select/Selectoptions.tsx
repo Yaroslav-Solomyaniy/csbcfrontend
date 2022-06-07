@@ -1,7 +1,6 @@
 import React from 'react';
 import Select from 'react-select';
-import styles from './Selectoptions.module.scss';
-import Group from '../../pages/Group/Group';
+import styles from './selectoptions.module.scss';
 
 export interface IselectOptions{
     select:{
@@ -13,7 +12,7 @@ export interface IselectOptions{
 }
 
 const Selectoptions = ({ className, select, placeholder }: IselectOptions):JSX.Element => (
-  <div className={`${`${styles.select} ${className}`}`}>
+  <div className={`${styles.select} ${className}`}>
     <Select
       className={styles.customSelect__control}
       options={select}

@@ -1,0 +1,46 @@
+.modal {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.5s;
+
+  &.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  &__content {
+    width: 700px;
+    min-height: 300px;
+    height: auto;
+    background: #F3F3F3;
+    border-radius: 8px;
+    transform: scale(0.5);
+    transition: all .5s;
+    padding: 15px;
+
+    &.active {
+      transform: scale(1);
+      transition: all .4s;
+    }
+  }
+
+  &__container {
+    width: 100%;
+  }
+
+  &__title {
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 28px;
+    text-align: center;
+  }
+}

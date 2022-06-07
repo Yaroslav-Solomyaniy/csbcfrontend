@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import Header from '../components/Header';
-import Navigation from '../components/Navigation/Navigation';
+import Header from '../components/Header/Header';
+import Navigation from '../components/Navigation/Navigation/Navigation';
 
 const Layout = ():JSX.Element => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   const setOpen = ():void => {
     setIsOpen(!isOpen);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import svgGroup from '../../../images/Group.svg';
 import svgStudents from '../../../images/Students.svg';
@@ -12,14 +12,26 @@ import svgIndividualPlan from '../../../images/individual_plan.svg';
 import svgVotingAdmin from '../../../images/VotingAdmin.svg';
 import NavigationItem from '../NavigationItem/NavigationItem';
 import styles from './navigation.module.scss';
+import Students from '../../../pages/Students/Students';
+import Curators from '../../../pages/Сurators/Curators';
+import Teachers from '../../../pages/Teachers/Teachers';
+import Subjects from '../../../pages/Subjects/Subjects';
+import Estimates from '../../../pages/Estimates/Estimates';
+import VotingAdmin from '../../../pages/Voting_admin/VotingAdmin';
+import Administrators from '../../../pages/Administrators/Administrators';
+import IndPlan from '../../../pages/Individual_plan/IndPlan';
+import VotingStudents from '../../../pages/Voting_students/VotingStudents';
+import Teacher from '../../../pages/Teacher/Teacher';
+import Curator from '../../../pages/Сurator/Curator';
+import Group from '../../../pages/Group/Group';
 
 export interface IRoute {
   title: string;
-  to:string;
+  to: string;
   ico: string;
 }
 
-const routes:IRoute[] = [
+const routes: IRoute[] = [
   {
     title: 'Групи',
     to: '/',
@@ -102,11 +114,27 @@ const Navigation = ({ isOpen }:INavigation):JSX.Element => (
         </div>
       </div>
       <div className={styles.content}>
-        <div>
-          children
-        </div>
-      </div>
 
+        <Routes>
+          <Route path="/students" element={<Students />} />
+          <Route path="/curators" element={<Curators />} />
+          <Route path="/teachers" element={<Teachers />} />
+          <Route path="/subjects" element={<Subjects />} />
+          <Route path="/estimates" element={<Estimates />} />
+          <Route path="/voting_admin" element={<VotingAdmin />} />
+          <Route path="/administrators" element={<Administrators />} />
+
+          <Route path="/individual_plan" element={<IndPlan />} />
+          <Route path="/voting_students" element={<VotingStudents />} />
+
+          <Route path="/teacher" element={<Teacher />} />
+
+          <Route path="/curator" element={<Curator />} />
+
+          <Route index element={<Group />} />
+
+        </Routes>
+      </div>
     </div>
   </BrowserRouter>
 );

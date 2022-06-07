@@ -1,9 +1,21 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
-interface Login {
+export interface LoginParams {
   email: string;
   password: string;
+}
+
+export interface LoginData {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  role: string;
+  updated: string;
+  created: string;
+  accessToken: string;
+  refreshToken: string;
 }
 
 interface Register {
@@ -34,36 +46,21 @@ interface ChangePassword {
 }
 
 export const useLogin = () => {
-  const [data, setData] = useState();
+  const [data, setData] = useState<LoginData>();
 
-  const postLogin = (params: Login) => {
-    axios.post('/auth/login', params).then((respons) => {
-      setData(respons.data);
+  const postLogin = (params: LoginParams) => {
+    axios.post('/auth/login', params).then((response) => {
+      setData(response.data);
     }).catch((e) => {
       console.error(e);
     });
   };
 
-  useEffect(() => {
-    if (data) {
-      localStorage.setItem('auth', data);
-    }
-  }, [data]);
-
-  useEffect(() => {
-    const auth = localStorage.getItem('auth');
-
-    if (auth) {
-      // @ts-ignore !!!!!!!!!!!!!!!!!!!!!!!!
-      setData(auth);
-    }
-  }, []);
-
   return { data, postLogin };
 };
 
 export const useRefreshToken = () => {
-  const authgGet = () => {
+  const authGet = () => {
     axios.get('auth/refresh-token').then((e) => {
       console.log(e);
     }).catch((e) => {
@@ -71,7 +68,7 @@ export const useRefreshToken = () => {
     });
   };
 
-  return { authgGet };
+  return { authGet };
 };
 
 export const useRegister = () => {

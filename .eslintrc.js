@@ -46,6 +46,7 @@ module.exports = {
     'import/extensions': 'off',
     'react-hooks/exhaustive-deps': 'off',
     'no-plusplus': 'off',
+    'react/jsx-no-constructed-context-values': 'off',
     'react/prop-types': 'off',
     'react/jsx-props-no-spreading': 'off',
     'jsx-a11y/anchor-is-valid': 'off',

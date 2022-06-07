@@ -1,54 +1,61 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styles from './login.module.scss';
-import { useLogin } from '../../hooks/Auth';
+import { LoginParams } from '../../hooks/Auth';
 import Header from '../../components/Header/Header';
+import { useAuthContext } from '../../context/useAuthContext';
 
 const Login = ():JSX.Element => {
-  const [{ userEmail, userPassword }, setCredentials] = useState({
-    userEmail: '',
-    userPassword: '',
+  const { postLogin } = useAuthContext();
+  const [credentials, setCredentials] = useState<LoginParams>({
+    email: '',
+    password: '',
   });
-  const { postLogin } = useLogin();
 
-  useEffect(() => {
-    postLogin({ email: userEmail, password: userPassword });
-  }, [userEmail, userEmail]);
+  const login = () => {
+    postLogin(credentials);
+  };
 
   return (
     <div className={styles.login}>
 
       <Header setOpen={() => undefined} isAuth />
 
-      <div className={styles.login__form}>
-        <label>
-          Email
+      <div className={styles.login__div}>
+        <div className={styles.login__form}>
           <input
+            className={styles.login__form__input}
             type="email"
             placeholder="Електронна адреса"
-            value={userEmail}
+            value={credentials.email}
             onChange={(event) => setCredentials({
-              userEmail: event.target.value,
-              userPassword,
+              ...credentials,
+              email: event.target.value,
             })}
           />
-        </label>
-        <label>
-          Password
           <input
+            className={styles.login__form__input}
             type="password"
             placeholder="Пароль"
-            value={userPassword}
+            value={credentials.password}
             onChange={(event) => setCredentials({
-              userEmail,
-              userPassword: event.target.value,
+              ...credentials,
+              password: event.target.value,
             })}
           />
-        </label>
-        <label>
-          Зберегти дані
-          <input type="checkbox" name="SaveData" id="Зберегти дані" />
-        </label>
-        <button type="submit" className={styles.login__button}>Вхід</button>
+          <label>
+            <input className={styles.login__form__input} type="checkbox" name="SaveData" id="Зберегти дані" />
+            Зберегти дані
+          </label>
+          <button
+            type="submit"
+            className={styles.login__form__button}
+            disabled={!credentials.email || !credentials.password}
+            onClick={login}
+          >
+            Вхід
+          </button>
+          <a>відновити пароль</a>
+        </div>
       </div>
     </div>
   );

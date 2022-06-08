@@ -37,10 +37,10 @@ const Header = ({ setOpen, isAuth }:IHeader):JSX.Element => {
           NV
         </button>
         <div className={clsx(styles.avatarka__modal, dropMenuOpen && styles.avatarka__modal__open)}>
-          <a className={styles.avatarka__modal__item} href="/login">
+          <a className={styles.avatarka__modal__item} href="/">
             <span className={styles.item__div}>змінити пароль</span>
           </a>
-          <a className={styles.avatarka__modal__item} href="/login">
+          <a className={styles.avatarka__modal__item} href="/">
             <span className={styles.item__div}>вихід</span>
           </a>
         </div>

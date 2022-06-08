@@ -1,5 +1,4 @@
 import React from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import svgGroup from '../../../images/Group.svg';
 import svgStudents from '../../../images/Students.svg';
@@ -12,18 +11,6 @@ import svgIndividualPlan from '../../../images/individual_plan.svg';
 import svgVotingAdmin from '../../../images/VotingAdmin.svg';
 import NavigationItem from '../NavigationItem/NavigationItem';
 import styles from './navigation.module.scss';
-import Students from '../../../pages/Students/Students';
-import Curators from '../../../pages/Сurators/Curators';
-import Teachers from '../../../pages/Teachers/Teachers';
-import Subjects from '../../../pages/Subjects/Subjects';
-import Estimates from '../../../pages/Estimates/Estimates';
-import VotingAdmin from '../../../pages/Voting_admin/VotingAdmin';
-import Administrators from '../../../pages/Administrators/Administrators';
-import IndPlan from '../../../pages/Individual_plan/IndPlan';
-import VotingStudents from '../../../pages/Voting_students/VotingStudents';
-import Teacher from '../../../pages/Teacher/Teacher';
-import Curator from '../../../pages/Сurator/Curator';
-import Group from '../../../pages/Group/Group';
 
 export interface IRoute {
   title: string;
@@ -82,61 +69,32 @@ const routes: IRoute[] = [
     to: '/voting_students',
     ico: svgVotingAdmin,
   },
+  {
+    title: 'Викладач',
+    to: '/teacher',
+    ico: svgTeachers,
+  },
+  {
+    title: 'Куратор',
+    to: '/curator',
+    ico: svgCurators,
+  },
 ];
 
 interface INavigation {
   isOpen: boolean;
+  // children:JSX.Element;
 }
 
 const Navigation = ({ isOpen }:INavigation):JSX.Element => (
-  <BrowserRouter>
-    <div className={styles.nav_and_content}>
-      <div className={styles.nav__menu}>
-        <div className={styles.nav__menu__links}>
-          {routes.map((rout) => (
-            <NavigationItem key={rout.to} {...rout} isOpen={isOpen} />
-          ))}
 
-          {/* викладач */}
-          {/* <NavLink */}
-          {/*  className={({ isActive }) => clsx(styles.link, styles.h42p, isActive && styles.Active)} */}
-          {/*  to="/teacher" */}
-          {/* > */}
-          {/*  <span className={styles.title}>Викладач</span> */}
-          {/* </NavLink> */}
-          {/* /!* куратор *!/ */}
-          {/* <NavLink */}
-          {/*  className={({ isActive }) => clsx(styles.link, styles.h42p, isActive && styles.Active)} */}
-          {/*  to="/curator" */}
-          {/* > */}
-          {/*  <span className={styles.title}>Куратор</span> */}
-          {/* </NavLink> */}
-        </div>
-      </div>
-      <div className={styles.content}>
-
-        <Routes>
-          <Route path="/students" element={<Students />} />
-          <Route path="/curators" element={<Curators />} />
-          <Route path="/teachers" element={<Teachers />} />
-          <Route path="/subjects" element={<Subjects />} />
-          <Route path="/estimates" element={<Estimates />} />
-          <Route path="/voting_admin" element={<VotingAdmin />} />
-          <Route path="/administrators" element={<Administrators />} />
-
-          <Route path="/individual_plan" element={<IndPlan />} />
-          <Route path="/voting_students" element={<VotingStudents />} />
-
-          <Route path="/teacher" element={<Teacher />} />
-
-          <Route path="/curator" element={<Curator />} />
-
-          <Route index element={<Group />} />
-
-        </Routes>
-      </div>
+  <div className={styles.nav__menu}>
+    <div className={styles.nav__menu__links}>
+      {routes.map((rout) => (
+        <NavigationItem key={rout.to} {...rout} isOpen={isOpen} />
+      ))}
     </div>
-  </BrowserRouter>
+  </div>
 );
 
 export default Navigation;

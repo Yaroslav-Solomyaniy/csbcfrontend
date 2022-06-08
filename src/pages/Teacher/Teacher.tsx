@@ -1,10 +1,13 @@
 import React from 'react';
-import styles from './teacher.module.scss';
+// import styles from './teacher.module.scss';
+import Layout from '../../loyout/Layout';
 
 const Teacher = ():JSX.Element => (
-  <div>
-    Teacher
-  </div>
+  <Layout>
+    <div>
+      Teacher
+    </div>
+  </Layout>
 );
 
 export default Teacher;

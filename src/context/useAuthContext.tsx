@@ -1,17 +1,3 @@
-// import { useEffect } from 'react';
-// import { useLogin } from '../hooks/Auth';
-//
-// export const useAuthContext = ():JSX.Element => {
-//   const { postLogin, data } = useLogin();
-//
-//   useEffect(() => {
-//     postLogin({ email: 'root@gmail.com', password: 'root@gmail.com' });
-//   }, []);
-//
-//
-//   return { token: data?.token || '' };
-// };
-
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { LoginData, LoginParams, useLogin } from '../hooks/Auth';
 

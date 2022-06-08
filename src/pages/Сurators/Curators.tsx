@@ -1,10 +1,13 @@
 import React from 'react';
-import styles from './curators.module.scss';
+// import styles from './curators.module.scss';
+import Layout from '../../loyout/Layout';
 
 const Curators = ():JSX.Element => (
-  <div>
-    Curators
-  </div>
+  <Layout>
+    <div>
+      Curators
+    </div>
+  </Layout>
 );
 
 export default Curators;

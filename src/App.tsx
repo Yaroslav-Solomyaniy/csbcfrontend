@@ -1,7 +1,8 @@
 import React from 'react';
 
 import './App.css';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
+import styles from './pages/PasswordRecovery/passwordRecovery.module.scss';
 import { useAuthContext } from './context/useAuthContext';
 import Login from './pages/Login/Login';
 import Students from './pages/Students/Students';
@@ -9,13 +10,15 @@ import Curators from './pages/Сurators/Curators';
 import Teachers from './pages/Teachers/Teachers';
 import Subjects from './pages/Subjects/Subjects';
 import Estimates from './pages/Estimates/Estimates';
-import VotingAdmin from './pages/Voting_admin/VotingAdmin';
+import VotingAdmin from './pages/VotingAdmin/VotingAdmin';
 import Administrators from './pages/Administrators/Administrators';
-import IndPlan from './pages/Individual_plan/IndPlan';
-import VotingStudents from './pages/Voting_students/VotingStudents';
+import IndPlan from './pages/IndividualPlan/IndPlan';
+import VotingStudents from './pages/VotingStudents/VotingStudents';
 import Group from './pages/Group/Group';
 import Teacher from './pages/Teacher/Teacher';
 import Curator from './pages/Сurator/Curator';
+import PasRec from './pages/PasswordRecovery/PasswordRecovery';
+import leftArrow from './images/login/leftArrow.svg';
 
 const App = (): JSX.Element => {
   const { user } = useAuthContext();
@@ -27,7 +30,7 @@ const App = (): JSX.Element => {
 
     <BrowserRouter>
       <Routes>
-        {user && (
+        {user?.role === 'root' && (
           <>
             <Route index element={<Group />} />
             <Route path="/students" element={<Students />} />
@@ -46,7 +49,21 @@ const App = (): JSX.Element => {
             <Route path="/curator" element={<Curator />} />
           </>
         )}
-        <Route index element={<Login />} />
+        <Route
+          index
+          element={(<Login><Link to="/PasswordRecovery">відновити пароль</Link></Login>)}
+        />
+        <Route
+          path="/PasswordRecovery"
+          element={(
+            <PasRec>
+              <Link to="/" className={styles.passwordRecovery__link}>
+                <img src={leftArrow} alt=" " />
+                відновити пароль
+              </Link>
+            </PasRec>
+          )}
+        />
       </Routes>
     </BrowserRouter>
   );

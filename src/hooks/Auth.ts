@@ -37,7 +37,7 @@ interface StudentData {
   isFullTime: boolean;
 }
 
-interface ForgotPassword {
+export interface ForgotPassword {
   login: string;
 }
 

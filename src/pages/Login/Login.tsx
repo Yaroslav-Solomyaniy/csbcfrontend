@@ -3,22 +3,32 @@ import styles from './login.module.scss';
 import { LoginParams } from '../../hooks/Auth';
 import Header from '../../components/Header/Header';
 import { useAuthContext } from '../../context/useAuthContext';
+import LoginModalAuth from '../../UI/LoginModalAuth/LoginModalAuth';
 
-const Login = ():JSX.Element => {
+const Login = ({ children }:JSX.ElementChildrenAttribute):JSX.Element => {
   const { postLogin } = useAuthContext();
   const [credentials, setCredentials] = useState<LoginParams>({
     email: '',
     password: '',
   });
+  const [errors, setErrors] = useState(true);
 
   const login = () => {
     postLogin(credentials);
+  };
+
+  const closeModalAuth = () => {
+    setErrors(!errors);
   };
 
   return (
     <div className={styles.login}>
 
       <Header setOpen={() => undefined} isAuth />
+
+      <LoginModalAuth errors={errors} closeModal={closeModalAuth}>
+        Пароль абоE-mail введено не правильно
+      </LoginModalAuth>
 
       <div className={styles.login__div}>
         <div className={styles.login__form}>
@@ -54,7 +64,7 @@ const Login = ():JSX.Element => {
           >
             Вхід
           </button>
-          <a>відновити пароль</a>
+          {children}
         </div>
       </div>
     </div>

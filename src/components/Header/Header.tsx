@@ -40,7 +40,7 @@ const Header = ({ setOpen, isAuth }:IHeader):JSX.Element => {
           <a className={styles.avatarka__modal__item} href="/">
             <span className={styles.item__div}>змінити пароль</span>
           </a>
-          <a className={styles.avatarka__modal__item} href="/">
+          <a className={styles.avatarka__modal__item} href="/" onClick={() => { localStorage.setItem('auth', ''); }}>
             <span className={styles.item__div}>вихід</span>
           </a>
         </div>

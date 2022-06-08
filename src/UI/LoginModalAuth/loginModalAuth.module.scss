@@ -1,0 +1,53 @@
+.window {
+  width: 100%;
+  overflow: hidden;
+  position: fixed;
+  top: 56px;
+  display: flex;
+}
+
+.login__modal {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+
+  line-height: 22px;
+  box-shadow: 0 7px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 0 0 8px 8px;
+  margin: 20px;
+
+  transition: all .5s;
+  position: relative;
+  bottom: 25px;
+
+  &__error {
+    transition: all .5s;
+    bottom: 0;
+   }
+  &__button {
+    margin: 0 25px 0 24px;
+    height: 19px;
+    width: 19px;
+
+    &__iClose {
+      width: 11px;
+      height: 11px;
+      padding: 0;
+      margin: 0;
+    }
+  }
+  &__div {
+    height: 42px;
+
+    font-family: 'Helvetica', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 28px;
+
+    display: flex;
+    align-items: center;
+
+    color: #FF0000;
+  }
+}

@@ -26,7 +26,7 @@
   cursor: pointer;
   transform: rotate(0deg);
   transition: all .5s;
-  &.navButtonSvg {
+  .navButtonSvg {
     margin: 0;
   }
   &__revert{
@@ -50,23 +50,22 @@
   overflow: hidden;
   height: 0;
   padding: 0;
-}
 
-.avatarka__modal__open {
-  transition: all .5s;
-  height: 86px;
-  padding: 4px 0;
-}
-
-.avatarka__modal__item {
-  color: #000;
-  text-decoration: none;
-  font-family: Halvetica, sans-serif;
-  display: block;
-  width: 148px;
-  padding: 10px 14px 10px 16px;
-  .item__div {
-    margin: 0;
+  &__open {
+    transition: all .5s;
+    height: 86px;
+    padding: 4px 0;
+  }
+  &__item {
+    color: #000;
+    text-decoration: none;
+    font-family: Halvetica, sans-serif;
+    display: block;
+    width: 148px;
+    padding: 10px 14px 10px 16px;
+    .item__div {
+      margin: 0;
+    }
   }
 }
 

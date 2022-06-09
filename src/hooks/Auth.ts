@@ -45,7 +45,10 @@ interface ChangePassword {
   password: string;
 }
 
-export const useLogin = () => {
+export const useLogin = (): {
+  data: LoginData | undefined;
+  postLogin: (params: LoginParams) => void;
+} => {
   const [data, setData] = useState<LoginData>();
 
   const postLogin = (params: LoginParams) => {
@@ -71,7 +74,9 @@ export const useRefreshToken = () => {
   return { authGet };
 };
 
-export const useRegister = () => {
+export const useRegister = (): {
+  postRegister: (params: Register) => void;
+} => {
   const postRegister = (params: Register) => {
     axios.post('/auth/register', params).then((e) => {
       console.log(e);
@@ -83,7 +88,9 @@ export const useRegister = () => {
   return { postRegister };
 };
 
-export const useForgotPassword = () => {
+export const useForgotPassword = (): {
+  postForgotPassword: (params: ForgotPassword) => void;
+} => {
   const postForgotPassword = (params: ForgotPassword) => {
     axios.post('/auth/forgot-password', params).then((e) => {
       console.log(e);
@@ -95,7 +102,9 @@ export const useForgotPassword = () => {
   return { postForgotPassword };
 };
 
-export const useChangePassword = () => {
+export const useChangePassword = (): {
+  patchChangePassword: (params: ChangePassword) => void;
+} => {
   const patchChangePassword = (params: ChangePassword) => {
     axios.patch('/auth/change-password', params).then((e) => {
       console.log(e);

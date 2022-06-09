@@ -30,6 +30,7 @@ interface Igroup{
   filter?:JSX.Element;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const Group = ({ filter }:Igroup):JSX.Element => {
   const [modalActive, setModalActive] = useState(false);
 

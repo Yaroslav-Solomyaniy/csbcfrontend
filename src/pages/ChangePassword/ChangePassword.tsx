@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './changePassword.module.scss';
 import Header from '../../components/Header/Header';
 import { useChangePassword } from '../../hooks/useAuth';
+import leftArrow from '../../images/login/leftArrow.svg';
 
 const ChangePassword = (): JSX.Element => {
+  const navigate = useNavigate();
   const { patchChangePassword } = useChangePassword();
   const [credentials, setCredentials] = useState<{
     oldPassword: string;
@@ -22,7 +25,12 @@ const ChangePassword = (): JSX.Element => {
   return (
     <div className={styles.changePassword}>
 
-      <Header setOpen={() => undefined} isAuth={false} />
+      <Header setOpen={() => undefined} isAuth={false} isRenderButtonMenu={false} />
+
+      <button className={styles.changePassword__button} onClick={() => navigate(-1)} type="button">
+        <img src={leftArrow} alt=" " />
+        Повернутися
+      </button>
 
       <div className={styles.changePassword__div}>
         <div className={styles.changePassword__form}>

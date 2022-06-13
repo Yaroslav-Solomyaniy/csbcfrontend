@@ -26,12 +26,6 @@ const AuthProvider = ({ children }: { children: JSX.Element; }): JSX.Element => 
       setUser(data);
     }
   }, [data]);
-  // useEffect(() => {
-  //   if (data) {
-  //     localStorage.setItem('auth', JSON.stringify(data));
-  //     setUser(data);
-  //   }
-  // }, [error]);
 
   useEffect(() => {
     const auth: string | null = localStorage.getItem('auth') || null;

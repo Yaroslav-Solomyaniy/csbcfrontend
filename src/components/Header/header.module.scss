@@ -23,7 +23,6 @@
   border-radius: 8px;
   padding: 3px;
   margin: 3px 0 0 16px;
-  cursor: pointer;
   transform: rotate(0deg);
   transition: all .5s;
   .navButtonSvg {
@@ -60,9 +59,14 @@
     color: #000;
     text-decoration: none;
     font-family: Halvetica, sans-serif;
+    font-size: 14px;
+    text-align: left;
     display: block;
-    width: 148px;
+    width: 100%;
     padding: 10px 14px 10px 16px;
+    &:hover {
+      background-color: #D7E7F4;
+    }
     &__span {
       margin: 0;
     }
@@ -92,7 +96,6 @@
   width: 40px;
   height: 40px;
   border-radius: 20px;
-  cursor: pointer;
 
   padding: 0;
   font-size: 14px;

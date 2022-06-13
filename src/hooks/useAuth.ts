@@ -48,14 +48,14 @@ export interface IChangePassword {
 export const useLogin = (): {
   data: LoginData | null;
   postLogin: (params: LoginParams) => void;
-  error: string|null;
-  clearError: ()=>void;
+  error: string | null;
+  clearError: () => void;
 } => {
-  const [data, setData] = useState<LoginData|null>(null);
-  const [error, setError] = useState<string|null>(null);
+  const [data, setData] = useState<LoginData | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const postLogin = (params: LoginParams) => {
-    axios.post('/auth/login', params).then((response) => {
+    axios.post(`${process.env.REACT_APP_API_URL}/auth/login`, params).then((response) => {
       setData(response.data);
       setError(null);
     }).catch((e) => {
@@ -63,18 +63,18 @@ export const useLogin = (): {
     });
   };
 
-  const clearError = ():void => {
+  const clearError = (): void => {
     setError(null);
   };
 
   return { data, postLogin, error, clearError };
 };
 
-export const useRefreshToken = ():{
-  authGet:() =>void;
+export const useRefreshToken = (): {
+  authGet: () => void;
 } => {
   const authGet = () => {
-    axios.get('auth/refresh-token').then((e) => {
+    axios.get(`${process.env.REACT_APP_API_URL}auth/refresh-token`).then((e) => {
       console.log(e);
     }).catch((e) => {
       console.error(e);
@@ -88,7 +88,7 @@ export const useRegister = (): {
   postRegister: (params: Register) => void;
 } => {
   const postRegister = (params: Register) => {
-    axios.post('/auth/register', params).then((e) => {
+    axios.post(`${process.env.REACT_APP_API_URL}/auth/register`, params).then((e) => {
       console.log(e);
     }).catch((e) => {
       console.error(e);
@@ -102,7 +102,7 @@ export const useForgotPassword = (): {
   postForgotPassword: (params: ForgotPassword) => void;
 } => {
   const postForgotPassword = (params: ForgotPassword) => {
-    axios.post('/auth/forgot-password', params).then((e) => {
+    axios.post(`${process.env.REACT_APP_API_URL}/auth/forgot-password`, params).then((e) => {
       console.log(e);
     }).catch((e) => {
       console.error(e);
@@ -116,7 +116,7 @@ export const useChangePassword = (): {
   patchChangePassword: (params: IChangePassword) => void;
 } => {
   const patchChangePassword = (params: IChangePassword) => {
-    axios.patch('/auth/change-password', params).then((e) => {
+    axios.patch(`${process.env.REACT_APP_API_URL}/auth/change-password`, params).then((e) => {
       console.log(e);
     }).catch((e) => {
       console.error(e);

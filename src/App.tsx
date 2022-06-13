@@ -1,7 +1,7 @@
 import React from 'react';
 
 import './App.css';
-import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Link, Navigate, Route, Routes } from 'react-router-dom';
 import styles from './pages/PasswordRecovery/passwordRecovery.module.scss';
 import { useAuthContext } from './context/useAuthContext';
 import Login from './pages/Login/Login';
@@ -19,12 +19,10 @@ import Teacher from './pages/Teacher/Teacher';
 import Curator from './pages/Сurator/Curator';
 import PasRec from './pages/PasswordRecovery/PasswordRecovery';
 import leftArrow from './images/login/leftArrow.svg';
+import ChangePassword from './pages/ChangePassword/ChangePassword';
 
 const App = (): JSX.Element => {
   const { user } = useAuthContext();
-
-  // eslint-disable-next-line no-console
-  console.log(user);
 
   return (
 
@@ -47,6 +45,8 @@ const App = (): JSX.Element => {
             <Route path="/teacher" element={<Teacher />} />
 
             <Route path="/curator" element={<Curator />} />
+
+            <Route path="/change-password" element={<ChangePassword />} />
           </>
         )}
         <Route
@@ -64,6 +64,7 @@ const App = (): JSX.Element => {
             </PasRec>
           )}
         />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   );

@@ -4,14 +4,13 @@ import styles from './loginModalAuth.module.scss';
 import close from '../../images/login/close.svg';
 
 interface ILoginModalAuth {
-  children: string;
-  errors: boolean;
+  error:string;
   closeModal: () => void;
 }
 
-const LoginModalAuth = ({ children, errors, closeModal }: ILoginModalAuth):JSX.Element => (
+const LoginModalAuth = ({ error, closeModal }: ILoginModalAuth):JSX.Element => (
   <div className={styles.window}>
-    <div className={clsx(styles.login__modal, errors && styles.login__modal__error)}>
+    <div className={clsx(styles.login__modal, error && styles.login__modal__error)}>
       <button
         className={styles.login__modal__button}
         type="button"
@@ -19,7 +18,7 @@ const LoginModalAuth = ({ children, errors, closeModal }: ILoginModalAuth):JSX.E
       >
         <img className={styles.login__modal__button__iClose} src={close} alt=" " />
       </button>
-      <div className={styles.login__modal__div}>{children}</div>
+      <div className={styles.login__modal__div}>{error}</div>
     </div>
   </div>
 );

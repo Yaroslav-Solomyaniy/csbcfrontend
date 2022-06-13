@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
+import { NavLink } from 'react-router-dom';
 import logo from '../../images/logo.png';
 import styles from './header.module.scss';
 import buttonNav from '../../images/buttonNav.svg';
+import { useAuthContext } from '../../context/useAuthContext';
 
 interface IHeader {
   setOpen: ()=> void;
@@ -12,6 +14,7 @@ interface IHeader {
 const Header = ({ setOpen, isAuth }:IHeader):JSX.Element => {
   const [navOpen, setNavOpen] = useState(true);
   const [dropMenuOpen, setDropMenuOpen] = useState(false);
+  const { logout } = useAuthContext();
 
   return (
     <header className={styles.header}>
@@ -37,12 +40,12 @@ const Header = ({ setOpen, isAuth }:IHeader):JSX.Element => {
           NV
         </button>
         <div className={clsx(styles.avatarka__modal, dropMenuOpen && styles.avatarka__modal__open)}>
-          <a className={styles.avatarka__modal__item} href="/">
-            <span className={styles.item__div}>змінити пароль</span>
-          </a>
-          <a className={styles.avatarka__modal__item} href="/" onClick={() => { localStorage.setItem('auth', ''); }}>
-            <span className={styles.item__div}>вихід</span>
-          </a>
+          <NavLink className={styles.avatarka__modal__item} to="/change-password">
+            <span className={styles.avatarka__modal__item__span}>змінити пароль</span>
+          </NavLink>
+          <button type="button" className={styles.avatarka__modal__item} onClick={logout}>
+            <span className={styles.avatarka__modal__item__span}>вихід</span>
+          </button>
         </div>
       </div>
       )}

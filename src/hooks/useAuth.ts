@@ -41,28 +41,38 @@ export interface ForgotPassword {
   login: string;
 }
 
-interface ChangePassword {
+export interface IChangePassword {
   password: string;
 }
 
 export const useLogin = (): {
-  data: LoginData | undefined;
+  data: LoginData | null;
   postLogin: (params: LoginParams) => void;
+  error: string|null;
+  clearError: ()=>void;
 } => {
-  const [data, setData] = useState<LoginData>();
+  const [data, setData] = useState<LoginData|null>(null);
+  const [error, setError] = useState<string|null>(null);
 
   const postLogin = (params: LoginParams) => {
     axios.post('/auth/login', params).then((response) => {
       setData(response.data);
+      setError(null);
     }).catch((e) => {
-      console.error(e);
+      setError(e.message);
     });
   };
 
-  return { data, postLogin };
+  const clearError = ():void => {
+    setError(null);
+  };
+
+  return { data, postLogin, error, clearError };
 };
 
-export const useRefreshToken = () => {
+export const useRefreshToken = ():{
+  authGet:() =>void;
+} => {
   const authGet = () => {
     axios.get('auth/refresh-token').then((e) => {
       console.log(e);
@@ -103,9 +113,9 @@ export const useForgotPassword = (): {
 };
 
 export const useChangePassword = (): {
-  patchChangePassword: (params: ChangePassword) => void;
+  patchChangePassword: (params: IChangePassword) => void;
 } => {
-  const patchChangePassword = (params: ChangePassword) => {
+  const patchChangePassword = (params: IChangePassword) => {
     axios.patch('/auth/change-password', params).then((e) => {
       console.log(e);
     }).catch((e) => {

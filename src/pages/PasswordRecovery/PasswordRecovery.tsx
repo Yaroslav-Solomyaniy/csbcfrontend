@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from './passwordRecovery.module.scss';
 import Header from '../../components/Header/Header';
-import { ForgotPassword, useForgotPassword } from '../../hooks/Auth';
+import { ForgotPassword, useForgotPassword } from '../../hooks/useAuth';
 
 const PasswordRecovery = ({ children }:JSX.ElementChildrenAttribute):JSX.Element => {
   const { postForgotPassword } = useForgotPassword();

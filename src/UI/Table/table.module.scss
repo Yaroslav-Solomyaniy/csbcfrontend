@@ -1,18 +1,114 @@
-.table{
+.filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.table {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 8px;
+  overflow: hidden;
+
+  .table__header {
     display: grid;
-    grid-template-columns: repeat(5,1fr);
-    grid-template-rows: auto;
-  &__header{
-    box-shadow: inset 0px 0px 1px rgba(0, 0, 0, 0.6);
-    font-weight: 400;
-    line-height: 22px;
-    background: #ECF3FE;
-    padding: 10px 16px;
   }
-  &__item{
-    box-shadow: inset 0px 0px 1px rgba(0, 0, 0, 0.6);
-    font-weight: 400;
-    line-height: 22px;
+
+  .table__header_item {
+    padding: 10px 16px;
+    background: rgba(236, 243, 254, 1);
+    border-right: 1px solid rgba(0, 0, 0, 0.06);
+
+    &:last-child {
+      border-right: 0;
+    }
+  }
+
+  .table__body_row {
+    display: grid;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  }
+
+  .body__row_item {
     padding: 10px 16px;
   }
 }
+
+.table__footer {
+  display: flex;
+  justify-content: right;
+  padding: 5px 11px;
+  align-items: center;
+}
+
+.table__footer_label {
+  padding-right: 8px;
+}
+
+.table__footer_select {
+  height: 32px;
+  width: 65px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  margin-right: 8px;
+}
+
+.not__found {
+  display: flex;
+  justify-content: center;
+  padding: 10px 16px;
+  font-size: 14px;
+}
+
+.table__footer_info {
+  margin-right: 8px;
+}
+
+.table__footer_buttons {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.table__footer_buttonFirst {
+  margin-right: 8px;
+  background: transparent;
+  height: 16px;
+
+  &:hover {
+    background: rgba(215, 231, 244, 1);
+  }
+}
+
+.table__footer_buttonPrev {
+  margin-right: 12px;
+  height: 16px;
+  background: transparent;
+
+  &:hover {
+    background: rgba(215, 231, 244, 1);
+  }
+}
+
+.table__footer_buttonNext {
+  margin-right: 8px;
+  background: transparent;
+  height: 16px;
+
+  &:hover {
+    background: rgba(215, 231, 244, 1);
+  }
+}
+
+.table__footer_buttonLast {
+  background: transparent;
+  height: 16px;
+
+  &:hover {
+    background: rgba(215, 231, 244, 1);
+  }
+}
+

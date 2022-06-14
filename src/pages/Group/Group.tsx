@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import Select from 'react-select';
 import TitlePage from '../../components/TitlePage/TitlePage';
-import Selectoptions from '../../UI/Select/Selectoptions';
-import Table from '../../UI/Table/Table';
 import ModalWindow from '../../UI/ModalWindow/ModalWindow';
 import Button from '../../UI/Button/Button';
 import styles from './group.module.scss';
 import Layout from '../../loyout/Layout';
+import Table, { ITableHeader, ITableRow } from '../../UI/Table/Table';
 
 const options = [
   { value: '1P20', label: '1П-20' },
@@ -22,58 +21,81 @@ const number = [
 ];
 
 function createGroup() {
-  // eslint-disable-next-line no-alert
   alert('Create Group');
 }
 
-interface Igroup{
-  filter?:JSX.Element;
-}
+const dataHeader: ITableHeader[] = [
+  { id: 1, label: 'Номер Групи' },
+  { id: 2, label: 'Куратор' },
+  { id: 3, label: 'Номер Наказу' },
+  { id: 4, label: 'К-ть студентів' },
+  { id: 5, label: 'дії' },
+];
+const dataRow: ITableRow[] = [
+  {
+    id: 1,
+    name: '2П-18',
+    curator_id: 'Фай Вікторія Степанівна',
+    order_number: '2F239J1',
+    studentValue: 35,
+    actions: 'Hello | actions',
+  },
+  {
+    id: 2,
+    name: '2П-18',
+    curator_id: 'Фай Вікторія Степанівна',
+    order_number: '2F239J1',
+    studentValue: 35,
+    actions: 'Hello | actions',
+  },
+  {
+    id: 3,
+    name: '2П-18',
+    curator_id: 'Фай Вікторія Степанівна',
+    order_number: '2F239J1',
+    studentValue: 35,
+    actions: 'Hello | actions',
+  },
+  {
+    id: 4,
+    name: '2П-18',
+    curator_id: 'Фай Вікторія Степанівна',
+    order_number: '2F239J1',
+    studentValue: 35,
+    actions: 'Hello | actions',
+  },
+  {
+    id: 5,
+    name: '2П-18',
+    curator_id: 'Фай Вікторія Степанівна',
+    order_number: '2F239J1',
+    studentValue: 35,
+    actions: 'Hello | actions',
+  },
+  {
+    id: 6,
+    name: '2П-18',
+    curator_id: 'Фай Вікторія Степанівна',
+    order_number: '2F239J1',
+    studentValue: 35,
+    actions: 'Hello | actions',
+  },
+];
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const Group = ({ filter }:Igroup):JSX.Element => {
+const Group = (): JSX.Element => {
   const [modalActive, setModalActive] = useState(false);
 
   return (
     <Layout>
       <div className={styles.group}>
         <TitlePage title="Групи" action={<Button buttonText="Створити" onClick={() => setModalActive(true)} />} />
-        <div className={styles.filters}>
-          <Selectoptions select={options} placeholder="Група" />
-          <Selectoptions select={name} placeholder="Куратор" />
-        </div>
-
         <Table
-          header={[
-            {
-              name: 'groupNumber',
-              title: 'Номер групи',
-            },
-            {
-              name: 'curator',
-              title: 'Куратор',
-            },
-            {
-              name: 'numberNakazy',
-              title: 'Номер наказу',
-            },
-            {
-              name: 'studentCounter',
-              title: 'К-сть студентів',
-            },
-            {
-              name: 'actions',
-              title: 'Дії',
-            },
-          ]}
-          list={[
-            {
-              groupNumber: 'ER-34',
-              curator: 'curator',
-              numberNakazy: 'WER1231223',
-              studentCounter: 34,
-              actions: '',
-            },
+          dataHeader={dataHeader}
+          dataRow={dataRow}
+          gridColumns={styles.columns}
+          filters={[
+            { key: 'curatorId', value: name, placeholder: 'Куратор' },
+            { key: 'name', value: options, placeholder: 'Група' },
           ]}
         />
         <ModalWindow modalTitle="Створення групи" active={modalActive} setActive={setModalActive}>

@@ -1,25 +1,24 @@
 import React from 'react';
-
 import './App.css';
 import { BrowserRouter, Link, Navigate, Route, Routes } from 'react-router-dom';
-import styles from './pages/PasswordRecovery/passwordRecovery.module.scss';
+import styles from './pages/PasswordRecovery/index.module.scss';
 import { useAuthContext } from './context/useAuthContext';
-import Login from './pages/Login/Login';
-import Students from './pages/Students/Students';
-import Curators from './pages/Сurators/Curators';
-import Teachers from './pages/Teachers/Teachers';
-import Subjects from './pages/Subjects/Subjects';
-import Estimates from './pages/Estimates/Estimates';
-import VotingAdmin from './pages/VotingAdmin/VotingAdmin';
-import Administrators from './pages/Administrators/Administrators';
-import IndPlan from './pages/IndividualPlan/IndPlan';
-import VotingStudents from './pages/VotingStudents/VotingStudents';
-import Group from './pages/Group/Group';
-import Teacher from './pages/Teacher/Teacher';
-import Curator from './pages/Сurator/Curator';
-import PasRec from './pages/PasswordRecovery/PasswordRecovery';
+import Login from './pages/Login';
+import Students from './pages/Students';
+import Curators from './pages/Сurators';
+import Teachers from './pages/Teachers';
+import Subjects from './pages/Subjects';
+import Estimates from './pages/Estimates';
+import VotingAdmin from './pages/VotingAdmin';
+import Administrators from './pages/Administrators';
+import IndPlan from './pages/IndividualPlan';
+import VotingStudents from './pages/VotingStudents';
+import Group from './pages/Group';
+import Teacher from './pages/Teacher';
+import Curator from './pages/Сurator';
+import PasRec from './pages/PasswordRecovery';
 import leftArrow from './images/login/leftArrow.svg';
-import ChangePassword from './pages/ChangePassword/ChangePassword';
+import ChangePassword from './pages/ChangePassword';
 
 const App = (): JSX.Element => {
   const { user } = useAuthContext();

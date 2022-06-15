@@ -1,0 +1,12 @@
+.header{
+  display: grid;
+  &__item{
+    padding: 10px 16px;
+    background: rgba(236, 243, 254, 1);
+    border-right: 1px solid rgba(0, 0, 0, 0.06);
+
+    &:last-child {
+      border-right: 0;
+    }
+  }
+}

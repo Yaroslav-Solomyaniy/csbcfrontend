@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import Header from '../components/Header/Header';
-import Navigation from '../components/Navigation/Navigation/Navigation';
-import styles from '../components/Navigation/Navigation/navigation.module.scss';
+import Header from '../components/Header';
+import Navigation from '../components/Navigation';
+import styles from '../components/Navigation/index.module.scss';
 
-const Layout = ({ children }:JSX.ElementChildrenAttribute):JSX.Element => {
+const Layout = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const setOpen = ():void => {
+  const setOpen = (): void => {
     setIsOpen(!isOpen);
   };
 

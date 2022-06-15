@@ -1,0 +1,67 @@
+.footer {
+  display: flex;
+  justify-content: right;
+  padding: 5px 11px;
+  align-items: center;
+
+  &__lable {
+    padding-right: 8px;
+  }
+
+  &__select {
+    height: 32px;
+    width: 65px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    margin-right: 8px;
+  }
+
+  &__info {
+    margin-right: 8px;
+  }
+
+  &__buttons {
+    height: 100%;
+    display: flex;
+    align-items: center;
+
+    &_first {
+      margin-right: 8px;
+      height: 16px;
+      background: transparent;
+
+      &:hover {
+        background: rgba(215, 231, 244, 1);
+      }
+    }
+
+    &_prev {
+      margin-right: 12px;
+      height: 16px;
+      background: transparent;
+
+      &:hover {
+        background: rgba(215, 231, 244, 1);
+      }
+    }
+
+    &_next {
+      margin-right: 8px;
+      background: transparent;
+      height: 16px;
+
+      &:hover {
+        background: rgba(215, 231, 244, 1);
+      }
+    }
+
+    &_last {
+      background: transparent;
+      height: 16px;
+
+      &:hover {
+        background: rgba(215, 231, 244, 1);
+      }
+    }
+  }
+}

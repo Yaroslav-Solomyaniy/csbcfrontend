@@ -1,11 +1,11 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { LoginData, LoginParams, useLogin } from '../hooks/useAuth';
-import LoginModalAuth from '../UI/LoginModalAuth/LoginModalAuth';
+import LoginModalAuth from '../components/common/LoginModalAuth';
 
 interface AuthContext {
   user: LoginData | null;
   postLogin: (credentials: LoginParams) => void;
-  logout: ()=> void;
+  logout: () => void;
 }
 
 const defaultValue: AuthContext = {
@@ -17,7 +17,7 @@ const defaultValue: AuthContext = {
 export const AuthContext = createContext<AuthContext>(defaultValue);
 
 const AuthProvider = ({ children }: { children: JSX.Element; }): JSX.Element => {
-  const [user, setUser] = useState<LoginData|null>(null);
+  const [user, setUser] = useState<LoginData | null>(null);
   const { postLogin, data, error, clearError } = useLogin();
 
   useEffect(() => {
@@ -43,7 +43,7 @@ const AuthProvider = ({ children }: { children: JSX.Element; }): JSX.Element => 
   return (
     <>
       {error && (
-      <LoginModalAuth error={error} closeModal={clearError} />
+        <LoginModalAuth error={error} closeModal={clearError} />
       )}
       {error && (
         <LoginModalAuth error={error} closeModal={clearError} />

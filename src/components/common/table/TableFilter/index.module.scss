@@ -1,0 +1,7 @@
+.filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 28px;
+}

@@ -1,3 +1,6 @@
+.group {
+
+}
 
 .filters {
   display: flex;
@@ -63,7 +66,4 @@
     color: rgba(255, 255, 255, 0.85);
     font-weight: 400;
   }
-}
-.columns{
-  grid-template-columns: repeat(5,1fr);
 }

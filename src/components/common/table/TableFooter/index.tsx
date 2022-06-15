@@ -1,9 +1,9 @@
 import React from 'react';
 import styles from './index.module.scss';
-import first from '../../../images/table/first.svg';
-import prev from '../../../images/table/prev.svg';
-import next from '../../../images/table/next.svg';
-import last from '../../../images/table/last.svg';
+import first from '../../../../images/table/first.svg';
+import prev from '../../../../images/table/prev.svg';
+import next from '../../../../images/table/next.svg';
+import last from '../../../../images/table/last.svg';
 import Button from '../../Button';
 
 const TableFooter = (): JSX.Element => (

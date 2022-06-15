@@ -1,6 +1,6 @@
 import React from 'react';
 import Select from 'react-select';
-import { Option } from '../../../types';
+import { Option } from '../../../../types';
 import styles from './index.module.scss';
 
 export interface IFilterOptions {

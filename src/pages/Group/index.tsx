@@ -7,8 +7,8 @@ import styles from './index.module.scss';
 import Layout from '../../loyout/Layout';
 import { ITableHeader } from '../../components/common/table/TableHeader';
 import { ITableRow } from '../../components/common/table/TableBody';
-import Index from '../../components/common/table';
-import useGroups from '../../hooks/useGroups';
+import Table from '../../components/common/table';
+import useGroups, { IGroupData } from '../../hooks/useGroups';
 
 const options = [
   { value: '1P20', label: '1П-20' },
@@ -34,145 +34,161 @@ const dataHeader: ITableHeader[] = [
   { id: 4, label: 'К-ть студентів' },
   { id: 5, label: 'дії' },
 ];
-const dataRow: ITableRow[] = [
-  {
-    id: 1,
-    name: '2П-18',
-    curator_id: 'Фай Вікторія Степанівна',
-    order_number: '2F239J1',
-    studentValue: 35,
-    actions: 'Hello | actions',
-  },
-  {
-    id: 2,
-    name: '2П-18',
-    curator_id: 'Фай Вікторія Степанівна',
-    order_number: '2F239J1',
-    studentValue: 35,
-    actions: 'Hello | actions',
-  },
-  {
-    id: 3,
-    name: '2П-18',
-    curator_id: 'Фай Вікторія Степанівна',
-    order_number: '2F239J1',
-    studentValue: 35,
-    actions: 'Hello | actions',
-  },
-  {
-    id: 4,
-    name: '2П-18',
-    curator_id: 'Фай Вікторія Степанівна',
-    order_number: '2F239J1',
-    studentValue: 35,
-    actions: 'Hello | actions',
-  },
-  {
-    id: 5,
-    name: '2П-18',
-    curator_id: 'Фай Вікторія Степанівна',
-    order_number: '2F239J1',
-    studentValue: 35,
-    actions: 'Hello | actions',
-  },
-  {
-    id: 6,
-    name: '2П-18',
-    curator_id: 'Фай Вікторія Степанівна',
-    order_number: '2F239J1',
-    studentValue: 35,
-    actions: 'Hello | actions',
-  },
-  {
-    id: 4,
-    name: '2П-18',
-    curator_id: 'Фай Вікторія Степанівна',
-    order_number: '2F239J1',
-    studentValue: 35,
-    actions: 'Hello | actions',
-  },
-  {
-    id: 5,
-    name: '2П-18',
-    curator_id: 'Фай Вікторія Степанівна',
-    order_number: '2F239J1',
-    studentValue: 35,
-    actions: 'Hello | actions',
-  },
-  {
-    id: 6,
-    name: '2П-18',
-    curator_id: 'Фай Вікторія Степанівна',
-    order_number: '2F239J1',
-    studentValue: 35,
-    actions: 'Hello | actions',
-  },
-  {
-    id: 4,
-    name: '2П-18',
-    curator_id: 'Фай Вікторія Степанівна',
-    order_number: '2F239J1',
-    studentValue: 35,
-    actions: 'Hello | actions',
-  },
-  {
-    id: 5,
-    name: '2П-18',
-    curator_id: 'Фай Вікторія Степанівна',
-    order_number: '2F239J1',
-    studentValue: 35,
-    actions: 'Hello | actions',
-  },
-  {
-    id: 6,
-    name: '2П-18',
-    curator_id: 'Фай Вікторія Степанівна',
-    order_number: '2F239J1',
-    studentValue: 35,
-    actions: 'Hello | actions',
-  },
-  {
-    id: 7,
-    name: '2П-18',
-    curator_id: 'Фай Вікторія Степанівна',
-    order_number: '2F239J1',
-    studentValue: 35,
-    actions: 'Hello | actions',
-  },
-
-  {
-    id: 10,
-    name: '2П-18',
-    curator_id: 'Фай Вікторія Степанівна',
-    order_number: '2F239J1',
-    studentValue: 35,
-    actions: 'Hello | actions',
-  },
-  {
-    id: 11,
-    name: '2П-18',
-    curator_id: 'Фай Вікторія Степанівна',
-    order_number: '2F239J1',
-    studentValue: 35,
-    actions: 'Hello | actions',
-  },
-  {
-    id: 12,
-    name: '2П-18',
-    curator_id: 'Фай Вікторія Степанівна',
-    order_number: '2F239J1',
-    studentValue: 35,
-    actions: 'Hello | actions',
-  },
-];
+// const dataRow: ITableRow[] = [
+//   {
+//     id: 1,
+//     name: '2П-18',
+//     curator_id: 'Фай Вікторія Степанівна',
+//     order_number: '2F239J1',
+//     studentValue: 35,
+//     actions: 'Hello | actions',
+//   },
+//   {
+//     id: 2,
+//     name: '2П-18',
+//     curator_id: 'Фай Вікторія Степанівна',
+//     order_number: '2F239J1',
+//     studentValue: 35,
+//     actions: 'Hello | actions',
+//   },
+//   {
+//     id: 3,
+//     name: '2П-18',
+//     curator_id: 'Фай Вікторія Степанівна',
+//     order_number: '2F239J1',
+//     studentValue: 35,
+//     actions: 'Hello | actions',
+//   },
+//   {
+//     id: 4,
+//     name: '2П-18',
+//     curator_id: 'Фай Вікторія Степанівна',
+//     order_number: '2F239J1',
+//     studentValue: 35,
+//     actions: 'Hello | actions',
+//   },
+//   {
+//     id: 5,
+//     name: '2П-18',
+//     curator_id: 'Фай Вікторія Степанівна',
+//     order_number: '2F239J1',
+//     studentValue: 35,
+//     actions: 'Hello | actions',
+//   },
+//   {
+//     id: 6,
+//     name: '2П-18',
+//     curator_id: 'Фай Вікторія Степанівна',
+//     order_number: '2F239J1',
+//     studentValue: 35,
+//     actions: 'Hello | actions',
+//   },
+//   {
+//     id: 4,
+//     name: '2П-18',
+//     curator_id: 'Фай Вікторія Степанівна',
+//     order_number: '2F239J1',
+//     studentValue: 35,
+//     actions: 'Hello | actions',
+//   },
+//   {
+//     id: 5,
+//     name: '2П-18',
+//     curator_id: 'Фай Вікторія Степанівна',
+//     order_number: '2F239J1',
+//     studentValue: 35,
+//     actions: 'Hello | actions',
+//   },
+//   {
+//     id: 6,
+//     name: '2П-18',
+//     curator_id: 'Фай Вікторія Степанівна',
+//     order_number: '2F239J1',
+//     studentValue: 35,
+//     actions: 'Hello | actions',
+//   },
+//   {
+//     id: 4,
+//     name: '2П-18',
+//     curator_id: 'Фай Вікторія Степанівна',
+//     order_number: '2F239J1',
+//     studentValue: 35,
+//     actions: 'Hello | actions',
+//   },
+//   {
+//     id: 5,
+//     name: '2П-18',
+//     curator_id: 'Фай Вікторія Степанівна',
+//     order_number: '2F239J1',
+//     studentValue: 35,
+//     actions: 'Hello | actions',
+//   },
+//   {
+//     id: 6,
+//     name: '2П-18',
+//     curator_id: 'Фай Вікторія Степанівна',
+//     order_number: '2F239J1',
+//     studentValue: 35,
+//     actions: 'Hello | actions',
+//   },
+//   {
+//     id: 7,
+//     name: '2П-18',
+//     curator_id: 'Фай Вікторія Степанівна',
+//     order_number: '2F239J1',
+//     studentValue: 35,
+//     actions: 'Hello | actions',
+//   },
+//
+//   {
+//     id: 10,
+//     name: '2П-18',
+//     curator_id: 'Фай Вікторія Степанівна',
+//     order_number: '2F239J1',
+//     studentValue: 35,
+//     actions: 'Hello | actions',
+//   },
+//   {
+//     id: 11,
+//     name: '2П-18',
+//     curator_id: 'Фай Вікторія Степанівна',
+//     order_number: '2F239J1',
+//     studentValue: 35,
+//     actions: 'Hello | actions',
+//   },
+//   {
+//     id: 12,
+//     name: '2П-18',
+//     curator_id: 'Фай Вікторія Степанівна',
+//     order_number: '2F239J1',
+//     studentValue: 35,
+//     actions: 'Hello | actions',
+//   },
+// ];
 
 const Group = (): JSX.Element => {
   const [modalActive, setModalActive] = useState(false);
-  const { getGroups } = useGroups();
+  const { getGroups, data } = useGroups();
+  const [dataRow, setDataRow] = useState<ITableRow[]>([]);
 
   useEffect(() => {
     getGroups();
   }, []);
+
+  useEffect(() => {
+    if (data) {
+      setDataRow(data.items.map((item: IGroupData): ITableRow => (
+        {
+          id: item.id,
+          name: item.name,
+          curator: item.curator.lastName + item.curator.firstName,
+          order_number: item.orderNumber,
+          studentValue: 32,
+          actions: undefined,
+        }
+      )));
+    }
+  }, [data]);
 
   return (
     <Layout>
@@ -188,7 +204,7 @@ const Group = (): JSX.Element => {
             </Button>
           )}
         />
-        <Index
+        <Table
           filter={[
             { key: 'curatorId', value: options, placeholder: 'Куратор' },
             { key: 'name', value: name, placeholder: 'Група' },

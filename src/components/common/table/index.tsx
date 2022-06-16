@@ -11,7 +11,7 @@ interface ITable {
   filter: IFilterOptions[];
 }
 
-const Index = ({ dataHeader, dataRow, gridColumns, filter }: ITable): JSX.Element => (
+const Table = ({ dataHeader, dataRow, gridColumns, filter }: ITable): JSX.Element => (
   <>
     <TableFilter filters={filter} />
     <div className={styles.table}>
@@ -23,4 +23,4 @@ const Index = ({ dataHeader, dataRow, gridColumns, filter }: ITable): JSX.Elemen
   </>
 );
 
-export default Index;
+export default Table;

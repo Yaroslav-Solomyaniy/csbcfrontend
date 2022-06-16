@@ -6,7 +6,7 @@ import TableFooter from '../TableFooter';
 export interface ITableRow {
   id: number;
   name: string;
-  curator_id: string;
+  curator: string;
   order_number: string;
   studentValue: number;
   actions: JSX.Element | undefined | string;
@@ -23,7 +23,7 @@ const TableBody = ({ dataRow, gridColumns }: ITableBody): JSX.Element => (
       {dataRow.map((item) => (
         <div className={clsx(styles.body__row, gridColumns)} key={item.id}>
           <div className={styles.body__row_item}>{item.name}</div>
-          <div className={styles.body__row_item}>{item.curator_id}</div>
+          <div className={styles.body__row_item}>{item.curator}</div>
           <div className={styles.body__row_item}>{item.order_number}</div>
           <div className={styles.body__row_item}>{item.studentValue}</div>
           <div className={styles.body__row_item}>{item.actions}</div>

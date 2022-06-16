@@ -1,7 +1,7 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { useState } from 'react';
 import { useAuthContext } from '../context/useAuthContext';
-import { OrderBy } from '../types';
+import { IPaginateData, OrderBy } from '../types';
 
 interface IGetGroupParams {
   orderByColumn?:
@@ -22,26 +22,40 @@ interface IGetGroupParams {
   limit?: number;
 }
 
+export interface IGroupData {
+  'id': number;
+  'name': string;
+  'curator': {
+    'id': number;
+    'firstName': string;
+    'lastName': string;
+    'email': string;
+    'role': string;
+    'updated': string;
+    'created': string;
+  };
+  'orderNumber': string;
+  'updated': string;
+  'created': string;
+}
+
 interface IUseGroups {
-  data: any;
+  data: IPaginateData<IGroupData> | null;
   getGroups: (params?: IGetGroupParams) => void;
 }
 
 const useGroups = (): IUseGroups => {
   const { user } = useAuthContext();
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<IPaginateData<IGroupData> | null>(null);
 
   const getGroups = (params?: IGetGroupParams) => {
     axios.get(`${process.env.REACT_APP_API_URL}/groups`, {
       headers: {
-        Authorization: 'Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIi'
-          + 'OjEsInJvbGUiOiJyb290Iiwia'
-          + 'WF0IjoxNjU1MzkxMjIzLCJleHAiOjE2NTU0MzQ0MjN9.'
-          + 'VGa-riy2s7FmCUkzzxc4og8_e-u7L7kZykzP4jC2_EM',
+        Authorization: `Bearer ${user?.accessToken}`,
       },
     })
-      .then((response) => {
-        console.log(response);
+      .then((response: AxiosResponse<IPaginateData<IGroupData> | null>) => {
+        setData(response.data);
       })
       .catch((error) => {
         console.log(error);

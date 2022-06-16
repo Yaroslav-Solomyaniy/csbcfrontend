@@ -1,14 +1,14 @@
 import React from 'react';
 import clsx from 'clsx';
 import styles from './index.module.scss';
-import close from '../../images/login/close.svg';
+import close from '../../../images/login/close.svg';
 
 interface ILoginModalAuth {
-  error:string;
+  error: string;
   closeModal: () => void;
 }
 
-const LoginModalAuth = ({ error, closeModal }: ILoginModalAuth):JSX.Element => (
+const LoginModalAuth = ({ error, closeModal }: ILoginModalAuth): JSX.Element => (
   <div className={styles.window}>
     <div className={clsx(styles.login__modal, error && styles.login__modal__error)}>
       <button

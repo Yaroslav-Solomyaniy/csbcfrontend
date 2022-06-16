@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import TitlePage from '../../components/TitlePage';
-import ModalWindow from '../../UI/ModalWindow/ModalWindow';
-import Button from '../../UI/Button/Button';
+import ModalWindow from '../../components/common/ModalWindow';
+import Button from '../../components/common/Button';
 import styles from './index.module.scss';
 import Layout from '../../loyout/Layout';
-import { ITableHeader } from '../../UI/table/TableHeader';
-import { ITableRow } from '../../UI/table/TableBody/TableBody';
-import Index from '../../UI/table';
+import { ITableHeader } from '../../components/common/table/TableHeader';
+import { ITableRow } from '../../components/common/table/TableBody';
+import Index from '../../components/common/table';
+import useGroups from '../../hooks/useGroups';
 
 const options = [
   { value: '1P20', label: '1П-20' },
@@ -167,6 +168,11 @@ const dataRow: ITableRow[] = [
 
 const Group = (): JSX.Element => {
   const [modalActive, setModalActive] = useState(false);
+  const { getGroups } = useGroups();
+
+  useEffect(() => {
+    getGroups();
+  }, []);
 
   return (
     <Layout>
@@ -180,7 +186,7 @@ const Group = (): JSX.Element => {
             >
               Створити
             </Button>
-)}
+          )}
         />
         <Index
           filter={[

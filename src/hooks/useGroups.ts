@@ -39,12 +39,12 @@ export interface IGroupData {
   'created': string;
 }
 
-interface IUseGroups {
+interface IUseGroupsGet {
   data: IPaginateData<IGroupData> | null;
   getGroups: (params?: IGetGroupParams) => void;
 }
 
-const useGroups = (): IUseGroups => {
+export const useGroupsGet = (): IUseGroupsGet => {
   const { user } = useAuthContext();
   const [data, setData] = useState<IPaginateData<IGroupData> | null>(null);
 
@@ -65,4 +65,40 @@ const useGroups = (): IUseGroups => {
   return { data, getGroups };
 };
 
-export default useGroups;
+export interface ICreateGroupParams {
+  'name': string;
+  'curatorId': number;
+  'orderNumber': string;
+  'deletedOrderNumber': string;
+}
+
+interface ICreateGroupResponse {
+  'id': number;
+  'name': string;
+}
+
+interface IUseGroupsCreate {
+  data: ICreateGroupResponse | null;
+  createGroup: (params: ICreateGroupParams) => void;
+}
+
+export const useGroupsCreate = (): IUseGroupsCreate => {
+  const { user } = useAuthContext();
+  const [data, setData] = useState<ICreateGroupResponse | null>(null);
+
+  const createGroup = (params: ICreateGroupParams) => {
+    axios.post(`${process.env.REACT_APP_API_URL}/groups`, params, {
+      headers: {
+        Authorization: `Bearer ${user?.accessToken}`,
+      },
+    })
+      .then((response: AxiosResponse<ICreateGroupResponse>) => {
+        setData(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  return { data, createGroup };
+};

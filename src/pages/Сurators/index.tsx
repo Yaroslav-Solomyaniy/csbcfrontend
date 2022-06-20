@@ -45,7 +45,6 @@ const Curators = (): JSX.Element => (
         dataHeader={dataHeader}
         dataRow={[]}
         gridColumns={stylesCur.columns}
-
       />
     </div>
   </Layout>

@@ -45,15 +45,6 @@ const AuthProvider = ({ children }: { children: JSX.Element; }): JSX.Element => 
       {error && (
         <LoginModalAuth error={error} closeModal={clearError} />
       )}
-      {error && (
-        <LoginModalAuth error={error} closeModal={clearError} />
-      )}
-      {error && (
-        <LoginModalAuth error={error} closeModal={clearError} />
-      )}
-      {error && (
-        <LoginModalAuth error={error} closeModal={clearError} />
-      )}
       <AuthContext.Provider value={{ user, postLogin, logout }}>
         {children}
       </AuthContext.Provider>

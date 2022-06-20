@@ -37,10 +37,6 @@ interface StudentData {
   isFullTime: boolean;
 }
 
-export interface ForgotPassword {
-  login: string;
-}
-
 export interface IChangePassword {
   password: string;
 }
@@ -55,12 +51,13 @@ export const useLogin = (): {
   const [error, setError] = useState<string | null>(null);
 
   const postLogin = (params: LoginParams) => {
-    axios.post(`${process.env.REACT_APP_API_URL}/auth/login`, params).then((response) => {
-      setData(response.data);
-      setError(null);
-    }).catch((e) => {
-      setError(e.message);
-    });
+    axios.post(`${process.env.REACT_APP_API_URL}/auth/login`, params)
+      .then((response) => {
+        setData(response.data);
+        setError(null);
+      }).catch((e) => {
+        setError(e.message);
+      });
   };
 
   const clearError = (): void => {
@@ -98,18 +95,31 @@ export const useRegister = (): {
   return { postRegister };
 };
 
+export interface ForgotPassword {
+  login: string;
+}
+
 export const useForgotPassword = (): {
+  error: string | null;
   postForgotPassword: (params: ForgotPassword) => void;
+  clearError: () => void;
 } => {
+  const [error, setError] = useState<string | null>(null);
+
   const postForgotPassword = (params: ForgotPassword) => {
     axios.post(`${process.env.REACT_APP_API_URL}/auth/forgot-password`, params).then((e) => {
       console.log(e);
+      setError(null);
     }).catch((e) => {
-      console.error(e);
+      setError(e.message);
     });
   };
 
-  return { postForgotPassword };
+  const clearError = (): void => {
+    setError(null);
+  };
+
+  return { error, postForgotPassword, clearError };
 };
 
 export const useChangePassword = (): {

@@ -2,6 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import styles from './index.module.scss';
 import close from '../../../images/login/close.svg';
+import Portal from '../../Portal';
 
 interface ILoginModalAuth {
   error: string;
@@ -9,7 +10,7 @@ interface ILoginModalAuth {
 }
 
 const LoginModalAuth = ({ error, closeModal }: ILoginModalAuth): JSX.Element => (
-  <div className={styles.window}>
+  <Portal>
     <div className={clsx(styles.login__modal, error && styles.login__modal__error)}>
       <button
         className={styles.login__modal__button}
@@ -20,7 +21,7 @@ const LoginModalAuth = ({ error, closeModal }: ILoginModalAuth): JSX.Element => 
       </button>
       <div className={styles.login__modal__div}>{error}</div>
     </div>
-  </div>
+  </Portal>
 );
 
 export default LoginModalAuth;

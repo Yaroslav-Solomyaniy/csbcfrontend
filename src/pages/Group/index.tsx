@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import TitlePage from '../../components/TitlePage';
-import Button from '../../components/common/Button';
+import Button from '../../components/common/Button/index';
 import styles from './index.module.scss';
 import Layout from '../../loyout/Layout';
 import { ITableHeader } from '../../components/common/table/TableHeader';

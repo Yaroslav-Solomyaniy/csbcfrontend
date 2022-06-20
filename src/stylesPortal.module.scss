@@ -1,0 +1,15 @@
+.portal {
+  &__unauthorized {
+    position: fixed;
+    top: 56px;
+    right: 0;
+    width: 100vw;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__authorized {
+    width: 90vw;
+  }
+}

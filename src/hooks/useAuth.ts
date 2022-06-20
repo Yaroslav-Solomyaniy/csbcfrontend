@@ -18,6 +18,49 @@ export interface LoginData {
   refreshToken: string;
 }
 
+export const useLogin = (): {
+  data: LoginData | null;
+  postLogin: (params: LoginParams, check: boolean) => void;
+  error: string | null;
+  clearError: () => void;
+  checked: boolean;
+} => {
+  const [data, setData] = useState<LoginData | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [checked, setCheck] = useState(false);
+
+  const postLogin = (params: LoginParams, check: boolean) => {
+    axios.post(`${process.env.REACT_APP_API_URL}/auth/login`, params)
+      .then((response) => {
+        setData(response.data);
+        setError(null);
+        setCheck(check);
+      }).catch((e) => {
+        setError(e.message);
+      });
+  };
+
+  const clearError = (): void => {
+    setError(null);
+  };
+
+  return { data, postLogin, error, clearError, checked };
+};
+
+export const useRefreshToken = (): {
+  authGet: () => void;
+} => {
+  const authGet = () => {
+    axios.get(`${process.env.REACT_APP_API_URL}auth/refresh-token`).then((e) => {
+      console.log(e);
+    }).catch((e) => {
+      console.error(e);
+    });
+  };
+
+  return { authGet };
+};
+
 interface Register {
   firstName: string;
   lastName: string;
@@ -36,50 +79,6 @@ interface StudentData {
   edeboId: string;
   isFullTime: boolean;
 }
-
-export interface IChangePassword {
-  password: string;
-}
-
-export const useLogin = (): {
-  data: LoginData | null;
-  postLogin: (params: LoginParams) => void;
-  error: string | null;
-  clearError: () => void;
-} => {
-  const [data, setData] = useState<LoginData | null>(null);
-  const [error, setError] = useState<string | null>(null);
-
-  const postLogin = (params: LoginParams) => {
-    axios.post(`${process.env.REACT_APP_API_URL}/auth/login`, params)
-      .then((response) => {
-        setData(response.data);
-        setError(null);
-      }).catch((e) => {
-        setError(e.message);
-      });
-  };
-
-  const clearError = (): void => {
-    setError(null);
-  };
-
-  return { data, postLogin, error, clearError };
-};
-
-export const useRefreshToken = (): {
-  authGet: () => void;
-} => {
-  const authGet = () => {
-    axios.get(`${process.env.REACT_APP_API_URL}auth/refresh-token`).then((e) => {
-      console.log(e);
-    }).catch((e) => {
-      console.error(e);
-    });
-  };
-
-  return { authGet };
-};
 
 export const useRegister = (): {
   postRegister: (params: Register) => void;
@@ -121,6 +120,10 @@ export const useForgotPassword = (): {
 
   return { error, postForgotPassword, clearError };
 };
+
+export interface IChangePassword {
+  password: string;
+}
 
 export const useChangePassword = (): {
   patchChangePassword: (params: IChangePassword) => void;

@@ -10,7 +10,8 @@
     align-items: center;
     justify-content: center;
   }
-  &__form{
+
+  &__form {
     height: 40%;
     width: 280px;
     display: flex;
@@ -29,7 +30,13 @@
       }
     }
 
-    &__button{
+    &__password {
+      &__error {
+        color: #FF0000;
+      }
+    }
+
+    &__button {
       width: 280px;
       background: #428BCA;
       border-radius: 8px;

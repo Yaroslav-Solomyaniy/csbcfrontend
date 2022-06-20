@@ -1,18 +1,22 @@
 import React, { useState } from 'react';
+import clsx from 'clsx';
 import styles from './index.module.scss';
 import { LoginParams } from '../../hooks/useAuth';
 import Header from '../../components/Header';
 import { useAuthContext } from '../../context/useAuthContext';
 
-const Login = ({ children }:JSX.ElementChildrenAttribute):JSX.Element => {
+const Login = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
   const { postLogin } = useAuthContext();
   const [credentials, setCredentials] = useState<LoginParams>({
     email: '',
     password: '',
   });
+  const [check, setCheck] = useState(true);
 
   const login = () => {
-    postLogin(credentials);
+    if (parseInt(credentials.password, 10) >= 8) {
+      postLogin(credentials, check);
+    }
   };
 
   return (
@@ -42,8 +46,25 @@ const Login = ({ children }:JSX.ElementChildrenAttribute):JSX.Element => {
               password: event.target.value,
             })}
           />
+          <p
+            className={clsx(
+              styles.login__form__passwort,
+              parseInt(credentials.password, 10) < 8 && styles.login__form__password__error,
+            )}
+          >
+            Не менше 8 символів
+          </p>
           <label>
-            <input className={styles.login__form__input} type="checkbox" name="SaveData" id="Зберегти дані" />
+            <input
+              className={styles.login__form__input}
+              checked={check}
+              onChange={(event) => {
+                setCheck(event.target.checked);
+              }}
+              type="checkbox"
+              name="SaveData"
+              id="Зберегти дані"
+            />
             Зберегти дані
           </label>
           <button

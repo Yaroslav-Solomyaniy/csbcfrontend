@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import './App.css';
 import { BrowserRouter, Link, Navigate, Route, Routes } from 'react-router-dom';
 import clsx from 'clsx';
@@ -21,17 +21,32 @@ import Curator from './pages/Сurator';
 import PasRec from './pages/PasswordRecovery';
 import leftArrow from './images/login/leftArrow.svg';
 import ChangePassword from './pages/ChangePassword';
+import { useMessagesContext } from './context/useMessagesContext';
 
 const App = (): JSX.Element => {
   const { user } = useAuthContext();
+  const { messages } = useMessagesContext();
+  const messageContainer = useRef<HTMLDivElement | null>(null);
 
   return (
     <>
       <div id="modal" className={clsx(stylesPortal.portal__unauthorized, user && stylesPortal.portal__authorized)} />
 
+      {/* {!!messageContainer.current && ( */}
+      {/*  <> */}
+      {/*    {messages.error.map((error) => ( */}
+      {/*      <LoginModalAuth */}
+      {/*        ref={messageContainer.current} */}
+      {/*        key={error} */}
+      {/*        error={error} */}
+      {/*        closeModal={() => undefined} */}
+      {/*      /> */}
+      {/*    ))} */}
+      {/*  </> */}
+      {/* )} */}
       <BrowserRouter>
         <Routes>
-          {user?.role === 'admin' && (
+          {user && (
             <>
               <Route index element={<Group />} />
               <Route path="/students" element={<Students />} />
@@ -57,7 +72,7 @@ const App = (): JSX.Element => {
             element={(<Login><Link to="/PasswordRecovery">відновити пароль</Link></Login>)}
           />
           <Route
-            path="/PasswordRecovery"
+            path="/passwordRecovery"
             element={(
               <PasRec>
                 <Link to="/" className={styles.passwordRecovery__link}>

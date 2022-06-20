@@ -1,8 +1,13 @@
 import ReactDOM from 'react-dom';
 
-const Portal = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => ReactDOM.createPortal(
+interface IPortal {
+  children: JSX.ElementChildrenAttribute;
+  ref: HTMLDivElement | null;
+}
+
+const Portal = ({
   children,
-  document.getElementById('modal') as Element,
-);
+  ref,
+}: IPortal): JSX.Element => ReactDOM.createPortal(children, ref);
 
 export default Portal;

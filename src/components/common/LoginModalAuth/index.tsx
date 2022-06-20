@@ -7,10 +7,11 @@ import Portal from '../../Portal';
 interface ILoginModalAuth {
   error: string;
   closeModal: () => void;
+  ref: HTMLDivElement | null;
 }
 
-const LoginModalAuth = ({ error, closeModal }: ILoginModalAuth): JSX.Element => (
-  <Portal>
+const LoginModalAuth = ({ error, closeModal, ref }: ILoginModalAuth): JSX.Element => (
+  <Portal ref={ref}>
     <div className={clsx(styles.login__modal, error && styles.login__modal__error)}>
       <button
         className={styles.login__modal__button}

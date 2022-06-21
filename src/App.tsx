@@ -1,9 +1,7 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import './App.css';
 import { BrowserRouter, Link, Navigate, Route, Routes } from 'react-router-dom';
-import clsx from 'clsx';
 import styles from './pages/PasswordRecovery/index.module.scss';
-import stylesPortal from './stylesPortal.module.scss';
 import { useAuthContext } from './context/useAuthContext';
 import Login from './pages/Login';
 import Students from './pages/Students';
@@ -25,67 +23,50 @@ import { useMessagesContext } from './context/useMessagesContext';
 
 const App = (): JSX.Element => {
   const { user } = useAuthContext();
-  const { messages } = useMessagesContext();
-  const messageContainer = useRef<HTMLDivElement | null>(null);
+  const { messages, closeError } = useMessagesContext();
 
   return (
-    <>
-      <div id="modal" className={clsx(stylesPortal.portal__unauthorized, user && stylesPortal.portal__authorized)} />
+    <BrowserRouter>
+      <Routes>
+        {user && (
+        <>
+          <Route index element={<Group />} />
+          <Route path="/students" element={<Students />} />
+          <Route path="/curators" element={<Curators />} />
+          <Route path="/teachers" element={<Teachers />} />
+          <Route path="/subjects" element={<Subjects />} />
+          <Route path="/estimates" element={<Estimates />} />
+          <Route path="/voting_admin" element={<VotingAdmin />} />
+          <Route path="/administrators" element={<Administrators />} />
 
-      {/* {!!messageContainer.current && ( */}
-      {/*  <> */}
-      {/*    {messages.error.map((error) => ( */}
-      {/*      <LoginModalAuth */}
-      {/*        ref={messageContainer.current} */}
-      {/*        key={error} */}
-      {/*        error={error} */}
-      {/*        closeModal={() => undefined} */}
-      {/*      /> */}
-      {/*    ))} */}
-      {/*  </> */}
-      {/* )} */}
-      <BrowserRouter>
-        <Routes>
-          {user && (
-            <>
-              <Route index element={<Group />} />
-              <Route path="/students" element={<Students />} />
-              <Route path="/curators" element={<Curators />} />
-              <Route path="/teachers" element={<Teachers />} />
-              <Route path="/subjects" element={<Subjects />} />
-              <Route path="/estimates" element={<Estimates />} />
-              <Route path="/voting_admin" element={<VotingAdmin />} />
-              <Route path="/administrators" element={<Administrators />} />
+          <Route path="/individual_plan" element={<IndPlan />} />
+          <Route path="/voting_students" element={<VotingStudents />} />
 
-              <Route path="/individual_plan" element={<IndPlan />} />
-              <Route path="/voting_students" element={<VotingStudents />} />
+          <Route path="/teacher" element={<Teacher />} />
 
-              <Route path="/teacher" element={<Teacher />} />
+          <Route path="/curator" element={<Curator />} />
 
-              <Route path="/curator" element={<Curator />} />
-
-              <Route path="/change-password" element={<ChangePassword />} />
-            </>
-          )}
-          <Route
-            index
-            element={(<Login><Link to="/PasswordRecovery">відновити пароль</Link></Login>)}
-          />
-          <Route
-            path="/passwordRecovery"
-            element={(
-              <PasRec>
-                <Link to="/" className={styles.passwordRecovery__link}>
-                  <img src={leftArrow} alt=" " />
-                  відновити пароль
-                </Link>
-              </PasRec>
+          <Route path="/change-password" element={<ChangePassword />} />
+        </>
+        )}
+        <Route
+          index
+          element={(<Login><Link to="/PasswordRecovery">відновити пароль</Link></Login>)}
+        />
+        <Route
+          path="/passwordRecovery"
+          element={(
+            <PasRec>
+              <Link to="/" className={styles.passwordRecovery__link}>
+                <img src={leftArrow} alt=" " />
+                відновити пароль
+              </Link>
+            </PasRec>
             )}
-          />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </BrowserRouter>
-    </>
+        />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </BrowserRouter>
 
   );
 };

@@ -14,9 +14,9 @@ const Login = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
   const [check, setCheck] = useState(true);
 
   const login = () => {
-    if (parseInt(credentials.password, 10) >= 8) {
-      postLogin(credentials, check);
-    }
+    // if (parseInt(credentials.password, 10) >= 8) {
+    postLogin(credentials, check);
+    // }
   };
 
   return (

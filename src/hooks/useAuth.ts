@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useState } from 'react';
+import { useMessagesContext } from '../context/useMessagesContext';
 
 export interface LoginParams {
   email: string;
@@ -21,30 +22,23 @@ export interface LoginData {
 export const useLogin = (): {
   data: LoginData | null;
   postLogin: (params: LoginParams, check: boolean) => void;
-  error: string | null;
-  clearError: () => void;
   checked: boolean;
 } => {
   const [data, setData] = useState<LoginData | null>(null);
-  const [error, setError] = useState<string | null>(null);
   const [checked, setCheck] = useState(false);
+  const { addErrors } = useMessagesContext();
 
   const postLogin = (params: LoginParams, check: boolean) => {
     axios.post(`${process.env.REACT_APP_API_URL}/auth/login`, params)
       .then((response) => {
         setData(response.data);
-        setError(null);
         setCheck(check);
       }).catch((e) => {
-        setError(e.message);
+        addErrors(e.message);
       });
   };
 
-  const clearError = (): void => {
-    setError(null);
-  };
-
-  return { data, postLogin, error, clearError, checked };
+  return { data, postLogin, checked };
 };
 
 export const useRefreshToken = (): {

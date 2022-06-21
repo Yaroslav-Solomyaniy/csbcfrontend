@@ -18,9 +18,9 @@ const Layout = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
 
   return (
     <>
-      <Header setOpen={setOpen} isAuth={false} />
+      <Header setOpen={setOpen} isAuth={!!user} />
       <div className={styles.nav_and_content}>
-        <Navigation isOpen={isOpen} />
+        {!!user && <Navigation isOpen={isOpen} />}
         <div className={styles.content}>
           <div id="modal" className={clsx(stylesPortal.portal__unauthorized, user && stylesPortal.portal__authorized)}>
             {messages.error.map((error, index) => (

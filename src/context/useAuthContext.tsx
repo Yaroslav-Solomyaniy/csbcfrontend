@@ -18,7 +18,7 @@ export const AuthContext = createContext<AuthContext>(defaultValue);
 
 const AuthProvider = ({ children }: { children: JSX.Element; }): JSX.Element => {
   const [user, setUser] = useState<LoginData | null>(null);
-  const { postLogin, data, error, checked } = useLogin();
+  const { postLogin, data, checked } = useLogin();
   const { addErrors } = useMessagesContext();
 
   useEffect(() => {

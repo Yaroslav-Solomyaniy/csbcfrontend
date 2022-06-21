@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import styles from './index.module.scss';
 import Header from '../../components/Header';
 import { ForgotPassword, useForgotPassword } from '../../hooks/useAuth';
-import LoginModalAuth from '../../components/common/LoginModalAuth';
 
 const PasswordRecovery = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
-  const { error, postForgotPassword, clearError } = useForgotPassword();
+  const { postForgotPassword } = useForgotPassword();
   const [email, setEmail] = useState<ForgotPassword>({ login: ' ' });
 
   const passwordRecovery = () => {
@@ -14,7 +13,6 @@ const PasswordRecovery = ({ children }: JSX.ElementChildrenAttribute): JSX.Eleme
 
   return (
     <div className={styles.passwordRecovery}>
-      {error && <LoginModalAuth error={error} closeModal={clearError} />}
       <Header setOpen={() => undefined} isAuth />
       {children}
       <div className={styles.passwordRecovery__div}>

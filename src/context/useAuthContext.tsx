@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { LoginData, LoginParams, useLogin } from '../hooks/useAuth';
-import { useMessagesContext } from './useMessagesContext';
 
 interface AuthContext {
   user: LoginData | null;
@@ -19,7 +18,6 @@ export const AuthContext = createContext<AuthContext>(defaultValue);
 const AuthProvider = ({ children }: { children: JSX.Element; }): JSX.Element => {
   const [user, setUser] = useState<LoginData | null>(null);
   const { postLogin, data, checked } = useLogin();
-  const { addErrors } = useMessagesContext();
 
   useEffect(() => {
     if (data) {

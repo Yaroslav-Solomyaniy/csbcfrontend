@@ -1,9 +1,14 @@
 import React, { createContext, useContext, useState } from 'react';
 
+interface IMessageItem {
+  id: number;
+  text: string;
+}
+
 interface IMessages {
-  error: string[];
-  warning: string[];
-  info: string[];
+  error: IMessageItem[];
+  warning: IMessageItem[];
+  info: IMessageItem[];
 }
 
 interface IMessagesContext {
@@ -27,50 +32,56 @@ const defaultValue: IMessagesContext = {
 };
 
 export const MessagesContext = createContext<IMessagesContext>(defaultValue);
+let id = 1;
 
 const MessagesProvider = ({ children }: { children: JSX.Element; }): JSX.Element => {
   const [messages, setMessages] = useState<IMessages>({
     error: [],
-    warning: [],
-    info: [],
+    warning: [{ id: 123, text: 'rg' }],
+    info: [{ id: 1223, text: 'rg' }],
   });
 
-  const addErrors = (error: string) => {
-    setMessages({
-      ...messages, error: [...messages.error, error],
-    });
+  const addErrors = (text: string) => {
+    setMessages((prevState) => ({
+      ...prevState,
+      error: [...prevState.error, { id, text }],
+    }));
+    id++;
   };
 
-  const closeError = (index: number): void => {
+  const closeError = (messageId: number): void => {
     setMessages({
       ...messages,
-      error: messages.error.filter((_, i) => index !== i),
+      error: messages.error.filter((message) => messageId !== message.id),
     });
   };
 
-  const addWarning = (warning: string) => {
-    setMessages({
-      ...messages, warning: [...messages.warning, warning],
-    });
+  const addWarning = (text: string) => {
+    setMessages((prevState) => ({
+      ...prevState,
+      warning: [...prevState.warning, { id, text }],
+    }));
+    id++;
   };
 
-  const closeWarning = (index: number): void => {
-    setMessages({
-      ...messages,
-      warning: messages.warning.filter((_, i) => index !== i),
-    });
-  };
-
-  const addInfo = (info: string) => {
-    setMessages({
-      ...messages, info: [...messages.info, info],
-    });
-  };
-
-  const closeInfo = (index: number): void => {
+  const closeWarning = (messageId: number): void => {
     setMessages({
       ...messages,
-      info: messages.info.filter((_, i) => index !== i),
+      warning: messages.warning.filter((message) => messageId !== message.id),
+    });
+  };
+
+  const addInfo = (text: string) => {
+    setMessages((prevState) => ({
+      ...prevState, info: [...prevState.info, { id, text }],
+    }));
+    id++;
+  };
+
+  const closeInfo = (messageId: number): void => {
+    setMessages({
+      ...messages,
+      info: messages.info.filter((message) => messageId !== message.id),
     });
   };
 

@@ -26,7 +26,7 @@ export const useLogin = (): {
 } => {
   const [data, setData] = useState<LoginData | null>(null);
   const [checked, setCheck] = useState(false);
-  const { addErrors } = useMessagesContext();
+  const { addErrors, addWarning, addInfo } = useMessagesContext();
 
   const postLogin = (params: LoginParams, check: boolean) => {
     axios.post(`${process.env.REACT_APP_API_URL}/auth/login`, params)

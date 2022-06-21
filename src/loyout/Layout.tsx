@@ -6,7 +6,7 @@ import styles from '../components/Navigation/index.module.scss';
 import { useMessagesContext } from '../context/useMessagesContext';
 import stylesPortal from '../stylesPortal.module.scss';
 import { useAuthContext } from '../context/useAuthContext';
-import LoginModalAuth from '../components/common/LoginModalAuth';
+import ModalMessage from '../components/common/ModalMessage';
 
 const Layout = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,12 +23,33 @@ const Layout = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
         {!!user && <Navigation isOpen={isOpen} />}
         <div className={styles.content}>
           <div id="modal" className={clsx(stylesPortal.portal__unauthorized, user && stylesPortal.portal__authorized)}>
-            {messages.error.map((error, index) => (
-              <LoginModalAuth
-                key={error}
-                error={error}
+            {messages.error.map((error) => (
+              <ModalMessage
+                type="error"
+                key={error.id}
+                message={error.text}
                 closeModal={() => {
-                  closeError(index);
+                  closeError(error.id);
+                }}
+              />
+            ))}
+            {messages.warning.map((error) => (
+              <ModalMessage
+                type="warning"
+                key={error.id}
+                message={error.text}
+                closeModal={() => {
+                  closeError(error.id);
+                }}
+              />
+            ))}
+            {messages.info.map((error) => (
+              <ModalMessage
+                type="info"
+                key={error.id}
+                message={error.text}
+                closeModal={() => {
+                  closeError(error.id);
                 }}
               />
             ))}

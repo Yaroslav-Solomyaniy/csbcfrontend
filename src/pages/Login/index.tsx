@@ -14,7 +14,7 @@ const Login = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
   const [check, setCheck] = useState(true);
 
   const login = () => {
-    // if (parseInt(credentials.password, 10) >= 8) {
+    // if (credentials.password.length >= 8) {
     postLogin(credentials, check);
     // }
   };
@@ -48,7 +48,7 @@ const Login = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
             <p
               className={clsx(
                 styles.login__form__passwort,
-                parseInt(credentials.password, 10) < 8 && styles.login__form__password__error,
+                credentials.password.length < 8 && styles.login__form__password__error,
               )}
             >
               Не менше 8 символів
@@ -59,6 +59,7 @@ const Login = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
                 checked={check}
                 onChange={(event) => {
                   setCheck(event.target.checked);
+                  console.log(check);
                 }}
                 type="checkbox"
                 name="SaveData"

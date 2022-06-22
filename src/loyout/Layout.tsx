@@ -10,7 +10,7 @@ import ModalMessage from '../components/common/ModalMessage';
 
 const Layout = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
   const [isOpen, setIsOpen] = useState(false);
-  const { messages, closeError } = useMessagesContext();
+  const { messages, closeError, closeWarning, closeInfo } = useMessagesContext();
   const { user } = useAuthContext();
   const setOpen = (): void => {
     setIsOpen(!isOpen);
@@ -33,23 +33,23 @@ const Layout = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
                 }}
               />
             ))}
-            {messages.warning.map((error) => (
+            {messages.warning.map((warning) => (
               <ModalMessage
                 type="warning"
-                key={error.id}
-                message={error.text}
+                key={warning.id}
+                message={warning.text}
                 closeModal={() => {
-                  closeError(error.id);
+                  closeWarning(warning.id);
                 }}
               />
             ))}
-            {messages.info.map((error) => (
+            {messages.info.map((info) => (
               <ModalMessage
                 type="info"
-                key={error.id}
-                message={error.text}
+                key={info.id}
+                message={info.text}
                 closeModal={() => {
-                  closeError(error.id);
+                  closeInfo(info.id);
                 }}
               />
             ))}

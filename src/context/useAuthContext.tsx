@@ -26,7 +26,7 @@ const AuthProvider = ({ children }: { children: JSX.Element; }): JSX.Element => 
         console.log(true);
         setUser(data);
       } else {
-        localStorage.setItem('auth', JSON.stringify(data));
+        sessionStorage.setItem('auth', JSON.stringify(data));
         setUser(data);
       }
     }
@@ -42,6 +42,7 @@ const AuthProvider = ({ children }: { children: JSX.Element; }): JSX.Element => 
 
   const logout = () => {
     localStorage.setItem('auth', '');
+    sessionStorage.setItem('auth', '');
     setUser(null);
   };
 

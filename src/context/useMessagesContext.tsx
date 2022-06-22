@@ -37,8 +37,8 @@ let id = 1;
 const MessagesProvider = ({ children }: { children: JSX.Element; }): JSX.Element => {
   const [messages, setMessages] = useState<IMessages>({
     error: [],
-    warning: [{ id: 123, text: 'rg' }],
-    info: [{ id: 1223, text: 'rg' }],
+    warning: [],
+    info: [],
   });
 
   const addErrors = (text: string) => {

@@ -29,29 +29,29 @@ const App = (): JSX.Element => {
     <BrowserRouter>
       <Routes>
         {user && (
-        <>
-          <Route index element={<Group />} />
-          <Route path="/students" element={<Students />} />
-          <Route path="/curators" element={<Curators />} />
-          <Route path="/teachers" element={<Teachers />} />
-          <Route path="/subjects" element={<Subjects />} />
-          <Route path="/estimates" element={<Estimates />} />
-          <Route path="/voting_admin" element={<VotingAdmin />} />
-          <Route path="/administrators" element={<Administrators />} />
+          <>
+            <Route index element={<Group />} />
+            <Route path="/students" element={<Students />} />
+            <Route path="/curators" element={<Curators />} />
+            <Route path="/teachers" element={<Teachers />} />
+            <Route path="/subjects" element={<Subjects />} />
+            <Route path="/estimates" element={<Estimates />} />
+            <Route path="/voting_admin" element={<VotingAdmin />} />
+            <Route path="/administrators" element={<Administrators />} />
 
-          <Route path="/individual_plan" element={<IndPlan />} />
-          <Route path="/voting_students" element={<VotingStudents />} />
+            <Route path="/individual_plan" element={<IndPlan />} />
+            <Route path="/voting_students" element={<VotingStudents />} />
 
-          <Route path="/teacher" element={<Teacher />} />
+            <Route path="/teacher" element={<Teacher />} />
 
-          <Route path="/curator" element={<Curator />} />
+            <Route path="/curator" element={<Curator />} />
 
-          <Route path="/change-password" element={<ChangePassword />} />
-        </>
+            <Route path="/change-password" element={<ChangePassword />} />
+          </>
         )}
         <Route
           index
-          element={(<Login><Link to="/PasswordRecovery">відновити пароль</Link></Login>)}
+          element={(<Login><Link to="/PasswordRecovery">Відновити пароль</Link></Login>)}
         />
         <Route
           path="/passwordRecovery"
@@ -59,10 +59,10 @@ const App = (): JSX.Element => {
             <PasRec>
               <Link to="/" className={styles.passwordRecovery__link}>
                 <img src={leftArrow} alt=" " />
-                відновити пароль
+                Відновити пароль
               </Link>
             </PasRec>
-            )}
+          )}
         />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

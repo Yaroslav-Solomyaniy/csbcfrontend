@@ -7,6 +7,7 @@ import Layout from '../../loyout/Layout';
 
 const Login = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
   const { postLogin } = useAuthContext();
+  const [lengthPassword, setLengthPassword] = useState(false);
   const [credentials, setCredentials] = useState<LoginParams>({
     email: '',
     password: '',
@@ -14,9 +15,13 @@ const Login = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
   const [check, setCheck] = useState(true);
 
   const login = () => {
-    // if (credentials.password.length >= 8) {
-    postLogin(credentials, check);
-    // }
+    if (credentials.password.length >= 8) {
+      setLengthPassword(false);
+      postLogin(credentials, check);
+    } else {
+      setLengthPassword(true);
+      postLogin(credentials, check);
+    }
   };
 
   return (
@@ -45,14 +50,14 @@ const Login = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
                 password: event.target.value,
               })}
             />
-            <p
+            <div
               className={clsx(
-                styles.login__form__passwort,
-                credentials.password.length < 8 && styles.login__form__password__error,
+                styles.login__form__password,
+                lengthPassword && styles.login__form__password__error,
               )}
             >
               Не менше 8 символів
-            </p>
+            </div>
             <label>
               <input
                 className={styles.login__form__input}

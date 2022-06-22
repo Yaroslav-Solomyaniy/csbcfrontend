@@ -19,11 +19,9 @@ import Curator from './pages/Сurator';
 import PasRec from './pages/PasswordRecovery';
 import leftArrow from './images/login/leftArrow.svg';
 import ChangePassword from './pages/ChangePassword';
-import { useMessagesContext } from './context/useMessagesContext';
 
 const App = (): JSX.Element => {
   const { user } = useAuthContext();
-  const { messages, closeError } = useMessagesContext();
 
   return (
     <BrowserRouter>
@@ -51,14 +49,14 @@ const App = (): JSX.Element => {
         )}
         <Route
           index
-          element={(<Login><Link to="/PasswordRecovery">Відновити пароль</Link></Login>)}
+          element={(<Login><Link to="/Password-recovery">Відновити пароль</Link></Login>)}
         />
         <Route
-          path="/passwordRecovery"
+          path="/password-recovery"
           element={(
             <PasRec>
               <Link to="/" className={styles.passwordRecovery__link}>
-                <img src={leftArrow} alt=" " />
+                <img src={leftArrow} alt="left arrow" />
                 Відновити пароль
               </Link>
             </PasRec>

@@ -83,7 +83,6 @@ const routes: IRoute[] = [
 
 interface INavigation {
   isOpen: boolean;
-  // children:JSX.Element;
 }
 
 const Navigation = ({ isOpen }: INavigation): JSX.Element => (

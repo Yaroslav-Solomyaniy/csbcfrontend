@@ -15,7 +15,7 @@ interface IHeader {
 const Header = ({ setOpen, isAuth, isRenderButtonMenu = true }: IHeader): JSX.Element => {
   const [navOpen, setNavOpen] = useState(true);
   const [dropMenuOpen, setDropMenuOpen] = useState(false);
-  const { logout } = useAuthContext();
+  const { logout, user } = useAuthContext();
 
   return (
     <header className={styles.header}>
@@ -35,28 +35,28 @@ const Header = ({ setOpen, isAuth, isRenderButtonMenu = true }: IHeader): JSX.El
         <img className={styles.logo} src={logo} alt="logo" />
       </div>
       {isAuth && (
-        <div
+        <button
+          type="button"
           className={styles.header__item}
           onClick={() => {
             setDropMenuOpen(!dropMenuOpen);
           }}
         >
-          <span className={styles.user}>name</span>
-          <button
-            className={styles.avatar}
-            type="button"
-          >
-            NV
-          </button>
+          <span className={styles.user}>
+            {`${user?.lastName} ${user?.lastName[0].toUpperCase()}.`}
+          </span>
+          <div className={styles.avatar}>
+            {user?.lastName[0].toUpperCase()}
+          </div>
           <div className={clsx(styles.avatarka__modal, dropMenuOpen && styles.avatarka__modal__open)}>
             <NavLink className={styles.avatarka__modal__item} to="/change-password">
               <span className={styles.avatarka__modal__item__span}>Змінити пароль</span>
             </NavLink>
-            <button type="button" className={styles.avatarka__modal__item} onClick={logout}>
+            <div className={styles.avatarka__modal__item} onClick={logout}>
               <span className={styles.avatarka__modal__item__span}>Вихід</span>
-            </button>
+            </div>
           </div>
-        </div>
+        </button>
       )}
 
     </header>

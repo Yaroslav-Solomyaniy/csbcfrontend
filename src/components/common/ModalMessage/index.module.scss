@@ -7,23 +7,26 @@
 }
 
 .login__modal {
+  z-index: 23;
   flex-grow: 1;
   display: flex;
   align-items: center;
+  background-color: #ffffff;
 
   line-height: 22px;
   box-shadow: 0 7px 10px rgba(0, 0, 0, 0.1);
   border-radius: 0 0 8px 8px;
-  margin: 20px;
+  width: 100%;
+  margin-bottom: 10px;
 
   transition: all .5s;
-  position: relative;
   bottom: 25px;
 
   &__error {
     transition: all .5s;
     bottom: 0;
-   }
+  }
+
   &__button {
     margin: 0 25px 0 24px;
     height: 19px;
@@ -36,6 +39,7 @@
       margin: 0;
     }
   }
+
   &__div {
     height: 42px;
 
@@ -48,6 +52,22 @@
     display: flex;
     align-items: center;
 
-    color: #FF0000;
+
   }
+}
+
+.error {
+  color: #FF0000;
+}
+
+.warning {
+  color: #fd8d00;
+}
+
+.info {
+  color: #30a600;
+}
+
+.voting {
+  color: #a300ff;
 }

@@ -10,6 +10,7 @@
   &__item {
     display: flex;
     align-items: center;
+    background-color: inherit;
   }
 }
 
@@ -25,10 +26,12 @@
   margin: 3px 0 0 16px;
   transform: rotate(0deg);
   transition: all .5s;
+
   .navButtonSvg {
     margin: 0;
   }
-  &__revert{
+
+  &__revert {
     transform: rotate(180deg);
     transition: all .5s;
   }
@@ -55,6 +58,7 @@
     height: 86px;
     padding: 4px 0;
   }
+
   &__item {
     color: #000;
     text-decoration: none;
@@ -64,9 +68,11 @@
     display: block;
     width: 100%;
     padding: 10px 14px 10px 16px;
+
     &:hover {
       background-color: #D7E7F4;
     }
+
     &__span {
       margin: 0;
     }
@@ -92,12 +98,15 @@
 
 .avatar {
   background-color: #428BCA;
-  font-family: 'Roboto', serif;
+  font-family: 'Roboto', sans-serif;
   width: 40px;
   height: 40px;
   border-radius: 20px;
 
   padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;

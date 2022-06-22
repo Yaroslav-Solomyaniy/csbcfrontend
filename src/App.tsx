@@ -24,10 +24,9 @@ const App = (): JSX.Element => {
   const { user } = useAuthContext();
 
   return (
-
     <BrowserRouter>
       <Routes>
-        {user?.role === 'root' && (
+        {user && (
           <>
             <Route index element={<Group />} />
             <Route path="/students" element={<Students />} />
@@ -50,15 +49,15 @@ const App = (): JSX.Element => {
         )}
         <Route
           index
-          element={(<Login><Link to="/PasswordRecovery">відновити пароль</Link></Login>)}
+          element={(<Login><Link to="/Password-recovery">Відновити пароль</Link></Login>)}
         />
         <Route
-          path="/PasswordRecovery"
+          path="/password-recovery"
           element={(
             <PasRec>
               <Link to="/" className={styles.passwordRecovery__link}>
-                <img src={leftArrow} alt=" " />
-                відновити пароль
+                <img src={leftArrow} alt="left arrow" />
+                Відновити пароль
               </Link>
             </PasRec>
           )}
@@ -66,6 +65,7 @@ const App = (): JSX.Element => {
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
+
   );
 };
 

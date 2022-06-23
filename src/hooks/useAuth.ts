@@ -27,17 +27,17 @@ interface ILogin {
 
 export const useLogin = (): ILogin => {
   const [data, setData] = useState<LoginData | null>(null);
-  const [checked, setCheck] = useState(false);
+  const [checked, setChecked] = useState(false);
   const { addErrors } = useMessagesContext();
 
   const postLogin = (params: LoginParams, check: boolean) => {
     axios.post(`${process.env.REACT_APP_API_URL}/auth/login`, params)
       .then((response) => {
         setData(response.data);
-        setCheck(check);
       }).catch((e) => {
         addErrors(e.message);
       });
+    setChecked(check);
   };
 
   return { data, postLogin, checked };

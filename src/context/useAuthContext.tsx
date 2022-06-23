@@ -23,7 +23,6 @@ const AuthProvider = ({ children }: { children: JSX.Element; }): JSX.Element => 
     if (data) {
       if (checked) {
         localStorage.setItem('auth', JSON.stringify(data));
-        console.log(true);
         setUser(data);
       } else {
         sessionStorage.setItem('auth', JSON.stringify(data));
@@ -33,10 +32,14 @@ const AuthProvider = ({ children }: { children: JSX.Element; }): JSX.Element => 
   }, [data]);
 
   useEffect(() => {
-    const auth: string | null = localStorage.getItem('auth') || null;
+    const authLocal: string | null = localStorage.getItem('auth') || null;
+    const authSession: string | null = sessionStorage.getItem('auth') || null;
 
-    if (auth) {
-      setUser(JSON.parse(auth));
+    if (authSession) {
+      setUser(JSON.parse(authSession));
+    }
+    if (authLocal) {
+      setUser(JSON.parse(authLocal));
     }
   }, []);
 

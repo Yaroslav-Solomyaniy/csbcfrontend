@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from '../Group/index.module.scss';
 import stylesStud from './index.module.scss';
 import Layout from '../../loyout/Layout';
@@ -6,6 +6,7 @@ import TitlePage from '../../components/TitlePage';
 import Button from '../../components/common/Button';
 import Table from '../../components/common/table';
 import { ITableHeader } from '../../components/common/table/TableHeader';
+import AddStudentsModal from './modal/AddStudent';
 
 const groups = [
   { value: '1P20', label: '1П-20' },
@@ -29,33 +30,43 @@ const dataHeader: ITableHeader[] = [
   { id: 7, label: 'Дії' },
 ];
 
-const Students = (): JSX.Element => (
-  <Layout>
-    <div className={styles.group}>
-      <TitlePage
-        title="Студенти"
-        action={(
-          <Button
-            onClick={() => undefined}
-            className={styles.button}
-          >
-            Створити
-          </Button>
-        )}
-      />
-      <Table
-        filter={[
-          { key: 'groupId', value: groups, placeholder: 'Група' },
-          { key: 'name', value: name, placeholder: 'ПІП' },
-          { key: 'formTraining', value: formTraining, placeholder: 'Форма навчання' },
-        ]}
-        dataHeader={dataHeader}
-        dataRow={[]}
-        gridColumns={stylesStud.columns}
+const Students = (): JSX.Element => {
+  const [modalActive, setModalActive] = useState(false);
+  const closeModal = () => {
+    setModalActive(false);
+  };
 
-      />
-    </div>
-  </Layout>
-);
+  return (
+    <Layout>
+      <div className={styles.group}>
+        <TitlePage
+          title="Студенти"
+          action={(
+            <Button
+              onClick={() => {
+                setModalActive(true);
+              }}
+              className={styles.button}
+            >
+              Створити
+            </Button>
+          )}
+        />
+        <Table
+          filter={[
+            { key: 'groupId', value: groups, placeholder: 'Група' },
+            { key: 'name', value: name, placeholder: 'ПІП' },
+            { key: 'formTraining', value: formTraining, placeholder: 'Форма навчання' },
+          ]}
+          dataHeader={dataHeader}
+          dataRow={[]}
+          gridColumns={stylesStud.columns}
+
+        />
+        <AddStudentsModal closeModal={closeModal} modalActive={modalActive} />
+      </div>
+    </Layout>
+  );
+};
 
 export default Students;

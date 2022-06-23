@@ -51,7 +51,7 @@ const routes: IRoute[] = [
   },
   {
     title: 'Голоc. адмін',
-    to: '/voting_admin',
+    to: '/voting-admin',
     ico: svgVotingAdmin,
   },
   {
@@ -61,12 +61,12 @@ const routes: IRoute[] = [
   },
   {
     title: 'Індив. план',
-    to: '/individual_plan',
+    to: '/individual-plan',
     ico: svgIndividualPlan,
   },
   {
     title: 'Голос. студ.',
-    to: '/voting_students',
+    to: '/voting-students',
     ico: svgVotingAdmin,
   },
   {

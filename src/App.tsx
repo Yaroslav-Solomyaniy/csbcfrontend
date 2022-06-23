@@ -34,11 +34,11 @@ const App = (): JSX.Element => {
             <Route path="/teachers" element={<Teachers />} />
             <Route path="/subjects" element={<Subjects />} />
             <Route path="/estimates" element={<Estimates />} />
-            <Route path="/voting_admin" element={<VotingAdmin />} />
+            <Route path="/voting-admin" element={<VotingAdmin />} />
             <Route path="/administrators" element={<Administrators />} />
 
-            <Route path="/individual_plan" element={<IndPlan />} />
-            <Route path="/voting_students" element={<VotingStudents />} />
+            <Route path="/individual-plan" element={<IndPlan />} />
+            <Route path="/voting-students" element={<VotingStudents />} />
 
             <Route path="/teacher" element={<Teacher />} />
 

@@ -2,21 +2,18 @@ import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import styles from '../index.module.scss';
 import ModalWindow from '../../../components/common/ModalWindow';
-import { ICreateGroupParams, useGroupsCreate } from '../../../hooks/useGroupsGet';
+import { ICreateGroupParams, useGroupId } from '../../../hooks/useGroupsGet';
 import { Option } from '../../../types';
 
 interface IGroupCreateModal {
   modalActive: boolean;
   closeModal: () => void;
+  groupId: number;
 }
 
 const curators: Option[] = [
   { value: 5, label: "Ярослав Солом'яний" },
-  { value: 62131, label: 'Вадим Сіренко' },
-];
-const orderNumber: Option[] = [
-  { value: '5235212', label: '523512' },
-  { value: '5235123', label: '523513' },
+  { value: 4, label: 'Вадим Сіренко' },
 ];
 
 const formInitialData = {
@@ -26,10 +23,11 @@ const formInitialData = {
   deletedOrderNumber: null,
 };
 
-export const GroupCreateModal = ({ modalActive, closeModal }: IGroupCreateModal): JSX.Element => {
+export const GroupEditModal = ({ modalActive, closeModal, groupId }: IGroupCreateModal): JSX.Element => {
   const [isSubmited, setIsSubmited] = useState(false);
-  const { data, createGroup } = useGroupsCreate();
   const [formData, setFormData] = useState<ICreateGroupParams>(formInitialData);
+
+  const { data: dataGetGroupId, getGroupId } = useGroupId();
 
   const handleClose = () => {
     setIsSubmited(false);
@@ -41,20 +39,24 @@ export const GroupCreateModal = ({ modalActive, closeModal }: IGroupCreateModal)
     e?.preventDefault?.();
     setIsSubmited(true);
     if (formData.name && formData.orderNumber && formData.curatorId) {
-      createGroup(formData);
+      console.log('hi');
     }
   };
 
   useEffect(() => {
-    if (data) {
-      closeModal();
-    } else {
-      console.log('');
+    if (dataGetGroupId) {
+      setFormData({ ...formInitialData, curatorId: dataGetGroupId.curator.id, ...dataGetGroupId });
     }
-  }, [data]);
+  }, [dataGetGroupId]);
+
+  useEffect(() => {
+    if (groupId) {
+      getGroupId({ id: `${groupId}` });
+    }
+  }, [groupId]);
 
   return (
-    <ModalWindow modalTitle="Створення групи" active={modalActive} setActive={closeModal}>
+    <ModalWindow modalTitle="Редагування групи" active={modalActive} setActive={closeModal}>
       <form className={styles.form} onSubmit={onSubmit}>
         <div className={styles.form__row}>
           <label className={styles.form__row_label}>Назва групи*</label>
@@ -134,4 +136,4 @@ export const GroupCreateModal = ({ modalActive, closeModal }: IGroupCreateModal)
   );
 };
 
-export default GroupCreateModal;
+export default GroupEditModal;

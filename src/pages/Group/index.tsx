@@ -6,16 +6,20 @@ import Layout from '../../loyout/Layout';
 import { ITableHeader } from '../../components/common/table/TableHeader';
 import { ITableRow } from '../../components/common/table/TableBody';
 import Table from '../../components/common/table';
-import { IGroupData, useGroupsGet } from '../../hooks/useGroups';
 import { GroupCreateModal } from './ModalCreate';
+import { IGroupData, useGroupsGet } from '../../hooks/useGroupsGet';
+import ColumnAction from './ColumnAction';
+import GroupEditModal from './ModalEdit';
+import GroupDeleteModal from './ModalDelete';
 
-const options = [
-  { value: '1P20', label: '1П-20' },
-  { value: '2P20', label: '2П-20' },
+const groups = [
+  { value: '1P-20', label: '1П-20' },
+  { value: '2P-20', label: '2П-20' },
 ];
-const name = [
-  { value: 'YaroslavSolomianiy', label: "Ярослав Солом'яний" },
-  { value: 'VadimSirenko', label: 'Вадим Сіренко' },
+
+const curators = [
+  { value: 'Yaroslav-Solomianiy', label: "Ярослав Солом'яний" },
+  { value: 'Vadim-Sirenko', label: 'Вадим Сіренко' },
 ];
 
 const dataHeader: ITableHeader[] = [
@@ -26,13 +30,25 @@ const dataHeader: ITableHeader[] = [
   { id: 5, label: 'дії' },
 ];
 
+export interface IIsActiveModalState {
+  create: boolean;
+  edit: number;
+  delete: number;
+}
+
+const allCloseModalWindow: IIsActiveModalState = {
+  create: false,
+  edit: 0,
+  delete: 0,
+};
+
 const Group = (): JSX.Element => {
-  const [modalActive, setModalActive] = useState(false);
   const { getGroups, data } = useGroupsGet();
   const [dataRow, setDataRow] = useState<ITableRow[]>([]);
+  const [isActiveModal, setIsActiveModal] = useState(allCloseModalWindow);
 
   const closeModal = () => {
-    setModalActive(false);
+    setIsActiveModal(allCloseModalWindow);
   };
 
   useEffect(() => {
@@ -48,7 +64,7 @@ const Group = (): JSX.Element => {
           curator: item.curator.lastName + item.curator.firstName,
           order_number: item.orderNumber,
           studentValue: 32,
-          actions: undefined,
+          actions: <ColumnAction groupId={item.id} isActive={isActiveModal} setIsActive={setIsActiveModal} />,
         }
       )));
     }
@@ -61,24 +77,27 @@ const Group = (): JSX.Element => {
           title="Групи"
           action={(
             <Button
-              onClick={() => setModalActive(true)}
-              className={styles.button}
+              onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
+              className={styles.create__Button}
             >
               Створити
             </Button>
           )}
         />
+
         <Table
           filter={[
-            { key: 'curatorId', value: options, placeholder: 'Куратор' },
-            { key: 'name', value: name, placeholder: 'Група' },
+            { key: 'curatorId', value: curators, placeholder: 'Куратор' },
+            { key: 'name', value: groups, placeholder: 'Група' },
           ]}
           dataHeader={dataHeader}
           dataRow={dataRow}
           gridColumns={styles.columns}
 
         />
-        <GroupCreateModal modalActive={modalActive} closeModal={closeModal} />
+        <GroupCreateModal modalActive={isActiveModal.create} closeModal={closeModal} />
+        <GroupEditModal modalActive={!!isActiveModal.edit} groupId={isActiveModal.edit} closeModal={closeModal} />
+        <GroupDeleteModal modalActive={!!isActiveModal.delete} closeModal={closeModal} />
       </div>
     </Layout>
   );

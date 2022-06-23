@@ -69,7 +69,7 @@ export interface ICreateGroupParams {
   'name': string;
   'curatorId': number;
   'orderNumber': string;
-  'deletedOrderNumber': string;
+  'deletedOrderNumber': null | string;
 }
 
 interface ICreateGroupResponse {
@@ -101,4 +101,44 @@ export const useGroupsCreate = (): IUseGroupsCreate => {
   };
 
   return { data, createGroup };
+};
+
+interface IGetGroupIdParams {
+  id: string;
+}
+
+interface IGetGroupIdResponse {
+  created: string;
+  curator: { id: number; firstName: string; lastName: string; };
+  deletedOrderNumber: null;
+  id: number;
+  name: string;
+  orderNumber: string;
+  updated: string;
+}
+
+interface IUseGroupId {
+  data: IGetGroupIdResponse | null;
+  getGroupId: (params: IGetGroupIdParams) => void;
+}
+
+export const useGroupId = (): IUseGroupId => {
+  const { user } = useAuthContext();
+  const [data, setData] = useState<IGetGroupIdResponse | null>(null);
+
+  const getGroupId = (params: IGetGroupIdParams) => {
+    axios.get(`${process.env.REACT_APP_API_URL}/groups/${params.id}`, {
+      headers: {
+        Authorization: `Bearer ${user?.accessToken}`,
+      },
+    })
+      .then((response: AxiosResponse<IGetGroupIdResponse | null>) => {
+        setData(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  return { data, getGroupId };
 };

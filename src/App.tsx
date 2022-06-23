@@ -31,7 +31,7 @@ const App = (): JSX.Element => {
 
       <BrowserRouter>
         <Routes>
-          {user?.role === 'admin' && (
+          {user && (
             <>
               <Route index element={<Group />} />
               <Route path="/students" element={<Students />} />

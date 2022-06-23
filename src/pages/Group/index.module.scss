@@ -1,67 +1,10 @@
-.form {
-  margin-top: 55px;
-
-  &__input {
-    display: flex;
-    align-items: center;
-    margin-bottom: 16px;
-
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
+//Determine the number of columns in the table
+.columns {
+  grid-template-columns: repeat(5, 1fr);
 }
 
-.input {
-  &__label {
-    max-width: 260px;
-    width: 100%;
-    text-align: right;
-    margin-right: 16px;
-  }
-
-  &__select {
-    max-width: 280px;
-    width: 100%;
-  }
-}
-
-.modal {
-  &__buttons {
-    margin-top: 58px;
-    display: flex;
-    justify-content: right;
-    height: 32px;
-  }
-
-  &_revert {
-    font-size: 14px;
-    font-weight: 400;
-    color: rgba(0, 0, 0, 0.75);
-    background: transparent;
-    border: 1px solid #428BCA;
-    border-radius: 8px;
-    width: 81px;
-    margin-right: 16px;
-
-    &:hover {
-      border: 1px solid #276FAD;
-    }
-  }
-
-  &_submit {
-    width: 96px;
-    font-size: 14px;
-    background: #428BCA;
-    border-radius: 8px;
-    color: rgba(255, 255, 255, 0.85);
-    font-weight: 400;
-  }
-}
-.columns{
-  grid-template-columns: repeat(5,1fr);
-}
-.button {
+//Create button, near the page title
+.create__Button {
   display: block;
   height: 100%;
   background: #428BCA;
@@ -74,3 +17,115 @@
     background: #276FAD;
   }
 }
+
+//All styles that apply to the group creation window
+
+.form {
+  margin-top: 40px;
+
+  &__row {
+    display: flex;
+    align-items: center;
+    margin-top: 16px;
+
+    &_label {
+      max-width: 260px;
+      width: 100%;
+      text-align: right;
+      margin-right: 16px;
+    }
+
+    &_group, &_orderNumber {
+      font-size: 14px;
+      box-sizing: border-box;
+      width: 280px;
+      min-height: 38px;
+      border: 1px solid hsl(0, 0%, 80%);
+      padding: 2px 8px;
+      border-radius: 4px;
+      align-items: center;
+      background-color: hsl(0, 0%, 100%);
+      outline: 0;
+    }
+
+
+    &_select {
+      max-width: 280px;
+      width: 100%;
+    }
+  }
+
+  &__error {
+    display: flex;
+    align-items: center;
+    margin-top: 4px;
+
+    &_label {
+      max-width: 260px;
+      width: 100%;
+      text-align: right;
+      margin-right: 16px;
+    }
+
+    &_text {
+      font-size: 12px;
+      font-weight: 400;
+      color: red;
+    }
+
+  }
+}
+
+.modal {
+  &__buttons {
+    margin-top: 58px;
+    display: flex;
+    justify-content: right;
+    height: 32px;
+
+    &_revert {
+      font-size: 14px;
+      font-weight: 400;
+      color: rgba(0, 0, 0, 0.75);
+      background: transparent;
+      border: 1px solid #428BCA;
+      border-radius: 8px;
+      width: 81px;
+      margin-right: 16px;
+
+      &:hover {
+        border: 1px solid #276FAD;
+      }
+    }
+
+    &_submit {
+      width: 96px;
+      font-size: 14px;
+      background: #428BCA;
+      border-radius: 8px;
+      color: rgba(255, 255, 255, 0.85);
+      font-weight: 400;
+    }
+  }
+}
+
+//Styles that refer to the action field in the table
+.actions {
+  padding: 1px 0;
+  height: 20px;
+
+  &__button {
+    &_edit {
+      background: transparent;
+      margin-right: 13px;
+      height: 100%;
+    }
+
+    &_delete {
+      height: 100%;
+      background: transparent;
+    }
+  }
+}
+
+

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import styles from '../index.module.scss';
 import ModalWindow from '../../../components/common/ModalWindow';
-import { ICreateGroupParams, useGroupId } from '../../../hooks/useGroupsGet';
+import { IGroupEditParams, useGroupEdit, useGroupId } from '../../../hooks/useGroups';
 import { Option } from '../../../types';
 
 interface IGroupCreateModal {
@@ -20,14 +20,13 @@ const formInitialData = {
   name: '',
   curatorId: 0,
   orderNumber: '',
-  deletedOrderNumber: null,
 };
 
 export const GroupEditModal = ({ modalActive, closeModal, groupId }: IGroupCreateModal): JSX.Element => {
   const [isSubmited, setIsSubmited] = useState(false);
-  const [formData, setFormData] = useState<ICreateGroupParams>(formInitialData);
-
+  const [formData, setFormData] = useState<IGroupEditParams>(formInitialData);
   const { data: dataGetGroupId, getGroupId } = useGroupId();
+  const { groupEdit } = useGroupEdit();
 
   const handleClose = () => {
     setIsSubmited(false);
@@ -38,22 +37,28 @@ export const GroupEditModal = ({ modalActive, closeModal, groupId }: IGroupCreat
   const onSubmit = (e: React.FormEvent | undefined) => {
     e?.preventDefault?.();
     setIsSubmited(true);
+
     if (formData.name && formData.orderNumber && formData.curatorId) {
-      console.log('hi');
+      groupEdit({ ...formData }, groupId);
+      closeModal();
     }
   };
-
-  useEffect(() => {
-    if (dataGetGroupId) {
-      setFormData({ ...formInitialData, curatorId: dataGetGroupId.curator.id, ...dataGetGroupId });
-    }
-  }, [dataGetGroupId]);
 
   useEffect(() => {
     if (groupId) {
       getGroupId({ id: `${groupId}` });
     }
   }, [groupId]);
+
+  useEffect(() => {
+    if (dataGetGroupId) {
+      setFormData({
+        name: dataGetGroupId.name,
+        orderNumber: dataGetGroupId.orderNumber,
+        curatorId: dataGetGroupId.curator.id,
+      });
+    }
+  }, [dataGetGroupId]);
 
   return (
     <ModalWindow modalTitle="Редагування групи" active={modalActive} setActive={closeModal}>
@@ -120,7 +125,7 @@ export const GroupEditModal = ({ modalActive, closeModal, groupId }: IGroupCreat
         <button
           type="button"
           className={styles.modal__buttons_revert}
-          onClick={closeModal}
+          onClick={handleClose}
         >
           Відміна
         </button>

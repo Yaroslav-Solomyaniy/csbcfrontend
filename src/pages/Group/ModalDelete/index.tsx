@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import Select from 'react-select';
 import styles from '../index.module.scss';
 import ModalWindow from '../../../components/common/ModalWindow';
-import { ICreateGroupParams, useGroupsCreate } from '../../../hooks/useGroupsGet';
+import { IGroupDeleteParams, useGroupDelete, useGroupId } from '../../../hooks/useGroups';
 import { Option } from '../../../types';
 
 interface IGroupCreateModal {
   modalActive: boolean;
   closeModal: () => void;
+  groupId: number;
 }
 
 const curators: Option[] = [
@@ -20,16 +20,14 @@ const orderNumber: Option[] = [
 ];
 
 const formInitialData = {
-  name: '',
-  curatorId: 0,
-  orderNumber: '',
-  deletedOrderNumber: '123456',
+  deletedOrderNumber: '',
 };
 
-export const GroupDeleteModal = ({ modalActive, closeModal }: IGroupCreateModal): JSX.Element => {
+export const GroupDeleteModal = ({ modalActive, closeModal, groupId }: IGroupCreateModal): JSX.Element => {
   const [isSubmited, setIsSubmited] = useState(false);
-  const { data, createGroup } = useGroupsCreate();
-  const [formData, setFormData] = useState<ICreateGroupParams>(formInitialData);
+  const [formData, setFormData] = useState<IGroupDeleteParams>(formInitialData);
+  const { data: dataGetGroupId, getGroupId } = useGroupId();
+  const { groupDelete } = useGroupDelete();
 
   const handleClose = () => {
     setIsSubmited(false);
@@ -40,18 +38,19 @@ export const GroupDeleteModal = ({ modalActive, closeModal }: IGroupCreateModal)
   const onSubmit = (e: React.FormEvent | undefined) => {
     e?.preventDefault?.();
     setIsSubmited(true);
-    if (formData.orderNumber) {
-      createGroup(formData);
+
+    if (formData.deletedOrderNumber) {
+      console.log({ ...formData }, groupId);
+      groupDelete({ ...formData }, groupId);
+      closeModal();
     }
   };
 
   useEffect(() => {
-    if (data) {
-      closeModal();
-    } else {
-      console.log('');
+    if (groupId) {
+      getGroupId({ id: `${groupId}` });
     }
-  }, [data]);
+  }, [groupId]);
 
   return (
     <ModalWindow modalTitle="Видалення групи" active={modalActive} setActive={closeModal}>
@@ -60,18 +59,16 @@ export const GroupDeleteModal = ({ modalActive, closeModal }: IGroupCreateModal)
         <div className={styles.form__row}>
           <label className={styles.form__row_label}>Номер наказу*</label>
 
-          <Select
-            className={styles.form__row_select}
-            options={orderNumber}
+          <input
+            className={styles.form__row_group}
             placeholder="Номер наказу"
-            isClearable
-            value={orderNumber.find(({ value }) => formData.orderNumber === value) || null}
-            onChange={(value) => {
-              setFormData({ ...formData, orderNumber: value?.value ? value.value.toString() : '' });
+            value={formData.deletedOrderNumber}
+            onChange={(event) => {
+              setFormData({ ...formData, deletedOrderNumber: event.target.value });
             }}
           />
         </div>
-        {isSubmited && !formData.orderNumber && (
+        {isSubmited && !formData.deletedOrderNumber && (
           <div className={styles.form__error}>
             <label className={styles.form__error_label} />
             <div className={styles.form__error_text}>Номер наказу не введено</div>
@@ -83,7 +80,7 @@ export const GroupDeleteModal = ({ modalActive, closeModal }: IGroupCreateModal)
         <button
           type="button"
           className={styles.modal__buttons_revert}
-          onClick={closeModal}
+          onClick={handleClose}
         >
           Відміна
         </button>

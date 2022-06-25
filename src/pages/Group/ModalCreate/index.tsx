@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import styles from '../index.module.scss';
 import ModalWindow from '../../../components/common/ModalWindow';
-import { ICreateGroupParams, useGroupsCreate } from '../../../hooks/useGroupsGet';
+import { ICreateGroupParams, useGroupsCreate } from '../../../hooks/useGroups';
 import { Option } from '../../../types';
 
 interface IGroupCreateModal {
@@ -11,24 +11,19 @@ interface IGroupCreateModal {
 }
 
 const curators: Option[] = [
-  { value: 5, label: "Ярослав Солом'яний" },
-  { value: 62131, label: 'Вадим Сіренко' },
-];
-const orderNumber: Option[] = [
-  { value: '5235212', label: '523512' },
-  { value: '5235123', label: '523513' },
+  { value: 5, label: '5' },
+  { value: 235, label: 'CuratorId: 235' },
 ];
 
 const formInitialData = {
   name: '',
   curatorId: 0,
   orderNumber: '',
-  deletedOrderNumber: null,
 };
 
 export const GroupCreateModal = ({ modalActive, closeModal }: IGroupCreateModal): JSX.Element => {
-  const [isSubmited, setIsSubmited] = useState(false);
   const { data, createGroup } = useGroupsCreate();
+  const [isSubmited, setIsSubmited] = useState(false);
   const [formData, setFormData] = useState<ICreateGroupParams>(formInitialData);
 
   const handleClose = () => {
@@ -118,7 +113,7 @@ export const GroupCreateModal = ({ modalActive, closeModal }: IGroupCreateModal)
         <button
           type="button"
           className={styles.modal__buttons_revert}
-          onClick={closeModal}
+          onClick={handleClose}
         >
           Відміна
         </button>

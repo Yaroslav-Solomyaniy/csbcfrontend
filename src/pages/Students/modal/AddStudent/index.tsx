@@ -1,5 +1,5 @@
-import Select from 'react-select';
 import React, { useState } from 'react';
+import Select from '../../../../components/common/Select/index';
 import styles from './index.module.scss';
 import ModalWindow from '../../../../components/common/ModalWindow';
 import { IAddstudents } from '../../../../hooks/useStudents';
@@ -74,16 +74,17 @@ export const AddStudentsModal = ({ modalActive, closeModal }: IGroupCreateModal)
             }}
           />
         </div>
-        <div className={styles.form__input}>
-          <label className={styles.input__label}>Група</label>
-          <Select
-            className={styles.input__select}
-            options={[]}
-            placeholder="Група"
-            isClearable
-            value={formData.groupName}
-          />
-        </div>
+        <Select label="aetsdtb" />
+        {/* <div className={styles.form__input}> */}
+        {/*  <label className={styles.input__label}>Група</label> */}
+        {/*  <Select */}
+        {/*    className={styles.input__select} */}
+        {/*    options={[]} */}
+        {/*    placeholder="Група" */}
+        {/*    isClearable */}
+        {/*    value={formData.groupName} */}
+        {/*  /> */}
+        {/* </div> */}
         <div className={styles.form__input}>
           <label className={styles.input__label}>Номер наказу</label>
           <input
@@ -117,16 +118,16 @@ export const AddStudentsModal = ({ modalActive, closeModal }: IGroupCreateModal)
             }}
           />
         </div>
-        <div className={styles.form__input}>
-          <label className={styles.input__label}>Форма навчання</label>
-          <Select
-            className={styles.input__select}
-            options={[]}
-            placeholder="Форма навчання"
-            isClearable
-            value={formData.isFullTime}
-          />
-        </div>
+        {/* <div className={styles.form__input}> */}
+        {/*  <label className={styles.input__label}>Форма навчання</label> */}
+        {/*  <Select */}
+        {/*    className={styles.input__select} */}
+        {/*    options={[]} */}
+        {/*    placeholder="Форма навчання" */}
+        {/*    isClearable */}
+        {/*    value={formData.isFullTime} */}
+        {/*  /> */}
+        {/* </div> */}
       </form>
       <div className={styles.modal__buttons}>
         <button

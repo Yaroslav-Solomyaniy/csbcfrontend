@@ -1,0 +1,30 @@
+
+.form__input {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+
+.input {
+  &__label {
+    max-width: 260px;
+    width: 100%;
+    text-align: right;
+    margin-right: 16px;
+  }
+
+  &__select {
+    //padding: 0 16px;
+    //gap: 10px;
+
+    width: 280px;
+    height: 32px;
+    font-size: 14px;
+    background: #FFFFFF;
+
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+
+  }
+}

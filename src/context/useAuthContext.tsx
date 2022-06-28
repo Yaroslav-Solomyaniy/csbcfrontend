@@ -1,10 +1,9 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { LoginData, LoginParams, useLogin } from '../hooks/useAuth';
-import LoginModalAuth from '../components/common/LoginModalAuth';
 
 interface AuthContext {
   user: LoginData | null;
-  postLogin: (credentials: LoginParams) => void;
+  postLogin: (credentials: LoginParams, check: boolean) => void;
   logout: () => void;
 }
 
@@ -18,12 +17,18 @@ export const AuthContext = createContext<AuthContext>(defaultValue);
 
 const AuthProvider = ({ children }: { children: JSX.Element; }): JSX.Element => {
   const [user, setUser] = useState<LoginData | null>(null);
-  const { postLogin, data, error, clearError } = useLogin();
+  const { postLogin, data, checked } = useLogin();
 
   useEffect(() => {
     if (data) {
-      localStorage.setItem('auth', JSON.stringify(data));
-      setUser(data);
+      if (checked) {
+        localStorage.setItem('auth', JSON.stringify(data));
+        console.log(true);
+        setUser(data);
+      } else {
+        sessionStorage.setItem('auth', JSON.stringify(data));
+        setUser(data);
+      }
     }
   }, [data]);
 
@@ -37,18 +42,14 @@ const AuthProvider = ({ children }: { children: JSX.Element; }): JSX.Element => 
 
   const logout = () => {
     localStorage.setItem('auth', '');
+    sessionStorage.setItem('auth', '');
     setUser(null);
   };
 
   return (
-    <>
-      {error && (
-        <LoginModalAuth error={error} closeModal={clearError} />
-      )}
-      <AuthContext.Provider value={{ user, postLogin, logout }}>
-        {children}
-      </AuthContext.Provider>
-    </>
+    <AuthContext.Provider value={{ user, postLogin, logout }}>
+      {children}
+    </AuthContext.Provider>
   );
 };
 

@@ -1,15 +1,15 @@
 .portal {
   &__unauthorized {
-    position: fixed;
+    z-index: 2;
     top: 56px;
     right: 0;
-    width: 100vw;
-    overflow: hidden;
+    height: 0;
+    width: 100%;
     display: flex;
     flex-direction: column;
   }
 
   &__authorized {
-    width: 90vw;
+    width: 100%;
   }
 }

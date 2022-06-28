@@ -10,8 +10,8 @@
     align-items: center;
     justify-content: center;
   }
-  &__form{
-    height: 40%;
+
+  &__form {
     width: 280px;
     display: flex;
     flex-direction: column;
@@ -29,7 +29,20 @@
       }
     }
 
-    &__button{
+    &__password {
+      overflow: hidden;
+      transition: all .3s;
+      height: 0;
+      color: #000000;
+
+      &__error {
+        transition: all .3s;
+        height: 15px;
+        color: #FF0000;
+      }
+    }
+
+    &__button {
       width: 280px;
       background: #428BCA;
       border-radius: 8px;

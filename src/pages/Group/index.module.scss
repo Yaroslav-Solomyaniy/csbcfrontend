@@ -1,3 +1,7 @@
+.error {
+  transition: all .5s;
+  bottom: 0;
+}
 //Determine the number of columns in the table
 .columns {
   grid-template-columns: repeat(5, 1fr);
@@ -17,8 +21,6 @@
     background: #276FAD;
   }
 }
-
-//All styles that apply to the group creation window
 
 .form {
   margin-top: 40px;
@@ -82,21 +84,22 @@
     display: flex;
     justify-content: right;
     height: 32px;
+  }
 
-    &_revert {
-      font-size: 14px;
-      font-weight: 400;
-      color: rgba(0, 0, 0, 0.75);
-      background: transparent;
-      border: 1px solid #428BCA;
-      border-radius: 8px;
-      width: 81px;
-      margin-right: 16px;
+  &_revert {
+    font-size: 14px;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.75);
+    background: transparent;
+    border: 1px solid #428BCA;
+    border-radius: 8px;
+    width: 81px;
+    margin-right: 16px;
 
-      &:hover {
-        border: 1px solid #276FAD;
-      }
+    &:hover {
+      border: 1px solid #276FAD;
     }
+  }
 
     &_submit {
       width: 96px;
@@ -127,5 +130,3 @@
     }
   }
 }
-
-

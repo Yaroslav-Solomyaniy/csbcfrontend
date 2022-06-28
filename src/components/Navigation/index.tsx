@@ -83,11 +83,9 @@ const routes: IRoute[] = [
 
 interface INavigation {
   isOpen: boolean;
-  // children:JSX.Element;
 }
 
-const Navigation = ({ isOpen }:INavigation):JSX.Element => (
-
+const Navigation = ({ isOpen }: INavigation): JSX.Element => (
   <div className={styles.nav__menu}>
     <div className={styles.nav__menu__links}>
       {routes.map((rout) => (

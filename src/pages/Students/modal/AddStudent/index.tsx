@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Select from '../../../../components/common/Select/index';
 import styles from './index.module.scss';
 import ModalWindow from '../../../../components/common/ModalWindow';
-import { IAddstudents } from '../../../../hooks/useStudents';
 
 interface IGroupCreateModal {
   closeModal: () => void;
@@ -10,7 +9,7 @@ interface IGroupCreateModal {
 }
 
 export const AddStudentsModal = ({ modalActive, closeModal }: IGroupCreateModal): JSX.Element => {
-  const [formData, setFormData] = useState<IAddstudents>({
+  const [formData, setFormData] = useState({
     dateOfBirth: '',
     firstName: '',
     lastName: '',

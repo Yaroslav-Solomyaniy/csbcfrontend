@@ -49,7 +49,7 @@ interface IUser {
   created: string;
 }
 
-interface IDataStudentsItems {
+export interface IDataStudentsItems {
   id: number;
   dateOfBirth: string;
   group: IGroup;
@@ -71,19 +71,19 @@ export interface IUseGetStudents {
 }
 
 interface IGetParams {
-  orderByColumn: 'id' | 'dateOfBirth' | 'groupId' | 'studentId' | 'orderNumber' | 'edeboId' | 'isFullTime';
-  orderBy: string;
-  search: string;
-  group: string;
-  orderNumber: string;
-  edeboId: string;
-  isFullTime: boolean;
-  page: number;
-  limit: number;
+  orderByColumn?: 'id' | 'dateOfBirth' | 'groupId' | 'studentId' | 'orderNumber' | 'edeboId' | 'isFullTime';
+  orderBy?: string;
+  search?: string;
+  group?: string;
+  orderNumber?: string;
+  edeboId?: string;
+  isFullTime?: boolean;
+  page?: number;
+  limit?: number;
 
 }
 
-export const useGetStudents = (): IUseGetStudents => {
+export const useStudentsGet = (): IUseGetStudents => {
   const { user } = useAuthContext();
   const [dataStudents, setDataStudents] = useState<IDataStudents | null>(null);
   const { addErrors } = useMessagesContext();
@@ -130,7 +130,7 @@ export interface ICreateStudents {
   addStudent: (params: IAddStudents) => void;
 }
 
-export const useCreateStudents = (): ICreateStudents => {
+export const useStudentCreate = (): ICreateStudents => {
   const { user } = useAuthContext();
   const { addErrors } = useMessagesContext();
   const [data, setData] = useState<ICreateStudentsData | null>(null);
@@ -186,7 +186,7 @@ export interface IUseGetStudentsItem {
   getStudent: (params: IGetStudentsItemParams) => void;
 }
 
-export const useGetStudent = (): IUseGetStudentsItem => {
+export const useStudentGetId = (): IUseGetStudentsItem => {
   const { user } = useAuthContext();
   const [data, setData] = useState<IDataStudentsItem | null>(null);
   const { addErrors } = useMessagesContext();
@@ -231,7 +231,7 @@ export interface IUsePatchStudentsItem {
   patchStudent: (params: IGetStudentsItemParams, id: number) => void;
 }
 
-export const usePatchStudentsItem = (): IUsePatchStudentsItem => {
+export const useStudentPatch = (): IUsePatchStudentsItem => {
   const { user } = useAuthContext();
   const [data, setData] = useState<IDataStudentsItem | null>(null);
   const { addErrors } = useMessagesContext();
@@ -257,7 +257,7 @@ export interface IUseDeleteStudentsItem {
   patchStudent: (id: number) => void;
 }
 
-export const useDeleteStudentsItem = (): IUseDeleteStudentsItem => {
+export const useStudentDelete = (): IUseDeleteStudentsItem => {
   const { user } = useAuthContext();
   const [data, setData] = useState<string | null>(null);
   const { addErrors } = useMessagesContext();

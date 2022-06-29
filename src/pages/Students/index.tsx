@@ -7,6 +7,8 @@ import Button from '../../components/common/Button';
 import Table from '../../components/common/table';
 import { ITableHeader } from '../../components/common/table/TableHeader';
 import AddStudentsModal from './modal/AddStudent';
+import { useStudentsContext } from '../../context/students';
+import { IDataStudentsItems } from '../../hooks/useStudents';
 
 const groups = [
   { value: '1P20', label: '1П-20' },
@@ -31,6 +33,8 @@ const dataHeader: ITableHeader[] = [
 ];
 
 const Students = (): JSX.Element => {
+  const { getStudents } = useStudentsContext();
+
   const [modalActive, setModalActive] = useState(false);
   const closeModal = () => {
     setModalActive(false);
@@ -52,14 +56,14 @@ const Students = (): JSX.Element => {
             </Button>
           )}
         />
-        <Table
+        <Table<IDataStudentsItems>
           filter={[
             { key: 'groupId', value: groups, placeholder: 'Група' },
             { key: 'name', value: name, placeholder: 'ПІП' },
             { key: 'formTraining', value: formTraining, placeholder: 'Форма навчання' },
           ]}
           dataHeader={dataHeader}
-          dataRow={[]}
+          dataRow={getStudents?.dataStudents?.items.length ? getStudents?.dataStudents?.items : []}
           gridColumns={stylesStud.columns}
 
         />

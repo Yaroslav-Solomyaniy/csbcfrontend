@@ -1,21 +1,21 @@
 import React, { createContext, useContext } from 'react';
 import {
-  IUseGetGroupId,
-  IUseGroupCreate,
   IUseGroupDelete,
   IUseGroupEdit,
+  IUseGroupIdGet,
+  IUseGroupsCreate,
   IUseGroupsGet,
-  useGetGroupId,
-  useGroupCreate,
   useGroupDelete,
   useGroupEdit,
-  useGroupsGet,
+  useGroupId,
+  useGroups,
+  useGroupsCreate,
 } from '../hooks/useGroups';
 
 interface GroupContext {
   groupsGet: IUseGroupsGet | null;
-  groupCreate: IUseGroupCreate | null;
-  getGroupId: IUseGetGroupId | null;
+  groupCreate: IUseGroupsCreate | null;
+  getGroupId: IUseGroupIdGet | null;
   groupEdit: IUseGroupEdit | null;
   groupDelete: IUseGroupDelete | null;
 
@@ -32,9 +32,9 @@ const defaultValue: GroupContext = {
 export const GroupContext = createContext<GroupContext>(defaultValue);
 
 const GroupProvider: React.FC = ({ children }): JSX.Element => {
-  const groupsGet = useGroupsGet();
-  const groupCreate = useGroupCreate();
-  const getGroupId = useGetGroupId();
+  const groupsGet = useGroups();
+  const groupCreate = useGroupsCreate();
+  const getGroupId = useGroupId();
   const groupEdit = useGroupEdit();
   const groupDelete = useGroupDelete();
 

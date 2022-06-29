@@ -50,7 +50,9 @@ module.exports = {
     'react/prop-types': 'off',
     'react/jsx-props-no-spreading': 'off',
     'jsx-a11y/anchor-is-valid': 'off',
-    'react/function-component-definition': [2, { namedComponents: 'arrow-function' }],
+    'react/function-component-definition': [2, {
+      namedComponents: ['function-declaration', 'function-expression', 'arrow-function'],
+    }],
     'jsx-a11y/label-has-associated-control': 'off',
     '@typescript-eslint/ban-ts-comment': [
       'error',

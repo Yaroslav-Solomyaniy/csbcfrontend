@@ -41,7 +41,7 @@ export interface IGroupData {
   'created': string;
 }
 
-interface IUseGroupsGet {
+export interface IUseGroupsGet {
   data: IPaginateData<IGroupData> | null;
   getGroups: (params?: IGetGroupParams) => void;
 }
@@ -80,7 +80,7 @@ interface ICreateGroupResponse {
   'name': string;
 }
 
-interface IUseGroupsCreate {
+export interface IUseGroupsCreate {
   data: ICreateGroupResponse | null;
   createGroup: (params: ICreateGroupParams) => void;
 }
@@ -122,12 +122,12 @@ interface IGetGroupIdResponse {
   updated: string;
 }
 
-interface IUseGroupId {
+export interface IUseGroupIdGet {
   data: IGetGroupIdResponse | null;
   getGroupId: (params: IGetGroupIdParams) => void;
 }
 
-export const useGroupId = (): IUseGroupId => {
+export const useGroupId = (): IUseGroupIdGet => {
   const { user } = useAuthContext();
   const [data, setData] = useState<IGetGroupIdResponse | null>(null);
 
@@ -154,7 +154,7 @@ export interface IGroupEditParams {
   orderNumber: string;
 }
 
-interface IUseGroupEdit {
+export interface IUseGroupEdit {
   groupEdit: (params: IGroupEditParams, id: number) => void;
 }
 
@@ -182,7 +182,7 @@ export interface IGroupDeleteParams {
   deletedOrderNumber: string;
 }
 
-interface IUseGroupDelete {
+export interface IUseGroupDelete {
   groupDelete: (params: IGroupDeleteParams, id: number) => void;
 }
 

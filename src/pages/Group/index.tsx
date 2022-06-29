@@ -4,13 +4,21 @@ import Button from '../../components/common/Button/index';
 import styles from './index.module.scss';
 import Layout from '../../loyout/Layout';
 import { ITableHeader } from '../../components/common/table/TableHeader';
-import { ITableRow } from '../../components/common/table/TableBody';
 import Table from '../../components/common/table';
 import { GroupCreateModal } from './ModalCreate';
 import { IGroupData, useGroupEdit, useGroups } from '../../hooks/useGroups';
 import ColumnAction from './ColumnAction';
 import GroupEditModal from './ModalEdit';
 import GroupDeleteModal from './ModalDelete';
+
+interface ITableRow {
+  id: number;
+  name: string;
+  curator: string;
+  order_number: string;
+  studentValue: number;
+  actions: JSX.Element | undefined | string;
+}
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'Номер Групи' },
@@ -91,7 +99,7 @@ const Group = (): JSX.Element => {
           )}
         />
 
-        <Table
+        <Table<ITableRow>
           filter={[
             { key: 'curatorId', value: curators, placeholder: 'Куратор' },
             { key: 'name', value: groups, placeholder: 'Група' },

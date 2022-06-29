@@ -1,15 +1,15 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, useEffect } from 'react';
 import {
   ICreateStudents,
   IUseDeleteStudentsItem,
   IUseGetStudents,
   IUseGetStudentsItem,
   IUsePatchStudentsItem,
-  useCreateStudents,
-  useDeleteStudentsItem,
-  useGetStudent,
-  useGetStudents,
-  usePatchStudentsItem,
+  useStudentCreate,
+  useStudentDelete,
+  useStudentGetId,
+  useStudentPatch,
+  useStudentsGet,
 } from '../hooks/useStudents';
 
 interface IStudentsContext {
@@ -31,11 +31,15 @@ const defaultValue: IStudentsContext = {
 export const StudentsContext = createContext<IStudentsContext>(defaultValue);
 
 const StudentsProvider = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
-  const createStudents = useCreateStudents();
-  const getStudents = useGetStudents();
-  const getStudent = useGetStudent();
-  const patchStudentsItem = usePatchStudentsItem();
-  const deleteStudentsItem = useDeleteStudentsItem();
+  const createStudents = useStudentCreate();
+  const getStudents = useStudentsGet();
+  const getStudent = useStudentGetId();
+  const patchStudentsItem = useStudentPatch();
+  const deleteStudentsItem = useStudentDelete();
+
+  useEffect(() => {
+    getStudents.getStudent({});
+  }, []);
 
   return (
     <StudentsContext.Provider value={{
@@ -53,4 +57,4 @@ const StudentsProvider = ({ children }: JSX.ElementChildrenAttribute): JSX.Eleme
 
 export default StudentsProvider;
 
-export const useAuthContext = (): IStudentsContext => useContext(StudentsContext);
+export const useStudentsContext = (): IStudentsContext => useContext(StudentsContext);

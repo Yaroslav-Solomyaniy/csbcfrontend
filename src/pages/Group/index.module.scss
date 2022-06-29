@@ -2,6 +2,7 @@
   transition: all .5s;
   bottom: 0;
 }
+
 //Determine the number of columns in the table
 .columns {
   grid-template-columns: repeat(5, 1fr);
@@ -101,16 +102,16 @@
     }
   }
 
-    &_submit {
-      width: 96px;
-      font-size: 14px;
-      background: #428BCA;
-      border-radius: 8px;
-      color: rgba(255, 255, 255, 0.85);
-      font-weight: 400;
-    }
+  &_submit {
+    width: 96px;
+    font-size: 14px;
+    background: #428BCA;
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 400;
   }
 }
+
 
 //Styles that refer to the action field in the table
 .actions {

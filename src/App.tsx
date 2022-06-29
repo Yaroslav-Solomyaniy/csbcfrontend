@@ -19,6 +19,7 @@ import Curator from './pages/Сurator';
 import PasRec from './pages/PasswordRecovery';
 import leftArrow from './images/login/leftArrow.svg';
 import ChangePassword from './pages/ChangePassword';
+import StudentsProvider from './context/Students';
 
 const App = (): JSX.Element => {
   const { user } = useAuthContext();
@@ -29,7 +30,7 @@ const App = (): JSX.Element => {
         {user && (
           <>
             <Route index element={<Group />} />
-            <Route path="/students" element={<Students />} />
+            <Route path="/students" element={<StudentsProvider><Students /></StudentsProvider>} />
             <Route path="/curators" element={<Curators />} />
             <Route path="/teachers" element={<Teachers />} />
             <Route path="/subjects" element={<Subjects />} />

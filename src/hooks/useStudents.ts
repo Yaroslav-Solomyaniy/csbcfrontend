@@ -150,7 +150,7 @@ export const useCreateStudents = (): ICreateStudents => {
   return { data, addStudent };
 };
 
-interface IDataID {
+interface IDataStudentsItem {
   id: number;
   dateOfBirth: string;
   group: {
@@ -177,27 +177,27 @@ interface IDataID {
   isFullTime: boolean;
 }
 
-interface IGetIDParams {
+interface IGetStudentsItemParams {
   id: string;
 }
 
-interface IUseGetID {
-  data: IDataID | null;
-  getStudent: (params: IGetIDParams) => void;
+interface IUseGetStudentsItem {
+  data: IDataStudentsItem | null;
+  getStudent: (params: IGetStudentsItemParams) => void;
 }
 
-export const useGetID = (): IUseGetID => {
+export const useGetID = (): IUseGetStudentsItem => {
   const { user } = useAuthContext();
-  const [data, setData] = useState<IDataID | null>(null);
+  const [data, setData] = useState<IDataStudentsItem | null>(null);
   const { addErrors } = useMessagesContext();
 
-  const getStudent = (params: IGetIDParams): void => {
-    axios.get(`${process.env.REACT_APP_API_URL}/students`, {
+  const getStudent = (params: IGetStudentsItemParams): void => {
+    axios.get(`${process.env.REACT_APP_API_URL}/students/${params.id}`, {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
         params: `${params}`,
       },
-    }).then((respons: AxiosResponse<IDataID>) => {
+    }).then((respons: AxiosResponse<IDataStudentsItem>) => {
       setData(respons.data);
     }).catch((error) => {
       addErrors(error.message);
@@ -205,4 +205,75 @@ export const useGetID = (): IUseGetID => {
   };
 
   return { data, getStudent };
+};
+
+interface IGetStudentsItemParams {
+  dateOfBirth: string;
+  groupId: number;
+  user: {
+    firstName: string;
+    lastName: string;
+    patronymic: string;
+    email: string;
+    role: string;
+  };
+  orderNumber: string;
+  edeboId: string;
+  isFullTime: boolean;
+}
+
+interface IDataStudentsItem {
+  message: string;
+}
+
+interface IUsePatchStudentsItem {
+  data: IDataStudentsItem | null;
+  patchStudent: (params: IGetStudentsItemParams, id: number) => void;
+}
+
+export const usePatchStudentsItem = (): IUsePatchStudentsItem => {
+  const { user } = useAuthContext();
+  const [data, setData] = useState<IDataStudentsItem | null>(null);
+  const { addErrors } = useMessagesContext();
+
+  const patchStudent = (params: IGetStudentsItemParams, id: number): void => {
+    axios.patch(`${process.env.REACT_APP_API_URL}/students/${id}`, params, {
+      headers: {
+        Authorization: `Bearer ${user?.accessToken}`,
+        params: `{ id: ${id} }`,
+      },
+    }).then((respons: AxiosResponse<IDataStudentsItem>) => {
+      setData(respons.data);
+    }).catch((error) => {
+      addErrors(error.message);
+    });
+  };
+
+  return { data, patchStudent };
+};
+
+interface IUseDeleteStudentsItem {
+  data: string | null;
+  patchStudent: (id: number) => void;
+}
+
+export const useDeleteStudentsItem = (): IUseDeleteStudentsItem => {
+  const { user } = useAuthContext();
+  const [data, setData] = useState<string | null>(null);
+  const { addErrors } = useMessagesContext();
+
+  const patchStudent = (id: number): void => {
+    axios.delete(`${process.env.REACT_APP_API_URL}/students/${id}`, {
+      headers: {
+        Authorization: `Bearer ${user?.accessToken}`,
+        params: `{ id: ${id} }`,
+      },
+    }).then((respons: AxiosResponse<any>) => {
+      setData(respons.data);
+    }).catch((error) => {
+      addErrors(error.message);
+    });
+  };
+
+  return { data, patchStudent };
 };

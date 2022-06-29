@@ -13,8 +13,8 @@ export interface ITableRow {
 }
 
 interface ITableBody {
-  dataRow: ITableRow[];
   gridColumns: string;
+  dataRow: ITableRow[];
 }
 
 const TableBody = ({ dataRow, gridColumns }: ITableBody): JSX.Element => (

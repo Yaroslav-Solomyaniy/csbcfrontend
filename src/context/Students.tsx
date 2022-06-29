@@ -1,22 +1,53 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext } from 'react';
+import {
+  ICreateStudents,
+  IUseDeleteStudentsItem,
+  IUseGetStudents,
+  IUseGetStudentsItem,
+  IUsePatchStudentsItem,
+  useCreateStudents,
+  useDeleteStudentsItem,
+  useGetStudent,
+  useGetStudents,
+  usePatchStudentsItem,
+} from '../hooks/useStudents';
 
 interface IStudentsContext {
-  cildren: JSX.ElementChildrenAttribute | null;
+  createStudents: ICreateStudents | null;
+  getStudents: IUseGetStudents | null;
+  getStudent: IUseGetStudentsItem | null;
+  patchStudentsItem: IUsePatchStudentsItem | null;
+  deleteStudentsItem: IUseDeleteStudentsItem | null;
 }
 
 const defaultValue: IStudentsContext = {
-  cildren: null,
+  createStudents: null,
+  getStudents: null,
+  getStudent: null,
+  patchStudentsItem: null,
+  deleteStudentsItem: null,
 };
 
 export const StudentsContext = createContext<IStudentsContext>(defaultValue);
 
-const StudentsProvider = (cildren: JSX.ElementChildrenAttribute | null) => {
-  const [data, setData] = useState('');
+const StudentsProvider = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
+  const createStudents = useCreateStudents();
+  const getStudents = useGetStudents();
+  const getStudent = useGetStudent();
+  const patchStudentsItem = usePatchStudentsItem();
+  const deleteStudentsItem = useDeleteStudentsItem();
 
   return (
-    <div>
-      {cildren}
-    </div>
+    <StudentsContext.Provider value={{
+      createStudents,
+      getStudents,
+      getStudent,
+      patchStudentsItem,
+      deleteStudentsItem,
+    }}
+    >
+      {children}
+    </StudentsContext.Provider>
   );
 };
 

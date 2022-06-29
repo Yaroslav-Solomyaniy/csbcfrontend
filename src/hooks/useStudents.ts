@@ -65,7 +65,7 @@ interface IDataStudents {
   items: IDataStudentsItems[];
 }
 
-interface IUseGetStudents {
+export interface IUseGetStudents {
   dataStudents: IDataStudents | null;
   getStudent: (params: IGetParams) => void;
 }
@@ -125,7 +125,7 @@ interface ICreateStudentsData {
   id: number;
 }
 
-interface ICreateStudents {
+export interface ICreateStudents {
   data: ICreateStudentsData | null;
   addStudent: (params: IAddStudents) => void;
 }
@@ -181,12 +181,12 @@ interface IGetStudentsItemParams {
   id: string;
 }
 
-interface IUseGetStudentsItem {
+export interface IUseGetStudentsItem {
   data: IDataStudentsItem | null;
   getStudent: (params: IGetStudentsItemParams) => void;
 }
 
-export const useGetID = (): IUseGetStudentsItem => {
+export const useGetStudent = (): IUseGetStudentsItem => {
   const { user } = useAuthContext();
   const [data, setData] = useState<IDataStudentsItem | null>(null);
   const { addErrors } = useMessagesContext();
@@ -226,7 +226,7 @@ interface IDataStudentsItem {
   message: string;
 }
 
-interface IUsePatchStudentsItem {
+export interface IUsePatchStudentsItem {
   data: IDataStudentsItem | null;
   patchStudent: (params: IGetStudentsItemParams, id: number) => void;
 }
@@ -252,7 +252,7 @@ export const usePatchStudentsItem = (): IUsePatchStudentsItem => {
   return { data, patchStudent };
 };
 
-interface IUseDeleteStudentsItem {
+export interface IUseDeleteStudentsItem {
   data: string | null;
   patchStudent: (id: number) => void;
 }

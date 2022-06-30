@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 import { useState } from 'react';
 import { useAuthContext } from '../context/useAuthContext';
-import { IPaginateData, OrderBy } from '../types';
+import { FetchSuccess, IPaginateData, OrderBy } from '../types';
 
 // Отримуємо дані про всі групи
 
@@ -31,14 +31,10 @@ export interface IGroupData {
     'id': number;
     'firstName': string;
     'lastName': string;
+    'patronymic': string;
     'email': string;
-    'role': string;
-    'updated': string;
-    'created': string;
   };
   'orderNumber': string;
-  'updated': string;
-  'created': string;
 }
 
 export interface IUseGroupsGet {
@@ -46,7 +42,7 @@ export interface IUseGroupsGet {
   getGroups: (params?: IGetGroupParams) => void;
 }
 
-export const useGroups = (): IUseGroupsGet => {
+export const useGroupsGet = (): IUseGroupsGet => {
   const { user } = useAuthContext();
   const [data, setData] = useState<IPaginateData<IGroupData> | null>(null);
 
@@ -83,33 +79,33 @@ export const useGroups = (): IUseGroupsGet => {
 
 // Запрос на створення нової групи
 
-export interface ICreateGroupParams {
+export interface IGroupCreateParams {
   'name': string;
   'curatorId': number;
   'orderNumber': string;
 }
 
-interface ICreateGroupResponse {
+interface IGroupCreateResponse {
   'id': number;
   'name': string;
 }
 
-export interface IUseGroupsCreate {
-  data: ICreateGroupResponse | null;
-  createGroup: (params: ICreateGroupParams) => void;
+export interface IUseGroupCreate {
+  data: IGroupCreateResponse | null;
+  groupCreate: (params: IGroupCreateParams) => void;
 }
 
-export const useGroupsCreate = (): IUseGroupsCreate => {
+export const useGroupCreate = (): IUseGroupCreate => {
   const { user } = useAuthContext();
-  const [data, setData] = useState<ICreateGroupResponse | null>(null);
+  const [data, setData] = useState<IGroupCreateResponse | null>(null);
 
-  const createGroup = (params: ICreateGroupParams) => {
+  const groupCreate = (params: IGroupCreateParams) => {
     axios.post(`${process.env.REACT_APP_API_URL}/groups`, params, {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
     })
-      .then((response: AxiosResponse<ICreateGroupResponse>) => {
+      .then((response: AxiosResponse<IGroupCreateResponse>) => {
         setData(response.data);
       })
       .catch((error) => {
@@ -117,7 +113,7 @@ export const useGroupsCreate = (): IUseGroupsCreate => {
       });
   };
 
-  return { data, createGroup };
+  return { data, groupCreate };
 };
 
 // Отримуємо дані по id групи
@@ -136,12 +132,12 @@ interface IGetGroupIdResponse {
   updated: string;
 }
 
-export interface IUseGroupIdGet {
+export interface IUseGetGroupId {
   data: IGetGroupIdResponse | null;
   getGroupId: (params: IGetGroupIdParams) => void;
 }
 
-export const useGroupId = (): IUseGroupIdGet => {
+export const useGetGroupId = (): IUseGetGroupId => {
   const { user } = useAuthContext();
   const [data, setData] = useState<IGetGroupIdResponse | null>(null);
 
@@ -169,11 +165,13 @@ export interface IGroupEditParams {
 }
 
 export interface IUseGroupEdit {
+  data: FetchSuccess | null;
   groupEdit: (params: IGroupEditParams, id: number) => void;
 }
 
 export const useGroupEdit = (): IUseGroupEdit => {
   const { user } = useAuthContext();
+  const [data, setData] = useState<FetchSuccess | null>(null);
 
   const groupEdit = (params: IGroupEditParams, id: number) => {
     axios.patch(`${process.env.REACT_APP_API_URL}/groups/${id}`, params, {
@@ -181,15 +179,15 @@ export const useGroupEdit = (): IUseGroupEdit => {
         Authorization: `Bearer ${user?.accessToken}`,
       },
     })
-      .then((response: AxiosResponse<any>) => {
-        console.log(response.data);
+      .then((response: AxiosResponse<FetchSuccess | null>) => {
+        setData(response.data);
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
-  return { groupEdit };
+  return { data, groupEdit };
 };
 
 export interface IGroupDeleteParams {
@@ -197,11 +195,13 @@ export interface IGroupDeleteParams {
 }
 
 export interface IUseGroupDelete {
+  data: FetchSuccess | null;
   groupDelete: (params: IGroupDeleteParams, id: number) => void;
 }
 
 export const useGroupDelete = (): IUseGroupDelete => {
   const { user } = useAuthContext();
+  const [data, setData] = useState<FetchSuccess | null>(null);
 
   const groupDelete = (params: IGroupDeleteParams, id: number) => {
     axios.patch(`${process.env.REACT_APP_API_URL}/groups/${id}`, params, {
@@ -209,13 +209,91 @@ export const useGroupDelete = (): IUseGroupDelete => {
         Authorization: `Bearer ${user?.accessToken}`,
       },
     })
-      .then((response: AxiosResponse<any>) => {
-        console.log(response.data);
+      .then((response: AxiosResponse<FetchSuccess | null>) => {
+        setData(response.data);
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
-  return { groupDelete };
+  return { data, groupDelete };
+};
+
+interface IDropDownNameParams {
+  orderBy?: OrderBy;
+  name?: string;
+  page?: number;
+  limit?: number;
+}
+
+interface IDropDownNameData {
+  id: number;
+  name: string;
+}
+
+interface IUseDropDownName {
+  groupNames: IPaginateData<IDropDownNameData> | null;
+  DropDownName: (params?: IDropDownNameParams) => void;
+}
+
+export const UseDropDownName = (): IUseDropDownName => {
+  const { user } = useAuthContext();
+  const [groupNames, setGroupNames] = useState<IPaginateData<IDropDownNameData> | null>(null);
+
+  const DropDownName = (params?: IDropDownNameParams) => {
+    axios.get(`${process.env.REACT_APP_API_URL}/groups/dropdown/name`, {
+      headers: {
+        Authorization: `Bearer ${user?.accessToken}`,
+      },
+    })
+      .then((response: AxiosResponse<IPaginateData<IDropDownNameData> | null>) => {
+        setGroupNames(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  return { groupNames, DropDownName };
+};
+
+interface IDropDownCuratorsParams {
+  orderBy?: OrderBy;
+  curatorName?: string;
+  page?: number;
+  limit?: number;
+}
+
+interface IDropDownCuratorsData {
+  'id': number;
+  'firstName': string;
+  'lastName': string;
+  'patronymic': string;
+}
+
+interface IUseDropDownCurators {
+  curators: IPaginateData<IDropDownCuratorsData> | null;
+  DropDownCurators: (params?: IDropDownCuratorsParams) => void;
+}
+
+export const UseDropDownCurators = (): IUseDropDownCurators => {
+  const { user } = useAuthContext();
+  const [curators, setCurators] = useState<IPaginateData<IDropDownCuratorsData> | null>(null);
+
+  const DropDownCurators = (params?: IDropDownCuratorsParams) => {
+    axios.get(`${process.env.REACT_APP_API_URL}/groups/dropdown/curators`, {
+      headers: {
+        Authorization: `Bearer ${user?.accessToken}`,
+      },
+    })
+      .then((response: AxiosResponse<IPaginateData<IDropDownCuratorsData> | null>) => {
+        setCurators(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  return { curators, DropDownCurators };
 };

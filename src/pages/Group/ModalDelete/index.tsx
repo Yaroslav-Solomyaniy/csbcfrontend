@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import styles from '../index.module.scss';
 import ModalWindow from '../../../components/common/ModalWindow';
-import { IGroupDeleteParams, useGroupDelete, useGroupId } from '../../../hooks/useGroups';
+import { IGroupDeleteParams } from '../../../hooks/useGroups';
 import { Option } from '../../../types';
+import { useGroupContext } from '../../../context/group';
 
 interface IGroupCreateModal {
   modalActive: boolean;
@@ -26,8 +27,7 @@ const formInitialData = {
 export const GroupDeleteModal = ({ modalActive, closeModal, groupId }: IGroupCreateModal): JSX.Element => {
   const [isSubmited, setIsSubmited] = useState(false);
   const [formData, setFormData] = useState<IGroupDeleteParams>(formInitialData);
-  const { data: dataGetGroupId, getGroupId } = useGroupId();
-  const { groupDelete } = useGroupDelete();
+  const { groupDelete, getGroupId } = useGroupContext();
 
   const handleClose = () => {
     setIsSubmited(false);
@@ -41,14 +41,14 @@ export const GroupDeleteModal = ({ modalActive, closeModal, groupId }: IGroupCre
 
     if (formData.deletedOrderNumber) {
       console.log({ ...formData }, groupId);
-      groupDelete({ ...formData }, groupId);
+      groupDelete?.groupDelete({ ...formData }, groupId);
       closeModal();
     }
   };
 
   useEffect(() => {
     if (groupId) {
-      getGroupId({ id: `${groupId}` });
+      getGroupId?.getGroupId({ id: `${groupId}` });
     }
   }, [groupId]);
 

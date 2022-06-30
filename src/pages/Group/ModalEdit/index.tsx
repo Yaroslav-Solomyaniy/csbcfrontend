@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import styles from '../index.module.scss';
 import ModalWindow from '../../../components/common/ModalWindow';
-import { IGroupEditParams, useGroupEdit, useGroupId } from '../../../hooks/useGroups';
-import { Option } from '../../../types';
+import { IGroupEditParams } from '../../../hooks/useGroups';
+import { useGroupContext } from '../../../context/group';
 
 interface IGroupCreateModal {
   modalActive: boolean;
@@ -11,22 +11,20 @@ interface IGroupCreateModal {
   groupId: number;
 }
 
-const curators: Option[] = [
-  { value: 5, label: "Ярослав Солом'яний" },
-  { value: 4, label: 'Вадим Сіренко' },
-];
-
 const formInitialData = {
   name: '',
   curatorId: 0,
   orderNumber: '',
 };
 
+const curators = [{
+  value: 5, label: '5',
+}];
+
 export const GroupEditModal = ({ modalActive, closeModal, groupId }: IGroupCreateModal): JSX.Element => {
   const [isSubmited, setIsSubmited] = useState(false);
   const [formData, setFormData] = useState<IGroupEditParams>(formInitialData);
-  const { data: dataGetGroupId, getGroupId } = useGroupId();
-  const { groupEdit } = useGroupEdit();
+  const { groupEdit, getGroupId } = useGroupContext();
 
   const handleClose = () => {
     setIsSubmited(false);
@@ -39,26 +37,26 @@ export const GroupEditModal = ({ modalActive, closeModal, groupId }: IGroupCreat
     setIsSubmited(true);
 
     if (formData.name && formData.orderNumber && formData.curatorId) {
-      groupEdit({ ...formData }, groupId);
+      // groupEdit({ ...formData }, groupId);
       closeModal();
     }
   };
 
   useEffect(() => {
     if (groupId) {
-      getGroupId({ id: `${groupId}` });
+      getGroupId?.getGroupId({ id: `${groupId}` });
     }
   }, [groupId]);
 
   useEffect(() => {
-    if (dataGetGroupId) {
+    if (getGroupId?.data) {
       setFormData({
-        name: dataGetGroupId.name,
-        orderNumber: dataGetGroupId.orderNumber,
-        curatorId: dataGetGroupId.curator.id,
+        name: getGroupId?.data.name,
+        orderNumber: getGroupId?.data.orderNumber,
+        curatorId: getGroupId?.data.curator.id,
       });
     }
-  }, [dataGetGroupId]);
+  }, [getGroupId?.data]);
 
   return (
     <ModalWindow modalTitle="Редагування групи" active={modalActive} setActive={closeModal}>

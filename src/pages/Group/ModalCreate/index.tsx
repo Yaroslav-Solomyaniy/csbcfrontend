@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import ModalWindow from '../../../components/common/ModalWindow';
-import { ICreateGroupParams, useGroupsCreate } from '../../../hooks/useGroups';
-import { Option } from '../../../types';
 
-import styles from '../index.module.scss';
+import { useGroupContext } from '../../../context/group';
+import { IGroupCreateParams } from '../../../hooks/useGroups';
 import Select from '../../../components/common/Select';
+import ModalWindow from '../../../components/common/ModalWindow';
+import styles from '../index.module.scss';
 import Input from '../../../components/common/Input';
 
 interface IGroupCreateModal {
@@ -12,21 +12,20 @@ interface IGroupCreateModal {
   closeModal: () => void;
 }
 
-const curators: Option[] = [
-  { value: 5, label: '5' },
-  { value: 235, label: 'CuratorId: 235' },
-];
-
 const formInitialData = {
   name: '',
   curatorId: 0,
   orderNumber: '',
 };
 
+const curators = [{
+  value: 5, label: '5',
+}];
+
 export const GroupCreateModal = ({ modalActive, closeModal }: IGroupCreateModal): JSX.Element => {
-  const { data, createGroup } = useGroupsCreate();
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [formData, setFormData] = useState<ICreateGroupParams>(formInitialData);
+  const [formData, setFormData] = useState<IGroupCreateParams>(formInitialData);
+  const { groupCreate } = useGroupContext();
 
   const handleClose = () => {
     setIsSubmitted(false);
@@ -38,17 +37,15 @@ export const GroupCreateModal = ({ modalActive, closeModal }: IGroupCreateModal)
     e?.preventDefault?.();
     setIsSubmitted(true);
     if (formData.name && formData.orderNumber && formData.curatorId) {
-      createGroup(formData);
+      groupCreate?.groupCreate(formData);
     }
   };
 
   useEffect(() => {
-    if (data) {
+    if (groupCreate?.data) {
       closeModal();
-    } else {
-      console.log('');
     }
-  }, [data]);
+  }, [groupCreate?.data]);
 
   return (
     <ModalWindow modalTitle="Створення групи" active={modalActive} setActive={closeModal}>

@@ -6,13 +6,14 @@ import Layout from '../../loyout/Layout';
 import { ITableHeader } from '../../components/common/table/TableHeader';
 import Table from '../../components/common/table';
 import { GroupCreateModal } from './ModalCreate';
-import { IGetGroupParams, useGroups } from '../../hooks/useGroups';
+import { IGetGroupParams } from '../../hooks/useGroups';
 import GroupEditModal from './ModalEdit';
 import GroupDeleteModal from './ModalDelete';
 import edit from '../../images/table/edit.svg';
 import del from '../../images/table/delete.svg';
 import SelectCurator from '../../components/common/SelectCurator';
 import { ITableRowItem } from '../../components/common/table/TableBody';
+import { useGroupContext } from '../../context/group';
 
 interface ITableRow {
   id: number;
@@ -49,7 +50,7 @@ interface Filter {
 }
 
 const Group = (): JSX.Element => {
-  const { getGroups, data } = useGroups();
+  const { getGroups } = useGroupContext();
 
   const [filter, setFilter] = useState<Filter>({ curator: '', group: '' });
   const [isActiveModal, setIsActiveModal] = useState(allCloseModalWindow);
@@ -66,12 +67,12 @@ const Group = (): JSX.Element => {
       query.curatorId = +filter.curator;
     }
 
-    getGroups(query);
+    getGroups?.getGroups(query);
   }, [filter.curator]);
 
   useEffect(() => {
-    if (data) {
-      setDataRow(data?.items.map((item) => ({
+    if (getGroups?.data) {
+      setDataRow(getGroups?.data?.items.map((item) => ({
         list: [
           { id: 1, label: item.name },
           { id: 2, label: item.curator.firstName },
@@ -106,7 +107,7 @@ const Group = (): JSX.Element => {
         key: item.id,
       })));
     }
-  }, [data]);
+  }, [getGroups?.data]);
 
   return (
     <Layout>

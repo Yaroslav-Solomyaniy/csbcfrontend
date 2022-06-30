@@ -1,28 +1,28 @@
 import React, { createContext, useContext } from 'react';
 import {
+  IUseGetGroupId,
+  IUseGroupCreate,
   IUseGroupDelete,
   IUseGroupEdit,
-  IUseGroupIdGet,
-  IUseGroupsCreate,
   IUseGroupsGet,
+  useGetGroupId,
+  useGroupCreate,
   useGroupDelete,
   useGroupEdit,
-  useGroupId,
-  useGroups,
-  useGroupsCreate,
+  useGroupsGet,
 } from '../hooks/useGroups';
 
 interface GroupContext {
-  groupsGet: IUseGroupsGet | null;
-  groupCreate: IUseGroupsCreate | null;
-  getGroupId: IUseGroupIdGet | null;
+  getGroups: IUseGroupsGet | null;
+  groupCreate: IUseGroupCreate | null;
+  getGroupId: IUseGetGroupId | null;
   groupEdit: IUseGroupEdit | null;
   groupDelete: IUseGroupDelete | null;
 
 }
 
 const defaultValue: GroupContext = {
-  groupsGet: null,
+  getGroups: null,
   groupCreate: null,
   getGroupId: null,
   groupEdit: null,
@@ -32,14 +32,14 @@ const defaultValue: GroupContext = {
 export const GroupContext = createContext<GroupContext>(defaultValue);
 
 const GroupProvider: React.FC = ({ children }): JSX.Element => {
-  const groupsGet = useGroups();
-  const groupCreate = useGroupsCreate();
-  const getGroupId = useGroupId();
+  const getGroups = useGroupsGet();
+  const groupCreate = useGroupCreate();
+  const getGroupId = useGetGroupId();
   const groupEdit = useGroupEdit();
   const groupDelete = useGroupDelete();
 
   return (
-    <GroupContext.Provider value={{ groupsGet, groupCreate, getGroupId, groupEdit, groupDelete }}>
+    <GroupContext.Provider value={{ getGroups, groupCreate, getGroupId, groupEdit, groupDelete }}>
       {children}
     </GroupContext.Provider>
   );

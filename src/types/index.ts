@@ -21,3 +21,7 @@ export interface IPaginateData<Item> {
     'last': string;
   };
 }
+
+export interface FetchSuccess {
+  success: boolean;
+}

@@ -6,12 +6,13 @@ import Layout from '../../loyout/Layout';
 import { ITableHeader } from '../../components/common/table/TableHeader';
 import Table from '../../components/common/table';
 import { GroupCreateModal } from './ModalCreate';
-import { IGroupData, useGroupEdit, useGroups } from '../../hooks/useGroups';
-import ColumnAction from './ColumnAction';
+import { IGetGroupParams, useGroups } from '../../hooks/useGroups';
 import GroupEditModal from './ModalEdit';
 import GroupDeleteModal from './ModalDelete';
 import edit from '../../images/table/edit.svg';
 import del from '../../images/table/delete.svg';
+import SelectCurator from '../../components/common/SelectCurator';
+import { ITableRowItem } from '../../components/common/table/TableBody';
 
 interface ITableRow {
   id: number;
@@ -29,15 +30,6 @@ const dataHeader: ITableHeader[] = [
   { id: 4, label: 'К-ть студентів' },
   { id: 5, label: 'дії' },
 ];
-const groups = [
-  { value: '1П-20', label: '1П-20' },
-  { value: '2П-20', label: '2П-20' },
-];
-
-const curators = [
-  { value: '5', label: '5' },
-  { value: '235', label: '235' },
-];
 
 export interface IIsActiveModalState {
   create: boolean;
@@ -51,38 +43,68 @@ const allCloseModalWindow: IIsActiveModalState = {
   delete: 0,
 };
 
+interface Filter {
+  curator: string;
+  group: string;
+}
+
 const Group = (): JSX.Element => {
   const { getGroups, data } = useGroups();
 
-  const [dataRow, setDataRow] = useState<ITableRow[]>([]);
-
+  const [filter, setFilter] = useState<Filter>({ curator: '', group: '' });
   const [isActiveModal, setIsActiveModal] = useState(allCloseModalWindow);
-  const { groupEdit } = useGroupEdit();
+  const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
 
   const closeModal = () => {
     setIsActiveModal(allCloseModalWindow);
   };
 
   useEffect(() => {
-    getGroups();
-  }, []);
+    const query: IGetGroupParams = {};
 
-  // useEffect(() => {
-  //   getGroups();
-  // }, [groupEdit]);
+    if (filter.curator) {
+      query.curatorId = +filter.curator;
+    }
+
+    getGroups(query);
+  }, [filter.curator]);
 
   useEffect(() => {
     if (data) {
-      setDataRow(data.items.map((item: IGroupData): ITableRow => (
-        {
-          id: item.id,
-          name: item.name,
-          curator: item.curator.lastName + item.curator.firstName,
-          order_number: item.orderNumber,
-          studentValue: 32,
-          actions: <ColumnAction groupId={item.id} isActive={isActiveModal} setIsActive={setIsActiveModal} />,
-        }
-      )));
+      setDataRow(data?.items.map((item) => ({
+        list: [
+          { id: 1, label: item.name },
+          { id: 2, label: item.curator.firstName },
+          { id: 3, label: item.orderNumber },
+          { id: 4, label: `${item.id}` },
+          {
+            id: 5,
+            label: (
+              <div className={styles.actions}>
+                <button
+                  type="button"
+                  className={styles.actions__button_edit}
+                  onClick={() => {
+                    setIsActiveModal({ ...isActiveModal, edit: item.id });
+                  }}
+                >
+                  <img src={edit} alt="edit" />
+                </button>
+                <button
+                  type="button"
+                  className={styles.actions__button_delete}
+                  onClick={() => {
+                    setIsActiveModal({ ...isActiveModal, delete: item.id });
+                  }}
+                >
+                  <img src={del} alt="delete" />
+                </button>
+              </div>
+            ),
+          },
+        ],
+        key: item.id,
+      })));
     }
   }, [data]);
 
@@ -102,47 +124,16 @@ const Group = (): JSX.Element => {
         />
 
         <Table
-          filter={[
-            { key: 'curatorId', value: curators, placeholder: 'Куратор' },
-            { key: 'name', value: groups, placeholder: 'Група' },
-          ]}
+          filter={(
+            <SelectCurator
+              placeholder="Куратор"
+              onChange={(value) => setFilter({ ...filter, curator: value })}
+              value={filter.curator}
+            />
+          )}
           dataHeader={dataHeader}
-          dataRow={data?.items.length ? data?.items.map((item, id) => ({
-            list: [
-              { id, label: item.name },
-              { id, label: item.curator.firstName },
-              { id, label: item.orderNumber },
-              { id, label: `${item.id}` },
-              {
-                id,
-                label: (
-                  <div className={styles.actions}>
-                    <button
-                      type="button"
-                      className={styles.actions__button_edit}
-                      onClick={() => {
-                        setIsActiveModal({ ...isActiveModal, edit: item.id });
-                      }}
-                    >
-                      <img src={edit} alt="edit" />
-                    </button>
-                    <button
-                      type="button"
-                      className={styles.actions__button_delete}
-                      onClick={() => {
-                        setIsActiveModal({ ...isActiveModal, delete: item.id });
-                      }}
-                    >
-                      <img src={del} alt="delete" />
-                    </button>
-                  </div>
-                ),
-              },
-            ],
-            key: item.id,
-          })) : []}
+          dataRow={dataRow}
           gridColumns={styles.columns}
-
         />
         <GroupCreateModal modalActive={isActiveModal.create} closeModal={closeModal} />
         <GroupEditModal modalActive={!!isActiveModal.edit} groupId={isActiveModal.edit} closeModal={closeModal} />

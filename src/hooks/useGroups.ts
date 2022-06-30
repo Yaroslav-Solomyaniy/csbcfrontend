@@ -5,7 +5,7 @@ import { IPaginateData, OrderBy } from '../types';
 
 // Отримуємо дані про всі групи
 
-interface IGetGroupParams {
+export interface IGetGroupParams {
   orderByColumn?:
     | 'id'
     | 'Name'
@@ -51,7 +51,21 @@ export const useGroups = (): IUseGroupsGet => {
   const [data, setData] = useState<IPaginateData<IGroupData> | null>(null);
 
   const getGroups = (params?: IGetGroupParams) => {
-    axios.get(`${process.env.REACT_APP_API_URL}/groups`, {
+    let query = '';
+
+    if (params) {
+      query = '?';
+    }
+
+    if (params?.curatorId) {
+      query += `curatorId=${params.curatorId}&`;
+    }
+
+    if (params?.name) {
+      query += `name=${params.name}&`;
+    }
+
+    axios.get(`${process.env.REACT_APP_API_URL}/groups${query.slice(0, -1)}`, {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },

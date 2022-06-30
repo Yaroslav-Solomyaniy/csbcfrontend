@@ -1,29 +1,18 @@
 import React from 'react';
-import Select from 'react-select';
 import styles from './index.module.scss';
-import { Option } from '../../../../types';
-
-export interface IFilterOptions {
-  key: string;
-  value: Option[];
-  placeholder: string;
-}
 
 interface ITableFilter {
-  filters: IFilterOptions[];
+  filter?: JSX.Element;
 }
 
-const TableFilter = ({ filters }: ITableFilter): JSX.Element => (
+const TableFilter = ({ filter }: ITableFilter): JSX.Element => (
   <div className={styles.filters}>
-    {filters.map(({ key, value, placeholder }) => (
-      <Select
-        key={key}
-        options={value}
-        placeholder={placeholder}
-        isClearable
-      />
-    ))}
+    {filter}
   </div>
 );
+
+TableFilter.defaultProps = {
+  filter: <div />,
+};
 
 export default TableFilter;

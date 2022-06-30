@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-
 import ModalWindow from '../../../components/common/ModalWindow';
 import { ICreateGroupParams, useGroupsCreate } from '../../../hooks/useGroups';
 import { Option } from '../../../types';
-import Select from '../../../components/common/Select';
 
 import styles from '../index.module.scss';
+import Select from '../../../components/common/Select';
+import Input from '../../../components/common/Input';
 
 interface IGroupCreateModal {
   modalActive: boolean;
@@ -70,24 +70,16 @@ export const GroupCreateModal = ({ modalActive, closeModal }: IGroupCreateModal)
             <div className={styles.form__error_text}>Номер групи введено не правильно</div>
           </div>
         )}
-        <div className={styles.form__row}>
-          <label className={styles.form__row_label}>Номер наказу*</label>
-
-          <input
-            className={styles.form__row_orderNumber}
-            placeholder="Номер наказу"
-            value={formData.orderNumber}
-            onChange={(event) => {
-              setFormData({ ...formData, orderNumber: event.target.value });
-            }}
-          />
-        </div>
-        {isSubmitted && !formData.orderNumber && (
-          <div className={styles.form__error}>
-            <label className={styles.form__error_label} />
-            <div className={styles.form__error_text}>Номер наказу не введено</div>
-          </div>
-        )}
+        <Input
+          onChange={(event) => {
+            setFormData({ ...formData, orderNumber: event.target.value });
+          }}
+          value={formData.orderNumber}
+          placeholder="Номер наказу"
+          label="Номер наказу"
+          required
+          error={isSubmitted && !formData.orderNumber ? 'Номер наказу не введено' : ''}
+        />
         <Select
           label="Куратор"
           placeholder="Куратор"

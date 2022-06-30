@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Select from '../../../../components/common/Select/index';
 import styles from './index.module.scss';
 import ModalWindow from '../../../../components/common/ModalWindow';
 
@@ -73,17 +72,17 @@ export const AddStudentsModal = ({ modalActive, closeModal }: IGroupCreateModal)
             }}
           />
         </div>
-        <Select label="aetsdtb" />
-        {/* <div className={styles.form__input}> */}
-        {/*  <label className={styles.input__label}>Група</label> */}
-        {/*  <Select */}
-        {/*    className={styles.input__select} */}
-        {/*    options={[]} */}
-        {/*    placeholder="Група" */}
-        {/*    isClearable */}
-        {/*    value={formData.groupName} */}
-        {/*  /> */}
-        {/* </div> */}
+        {/* <Select label="aetsdtb" /> */}
+        {/* /!* <div className={styles.form__input}> *!/ */}
+        {/* /!*  <label className={styles.input__label}>Група</label> *!/ */}
+        {/* /!*  <Select *!/ */}
+        {/* /!*    className={styles.input__select} *!/ */}
+        {/* /!*    options={[]} *!/ */}
+        {/* /!*    placeholder="Група" *!/ */}
+        {/* /!*    isClearable *!/ */}
+        {/* /!*    value={formData.groupName} *!/ */}
+        {/* /!*  /> *!/ */}
+        {/* /!* </div> *!/ */}
         <div className={styles.form__input}>
           <label className={styles.input__label}>Номер наказу</label>
           <input

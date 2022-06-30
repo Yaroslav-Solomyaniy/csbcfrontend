@@ -43,7 +43,7 @@ const Header = ({ setOpen, isAuth, isRenderButtonMenu = true }: IHeader): JSX.El
           }}
         >
           <span className={styles.user}>
-            {`${user?.lastName} ${user?.lastName[0].toUpperCase()}. ${user?.lastName[0].toUpperCase()}.`}
+            {`${user?.lastName} ${user?.lastName?.[0].toUpperCase()}. ${user?.lastName?.[0].toUpperCase()}.`}
           </span>
           <div className={styles.avatar}>
             {`${user?.lastName[0].toUpperCase()}${user?.lastName[0].toUpperCase()}`}

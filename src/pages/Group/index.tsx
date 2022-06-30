@@ -115,26 +115,28 @@ const Group = (): JSX.Element => {
               { id, label: `${item.id}` },
               {
                 id,
-                label: (<div className={styles.actions}>
-                  <button
-                    type="button"
-                    className={styles.actions__button_edit}
-                    onClick={() => {
-                      setIsActiveModal({ ...isActiveModal, edit: item.id });
-                    }}
-                  >
-                    <img src={edit} alt="edit" />
-                  </button>
-                  <button
-                    type="button"
-                    className={styles.actions__button_delete}
-                    onClick={() => {
-                      setIsActiveModal({ ...isActiveModal, delete: item.id });
-                    }}
-                  >
-                    <img src={del} alt="delete" />
-                  </button>
-                </div>),
+                label: (
+                  <div className={styles.actions}>
+                    <button
+                      type="button"
+                      className={styles.actions__button_edit}
+                      onClick={() => {
+                        setIsActiveModal({ ...isActiveModal, edit: item.id });
+                      }}
+                    >
+                      <img src={edit} alt="edit" />
+                    </button>
+                    <button
+                      type="button"
+                      className={styles.actions__button_delete}
+                      onClick={() => {
+                        setIsActiveModal({ ...isActiveModal, delete: item.id });
+                      }}
+                    >
+                      <img src={del} alt="delete" />
+                    </button>
+                  </div>
+                ),
               },
             ],
             key: item.id,

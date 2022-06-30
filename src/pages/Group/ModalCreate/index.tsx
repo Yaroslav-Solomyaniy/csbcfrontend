@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import Select from 'react-select';
-import styles from '../index.module.scss';
+
 import ModalWindow from '../../../components/common/ModalWindow';
 import { ICreateGroupParams, useGroupsCreate } from '../../../hooks/useGroups';
 import { Option } from '../../../types';
+import Select from '../../../components/common/Select';
+
+import styles from '../index.module.scss';
 
 interface IGroupCreateModal {
   modalActive: boolean;
@@ -23,18 +25,18 @@ const formInitialData = {
 
 export const GroupCreateModal = ({ modalActive, closeModal }: IGroupCreateModal): JSX.Element => {
   const { data, createGroup } = useGroupsCreate();
-  const [isSubmited, setIsSubmited] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState<ICreateGroupParams>(formInitialData);
 
   const handleClose = () => {
-    setIsSubmited(false);
+    setIsSubmitted(false);
     setFormData(formInitialData);
     closeModal();
   };
 
   const onSubmit = (e: React.FormEvent | undefined) => {
     e?.preventDefault?.();
-    setIsSubmited(true);
+    setIsSubmitted(true);
     if (formData.name && formData.orderNumber && formData.curatorId) {
       createGroup(formData);
     }
@@ -62,13 +64,12 @@ export const GroupCreateModal = ({ modalActive, closeModal }: IGroupCreateModal)
             }}
           />
         </div>
-        {isSubmited && !formData.name && (
+        {isSubmitted && !formData.name && (
           <div className={styles.form__error}>
             <label className={styles.form__error_label} />
             <div className={styles.form__error_text}>Номер групи введено не правильно</div>
           </div>
         )}
-
         <div className={styles.form__row}>
           <label className={styles.form__row_label}>Номер наказу*</label>
 
@@ -81,33 +82,25 @@ export const GroupCreateModal = ({ modalActive, closeModal }: IGroupCreateModal)
             }}
           />
         </div>
-        {isSubmited && !formData.orderNumber && (
+        {isSubmitted && !formData.orderNumber && (
           <div className={styles.form__error}>
             <label className={styles.form__error_label} />
             <div className={styles.form__error_text}>Номер наказу не введено</div>
           </div>
         )}
-
-        <div className={styles.form__row}>
-          <label className={styles.form__row_label}>Куратор*</label>
-          <Select
-            className={styles.form__row_select}
-            isSearchable
-            options={curators}
-            placeholder="Куратор"
-            isClearable
-            value={curators.find(({ value }) => formData.curatorId === value) || null}
-            onChange={(value) => {
-              setFormData({ ...formData, curatorId: value?.value ? +value.value : 0 });
-            }}
-          />
-        </div>
-        {isSubmited && !formData.curatorId && (
-          <div className={styles.form__error}>
-            <label className={styles.form__error_label} />
-            <div className={styles.form__error_text}>Назву куратора не введено</div>
-          </div>
-        )}
+        <Select
+          label="Куратор"
+          placeholder="Куратор"
+          required
+          isSearchable
+          isClearable
+          onChange={(value) => {
+            setFormData({ ...formData, curatorId: +value });
+          }}
+          options={curators}
+          value={formData.curatorId}
+          error={isSubmitted && !formData.curatorId ? 'Назву куратора не введено' : ''}
+        />
       </form>
       <div className={styles.modal__buttons}>
         <button

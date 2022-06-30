@@ -1,30 +1,37 @@
-
-.form__input {
-  display: flex;
-  align-items: center;
-  margin-bottom: 16px;
+.required {
+  color: red;
 }
 
+.wrap {
+  display: flex;
+  align-items: center;
+  margin-top: 16px;
 
-.input {
-  &__label {
+  .label {
     max-width: 260px;
     width: 100%;
     text-align: right;
     margin-right: 16px;
   }
 
-  &__select {
-    //padding: 0 16px;
-    //gap: 10px;
+  .selectWrap {
+    width: 100%;
 
-    width: 280px;
-    height: 32px;
-    font-size: 14px;
-    background: #FFFFFF;
+    .select {
+      max-width: 280px;
+      width: 100%;
+    }
 
-    border-radius: 8px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    .error {
+      display: flex;
+      align-items: center;
+      margin-top: 4px;
 
+      .textError {
+        font-size: 12px;
+        font-weight: 400;
+        color: red;
+      }
+    }
   }
 }

@@ -26,16 +26,13 @@
   }
 
   &__select {
-    gap: 10px;
-
-    width: 280px;
-    height: 32px;
+    padding: 5px 16px;
+    height: 20px;
+    width: 246px;
     font-size: 14px;
     background: #FFFFFF;
-
     border-radius: 8px;
     border: 1px solid rgba(0, 0, 0, 0.1);
-
   }
 }
 

@@ -10,6 +10,8 @@ import { IGroupData, useGroupEdit, useGroups } from '../../hooks/useGroups';
 import ColumnAction from './ColumnAction';
 import GroupEditModal from './ModalEdit';
 import GroupDeleteModal from './ModalDelete';
+import edit from '../../images/table/edit.svg';
+import del from '../../images/table/delete.svg';
 
 interface ITableRow {
   id: number;
@@ -99,13 +101,44 @@ const Group = (): JSX.Element => {
           )}
         />
 
-        <Table<ITableRow>
+        <Table
           filter={[
             { key: 'curatorId', value: curators, placeholder: 'Куратор' },
             { key: 'name', value: groups, placeholder: 'Група' },
           ]}
           dataHeader={dataHeader}
-          dataRow={dataRow}
+          dataRow={data?.items.length ? data?.items.map((item, id) => ({
+            list: [
+              { id, label: item.name },
+              { id, label: item.curator.firstName },
+              { id, label: item.orderNumber },
+              { id, label: `${item.id}` },
+              {
+                id,
+                label: (<div className={styles.actions}>
+                  <button
+                    type="button"
+                    className={styles.actions__button_edit}
+                    onClick={() => {
+                      setIsActiveModal({ ...isActiveModal, edit: item.id });
+                    }}
+                  >
+                    <img src={edit} alt="edit" />
+                  </button>
+                  <button
+                    type="button"
+                    className={styles.actions__button_delete}
+                    onClick={() => {
+                      setIsActiveModal({ ...isActiveModal, delete: item.id });
+                    }}
+                  >
+                    <img src={del} alt="delete" />
+                  </button>
+                </div>),
+              },
+            ],
+            key: item.id,
+          })) : []}
           gridColumns={styles.columns}
 
         />

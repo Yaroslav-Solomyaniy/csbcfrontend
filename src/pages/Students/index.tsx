@@ -8,7 +8,6 @@ import Table from '../../components/common/table';
 import { ITableHeader } from '../../components/common/table/TableHeader';
 import AddStudentsModal from './modal/AddStudent';
 import { useStudentsContext } from '../../context/students';
-import { IDataStudentsItems } from '../../hooks/useStudents';
 
 const groups = [
   { value: '1P20', label: '1П-20' },
@@ -56,14 +55,25 @@ const Students = (): JSX.Element => {
             </Button>
           )}
         />
-        <Table<IDataStudentsItems>
+        <Table
           filter={[
             { key: 'groupId', value: groups, placeholder: 'Група' },
             { key: 'name', value: name, placeholder: 'ПІП' },
             { key: 'formTraining', value: formTraining, placeholder: 'Форма навчання' },
           ]}
           dataHeader={dataHeader}
-          dataRow={getStudents?.dataStudents?.items.length ? getStudents?.dataStudents?.items : []}
+          dataRow={getStudents?.dataStudents?.items.length ? getStudents?.dataStudents?.items.map((item, id) => ({
+            list: [
+              { id, label: item.user.firstName + item.user.lastName },
+              { id, label: item.group.name },
+              { id, label: item.orderNumber },
+              { id, label: `${item.isFullTime}` },
+              { id, label: item.user.email },
+              { id, label: item.user.firstName },
+              { id, label: ' ' },
+            ],
+            key: item.id,
+          })) : []}
           gridColumns={stylesStud.columns}
 
         />

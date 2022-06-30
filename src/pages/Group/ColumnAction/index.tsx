@@ -1,6 +1,5 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import styles from '../index.module.scss';
-import edit from '../../../images/table/edit.svg';
 import del from '../../../images/table/delete.svg';
 import { IIsActiveModalState } from '../index';
 
@@ -10,17 +9,17 @@ interface IColumnAction {
   groupId: number;
 }
 
-const columnAction = ({ isActive, setIsActive, groupId }: IColumnAction): JSX.Element => (
+const ColumnAction = ({ isActive, setIsActive, groupId }: IColumnAction): JSX.Element => (
   <div className={styles.actions}>
-    <button
-      type="button"
-      className={styles.actions__button_edit}
-      onClick={() => {
-        setIsActive({ ...isActive, edit: groupId });
-      }}
-    >
-      <img src={edit} alt="edit" />
-    </button>
+    {/* <button */}
+    {/*  type="button" */}
+    {/*  className={styles.actions__button_edit} */}
+    {/*  onClick={() => { */}
+    {/*    setIsActive({ ...isActive, edit: groupId }); */}
+    {/*  }} */}
+    {/* > */}
+    {/*  <img src={edit} alt="edit" /> */}
+    {/* </button> */}
     <button
       type="button"
       className={styles.actions__button_delete}
@@ -33,4 +32,4 @@ const columnAction = ({ isActive, setIsActive, groupId }: IColumnAction): JSX.El
   </div>
 );
 
-export default columnAction;
+export default ColumnAction;

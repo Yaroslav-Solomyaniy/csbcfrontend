@@ -1,30 +1,38 @@
 import React from 'react';
 import clsx from 'clsx';
-import styles from './index.module.scss';
+
 import TableFooter from '../TableFooter';
 
-interface ITableBody<DR> {
-  gridColumns: string;
-  dataRow: DR[];
+import styles from './index.module.scss';
+
+export interface ITableRowItem {
+  key: string | number;
+  list: {
+    id: string | number;
+    label: string | JSX.Element;
+  }[];
 }
 
-function TableBody<DR>({ dataRow, gridColumns }: ITableBody<DR>): JSX.Element {
-  return (
-    <>
-      <div className={styles.content}>
-        {dataRow.map((item) => (
-          <div className={clsx(styles.body__row, gridColumns)} key={item.id}>
-            <div className={styles.body__row_item}>{item.name}</div>
-            <div className={styles.body__row_item}>{item.curator}</div>
-            <div className={styles.body__row_item}>{item.order_number}</div>
-            <div className={styles.body__row_item}>{item.studentValue}</div>
-            <div className={styles.body__row_item}>{item.actions}</div>
-          </div>
-        ))}
-      </div>
-      <TableFooter />
-    </>
-  );
+interface ITableBody {
+  gridColumns: string;
+  dataRow: ITableRowItem[];
 }
+
+const TableBody = ({ dataRow, gridColumns }: ITableBody): JSX.Element => (
+  <>
+    <div className={styles.content}>
+      {dataRow.map(({ key, list }) => (
+        <div className={clsx(styles.body__row, gridColumns)} key={key}>
+          {list.map(({ id, label }) => (
+            <div className={styles.body__row_item} key={id}>
+              {label}
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+    <TableFooter />
+  </>
+);
 
 export default TableBody;

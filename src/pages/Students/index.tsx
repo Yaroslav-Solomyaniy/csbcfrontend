@@ -45,22 +45,17 @@ const Students = (): JSX.Element => {
         <TitlePage
           title="Студенти"
           action={(
-            <Button
-              onClick={() => {
-                setModalActive(true);
-              }}
-              className={styles.button}
-            >
+            <Button onClick={() => setModalActive(true)} className={styles.button}>
               Створити
             </Button>
           )}
         />
         <Table
-          filter={[
-            { key: 'groupId', value: groups, placeholder: 'Група' },
-            { key: 'name', value: name, placeholder: 'ПІП' },
-            { key: 'formTraining', value: formTraining, placeholder: 'Форма навчання' },
-          ]}
+          // [
+          //  { key: 'groupId', value: groups, placeholder: 'Група' },
+          //  { key: 'name', value: name, placeholder: 'ПІП' },
+          //  { key: 'formTraining', value: formTraining, placeholder: 'Форма навчання' },
+          // ]
           dataHeader={dataHeader}
           dataRow={getStudents?.dataStudents?.items.length ? getStudents?.dataStudents?.items.map((item, id) => ({
             list: [

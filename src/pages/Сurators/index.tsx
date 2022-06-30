@@ -38,10 +38,10 @@ const Curators = (): JSX.Element => (
         )}
       />
       <Table
-        filter={[
-          { key: 'group', value: name, placeholder: 'Група' },
-          { key: 'name', value: options, placeholder: 'ПІП' },
-        ]}
+        // [
+        //  { key: 'group', value: name, placeholder: 'Група' },
+        //  { key: 'name', value: options, placeholder: 'ПІП' },
+        // ]
         dataHeader={dataHeader}
         dataRow={[]}
         gridColumns={stylesCur.columns}

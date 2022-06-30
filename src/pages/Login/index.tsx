@@ -20,7 +20,6 @@ const Login = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
       postLogin(credentials, check);
     } else {
       setLengthPassword(true);
-      postLogin(credentials, check);
     }
   };
 
@@ -64,7 +63,6 @@ const Login = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
                 checked={check}
                 onChange={(event) => {
                   setCheck(event.target.checked);
-                  console.log(check);
                 }}
                 type="checkbox"
                 name="SaveData"

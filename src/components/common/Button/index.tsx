@@ -1,18 +1,18 @@
 import React from 'react';
-import styles from './index.module.scss';
 
-interface Ibutton{
-  children:React.ReactNode | React.ReactChild;
-  onClick():void;
-  className?:string;
+interface Ibutton {
+  children: React.ReactNode | React.ReactChild;
+  className?: string;
+
+  onClick(): void;
 }
 
-const Button = ({ children, onClick, className }:Ibutton):JSX.Element => (
+const Button = ({ children, onClick, className }: Ibutton): JSX.Element => (
   <button className={className} type="button" onClick={onClick}>{children}</button>
 );
 
 Button.defaultProps = {
-  className: { },
+  className: '',
 };
 
 export default Button;

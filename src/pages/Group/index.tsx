@@ -4,19 +4,23 @@ import Button from '../../components/common/Button/index';
 import styles from './index.module.scss';
 import Layout from '../../loyout/Layout';
 import { ITableHeader } from '../../components/common/table/TableHeader';
-import { ITableRow } from '../../components/common/table/TableBody';
 import Table from '../../components/common/table';
-import { IGroupData, useGroupsGet } from '../../hooks/useGroups';
 import { GroupCreateModal } from './ModalCreate';
+import { IGroupData, useGroupEdit, useGroups } from '../../hooks/useGroups';
+import ColumnAction from './ColumnAction';
+import GroupEditModal from './ModalEdit';
+import GroupDeleteModal from './ModalDelete';
+import edit from '../../images/table/edit.svg';
+import del from '../../images/table/delete.svg';
 
-const options = [
-  { value: '1P20', label: '1П-20' },
-  { value: '2P20', label: '2П-20' },
-];
-const name = [
-  { value: 'YaroslavSolomianiy', label: "Ярослав Солом'яний" },
-  { value: 'VadimSirenko', label: 'Вадим Сіренко' },
-];
+interface ITableRow {
+  id: number;
+  name: string;
+  curator: string;
+  order_number: string;
+  studentValue: number;
+  actions: JSX.Element | undefined | string;
+}
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'Номер Групи' },
@@ -25,19 +29,47 @@ const dataHeader: ITableHeader[] = [
   { id: 4, label: 'К-ть студентів' },
   { id: 5, label: 'дії' },
 ];
+const groups = [
+  { value: '1П-20', label: '1П-20' },
+  { value: '2П-20', label: '2П-20' },
+];
+
+const curators = [
+  { value: '5', label: '5' },
+  { value: '235', label: '235' },
+];
+
+export interface IIsActiveModalState {
+  create: boolean;
+  edit: number;
+  delete: number;
+}
+
+const allCloseModalWindow: IIsActiveModalState = {
+  create: false,
+  edit: 0,
+  delete: 0,
+};
 
 const Group = (): JSX.Element => {
-  const [modalActive, setModalActive] = useState(false);
-  const { getGroups, data } = useGroupsGet();
+  const { getGroups, data } = useGroups();
+
   const [dataRow, setDataRow] = useState<ITableRow[]>([]);
 
+  const [isActiveModal, setIsActiveModal] = useState(allCloseModalWindow);
+  const { groupEdit } = useGroupEdit();
+
   const closeModal = () => {
-    setModalActive(false);
+    setIsActiveModal(allCloseModalWindow);
   };
 
   useEffect(() => {
     getGroups();
   }, []);
+
+  // useEffect(() => {
+  //   getGroups();
+  // }, [groupEdit]);
 
   useEffect(() => {
     if (data) {
@@ -48,7 +80,7 @@ const Group = (): JSX.Element => {
           curator: item.curator.lastName + item.curator.firstName,
           order_number: item.orderNumber,
           studentValue: 32,
-          actions: undefined,
+          actions: <ColumnAction groupId={item.id} isActive={isActiveModal} setIsActive={setIsActiveModal} />,
         }
       )));
     }
@@ -61,24 +93,60 @@ const Group = (): JSX.Element => {
           title="Групи"
           action={(
             <Button
-              onClick={() => setModalActive(true)}
-              className={styles.button}
+              onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
+              className={styles.create__Button}
             >
               Створити
             </Button>
           )}
         />
+
         <Table
           filter={[
-            { key: 'curatorId', value: options, placeholder: 'Куратор' },
-            { key: 'name', value: name, placeholder: 'Група' },
+            { key: 'curatorId', value: curators, placeholder: 'Куратор' },
+            { key: 'name', value: groups, placeholder: 'Група' },
           ]}
           dataHeader={dataHeader}
-          dataRow={dataRow}
+          dataRow={data?.items.length ? data?.items.map((item, id) => ({
+            list: [
+              { id, label: item.name },
+              { id, label: item.curator.firstName },
+              { id, label: item.orderNumber },
+              { id, label: `${item.id}` },
+              {
+                id,
+                label: (
+                  <div className={styles.actions}>
+                    <button
+                      type="button"
+                      className={styles.actions__button_edit}
+                      onClick={() => {
+                        setIsActiveModal({ ...isActiveModal, edit: item.id });
+                      }}
+                    >
+                      <img src={edit} alt="edit" />
+                    </button>
+                    <button
+                      type="button"
+                      className={styles.actions__button_delete}
+                      onClick={() => {
+                        setIsActiveModal({ ...isActiveModal, delete: item.id });
+                      }}
+                    >
+                      <img src={del} alt="delete" />
+                    </button>
+                  </div>
+                ),
+              },
+            ],
+            key: item.id,
+          })) : []}
           gridColumns={styles.columns}
 
         />
-        <GroupCreateModal modalActive={modalActive} closeModal={closeModal} />
+        <GroupCreateModal modalActive={isActiveModal.create} closeModal={closeModal} />
+        <GroupEditModal modalActive={!!isActiveModal.edit} groupId={isActiveModal.edit} closeModal={closeModal} />
+        <GroupDeleteModal modalActive={!!isActiveModal.delete} groupId={isActiveModal.delete} closeModal={closeModal} />
       </div>
     </Layout>
   );

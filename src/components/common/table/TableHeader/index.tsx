@@ -7,12 +7,12 @@ export interface ITableHeader {
   label: string;
 }
 
-interface IDataHeader{
-  dataHeader:ITableHeader[];
-  gridColumns:string;
+interface IDataHeader {
+  dataHeader: ITableHeader[];
+  gridColumns: string;
 }
 
-const TableHeader = ({ dataHeader, gridColumns }:IDataHeader) => (
+const TableHeader = ({ dataHeader, gridColumns }: IDataHeader): JSX.Element => (
   <div className={clsx(styles.header, gridColumns)}>
     {dataHeader.map((item) => (
       <div className={styles.header__item} key={item.id}>{item.label}</div>

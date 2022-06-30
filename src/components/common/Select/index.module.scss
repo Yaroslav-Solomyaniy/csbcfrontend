@@ -1,0 +1,37 @@
+.required {
+  color: red;
+}
+
+.wrap {
+  display: flex;
+  align-items: center;
+  margin-top: 16px;
+
+  .label {
+    max-width: 260px;
+    width: 100%;
+    text-align: right;
+    margin-right: 16px;
+  }
+
+  .selectWrap {
+    width: 100%;
+
+    .select {
+      max-width: 280px;
+      width: 100%;
+    }
+
+    .error {
+      display: flex;
+      align-items: center;
+      margin-top: 4px;
+
+      .textError {
+        font-size: 12px;
+        font-weight: 400;
+        color: red;
+      }
+    }
+  }
+}

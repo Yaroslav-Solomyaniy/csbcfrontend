@@ -1,12 +1,12 @@
 import React from 'react';
 import styles from './index.module.scss';
-import TableBody, { ITableRow } from './TableBody';
+import TableBody, { ITableRowItem } from './TableBody';
 import TableFilter, { IFilterOptions } from './TableFilter';
 import TableHeader, { ITableHeader } from './TableHeader';
 
 interface ITable {
   dataHeader: ITableHeader[];
-  dataRow: ITableRow[];
+  dataRow: ITableRowItem[];
   gridColumns: string;
   filter: IFilterOptions[];
 }

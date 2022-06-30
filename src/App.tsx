@@ -19,6 +19,8 @@ import Curator from './pages/Сurator';
 import PasRec from './pages/PasswordRecovery';
 import leftArrow from './images/login/leftArrow.svg';
 import ChangePassword from './pages/ChangePassword';
+import StudentsProvider from './context/students';
+import GroupProvider from './context/group';
 
 const App = (): JSX.Element => {
   const { user } = useAuthContext();
@@ -28,17 +30,17 @@ const App = (): JSX.Element => {
       <Routes>
         {user && (
           <>
-            <Route index element={<Group />} />
-            <Route path="/students" element={<Students />} />
+            <Route index element={<GroupProvider><Group /></GroupProvider>} />
+            <Route path="/students" element={<StudentsProvider><Students /></StudentsProvider>} />
             <Route path="/curators" element={<Curators />} />
             <Route path="/teachers" element={<Teachers />} />
             <Route path="/subjects" element={<Subjects />} />
             <Route path="/estimates" element={<Estimates />} />
-            <Route path="/voting_admin" element={<VotingAdmin />} />
+            <Route path="/voting-admin" element={<VotingAdmin />} />
             <Route path="/administrators" element={<Administrators />} />
 
-            <Route path="/individual_plan" element={<IndPlan />} />
-            <Route path="/voting_students" element={<VotingStudents />} />
+            <Route path="/individual-plan" element={<IndPlan />} />
+            <Route path="/voting-students" element={<VotingStudents />} />
 
             <Route path="/teacher" element={<Teacher />} />
 

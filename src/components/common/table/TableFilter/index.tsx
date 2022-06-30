@@ -1,7 +1,7 @@
 import React from 'react';
 import Select from 'react-select';
-import { Option } from '../../../../types';
 import styles from './index.module.scss';
+import { Option } from '../../../../types';
 
 export interface IFilterOptions {
   key: string;
@@ -9,11 +9,11 @@ export interface IFilterOptions {
   placeholder: string;
 }
 
-interface ITableFilter{
-  filters:IFilterOptions[];
+interface ITableFilter {
+  filters: IFilterOptions[];
 }
 
-const TableFilter = ({ filters }: ITableFilter):JSX.Element => (
+const TableFilter = ({ filters }: ITableFilter): JSX.Element => (
   <div className={styles.filters}>
     {filters.map(({ key, value, placeholder }) => (
       <Select

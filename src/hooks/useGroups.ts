@@ -220,80 +220,80 @@ export const useGroupDelete = (): IUseGroupDelete => {
   return { data, groupDelete };
 };
 
-interface IDropDownNameParams {
-  orderBy?: OrderBy;
-  name?: string;
-  page?: number;
-  limit?: number;
-}
-
-interface IDropDownNameData {
-  id: number;
-  name: string;
-}
-
-interface IUseDropDownName {
-  groupNames: IPaginateData<IDropDownNameData> | null;
-  DropDownName: (params?: IDropDownNameParams) => void;
-}
-
-export const UseDropDownName = (): IUseDropDownName => {
-  const { user } = useAuthContext();
-  const [groupNames, setGroupNames] = useState<IPaginateData<IDropDownNameData> | null>(null);
-
-  const DropDownName = (params?: IDropDownNameParams) => {
-    axios.get(`${process.env.REACT_APP_API_URL}/groups/dropdown/name`, {
-      headers: {
-        Authorization: `Bearer ${user?.accessToken}`,
-      },
-    })
-      .then((response: AxiosResponse<IPaginateData<IDropDownNameData> | null>) => {
-        setGroupNames(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  return { groupNames, DropDownName };
-};
-
-interface IDropDownCuratorsParams {
+interface IGetGroupsOptionParams {
   orderBy?: OrderBy;
   curatorName?: string;
   page?: number;
   limit?: number;
 }
 
-interface IDropDownCuratorsData {
+interface IGetGroupsOptionData {
   'id': number;
-  'firstName': string;
-  'lastName': string;
-  'patronymic': string;
+  name: string;
 }
 
-interface IUseDropDownCurators {
-  curators: IPaginateData<IDropDownCuratorsData> | null;
-  DropDownCurators: (params?: IDropDownCuratorsParams) => void;
+interface IUseGetOptionsGroups {
+  optionsGroups: IPaginateData<IGetGroupsOptionData> | null;
+  getOptionsGroups: (params?: IGetGroupsOptionParams) => void;
 }
 
-export const UseDropDownCurators = (): IUseDropDownCurators => {
+export const useGetOptionsGroups = (): IUseGetOptionsGroups => {
   const { user } = useAuthContext();
-  const [curators, setCurators] = useState<IPaginateData<IDropDownCuratorsData> | null>(null);
+  const [optionsGroups, setOptionsGroups] = useState<IPaginateData<IGetGroupsOptionData> | null>(null);
 
-  const DropDownCurators = (params?: IDropDownCuratorsParams) => {
-    axios.get(`${process.env.REACT_APP_API_URL}/groups/dropdown/curators`, {
+  const getOptionsGroups = (params?: IGetGroupsOptionParams) => {
+    axios.get(`${process.env.REACT_APP_API_URL}/groups/dropdown/name`, {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
     })
-      .then((response: AxiosResponse<IPaginateData<IDropDownCuratorsData> | null>) => {
-        setCurators(response.data);
+      .then((response: AxiosResponse<IPaginateData<IGetGroupsOptionData> | null>) => {
+        setOptionsGroups(response.data);
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
-  return { curators, DropDownCurators };
+  return { optionsGroups, getOptionsGroups };
+};
+
+interface IGetCuratorsParams {
+  orderBy?: OrderBy;
+  curatorName?: string;
+  page?: number;
+  limit?: number;
+}
+
+interface IGetCuratorsData {
+  'id': number;
+  'firstName': string;
+  'lastName': string;
+  'patronymic': string;
+}
+
+interface IUseGetOptionsCurator {
+  optionCurators: IPaginateData<IGetCuratorsData> | null;
+  getOptionsCurator: (params?: IGetCuratorsParams) => void;
+}
+
+export const useGetOptionsCurator = (): IUseGetOptionsCurator => {
+  const { user } = useAuthContext();
+  const [optionCurators, setOptionCurators] = useState<IPaginateData<IGetCuratorsData> | null>(null);
+
+  const getOptionsCurator = (params?: IGetCuratorsParams) => {
+    axios.get(`${process.env.REACT_APP_API_URL}/groups/dropdown/curators`, {
+      headers: {
+        Authorization: `Bearer ${user?.accessToken}`,
+      },
+    })
+      .then((response: AxiosResponse<IPaginateData<IGetCuratorsData> | null>) => {
+        setOptionCurators(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  return { optionCurators, getOptionsCurator };
 };

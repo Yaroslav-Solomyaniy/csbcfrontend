@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 
 import { useGroupContext } from '../../../context/group';
 import { IGroupCreateParams } from '../../../hooks/useGroups';
-import Select from '../../../components/common/Select';
 import ModalWindow from '../../../components/common/ModalWindow';
 import styles from './index.module.scss';
 import Input from '../../../components/common/Input';
+import SelectCurator from '../../../components/common/SelectCurator';
 
 interface IGroupCreateModal {
   modalActive: boolean;
@@ -70,7 +70,7 @@ export const GroupCreateModal = ({ modalActive, closeModal }: IGroupCreateModal)
           required
           error={isSubmitted && !formData.orderNumber ? 'Номер наказу не введено' : ''}
         />
-        <Select
+        <SelectCurator
           label="Куратор"
           placeholder="Куратор"
           required
@@ -79,7 +79,6 @@ export const GroupCreateModal = ({ modalActive, closeModal }: IGroupCreateModal)
           onChange={(value) => {
             setFormData({ ...formData, curatorId: +value });
           }}
-          options={curators}
           value={formData.curatorId}
           error={isSubmitted && !formData.curatorId ? 'Куратора не обрано!' : ''}
         />

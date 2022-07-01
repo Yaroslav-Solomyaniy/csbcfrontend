@@ -34,7 +34,7 @@ const Select = ({
         options={options}
         placeholder={placeholder}
         isClearable={isClearable}
-        value={options.find((option) => option.value.toString() === value?.toString()) || null}
+        value={options.find((option) => option?.value?.toString() === value?.toString()) || null}
         onChange={(option: SingleValue<Option>) => onChange(option?.value ? `${option.value}` : '')}
       />
       {error && (

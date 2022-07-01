@@ -1,50 +1,42 @@
 import { useEffect, useState } from 'react';
 import Select from '../Select';
 import { Option } from '../../../types';
-import { useGetOptionsCurator } from '../../../hooks/useGroups';
+import { useGetOptionsGroups } from '../../../hooks/useGroups';
 import { useGroupContext } from '../../../context/group';
 
-interface SelectCurator {
-  label?: string;
+interface SelectGroup {
   value: string | number;
   onChange: (value: string) => void;
   placeholder?: string;
   isSearchable?: boolean;
   isClearable?: boolean;
-  error?: string;
   required?: boolean;
 }
 
-const SelectCurator = ({
-  label,
+const SelectGroup = ({
   onChange,
   value,
   placeholder,
   isSearchable,
   isClearable,
   required,
-  error,
-}: SelectCurator): JSX.Element => {
-  const { optionCurators, getOptionsCurator } = useGetOptionsCurator();
+}: SelectGroup): JSX.Element => {
+  const { optionsGroups, getOptionsGroups } = useGetOptionsGroups();
   const [options, setOptions] = useState<Option[]>([]);
   const { groupCreate, groupEdit, groupDelete } = useGroupContext();
 
   useEffect(() => {
-    getOptionsCurator();
+    getOptionsGroups();
   }, [groupEdit?.data, groupCreate?.data, groupDelete?.data]);
 
   useEffect(() => {
-    if (optionCurators?.items.length) {
-      setOptions(optionCurators.items.map((curator) => ({
-        value: curator.id,
-        label: `${curator.firstName} ${curator.lastName} ${curator.patronymic}`,
-      })));
+    if (optionsGroups?.items.length) {
+      setOptions(optionsGroups.items.map((group) => ({ value: group.name, label: group.name })));
     }
-  }, [optionCurators]);
+  }, [optionsGroups]);
 
   return (
     <Select
-      label={label}
       onChange={onChange}
       value={value}
       options={options}
@@ -52,18 +44,15 @@ const SelectCurator = ({
       isSearchable={isSearchable}
       isClearable={isClearable}
       required={required}
-      error={error}
     />
   );
 };
 
-SelectCurator.defaultProps = {
+SelectGroup.defaultProps = {
   placeholder: '',
   isSearchable: false,
   isClearable: false,
   required: false,
-  label: '',
-  error: '',
 };
 
-export default SelectCurator;
+export default SelectGroup;

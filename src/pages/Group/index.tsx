@@ -14,15 +14,7 @@ import del from '../../images/table/delete.svg';
 import SelectCurator from '../../components/common/SelectCurator';
 import { ITableRowItem } from '../../components/common/table/TableBody';
 import { useGroupContext } from '../../context/group';
-
-interface ITableRow {
-  id: number;
-  name: string;
-  curator: string;
-  order_number: string;
-  studentValue: number;
-  actions: JSX.Element | undefined | string;
-}
+import SelectGroup from '../../components/common/SelectGroup';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'Номер Групи' },
@@ -69,27 +61,19 @@ const Group = (): JSX.Element => {
     if (filter.curator) {
       query.curatorId = +filter.curator;
     }
+    if (filter.group) {
+      query.name = filter.group;
+    }
 
     getGroups?.getGroups(query);
-  }, [filter.curator]);
-
-  //
-  // useEffect(() => {
-  //   setGroupList(groupNames?.items.map((d) => ({
-  //     value: d.id, label: d.name,
-  //   })));
-  //   setCuratorList(curators?.items.map((d) => ({
-  //     value: d.id,
-  //     label: `${d.lastName} ${d.firstName} ${d.patronymic}`,
-  //   })));
-  // }, [groupNames, curators]);
+  }, [filter.curator, filter.group]);
 
   useEffect(() => {
     if (getGroups?.data) {
       setDataRow(getGroups?.data?.items.map((item: IGroupData) => ({
         list: [
           { id: 1, label: item.name },
-          { id: 2, label: item.curator.firstName },
+          { id: 2, label: `${item.curator.firstName} ${item.curator.lastName} ${item.curator.patronymic}` },
           { id: 3, label: item.orderNumber },
           { id: 4, label: `${item.id}` },
           {
@@ -140,11 +124,22 @@ const Group = (): JSX.Element => {
 
         <Table
           filter={(
-            <SelectCurator
-              placeholder="Куратор"
-              onChange={(value) => setFilter({ ...filter, curator: value })}
-              value={filter.curator}
-            />
+            <>
+              <SelectCurator
+                placeholder="Куратор"
+                onChange={(value) => setFilter({ ...filter, curator: value })}
+                value={filter.curator}
+                isClearable
+                isSearchable
+              />
+              <SelectGroup
+                placeholder="Група"
+                onChange={(value) => setFilter({ ...filter, group: value })}
+                value={filter.group}
+                isClearable
+                isSearchable
+              />
+            </>
           )}
           dataHeader={dataHeader}
           dataRow={dataRow}

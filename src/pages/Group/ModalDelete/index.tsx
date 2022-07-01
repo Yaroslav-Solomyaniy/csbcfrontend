@@ -53,7 +53,7 @@ export const GroupDeleteModal = ({ modalActive, closeModal, groupId }: IGroupCre
   }, [groupId]);
 
   return (
-    <ModalWindow modalTitle="Видалення групи" active={modalActive} setActive={closeModal}>
+    <ModalWindow modalTitle="Видалення групи" active={modalActive} closeModal={handleClose}>
       <form className={styles.form} onSubmit={onSubmit}>
 
         <div className={styles.form__row}>

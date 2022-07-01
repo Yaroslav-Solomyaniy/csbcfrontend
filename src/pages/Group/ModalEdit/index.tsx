@@ -59,7 +59,7 @@ export const GroupEditModal = ({ modalActive, closeModal, groupId }: IGroupCreat
   }, [getGroupId?.data]);
 
   return (
-    <ModalWindow modalTitle="Редагування групи" active={modalActive} setActive={closeModal}>
+    <ModalWindow modalTitle="Редагування групи" active={modalActive} closeModal={handleClose}>
       <form className={styles.form} onSubmit={onSubmit}>
         <div className={styles.form__row}>
           <label className={styles.form__row_label}>Назва групи*</label>

@@ -1,16 +1,19 @@
 import clsx from 'clsx';
-import React, { Dispatch, SetStateAction } from 'react';
+import React from 'react';
 import styles from './index.module.scss';
 
-interface ImodalWindow{
-  modalTitle:string;
-  active:boolean;
-  setActive: Dispatch<SetStateAction<boolean>>;
+interface ImodalWindow {
+  modalTitle: string;
+  active: boolean;
   children: React.ReactNode | React.ReactChild;
+  closeModal: () => void;
 }
 
-const ModalWindow = ({ modalTitle, active, setActive, children }:ImodalWindow):JSX.Element => (
-  <div className={clsx(styles.modal, active && styles.active)} onClick={() => { setActive(false); }}>
+const ModalWindow = ({ modalTitle, active, children, closeModal }: ImodalWindow): JSX.Element => (
+  <div
+    className={clsx(styles.modal, active && styles.active)}
+    onClick={closeModal}
+  >
     <div className={clsx(styles.modal__content, active && styles.active)} onClick={(e) => e.stopPropagation()}>
       <div className={styles.modal__container}>
         <div className={styles.modal__title}>{modalTitle}</div>

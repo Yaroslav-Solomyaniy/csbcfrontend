@@ -1,10 +1,7 @@
 import { useEffect, useState } from 'react';
 import Select from '../Select';
 import { Option } from '../../../types';
-
-const useCuratorOptionsGet = () => ({
-  curatorOptionsGet: () => undefined, data: [],
-});
+import { UseDropDownCurators } from '../../../hooks/useGroups';
 
 interface SelectCurator {
   value: string | number;
@@ -13,30 +10,27 @@ interface SelectCurator {
 }
 
 const SelectCurator = ({ onChange, value, placeholder }: SelectCurator): JSX.Element => {
-  const { curatorOptionsGet, data } = useCuratorOptionsGet();
-
+  const { curators, DropDownCurators } = UseDropDownCurators();
   const [options, setOptions] = useState<Option[]>([]);
 
   useEffect(() => {
-    curatorOptionsGet();
-
-    //
-    setOptions([
-      { value: '5', label: '5' },
-      { value: '11', label: '11' },
-    ] /* convert data to options type */);
+    DropDownCurators();
   }, []);
 
   useEffect(() => {
-    if (data.length) {
-      setOptions([
-        { value: '5', label: '5' },
-        { value: '11', label: '11' },
-      ] /* convert data to options type */);
+    if (curators?.items.length) {
+      setOptions(curators.items.map((curator) => ({ value: curator.id, label: curator.firstName })));
     }
-  }, [data]);
+  }, [curators]);
 
-  return <Select onChange={onChange} value={value} options={options} placeholder={placeholder} />;
+  return (
+    <Select
+      onChange={onChange}
+      value={value}
+      options={options}
+      placeholder={placeholder}
+    />
+  );
 };
 
 SelectCurator.defaultProps = {

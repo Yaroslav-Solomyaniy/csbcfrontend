@@ -26,7 +26,7 @@ export const AddStudentsModal = ({ modalActive, closeModal }: IGroupCreateModal)
   };
 
   return (
-    <ModalWindow modalTitle="Додавання студента" active={modalActive} setActive={closeModal}>
+    <ModalWindow modalTitle="Додавання студента" active={modalActive} closeModal={closeModal}>
       <form className={styles.form} onSubmit={onSubmit}>
         <div className={styles.form__input}>
           <label className={styles.input__label}>Прізвище</label>

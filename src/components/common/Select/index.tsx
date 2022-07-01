@@ -8,7 +8,7 @@ import styles from './index.module.scss';
 interface Select {
   label?: string;
   options: Option[];
-  value: string | number;
+  value: string | number | null;
   onChange: (value: string) => void;
   required?: boolean;
   error?: string;
@@ -34,7 +34,7 @@ const Select = ({
         options={options}
         placeholder={placeholder}
         isClearable={isClearable}
-        value={options.find((option) => option.value === value) || null}
+        value={options.find((option) => option.value.toString() === value?.toString()) || null}
         onChange={(option: SingleValue<Option>) => onChange(option?.value ? `${option.value}` : '')}
       />
       {error && (

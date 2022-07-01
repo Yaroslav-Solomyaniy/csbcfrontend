@@ -4,7 +4,7 @@ import { useGroupContext } from '../../../context/group';
 import { IGroupCreateParams } from '../../../hooks/useGroups';
 import Select from '../../../components/common/Select';
 import ModalWindow from '../../../components/common/ModalWindow';
-import styles from '../index.module.scss';
+import styles from './index.module.scss';
 import Input from '../../../components/common/Input';
 
 interface IGroupCreateModal {
@@ -18,14 +18,16 @@ const formInitialData = {
   orderNumber: '',
 };
 
-const curators = [{
-  value: 5, label: '5',
-}];
+const curators = [
+  {
+    value: 5, label: '5',
+  },
+];
 
 export const GroupCreateModal = ({ modalActive, closeModal }: IGroupCreateModal): JSX.Element => {
+  const { groupCreate } = useGroupContext();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState<IGroupCreateParams>(formInitialData);
-  const { groupCreate } = useGroupContext();
 
   const handleClose = () => {
     setIsSubmitted(false);
@@ -42,31 +44,22 @@ export const GroupCreateModal = ({ modalActive, closeModal }: IGroupCreateModal)
   };
 
   useEffect(() => {
-    if (groupCreate?.data) {
-      closeModal();
-    }
+    closeModal();
   }, [groupCreate?.data]);
 
   return (
-    <ModalWindow modalTitle="Створення групи" active={modalActive} setActive={closeModal}>
+    <ModalWindow modalTitle="Створення групи" active={modalActive} closeModal={handleClose}>
       <form className={styles.form} onSubmit={onSubmit}>
-        <div className={styles.form__row}>
-          <label className={styles.form__row_label}>Назва групи*</label>
-          <input
-            className={styles.form__row_group}
-            placeholder="Назва групи"
-            value={formData.name}
-            onChange={(event) => {
-              setFormData({ ...formData, name: event.target.value });
-            }}
-          />
-        </div>
-        {isSubmitted && !formData.name && (
-          <div className={styles.form__error}>
-            <label className={styles.form__error_label} />
-            <div className={styles.form__error_text}>Номер групи введено не правильно</div>
-          </div>
-        )}
+        <Input
+          onChange={(event) => {
+            setFormData({ ...formData, name: event.target.value });
+          }}
+          value={formData.name}
+          placeholder="Номер групи"
+          label="Номер групи"
+          required
+          error={isSubmitted && !formData.orderNumber ? 'Номер групи не введено' : ''}
+        />
         <Input
           onChange={(event) => {
             setFormData({ ...formData, orderNumber: event.target.value });
@@ -88,20 +81,20 @@ export const GroupCreateModal = ({ modalActive, closeModal }: IGroupCreateModal)
           }}
           options={curators}
           value={formData.curatorId}
-          error={isSubmitted && !formData.curatorId ? 'Назву куратора не введено' : ''}
+          error={isSubmitted && !formData.curatorId ? 'Куратора не обрано!' : ''}
         />
       </form>
-      <div className={styles.modal__buttons}>
+      <div className={styles.modal_buttons}>
         <button
           type="button"
-          className={styles.modal__buttons_revert}
+          className={styles.modal_revert}
           onClick={handleClose}
         >
           Відміна
         </button>
         <button
           type="button"
-          className={styles.modal__buttons_submit}
+          className={styles.modal_submit}
           onClick={onSubmit}
         >
           Створити

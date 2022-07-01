@@ -6,7 +6,7 @@ import Layout from '../../loyout/Layout';
 import { ITableHeader } from '../../components/common/table/TableHeader';
 import Table from '../../components/common/table';
 import { GroupCreateModal } from './ModalCreate';
-import { IGetGroupParams } from '../../hooks/useGroups';
+import { IGetGroupParams, IGroupData } from '../../hooks/useGroups';
 import GroupEditModal from './ModalEdit';
 import GroupDeleteModal from './ModalDelete';
 import edit from '../../images/table/edit.svg';
@@ -50,8 +50,7 @@ interface Filter {
 }
 
 const Group = (): JSX.Element => {
-  const { getGroups } = useGroupContext();
-
+  const { getGroups, groupCreate, groupEdit, groupDelete } = useGroupContext();
   const [filter, setFilter] = useState<Filter>({ curator: '', group: '' });
   const [isActiveModal, setIsActiveModal] = useState(allCloseModalWindow);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
@@ -59,6 +58,10 @@ const Group = (): JSX.Element => {
   const closeModal = () => {
     setIsActiveModal(allCloseModalWindow);
   };
+
+  useEffect(() => {
+    getGroups?.getGroups();
+  }, [groupCreate?.data, groupEdit?.data, groupDelete?.data]);
 
   useEffect(() => {
     const query: IGetGroupParams = {};
@@ -70,9 +73,20 @@ const Group = (): JSX.Element => {
     getGroups?.getGroups(query);
   }, [filter.curator]);
 
+  //
+  // useEffect(() => {
+  //   setGroupList(groupNames?.items.map((d) => ({
+  //     value: d.id, label: d.name,
+  //   })));
+  //   setCuratorList(curators?.items.map((d) => ({
+  //     value: d.id,
+  //     label: `${d.lastName} ${d.firstName} ${d.patronymic}`,
+  //   })));
+  // }, [groupNames, curators]);
+
   useEffect(() => {
     if (getGroups?.data) {
-      setDataRow(getGroups?.data?.items.map((item) => ({
+      setDataRow(getGroups?.data?.items.map((item: IGroupData) => ({
         list: [
           { id: 1, label: item.name },
           { id: 2, label: item.curator.firstName },

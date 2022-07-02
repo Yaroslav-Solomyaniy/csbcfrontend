@@ -114,8 +114,10 @@ const Group = (): JSX.Element => {
           title="Групи"
           action={(
             <Button
+              nameClass="primary"
+              size="large"
+              className={styles.actions}
               onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
-              className={styles.create__Button}
             >
               Створити
             </Button>

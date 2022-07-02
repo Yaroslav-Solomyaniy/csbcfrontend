@@ -4,6 +4,7 @@ import ModalWindow from '../../../components/common/ModalWindow';
 import { IGroupDeleteParams } from '../../../hooks/useGroups';
 import { Option } from '../../../types';
 import { useGroupContext } from '../../../context/group';
+import Input from '../../../components/common/Input';
 
 interface IGroupCreateModal {
   modalActive: boolean;
@@ -40,7 +41,6 @@ export const GroupDeleteModal = ({ modalActive, closeModal, groupId }: IGroupCre
     setIsSubmited(true);
 
     if (formData.deletedOrderNumber) {
-      console.log({ ...formData }, groupId);
       groupDelete?.groupDelete({ ...formData }, groupId);
       closeModal();
     }
@@ -55,26 +55,16 @@ export const GroupDeleteModal = ({ modalActive, closeModal, groupId }: IGroupCre
   return (
     <ModalWindow modalTitle="Видалення групи" active={modalActive} closeModal={handleClose}>
       <form className={styles.form} onSubmit={onSubmit}>
-
-        <div className={styles.form__row}>
-          <label className={styles.form__row_label}>Номер наказу*</label>
-
-          <input
-            className={styles.form__row_group}
-            placeholder="Номер наказу"
-            value={formData.deletedOrderNumber}
-            onChange={(event) => {
-              setFormData({ ...formData, deletedOrderNumber: event.target.value });
-            }}
-          />
-        </div>
-        {isSubmited && !formData.deletedOrderNumber && (
-          <div className={styles.form__error}>
-            <label className={styles.form__error_label} />
-            <div className={styles.form__error_text}>Номер наказу не введено</div>
-          </div>
-        )}
-
+        <Input
+          onChange={(event) => {
+            setFormData({ ...formData, deletedOrderNumber: event.target.value });
+          }}
+          value={formData.deletedOrderNumber}
+          error={isSubmited && !formData.deletedOrderNumber ? 'Номер наказу не введено' : ''}
+          placeholder="Номер наказу"
+          label="Номер наказу"
+          required
+        />
       </form>
       <div className={styles.modal__buttons}>
         <button

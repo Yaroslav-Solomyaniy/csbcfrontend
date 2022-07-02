@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import Select from 'react-select';
 import styles from '../index.module.scss';
 import ModalWindow from '../../../components/common/ModalWindow';
 import { IGroupEditParams } from '../../../hooks/useGroups';
 import { useGroupContext } from '../../../context/group';
+import Input from '../../../components/common/Input';
+import SelectCurator from '../../../components/common/SelectCurator';
 
 interface IGroupCreateModal {
   modalActive: boolean;
@@ -61,63 +62,39 @@ export const GroupEditModal = ({ modalActive, closeModal, groupId }: IGroupCreat
   return (
     <ModalWindow modalTitle="Редагування групи" active={modalActive} closeModal={handleClose}>
       <form className={styles.form} onSubmit={onSubmit}>
-        <div className={styles.form__row}>
-          <label className={styles.form__row_label}>Назва групи*</label>
-          <input
-            className={styles.form__row_group}
-            placeholder="Назва групи"
-            value={formData.name}
-            onChange={(event) => {
-              setFormData({ ...formData, name: event.target.value });
-            }}
-          />
-        </div>
-        {isSubmited && !formData.name && (
-          <div className={styles.form__error}>
-            <label className={styles.form__error_label} />
-            <div className={styles.form__error_text}>Номер групи введено не правильно</div>
-          </div>
-        )}
+        <Input
+          onChange={(event) => {
+            setFormData({ ...formData, name: event.target.value });
+          }}
+          value={formData.name}
+          error={isSubmited && !formData.name ? 'Номер групи не введено' : ''}
+          placeholder="Номер групи"
+          label="Номер групи"
+          required
+        />
+        <Input
+          onChange={(event) => {
+            setFormData({ ...formData, orderNumber: event.target.value });
+          }}
+          value={formData.orderNumber}
+          error={isSubmited && !formData.orderNumber ? 'Номер наказу не введено' : ''}
+          placeholder="Номер наказу"
+          label="Номер наказу"
+          required
+        />
+        <SelectCurator
+          label="Куратор"
+          placeholder="Куратор"
+          required
+          isSearchable
+          isClearable
+          onChange={(value) => {
+            setFormData({ ...formData, curatorId: +value });
+          }}
+          value={formData.curatorId}
+          error={isSubmited && !formData.curatorId ? 'Куратора не обрано!' : ''}
+        />
 
-        <div className={styles.form__row}>
-          <label className={styles.form__row_label}>Номер наказу*</label>
-
-          <input
-            className={styles.form__row_orderNumber}
-            placeholder="Номер наказу"
-            value={formData.orderNumber}
-            onChange={(event) => {
-              setFormData({ ...formData, orderNumber: event.target.value });
-            }}
-          />
-        </div>
-        {isSubmited && !formData.orderNumber && (
-          <div className={styles.form__error}>
-            <label className={styles.form__error_label} />
-            <div className={styles.form__error_text}>Номер наказу не введено</div>
-          </div>
-        )}
-
-        <div className={styles.form__row}>
-          <label className={styles.form__row_label}>Куратор*</label>
-          <Select
-            className={styles.form__row_select}
-            isSearchable
-            options={curators}
-            placeholder="Куратор"
-            isClearable
-            value={curators.find(({ value }) => formData.curatorId === value) || null}
-            onChange={(value) => {
-              setFormData({ ...formData, curatorId: value?.value ? +value.value : 0 });
-            }}
-          />
-        </div>
-        {isSubmited && !formData.curatorId && (
-          <div className={styles.form__error}>
-            <label className={styles.form__error_label} />
-            <div className={styles.form__error_text}>Назву куратора не введено</div>
-          </div>
-        )}
       </form>
       <div className={styles.modal__buttons}>
         <button

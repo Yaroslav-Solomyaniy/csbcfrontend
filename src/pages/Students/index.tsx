@@ -45,7 +45,7 @@ const Students = (): JSX.Element => {
         <TitlePage
           title="Студенти"
           action={(
-            <Button onClick={() => setModalActive(true)} className={styles.button}>
+            <Button onClick={() => setModalActive(true)} nameClass={styles.button}>
               Створити
             </Button>
           )}

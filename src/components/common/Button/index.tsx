@@ -1,18 +1,33 @@
 import React from 'react';
+import clsx from 'clsx';
+import styles from './index.module.scss';
 
-interface Ibutton {
-  children: React.ReactNode | React.ReactChild;
+interface IButton {
+  children: React.ReactChild | React.ReactNode;
+  nameClass?: string;
   className?: string;
-
-  onClick(): void;
+  onClick: () => void;
+  size?: string;
+  disabled?: boolean;
 }
 
-const Button = ({ children, onClick, className }: Ibutton): JSX.Element => (
-  <button className={className} type="button" onClick={onClick}>{children}</button>
+const Button = ({ children, onClick, nameClass, className, size, disabled }: IButton): JSX.Element => (
+  <button
+    className={clsx(styles.default, nameClass && styles[nameClass], className, size && styles[size])}
+    type="button"
+    onClick={onClick}
+    disabled={disabled}
+  >
+    {children}
+  </button>
 );
 
 Button.defaultProps = {
+  nameClass: '',
   className: '',
+  type: 'button',
+  size: '',
+  disabled: false,
 };
 
 export default Button;

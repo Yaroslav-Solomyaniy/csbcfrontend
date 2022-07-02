@@ -1,0 +1,54 @@
+.default {
+  border: 1px solid rgba(66, 139, 202, 1);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 400;
+  display: block;
+  height: 100%;
+}
+
+.large {
+  padding: 10px 24px;
+}
+
+.small {
+  padding: 5px 16px;
+}
+
+.primary {
+  background: rgba(66, 139, 202, 1);
+  color: rgba(255, 255, 255, 0.85);
+
+  &:hover {
+    background: rgba(39, 111, 173, 1);
+    border: 1px solid rgba(39, 111, 173, 1);
+  }
+
+  &_disable {
+    background: rgba(220, 220, 220, 1);
+    border: none;
+  }
+}
+
+.secondary {
+  color: rgba(0, 0, 0, 0.75);
+  background: transparent;
+
+  &:hover {
+    background: transparent;
+    border: 1px solid rgba(39, 111, 173, 1);
+  }
+
+  &_disabled {
+    background: transparent;
+    color: #DCDCDC;
+    border: 1px solid rgba(220, 220, 220, 1);
+  }
+
+  &_voting {
+    color: rgba(255, 0, 0, 1);
+    background: transparent;
+    border: 1px solid rgba(255, 0, 0, 1);
+  }
+}
+

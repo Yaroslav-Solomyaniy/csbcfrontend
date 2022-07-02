@@ -5,6 +5,7 @@ import { useGetOptionsCurator } from '../../../hooks/useGroups';
 import { useGroupContext } from '../../../context/group';
 
 interface SelectCurator {
+  type: 'filter' | 'modal';
   label?: string;
   value: string | number;
   onChange: (value: string) => void;
@@ -16,6 +17,7 @@ interface SelectCurator {
 }
 
 const SelectCurator = ({
+  type,
   label,
   onChange,
   value,
@@ -44,7 +46,7 @@ const SelectCurator = ({
 
   return (
     <Select
-      type="filter"
+      type={type}
       label={label}
       onChange={onChange}
       value={value}

@@ -20,7 +20,24 @@ interface Select {
 }
 
 const Styles: any = {
-  filter: {},
+  filter: {
+    valueContainer: (provided: any) => ({
+      ...provided,
+      padding: '9px 8px 9px 16px',
+    }),
+    control: (provided: any) => ({
+      ...provided,
+      background: '#fff',
+      borderColor: 'rgba(0,0,0,0.1)',
+      minHeight: '100%',
+      height: '42px',
+      borderRadius: '8px',
+    }),
+    indicatorSeparator: (provided: any) => ({
+      ...provided,
+      display: 'none',
+    }),
+  },
   modal: {
     control: (provided: any) => ({
       ...provided,

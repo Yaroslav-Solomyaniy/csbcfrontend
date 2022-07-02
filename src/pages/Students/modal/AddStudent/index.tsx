@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styles from './index.module.scss';
 import ModalWindow from '../../../../components/common/ModalWindow';
+import Select from '../../../../components/common/Select';
 
 interface IGroupCreateModal {
   closeModal: () => void;
@@ -72,7 +73,18 @@ export const AddStudentsModal = ({ modalActive, closeModal }: IGroupCreateModal)
             }}
           />
         </div>
-        {/* <Select label="aetsdtb" /> */}
+        <Select
+          label="Група"
+          options={[
+            {
+              value: '1Д-08',
+              label: '1Д-08',
+            },
+          ]}
+          value="abtbsd"
+          onChange={() => undefined}
+          placeholder="Оберіть групу"
+        />
         {/* /!* <div className={styles.form__input}> *!/ */}
         {/* /!*  <label className={styles.input__label}>Група</label> *!/ */}
         {/* /!*  <Select *!/ */}
@@ -116,16 +128,22 @@ export const AddStudentsModal = ({ modalActive, closeModal }: IGroupCreateModal)
             }}
           />
         </div>
-        {/* <div className={styles.form__input}> */}
-        {/*  <label className={styles.input__label}>Форма навчання</label> */}
-        {/*  <Select */}
-        {/*    className={styles.input__select} */}
-        {/*    options={[]} */}
-        {/*    placeholder="Форма навчання" */}
-        {/*    isClearable */}
-        {/*    value={formData.isFullTime} */}
-        {/*  /> */}
-        {/* </div> */}
+        <Select
+          label="форма навчання"
+          options={[
+            {
+              value: 1,
+              label: 'true',
+            },
+            {
+              value: 0,
+              label: 'false',
+            },
+          ]}
+          value={`${formData.isFullTime}`}
+          onChange={() => undefined}
+          placeholder="Оберіть форму навчання"
+        />
       </form>
       <div className={styles.modal__buttons}>
         <button

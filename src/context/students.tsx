@@ -38,7 +38,7 @@ const StudentsProvider = ({ children }: JSX.ElementChildrenAttribute): JSX.Eleme
   const deleteStudentsItem = useStudentDelete();
 
   useEffect(() => {
-    getStudents.getStudent({});
+    getStudents.getStudent({ isFullTime: true });
   }, []);
 
   return (

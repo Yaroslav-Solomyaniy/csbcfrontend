@@ -6,7 +6,7 @@ import TitlePage from '../../components/TitlePage';
 import Button from '../../components/common/Button';
 import Table from '../../components/common/table';
 import { ITableHeader } from '../../components/common/table/TableHeader';
-import AddStudentsModal from './modal/AddStudent';
+import StudentsCreateModal from './modal/StudentsCreateModal';
 import { useStudentsContext } from '../../context/students';
 
 const groups = [
@@ -77,7 +77,7 @@ const Students = (): JSX.Element => {
           gridColumns={stylesStud.columns}
 
         />
-        <AddStudentsModal closeModal={closeModal} modalActive={modalActive} />
+        <StudentsCreateModal closeModal={closeModal} modalActive={modalActive} />
       </div>
     </Layout>
   );

@@ -6,10 +6,12 @@ import { Option } from '../../../types';
 import styles from './index.module.scss';
 
 interface Select {
-  label?: string;
   options: Option[];
+  type: 'filter' | 'modal';
   value: string | number | null;
   onChange: (value: string) => void;
+
+  label?: string;
   required?: boolean;
   error?: string;
   placeholder?: string;
@@ -17,38 +19,41 @@ interface Select {
   isClearable?: boolean;
 }
 
-const customStyles = {
-  control: (provided: any) => ({
-    ...provided,
-    background: '#fff',
-    borderColor: 'rgba(0,0,0,0.1)',
-    minHeight: '32px',
-    height: '32px',
-    borderRadius: '8px',
-  }),
+const Styles: any = {
+  filter: {},
+  modal: {
+    control: (provided: any) => ({
+      ...provided,
+      background: '#fff',
+      borderColor: 'rgba(0,0,0,0.1)',
+      minHeight: '32px',
+      height: '32px',
+      borderRadius: '8px',
+    }),
 
-  valueContainer: (provided: any) => ({
-    ...provided,
-    height: '32px',
-    padding: '0 16px',
-  }),
+    valueContainer: (provided: any) => ({
+      ...provided,
+      height: '32px',
+      padding: '0 16px',
+    }),
 
-  input: (provided: any) => ({
-    ...provided,
-    margin: '0px',
-    padding: '0',
-  }),
-  indicatorSeparator: () => ({
-    display: 'none',
-  }),
-  indicatorsContainer: (provided: any) => ({
-    ...provided,
-    height: '32px',
-  }),
+    input: (provided: any) => ({
+      ...provided,
+      margin: '0px',
+      padding: '0',
+    }),
+    indicatorSeparator: () => ({
+      display: 'none',
+    }),
+    indicatorsContainer: (provided: any) => ({
+      ...provided,
+      height: '32px',
+    }),
+  },
 };
 
 const Select = ({
-  label, options, value, onChange, required, error, placeholder, isSearchable, isClearable,
+  label, options, value, onChange, required, error, placeholder, isSearchable, isClearable, type,
 }: Select): JSX.Element => (
   <div className={styles.wrap}>
     {label && (
@@ -59,8 +64,8 @@ const Select = ({
     )}
     <div className={styles.selectWrap}>
       <ReactSelect<Option>
+        styles={Styles[type]}
         isSearchable={isSearchable}
-        styles={customStyles}
         className={styles.select}
         options={options}
         placeholder={placeholder}

@@ -44,6 +44,7 @@ const SelectCurator = ({
 
   return (
     <Select
+      type="filter"
       label={label}
       onChange={onChange}
       value={value}

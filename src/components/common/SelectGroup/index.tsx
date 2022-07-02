@@ -37,6 +37,7 @@ const SelectGroup = ({
 
   return (
     <Select
+      type="filter"
       onChange={onChange}
       value={value}
       options={options}

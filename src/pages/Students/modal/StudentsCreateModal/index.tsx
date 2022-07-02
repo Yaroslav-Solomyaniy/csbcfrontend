@@ -8,7 +8,7 @@ interface IGroupCreateModal {
   modalActive: boolean;
 }
 
-export const AddStudentsModal = ({ modalActive, closeModal }: IGroupCreateModal): JSX.Element => {
+export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateModal): JSX.Element => {
   const [formData, setFormData] = useState({
     dateOfBirth: '',
     firstName: '',
@@ -74,6 +74,7 @@ export const AddStudentsModal = ({ modalActive, closeModal }: IGroupCreateModal)
           />
         </div>
         <Select
+          type="modal"
           label="Група"
           options={[
             {
@@ -85,16 +86,6 @@ export const AddStudentsModal = ({ modalActive, closeModal }: IGroupCreateModal)
           onChange={() => undefined}
           placeholder="Оберіть групу"
         />
-        {/* /!* <div className={styles.form__input}> *!/ */}
-        {/* /!*  <label className={styles.input__label}>Група</label> *!/ */}
-        {/* /!*  <Select *!/ */}
-        {/* /!*    className={styles.input__select} *!/ */}
-        {/* /!*    options={[]} *!/ */}
-        {/* /!*    placeholder="Група" *!/ */}
-        {/* /!*    isClearable *!/ */}
-        {/* /!*    value={formData.groupName} *!/ */}
-        {/* /!*  /> *!/ */}
-        {/* /!* </div> *!/ */}
         <div className={styles.form__input}>
           <label className={styles.input__label}>Номер наказу</label>
           <input
@@ -129,6 +120,7 @@ export const AddStudentsModal = ({ modalActive, closeModal }: IGroupCreateModal)
           />
         </div>
         <Select
+          type="modal"
           label="форма навчання"
           options={[
             {
@@ -165,4 +157,4 @@ export const AddStudentsModal = ({ modalActive, closeModal }: IGroupCreateModal)
   );
 };
 
-export default AddStudentsModal;
+export default StudentsCreateModal;

@@ -3,27 +3,16 @@
   bottom: 0;
 }
 
-//Determine the number of columns in the table
 .columns {
   grid-template-columns: repeat(5, 1fr);
 }
 
+.form {
+  padding: 40px 0;
+}
 
-//Styles that refer to the action field in the table
 .actions {
-  padding: 1px 0;
-  height: 20px;
-
-  &__button {
-    &_edit {
-      background: transparent;
-      margin-right: 13px;
-      height: 100%;
-    }
-
-    &_delete {
-      height: 100%;
-      background: transparent;
-    }
-  }
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(20px, 1fr));
+  grid-column-gap: 13px;
 }

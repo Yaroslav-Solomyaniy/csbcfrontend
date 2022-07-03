@@ -5,6 +5,7 @@ import { IGroupDeleteParams } from '../../../hooks/useGroups';
 import { Option } from '../../../types';
 import { useGroupContext } from '../../../context/group';
 import Input from '../../../components/common/Input';
+import ModalControlButtons from '../../../components/common/ModalControlButtons';
 
 interface IGroupCreateModal {
   modalActive: boolean;
@@ -66,22 +67,12 @@ export const GroupDeleteModal = ({ modalActive, closeModal, groupId }: IGroupCre
           required
         />
       </form>
-      <div className={styles.modal__buttons}>
-        <button
-          type="button"
-          className={styles.modal__buttons_revert}
-          onClick={handleClose}
-        >
-          Відміна
-        </button>
-        <button
-          type="button"
-          className={styles.modal__buttons_submit}
-          onClick={onSubmit}
-        >
-          Створити
-        </button>
-      </div>
+      <ModalControlButtons
+        handleClose={closeModal}
+        onSubmit={onSubmit}
+        cancelButtonText="Відміна"
+        mainButtonText="Видалити"
+      />
     </ModalWindow>
   );
 };

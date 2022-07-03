@@ -1,0 +1,8 @@
+.block_Buttons {
+  display: flex;
+  justify-content: end;
+
+  :nth-child(n) {
+    margin-left: 16px;
+  }
+}

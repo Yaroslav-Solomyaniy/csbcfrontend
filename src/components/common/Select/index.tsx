@@ -15,10 +15,26 @@ interface Select {
   placeholder?: string;
   isSearchable?: boolean;
   isClearable?: boolean;
+  isFilter?: boolean;
 }
 
+const customStyles = {
+  control: (style: any) => ({
+    ...style,
+    borderRadius: 8,
+  }),
+};
+
+const customStylesFilter = {
+  control: (style: any) => ({
+    ...style,
+    borderRadius: 8,
+    height: 42,
+  }),
+};
+
 const Select = ({
-  label, options, value, onChange, required, error, placeholder, isSearchable, isClearable,
+  label, options, value, onChange, required, error, placeholder, isSearchable, isClearable, isFilter,
 }: Select): JSX.Element => (
   <div className={styles.wrap}>
     {label && (
@@ -31,6 +47,7 @@ const Select = ({
       <ReactSelect<Option>
         isSearchable={isSearchable}
         className={styles.select}
+        styles={isFilter ? customStylesFilter : customStyles}
         // components={{ IndicatorSeparator: () => null }}
         options={options}
         placeholder={placeholder}
@@ -54,6 +71,7 @@ Select.defaultProps = {
   placeholder: '',
   isSearchable: false,
   isClearable: false,
+  isFilter: false,
 };
 
 export default Select;

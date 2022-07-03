@@ -13,6 +13,7 @@ interface SelectCurator {
   isClearable?: boolean;
   error?: string;
   required?: boolean;
+  isFilter?: boolean;
 }
 
 const SelectCurator = ({
@@ -24,6 +25,7 @@ const SelectCurator = ({
   isClearable,
   required,
   error,
+  isFilter,
 }: SelectCurator): JSX.Element => {
   const { optionCurators, getOptionsCurator } = useGetOptionsCurator();
   const [options, setOptions] = useState<Option[]>([]);
@@ -53,6 +55,7 @@ const SelectCurator = ({
       isClearable={isClearable}
       required={required}
       error={error}
+      isFilter={isFilter}
     />
   );
 };
@@ -62,6 +65,7 @@ SelectCurator.defaultProps = {
   isSearchable: false,
   isClearable: false,
   required: false,
+  isFilter: false,
   label: '',
   error: '',
 };

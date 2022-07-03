@@ -75,29 +75,23 @@ const Group = (): JSX.Element => {
           { id: 1, label: item.name },
           { id: 2, label: `${item.curator.firstName} ${item.curator.lastName} ${item.curator.patronymic}` },
           { id: 3, label: item.orderNumber },
-          { id: 4, label: `${item.id}` },
+          { id: 4, label: `${item.students}` },
           {
             id: 5,
             label: (
               <div className={styles.actions}>
-                <button
-                  type="button"
-                  className={styles.actions__button_edit}
-                  onClick={() => {
-                    setIsActiveModal({ ...isActiveModal, edit: item.id });
-                  }}
+                <Button
+                  onClick={() => setIsActiveModal({ ...isActiveModal, edit: item.id })}
+                  isImg
                 >
                   <img src={edit} alt="edit" />
-                </button>
-                <button
-                  type="button"
-                  className={styles.actions__button_delete}
-                  onClick={() => {
-                    setIsActiveModal({ ...isActiveModal, delete: item.id });
-                  }}
+                </Button>
+                <Button
+                  onClick={() => setIsActiveModal({ ...isActiveModal, delete: item.id })}
+                  isImg
                 >
                   <img src={del} alt="delete" />
-                </button>
+                </Button>
               </div>
             ),
           },
@@ -133,6 +127,7 @@ const Group = (): JSX.Element => {
                 value={filter.curator}
                 isClearable
                 isSearchable
+                isFilter
               />
               <SelectGroup
                 placeholder="Група"
@@ -140,6 +135,7 @@ const Group = (): JSX.Element => {
                 value={filter.group}
                 isClearable
                 isSearchable
+                isFilter
               />
             </>
           )}

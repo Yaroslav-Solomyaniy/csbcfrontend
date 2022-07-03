@@ -35,6 +35,7 @@ export interface IGroupData {
     'email': string;
   };
   'orderNumber': string;
+  'students': number;
 }
 
 export interface IUseGroupsGet {

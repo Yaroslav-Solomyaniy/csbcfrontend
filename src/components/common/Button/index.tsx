@@ -6,14 +6,28 @@ interface IButton {
   children: React.ReactChild | React.ReactNode;
   nameClass?: string;
   className?: string;
-  onClick: () => void;
+  onClick: (e: React.FormEvent | undefined) => void;
   size?: string;
   disabled?: boolean;
+  isImg?: boolean;
 }
 
-const Button = ({ children, onClick, nameClass, className, size, disabled }: IButton): JSX.Element => (
+const Button = ({
+  children,
+  onClick,
+  nameClass,
+  className,
+  size,
+  disabled,
+  isImg,
+}: IButton): JSX.Element => (
   <button
-    className={clsx(styles.default, nameClass && styles[nameClass], className, size && styles[size])}
+    className={clsx(
+      isImg ? styles.img
+        : styles.default,
+      nameClass && styles[nameClass],
+      size && styles[size],
+    )}
     type="button"
     onClick={onClick}
     disabled={disabled}
@@ -28,6 +42,7 @@ Button.defaultProps = {
   type: 'button',
   size: '',
   disabled: false,
+  isImg: false,
 };
 
 export default Button;

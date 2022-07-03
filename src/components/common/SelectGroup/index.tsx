@@ -11,6 +11,7 @@ interface SelectGroup {
   isSearchable?: boolean;
   isClearable?: boolean;
   required?: boolean;
+  isFilter?: boolean;
 }
 
 const SelectGroup = ({
@@ -20,6 +21,7 @@ const SelectGroup = ({
   isSearchable,
   isClearable,
   required,
+  isFilter,
 }: SelectGroup): JSX.Element => {
   const { optionsGroups, getOptionsGroups } = useGetOptionsGroups();
   const [options, setOptions] = useState<Option[]>([]);
@@ -44,6 +46,7 @@ const SelectGroup = ({
       isSearchable={isSearchable}
       isClearable={isClearable}
       required={required}
+      isFilter={isFilter}
     />
   );
 };
@@ -53,6 +56,7 @@ SelectGroup.defaultProps = {
   isSearchable: false,
   isClearable: false,
   required: false,
+  isFilter: false,
 };
 
 export default SelectGroup;

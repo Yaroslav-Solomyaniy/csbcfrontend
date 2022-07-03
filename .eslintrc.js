@@ -36,6 +36,7 @@ module.exports = {
     'max-len': ['error', { code: 120 }],
     'no-bitwise': 'off',
     'import/namespace': 'off',
+    'no-nested-ternary': 'off',
     '@typescript-eslint/member-delimiter-style': [
       2,
       { multiline: { delimiter: 'semi', requireLast: true }, singleline: { delimiter: 'semi', requireLast: true } },

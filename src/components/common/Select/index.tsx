@@ -31,6 +31,7 @@ const Select = ({
       <ReactSelect<Option>
         isSearchable={isSearchable}
         className={styles.select}
+        // components={{ IndicatorSeparator: () => null }}
         options={options}
         placeholder={placeholder}
         isClearable={isClearable}

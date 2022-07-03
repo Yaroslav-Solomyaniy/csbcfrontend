@@ -17,6 +17,36 @@ interface Select {
   isClearable?: boolean;
 }
 
+const customStyles = {
+  control: (provided: any) => ({
+    ...provided,
+    background: '#fff',
+    borderColor: 'rgba(0,0,0,0.1)',
+    minHeight: '32px',
+    height: '32px',
+    borderRadius: '8px',
+  }),
+
+  valueContainer: (provided: any) => ({
+    ...provided,
+    height: '32px',
+    padding: '0 16px',
+  }),
+
+  input: (provided: any) => ({
+    ...provided,
+    margin: '0px',
+    padding: '0',
+  }),
+  indicatorSeparator: () => ({
+    display: 'none',
+  }),
+  indicatorsContainer: (provided: any) => ({
+    ...provided,
+    height: '32px',
+  }),
+};
+
 const Select = ({
   label, options, value, onChange, required, error, placeholder, isSearchable, isClearable,
 }: Select): JSX.Element => (
@@ -30,6 +60,7 @@ const Select = ({
     <div className={styles.selectWrap}>
       <ReactSelect<Option>
         isSearchable={isSearchable}
+        styles={customStyles}
         className={styles.select}
         // components={{ IndicatorSeparator: () => null }}
         options={options}

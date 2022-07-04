@@ -5,6 +5,7 @@ import { IGroupEditParams } from '../../../hooks/useGroups';
 import { useGroupContext } from '../../../context/group';
 import Input from '../../../components/common/Input';
 import SelectCurator from '../../../components/common/SelectCurator';
+import ModalControlButtons from '../../../components/common/ModalControlButtons';
 
 interface IGroupCreateModal {
   modalActive: boolean;
@@ -17,10 +18,6 @@ const formInitialData = {
   curatorId: 0,
   orderNumber: '',
 };
-
-const curators = [{
-  value: 5, label: '5',
-}];
 
 export const GroupEditModal = ({ modalActive, closeModal, groupId }: IGroupCreateModal): JSX.Element => {
   const [isSubmited, setIsSubmited] = useState(false);
@@ -37,9 +34,11 @@ export const GroupEditModal = ({ modalActive, closeModal, groupId }: IGroupCreat
     e?.preventDefault?.();
     setIsSubmited(true);
 
-    if (formData.name && formData.orderNumber && formData.curatorId) {
-      // groupEdit({ ...formData }, groupId);
-      closeModal();
+    if (formData.name && formData.orderNumber) {
+      if (formData.curatorId) {
+        // groupEdit({ ...formData }, groupId);
+        closeModal();
+      }
     }
   };
 
@@ -97,22 +96,12 @@ export const GroupEditModal = ({ modalActive, closeModal, groupId }: IGroupCreat
         />
 
       </form>
-      <div className={styles.modal__buttons}>
-        <button
-          type="button"
-          className={styles.modal__buttons_revert}
-          onClick={handleClose}
-        >
-          Відміна
-        </button>
-        <button
-          type="button"
-          className={styles.modal__buttons_submit}
-          onClick={onSubmit}
-        >
-          Створити
-        </button>
-      </div>
+      <ModalControlButtons
+        handleClose={closeModal}
+        onSubmit={onSubmit}
+        cancelButtonText="Відміна"
+        mainButtonText="Зберегти"
+      />
     </ModalWindow>
   );
 };

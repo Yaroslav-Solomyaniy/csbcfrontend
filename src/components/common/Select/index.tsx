@@ -23,7 +23,6 @@ const Styles: any = {
   filter: {
     control: (provided: any) => ({
       ...provided,
-      // marginRight: '16px',
       background: '#fff',
       borderColor: 'rgba(0,0,0,0.1)',
       minHeight: '100%',

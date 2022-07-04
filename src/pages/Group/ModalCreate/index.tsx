@@ -6,6 +6,7 @@ import ModalWindow from '../../../components/common/ModalWindow';
 import styles from './index.module.scss';
 import Input from '../../../components/common/Input';
 import SelectCurator from '../../../components/common/SelectCurator';
+import ModalControlButtons from '../../../components/common/ModalControlButtons';
 
 interface IGroupCreateModal {
   modalActive: boolean;
@@ -58,7 +59,7 @@ export const GroupCreateModal = ({ modalActive, closeModal }: IGroupCreateModal)
           placeholder="Номер групи"
           label="Номер групи"
           required
-          error={isSubmitted && !formData.orderNumber ? 'Номер групи не введено' : ''}
+          error={isSubmitted && !formData.name ? 'Номер групи не введено' : ''}
         />
         <Input
           onChange={(event) => {
@@ -84,22 +85,12 @@ export const GroupCreateModal = ({ modalActive, closeModal }: IGroupCreateModal)
           error={isSubmitted && !formData.curatorId ? 'Куратора не обрано!' : ''}
         />
       </form>
-      <div className={styles.modal_buttons}>
-        <button
-          type="button"
-          className={styles.modal_revert}
-          onClick={handleClose}
-        >
-          Відміна
-        </button>
-        <button
-          type="button"
-          className={styles.modal_submit}
-          onClick={onSubmit}
-        >
-          Створити
-        </button>
-      </div>
+      <ModalControlButtons
+        handleClose={closeModal}
+        onSubmit={onSubmit}
+        cancelButtonText="Відміна"
+        mainButtonText="Створити"
+      />
     </ModalWindow>
   );
 };

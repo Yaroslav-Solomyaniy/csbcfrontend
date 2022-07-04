@@ -39,3 +39,10 @@ button, a {
 iframe {
   display: none;
 }
+
+.clip {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

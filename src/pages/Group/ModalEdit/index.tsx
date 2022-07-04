@@ -82,6 +82,7 @@ export const GroupEditModal = ({ modalActive, closeModal, groupId }: IGroupCreat
           required
         />
         <SelectCurator
+          type="modal"
           label="Куратор"
           placeholder="Куратор"
           required

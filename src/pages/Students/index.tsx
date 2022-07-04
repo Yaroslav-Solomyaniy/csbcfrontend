@@ -6,20 +6,14 @@ import TitlePage from '../../components/TitlePage';
 import Button from '../../components/common/Button';
 import Table from '../../components/common/table';
 import { ITableHeader } from '../../components/common/table/TableHeader';
-import AddStudentsModal from './modal/AddStudent';
+import StudentsCreateModal from './modal/StudentsCreate';
 import { useStudentsContext } from '../../context/students';
-
-const groups = [
-  { value: '1P20', label: '1П-20' },
-  { value: '2P20', label: '2П-20' },
-];
-const name = [
-  { value: 'YaroslavSolomianiy', label: "Ярослав Солом'яний" },
-  { value: 'VadimSirenko', label: 'Вадим Сіренко' },
-];
-const formTraining = [
-  { value: 'day', label: 'Денна' },
-];
+import SelectGroup from '../../components/common/SelectGroup';
+import SelectPIB from '../../components/common/SelectPIB';
+import SelectIsFullTime from '../../components/common/SelectIsFullTime';
+import edit from '../../images/table/edit.svg';
+import del from '../../images/table/delete.svg';
+import { IIsActiveModalState } from '../Group';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІП студента' },
@@ -31,13 +25,28 @@ const dataHeader: ITableHeader[] = [
   { id: 7, label: 'Дії' },
 ];
 
+interface Filter {
+  name: string;
+  group: string;
+  isFullTime: string;
+}
+
+const allCloseModalWindow: IIsActiveModalState = {
+  create: false,
+  edit: 0,
+  delete: 0,
+};
+
 const Students = (): JSX.Element => {
   const { getStudents } = useStudentsContext();
 
   const [modalActive, setModalActive] = useState(false);
+  const [filter, setFilter] = useState<Filter>({ name: '', group: '', isFullTime: '' });
   const closeModal = () => {
     setModalActive(false);
   };
+
+  const [isActiveModal, setIsActiveModal] = useState(allCloseModalWindow);
 
   return (
     <Layout>
@@ -56,28 +65,71 @@ const Students = (): JSX.Element => {
           )}
         />
         <Table
-          // [
-          //  { key: 'groupId', value: groups, placeholder: 'Група' },
-          //  { key: 'name', value: name, placeholder: 'ПІП' },
-          //  { key: 'formTraining', value: formTraining, placeholder: 'Форма навчання' },
-          // ]
+          filter={(
+            <>
+              <SelectGroup
+                type="filter"
+                placeholder="Група"
+                value={filter.group}
+                onChange={(value) => setFilter({ ...filter, group: value })}
+                isClearable
+                isSearchable
+              />
+              <SelectPIB
+                type="filter"
+                placeholder="ПІБ"
+                value={filter.name}
+                onChange={(value) => setFilter({ ...filter, name: value })}
+              />
+              <SelectIsFullTime
+                type="filter"
+                placeholder="Форма навчання"
+                value={filter.isFullTime}
+                onChange={(value) => setFilter({ ...filter, isFullTime: value })}
+              />
+            </>
+          )}
           dataHeader={dataHeader}
           dataRow={getStudents?.dataStudents?.items.length ? getStudents?.dataStudents?.items.map((item, id) => ({
             list: [
-              { id, label: item.user.firstName + item.user.lastName },
+              { id, label: `${item.user.lastName} ${item.user.firstName}` },
               { id, label: item.group.name },
               { id, label: item.orderNumber },
-              { id, label: `${item.isFullTime}` },
+              { id, label: item.isFullTime ? 'Денна' : 'Заочна' },
               { id, label: item.user.email },
               { id, label: item.user.firstName },
-              { id, label: ' ' },
+              {
+                id,
+                label: (
+                  <div className={styles.actions}>
+                    <button
+                      type="button"
+                      className={styles.actions__button_edit}
+                      onClick={() => {
+                        setIsActiveModal({ ...isActiveModal, edit: item.id });
+                      }}
+                    >
+                      <img src={edit} alt="edit" />
+                    </button>
+                    <button
+                      type="button"
+                      className={styles.actions__button_delete}
+                      onClick={() => {
+                        setIsActiveModal({ ...isActiveModal, delete: item.id });
+                      }}
+                    >
+                      <img src={del} alt="delete" />
+                    </button>
+                  </div>
+                ),
+              },
             ],
             key: item.id,
           })) : []}
           gridColumns={stylesStud.columns}
 
         />
-        <AddStudentsModal closeModal={closeModal} modalActive={modalActive} />
+        <StudentsCreateModal closeModal={closeModal} modalActive={modalActive} />
       </div>
     </Layout>
   );

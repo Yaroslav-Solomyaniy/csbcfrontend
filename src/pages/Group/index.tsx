@@ -22,7 +22,7 @@ const dataHeader: ITableHeader[] = [
   { id: 2, label: 'Куратор' },
   { id: 3, label: 'Номер Наказу' },
   { id: 4, label: 'К-ть студентів' },
-  { id: 5, label: 'дії' },
+  { id: 5, label: 'Дії' },
 ];
 
 export interface IIsActiveModalState {

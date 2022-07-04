@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-
-import { useGroupContext } from '../../../context/group';
-import { IGroupCreateParams } from '../../../hooks/useGroups';
+import styles from '../index.module.scss';
 import ModalWindow from '../../../components/common/ModalWindow';
-import styles from './index.module.scss';
+import { IGroupEditParams } from '../../../hooks/useGroups';
+import { useGroupContext } from '../../../context/group';
 import Input from '../../../components/common/Input';
 import SelectCurator from '../../../components/common/SelectCurator';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
@@ -11,6 +10,7 @@ import ModalControlButtons from '../../../components/common/ModalControlButtons'
 interface IGroupCreateModal {
   modalActive: boolean;
   closeModal: () => void;
+  groupId: number;
 }
 
 const formInitialData = {
@@ -19,51 +19,67 @@ const formInitialData = {
   orderNumber: '',
 };
 
-export const GroupCreateModal = ({ modalActive, closeModal }: IGroupCreateModal): JSX.Element => {
-  const { groupCreate } = useGroupContext();
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [formData, setFormData] = useState<IGroupCreateParams>(formInitialData);
+export const GroupEditModal = ({ modalActive, closeModal, groupId }: IGroupCreateModal): JSX.Element => {
+  const [isSubmited, setIsSubmited] = useState(false);
+  const [formData, setFormData] = useState<IGroupEditParams>(formInitialData);
+  const { groupEdit, getGroupId } = useGroupContext();
 
   const handleClose = () => {
-    setIsSubmitted(false);
+    setIsSubmited(false);
     setFormData(formInitialData);
     closeModal();
   };
 
   const onSubmit = (e: React.FormEvent | undefined) => {
     e?.preventDefault?.();
-    setIsSubmitted(true);
-    if (formData.name && formData.orderNumber && formData.curatorId) {
-      groupCreate?.groupCreate(formData);
+    setIsSubmited(true);
+
+    if (formData.name && formData.orderNumber) {
+      if (formData.curatorId) {
+        groupEdit?.groupEdit({ ...formData }, groupId);
+        closeModal();
+      }
     }
   };
 
   useEffect(() => {
-    handleClose();
-  }, [groupCreate?.data]);
+    if (groupId) {
+      getGroupId?.getGroupId({ id: `${groupId}` });
+    }
+  }, [groupId]);
+
+  useEffect(() => {
+    if (getGroupId?.data) {
+      setFormData({
+        name: getGroupId?.data.name,
+        orderNumber: getGroupId?.data.orderNumber,
+        curatorId: getGroupId?.data.curator.id,
+      });
+    }
+  }, [getGroupId?.data]);
 
   return (
-    <ModalWindow modalTitle="Створення групи" active={modalActive} closeModal={handleClose}>
+    <ModalWindow modalTitle="Редагування групи" active={modalActive} closeModal={handleClose}>
       <form className={styles.form} onSubmit={onSubmit}>
         <Input
           onChange={(event) => {
             setFormData({ ...formData, name: event.target.value });
           }}
           value={formData.name}
+          error={isSubmited && !formData.name ? 'Номер групи не введено' : ''}
           placeholder="Номер групи"
           label="Номер групи"
           required
-          error={isSubmitted && !formData.name ? 'Номер групи не введено' : ''}
         />
         <Input
           onChange={(event) => {
             setFormData({ ...formData, orderNumber: event.target.value });
           }}
           value={formData.orderNumber}
+          error={isSubmited && !formData.orderNumber ? 'Номер наказу не введено' : ''}
           placeholder="Номер наказу"
           label="Номер наказу"
           required
-          error={isSubmitted && !formData.orderNumber ? 'Номер наказу не введено' : ''}
         />
         <SelectCurator
           type="modal"
@@ -76,17 +92,18 @@ export const GroupCreateModal = ({ modalActive, closeModal }: IGroupCreateModal)
             setFormData({ ...formData, curatorId: +value });
           }}
           value={formData.curatorId}
-          error={isSubmitted && !formData.curatorId ? 'Куратора не обрано!' : ''}
+          error={isSubmited && !formData.curatorId ? 'Куратора не обрано!' : ''}
         />
+
       </form>
       <ModalControlButtons
-        handleClose={handleClose}
+        handleClose={closeModal}
         onSubmit={onSubmit}
         cancelButtonText="Відміна"
-        mainButtonText="Створити"
+        mainButtonText="Зберегти"
       />
     </ModalWindow>
   );
 };
 
-export default GroupCreateModal;
+export default GroupEditModal;

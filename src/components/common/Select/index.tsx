@@ -48,7 +48,6 @@ const Styles: any = {
       ...provided,
       background: '#fff',
       borderColor: 'rgba(0,0,0,0.1)',
-      minHeight: '100%',
       height: '42px',
       borderRadius: '8px',
     }),
@@ -59,10 +58,6 @@ const Styles: any = {
     indicatorSeparator: (provided: any) => ({
       ...provided,
       display: 'none',
-    }),
-    indicatorsContainer: (provided: any) => ({
-      ...provided,
-      height: 32,
     }),
   },
   modal: {
@@ -87,7 +82,8 @@ const Styles: any = {
       margin: '0px',
       padding: '0',
     }),
-    indicatorSeparator: () => ({
+    indicatorSeparator: (provided: any) => ({
+      ...provided,
       display: 'none',
     }),
     indicatorsContainer: (provided: any) => ({

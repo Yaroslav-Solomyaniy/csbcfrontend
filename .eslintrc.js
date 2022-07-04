@@ -36,6 +36,7 @@ module.exports = {
     'max-len': ['error', { code: 120 }],
     'no-bitwise': 'off',
     'import/namespace': 'off',
+    'no-mixed-operators': 'off',
     'no-nested-ternary': 'off',
     '@typescript-eslint/member-delimiter-style': [
       2,

@@ -1,19 +1,18 @@
 import { useEffect, useState } from 'react';
-import Select, { SelectType } from '../Select';
-import { Option } from '../../../types';
+import Select from '../Select';
+import { Option, SelectType } from '../../../types';
 import { useGetOptionsGroups } from '../../../hooks/useGroups';
 import { useGroupContext } from '../../../context/group';
 
 interface SelectGroup {
   value: string | number;
   onChange: (value: string) => void;
-  type: 'filter' | 'modal';
+  type: SelectType;
   label?: string;
   placeholder?: string;
   isSearchable?: boolean;
   isClearable?: boolean;
   required?: boolean;
-  type: SelectType;
 }
 
 const SelectGroup = ({
@@ -25,7 +24,6 @@ const SelectGroup = ({
   isSearchable,
   isClearable,
   required,
-  type,
 }: SelectGroup): JSX.Element => {
   const { optionsGroups, getOptionsGroups } = useGetOptionsGroups();
   const [options, setOptions] = useState<Option[]>([]);
@@ -52,7 +50,6 @@ const SelectGroup = ({
       isSearchable={isSearchable}
       isClearable={isClearable}
       required={required}
-      type={type}
     />
   );
 };

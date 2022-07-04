@@ -1,11 +1,9 @@
 import React from 'react';
 import ReactSelect, { SingleValue } from 'react-select';
 
-import { Option } from '../../../types';
+import { Option, SelectType } from '../../../types';
 
 import styles from './index.module.scss';
-
-export type SelectType = 'filter' | 'modal' | 'pagination';
 
 interface Select {
   options: Option[];
@@ -57,6 +55,10 @@ const Styles: any = {
       ...provided,
       display: 'none',
     }),
+    indicatorsContainer: (provided: any) => ({
+      ...provided,
+      height: 32,
+    }),
   },
   modal: {
     control: (provided: any) => ({
@@ -93,6 +95,7 @@ const Styles: any = {
 const Select = ({
   label, options, value, onChange, required, error, placeholder, isSearchable, isClearable, type,
 }: Select): JSX.Element => (
+
   <div className={styles.wrap}>
     {label && (
     <label className={styles.label}>

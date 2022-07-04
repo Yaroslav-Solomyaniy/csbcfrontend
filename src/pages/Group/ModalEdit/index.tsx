@@ -36,7 +36,7 @@ export const GroupEditModal = ({ modalActive, closeModal, groupId }: IGroupCreat
 
     if (formData.name && formData.orderNumber) {
       if (formData.curatorId) {
-        // groupEdit({ ...formData }, groupId);
+        groupEdit?.groupEdit({ ...formData }, groupId);
         closeModal();
       }
     }
@@ -93,7 +93,6 @@ export const GroupEditModal = ({ modalActive, closeModal, groupId }: IGroupCreat
           }}
           value={formData.curatorId}
           error={isSubmited && !formData.curatorId ? 'Куратора не обрано!' : ''}
-          type="modal"
         />
 
       </form>

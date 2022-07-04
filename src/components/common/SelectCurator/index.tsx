@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
-import Select, { SelectType } from '../Select';
-import { Option } from '../../../types';
+import Select from '../Select';
+import { Option, SelectType } from '../../../types';
 import { useGetOptionsCurator } from '../../../hooks/useGroups';
 import { useGroupContext } from '../../../context/group';
 
 interface SelectCurator {
-  type: 'filter' | 'modal';
   label?: string;
   value: string | number;
   onChange: (value: string) => void;
@@ -27,7 +26,6 @@ const SelectCurator = ({
   isClearable,
   required,
   error,
-  type,
 }: SelectCurator): JSX.Element => {
   const { optionCurators, getOptionsCurator } = useGetOptionsCurator();
   const [options, setOptions] = useState<Option[]>([]);
@@ -58,7 +56,6 @@ const SelectCurator = ({
       isClearable={isClearable}
       required={required}
       error={error}
-      type={type}
     />
   );
 };

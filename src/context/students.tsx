@@ -11,8 +11,10 @@ import {
   useStudentPatch,
   useStudentsGet,
 } from '../hooks/useStudents';
+import { IUseGetOptionsGroups, useGetOptionsGroups } from '../hooks/useGroups';
 
 interface IStudentsContext {
+  getOptionsGroups: IUseGetOptionsGroups | null;
   createStudents: ICreateStudents | null;
   getStudents: IUseGetStudents | null;
   getStudent: IUseGetStudentsItem | null;
@@ -21,6 +23,7 @@ interface IStudentsContext {
 }
 
 const defaultValue: IStudentsContext = {
+  getOptionsGroups: null,
   createStudents: null,
   getStudents: null,
   getStudent: null,
@@ -31,6 +34,7 @@ const defaultValue: IStudentsContext = {
 export const StudentsContext = createContext<IStudentsContext>(defaultValue);
 
 const StudentsProvider = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
+  const getOptionsGroups = useGetOptionsGroups();
   const createStudents = useStudentCreate();
   const getStudents = useStudentsGet();
   const getStudent = useStudentGetId();
@@ -38,14 +42,15 @@ const StudentsProvider = ({ children }: JSX.ElementChildrenAttribute): JSX.Eleme
   const deleteStudentsItem = useStudentDelete();
 
   useEffect(() => {
-    getStudents.getStudent({ isFullTime: true });
+    getStudents.getStudent({});
   }, []);
 
   return (
     <StudentsContext.Provider value={{
-      createStudents,
+      getOptionsGroups,
       getStudents,
       getStudent,
+      createStudents,
       patchStudentsItem,
       deleteStudentsItem,
     }}

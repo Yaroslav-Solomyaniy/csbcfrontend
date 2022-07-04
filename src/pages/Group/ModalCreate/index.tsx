@@ -72,6 +72,7 @@ export const GroupCreateModal = ({ modalActive, closeModal }: IGroupCreateModal)
           error={isSubmitted && !formData.orderNumber ? 'Номер наказу не введено' : ''}
         />
         <SelectCurator
+          type="modal"
           label="Куратор"
           placeholder="Куратор"
           required

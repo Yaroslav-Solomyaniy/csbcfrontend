@@ -130,6 +130,7 @@ const Group = (): JSX.Element => {
           filter={(
             <>
               <SelectCurator
+                type="filter"
                 placeholder="Куратор"
                 onChange={(value) => setParams({
                   ...params,
@@ -142,6 +143,7 @@ const Group = (): JSX.Element => {
                 type="filter"
               />
               <SelectGroup
+                type="filter"
                 placeholder="Група"
                 onChange={(value) => setParams({
                   ...params,

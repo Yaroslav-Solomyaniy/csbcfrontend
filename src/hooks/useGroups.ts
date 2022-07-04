@@ -216,11 +216,11 @@ interface IGetGroupsOptionParams {
 }
 
 interface IGetGroupsOptionData {
-  'id': number;
+  id: number;
   name: string;
 }
 
-interface IUseGetOptionsGroups {
+export interface IUseGetOptionsGroups {
   optionsGroups: IPaginateData<IGetGroupsOptionData> | null;
   getOptionsGroups: (params?: IGetGroupsOptionParams) => void;
 }

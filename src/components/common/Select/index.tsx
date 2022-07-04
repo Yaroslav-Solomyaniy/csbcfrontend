@@ -37,6 +37,10 @@ const Styles: any = {
       ...provided,
       display: 'none',
     }),
+    indicatorsContainer: (provided: any) => ({
+      ...provided,
+      height: '32px',
+    }),
   },
   filter: {
     control: (provided: any) => ({

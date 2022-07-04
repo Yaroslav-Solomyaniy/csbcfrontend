@@ -7,6 +7,8 @@ import { useGroupContext } from '../../../context/group';
 interface SelectGroup {
   value: string | number;
   onChange: (value: string) => void;
+  type: 'filter' | 'modal';
+  label?: string;
   placeholder?: string;
   isSearchable?: boolean;
   isClearable?: boolean;
@@ -14,6 +16,8 @@ interface SelectGroup {
 }
 
 const SelectGroup = ({
+  type,
+  label,
   onChange,
   value,
   placeholder,
@@ -37,7 +41,8 @@ const SelectGroup = ({
 
   return (
     <Select
-      type="filter"
+      label={label}
+      type={type}
       onChange={onChange}
       value={value}
       options={options}
@@ -50,6 +55,7 @@ const SelectGroup = ({
 };
 
 SelectGroup.defaultProps = {
+  label: '',
   placeholder: '',
   isSearchable: false,
   isClearable: false,

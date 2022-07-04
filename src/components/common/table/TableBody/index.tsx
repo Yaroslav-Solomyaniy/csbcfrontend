@@ -24,7 +24,7 @@ const TableBody = ({ dataRow, gridColumns }: ITableBody): JSX.Element => (
       {dataRow.map(({ key, list }) => (
         <div className={clsx(styles.body__row, gridColumns)} key={key}>
           {list.map(({ id, label }) => (
-            <div className={styles.body__row_item} key={id}>
+            <div className={clsx(styles.body__row_item, 'clip')} key={id}>
               {label}
             </div>
           ))}

@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './index.module.scss';
 import ModalWindow from '../../../../components/common/ModalWindow';
-import { IAddStudents } from '../../../../hooks/useStudents';
+import { IStudents } from '../../../../hooks/useStudents';
 import Select from '../../../../components/common/Select';
 import Input from '../../../../components/common/Input';
+import { useStudentsContext } from '../../../../context/students';
+import { Option } from '../../../../types';
+import SelectGroup from '../../../../components/common/SelectGroup';
 
 interface IGroupCreateModal {
   closeModal: () => void;
@@ -18,30 +21,65 @@ const formInitialData = {
     lastName: '',
     patronymic: '',
     email: '',
-    role: '',
+    role: 'student',
   },
   orderNumber: '',
   edeboId: '',
   isFullTime: true,
 };
 
+const selectValueDefault = {
+  group: '',
+  isFullTime: '',
+};
+
 export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateModal): JSX.Element => {
-  const [formData, setFormData] = useState<IAddStudents>(formInitialData);
+  const { createStudents, getOptionsGroups } = useStudentsContext();
+
+  const [formData, setFormData] = useState<IStudents>(formInitialData);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [options, setOptions] = useState<Option[]>([]);
+  const [selectValue, setSelectValue] = useState(selectValueDefault);
+
+  useEffect(() => {
+    getOptionsGroups?.getOptionsGroups();
+  }, []);
+
+  useEffect(() => {
+    if (getOptionsGroups?.optionsGroups?.items.length) {
+      setOptions(getOptionsGroups?.optionsGroups.items.map((group) => ({ value: group.id, label: group.name })));
+    }
+  }, [getOptionsGroups?.optionsGroups]);
 
   const handleClose = () => {
     setIsSubmitted(false);
     setFormData(formInitialData);
+    setSelectValue(selectValueDefault);
     closeModal();
   };
 
+  useEffect(() => {
+    setSelectValue({ ...selectValue, isFullTime: formData.isFullTime ? 'Денна' : 'Заочна' });
+  }, [formData.isFullTime]);
+
   const onSubmit = (e: React.FormEvent | undefined) => {
     e?.preventDefault?.();
-    // тут буде запрос
+    if (
+      formData.dateOfBirth
+      && formData.groupId
+      && formData.user.firstName
+      && formData.user.lastName
+      && formData.user.patronymic
+      && formData.user.email
+      && formData.orderNumber
+      && formData.edeboId
+    ) {
+      createStudents?.addStudent(formData);
+    }
   };
 
   return (
-    <ModalWindow modalTitle="Додавання студента" active={modalActive} closeModal={closeModal}>
+    <ModalWindow modalTitle="Додавання студента" active={modalActive} closeModal={handleClose}>
       <form className={styles.form} onSubmit={onSubmit}>
         <Input
           required
@@ -83,21 +121,23 @@ export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateMod
           }}
           error={isSubmitted && !formData.orderNumber ? 'Номер групи не введено' : ''}
         />
-        <Select
+        <SelectGroup
           type="modal"
           label="Група"
-          options={[
-            {
-              value: '1Д-08',
-              label: '1Д-08',
-            },
-          ]}
-          value={formData.groupId}
-          onChange={(value: string) => {
-            setFormData({ ...formData, groupId: +value });
+          placeholder="Група"
+          onChange={(label: string) => {
+            options.map((item) => {
+              if (item.label === label) {
+                setFormData({ ...formData, groupId: +item.value });
+                setSelectValue({ ...selectValue, group: item.label });
+              }
+
+              return item;
+            });
           }}
-          placeholder="Оберіть групу"
-          error={isSubmitted && !formData.orderNumber ? 'Номер групи не введено' : ''}
+          value={selectValue.group}
+          isClearable
+          isSearchable
         />
         <Input
           required
@@ -136,12 +176,12 @@ export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateMod
           isSearchable
           isClearable
           options={[
-            { value: 'true', label: 'true' },
-            { value: 'false', label: 'false' },
+            { value: 'Денна', label: 'Денна' },
+            { value: 'Заочна', label: 'Заочна' },
           ]}
-          value={`${formData.isFullTime}`}
+          value={selectValue.isFullTime}
           onChange={(value) => {
-            setFormData({ ...formData, isFullTime: value === 'true' });
+            setFormData({ ...formData, isFullTime: value === 'Денна' });
           }}
           placeholder="Оберіть форму навчання"
           error={isSubmitted && !formData.orderNumber ? 'Номер групи не введено' : ''}
@@ -151,7 +191,7 @@ export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateMod
         <button
           type="button"
           className={styles.modal_revert}
-          onClick={closeModal}
+          onClick={handleClose}
         >
           Відміна
         </button>

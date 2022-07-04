@@ -21,17 +21,18 @@ interface Select {
 
 const Styles: any = {
   filter: {
-    valueContainer: (provided: any) => ({
-      ...provided,
-      padding: '9px 8px 9px 16px',
-    }),
     control: (provided: any) => ({
       ...provided,
+      // marginRight: '16px',
       background: '#fff',
       borderColor: 'rgba(0,0,0,0.1)',
       minHeight: '100%',
       height: '42px',
       borderRadius: '8px',
+    }),
+    valueContainer: (provided: any) => ({
+      ...provided,
+      padding: '9px 8px 9px 16px',
     }),
     indicatorSeparator: (provided: any) => ({
       ...provided,

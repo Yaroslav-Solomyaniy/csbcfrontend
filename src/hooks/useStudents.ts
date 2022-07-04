@@ -112,7 +112,7 @@ interface IAddStudentsUser {
   role: string;
 }
 
-export interface IAddStudents {
+export interface IStudents {
   dateOfBirth: string;
   groupId: number;
   user: IAddStudentsUser;
@@ -127,20 +127,21 @@ interface ICreateStudentsData {
 
 export interface ICreateStudents {
   data: ICreateStudentsData | null;
-  addStudent: (params: IAddStudents) => void;
+  addStudent: (params: IStudents) => void;
 }
 
 export const useStudentCreate = (): ICreateStudents => {
   const { user } = useAuthContext();
-  const { addErrors } = useMessagesContext();
+  const { addErrors, addInfo } = useMessagesContext();
   const [data, setData] = useState<ICreateStudentsData | null>(null);
 
-  const addStudent = (params: IAddStudents) => {
+  const addStudent = (params: IStudents) => {
     axios.post(`${process.env.REACT_APP_API_URL}/students`, params, {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
     }).then((response: AxiosResponse<ICreateStudentsData>) => {
+      addInfo('Студента успішно додано');
       setData(response.data);
     }).catch((error) => {
       addErrors(error.message);
@@ -207,20 +208,20 @@ export const useStudentGetId = (): IUseGetStudentsItem => {
   return { data, getStudent };
 };
 
-interface IGetStudentsItemParams {
-  dateOfBirth: string;
-  groupId: number;
-  user: {
-    firstName: string;
-    lastName: string;
-    patronymic: string;
-    email: string;
-    role: string;
-  };
-  orderNumber: string;
-  edeboId: string;
-  isFullTime: boolean;
-}
+// interface IGetStudentsItemParams {
+//   dateOfBirth: string;
+//   groupId: number;
+//   user: {
+//     firstName: string;
+//     lastName: string;
+//     patronymic: string;
+//     email: string;
+//     role: string;
+//   };
+//   orderNumber: string;
+//   edeboId: string;
+//   isFullTime: boolean;
+// }
 
 interface IDataStudentsItem {
   message: string;
@@ -228,7 +229,7 @@ interface IDataStudentsItem {
 
 export interface IUsePatchStudentsItem {
   data: IDataStudentsItem | null;
-  patchStudent: (params: IGetStudentsItemParams, id: number) => void;
+  patchStudent: (params: IStudents, id: number) => void;
 }
 
 export const useStudentPatch = (): IUsePatchStudentsItem => {
@@ -236,7 +237,7 @@ export const useStudentPatch = (): IUsePatchStudentsItem => {
   const [data, setData] = useState<IDataStudentsItem | null>(null);
   const { addErrors } = useMessagesContext();
 
-  const patchStudent = (params: IGetStudentsItemParams, id: number): void => {
+  const patchStudent = (params: IStudents, id: number): void => {
     axios.patch(`${process.env.REACT_APP_API_URL}/students/${id}`, params, {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,

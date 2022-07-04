@@ -136,6 +136,7 @@ const Group = (): JSX.Element => {
                 isSearchable
               />
               <SelectGroup
+                type="filter"
                 placeholder="Група"
                 onChange={(value) => setFilter({ ...filter, group: value })}
                 value={filter.group}

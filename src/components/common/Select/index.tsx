@@ -41,6 +41,7 @@ const Styles: any = {
       ...provided,
       height: '32px',
     }),
+
   },
   filter: {
     control: (provided: any) => ({

@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import TableFooter from '../TableFooter';
 
 import styles from './index.module.scss';
+import { Pagination } from '../../../../types';
 
 export interface ITableRowItem {
   key: string | number;
@@ -16,9 +17,11 @@ export interface ITableRowItem {
 interface ITableBody {
   gridColumns: string;
   dataRow: ITableRowItem[];
+  pagination: Pagination;
+  onPaginationChange: (pagination: Pagination) => void;
 }
 
-const TableBody = ({ dataRow, gridColumns }: ITableBody): JSX.Element => (
+const TableBody = ({ dataRow, gridColumns, pagination, onPaginationChange }: ITableBody): JSX.Element => (
   <>
     <div className={styles.content}>
       {dataRow.map(({ key, list }) => (
@@ -31,7 +34,7 @@ const TableBody = ({ dataRow, gridColumns }: ITableBody): JSX.Element => (
         </div>
       ))}
     </div>
-    <TableFooter />
+    <TableFooter pagination={pagination} onPaginationChange={onPaginationChange} />
   </>
 );
 

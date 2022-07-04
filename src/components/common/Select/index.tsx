@@ -5,36 +5,93 @@ import { Option } from '../../../types';
 
 import styles from './index.module.scss';
 
+export type SelectType = 'filter' | 'modal' | 'pagination';
+
 interface Select {
-  label?: string;
   options: Option[];
+  type: SelectType;
   value: string | number | null;
   onChange: (value: string) => void;
+  label?: string;
   required?: boolean;
   error?: string;
   placeholder?: string;
   isSearchable?: boolean;
   isClearable?: boolean;
-  isFilter?: boolean;
 }
 
-const customStyles = {
-  control: (style: any) => ({
-    ...style,
-    borderRadius: 8,
-  }),
-};
+const Styles: any = {
+  pagination: {
+    control: (provided: any) => ({
+      ...provided,
+      background: '#fff',
+      borderColor: 'rgba(0,0,0,0.1)',
+      maxWidth: 75,
+      minHeight: '100%',
+      height: '32px',
+      borderRadius: '8px',
+    }),
+    valueContainer: (provided: any) => ({
+      ...provided,
+      // padding: '9px 8px 9px 16px',
+    }),
+    indicatorSeparator: (provided: any) => ({
+      ...provided,
+      display: 'none',
+    }),
+  },
+  filter: {
+    control: (provided: any) => ({
+      ...provided,
+      background: '#fff',
+      borderColor: 'rgba(0,0,0,0.1)',
+      minHeight: '100%',
+      height: '42px',
+      borderRadius: '8px',
+    }),
+    valueContainer: (provided: any) => ({
+      ...provided,
+      padding: '9px 8px 9px 16px',
+    }),
+    indicatorSeparator: (provided: any) => ({
+      ...provided,
+      display: 'none',
+    }),
+  },
+  modal: {
+    control: (provided: any) => ({
+      ...provided,
+      background: '#fff',
+      borderColor: 'rgba(0,0,0,0.1)',
+      minHeight: '32px',
+      height: '32px',
+      borderRadius: '8px',
+      marginTop: 16,
+    }),
 
-const customStylesFilter = {
-  control: (style: any) => ({
-    ...style,
-    borderRadius: 8,
-    height: 42,
-  }),
+    valueContainer: (provided: any) => ({
+      ...provided,
+      height: '32px',
+      padding: '0 16px',
+    }),
+
+    input: (provided: any) => ({
+      ...provided,
+      margin: '0px',
+      padding: '0',
+    }),
+    indicatorSeparator: () => ({
+      display: 'none',
+    }),
+    indicatorsContainer: (provided: any) => ({
+      ...provided,
+      height: '32px',
+    }),
+  },
 };
 
 const Select = ({
-  label, options, value, onChange, required, error, placeholder, isSearchable, isClearable, isFilter,
+  label, options, value, onChange, required, error, placeholder, isSearchable, isClearable, type,
 }: Select): JSX.Element => (
   <div className={styles.wrap}>
     {label && (
@@ -45,10 +102,9 @@ const Select = ({
     )}
     <div className={styles.selectWrap}>
       <ReactSelect<Option>
+        styles={Styles[type]}
         isSearchable={isSearchable}
         className={styles.select}
-        styles={isFilter ? customStylesFilter : customStyles}
-        // components={{ IndicatorSeparator: () => null }}
         options={options}
         placeholder={placeholder}
         isClearable={isClearable}
@@ -71,7 +127,6 @@ Select.defaultProps = {
   placeholder: '',
   isSearchable: false,
   isClearable: false,
-  isFilter: false,
 };
 
 export default Select;

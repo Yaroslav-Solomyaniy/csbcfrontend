@@ -48,24 +48,11 @@ export const useGroupsGet = (): IUseGroupsGet => {
   const [data, setData] = useState<IPaginateData<IGroupData> | null>(null);
 
   const getGroups = (params?: IGetGroupParams) => {
-    let query = '';
-
-    if (params) {
-      query = '?';
-    }
-
-    if (params?.curatorId) {
-      query += `curatorId=${params.curatorId}&`;
-    }
-
-    if (params?.name) {
-      query += `name=${params.name}&`;
-    }
-
-    axios.get(`${process.env.REACT_APP_API_URL}/groups${query.slice(0, -1)}`, {
+    axios.get(`${process.env.REACT_APP_API_URL}/groups`, {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
+      params,
     })
       .then((response: AxiosResponse<IPaginateData<IGroupData> | null>) => {
         setData(response.data);

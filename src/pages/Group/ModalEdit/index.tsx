@@ -92,6 +92,7 @@ export const GroupEditModal = ({ modalActive, closeModal, groupId }: IGroupCreat
           }}
           value={formData.curatorId}
           error={isSubmited && !formData.curatorId ? 'Куратора не обрано!' : ''}
+          type="modal"
         />
 
       </form>

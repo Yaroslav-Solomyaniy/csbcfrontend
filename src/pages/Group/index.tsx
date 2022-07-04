@@ -15,6 +15,7 @@ import SelectCurator from '../../components/common/SelectCurator';
 import { ITableRowItem } from '../../components/common/table/TableBody';
 import { useGroupContext } from '../../context/group';
 import SelectGroup from '../../components/common/SelectGroup';
+import { initialPagination, Pagination } from '../../types';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'Номер Групи' },
@@ -41,9 +42,17 @@ interface Filter {
   group: string;
 }
 
+interface Params {
+  filter: Filter;
+  pagination: Pagination;
+}
+
 const Group = (): JSX.Element => {
   const { getGroups, groupCreate, groupEdit, groupDelete } = useGroupContext();
-  const [filter, setFilter] = useState<Filter>({ curator: '', group: '' });
+  const [params, setParams] = useState<Params>({
+    filter: { curator: '', group: '' },
+    pagination: initialPagination,
+  });
   const [isActiveModal, setIsActiveModal] = useState(allCloseModalWindow);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
 
@@ -58,18 +67,17 @@ const Group = (): JSX.Element => {
   useEffect(() => {
     const query: IGetGroupParams = {};
 
-    if (filter.curator) {
-      query.curatorId = +filter.curator;
-    }
-    if (filter.group) {
-      query.name = filter.group;
-    }
+    if (params.filter.curator) query.curatorId = +params.filter.curator;
+    if (params.filter.group) query.name = params.filter.group;
+    if (params.pagination.currentPage) query.page = params.pagination.currentPage;
+    if (params.pagination.itemsPerPage) query.limit = params.pagination.itemsPerPage;
 
     getGroups?.getGroups(query);
-  }, [filter.curator, filter.group]);
+  }, [params.filter.group, params.filter.curator, params.pagination.currentPage, params.pagination.itemsPerPage]);
 
   useEffect(() => {
     if (getGroups?.data) {
+      setParams({ ...params, pagination: getGroups.data.meta });
       setDataRow(getGroups?.data?.items.map((item: IGroupData) => ({
         list: [
           { id: 1, label: item.name },
@@ -123,25 +131,35 @@ const Group = (): JSX.Element => {
             <>
               <SelectCurator
                 placeholder="Куратор"
-                onChange={(value) => setFilter({ ...filter, curator: value })}
-                value={filter.curator}
+                onChange={(value) => setParams({
+                  ...params,
+                  filter: { ...params.filter, curator: value },
+                  pagination: initialPagination,
+                })}
+                value={params.filter.curator}
                 isClearable
                 isSearchable
-                isFilter
+                type="filter"
               />
               <SelectGroup
                 placeholder="Група"
-                onChange={(value) => setFilter({ ...filter, group: value })}
-                value={filter.group}
+                onChange={(value) => setParams({
+                  ...params,
+                  filter: { ...params.filter, group: value },
+                  pagination: initialPagination,
+                })}
+                value={params.filter.group}
                 isClearable
                 isSearchable
-                isFilter
+                type="filter"
               />
             </>
           )}
           dataHeader={dataHeader}
           dataRow={dataRow}
           gridColumns={styles.columns}
+          pagination={params.pagination}
+          onPaginationChange={(newPagination) => setParams({ ...params, pagination: newPagination })}
         />
         <GroupCreateModal modalActive={isActiveModal.create} closeModal={closeModal} />
         <GroupEditModal modalActive={!!isActiveModal.edit} groupId={isActiveModal.edit} closeModal={closeModal} />

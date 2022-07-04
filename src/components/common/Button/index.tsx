@@ -27,6 +27,7 @@ const Button = ({
         : styles.default,
       nameClass && styles[nameClass],
       size && styles[size],
+      className,
     )}
     type="button"
     onClick={onClick}

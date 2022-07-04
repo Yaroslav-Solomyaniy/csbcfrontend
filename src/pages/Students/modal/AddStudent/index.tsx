@@ -84,6 +84,7 @@ export const AddStudentsModal = ({ modalActive, closeModal }: IGroupCreateModal)
           value="abtbsd"
           onChange={() => undefined}
           placeholder="Оберіть групу"
+          type="modal"
         />
         {/* /!* <div className={styles.form__input}> *!/ */}
         {/* /!*  <label className={styles.input__label}>Група</label> *!/ */}
@@ -143,6 +144,7 @@ export const AddStudentsModal = ({ modalActive, closeModal }: IGroupCreateModal)
           value={`${formData.isFullTime}`}
           onChange={() => undefined}
           placeholder="Оберіть форму навчання"
+          type="modal"
         />
       </form>
       <div className={styles.modal__buttons}>

@@ -8,18 +8,7 @@ import Table from '../../components/common/table';
 import { ITableHeader } from '../../components/common/table/TableHeader';
 import AddStudentsModal from './modal/AddStudent';
 import { useStudentsContext } from '../../context/students';
-
-const groups = [
-  { value: '1P20', label: '1П-20' },
-  { value: '2P20', label: '2П-20' },
-];
-const name = [
-  { value: 'YaroslavSolomianiy', label: "Ярослав Солом'яний" },
-  { value: 'VadimSirenko', label: 'Вадим Сіренко' },
-];
-const formTraining = [
-  { value: 'day', label: 'Денна' },
-];
+import { initialPagination } from '../../types';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІП студента' },
@@ -75,7 +64,8 @@ const Students = (): JSX.Element => {
             key: item.id,
           })) : []}
           gridColumns={stylesStud.columns}
-
+          pagination={initialPagination}
+          onPaginationChange={() => undefined}
         />
         <AddStudentsModal closeModal={closeModal} modalActive={modalActive} />
       </div>

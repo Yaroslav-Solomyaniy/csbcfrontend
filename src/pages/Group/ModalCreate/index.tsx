@@ -82,6 +82,7 @@ export const GroupCreateModal = ({ modalActive, closeModal }: IGroupCreateModal)
           }}
           value={formData.curatorId}
           error={isSubmitted && !formData.curatorId ? 'Куратора не обрано!' : ''}
+          type="modal"
         />
       </form>
       <ModalControlButtons

@@ -6,7 +6,7 @@ interface IInput {
   value: string | number;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   required?: boolean;
-  error?: string;
+  error?: string | boolean;
   placeholder?: string;
 }
 

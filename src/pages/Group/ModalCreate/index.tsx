@@ -63,7 +63,8 @@ export const GroupCreateModal = ({ modalActive, closeModal }: IGroupCreateModal)
           placeholder="Номер наказу"
           label="Номер наказу"
           required
-          error={isSubmitted && !formData.orderNumber ? 'Номер наказу не введено' : ''}
+          error={isSubmitted && (`${formData.orderNumber}`.length < 6 || `${formData.orderNumber}`.length > 50
+            ? 'Кількість символів менше 6 або більше 50' : '')}
         />
         <SelectCurator
           type="modal"

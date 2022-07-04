@@ -43,7 +43,7 @@ export const GroupDeleteModal = ({ modalActive, closeModal, groupId }: IGroupCre
 
     if (formData.deletedOrderNumber) {
       groupDelete?.groupDelete({ ...formData }, groupId);
-      closeModal();
+      handleClose();
     }
   };
 
@@ -61,14 +61,16 @@ export const GroupDeleteModal = ({ modalActive, closeModal, groupId }: IGroupCre
             setFormData({ ...formData, deletedOrderNumber: event.target.value });
           }}
           value={formData.deletedOrderNumber}
-          error={isSubmited && !formData.deletedOrderNumber ? 'Номер наказу не введено' : ''}
+          error={isSubmited && (`${formData.deletedOrderNumber}`.length < 6
+          || `${formData.deletedOrderNumber}`.length > 50
+            ? 'Кількість символів менше 6 або більше 50' : '')}
           placeholder="Номер наказу"
           label="Номер наказу"
           required
         />
       </form>
       <ModalControlButtons
-        handleClose={closeModal}
+        handleClose={handleClose}
         onSubmit={onSubmit}
         cancelButtonText="Відміна"
         mainButtonText="Видалити"

@@ -34,11 +34,9 @@ export const GroupEditModal = ({ modalActive, closeModal, groupId }: IGroupCreat
     e?.preventDefault?.();
     setIsSubmited(true);
 
-    if (formData.name && formData.orderNumber) {
-      if (formData.curatorId) {
-        groupEdit?.groupEdit({ ...formData }, groupId);
-        closeModal();
-      }
+    if (formData.name && formData.orderNumber && formData.curatorId) {
+      groupEdit?.groupEdit({ ...formData }, groupId);
+      handleClose();
     }
   };
 
@@ -76,7 +74,9 @@ export const GroupEditModal = ({ modalActive, closeModal, groupId }: IGroupCreat
             setFormData({ ...formData, orderNumber: event.target.value });
           }}
           value={formData.orderNumber}
-          error={isSubmited && !formData.orderNumber ? 'Номер наказу не введено' : ''}
+          error={isSubmited && (`${formData.orderNumber}`.length < 6
+          || `${formData.orderNumber}`.length > 50
+            ? 'Кількість символів менше 6 або більше 50' : '')}
           placeholder="Номер наказу"
           label="Номер наказу"
           required
@@ -97,7 +97,7 @@ export const GroupEditModal = ({ modalActive, closeModal, groupId }: IGroupCreat
 
       </form>
       <ModalControlButtons
-        handleClose={closeModal}
+        handleClose={handleClose}
         onSubmit={onSubmit}
         cancelButtonText="Відміна"
         mainButtonText="Зберегти"

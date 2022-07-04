@@ -32,14 +32,18 @@ const AuthProvider = ({ children }: { children: JSX.Element; }): JSX.Element => 
   }, [data]);
 
   useEffect(() => {
-    const authLocal: string | null = localStorage.getItem('auth') || null;
-    const authSession: string | null = sessionStorage.getItem('auth') || null;
+    try {
+      const authLocal: string | null = localStorage.getItem('auth') || null;
+      const authSession: string | null = sessionStorage.getItem('auth') || null;
 
-    if (authSession) {
-      setUser(JSON.parse(authSession));
-    }
-    if (authLocal) {
-      setUser(JSON.parse(authLocal));
+      if (authSession) {
+        setUser(JSON.parse(authSession));
+      }
+      if (authLocal) {
+        setUser(JSON.parse(authLocal));
+      }
+    } catch (error) {
+      logout();
     }
   }, []);
 

@@ -51,7 +51,8 @@ const App = (): JSX.Element => {
         )}
         <Route
           index
-          element={(<Login><Link to="/Password-recovery">Відновити пароль</Link></Login>)}
+          element={(
+            <Login><Link to="/Password-recovery" className="LinkPasswordRecovery">Відновити пароль</Link></Login>)}
         />
         <Route
           path="/password-recovery"
@@ -59,7 +60,7 @@ const App = (): JSX.Element => {
             <PasRec>
               <Link to="/" className={styles.passwordRecovery__link}>
                 <img src={leftArrow} alt="left arrow" />
-                Відновити пароль
+                Повернутись до входу
               </Link>
             </PasRec>
           )}

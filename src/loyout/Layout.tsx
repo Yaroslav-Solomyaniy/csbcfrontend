@@ -22,7 +22,7 @@ const Layout = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
       <div className={styles.nav_and_content}>
         {!!user && <Navigation isOpen={isOpen} />}
         <div className={styles.content}>
-          <div id="modal" className={clsx(stylesPortal.portal__unauthorized, user && stylesPortal.portal__authorized)}>
+          <div className={clsx(stylesPortal.portal__unauthorized, user && stylesPortal.portal__authorized)}>
             {messages.error.map((error) => (
               <ModalMessage
                 type="error"

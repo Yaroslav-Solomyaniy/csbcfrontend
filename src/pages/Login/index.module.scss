@@ -30,13 +30,14 @@
     }
 
     &__password {
+      font-size: 11px;
       overflow: hidden;
-      transition: all .3s;
+      transition: all .6s;
       height: 0;
       color: #000000;
 
       &__error {
-        transition: all .3s;
+        transition: all .5s;
         height: 15px;
         color: #FF0000;
       }

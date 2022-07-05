@@ -22,6 +22,10 @@ body {
   font-size: 14px;
 }
 
+.LinkPasswordRecovery {
+  color: #428BCA;
+}
+
 iframe {
   display: none;
 }

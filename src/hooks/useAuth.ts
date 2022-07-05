@@ -35,7 +35,7 @@ export const useLogin = (): ILogin => {
       .then((response) => {
         setData(response.data);
       }).catch((e) => {
-        addErrors(e.message);
+        addErrors(e.response.data.message);
       });
     setChecked(check);
   };
@@ -113,6 +113,7 @@ export const useForgotPassword = (): { postForgotPassword: (params: ForgotPasswo
 
 export interface IPassword {
   password: string;
+  accessToken: string | undefined;
 }
 
 interface IChangePassword {
@@ -120,11 +121,19 @@ interface IChangePassword {
 }
 
 export const useChangePassword = (): IChangePassword => {
+  const { addErrors, addInfo } = useMessagesContext();
+
   const patchChangePassword = (params: IPassword) => {
-    axios.patch(`${process.env.REACT_APP_API_URL}/auth/change-password`, params).then((e) => {
-      console.log(e);
-    }).catch((e) => {
-      console.error(e);
+    axios.patch(`${process.env.REACT_APP_API_URL}/auth/change-password`, { password: params.password }, {
+      headers: {
+        Authorization: `Bearer ${params.accessToken}`,
+      },
+    }).then((e) => {
+      addInfo(`${e.data.success
+        ? 'Пароль змінено'
+        : 'Вкажіть новий пароль'}`);
+    }).catch((error) => {
+      addErrors(error.message);
     });
   };
 

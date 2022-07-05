@@ -23,7 +23,7 @@ const Styles: any = {
     control: (provided: any) => ({
       ...provided,
       background: '#fff',
-      borderColor: 'rgba(0,0,0,0.1)',
+      borderColor: 'rgba(0,0,0,10%)',
       maxWidth: 75,
       minHeight: '100%',
       height: '32px',
@@ -94,7 +94,16 @@ const Styles: any = {
 };
 
 const Select = ({
-  label, options, value, onChange, required, error, placeholder, isSearchable, isClearable, type,
+  label,
+  options,
+  value,
+  onChange,
+  required,
+  error,
+  placeholder,
+  isSearchable,
+  isClearable,
+  type,
 }: Select): JSX.Element => (
 
   <div className={styles.wrap}>

@@ -57,7 +57,7 @@ const Login = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
             >
               Не менше 8 символів
             </div>
-            <label>
+            <label className={styles.login__form__label}>
               <input
                 className={styles.login__form__input}
                 checked={check}

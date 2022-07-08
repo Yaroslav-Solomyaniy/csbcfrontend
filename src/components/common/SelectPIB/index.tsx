@@ -28,13 +28,13 @@ const SelectPIB = ({
   }, [createStudents?.data, patchStudentsItem?.data, deleteStudentsItem?.data]);
 
   useEffect(() => {
-    if (getStudents?.dataStudents?.items.length) {
-      setOptions(getStudents?.dataStudents?.items.map((name) => ({
+    if (getStudents?.data?.items.length) {
+      setOptions(getStudents?.data?.items.map((name) => ({
         value: name.id,
         label: `${name.user.firstName} ${name.user.lastName} ${name.user.patronymic}`,
       })));
     }
-  }, [getStudents?.dataStudents]);
+  }, [getStudents?.data]);
 
   return (
     <Select

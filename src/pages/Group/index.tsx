@@ -25,7 +25,7 @@ const dataHeader: ITableHeader[] = [
   { id: 5, label: 'Дії' },
 ];
 
-export interface IIsActiveModalState {
+interface IIsActiveModalState {
   create: boolean;
   edit: number;
   delete: number;

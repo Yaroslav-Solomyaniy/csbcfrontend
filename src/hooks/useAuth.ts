@@ -31,6 +31,7 @@ export const useLogin = (): ILogin => {
   const { addErrors } = useMessagesContext();
 
   const postLogin = (params: LoginParams, check: boolean) => {
+    // axiosPost('auth/login', params);
     axios.post(`${process.env.REACT_APP_API_URL}/auth/login`, params)
       .then((response) => {
         setData(response.data);

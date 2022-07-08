@@ -65,13 +65,15 @@ interface IDataStudents {
   items: IDataStudentsItems[];
 }
 
-export interface IUseGetStudents {
-  dataStudents: IDataStudents | null;
-  getStudent: (params: IGetParams) => void;
-}
-
-interface IGetParams {
-  orderByColumn?: 'id' | 'dateOfBirth' | 'groupId' | 'studentId' | 'orderNumber' | 'edeboId' | 'isFullTime';
+export interface IGetParams {
+  orderByColumn?:
+    | 'id'
+    | 'dateOfBirth'
+    | 'groupId'
+    | 'studentId'
+    | 'orderNumber'
+    | 'edeboId'
+    | 'isFullTime';
   orderBy?: string;
   search?: string;
   group?: string;
@@ -80,28 +82,32 @@ interface IGetParams {
   isFullTime?: boolean;
   page?: number;
   limit?: number;
+}
 
+export interface IUseGetStudents {
+  data: IDataStudents | null;
+  getStudent: (params: IGetParams) => void;
 }
 
 export const useStudentsGet = (): IUseGetStudents => {
   const { user } = useAuthContext();
-  const [dataStudents, setDataStudents] = useState<IDataStudents | null>(null);
+  const [data, setData] = useState<IDataStudents | null>(null);
   const { addErrors } = useMessagesContext();
 
   const getStudent = (params: IGetParams): void => {
     axios.get(`${process.env.REACT_APP_API_URL}/students`, {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
-        params: `${params}`,
       },
+      params,
     }).then((respons: AxiosResponse<IDataStudents>) => {
-      setDataStudents(respons.data);
+      setData(respons.data);
     }).catch((error) => {
       addErrors(error.message);
     });
   };
 
-  return { dataStudents, getStudent };
+  return { data, getStudent };
 };
 
 interface IAddStudentsUser {

@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import styles from '../Group/index.module.scss';
-import stylesStud from './index.module.scss';
+import React, { useEffect, useState } from 'react';
+import styles from './index.module.scss';
+import stylesGroup from '../Group/index.module.scss';
 import Layout from '../../loyout/Layout';
 import TitlePage from '../../components/TitlePage';
 import Button from '../../components/common/Button';
@@ -12,9 +12,11 @@ import SelectGroup from '../../components/common/SelectGroup';
 import SelectPIB from '../../components/common/SelectPIB';
 import SelectIsFullTime from '../../components/common/SelectIsFullTime';
 import edit from '../../images/table/edit.svg';
+import review from '../../images/table/review.svg';
 import del from '../../images/table/delete.svg';
-import { IIsActiveModalState } from '../Group';
-import { initialPagination } from '../../types';
+import { initialPagination, Pagination } from '../../types';
+import { ITableRowItem } from '../../components/common/table/TableBody';
+import { IGetParams } from '../../hooks/useStudents';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІП студента' },
@@ -26,28 +28,113 @@ const dataHeader: ITableHeader[] = [
   { id: 7, label: 'Дії' },
 ];
 
-interface Filter {
-  name: string;
-  group: string;
-  isFullTime: string;
+interface IIsActiveModalState {
+  create: boolean;
+  edit: number;
+  review: number;
+  delete: number;
 }
 
 const allCloseModalWindow: IIsActiveModalState = {
   create: false,
   edit: 0,
+  review: 0,
   delete: 0,
 };
 
+interface Filter {
+  name: string;
+  group: string;
+  isFullTime: boolean | undefined;
+}
+
+interface Params {
+  filter: Filter;
+  pagination: Pagination;
+}
+
 const Students = (): JSX.Element => {
   const { getStudents } = useStudentsContext();
-
+  const [params, setParams] = useState<Params>({
+    filter: { name: '', group: '', isFullTime: undefined },
+    pagination: initialPagination,
+  });
   const [modalActive, setModalActive] = useState(false);
-  const [filter, setFilter] = useState<Filter>({ name: '', group: '', isFullTime: '' });
+
   const closeModal = () => {
     setModalActive(false);
   };
 
   const [isActiveModal, setIsActiveModal] = useState(allCloseModalWindow);
+  const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
+
+  useEffect(() => {
+    const query: IGetParams = {};
+
+    if (params.filter.group) query.isFullTime = params.filter.isFullTime;
+    if (params.pagination.currentPage) query.page = params.pagination.currentPage;
+    if (params.pagination.itemsPerPage) query.limit = params.pagination.itemsPerPage;
+
+    getStudents?.getStudent(query);
+  }, [
+    params.filter.group,
+    params.filter.name,
+    params.filter.isFullTime,
+    params.pagination.currentPage,
+    params.pagination.itemsPerPage,
+  ]);
+
+  useEffect(() => {
+    if (getStudents?.data) {
+      setParams({ ...params, pagination: getStudents.data.meta });
+      setDataRow(getStudents?.data?.items.length
+        ? getStudents?.data?.items.map((item, id) => ({
+          list: [
+            { id, label: `${item.user.lastName} ${item.user.firstName}` },
+            { id, label: item.group.name },
+            { id, label: item.orderNumber },
+            { id, label: item.isFullTime ? 'Денна' : 'Заочна' },
+            { id, label: item.user.email },
+            { id, label: item.user.firstName },
+            {
+              id,
+              label: (
+                <div className={styles.actions}>
+                  <button
+                    type="button"
+                    className={stylesGroup.actions}
+                    onClick={() => {
+                      setIsActiveModal({ ...isActiveModal, edit: item.id });
+                    }}
+                  >
+                    <img src={edit} alt="edit" />
+                  </button>
+                  <button
+                    type="button"
+                    className={stylesGroup.actions}
+                    onClick={() => {
+                      setIsActiveModal({ ...isActiveModal, review: item.id });
+                    }}
+                  >
+                    <img src={review} alt="delete" />
+                  </button>
+                  <button
+                    type="button"
+                    className={stylesGroup.actions}
+                    onClick={() => {
+                      setIsActiveModal({ ...isActiveModal, delete: item.id });
+                    }}
+                  >
+                    <img src={del} alt="delete" />
+                  </button>
+                </div>
+              ),
+            },
+          ],
+          key: item.id,
+        })) : []);
+    }
+  }, [getStudents?.data]);
 
   return (
     <Layout>
@@ -71,68 +158,44 @@ const Students = (): JSX.Element => {
               <SelectGroup
                 type="filter"
                 placeholder="Група"
-                value={filter.group}
-                onChange={(value) => setFilter({ ...filter, group: value })}
+                value={params.filter.group}
+                onChange={(value) => setParams({
+                  ...params,
+                  filter: { ...params.filter, group: value },
+                  pagination: initialPagination,
+                })}
                 isClearable
                 isSearchable
               />
               <SelectPIB
                 type="filter"
                 placeholder="ПІБ"
-                value={filter.name}
-                onChange={(value) => setFilter({ ...filter, name: value })}
+                value={params.filter.name}
+                onChange={(value) => setParams({
+                  ...params,
+                  filter: { ...params.filter, name: value },
+                  pagination: initialPagination,
+                })}
               />
               <SelectIsFullTime
                 type="filter"
                 placeholder="Форма навчання"
-                value={filter.isFullTime}
-                onChange={(value) => setFilter({ ...filter, isFullTime: value })}
+                value={params.filter.isFullTime ? 'Денна' : params.filter.isFullTime === undefined ? '' : 'Заочна'}
+                onChange={(value) => setParams({
+                  ...params,
+                  filter: { ...params.filter, isFullTime: value === 'Денна' ? true : value === '' ? undefined : false },
+                  pagination: initialPagination,
+                })}
               />
             </>
           )}
           dataHeader={dataHeader}
-          dataRow={getStudents?.dataStudents?.items.length ? getStudents?.dataStudents?.items.map((item, id) => ({
-            list: [
-              { id, label: `${item.user.lastName} ${item.user.firstName}` },
-              { id, label: item.group.name },
-              { id, label: item.orderNumber },
-              { id, label: item.isFullTime ? 'Денна' : 'Заочна' },
-              { id, label: item.user.email },
-              { id, label: item.user.firstName },
-              {
-                id,
-                label: (
-                  <div className={styles.actions}>
-                    <button
-                      type="button"
-                      className={styles.actions__button_edit}
-                      onClick={() => {
-                        setIsActiveModal({ ...isActiveModal, edit: item.id });
-                      }}
-                    >
-                      <img src={edit} alt="edit" />
-                    </button>
-                    <button
-                      type="button"
-                      className={styles.actions__button_delete}
-                      onClick={() => {
-                        setIsActiveModal({ ...isActiveModal, delete: item.id });
-                      }}
-                    >
-                      <img src={del} alt="delete" />
-                    </button>
-                  </div>
-                ),
-              },
-            ],
-            key: item.id,
-          })) : []}
-          gridColumns={stylesStud.columns}
-          pagination={initialPagination}
-          onPaginationChange={() => undefined}
+          dataRow={dataRow}
+          gridColumns={styles.columns}
+          pagination={params.pagination}
+          onPaginationChange={(newPagination) => setParams({ ...params, pagination: newPagination })}
         />
         <StudentsCreateModal closeModal={closeModal} modalActive={modalActive} />
-        s
       </div>
     </Layout>
   );

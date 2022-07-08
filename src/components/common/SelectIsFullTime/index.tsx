@@ -1,6 +1,4 @@
-import { useEffect, useState } from 'react';
 import Select from '../Select';
-import { Option } from '../../../types';
 import { useStudentsContext } from '../../../context/students';
 
 interface SelectCurator {
@@ -20,21 +18,20 @@ const SelectPIB = ({
   placeholder,
   error,
 }: SelectCurator): JSX.Element => {
-  const [options, setOptions] = useState<Option[]>([]);
-  const { createStudents, patchStudentsItem, deleteStudentsItem, getStudents } = useStudentsContext();
+  const options = [
+    { value: 'Денна', label: 'Денна' },
+    { value: 'Заочна', label: 'Заочна' },
+  ];
+  const { getStudents } = useStudentsContext();
 
-  useEffect(() => {
-    getStudents?.getStudent({});
-  }, [createStudents?.data, patchStudentsItem?.data, deleteStudentsItem?.data]);
-
-  useEffect(() => {
-    if (getStudents?.dataStudents?.items.length) {
-      setOptions(getStudents?.dataStudents?.items.map((name) => ({
-        value: name.id,
-        label: name.user.firstName,
-      })));
-    }
-  }, [getStudents?.dataStudents]);
+  // useEffect(() => {
+  //   if (getStudents?.data?.items.length) {
+  //     setOptions(getStudents?.data?.items.map((name) => ({
+  //       value: name.id,
+  //       label: name.user.firstName,
+  //     })));
+  //   }
+  // }, [getStudents?.data]);
 
   return (
     <Select

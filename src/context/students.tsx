@@ -42,6 +42,10 @@ const StudentsProvider = ({ children }: JSX.ElementChildrenAttribute): JSX.Eleme
   const deleteStudentsItem = useStudentDelete();
 
   useEffect(() => {
+    getStudents?.getStudent({});
+  }, [createStudents?.data, patchStudentsItem?.data, deleteStudentsItem?.data]);
+
+  useEffect(() => {
     getStudents.getStudent({});
   }, []);
 

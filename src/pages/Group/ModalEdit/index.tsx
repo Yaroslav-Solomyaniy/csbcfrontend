@@ -76,7 +76,7 @@ export const GroupEditModal = ({ modalActive, closeModal, groupId }: IGroupCreat
           onChange={(event) => {
             setFormData({ ...formData, orderNumber: event.target.value });
           }}
-          value={formData.orderNumber}
+          value={formData.orderNumber.slice(0, 8)}
           error={isSubmitted && (`${formData.orderNumber}`.length < 6
           || `${formData.orderNumber}`.length > 20
             ? 'Номер наказу повинен містити не менше 6-ти символів.' : '')}

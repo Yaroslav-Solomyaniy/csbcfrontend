@@ -17,19 +17,19 @@ const formInitialData = {
 };
 
 export const GroupDeleteModal = ({ modalActive, closeModal, groupId }: IGroupCreateModal): JSX.Element => {
-  const [isSubmited, setIsSubmited] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState<IGroupDeleteParams>(formInitialData);
   const { groupDelete, getGroupId } = useGroupContext();
 
   const handleClose = () => {
-    setIsSubmited(false);
+    setIsSubmitted(false);
     setFormData(formInitialData);
     closeModal();
   };
 
   const onSubmit = (e: React.FormEvent | undefined) => {
     e?.preventDefault?.();
-    setIsSubmited(true);
+    setIsSubmitted(true);
 
     if (`${formData.deletedOrderNumber}`.length >= 6
       && `${formData.deletedOrderNumber}`.length <= 20) {
@@ -50,13 +50,13 @@ export const GroupDeleteModal = ({ modalActive, closeModal, groupId }: IGroupCre
   return (
     <ModalWindow modalTitle="Видалення групи" active={modalActive} closeModal={handleClose}>
       <form className={styles.form} onSubmit={onSubmit}>
-        <h3 />
+        <h3 className={styles.subtitle}>Для підтвердження видалення введіть номер наказу.</h3>
         <Input
           onChange={(event) => {
             setFormData({ ...formData, deletedOrderNumber: event.target.value });
           }}
-          value={formData.deletedOrderNumber.slice(0, 7)}
-          error={isSubmited && (`${formData.deletedOrderNumber}`.length < 6
+          value={formData.deletedOrderNumber.slice(0, 8)}
+          error={isSubmitted && (`${formData.deletedOrderNumber}`.length < 6
           || `${formData.deletedOrderNumber}`.length > 20
             ? 'Номер наказу повинен містити не менше 6-ти символів.' : '')}
           placeholder="Номер наказу"

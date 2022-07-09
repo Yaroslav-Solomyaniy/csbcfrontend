@@ -88,6 +88,25 @@ const Styles: any = {
       height: '32px',
       borderRadius: '8px',
       marginTop: 16,
+      border: '1px solid rgba(0, 0, 0, 0.1)',
+      boxShadow: 'none',
+      '&:hover': {
+        border: '1px solid rgba(39, 111, 173, 1)',
+      },
+      '&:focus': {
+        border: '1px solid rgba(39, 111, 173, 1)',
+      },
+      '&:active': {
+        border: '1px solid rgba(39, 111, 173, 1)',
+      },
+    }),
+    menu: (base: any) => ({
+      ...base,
+      background: 'rgba(215, 231, 244, 1)',
+    }),
+    menuList: (base: any) => ({
+      ...base,
+      background: 'white',
     }),
 
     valueContainer: (provided: any) => ({

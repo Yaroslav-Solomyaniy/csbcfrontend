@@ -20,7 +20,7 @@ const formInitialData = {
 };
 
 export const GroupEditModal = ({ modalActive, closeModal, groupId }: IGroupCreateModal): JSX.Element => {
-  const [isSubmited, setIsSubmited] = useState(false);
+  const [isSubmitted, setIsSubmited] = useState(false);
   const [formData, setFormData] = useState<IGroupEditParams>(formInitialData);
   const { groupEdit, getGroupId } = useGroupContext();
 
@@ -33,12 +33,15 @@ export const GroupEditModal = ({ modalActive, closeModal, groupId }: IGroupCreat
   const onSubmit = (e: React.FormEvent | undefined) => {
     e?.preventDefault?.();
     setIsSubmited(true);
-
-    if (formData.name && formData.orderNumber && formData.curatorId) {
+    if (formData.name && (`${formData.orderNumber}`.length >= 6
+      && `${formData.orderNumber}`.length <= 20) && formData.curatorId) {
       groupEdit?.groupEdit({ ...formData }, groupId);
-      handleClose();
     }
   };
+
+  useEffect(() => {
+    handleClose();
+  }, [groupEdit?.data]);
 
   useEffect(() => {
     if (groupId) {
@@ -64,7 +67,7 @@ export const GroupEditModal = ({ modalActive, closeModal, groupId }: IGroupCreat
             setFormData({ ...formData, name: event.target.value });
           }}
           value={formData.name}
-          error={isSubmited && !formData.name ? 'Номер групи не введено' : ''}
+          error={isSubmitted && !formData.name ? 'Номер групи не введено.' : ''}
           placeholder="Номер групи"
           label="Номер групи"
           required
@@ -74,9 +77,9 @@ export const GroupEditModal = ({ modalActive, closeModal, groupId }: IGroupCreat
             setFormData({ ...formData, orderNumber: event.target.value });
           }}
           value={formData.orderNumber}
-          error={isSubmited && (`${formData.orderNumber}`.length < 6
-          || `${formData.orderNumber}`.length > 50
-            ? 'Кількість символів менше 6 або більше 50' : '')}
+          error={isSubmitted && (`${formData.orderNumber}`.length < 6
+          || `${formData.orderNumber}`.length > 20
+            ? 'Номер наказу повинен містити не менше 6-ти символів.' : '')}
           placeholder="Номер наказу"
           label="Номер наказу"
           required
@@ -92,7 +95,7 @@ export const GroupEditModal = ({ modalActive, closeModal, groupId }: IGroupCreat
             setFormData({ ...formData, curatorId: +value });
           }}
           value={formData.curatorId}
-          error={isSubmited && !formData.curatorId ? 'Куратора не обрано!' : ''}
+          error={isSubmitted && !formData.curatorId ? 'Куратор не обраний.' : ''}
         />
 
       </form>

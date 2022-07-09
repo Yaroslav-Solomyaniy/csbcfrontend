@@ -52,7 +52,7 @@ export const useGroupsGet = (): IUseGroupsGet => {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
-      params,
+      params: { orderByColumn: 'id', orderBy: 'DESC', ...params },
     })
       .then((response: AxiosResponse<IPaginateData<IGroupData> | null>) => {
         setData(response.data);
@@ -64,8 +64,6 @@ export const useGroupsGet = (): IUseGroupsGet => {
 
   return { data, getGroups };
 };
-
-// Запрос на створення нової групи
 
 export interface IGroupCreateParams {
   'name': string;
@@ -103,8 +101,6 @@ export const useGroupCreate = (): IUseGroupCreate => {
 
   return { data, groupCreate };
 };
-
-// Отримуємо дані по id групи
 
 interface IGetGroupIdParams {
   id: string;
@@ -234,6 +230,7 @@ export const useGetOptionsGroups = (): IUseGetOptionsGroups => {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
+      params: { limit: 100, orderBy: 'DESC', ...params },
     })
       .then((response: AxiosResponse<IPaginateData<IGetGroupsOptionData> | null>) => {
         setOptionsGroups(response.data);
@@ -270,10 +267,11 @@ export const useGetOptionsCurator = (): IUseGetOptionsCurator => {
   const [optionCurators, setOptionCurators] = useState<IPaginateData<IGetCuratorsData> | null>(null);
 
   const getOptionsCurator = (params?: IGetCuratorsParams) => {
-    axios.get(`${process.env.REACT_APP_API_URL}/groups/dropdown/curators`, {
+    axios.get(`${process.env.REACT_APP_API_URL}/groups/dropdown/curators/`, {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
+      params: { limit: 100, orderBy: 'DESC', ...params },
     })
       .then((response: AxiosResponse<IPaginateData<IGetCuratorsData> | null>) => {
         setOptionCurators(response.data);

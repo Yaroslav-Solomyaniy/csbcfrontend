@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactSelect, { SingleValue } from 'react-select';
 
+import clsx from 'clsx';
 import { Option, SelectType } from '../../../types';
 
 import styles from './index.module.scss';
@@ -47,9 +48,19 @@ const Styles: any = {
     control: (provided: any) => ({
       ...provided,
       background: '#fff',
-      borderColor: 'rgba(0,0,0,0.1)',
       height: '42px',
       borderRadius: '8px',
+      border: '1px solid rgba(0, 0, 0, 0.1)',
+      boxShadow: 'none',
+      '&:hover': {
+        border: '1px solid rgba(39, 111, 173, 1)',
+      },
+      '&:focus': {
+        border: '1px solid rgba(39, 111, 173, 1)',
+      },
+      '&:active': {
+        border: '1px solid rgba(39, 111, 173, 1)',
+      },
     }),
     valueContainer: (provided: any) => ({
       ...provided,
@@ -58,6 +69,14 @@ const Styles: any = {
     indicatorSeparator: (provided: any) => ({
       ...provided,
       display: 'none',
+    }),
+    menu: (base: any) => ({
+      ...base,
+      background: 'rgba(215, 231, 244, 1)',
+    }),
+    menuList: (base: any) => ({
+      ...base,
+      background: 'white',
     }),
   },
   modal: {
@@ -108,7 +127,7 @@ const Select = ({
 
   <div className={styles.wrap}>
     {label && (
-    <label className={styles.label}>
+    <label className={clsx(styles.label, error && styles.error_label)}>
       {label}
       {required && <span className={styles.required}>*</span>}
     </label>

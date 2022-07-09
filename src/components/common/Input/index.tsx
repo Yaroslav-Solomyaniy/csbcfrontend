@@ -1,4 +1,5 @@
 import React, { ChangeEvent } from 'react';
+import clsx from 'clsx';
 import styles from './index.module.scss';
 
 interface IInput {
@@ -13,7 +14,7 @@ interface IInput {
 const Input = ({ label, value, onChange, required, error, placeholder }: IInput): JSX.Element => (
   <div className={styles.wrap}>
     {label && (
-      <label className={styles.label}>
+      <label className={clsx(styles.label, error && styles.error_label)}>
         {label}
         {required && <span className={styles.required}>*</span>}
       </label>

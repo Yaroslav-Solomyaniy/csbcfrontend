@@ -39,7 +39,7 @@ const SelectCurator = ({
     if (optionCurators?.items.length) {
       setOptions(optionCurators.items.map((curator) => ({
         value: curator.id,
-        label: `${curator.firstName} ${curator.lastName} ${curator.patronymic}`,
+        label: `${curator.lastName} ${curator.firstName} ${curator.patronymic}`,
       })));
     }
   }, [optionCurators]);

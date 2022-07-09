@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import styles from '../index.module.scss';
 import ModalWindow from '../../../components/common/ModalWindow';
 import { IGroupDeleteParams } from '../../../hooks/useGroups';
-import { Option } from '../../../types';
 import { useGroupContext } from '../../../context/group';
 import Input from '../../../components/common/Input';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
@@ -12,15 +11,6 @@ interface IGroupCreateModal {
   closeModal: () => void;
   groupId: number;
 }
-
-const curators: Option[] = [
-  { value: 524, label: "Ярослав Солом'яний" },
-  { value: 62131, label: 'Вадим Сіренко' },
-];
-const orderNumber: Option[] = [
-  { value: '5235212', label: '523512' },
-  { value: '5235123', label: '523513' },
-];
 
 const formInitialData = {
   deletedOrderNumber: '',
@@ -41,11 +31,15 @@ export const GroupDeleteModal = ({ modalActive, closeModal, groupId }: IGroupCre
     e?.preventDefault?.();
     setIsSubmited(true);
 
-    if (formData.deletedOrderNumber) {
+    if (`${formData.deletedOrderNumber}`.length >= 6
+      && `${formData.deletedOrderNumber}`.length <= 20) {
       groupDelete?.groupDelete({ ...formData }, groupId);
-      handleClose();
     }
   };
+
+  useEffect(() => {
+    handleClose();
+  }, [groupDelete?.data]);
 
   useEffect(() => {
     if (groupId) {
@@ -56,14 +50,15 @@ export const GroupDeleteModal = ({ modalActive, closeModal, groupId }: IGroupCre
   return (
     <ModalWindow modalTitle="Видалення групи" active={modalActive} closeModal={handleClose}>
       <form className={styles.form} onSubmit={onSubmit}>
+        <h3 />
         <Input
           onChange={(event) => {
             setFormData({ ...formData, deletedOrderNumber: event.target.value });
           }}
-          value={formData.deletedOrderNumber}
+          value={formData.deletedOrderNumber.slice(0, 7)}
           error={isSubmited && (`${formData.deletedOrderNumber}`.length < 6
-          || `${formData.deletedOrderNumber}`.length > 50
-            ? 'Кількість символів менше 6 або більше 50' : '')}
+          || `${formData.deletedOrderNumber}`.length > 20
+            ? 'Номер наказу повинен містити не менше 6-ти символів.' : '')}
           placeholder="Номер наказу"
           label="Номер наказу"
           required

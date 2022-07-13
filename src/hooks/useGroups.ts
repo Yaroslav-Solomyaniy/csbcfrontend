@@ -2,8 +2,7 @@ import axios, { AxiosResponse } from 'axios';
 import { useState } from 'react';
 import { useAuthContext } from '../context/useAuthContext';
 import { FetchSuccess, IPaginateData, OrderBy } from '../types';
-
-// Отримуємо дані про всі групи
+import { useMessagesContext } from '../context/useMessagesContext';
 
 export interface IGetGroupParams {
   orderByColumn?:
@@ -45,6 +44,7 @@ export interface IUseGroupsGet {
 
 export const useGroupsGet = (): IUseGroupsGet => {
   const { user } = useAuthContext();
+  const { addInfo, addErrors } = useMessagesContext();
   const [data, setData] = useState<IPaginateData<IGroupData> | null>(null);
 
   const getGroups = (params?: IGetGroupParams) => {
@@ -58,7 +58,7 @@ export const useGroupsGet = (): IUseGroupsGet => {
         setData(response.data);
       })
       .catch((error) => {
-        console.log(error);
+        addErrors(error);
       });
   };
 

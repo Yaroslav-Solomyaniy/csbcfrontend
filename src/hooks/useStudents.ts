@@ -74,6 +74,9 @@ export interface IGetParams {
     | 'orderNumber'
     | 'edeboId'
     | 'isFullTime';
+  firstName?: string;
+  lastName?: string;
+  patronymic?: string;
   orderBy?: string;
   search?: string;
   group?: string;
@@ -157,7 +160,7 @@ export const useStudentCreate = (): ICreateStudents => {
   return { data, addStudent };
 };
 
-interface IDataStudentsItem {
+export interface IDataStudentsItem {
   id: number;
   dateOfBirth: string;
   group: {
@@ -229,18 +232,18 @@ export const useStudentGetId = (): IUseGetStudentsItem => {
 //   isFullTime: boolean;
 // }
 
-interface IDataStudentsItem {
+interface IDataPatchStudentsItem {
   message: string;
 }
 
 export interface IUsePatchStudentsItem {
-  data: IDataStudentsItem | null;
+  data: IDataPatchStudentsItem | null;
   patchStudent: (params: IStudents, id: number) => void;
 }
 
 export const useStudentPatch = (): IUsePatchStudentsItem => {
   const { user } = useAuthContext();
-  const [data, setData] = useState<IDataStudentsItem | null>(null);
+  const [data, setData] = useState<IDataPatchStudentsItem | null>(null);
   const { addErrors } = useMessagesContext();
 
   const patchStudent = (params: IStudents, id: number): void => {
@@ -249,8 +252,8 @@ export const useStudentPatch = (): IUsePatchStudentsItem => {
         Authorization: `Bearer ${user?.accessToken}`,
         params: `{ id: ${id} }`,
       },
-    }).then((respons: AxiosResponse<IDataStudentsItem>) => {
-      setData(respons.data);
+    }).then((e) => {
+      setData(e.data);
     }).catch((error) => {
       addErrors(error.message);
     });
@@ -273,7 +276,6 @@ export const useStudentDelete = (): IUseDeleteStudentsItem => {
     axios.delete(`${process.env.REACT_APP_API_URL}/students/${id}`, {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
-        params: `{ id: ${id} }`,
       },
     }).then((respons: AxiosResponse<any>) => {
       setData(respons.data);

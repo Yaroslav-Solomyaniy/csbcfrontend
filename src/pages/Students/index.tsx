@@ -9,7 +9,6 @@ import { ITableHeader } from '../../components/common/table/TableHeader';
 import StudentsCreateModal from './modal/StudentsCreate';
 import { useStudentsContext } from '../../context/students';
 import SelectGroup from '../../components/common/SelectGroup';
-import SelectPIB from '../../components/common/SelectPIB';
 import SelectIsFullTime from '../../components/common/SelectIsFullTime';
 import edit from '../../images/table/edit.svg';
 import review from '../../images/table/review.svg';
@@ -17,6 +16,7 @@ import del from '../../images/table/delete.svg';
 import { initialPagination, Pagination } from '../../types';
 import { ITableRowItem } from '../../components/common/table/TableBody';
 import { IGetParams } from '../../hooks/useStudents';
+import StudentsEditModal from './modal/StudentsEdit';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІП студента' },
@@ -43,7 +43,9 @@ const allCloseModalWindow: IIsActiveModalState = {
 };
 
 interface Filter {
-  name: string;
+  firstName: string;
+  lastName: string;
+  patronymic: string;
   group: string;
   isFullTime: boolean | undefined;
 }
@@ -55,30 +57,28 @@ interface Params {
 
 const Students = (): JSX.Element => {
   const { getStudents } = useStudentsContext();
-  const [params, setParams] = useState<Params>({
-    filter: { name: '', group: '', isFullTime: undefined },
-    pagination: initialPagination,
-  });
-  const [modalActive, setModalActive] = useState(false);
-
-  const closeModal = () => {
-    setModalActive(false);
-  };
-
   const [isActiveModal, setIsActiveModal] = useState(allCloseModalWindow);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
+  const [params, setParams] = useState<Params>({
+    filter: { firstName: '', lastName: '', patronymic: '', group: '', isFullTime: undefined },
+    pagination: initialPagination,
+  });
+
+  const closeModal = () => {
+    setIsActiveModal(allCloseModalWindow);
+  };
 
   useEffect(() => {
     const query: IGetParams = {};
 
-    if (params.filter.group) query.isFullTime = params.filter.isFullTime;
+    if (params.filter.group) query.group = params.filter.group;
+    if (params.filter.isFullTime) query.isFullTime = params.filter.isFullTime;
     if (params.pagination.currentPage) query.page = params.pagination.currentPage;
     if (params.pagination.itemsPerPage) query.limit = params.pagination.itemsPerPage;
 
     getStudents?.getStudent(query);
   }, [
     params.filter.group,
-    params.filter.name,
     params.filter.isFullTime,
     params.pagination.currentPage,
     params.pagination.itemsPerPage,
@@ -90,14 +90,14 @@ const Students = (): JSX.Element => {
       setDataRow(getStudents?.data?.items.length
         ? getStudents?.data?.items.map((item, id) => ({
           list: [
-            { id, label: `${item.user.lastName} ${item.user.firstName}` },
-            { id, label: item.group.name },
-            { id, label: item.orderNumber },
-            { id, label: item.isFullTime ? 'Денна' : 'Заочна' },
-            { id, label: item.user.email },
-            { id, label: item.user.firstName },
+            { id: 1, label: `${item.user.lastName} ${item.user.firstName}` },
+            { id: 2, label: item.group.name },
+            { id: 3, label: item.orderNumber },
+            { id: 4, label: item.isFullTime ? 'Денна' : 'Заочна' },
+            { id: 5, label: item.user.email },
+            { id: 6, label: item.user.firstName },
             {
-              id,
+              id: 7,
               label: (
                 <div className={styles.actions}>
                   <button
@@ -146,7 +146,7 @@ const Students = (): JSX.Element => {
               nameClass="primary"
               size="large"
               className={styles.actions}
-              onClick={() => setModalActive(true)}
+              onClick={closeModal}
             >
               Створити
             </Button>
@@ -155,6 +155,7 @@ const Students = (): JSX.Element => {
         <Table
           filter={(
             <>
+
               <SelectGroup
                 type="filter"
                 placeholder="Група"
@@ -167,16 +168,16 @@ const Students = (): JSX.Element => {
                 isClearable
                 isSearchable
               />
-              <SelectPIB
-                type="filter"
-                placeholder="ПІБ"
-                value={params.filter.name}
-                onChange={(value) => setParams({
-                  ...params,
-                  filter: { ...params.filter, name: value },
-                  pagination: initialPagination,
-                })}
-              />
+              {/* <SelectPIB */}
+              {/*  type="filter" */}
+              {/*  placeholder="ПІБ" */}
+              {/*  value={`${params.filter.lastName} ${params.filter.firstName} ${params.filter.patronymic}`} */}
+              {/*  onChange={(value) => setParams({ */}
+              {/*    ...params, */}
+              {/*    // filter: { ...params.filter}, */}
+              {/*    pagination: initialPagination, */}
+              {/*  })} */}
+              {/* /> */}
               <SelectIsFullTime
                 type="filter"
                 placeholder="Форма навчання"
@@ -195,7 +196,13 @@ const Students = (): JSX.Element => {
           pagination={params.pagination}
           onPaginationChange={(newPagination) => setParams({ ...params, pagination: newPagination })}
         />
-        <StudentsCreateModal closeModal={closeModal} modalActive={modalActive} />
+        <StudentsCreateModal modalActive={isActiveModal.create} closeModal={closeModal} />
+        <StudentsEditModal modalActive={!!isActiveModal.edit} id={isActiveModal.edit} closeModal={closeModal} />
+        {/* <StudentsDeleteModal */}
+        {/*  modalActive={!!isActiveModal.delete} */}
+        {/*  groupId={isActiveModal.delete} */}
+        {/*  closeModal={closeModal} */}
+        {/* /> */}
       </div>
     </Layout>
   );

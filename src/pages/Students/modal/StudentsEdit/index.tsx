@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import styles from '../index.module.scss';
-import ModalWindow from '../../../../components/common/ModalWindow';
-import { IStudents } from '../../../../hooks/useStudents';
-import Select from '../../../../components/common/Select';
-import Input from '../../../../components/common/Input';
+
 import { useStudentsContext } from '../../../../context/students';
-import { Option } from '../../../../types';
 import SelectGroup from '../../../../components/common/SelectGroup';
+import Select from '../../../../components/common/Select';
+import ModalWindow from '../../../../components/common/ModalWindow';
+import Input from '../../../../components/common/Input';
+import ModalControlButtons from '../../../../components/common/ModalControlButtons';
+import { IStudents } from '../../../../hooks/useStudents';
 
 interface IGroupCreateModal {
-  closeModal: () => void;
   modalActive: boolean;
+  closeModal: () => void;
+  id: number;
 }
 
 const formInitialData = {
@@ -28,42 +30,21 @@ const formInitialData = {
   isFullTime: true,
 };
 
-const selectValueDefault = {
-  group: '',
-  isFullTime: '',
-};
-
-export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateModal): JSX.Element => {
-  const { createStudents, getOptionsGroups } = useStudentsContext();
-
-  const [formData, setFormData] = useState<IStudents>(formInitialData);
+export const StudentsEditModal = ({ modalActive, closeModal, id }: IGroupCreateModal): JSX.Element => {
+  const { patchStudentsItem, getStudent } = useStudentsContext();
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [options, setOptions] = useState<Option[]>([]);
-  const [selectValue, setSelectValue] = useState(selectValueDefault);
-
-  useEffect(() => {
-    getOptionsGroups?.getOptionsGroups();
-  }, []);
-
-  useEffect(() => {
-    if (getOptionsGroups?.optionsGroups?.items.length) {
-      setOptions(getOptionsGroups?.optionsGroups.items.map((group) => ({ value: group.id, label: group.name })));
-    }
-  }, [getOptionsGroups?.optionsGroups]);
+  const [formData, setFormData] = useState<IStudents>(formInitialData);
 
   const handleClose = () => {
     setIsSubmitted(false);
     setFormData(formInitialData);
-    setSelectValue(selectValueDefault);
     closeModal();
   };
 
-  useEffect(() => {
-    setSelectValue({ ...selectValue, isFullTime: formData.isFullTime ? 'Денна' : 'Заочна' });
-  }, [formData.isFullTime]);
-
   const onSubmit = (e: React.FormEvent | undefined) => {
     e?.preventDefault?.();
+    setIsSubmitted(true);
+
     if (
       formData.dateOfBirth
       && formData.groupId
@@ -73,13 +54,40 @@ export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateMod
       && formData.user.email
       && formData.orderNumber
       && formData.edeboId
+      && formData.isFullTime
     ) {
-      createStudents?.addStudent(formData);
+      patchStudentsItem?.patchStudent({ ...formData }, id);
+      handleClose();
     }
   };
 
+  useEffect(() => {
+    if (id) {
+      getStudent?.getStudent({ id: `${id}` });
+    }
+  }, [id]);
+
+  useEffect(() => {
+    if (getStudent?.data) {
+      setFormData({
+        dateOfBirth: getStudent.data.dateOfBirth,
+        groupId: getStudent.data.group.id,
+        user: {
+          firstName: getStudent.data.user.firstName,
+          lastName: getStudent.data.user.lastName,
+          patronymic: getStudent.data.user.patronymic,
+          email: getStudent.data.user.email,
+          role: 'student',
+        },
+        orderNumber: getStudent.data.orderNumber,
+        edeboId: getStudent.data.edeboId,
+        isFullTime: getStudent.data.isFullTime,
+      });
+    }
+  }, [getStudent?.data]);
+
   return (
-    <ModalWindow modalTitle="Додавання студента" active={modalActive} closeModal={handleClose}>
+    <ModalWindow modalTitle="Редагування групи" active={modalActive} closeModal={handleClose}>
       <form className={styles.form} onSubmit={onSubmit}>
         <Input
           required
@@ -125,17 +133,10 @@ export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateMod
           type="modal"
           label="Група"
           placeholder="Група"
-          onChange={(label: string) => {
-            options.map((item) => {
-              if (item.label === label) {
-                setFormData({ ...formData, groupId: +item.value });
-                setSelectValue({ ...selectValue, group: item.label });
-              }
-
-              return item;
-            });
+          value={formData.groupId}
+          onChange={(value: string) => {
+            setFormData({ ...formData, groupId: +value });
           }}
-          value={selectValue.group}
           isClearable
           isSearchable
         />
@@ -176,35 +177,26 @@ export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateMod
           isSearchable
           isClearable
           options={[
-            { value: 'Денна', label: 'Денна' },
-            { value: 'Заочна', label: 'Заочна' },
+            { value: true, label: 'Денна' },
+            { value: false, label: 'Заочна' },
           ]}
-          value={selectValue.isFullTime}
+          value={formData.isFullTime ? 'Денна' : 'Заочна'}
           onChange={(value) => {
+            console.log(value);
             setFormData({ ...formData, isFullTime: value === 'Денна' });
           }}
           placeholder="Оберіть форму навчання"
           error={isSubmitted && !formData.orderNumber ? 'Номер групи не введено' : ''}
         />
       </form>
-      <div className={styles.modal__buttons}>
-        <button
-          type="button"
-          className={styles.modal_revert}
-          onClick={handleClose}
-        >
-          Відміна
-        </button>
-        <button
-          type="button"
-          className={styles.modal_submit}
-          onClick={onSubmit}
-        >
-          Створити
-        </button>
-      </div>
+      <ModalControlButtons
+        handleClose={handleClose}
+        onSubmit={onSubmit}
+        cancelButtonText="Відміна"
+        mainButtonText="Зберегти"
+      />
     </ModalWindow>
   );
 };
 
-export default StudentsCreateModal;
+export default StudentsEditModal;

@@ -9,7 +9,7 @@ import styles from './index.module.scss';
 interface Select {
   options: Option[];
   type: SelectType;
-  value: string | number | null;
+  value: string | number | null | undefined;
   onChange: (value: string) => void;
   label?: string;
   required?: boolean;

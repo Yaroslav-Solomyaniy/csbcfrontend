@@ -27,7 +27,7 @@ const formInitialData = {
   },
   orderNumber: '',
   edeboId: '',
-  isFullTime: true,
+  isFullTime: undefined,
 };
 
 export const StudentsEditModal = ({ modalActive, closeModal, id }: IGroupCreateModal): JSX.Element => {
@@ -42,23 +42,25 @@ export const StudentsEditModal = ({ modalActive, closeModal, id }: IGroupCreateM
   };
 
   const onSubmit = (e: React.FormEvent | undefined) => {
+    const query: IStudents = { user: {} };
+
     e?.preventDefault?.();
     setIsSubmitted(true);
 
-    if (
-      formData.dateOfBirth
-      && formData.groupId
-      && formData.user.firstName
-      && formData.user.lastName
-      && formData.user.patronymic
-      && formData.user.email
-      && formData.orderNumber
-      && formData.edeboId
-      && formData.isFullTime
-    ) {
-      patchStudentsItem?.patchStudent({ ...formData }, id);
-      handleClose();
+    if (formData.dateOfBirth !== getStudent?.data?.dateOfBirth) query.dateOfBirth = formData.dateOfBirth;
+    if (formData.groupId !== getStudent?.data?.group.id) query.groupId = formData.groupId;
+    if (formData.user.firstName !== getStudent?.data?.user.firstName) query.user.firstName = formData.user.firstName;
+    if (formData.user.lastName !== getStudent?.data?.user.lastName) query.user.lastName = formData.user.lastName;
+    if (formData.user.patronymic !== getStudent?.data?.user.patronymic) {
+      query.user.patronymic = formData.user.patronymic;
     }
+    if (formData.user.email !== getStudent?.data?.user.email) query.user.email = formData.user.email;
+    if (formData.orderNumber !== getStudent?.data?.orderNumber) query.orderNumber = formData.orderNumber;
+    if (formData.edeboId !== getStudent?.data?.edeboId) query.edeboId = formData.edeboId;
+    if (formData.isFullTime !== getStudent?.data?.isFullTime) query.isFullTime = formData.isFullTime;
+
+    patchStudentsItem?.patchStudent(query, id);
+    handleClose();
   };
 
   useEffect(() => {
@@ -97,17 +99,17 @@ export const StudentsEditModal = ({ modalActive, closeModal, id }: IGroupCreateM
           onChange={(event) => {
             setFormData({ ...formData, user: { ...formData.user, lastName: event.target.value } });
           }}
-          error={isSubmitted && !formData.orderNumber ? 'Номер групи не введено' : ''}
+          error={isSubmitted && !formData.user.lastName ? 'Прізвище не введено' : ''}
         />
         <Input
           required
-          label="Ім'я"
-          placeholder="Ім'я"
+          label="Ім`я"
+          placeholder="Ім`я"
           value={formData.user.firstName}
           onChange={(event) => {
             setFormData({ ...formData, user: { ...formData.user, firstName: event.target.value } });
           }}
-          error={isSubmitted && !formData.orderNumber ? 'Номер групи не введено' : ''}
+          error={isSubmitted && !formData.user.firstName ? 'Ім`я не введено' : ''}
         />
         <Input
           required
@@ -117,9 +119,10 @@ export const StudentsEditModal = ({ modalActive, closeModal, id }: IGroupCreateM
           onChange={(event) => {
             setFormData({ ...formData, user: { ...formData.user, patronymic: event.target.value } });
           }}
-          error={isSubmitted && !formData.orderNumber ? 'Номер групи не введено' : ''}
+          error={isSubmitted && !formData.user.patronymic ? 'По-Батькові не введено' : ''}
         />
         <Input
+          inputType="date"
           required
           label="Дата народження"
           placeholder="Дата народження"
@@ -127,18 +130,18 @@ export const StudentsEditModal = ({ modalActive, closeModal, id }: IGroupCreateM
           onChange={(event) => {
             setFormData({ ...formData, dateOfBirth: event.target.value });
           }}
-          error={isSubmitted && !formData.orderNumber ? 'Номер групи не введено' : ''}
+          error={isSubmitted && !formData.dateOfBirth ? 'Дату народження не введено' : ''}
         />
         <SelectGroup
           type="modal"
           label="Група"
           placeholder="Група"
-          value={formData.groupId}
-          onChange={(value: string) => {
-            setFormData({ ...formData, groupId: +value });
-          }}
           isClearable
           isSearchable
+          value={formData.groupId}
+          onChange={(value) => {
+            setFormData({ ...formData, groupId: +value });
+          }}
         />
         <Input
           required
@@ -148,7 +151,9 @@ export const StudentsEditModal = ({ modalActive, closeModal, id }: IGroupCreateM
           onChange={(event) => {
             setFormData({ ...formData, orderNumber: event.target.value });
           }}
-          error={isSubmitted && !formData.orderNumber ? 'Номер групи не введено' : ''}
+          error={isSubmitted && (`${formData.orderNumber}`.length < 6
+          || `${formData.orderNumber}`.length > 20
+            ? 'Номер наказу повинен містити не менше 6-ти символів.' : '')}
         />
         <Input
           required
@@ -158,7 +163,8 @@ export const StudentsEditModal = ({ modalActive, closeModal, id }: IGroupCreateM
           onChange={(event) => {
             setFormData({ ...formData, edeboId: event.target.value });
           }}
-          error={isSubmitted && !formData.orderNumber ? 'Номер групи не введено' : ''}
+          error={isSubmitted && (`${formData.edeboId}`.length <= 8
+            ? 'Номер ЄДЕБО повинен містити менше 8-ми символів.' : '')}
         />
         <Input
           required
@@ -168,25 +174,24 @@ export const StudentsEditModal = ({ modalActive, closeModal, id }: IGroupCreateM
           onChange={(event) => {
             setFormData({ ...formData, user: { ...formData.user, email: event.target.value } });
           }}
-          error={isSubmitted && !formData.orderNumber ? 'Номер групи не введено' : ''}
+          error={isSubmitted && !formData.user.email ? 'E-Mail не введено' : ''}
         />
         <Select
           type="modal"
-          label="форма навчання"
+          label="Форма навчання"
           required
           isSearchable
           isClearable
           options={[
-            { value: true, label: 'Денна' },
-            { value: false, label: 'Заочна' },
+            { value: 'Денна', label: 'Денна' },
+            { value: 'Заочна', label: 'Заочна' },
           ]}
-          value={formData.isFullTime ? 'Денна' : 'Заочна'}
+          value={formData.isFullTime ? 'Денна' : formData.isFullTime === undefined ? '' : 'Заочна'}
           onChange={(value) => {
-            console.log(value);
-            setFormData({ ...formData, isFullTime: value === 'Денна' });
+            setFormData({ ...formData, isFullTime: value === 'Денна' ? true : value === 'Заочна' ? false : undefined });
           }}
-          placeholder="Оберіть форму навчання"
-          error={isSubmitted && !formData.orderNumber ? 'Номер групи не введено' : ''}
+          placeholder="Форма навчання"
+          error={isSubmitted && formData.isFullTime === undefined ? 'Оберіть форму навчання' : ''}
         />
       </form>
       <ModalControlButtons

@@ -4,7 +4,7 @@ import { useStudentsContext } from '../../../context/students';
 interface SelectCurator {
   type: 'filter' | 'modal';
   label?: string;
-  value: string | number;
+  value: boolean | undefined;
   onChange: (value: string) => void;
   placeholder?: string;
   error?: string;
@@ -38,7 +38,7 @@ const SelectPIB = ({
       type={type}
       label={label}
       onChange={onChange}
-      value={value}
+      value={value ? 'Денна' : value === undefined ? '' : 'Заочна'}
       options={options}
       placeholder={placeholder}
       isSearchable

@@ -92,7 +92,6 @@ export const GroupEditModal = ({ modalActive, closeModal, groupId }: IGroupCreat
           isSearchable
           isClearable
           onChange={(value) => {
-            console.log(value);
             setFormData({ ...formData, curatorId: +value });
           }}
           value={formData.curatorId}

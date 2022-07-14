@@ -11,6 +11,7 @@ export interface LoginData {
   id: number;
   firstName: string;
   lastName: string;
+  patronymic: string;
   email: string;
   role: string;
   updated: string;
@@ -45,19 +46,22 @@ export const useLogin = (): ILogin => {
 };
 
 interface IRefreshToken {
+  data: any;
   authGet: () => void;
 }
 
 export const useRefreshToken = (): IRefreshToken => {
+  const { addErrors } = useMessagesContext();
+  const [data, setData] = useState<LoginData | null>(null);
   const authGet = () => {
-    axios.get(`${process.env.REACT_APP_API_URL}auth/refresh-token`).then((e) => {
-      console.log(e);
+    axios.get(`${process.env.REACT_APP_API_URL}auth/refresh-token`).then((response) => {
+      setData(response.data);
     }).catch((e) => {
-      console.error(e);
+      addErrors(e.response.data.message);
     });
   };
 
-  return { authGet };
+  return { data, authGet };
 };
 
 // interface StudentData {
@@ -101,11 +105,10 @@ export const useForgotPassword = (): { postForgotPassword: (params: ForgotPasswo
   const { addErrors, addInfo } = useMessagesContext();
 
   const postForgotPassword = (params: ForgotPassword) => {
-    axios.post(`${process.env.REACT_APP_API_URL}/auth/forgot-password`, params).then((e) => {
-      console.log(e);
+    axios.post(`${process.env.REACT_APP_API_URL}/auth/forgot-password`, params).then(() => {
       addInfo(`Новий пароль надіслано на пошту ${params.email}`);
     }).catch((e) => {
-      addErrors(e.message);
+      addErrors(e.response.data.message);
     });
   };
 
@@ -133,8 +136,8 @@ export const useChangePassword = (): IChangePassword => {
       addInfo(`${e.data.success
         ? 'Пароль змінено'
         : 'Вкажіть новий пароль'}`);
-    }).catch((error) => {
-      addErrors(error.message);
+    }).catch((e) => {
+      addErrors(e.response.data.message);
     });
   };
 

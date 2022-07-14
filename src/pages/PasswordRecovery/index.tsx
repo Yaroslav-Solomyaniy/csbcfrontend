@@ -5,10 +5,11 @@ import Layout from '../../loyout/Layout';
 
 const PasswordRecovery = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
   const { postForgotPassword } = useForgotPassword();
-  const [email, setEmail] = useState<ForgotPassword>({ email: ' ' });
+  const [email, setEmail] = useState<ForgotPassword>({ email: '' });
 
   const passwordRecovery = () => {
     postForgotPassword(email);
+    setEmail({ email: '' });
   };
 
   return (
@@ -34,7 +35,7 @@ const PasswordRecovery = ({ children }: JSX.ElementChildrenAttribute): JSX.Eleme
               disabled={!email.email}
               onClick={passwordRecovery}
             >
-              надіслати
+              Надіслати
             </button>
           </div>
         </div>

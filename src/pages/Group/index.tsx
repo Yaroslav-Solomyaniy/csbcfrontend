@@ -125,7 +125,6 @@ const Group = (): JSX.Element => {
             </Button>
           )}
         />
-
         <Table
           filter={(
             <>

@@ -3,15 +3,16 @@ import clsx from 'clsx';
 import styles from './index.module.scss';
 
 interface IInput {
+  inputType?: string;
   label?: string;
-  value: string | number;
+  value: string | number | undefined;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   required?: boolean;
   error?: string | boolean;
   placeholder?: string;
 }
 
-const Input = ({ label, value, onChange, required, error, placeholder }: IInput): JSX.Element => (
+const Input = ({ label, value, onChange, required, error, placeholder, inputType }: IInput): JSX.Element => (
   <div className={styles.wrap}>
     {label && (
       <label className={clsx(styles.label, error && styles.error_label)}>
@@ -21,6 +22,7 @@ const Input = ({ label, value, onChange, required, error, placeholder }: IInput)
     )}
     <div className={styles.InputWrap}>
       <input
+        type={inputType}
         className={styles.input}
         placeholder={placeholder}
         value={value}
@@ -36,6 +38,7 @@ const Input = ({ label, value, onChange, required, error, placeholder }: IInput)
 );
 
 Input.defaultProps = {
+  inputType: 'value',
   label: '',
   required: false,
   placeholder: '',

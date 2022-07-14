@@ -3,10 +3,10 @@ import Select from '../Select';
 import { Option } from '../../../types';
 import { useStudentsContext } from '../../../context/students';
 
-interface SelectCurator {
+interface SelectPIB {
   type: 'filter' | 'modal';
   label?: string;
-  value: string | number;
+  value: null | number;
   onChange: (value: string) => void;
   placeholder?: string;
   error?: string;
@@ -19,7 +19,7 @@ const SelectPIB = ({
   value,
   placeholder,
   error,
-}: SelectCurator): JSX.Element => {
+}: SelectPIB): JSX.Element => {
   const [options, setOptions] = useState<Option[]>([]);
   const { createStudents, patchStudentsItem, deleteStudentsItem, getStudents } = useStudentsContext();
 
@@ -31,7 +31,7 @@ const SelectPIB = ({
     if (getStudents?.data?.items.length) {
       setOptions(getStudents?.data?.items.map((name) => ({
         value: name.id,
-        label: `${name.user.firstName} ${name.user.lastName} ${name.user.patronymic}`,
+        label: `${name.user.lastName} ${name.user.firstName} ${name.user.patronymic}`,
       })));
     }
   }, [getStudents?.data]);

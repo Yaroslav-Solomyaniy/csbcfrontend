@@ -43,10 +43,10 @@ const Header = ({ setOpen, isAuth, isRenderButtonMenu = true }: IHeader): JSX.El
           }}
         >
           <span className={styles.user}>
-            {`${user?.lastName} ${user?.lastName?.[0].toUpperCase()}. ${user?.lastName?.[0].toUpperCase()}.`}
+            {`${user?.lastName} ${user?.firstName?.[0].toUpperCase()}. ${user?.patronymic?.[0].toUpperCase()}.`}
           </span>
           <div className={styles.avatar}>
-            {`${user?.lastName[0].toUpperCase()}${user?.lastName[0].toUpperCase()}`}
+            {`${user?.firstName[0].toUpperCase()}${user?.patronymic[0].toUpperCase()}`}
           </div>
           <div className={clsx(styles.avatarka__modal, dropMenuOpen && styles.avatarka__modal__open)}>
             <NavLink className={styles.avatarka__modal__item} to="/change-password">

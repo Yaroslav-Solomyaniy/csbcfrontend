@@ -5,8 +5,8 @@ import { IStudents } from '../../../../hooks/useStudents';
 import Select from '../../../../components/common/Select';
 import Input from '../../../../components/common/Input';
 import { useStudentsContext } from '../../../../context/students';
-import { Option } from '../../../../types';
 import SelectGroup from '../../../../components/common/SelectGroup';
+import ModalControlButtons from '../../../../components/common/ModalControlButtons';
 
 interface IGroupCreateModal {
   closeModal: () => void;
@@ -25,7 +25,7 @@ const formInitialData = {
   },
   orderNumber: '',
   edeboId: '',
-  isFullTime: true,
+  isFullTime: undefined,
 };
 
 const selectValueDefault = {
@@ -38,18 +38,11 @@ export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateMod
 
   const [formData, setFormData] = useState<IStudents>(formInitialData);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [options, setOptions] = useState<Option[]>([]);
   const [selectValue, setSelectValue] = useState(selectValueDefault);
 
   useEffect(() => {
     getOptionsGroups?.getOptionsGroups();
   }, []);
-
-  useEffect(() => {
-    if (getOptionsGroups?.optionsGroups?.items.length) {
-      setOptions(getOptionsGroups?.optionsGroups.items.map((group) => ({ value: group.id, label: group.name })));
-    }
-  }, [getOptionsGroups?.optionsGroups]);
 
   const handleClose = () => {
     setIsSubmitted(false);
@@ -64,17 +57,21 @@ export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateMod
 
   const onSubmit = (e: React.FormEvent | undefined) => {
     e?.preventDefault?.();
+    setIsSubmitted(true);
+
     if (
-      formData.dateOfBirth
-      && formData.groupId
-      && formData.user.firstName
-      && formData.user.lastName
-      && formData.user.patronymic
-      && formData.user.email
-      && formData.orderNumber
-      && formData.edeboId
+      !!formData.dateOfBirth
+      && !!formData.groupId
+      && !!formData.user.firstName
+      && !!formData.user.lastName
+      && !!formData.user.patronymic
+      && !!formData.user.email
+      && formData.orderNumber.length >= 6
+      && formData.edeboId.length <= 8
+      && formData.isFullTime !== undefined
     ) {
       createStudents?.addStudent(formData);
+      handleClose();
     }
   };
 
@@ -89,17 +86,17 @@ export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateMod
           onChange={(event) => {
             setFormData({ ...formData, user: { ...formData.user, lastName: event.target.value } });
           }}
-          error={isSubmitted && !formData.orderNumber ? 'Номер групи не введено' : ''}
+          error={isSubmitted && !formData.user.lastName ? 'Прізвище не введено' : ''}
         />
         <Input
           required
-          label="Ім'я"
-          placeholder="Ім'я"
+          label="Ім`я"
+          placeholder="Ім`я"
           value={formData.user.firstName}
           onChange={(event) => {
             setFormData({ ...formData, user: { ...formData.user, firstName: event.target.value } });
           }}
-          error={isSubmitted && !formData.orderNumber ? 'Номер групи не введено' : ''}
+          error={isSubmitted && !formData.user.firstName ? 'Ім`я не введено' : ''}
         />
         <Input
           required
@@ -109,9 +106,10 @@ export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateMod
           onChange={(event) => {
             setFormData({ ...formData, user: { ...formData.user, patronymic: event.target.value } });
           }}
-          error={isSubmitted && !formData.orderNumber ? 'Номер групи не введено' : ''}
+          error={isSubmitted && !formData.user.patronymic ? 'По-Батькові не введено' : ''}
         />
         <Input
+          inputType="date"
           required
           label="Дата народження"
           placeholder="Дата народження"
@@ -119,25 +117,18 @@ export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateMod
           onChange={(event) => {
             setFormData({ ...formData, dateOfBirth: event.target.value });
           }}
-          error={isSubmitted && !formData.orderNumber ? 'Номер групи не введено' : ''}
+          error={isSubmitted && !formData.dateOfBirth ? 'Дату народження не введено' : ''}
         />
         <SelectGroup
           type="modal"
           label="Група"
           placeholder="Група"
-          onChange={(label: string) => {
-            options.map((item) => {
-              if (item.label === label) {
-                setFormData({ ...formData, groupId: +item.value });
-                setSelectValue({ ...selectValue, group: item.label });
-              }
-
-              return item;
-            });
-          }}
-          value={selectValue.group}
           isClearable
           isSearchable
+          value={formData.groupId}
+          onChange={(value) => {
+            setFormData({ ...formData, groupId: +value });
+          }}
         />
         <Input
           required
@@ -147,7 +138,9 @@ export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateMod
           onChange={(event) => {
             setFormData({ ...formData, orderNumber: event.target.value });
           }}
-          error={isSubmitted && !formData.orderNumber ? 'Номер групи не введено' : ''}
+          error={isSubmitted && (`${formData.orderNumber}`.length < 6
+          || `${formData.orderNumber}`.length > 20
+            ? 'Номер наказу повинен містити не менше 6-ти символів.' : '')}
         />
         <Input
           required
@@ -157,7 +150,8 @@ export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateMod
           onChange={(event) => {
             setFormData({ ...formData, edeboId: event.target.value });
           }}
-          error={isSubmitted && !formData.orderNumber ? 'Номер групи не введено' : ''}
+          error={isSubmitted && (`${formData.edeboId}`.length <= 8
+            ? 'Номер ЄДЕБО повинен містити менше 8-ми символів.' : '')}
         />
         <Input
           required
@@ -167,11 +161,11 @@ export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateMod
           onChange={(event) => {
             setFormData({ ...formData, user: { ...formData.user, email: event.target.value } });
           }}
-          error={isSubmitted && !formData.orderNumber ? 'Номер групи не введено' : ''}
+          error={isSubmitted && !formData.user.email ? 'E-Mail не введено' : ''}
         />
         <Select
           type="modal"
-          label="форма навчання"
+          label="Форма навчання"
           required
           isSearchable
           isClearable
@@ -179,30 +173,20 @@ export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateMod
             { value: 'Денна', label: 'Денна' },
             { value: 'Заочна', label: 'Заочна' },
           ]}
-          value={selectValue.isFullTime}
+          value={formData.isFullTime ? 'Денна' : formData.isFullTime === undefined ? '' : 'Заочна'}
           onChange={(value) => {
-            setFormData({ ...formData, isFullTime: value === 'Денна' });
+            setFormData({ ...formData, isFullTime: value === 'Денна' ? true : value === 'Заочна' ? false : undefined });
           }}
-          placeholder="Оберіть форму навчання"
-          error={isSubmitted && !formData.orderNumber ? 'Номер групи не введено' : ''}
+          placeholder="Форма навчання"
+          error={isSubmitted && formData.isFullTime === undefined ? 'Оберіть форму навчання' : ''}
         />
       </form>
-      <div className={styles.modal__buttons}>
-        <button
-          type="button"
-          className={styles.modal_revert}
-          onClick={handleClose}
-        >
-          Відміна
-        </button>
-        <button
-          type="button"
-          className={styles.modal_submit}
-          onClick={onSubmit}
-        >
-          Створити
-        </button>
-      </div>
+      <ModalControlButtons
+        handleClose={handleClose}
+        onSubmit={onSubmit}
+        cancelButtonText="Відміна"
+        mainButtonText="Створити"
+      />
     </ModalWindow>
   );
 };

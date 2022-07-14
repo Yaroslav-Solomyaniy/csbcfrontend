@@ -39,7 +39,7 @@ interface IGroup {
 }
 
 interface IUser {
-  id: 0;
+  id: number;
   firstName: string;
   lastName: string;
   patronymic: string;
@@ -106,7 +106,7 @@ export const useStudentsGet = (): IUseGetStudents => {
     }).then((respons: AxiosResponse<IDataStudents>) => {
       setData(respons.data);
     }).catch((error) => {
-      addErrors(error.message);
+      addErrors(error.response.data.message);
     });
   };
 
@@ -114,20 +114,20 @@ export const useStudentsGet = (): IUseGetStudents => {
 };
 
 interface IAddStudentsUser {
-  firstName: string;
-  lastName: string;
-  patronymic: string;
-  email: string;
-  role: string;
+  firstName?: string;
+  lastName?: string;
+  patronymic?: string;
+  email?: string;
+  role?: string;
 }
 
 export interface IStudents {
-  dateOfBirth: string;
-  groupId: number;
+  dateOfBirth?: string;
+  groupId?: number;
   user: IAddStudentsUser;
-  orderNumber: string;
-  edeboId: string;
-  isFullTime: boolean;
+  orderNumber?: string;
+  edeboId?: string;
+  isFullTime?: boolean | undefined;
 }
 
 interface ICreateStudentsData {
@@ -153,52 +153,25 @@ export const useStudentCreate = (): ICreateStudents => {
       addInfo('Студента успішно додано');
       setData(response.data);
     }).catch((error) => {
-      addErrors(error.message);
+      addErrors(error.response.data.message);
     });
   };
 
   return { data, addStudent };
 };
 
-export interface IDataStudentsItem {
-  id: number;
-  dateOfBirth: string;
-  group: {
-    id: number;
-    name: string;
-    curator: {
-      id: number;
-      firstName: string;
-      lastName: string;
-      patronymic: string;
-      email: string;
-    };
-    orderNumber: string;
-  };
-  user: {
-    id: number;
-    firstName: string;
-    lastName: string;
-    patronymic: string;
-    email: string;
-  };
-  orderNumber: string;
-  edeboId: string;
-  isFullTime: boolean;
-}
-
 interface IGetStudentsItemParams {
   id: string;
 }
 
 export interface IUseGetStudentsItem {
-  data: IDataStudentsItem | null;
+  data: IDataStudentsItems | null;
   getStudent: (params: IGetStudentsItemParams) => void;
 }
 
 export const useStudentGetId = (): IUseGetStudentsItem => {
   const { user } = useAuthContext();
-  const [data, setData] = useState<IDataStudentsItem | null>(null);
+  const [data, setData] = useState<IDataStudentsItems | null>(null);
   const { addErrors } = useMessagesContext();
 
   const getStudent = (params: IGetStudentsItemParams): void => {
@@ -207,30 +180,15 @@ export const useStudentGetId = (): IUseGetStudentsItem => {
         Authorization: `Bearer ${user?.accessToken}`,
         params: `${params}`,
       },
-    }).then((respons: AxiosResponse<IDataStudentsItem>) => {
+    }).then((respons: AxiosResponse<IDataStudentsItems>) => {
       setData(respons.data);
     }).catch((error) => {
-      addErrors(error.message);
+      addErrors(error.response.data.message);
     });
   };
 
   return { data, getStudent };
 };
-
-// interface IGetStudentsItemParams {
-//   dateOfBirth: string;
-//   groupId: number;
-//   user: {
-//     firstName: string;
-//     lastName: string;
-//     patronymic: string;
-//     email: string;
-//     role: string;
-//   };
-//   orderNumber: string;
-//   edeboId: string;
-//   isFullTime: boolean;
-// }
 
 interface IDataPatchStudentsItem {
   message: string;
@@ -255,7 +213,7 @@ export const useStudentPatch = (): IUsePatchStudentsItem => {
     }).then((e) => {
       setData(e.data);
     }).catch((error) => {
-      addErrors(error.message);
+      addErrors(error.response.data.message);
     });
   };
 
@@ -264,7 +222,7 @@ export const useStudentPatch = (): IUsePatchStudentsItem => {
 
 export interface IUseDeleteStudentsItem {
   data: string | null;
-  patchStudent: (id: number) => void;
+  deleteStudent: (id: number) => void;
 }
 
 export const useStudentDelete = (): IUseDeleteStudentsItem => {
@@ -272,17 +230,17 @@ export const useStudentDelete = (): IUseDeleteStudentsItem => {
   const [data, setData] = useState<string | null>(null);
   const { addErrors } = useMessagesContext();
 
-  const patchStudent = (id: number): void => {
+  const deleteStudent = (id: number): void => {
     axios.delete(`${process.env.REACT_APP_API_URL}/students/${id}`, {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
-    }).then((respons: AxiosResponse<any>) => {
+    }).then((respons) => {
       setData(respons.data);
     }).catch((error) => {
-      addErrors(error.message);
+      addErrors(error.response.data.message);
     });
   };
 
-  return { data, patchStudent };
+  return { data, deleteStudent };
 };

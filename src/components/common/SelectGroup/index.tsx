@@ -5,7 +5,7 @@ import { useGetOptionsGroups } from '../../../hooks/useGroups';
 import { useGroupContext } from '../../../context/group';
 
 interface SelectGroup {
-  value: string | number;
+  value: string | number | undefined;
   onChange: (value: string) => void;
   type: SelectType;
   label?: string;
@@ -35,7 +35,7 @@ const SelectGroup = ({
 
   useEffect(() => {
     if (optionsGroups?.items.length) {
-      setOptions(optionsGroups.items.map((group) => ({ value: group.name, label: group.name })));
+      setOptions(optionsGroups.items.map((group) => ({ value: group.id, label: group.name })));
     }
   }, [optionsGroups]);
 

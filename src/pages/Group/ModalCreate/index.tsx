@@ -33,7 +33,8 @@ export const GroupCreateModal = ({ modalActive, closeModal }: IGroupCreateModal)
   const onSubmit = (e: React.FormEvent | undefined) => {
     e?.preventDefault?.();
     setIsSubmitted(true);
-    if (formData.name && formData.orderNumber && formData.curatorId) {
+    if (formData.name && (`${formData.orderNumber}`.length >= 6
+      && `${formData.orderNumber}`.length <= 20) && formData.curatorId) {
       groupCreate?.groupCreate(formData);
     }
   };
@@ -53,18 +54,19 @@ export const GroupCreateModal = ({ modalActive, closeModal }: IGroupCreateModal)
           placeholder="Номер групи"
           label="Номер групи"
           required
-          error={isSubmitted && !formData.name ? 'Номер групи не введено' : ''}
+          error={isSubmitted && !formData.name ? 'Номер групи не введено.' : ''}
         />
         <Input
           onChange={(event) => {
             setFormData({ ...formData, orderNumber: event.target.value });
           }}
-          value={formData.orderNumber}
+          value={formData.orderNumber.slice(0, 8)}
+          error={isSubmitted && (`${formData.orderNumber}`.length < 6
+          || `${formData.orderNumber}`.length > 20
+            ? 'Номер наказу повинен містити не менше 6-ти символів.' : '')}
           placeholder="Номер наказу"
           label="Номер наказу"
           required
-          error={isSubmitted && (`${formData.orderNumber}`.length < 6 || `${formData.orderNumber}`.length > 50
-            ? 'Кількість символів менше 6 або більше 50' : '')}
         />
         <SelectCurator
           type="modal"
@@ -77,7 +79,7 @@ export const GroupCreateModal = ({ modalActive, closeModal }: IGroupCreateModal)
             setFormData({ ...formData, curatorId: +value });
           }}
           value={formData.curatorId}
-          error={isSubmitted && !formData.curatorId ? 'Куратора не обрано!' : ''}
+          error={isSubmitted && !formData.curatorId ? 'Куратор не обраний.' : ''}
         />
       </form>
       <ModalControlButtons

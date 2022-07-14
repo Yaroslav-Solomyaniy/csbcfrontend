@@ -18,9 +18,9 @@ import SelectGroup from '../../components/common/SelectGroup';
 import { initialPagination, Pagination } from '../../types';
 
 const dataHeader: ITableHeader[] = [
-  { id: 1, label: 'Номер Групи' },
+  { id: 1, label: 'Номер групи' },
   { id: 2, label: 'Куратор' },
-  { id: 3, label: 'Номер Наказу' },
+  { id: 3, label: 'Номер наказу' },
   { id: 4, label: 'К-ть студентів' },
   { id: 5, label: 'Дії' },
 ];
@@ -81,7 +81,7 @@ const Group = (): JSX.Element => {
       setDataRow(getGroups?.data?.items.map((item: IGroupData) => ({
         list: [
           { id: 1, label: item.name },
-          { id: 2, label: `${item.curator.firstName} ${item.curator.lastName} ${item.curator.patronymic}` },
+          { id: 2, label: `${item.curator.lastName} ${item.curator.firstName} ${item.curator.patronymic}` },
           { id: 3, label: item.orderNumber },
           { id: 4, label: `${item.students}` },
           {

@@ -1,4 +1,3 @@
-import React from 'react';
 import './App.css';
 import { BrowserRouter, Link, Navigate, Route, Routes } from 'react-router-dom';
 import styles from './pages/PasswordRecovery/index.module.scss';
@@ -7,7 +6,6 @@ import Login from './pages/Login';
 import Students from './pages/Students';
 import Curators from './pages/Сurators';
 import Teachers from './pages/Teachers';
-import Subjects from './pages/Subjects';
 import Estimates from './pages/Estimates';
 import VotingAdmin from './pages/VotingAdmin';
 import Administrators from './pages/Administrators';
@@ -21,6 +19,8 @@ import leftArrow from './images/login/leftArrow.svg';
 import ChangePassword from './pages/ChangePassword';
 import StudentsProvider from './context/students';
 import GroupProvider from './context/group';
+import Courses from './pages/Courses';
+import CourseProvider from './context/course';
 
 const App = (): JSX.Element => {
   const { user } = useAuthContext();
@@ -34,7 +34,7 @@ const App = (): JSX.Element => {
             <Route path="/students" element={<StudentsProvider><Students /></StudentsProvider>} />
             <Route path="/curators" element={<Curators />} />
             <Route path="/teachers" element={<Teachers />} />
-            <Route path="/subjects" element={<Subjects />} />
+            <Route path="/courses" element={<CourseProvider><Courses /></CourseProvider>} />
             <Route path="/estimates" element={<Estimates />} />
             <Route path="/voting-admin" element={<VotingAdmin />} />
             <Route path="/administrators" element={<Administrators />} />

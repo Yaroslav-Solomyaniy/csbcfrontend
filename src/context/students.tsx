@@ -11,10 +11,10 @@ import {
   useStudentPatch,
   useStudentsGet,
 } from '../hooks/useStudents';
-import { IUseGetOptionsGroups, useGetOptionsGroups } from '../hooks/useGroups';
+import { IUseGetListGroups, useGetListGroups } from '../hooks/useDropDown';
 
 interface IStudentsContext {
-  getOptionsGroups: IUseGetOptionsGroups | null;
+  getOptionsGroups: IUseGetListGroups | null;
   createStudents: ICreateStudents | null;
   getStudents: IUseGetStudents | null;
   getStudent: IUseGetStudentsItem | null;
@@ -34,7 +34,7 @@ const defaultValue: IStudentsContext = {
 export const StudentsContext = createContext<IStudentsContext>(defaultValue);
 
 const StudentsProvider = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
-  const getOptionsGroups = useGetOptionsGroups();
+  const getOptionsGroups = useGetListGroups();
   const createStudents = useStudentCreate();
   const getStudents = useStudentsGet();
   const getStudent = useStudentGetId();

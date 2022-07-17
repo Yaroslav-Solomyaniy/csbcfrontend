@@ -1,15 +1,15 @@
 import React from 'react';
-import ReactSelect, { SingleValue } from 'react-select';
+import ReactSelect from 'react-select';
 
 import clsx from 'clsx';
 import { Option, SelectType } from '../../../types';
 import styles from './index.module.scss';
 
-interface Select {
+interface MultiSelect {
   options: Option[];
   type: SelectType;
-  value: string | number | null;
-  onChange: (value: string) => void;
+  value: string[];
+  onChange: (value: Option[]) => void;
   label?: string;
   required?: boolean;
   error?: string;
@@ -130,7 +130,7 @@ const Styles: any = {
   },
 };
 
-const Select = ({
+const MultiSelect = ({
   label,
   options,
   value,
@@ -141,7 +141,7 @@ const Select = ({
   isSearchable,
   isClearable,
   type,
-}: Select): JSX.Element => (
+}: MultiSelect): JSX.Element => (
 
   <div className={styles.wrap}>
     {label && (
@@ -151,15 +151,16 @@ const Select = ({
     </label>
     )}
     <div className={styles.selectWrap}>
-      <ReactSelect<Option>
+      <ReactSelect
         styles={Styles[type]}
         isSearchable={isSearchable}
         className={styles.select}
         options={options}
         placeholder={placeholder}
         isClearable={isClearable}
-        value={options.find((option) => option?.value?.toString() === value?.toString()) || null}
-        onChange={(option: SingleValue<Option>) => onChange(option?.value ? `${option.value}` : '')}
+        value={options.filter((option) => value.includes(`${option.value}`))}
+        onChange={(newValue) => onChange(newValue ? newValue as Option[] : [])}
+        isMulti
       />
       {error && (
       <div className={styles.error}>
@@ -170,7 +171,7 @@ const Select = ({
   </div>
 );
 
-Select.defaultProps = {
+MultiSelect.defaultProps = {
   label: '',
   error: '',
   required: false,
@@ -179,4 +180,4 @@ Select.defaultProps = {
   isClearable: false,
 };
 
-export default Select;
+export default MultiSelect;

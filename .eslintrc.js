@@ -38,6 +38,7 @@ module.exports = {
     'import/namespace': 'off',
     'no-mixed-operators': 'off',
     'no-nested-ternary': 'off',
+    'prefer-regex-literals': 'off',
     '@typescript-eslint/member-delimiter-style': [
       2,
       { multiline: { delimiter: 'semi', requireLast: true }, singleline: { delimiter: 'semi', requireLast: true } },

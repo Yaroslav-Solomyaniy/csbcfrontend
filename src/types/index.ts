@@ -5,12 +5,10 @@ export interface Option {
 
 export type SelectType = 'filter' | 'modal' | 'pagination';
 export type OrderBy = 'ASC' | 'DESC';
-// eslint-disable-next-line prefer-regex-literals
-export const validEmail = new RegExp(
-  '^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$',
-);
-// eslint-disable-next-line prefer-regex-literals
-export const validInput = new RegExp('/^[a-zA-ZА-Яа-я0-9]+$/');
+
+export const LettersAndNumbersEnUa = new RegExp("^[a-zA-Zа-яА-Яа-щА-ЩЬьЮюЯяЇїІіЄєҐ\\sґ0-9'_.-]*$");
+export const OnlyNumbers = new RegExp('^[0-9]*$');
+export const NumbersAndLettersEn = new RegExp('^[a-zA-Z0-9-]*$');
 
 export interface Pagination {
   totalItems: number;

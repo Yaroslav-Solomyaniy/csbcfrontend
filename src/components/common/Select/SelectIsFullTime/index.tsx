@@ -1,15 +1,18 @@
 import { useEffect, useState } from 'react';
-import Select from '../Select';
-import { Option } from '../../../types';
-import { useStudentsContext } from '../../../context/students';
+import Select from '../index';
+import { Option, SelectType } from '../../../../types';
+import { useStudentsContext } from '../../../../context/students';
 
 interface SelectCurator {
-  type: 'filter' | 'modal';
   label?: string;
   value: string | number;
   onChange: (value: string) => void;
   placeholder?: string;
+  isSearchable?: boolean;
+  isClearable?: boolean;
   error?: string;
+  required?: boolean;
+  type: SelectType;
 }
 
 const SelectPIB = ({
@@ -19,6 +22,8 @@ const SelectPIB = ({
   value,
   placeholder,
   error,
+  isClearable,
+  isSearchable,
 }: SelectCurator): JSX.Element => {
   const [options, setOptions] = useState<Option[]>([]);
   const { createStudents, patchStudentsItem, deleteStudentsItem, getStudents } = useStudentsContext();
@@ -54,6 +59,10 @@ const SelectPIB = ({
 
 SelectPIB.defaultProps = {
   placeholder: '',
+  isSearchable: false,
+  isClearable: false,
+  required: false,
+  isFilter: false,
   label: '',
   error: '',
 };

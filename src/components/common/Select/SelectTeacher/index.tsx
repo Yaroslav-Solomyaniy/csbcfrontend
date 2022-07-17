@@ -1,21 +1,21 @@
 import { useEffect, useState } from 'react';
-import Select from '../Select';
-import { Option, SelectType } from '../../../types';
-import { useGetOptionsGroups } from '../../../hooks/useGroups';
-import { useGroupContext } from '../../../context/group';
+import Select from '../index';
+import { Option, SelectType } from '../../../../types';
+import { useGetListTeachers } from '../../../../hooks/useDropDown';
 
-interface SelectGroup {
+interface SelectTeacher {
+  label?: string;
   value: string | number;
   onChange: (value: string) => void;
-  type: SelectType;
-  label?: string;
   placeholder?: string;
   isSearchable?: boolean;
   isClearable?: boolean;
+  error?: string;
   required?: boolean;
+  type: SelectType;
 }
 
-const SelectGroup = ({
+const SelectTeacher = ({
   type,
   label,
   onChange,
@@ -24,20 +24,23 @@ const SelectGroup = ({
   isSearchable,
   isClearable,
   required,
-}: SelectGroup): JSX.Element => {
-  const { optionsGroups, getOptionsGroups } = useGetOptionsGroups();
+  error,
+}: SelectTeacher): JSX.Element => {
   const [options, setOptions] = useState<Option[]>([]);
-  const { groupCreate, groupEdit, groupDelete } = useGroupContext();
+  const { listTeachers, getListTeachers } = useGetListTeachers();
 
   useEffect(() => {
-    getOptionsGroups();
-  }, [groupEdit?.data, groupCreate?.data, groupDelete?.data]);
+    getListTeachers();
+  }, []);
 
   useEffect(() => {
-    if (optionsGroups?.items.length) {
-      setOptions(optionsGroups.items.map((group) => ({ value: group.name, label: group.name })));
+    if (listTeachers?.items.length) {
+      setOptions(listTeachers.items.map((teacher) => ({
+        value: teacher.id,
+        label: `${teacher.lastName} ${teacher.firstName} ${teacher.patronymic}`,
+      })));
     }
-  }, [optionsGroups]);
+  }, [listTeachers]);
 
   return (
     <Select
@@ -50,17 +53,19 @@ const SelectGroup = ({
       isSearchable={isSearchable}
       isClearable={isClearable}
       required={required}
+      error={error}
     />
   );
 };
 
-SelectGroup.defaultProps = {
-  label: '',
+SelectTeacher.defaultProps = {
   placeholder: '',
   isSearchable: false,
   isClearable: false,
   required: false,
   isFilter: false,
+  label: '',
+  error: '',
 };
 
-export default SelectGroup;
+export default SelectTeacher;

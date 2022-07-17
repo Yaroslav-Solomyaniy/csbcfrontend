@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
-import Select from '../Select';
-import { Option, SelectType } from '../../../types';
-import { useGetOptionsCurator } from '../../../hooks/useGroups';
-import { useGroupContext } from '../../../context/group';
+import Select from '../index';
+import { Option, SelectType } from '../../../../types';
+import { useGetListCurators } from '../../../../hooks/useDropDown';
 
 interface SelectCurator {
   label?: string;
@@ -27,13 +26,12 @@ const SelectCurator = ({
   required,
   error,
 }: SelectCurator): JSX.Element => {
-  const { optionCurators, getOptionsCurator } = useGetOptionsCurator();
   const [options, setOptions] = useState<Option[]>([]);
-  const { groupCreate, groupEdit, groupDelete } = useGroupContext();
+  const { optionCurators, getListCurators } = useGetListCurators();
 
   useEffect(() => {
-    getOptionsCurator();
-  }, [groupEdit?.data, groupCreate?.data, groupDelete?.data]);
+    getListCurators();
+  }, []);
 
   useEffect(() => {
     if (optionCurators?.items.length) {

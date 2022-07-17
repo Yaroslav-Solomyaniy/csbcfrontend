@@ -5,17 +5,17 @@ import styles from './index.module.scss';
 import Layout from '../../loyout/Layout';
 import { ITableHeader } from '../../components/common/table/TableHeader';
 import Table from '../../components/common/table';
-import { GroupCreateModal } from './ModalCreate';
 import { IGetGroupParams, IGroupData } from '../../hooks/useGroups';
-import GroupEditModal from './ModalEdit';
-import GroupDeleteModal from './ModalDelete';
 import edit from '../../images/table/edit.svg';
 import del from '../../images/table/delete.svg';
-import SelectCurator from '../../components/common/SelectCurator';
 import { ITableRowItem } from '../../components/common/table/TableBody';
 import { useGroupContext } from '../../context/group';
-import SelectGroup from '../../components/common/SelectGroup';
 import { initialPagination, Pagination } from '../../types';
+import GroupCreate from './GroupCreate';
+import GroupDelete from './GroupDelete';
+import GroupEdit from './GroupEdit';
+import SelectGroup from '../../components/common/Select/SelectGroup';
+import SelectCurator from '../../components/common/Select/SelectCurator';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'Номер групи' },
@@ -161,9 +161,9 @@ const Group = (): JSX.Element => {
           pagination={params.pagination}
           onPaginationChange={(newPagination) => setParams({ ...params, pagination: newPagination })}
         />
-        <GroupCreateModal modalActive={isActiveModal.create} closeModal={closeModal} />
-        <GroupEditModal modalActive={!!isActiveModal.edit} groupId={isActiveModal.edit} closeModal={closeModal} />
-        <GroupDeleteModal modalActive={!!isActiveModal.delete} groupId={isActiveModal.delete} closeModal={closeModal} />
+        <GroupCreate modalActive={isActiveModal.create} closeModal={closeModal} />
+        <GroupEdit modalActive={!!isActiveModal.edit} groupId={isActiveModal.edit} closeModal={closeModal} />
+        <GroupDelete modalActive={!!isActiveModal.delete} groupId={isActiveModal.delete} closeModal={closeModal} />
       </div>
     </Layout>
   );

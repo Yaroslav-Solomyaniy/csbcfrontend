@@ -6,7 +6,7 @@ import Select from '../../../../components/common/Select';
 import Input from '../../../../components/common/Input';
 import { useStudentsContext } from '../../../../context/students';
 import { Option } from '../../../../types';
-import SelectGroup from '../../../../components/common/SelectGroup';
+import SelectGroup from '../../../../components/common/Select/SelectGroup';
 
 interface IGroupCreateModal {
   closeModal: () => void;
@@ -42,12 +42,12 @@ export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateMod
   const [selectValue, setSelectValue] = useState(selectValueDefault);
 
   useEffect(() => {
-    getOptionsGroups?.getOptionsGroups();
+    getOptionsGroups?.getListGroups();
   }, []);
 
   useEffect(() => {
     if (getOptionsGroups?.optionsGroups?.items.length) {
-      setOptions(getOptionsGroups?.optionsGroups.items.map((group) => ({ value: group.id, label: group.name })));
+      setOptions(getOptionsGroups?.optionsGroups.items.map((group: any) => ({ value: group.id, label: group.name })));
     }
   }, [getOptionsGroups?.optionsGroups]);
 

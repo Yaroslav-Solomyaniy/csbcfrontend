@@ -4,7 +4,7 @@ import ModalWindow from '../../../components/common/ModalWindow';
 import { IGroupEditParams } from '../../../hooks/useGroups';
 import { useGroupContext } from '../../../context/group';
 import Input from '../../../components/common/Input';
-import SelectCurator from '../../../components/common/SelectCurator';
+import SelectCurator from '../../../components/common/Select/SelectCurator';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
 
 interface IGroupCreateModal {

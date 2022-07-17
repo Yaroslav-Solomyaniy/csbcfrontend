@@ -9,10 +9,10 @@ interface IInput {
   required?: boolean;
   error?: string | boolean;
   placeholder?: string;
-  email?: boolean;
+  pattern?: RegExp;
 }
 
-const Input = ({ label, value, onChange, required, error, placeholder, email }: IInput): JSX.Element => (
+const Input = ({ label, value, onChange, required, error, placeholder, pattern }: IInput): JSX.Element => (
   <div className={styles.wrap}>
     {label && (
       <label className={clsx(styles.label, error && styles.error_label)}>
@@ -25,7 +25,15 @@ const Input = ({ label, value, onChange, required, error, placeholder, email }: 
         className={styles.input}
         placeholder={placeholder}
         value={value}
-        onChange={onChange}
+        onChange={(e) => {
+          if (pattern) {
+            if (pattern.test(e.target.value) || !e.target.value) {
+              onChange(e);
+            }
+          } else {
+            onChange(e);
+          }
+        }}
       />
       {error && (
         <div className={styles.error}>
@@ -41,7 +49,8 @@ Input.defaultProps = {
   required: false,
   placeholder: '',
   error: '',
-  email: '',
+  pattern: '',
+  onBlur: () => undefined,
 };
 
 export default Input;

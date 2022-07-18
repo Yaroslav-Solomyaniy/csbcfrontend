@@ -1,15 +1,9 @@
 import React, { useState } from 'react';
-import TitlePage from '../../components/TitlePage';
-import Button from '../../components/common/Button/index';
 import styles from './index.module.scss';
 import Layout from '../../loyout/Layout';
 import { ITableHeader } from '../../components/common/table/TableHeader';
-import Table from '../../components/common/table';
-import SelectCurator from '../../components/common/Select/SelectCurator';
 import { ITableRowItem } from '../../components/common/table/TableBody';
-import SelectGroup from '../../components/common/Select/SelectGroup';
 import { initialPagination, Pagination } from '../../types';
-import CuratorCreateModal from './ModalCreate';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІБ' },
@@ -105,60 +99,7 @@ const Curators = (): JSX.Element => {
   return (
     <Layout>
       <div className={styles.curators}>
-        <TitlePage
-          title="Куратори"
-          action={(
-            <Button
-              nameClass="primary"
-              size="large"
-              className={styles.actions}
-              onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
-            >
-              Створити
-            </Button>
-          )}
-        />
-
-        <Table
-          filter={(
-            <>
-              <SelectGroup
-                type="filter"
-                placeholder="Група"
-                onChange={(value) => setParams({
-                  ...params,
-                  filter: { ...params.filter, group: value },
-                  pagination: initialPagination,
-                })}
-                value={params.filter.group}
-                isClearable
-                isSearchable
-              />
-              <SelectCurator
-                type="filter"
-                placeholder="ПІБ"
-                onChange={(value) => setParams({
-                  ...params,
-                  filter: { ...params.filter, curator: value },
-                  pagination: initialPagination,
-                })}
-                value={params.filter.curator}
-                isClearable
-                isSearchable
-              />
-            </>
-          )}
-          dataHeader={dataHeader}
-          dataRow={dataRow}
-          gridColumns={styles.columns}
-          pagination={params.pagination}
-          onPaginationChange={(newPagination) => setParams({ ...params, pagination: newPagination })}
-        />
-        <CuratorCreateModal modalActive={isActiveModal.create} closeModal={closeModal} />
-        {/* <GroupEditModal modalActive={!!isActiveModal.edit} groupId={isActiveModal.edit}
-         closeModal={closeModal} /> */}
-        {/* <GroupDeleteModal modalActive={!!isActiveModal.delete} groupId={isActiveModal.delete}
-        closeModal={closeModal} /> */}
+        www
       </div>
     </Layout>
   );

@@ -222,20 +222,24 @@ export const useStudentPatch = (): IUsePatchStudentsItem => {
 
 export interface IUseDeleteStudentsItem {
   data: string | null;
-  deleteStudent: (id: number) => void;
+  deleteStudent: (id: number, name: string) => void;
 }
 
 export const useStudentDelete = (): IUseDeleteStudentsItem => {
   const { user } = useAuthContext();
   const [data, setData] = useState<string | null>(null);
-  const { addErrors } = useMessagesContext();
+  const { addErrors, addInfo } = useMessagesContext();
 
-  const deleteStudent = (id: number): void => {
+  const deleteStudent = (id: number, name: string): void => {
     axios.delete(`${process.env.REACT_APP_API_URL}/students/${id}`, {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
+      params: {
+        id,
+      },
     }).then((respons) => {
+      addInfo(`Студента ${name} успішно видалено`);
       setData(respons.data);
     }).catch((error) => {
       addErrors(error.response.data.message);

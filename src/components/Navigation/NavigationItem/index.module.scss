@@ -2,10 +2,15 @@
   height: 15px;
   width: 15px;
   margin: 6px;
+  fill: #607180;
 }
 
 .Active {
   background-color: #ffffff;
+
+  .icon path {
+    fill: #000000;
+  }
 
   .title {
     color: #000000;
@@ -24,12 +29,14 @@
   align-items: center;
   text-decoration: none;
   border-radius: 8px;
+
   .title {
     overflow: hidden;
     width: 155px;
     transition: all 0.5s;
     white-space: nowrap;
   }
+
   .icon {
     transition: all 0.5s;
     margin: 12px;

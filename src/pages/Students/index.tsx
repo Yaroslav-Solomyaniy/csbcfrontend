@@ -18,6 +18,8 @@ import { initialPagination, Pagination } from '../../types';
 import StudentsEditModal from './modal/StudentsEdit';
 import { ITableRowItem } from '../../components/common/table/TableBody';
 import { IGetParams } from '../../hooks/useStudents';
+import StudentsDelete from './modal/StudentsDelete';
+import StudentsReview from './modal/StudentsReview';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІП студента' },
@@ -143,7 +145,7 @@ const Students = (): JSX.Element => {
 
   return (
     <Layout>
-      <div className={styles.group}>
+      <div className={styles.students}>
         <TitlePage
           title="Студенти"
           action={(
@@ -194,8 +196,10 @@ const Students = (): JSX.Element => {
           pagination={initialPagination}
           onPaginationChange={(newPagination) => setParams({ ...params, pagination: newPagination })}
         />
-        <StudentsCreateModal closeModal={closeModal} modalActive={isActiveModal.create} />
-        <StudentsEditModal closeModal={closeModal} modalActive={!!isActiveModal.edit} id={isActiveModal.edit} />
+        <StudentsCreateModal modalActive={isActiveModal.create} closeModal={closeModal} />
+        <StudentsEditModal modalActive={!!isActiveModal.edit} closeModal={closeModal} id={isActiveModal.edit} />
+        <StudentsDelete modalActive={!!isActiveModal.delete} closeModal={closeModal} studentId={isActiveModal.delete} />
+        <StudentsReview modalActive={!!isActiveModal.review} closeModal={closeModal} id={isActiveModal.review} />
       </div>
     </Layout>
   );

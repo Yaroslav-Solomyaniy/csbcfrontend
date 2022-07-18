@@ -66,8 +66,8 @@ export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateMod
       && !!formData.user.lastName
       && !!formData.user.patronymic
       && !!formData.user.email
-      && formData.orderNumber.length >= 6
-      && formData.edeboId.length <= 8
+      && `${formData.orderNumber}`.length >= 6
+      && `${formData.edeboId}`.length <= 8
       && formData.isFullTime !== undefined
     ) {
       createStudents?.addStudent(formData);

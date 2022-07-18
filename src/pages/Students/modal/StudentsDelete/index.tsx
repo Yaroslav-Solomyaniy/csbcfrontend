@@ -8,15 +8,14 @@ import styles from '../index.module.scss';
 interface IStudentsDeleteModal {
   modalActive: boolean;
   closeModal: () => void;
-  groupId: number;
+  studentId: number;
 }
 
 const formInitialData = {
-  id: 0,
   deletedOrderNumber: '',
 };
 
-export const StudentsDeleteModal = ({ modalActive, closeModal, groupId }: IStudentsDeleteModal): JSX.Element => {
+export const StudentsDeleteModal = ({ modalActive, closeModal, studentId }: IStudentsDeleteModal): JSX.Element => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState(formInitialData);
   const { deleteStudentsItem, getStudent } = useStudentsContext();
@@ -33,8 +32,9 @@ export const StudentsDeleteModal = ({ modalActive, closeModal, groupId }: IStude
 
     if (`${formData.deletedOrderNumber}`.length >= 6
       && `${formData.deletedOrderNumber}`.length <= 20) {
-      deleteStudentsItem?.deleteStudent(groupId);
-      handleClose();
+      deleteStudentsItem?.deleteStudent(studentId, `${getStudent?.data?.user.lastName}
+      ${getStudent?.data?.user.firstName}
+      ${getStudent?.data?.user.patronymic}`);
     }
   };
 
@@ -43,13 +43,13 @@ export const StudentsDeleteModal = ({ modalActive, closeModal, groupId }: IStude
   }, [deleteStudentsItem?.data]);
 
   useEffect(() => {
-    if (groupId) {
-      getStudent?.getStudent({ id: `${groupId}` });
+    if (studentId) {
+      getStudent?.getStudent({ id: `${studentId}` });
     }
-  }, [groupId]);
+  }, [studentId]);
 
   return (
-    <ModalWindow modalTitle="Видалення групи" active={modalActive} closeModal={handleClose}>
+    <ModalWindow modalTitle="Видалення студента" active={modalActive} closeModal={handleClose}>
       <form className={styles.form} onSubmit={onSubmit}>
         <h3 className={styles.subtitle}>Для підтвердження видалення введіть номер наказу.</h3>
         <Input

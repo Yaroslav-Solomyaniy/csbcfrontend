@@ -1,0 +1,59 @@
+.modal {
+  height: 100%;
+  width: 100%;
+  z-index: 23;
+  overflow: hidden;
+  position: absolute;
+  float: left;
+  top: 0;
+  right: -110%;
+  display: block;
+  background-color: #ffffff;
+  transition: all 0.8s;
+
+  &__active {
+    transition: all 0.8s;
+    right: 0;
+  }
+}
+
+.arrow {
+  margin-right: 10px;
+}
+
+.cancel {
+  background-color: #ffffff;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 32px;
+  display: flex;
+  align-items: center;
+}
+
+.content {
+  padding: 24px;
+
+  &__subtitle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 28px;
+
+    &__h1 {
+      margin: 13px 0;
+      font-style: normal;
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 28px;
+    }
+
+    &__action {
+      background-color: #ffffff;
+    }
+  }
+
+  &__columns {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}

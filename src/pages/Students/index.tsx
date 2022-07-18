@@ -96,7 +96,7 @@ const Students = (): JSX.Element => {
   useEffect(() => {
     if (getStudents?.data) {
       setParams({ ...params, pagination: getStudents.data.meta });
-      setDataRow(params.filter.studentId ? [{
+      setDataRow(params.filter.studentId && getStudent?.data != null ? [{
         list: [
           { id: 1, label: `${getStudent?.data.user.lastName} ${getStudent?.data.user.firstName}` },
           { id: 2, label: getStudent?.data.group.name },
@@ -113,7 +113,9 @@ const Students = (): JSX.Element => {
                   type="button"
                   className={styles.actions__button_edit}
                   onClick={() => {
-                    setIsActiveModal({ ...isActiveModal, edit: getStudent?.data.id });
+                    setIsActiveModal({
+                      ...allCloseModalWindow, edit: getStudent?.data ? getStudent?.data.id : 0,
+                    });
                   }}
                 >
                   <img src={edit} alt="edit" />
@@ -123,7 +125,9 @@ const Students = (): JSX.Element => {
                   type="button"
                   className={styles.actions__button_delete}
                   onClick={() => {
-                    setIsActiveModal({ ...isActiveModal, review: getStudent?.data.id });
+                    setIsActiveModal({
+                      ...allCloseModalWindow, review: getStudent?.data ? getStudent?.data.id : 0,
+                    });
                   }}
                 >
                   <img src={review} alt="review" />
@@ -133,7 +137,9 @@ const Students = (): JSX.Element => {
                   type="button"
                   className={styles.actions__button_delete}
                   onClick={() => {
-                    setIsActiveModal({ ...isActiveModal, delete: getStudent?.data.id });
+                    setIsActiveModal({
+                      ...allCloseModalWindow, delete: getStudent?.data ? getStudent?.data.id : 0,
+                    });
                   }}
                 >
                   <img src={del} alt="delete" />
@@ -160,7 +166,7 @@ const Students = (): JSX.Element => {
                   type="button"
                   className={styles.actions__button_edit}
                   onClick={() => {
-                    setIsActiveModal({ ...isActiveModal, edit: item.id });
+                    setIsActiveModal({ ...allCloseModalWindow, edit: item.id });
                   }}
                 >
                   <img src={edit} alt="edit" />
@@ -170,7 +176,7 @@ const Students = (): JSX.Element => {
                   type="button"
                   className={styles.actions__button_delete}
                   onClick={() => {
-                    setIsActiveModal({ ...isActiveModal, review: item.id });
+                    setIsActiveModal({ ...allCloseModalWindow, review: item.id });
                   }}
                 >
                   <img src={review} alt="review" />
@@ -180,7 +186,7 @@ const Students = (): JSX.Element => {
                   type="button"
                   className={styles.actions__button_delete}
                   onClick={() => {
-                    setIsActiveModal({ ...isActiveModal, delete: item.id });
+                    setIsActiveModal({ ...allCloseModalWindow, delete: item.id });
                   }}
                 >
                   <img src={del} alt="delete" />

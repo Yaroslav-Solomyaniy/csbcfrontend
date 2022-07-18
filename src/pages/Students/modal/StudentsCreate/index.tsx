@@ -5,7 +5,7 @@ import { IStudents } from '../../../../hooks/useStudents';
 import Select from '../../../../components/common/Select';
 import Input from '../../../../components/common/Input';
 import { useStudentsContext } from '../../../../context/students';
-import SelectGroup from '../../../../components/common/SelectGroup';
+import SelectGroup from '../../../../components/common/Select/SelectGroup';
 import ModalControlButtons from '../../../../components/common/ModalControlButtons';
 
 interface IGroupCreateModal {

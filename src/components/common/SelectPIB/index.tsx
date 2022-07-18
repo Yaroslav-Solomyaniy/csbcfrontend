@@ -44,9 +44,9 @@ const SelectPIB = ({
       value={value}
       options={options}
       placeholder={placeholder}
+      required
       isSearchable
       isClearable
-      required
       error={error}
     />
   );

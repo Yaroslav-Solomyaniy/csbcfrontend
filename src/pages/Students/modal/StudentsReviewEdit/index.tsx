@@ -8,7 +8,6 @@ import { useStudentsContext } from '../../../../context/students';
 interface IStudentsReviewModal {
   closeModal: () => void;
   modalActive: boolean;
-  // id: number;
 }
 
 const StudentsReviewEdit = ({ modalActive, closeModal }: IStudentsReviewModal) => {

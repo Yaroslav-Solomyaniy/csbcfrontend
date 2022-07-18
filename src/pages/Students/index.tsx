@@ -57,7 +57,7 @@ interface Params {
 }
 
 const Students = (): JSX.Element => {
-  const { getStudents, createStudents, deleteStudentsItem, patchStudentsItem } = useStudentsContext();
+  const { getStudents, getStudent, createStudents, deleteStudentsItem, patchStudentsItem } = useStudentsContext();
   const [isActiveModal, setIsActiveModal] = useState<IIsActiveSudentsModalState>(allCloseModalWindow);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
   const [params, setParams] = useState<Params>({
@@ -73,17 +73,21 @@ const Students = (): JSX.Element => {
   }, [createStudents?.data, patchStudentsItem?.data, deleteStudentsItem?.data]);
 
   useEffect(() => {
-    const query: IGetParams = {};
+    if (params.filter.studentId) {
+      getStudent?.getStudent({ id: `${params.filter.studentId}` });
+    } else {
+      const query: IGetParams = {};
 
-    // if (params.filter.studentId) query.id = params.filter.studentId;
-    if (params.filter.isFullTime) query.isFullTime = params.filter.isFullTime;
-    if (params.filter.group) query.group = params.filter.group;
-    if (params.pagination.currentPage) query.page = params.pagination.currentPage;
-    if (params.pagination.itemsPerPage) query.limit = params.pagination.itemsPerPage;
+      if (params.filter.isFullTime) query.isFullTime = params.filter.isFullTime;
+      if (params.filter.group) query.group = params.filter.group;
+      if (params.pagination.currentPage) query.page = params.pagination.currentPage;
+      if (params.pagination.itemsPerPage) query.limit = params.pagination.itemsPerPage;
 
-    getStudents?.getStudent(query);
+      getStudents?.getStudent(query);
+    }
   }, [
     params.filter.group,
+    params.filter.studentId,
     params.filter.isFullTime,
     params.pagination.currentPage,
     params.pagination.itemsPerPage,
@@ -92,7 +96,54 @@ const Students = (): JSX.Element => {
   useEffect(() => {
     if (getStudents?.data) {
       setParams({ ...params, pagination: getStudents.data.meta });
-      setDataRow(getStudents?.data?.items.length ? getStudents?.data?.items.map((item) => ({
+      setDataRow(params.filter.studentId ? [{
+        list: [
+          { id: 1, label: `${getStudent?.data.user.lastName} ${getStudent?.data.user.firstName}` },
+          { id: 2, label: getStudent?.data.group.name },
+          { id: 3, label: getStudent?.data.orderNumber },
+          { id: 4, label: getStudent?.data.isFullTime ? 'Денна' : 'Заочна' },
+          { id: 5, label: getStudent?.data.user.email },
+          { id: 6, label: getStudent?.data.edeboId },
+          {
+            id: 7,
+            label: (
+              <div className={styles.actions}>
+                <Button
+                  isImg
+                  type="button"
+                  className={styles.actions__button_edit}
+                  onClick={() => {
+                    setIsActiveModal({ ...isActiveModal, edit: getStudent?.data.id });
+                  }}
+                >
+                  <img src={edit} alt="edit" />
+                </Button>
+                <Button
+                  isImg
+                  type="button"
+                  className={styles.actions__button_delete}
+                  onClick={() => {
+                    setIsActiveModal({ ...isActiveModal, review: getStudent?.data.id });
+                  }}
+                >
+                  <img src={review} alt="review" />
+                </Button>
+                <Button
+                  isImg
+                  type="button"
+                  className={styles.actions__button_delete}
+                  onClick={() => {
+                    setIsActiveModal({ ...isActiveModal, delete: getStudent?.data.id });
+                  }}
+                >
+                  <img src={del} alt="delete" />
+                </Button>
+              </div>
+            ),
+          },
+        ],
+        key: getStudent?.data.id,
+      }] : getStudents?.data?.items.length ? getStudents?.data?.items.map((item) => ({
         list: [
           { id: 1, label: `${item.user.lastName} ${item.user.firstName}` },
           { id: 2, label: item.group.name },
@@ -141,7 +192,7 @@ const Students = (): JSX.Element => {
         key: item.id,
       })) : []);
     }
-  }, [getStudents?.data]);
+  }, [getStudents?.data, getStudent?.data]);
 
   return (
     <Layout>
@@ -166,7 +217,14 @@ const Students = (): JSX.Element => {
                 type="filter"
                 placeholder="Група"
                 value={params.filter.group}
-                onChange={(value) => setParams({ ...params, filter: { ...params.filter, group: value } })}
+                onChange={(value) => setParams({
+                  ...params,
+                  filter: {
+                    ...params.filter,
+                    group: value,
+                    studentId: null,
+                  },
+                })}
                 isClearable
                 isSearchable
               />
@@ -185,6 +243,7 @@ const Students = (): JSX.Element => {
                   filter: {
                     ...params.filter,
                     isFullTime: value === 'Денна' ? true : value === '' ? undefined : false,
+                    studentId: null,
                   },
                 })}
               />

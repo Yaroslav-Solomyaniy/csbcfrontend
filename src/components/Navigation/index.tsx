@@ -5,7 +5,7 @@ import svgStudents from '../../images/Students.svg';
 import svgAdministrators from '../../images/Administrators.svg';
 import svgCurators from '../../images/Curators.svg';
 import svgTeachers from '../../images/Teachers.svg';
-import svgSubjects from '../../images/Subjects.svg';
+import svgCourses from '../../images/Courses.svg';
 import svgEstimates from '../../images/Estimates.svg';
 import svgIndividualPlan from '../../images/individual_plan.svg';
 import svgVotingAdmin from '../../images/VotingAdmin.svg';
@@ -41,8 +41,8 @@ const routes: IRoute[] = [
   },
   {
     title: 'Предмети',
-    to: '/subjects',
-    ico: svgSubjects,
+    to: '/courses',
+    ico: svgCourses,
   },
   {
     title: 'Оцінки',

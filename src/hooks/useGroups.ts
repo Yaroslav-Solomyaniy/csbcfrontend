@@ -2,8 +2,7 @@ import axios, { AxiosResponse } from 'axios';
 import { useState } from 'react';
 import { useAuthContext } from '../context/useAuthContext';
 import { FetchSuccess, IPaginateData, OrderBy } from '../types';
-
-// Отримуємо дані про всі групи
+import { useMessagesContext } from '../context/useMessagesContext';
 
 export interface IGetGroupParams {
   orderByColumn?:
@@ -45,6 +44,7 @@ export interface IUseGroupsGet {
 
 export const useGroupsGet = (): IUseGroupsGet => {
   const { user } = useAuthContext();
+  const { addInfo, addErrors } = useMessagesContext();
   const [data, setData] = useState<IPaginateData<IGroupData> | null>(null);
 
   const getGroups = (params?: IGetGroupParams) => {
@@ -52,54 +52,17 @@ export const useGroupsGet = (): IUseGroupsGet => {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
-      params: { orderByColumn: 'id', orderBy: 'DESC', ...params },
+      params: { orderByColumn: 'updated', orderBy: 'DESC', ...params },
     })
       .then((response: AxiosResponse<IPaginateData<IGroupData> | null>) => {
         setData(response.data);
       })
       .catch((error) => {
-        console.log(error);
+        addErrors(error);
       });
   };
 
   return { data, getGroups };
-};
-
-export interface IGroupCreateParams {
-  'name': string;
-  'curatorId': number;
-  'orderNumber': string;
-}
-
-interface IGroupCreateResponse {
-  'id': number;
-  'name': string;
-}
-
-export interface IUseGroupCreate {
-  data: IGroupCreateResponse | null;
-  groupCreate: (params: IGroupCreateParams) => void;
-}
-
-export const useGroupCreate = (): IUseGroupCreate => {
-  const { user } = useAuthContext();
-  const [data, setData] = useState<IGroupCreateResponse | null>(null);
-
-  const groupCreate = (params: IGroupCreateParams) => {
-    axios.post(`${process.env.REACT_APP_API_URL}/groups`, params, {
-      headers: {
-        Authorization: `Bearer ${user?.accessToken}`,
-      },
-    })
-      .then((response: AxiosResponse<IGroupCreateResponse>) => {
-        setData(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  return { data, groupCreate };
 };
 
 interface IGetGroupIdParams {
@@ -122,6 +85,7 @@ export interface IUseGetGroupId {
 }
 
 export const useGetGroupId = (): IUseGetGroupId => {
+  const { addErrors } = useMessagesContext();
   const { user } = useAuthContext();
   const [data, setData] = useState<IGetGroupIdResponse | null>(null);
 
@@ -135,11 +99,49 @@ export const useGetGroupId = (): IUseGetGroupId => {
         setData(response.data);
       })
       .catch((error) => {
-        console.log(error);
+        addErrors(error.message);
       });
   };
 
   return { data, getGroupId };
+};
+
+export interface IGroupCreateParams {
+  name: string;
+  curatorId: number;
+  orderNumber: string;
+}
+
+interface IGroupCreateResponse {
+  id: number;
+  name: string;
+}
+
+export interface IUseGroupCreate {
+  data: IGroupCreateResponse | null;
+  groupCreate: (params: IGroupCreateParams) => void;
+}
+
+export const useGroupCreate = (): IUseGroupCreate => {
+  const { addErrors, addInfo } = useMessagesContext();
+  const { user } = useAuthContext();
+  const [data, setData] = useState<IGroupCreateResponse | null>(null);
+
+  const groupCreate = (params: IGroupCreateParams) => {
+    axios.post(`${process.env.REACT_APP_API_URL}/groups`, params, {
+      headers: {
+        Authorization: `Bearer ${user?.accessToken}`,
+      },
+    })
+      .then((response: AxiosResponse<IGroupCreateResponse>) => {
+        setData(response.data);
+      })
+      .catch((error) => {
+        addErrors(error.response.data.message);
+      });
+  };
+
+  return { data, groupCreate };
 };
 
 export interface IGroupEditParams {
@@ -155,6 +157,7 @@ export interface IUseGroupEdit {
 
 export const useGroupEdit = (): IUseGroupEdit => {
   const { user } = useAuthContext();
+  const { addErrors } = useMessagesContext();
   const [data, setData] = useState<FetchSuccess | null>(null);
 
   const groupEdit = (params: IGroupEditParams, id: number) => {
@@ -167,7 +170,7 @@ export const useGroupEdit = (): IUseGroupEdit => {
         setData(response.data);
       })
       .catch((error) => {
-        console.log(error);
+        addErrors(error.response.data.message);
       });
   };
 
@@ -184,6 +187,7 @@ export interface IUseGroupDelete {
 }
 
 export const useGroupDelete = (): IUseGroupDelete => {
+  const { addErrors } = useMessagesContext();
   const { user } = useAuthContext();
   const [data, setData] = useState<FetchSuccess | null>(null);
 
@@ -197,89 +201,9 @@ export const useGroupDelete = (): IUseGroupDelete => {
         setData(response.data);
       })
       .catch((error) => {
-        console.log(error);
+        addErrors(error.response.data.message);
       });
   };
 
   return { data, groupDelete };
-};
-
-interface IGetGroupsOptionParams {
-  orderBy?: OrderBy;
-  curatorName?: string;
-  page?: number;
-  limit?: number;
-}
-
-interface IGetGroupsOptionData {
-  id: number;
-  name: string;
-}
-
-export interface IUseGetOptionsGroups {
-  optionsGroups: IPaginateData<IGetGroupsOptionData> | null;
-  getOptionsGroups: (params?: IGetGroupsOptionParams) => void;
-}
-
-export const useGetOptionsGroups = (): IUseGetOptionsGroups => {
-  const { user } = useAuthContext();
-  const [optionsGroups, setOptionsGroups] = useState<IPaginateData<IGetGroupsOptionData> | null>(null);
-
-  const getOptionsGroups = (params?: IGetGroupsOptionParams) => {
-    axios.get(`${process.env.REACT_APP_API_URL}/groups/dropdown/name`, {
-      headers: {
-        Authorization: `Bearer ${user?.accessToken}`,
-      },
-      params: { limit: 100, orderBy: 'DESC', ...params },
-    })
-      .then((response: AxiosResponse<IPaginateData<IGetGroupsOptionData> | null>) => {
-        setOptionsGroups(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  return { optionsGroups, getOptionsGroups };
-};
-
-interface IGetCuratorsParams {
-  orderBy?: OrderBy;
-  curatorName?: string;
-  page?: number;
-  limit?: number;
-}
-
-interface IGetCuratorsData {
-  'id': number;
-  'firstName': string;
-  'lastName': string;
-  'patronymic': string;
-}
-
-interface IUseGetOptionsCurator {
-  optionCurators: IPaginateData<IGetCuratorsData> | null;
-  getOptionsCurator: (params?: IGetCuratorsParams) => void;
-}
-
-export const useGetOptionsCurator = (): IUseGetOptionsCurator => {
-  const { user } = useAuthContext();
-  const [optionCurators, setOptionCurators] = useState<IPaginateData<IGetCuratorsData> | null>(null);
-
-  const getOptionsCurator = (params?: IGetCuratorsParams) => {
-    axios.get(`${process.env.REACT_APP_API_URL}/groups/dropdown/curators/`, {
-      headers: {
-        Authorization: `Bearer ${user?.accessToken}`,
-      },
-      params: { limit: 100, orderBy: 'DESC', ...params },
-    })
-      .then((response: AxiosResponse<IPaginateData<IGetCuratorsData> | null>) => {
-        setOptionCurators(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  return { optionCurators, getOptionsCurator };
 };

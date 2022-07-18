@@ -1,15 +1,15 @@
 import React from 'react';
-import ReactSelect, { SingleValue } from 'react-select';
+import ReactSelect from 'react-select';
 
 import clsx from 'clsx';
 import { Option, SelectType } from '../../../types';
 import styles from './index.module.scss';
 
-interface Select {
+interface MultiSelect {
   options: Option[];
   type: SelectType;
-  value: string | number | null | undefined;
-  onChange: (value: string) => void;
+  value: string[];
+  onChange: (value: Option[]) => void;
   label?: string;
   required?: boolean;
   error?: string;
@@ -79,12 +79,25 @@ const Styles: any = {
     }),
   },
   modal: {
+    multiValue: (base: any) => ({
+      ...base,
+      border: '1px solid black',
+      backgroundColor: 'white',
+      color: 'black',
+      fontSize: '14px',
+    }),
+    multiValueLabel: (base: any) => ({
+      ...base,
+      backgroundColor: 'white',
+      color: 'black',
+    }),
+
     control: (provided: any) => ({
       ...provided,
       background: '#fff',
       borderColor: 'rgba(0,0,0,0.1)',
+      height: 'auto',
       minHeight: '32px',
-      height: '32px',
       borderRadius: '8px',
       marginTop: 16,
       border: '1px solid rgba(0, 0, 0, 0.1)',
@@ -110,7 +123,6 @@ const Styles: any = {
 
     valueContainer: (provided: any) => ({
       ...provided,
-      height: '32px',
       padding: '0 16px',
     }),
 
@@ -125,12 +137,11 @@ const Styles: any = {
     }),
     indicatorsContainer: (provided: any) => ({
       ...provided,
-      height: '32px',
     }),
   },
 };
 
-const Select = ({
+const MultiSelect = ({
   label,
   options,
   value,
@@ -141,7 +152,7 @@ const Select = ({
   isSearchable,
   isClearable,
   type,
-}: Select): JSX.Element => (
+}: MultiSelect): JSX.Element => (
 
   <div className={styles.wrap}>
     {label && (
@@ -151,15 +162,16 @@ const Select = ({
     </label>
     )}
     <div className={styles.selectWrap}>
-      <ReactSelect<Option>
+      <ReactSelect
         styles={Styles[type]}
         isSearchable={isSearchable}
         className={styles.select}
         options={options}
         placeholder={placeholder}
         isClearable={isClearable}
-        value={options.find((option) => option?.value?.toString() === value?.toString()) || null}
-        onChange={(option: SingleValue<Option>) => onChange(option?.value ? `${option.value}` : '')}
+        value={options.filter((option) => value.includes(`${option.value}`))}
+        onChange={(newValue) => onChange(newValue ? newValue as Option[] : [])}
+        isMulti
       />
       {error && (
       <div className={styles.error}>
@@ -170,7 +182,7 @@ const Select = ({
   </div>
 );
 
-Select.defaultProps = {
+MultiSelect.defaultProps = {
   label: '',
   error: '',
   required: false,
@@ -179,4 +191,4 @@ Select.defaultProps = {
   isClearable: false,
 };
 
-export default Select;
+export default MultiSelect;

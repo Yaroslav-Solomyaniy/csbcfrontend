@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import Select from '../Select';
-import { Option } from '../../../types';
-import { useStudentsContext } from '../../../context/students';
+import Select from '../index';
+import { Option } from '../../../../types';
+import { useStudentsContext } from '../../../../context/students';
 
 interface SelectPIB {
   type: 'filter' | 'modal';

@@ -5,19 +5,16 @@ import { IGroupDeleteParams } from '../../../hooks/useGroups';
 import { useGroupContext } from '../../../context/group';
 import Input from '../../../components/common/Input';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
-
-interface IGroupCreateModal {
-  modalActive: boolean;
-  closeModal: () => void;
-  groupId: number;
-}
+import { useMessagesContext } from '../../../context/useMessagesContext';
+import { IDeleteModal, NumbersAndLettersEn } from '../../../types';
 
 const formInitialData = {
   deletedOrderNumber: '',
 };
 
-export const GroupDeleteModal = ({ modalActive, closeModal, groupId }: IGroupCreateModal): JSX.Element => {
+export const GroupDelete = ({ modalActive, closeModal, Id }: IDeleteModal): JSX.Element => {
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const { addInfo } = useMessagesContext();
   const [formData, setFormData] = useState<IGroupDeleteParams>(formInitialData);
   const { groupDelete, getGroupId } = useGroupContext();
 
@@ -33,19 +30,22 @@ export const GroupDeleteModal = ({ modalActive, closeModal, groupId }: IGroupCre
 
     if (`${formData.deletedOrderNumber}`.length >= 6
       && `${formData.deletedOrderNumber}`.length <= 20) {
-      groupDelete?.groupDelete({ ...formData }, groupId);
+      groupDelete?.groupDelete({ ...formData }, Id);
     }
   };
 
   useEffect(() => {
     handleClose();
+    if (groupDelete?.data) {
+      addInfo(`Групу: ${getGroupId?.data?.name} успішно видалено за номером наказу: ${formData.deletedOrderNumber}.`);
+    }
   }, [groupDelete?.data]);
 
   useEffect(() => {
-    if (groupId) {
-      getGroupId?.getGroupId({ id: `${groupId}` });
+    if (Id) {
+      getGroupId?.getGroupId({ id: `${Id}` });
     }
-  }, [groupId]);
+  }, [Id]);
 
   return (
     <ModalWindow modalTitle="Видалення групи" active={modalActive} closeModal={handleClose}>
@@ -62,6 +62,7 @@ export const GroupDeleteModal = ({ modalActive, closeModal, groupId }: IGroupCre
           placeholder="Номер наказу"
           label="Номер наказу"
           required
+          pattern={NumbersAndLettersEn}
         />
       </form>
       <ModalControlButtons
@@ -74,4 +75,4 @@ export const GroupDeleteModal = ({ modalActive, closeModal, groupId }: IGroupCre
   );
 };
 
-export default GroupDeleteModal;
+export default GroupDelete;

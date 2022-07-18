@@ -5,13 +5,10 @@ import { IGroupCreateParams } from '../../../hooks/useGroups';
 import ModalWindow from '../../../components/common/ModalWindow';
 import styles from './index.module.scss';
 import Input from '../../../components/common/Input';
-import SelectCurator from '../../../components/common/SelectCurator';
+import SelectCurator from '../../../components/common/Select/SelectCurator';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
-
-interface IGroupCreateModal {
-  modalActive: boolean;
-  closeModal: () => void;
-}
+import { useMessagesContext } from '../../../context/useMessagesContext';
+import { ICreateModal, LettersAndNumbersEnUa, NumbersAndLettersEn } from '../../../types';
 
 const formInitialData = {
   name: '',
@@ -19,10 +16,11 @@ const formInitialData = {
   orderNumber: '',
 };
 
-export const GroupCreateModal = ({ modalActive, closeModal }: IGroupCreateModal): JSX.Element => {
+export const GroupCreate = ({ modalActive, closeModal }: ICreateModal): JSX.Element => {
   const { groupCreate } = useGroupContext();
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const { addInfo } = useMessagesContext();
   const [formData, setFormData] = useState<IGroupCreateParams>(formInitialData);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleClose = () => {
     setIsSubmitted(false);
@@ -41,6 +39,9 @@ export const GroupCreateModal = ({ modalActive, closeModal }: IGroupCreateModal)
 
   useEffect(() => {
     handleClose();
+    if (groupCreate?.data) {
+      addInfo(`Група ${groupCreate?.data?.name} успішно створена.`);
+    }
   }, [groupCreate?.data]);
 
   return (
@@ -50,12 +51,14 @@ export const GroupCreateModal = ({ modalActive, closeModal }: IGroupCreateModal)
           onChange={(event) => {
             setFormData({ ...formData, name: event.target.value });
           }}
-          value={formData.name}
+          value={formData.name.slice(0, 6)}
           placeholder="Номер групи"
           label="Номер групи"
           required
           error={isSubmitted && !formData.name ? 'Номер групи не введено.' : ''}
+          pattern={LettersAndNumbersEnUa}
         />
+
         <Input
           onChange={(event) => {
             setFormData({ ...formData, orderNumber: event.target.value });
@@ -67,6 +70,7 @@ export const GroupCreateModal = ({ modalActive, closeModal }: IGroupCreateModal)
           placeholder="Номер наказу"
           label="Номер наказу"
           required
+          pattern={NumbersAndLettersEn}
         />
         <SelectCurator
           type="modal"
@@ -92,4 +96,4 @@ export const GroupCreateModal = ({ modalActive, closeModal }: IGroupCreateModal)
   );
 };
 
-export default GroupCreateModal;
+export default GroupCreate;

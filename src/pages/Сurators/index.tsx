@@ -5,9 +5,9 @@ import styles from './index.module.scss';
 import Layout from '../../loyout/Layout';
 import { ITableHeader } from '../../components/common/table/TableHeader';
 import Table from '../../components/common/table';
-import SelectCurator from '../../components/common/SelectCurator';
+import SelectCurator from '../../components/common/Select/SelectCurator';
 import { ITableRowItem } from '../../components/common/table/TableBody';
-import SelectGroup from '../../components/common/SelectGroup';
+import SelectGroup from '../../components/common/Select/SelectGroup';
 import { initialPagination, Pagination } from '../../types';
 import CuratorCreateModal from './ModalCreate';
 

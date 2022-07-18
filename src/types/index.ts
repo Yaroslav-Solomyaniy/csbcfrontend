@@ -6,6 +6,27 @@ export interface Option {
 export type SelectType = 'filter' | 'modal' | 'pagination';
 export type OrderBy = 'ASC' | 'DESC';
 
+export const LettersAndNumbersEnUa = new RegExp("^[a-zA-Zа-яА-Яа-щА-ЩЬьЮюЯяЇїІіЄєҐ\\sґ0-9'_.-]*$");
+export const OnlyNumbers = new RegExp('^[0-9]*$');
+export const NumbersAndLettersEn = new RegExp('^[a-zA-Z0-9-]*$');
+
+export interface IEditModal {
+  modalActive: boolean;
+  closeModal: () => void;
+  Id: number;
+}
+
+export interface IDeleteModal {
+  modalActive: boolean;
+  closeModal: () => void;
+  Id: number;
+}
+
+export interface ICreateModal {
+  modalActive: boolean;
+  closeModal: () => void;
+}
+
 export interface Pagination {
   totalItems: number;
   itemCount: number;

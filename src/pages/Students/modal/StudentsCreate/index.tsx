@@ -41,7 +41,7 @@ export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateMod
   const [selectValue, setSelectValue] = useState(selectValueDefault);
 
   useEffect(() => {
-    getOptionsGroups?.getOptionsGroups();
+    getOptionsGroups?.getListGroups();
   }, []);
 
   const handleClose = () => {

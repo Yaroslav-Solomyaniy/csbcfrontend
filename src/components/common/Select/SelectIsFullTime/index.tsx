@@ -1,13 +1,18 @@
-import Select from '../Select';
-import { useStudentsContext } from '../../../context/students';
+import { useEffect, useState } from 'react';
+import Select from '../index';
+import { Option, SelectType } from '../../../../types';
+import { useStudentsContext } from '../../../../context/students';
 
 interface SelectCurator {
-  type: 'filter' | 'modal';
   label?: string;
   value: boolean | undefined;
   onChange: (value: string) => void;
   placeholder?: string;
+  isSearchable?: boolean;
+  isClearable?: boolean;
   error?: string;
+  required?: boolean;
+  type: SelectType;
 }
 
 const SelectPIB = ({
@@ -17,21 +22,14 @@ const SelectPIB = ({
   value,
   placeholder,
   error,
+  isClearable,
+  isSearchable,
 }: SelectCurator): JSX.Element => {
   const options = [
     { value: 'Денна', label: 'Денна' },
     { value: 'Заочна', label: 'Заочна' },
   ];
   const { getStudents } = useStudentsContext();
-
-  // useEffect(() => {
-  //   if (getStudents?.data?.items.length) {
-  //     setOptions(getStudents?.data?.items.map((name) => ({
-  //       value: name.id,
-  //       label: name.user.firstName,
-  //     })));
-  //   }
-  // }, [getStudents?.data]);
 
   return (
     <Select
@@ -51,6 +49,10 @@ const SelectPIB = ({
 
 SelectPIB.defaultProps = {
   placeholder: '',
+  isSearchable: false,
+  isClearable: false,
+  required: false,
+  isFilter: false,
   label: '',
   error: '',
 };

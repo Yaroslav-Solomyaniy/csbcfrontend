@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import Select from '../Select';
-import { Option, SelectType } from '../../../types';
-import { useGetOptionsGroups } from '../../../hooks/useGroups';
-import { useGroupContext } from '../../../context/group';
+import Select from '../index';
+import { Option, SelectType } from '../../../../types';
+import { useGetListCourses } from '../../../../hooks/useDropDown';
+import { useCourseContext } from '../../../../context/course';
 
-interface SelectGroup {
-  value: string | number | undefined;
+interface SelectCourse {
+  value: string | number;
   onChange: (value: string) => void;
   type: SelectType;
   label?: string;
@@ -15,7 +15,7 @@ interface SelectGroup {
   required?: boolean;
 }
 
-const SelectGroup = ({
+const SelectCourse = ({
   type,
   label,
   onChange,
@@ -24,20 +24,20 @@ const SelectGroup = ({
   isSearchable,
   isClearable,
   required,
-}: SelectGroup): JSX.Element => {
-  const { optionsGroups, getOptionsGroups } = useGetOptionsGroups();
+}: SelectCourse): JSX.Element => {
   const [options, setOptions] = useState<Option[]>([]);
-  const { groupCreate, groupEdit, groupDelete } = useGroupContext();
+  const { courseCreate, courseEdit, courseDelete } = useCourseContext();
+  const { optionCourses, getListCourses } = useGetListCourses();
 
   useEffect(() => {
-    getOptionsGroups();
-  }, [groupEdit?.data, groupCreate?.data, groupDelete?.data]);
+    getListCourses();
+  }, [courseCreate?.data, courseEdit?.data, courseDelete?.data]);
 
   useEffect(() => {
-    if (optionsGroups?.items.length) {
-      setOptions(optionsGroups.items.map((group) => ({ value: group.id, label: group.name })));
+    if (optionCourses?.items.length) {
+      setOptions(optionCourses.items.map((course) => ({ value: course.name, label: course.name })));
     }
-  }, [optionsGroups]);
+  }, [optionCourses]);
 
   return (
     <Select
@@ -54,7 +54,7 @@ const SelectGroup = ({
   );
 };
 
-SelectGroup.defaultProps = {
+SelectCourse.defaultProps = {
   label: '',
   placeholder: '',
   isSearchable: false,
@@ -63,4 +63,4 @@ SelectGroup.defaultProps = {
   isFilter: false,
 };
 
-export default SelectGroup;
+export default SelectCourse;

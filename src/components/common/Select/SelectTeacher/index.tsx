@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
-import Select from '../Select';
-import { Option, SelectType } from '../../../types';
-import { useGetOptionsCurator } from '../../../hooks/useGroups';
-import { useGroupContext } from '../../../context/group';
+import Select from '../index';
+import { Option, SelectType } from '../../../../types';
+import { useGetListTeachers } from '../../../../hooks/useDropDown';
 
-interface SelectCurator {
+interface SelectTeacher {
   label?: string;
   value: string | number;
   onChange: (value: string) => void;
@@ -16,7 +15,7 @@ interface SelectCurator {
   type: SelectType;
 }
 
-const SelectCurator = ({
+const SelectTeacher = ({
   type,
   label,
   onChange,
@@ -26,28 +25,27 @@ const SelectCurator = ({
   isClearable,
   required,
   error,
-}: SelectCurator): JSX.Element => {
-  const { optionCurators, getOptionsCurator } = useGetOptionsCurator();
+}: SelectTeacher): JSX.Element => {
   const [options, setOptions] = useState<Option[]>([]);
-  const { groupCreate, groupEdit, groupDelete } = useGroupContext();
+  const { listTeachers, getListTeachers } = useGetListTeachers();
 
   useEffect(() => {
-    getOptionsCurator();
-  }, [groupEdit?.data, groupCreate?.data, groupDelete?.data]);
+    getListTeachers();
+  }, []);
 
   useEffect(() => {
-    if (optionCurators?.items.length) {
-      setOptions(optionCurators.items.map((curator) => ({
-        value: curator.id,
-        label: `${curator.lastName} ${curator.firstName} ${curator.patronymic}`,
+    if (listTeachers?.items.length) {
+      setOptions(listTeachers.items.map((teacher) => ({
+        value: teacher.id,
+        label: `${teacher.lastName} ${teacher.firstName} ${teacher.patronymic}`,
       })));
     }
-  }, [optionCurators]);
+  }, [listTeachers]);
 
   return (
     <Select
-      type={type}
       label={label}
+      type={type}
       onChange={onChange}
       value={value}
       options={options}
@@ -60,7 +58,7 @@ const SelectCurator = ({
   );
 };
 
-SelectCurator.defaultProps = {
+SelectTeacher.defaultProps = {
   placeholder: '',
   isSearchable: false,
   isClearable: false,
@@ -70,4 +68,4 @@ SelectCurator.defaultProps = {
   error: '',
 };
 
-export default SelectCurator;
+export default SelectTeacher;

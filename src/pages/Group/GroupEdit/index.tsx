@@ -4,14 +4,10 @@ import ModalWindow from '../../../components/common/ModalWindow';
 import { IGroupEditParams } from '../../../hooks/useGroups';
 import { useGroupContext } from '../../../context/group';
 import Input from '../../../components/common/Input';
-import SelectCurator from '../../../components/common/SelectCurator';
+import SelectCurator from '../../../components/common/Select/SelectCurator';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
-
-interface IGroupCreateModal {
-  modalActive: boolean;
-  closeModal: () => void;
-  groupId: number;
-}
+import { useMessagesContext } from '../../../context/useMessagesContext';
+import { IEditModal, LettersAndNumbersEnUa, NumbersAndLettersEn } from '../../../types';
 
 const formInitialData = {
   name: '',
@@ -19,10 +15,11 @@ const formInitialData = {
   orderNumber: '',
 };
 
-export const GroupEditModal = ({ modalActive, closeModal, groupId }: IGroupCreateModal): JSX.Element => {
-  const [isSubmitted, setIsSubmited] = useState(false);
-  const [formData, setFormData] = useState<IGroupEditParams>(formInitialData);
+export const GroupEdit = ({ modalActive, closeModal, Id }: IEditModal): JSX.Element => {
   const { groupEdit, getGroupId } = useGroupContext();
+  const { addInfo } = useMessagesContext();
+  const [formData, setFormData] = useState<IGroupEditParams>(formInitialData);
+  const [isSubmitted, setIsSubmited] = useState(false);
 
   const handleClose = () => {
     setIsSubmited(false);
@@ -35,19 +32,23 @@ export const GroupEditModal = ({ modalActive, closeModal, groupId }: IGroupCreat
     setIsSubmited(true);
     if (formData.name && (`${formData.orderNumber}`.length >= 6
       && `${formData.orderNumber}`.length <= 20) && formData.curatorId) {
-      groupEdit?.groupEdit({ ...formData }, groupId);
+      groupEdit?.groupEdit({ ...formData }, Id);
     }
   };
 
   useEffect(() => {
     handleClose();
+    if (groupEdit?.data) {
+      addInfo(`Група: ${getGroupId?.data?.name} з номером наказу:
+      ${getGroupId?.data?.orderNumber} успішно відредагована.`);
+    }
   }, [groupEdit?.data]);
 
   useEffect(() => {
-    if (groupId) {
-      getGroupId?.getGroupId({ id: `${groupId}` });
+    if (Id) {
+      getGroupId?.getGroupId({ id: `${Id}` });
     }
-  }, [groupId]);
+  }, [Id]);
 
   useEffect(() => {
     if (getGroupId?.data) {
@@ -71,6 +72,7 @@ export const GroupEditModal = ({ modalActive, closeModal, groupId }: IGroupCreat
           placeholder="Номер групи"
           label="Номер групи"
           required
+          pattern={LettersAndNumbersEnUa}
         />
         <Input
           onChange={(event) => {
@@ -83,6 +85,7 @@ export const GroupEditModal = ({ modalActive, closeModal, groupId }: IGroupCreat
           placeholder="Номер наказу"
           label="Номер наказу"
           required
+          pattern={NumbersAndLettersEn}
         />
         <SelectCurator
           type="modal"
@@ -109,4 +112,4 @@ export const GroupEditModal = ({ modalActive, closeModal, groupId }: IGroupCreat
   );
 };
 
-export default GroupEditModal;
+export default GroupEdit;

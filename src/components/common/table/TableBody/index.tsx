@@ -10,7 +10,7 @@ export interface ITableRowItem {
   key: string | number;
   list: {
     id: string | number;
-    label: string | JSX.Element;
+    label: string | number | JSX.Element;
   }[];
 }
 

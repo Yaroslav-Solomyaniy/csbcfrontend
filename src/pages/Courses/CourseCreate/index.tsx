@@ -5,30 +5,27 @@ import ModalControlButtons from '../../../components/common/ModalControlButtons'
 import { useMessagesContext } from '../../../context/useMessagesContext';
 import Input from '../../../components/common/Input';
 import { ICoursesCreateParams } from '../../../hooks/useCourses';
-import { LettersAndNumbersEnUa, OnlyNumbers } from '../../../types';
+import { ICreateModal, LettersAndNumbersEnUa, OnlyNumbers } from '../../../types';
 import SelectTeacher from '../../../components/common/Select/SelectTeacher';
 import SelectSemester from '../../../components/common/Select/SelectSemester';
 import SelectCompulsory from '../../../components/common/Select/SelectCompulsory';
 import { useCourseContext } from '../../../context/course';
-
-interface IGroupCreateModal {
-  modalActive: boolean;
-  closeModal: () => void;
-}
+import MultiSelectGroup from '../../../components/common/MultiSelect/MultiSelectGroup';
+import SelectExam from '../../../components/common/Select/SelectIsExam';
 
 const formInitialData: ICoursesCreateParams = {
   name: '',
-  groups: [60, 61],
+  groups: [],
   teacher: 0,
   credits: '',
   semester: 0,
   isActive: false,
-  // isExam: '',
+  isExam: '',
   lectureHours: '',
   isCompulsory: '',
 };
 
-export const CourseCreateModal = ({ modalActive, closeModal }: IGroupCreateModal): JSX.Element => {
+export const CourseCreateModal = ({ modalActive, closeModal }: ICreateModal): JSX.Element => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState<ICoursesCreateParams>(formInitialData);
   const { courseCreate } = useCourseContext();
@@ -43,18 +40,12 @@ export const CourseCreateModal = ({ modalActive, closeModal }: IGroupCreateModal
   const onSubmit = (e: React.FormEvent | undefined) => {
     e?.preventDefault?.();
     setIsSubmitted(true);
-    // if (formData.name
-    //   && formData.credits.toString().length >= 1
-    //   && formData.isExam && formData.teacher
-    //   && formData.semester
-    //   && formData.lectureHours
-    //   && formData.isCompulsory
-    //   && formData.isActive
-    //   && formData.groups.length > 0) {
-    // }
-    //    courseCreate?.createCourse({ ...formData);
-    courseCreate?.createCourse(formData);
-    console.log(formData);
+    if (formData.name && formData.credits.toString().length >= 1 && formData.isExam.toString().length >= 1
+      && formData.teacher.toString().length >= 1 && formData.semester.toString().length >= 1
+      && formData.lectureHours.toString().length >= 1 && formData.isCompulsory.toString().length >= 1
+      && formData.groups.toString().length >= 1) {
+      courseCreate?.createCourse(formData);
+    }
   };
 
   useEffect(() => {
@@ -78,23 +69,23 @@ export const CourseCreateModal = ({ modalActive, closeModal }: IGroupCreateModal
           error={isSubmitted && !formData.name ? 'Назву предмету не введено.' : ''}
           pattern={LettersAndNumbersEnUa}
         />
-        {/* <MultiSelectGroup */}
-        {/*  type="modal" */}
-        {/*  label="Групи" */}
-        {/*  placeholder="Групи" */}
-        {/*  required */}
-        {/*  isSearchable */}
-        {/*  isClearable */}
-        {/*  // onChange={(value) => { */}
-        {/*  //   setFormData({ */}
-        {/*  //     ...formData, */}
-        {/*  //     groups: value.map((option) => ( */}
-        {/*  //       { id: +option.value, name: `${option.label}` })), */}
-        {/*  //   }); */}
-        {/*  // }} */}
-        {/*  value={formData.groups.map((group) => `${group.id}`)} */}
-        {/*  error={isSubmitted && formData.groups.length < 1 ? 'Групи не обрано.' : ''} */}
-        {/* /> */}
+        <MultiSelectGroup
+          type="modal"
+          label="Групи"
+          placeholder="Групи"
+          required
+          isSearchable
+          isClearable
+          onChange={(value) => {
+            setFormData({
+              ...formData,
+              groups: value.map((option) => (
+                +option.value)),
+            });
+          }}
+          value={formData.groups.map((group) => `${group}`)}
+          error={isSubmitted && formData.groups.length < 1 ? 'Групи не обрано.' : ''}
+        />
         <SelectTeacher
           type="modal"
           label="ПІБ викладача"
@@ -132,19 +123,19 @@ export const CourseCreateModal = ({ modalActive, closeModal }: IGroupCreateModal
           value={formData.semester}
           error={isSubmitted && !formData.semester ? 'Семестр не обрано.' : ''}
         />
-        {/* <SelectExam */}
-        {/*  type="modal" */}
-        {/*  label="Вид контролю" */}
-        {/*  placeholder="Вид контролю" */}
-        {/*  required */}
-        {/*  isSearchable */}
-        {/*  isClearable */}
-        {/*  onChange={(value) => { */}
-        {/*    setFormData({ ...formData, isExam: `${value}` }); */}
-        {/*  }} */}
-        {/*  value={formData.isExam} */}
-        {/*  error={isSubmitted && !formData.isExam ? 'Вид контролю не обрано.' : ''} */}
-        {/* /> */}
+        <SelectExam
+          type="modal"
+          label="Вид контролю"
+          placeholder="Вид контролю"
+          required
+          isSearchable
+          isClearable
+          onChange={(value) => {
+            setFormData({ ...formData, isExam: `${value}` });
+          }}
+          value={formData.isExam}
+          error={isSubmitted && !formData.isExam ? 'Вид контролю не обрано.' : ''}
+        />
         <Input
           onChange={(event) => {
             setFormData({ ...formData, lectureHours: +event.target.value });

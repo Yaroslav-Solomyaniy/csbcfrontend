@@ -7,13 +7,7 @@ import Input from '../../../components/common/Input';
 import SelectCurator from '../../../components/common/Select/SelectCurator';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
 import { useMessagesContext } from '../../../context/useMessagesContext';
-import { LettersAndNumbersEnUa, NumbersAndLettersEn } from '../../../types';
-
-interface IGroupCreateModal {
-  modalActive: boolean;
-  closeModal: () => void;
-  groupId: number;
-}
+import { IEditModal, LettersAndNumbersEnUa, NumbersAndLettersEn } from '../../../types';
 
 const formInitialData = {
   name: '',
@@ -21,7 +15,7 @@ const formInitialData = {
   orderNumber: '',
 };
 
-export const GroupEdit = ({ modalActive, closeModal, groupId }: IGroupCreateModal): JSX.Element => {
+export const GroupEdit = ({ modalActive, closeModal, Id }: IEditModal): JSX.Element => {
   const { groupEdit, getGroupId } = useGroupContext();
   const { addInfo } = useMessagesContext();
   const [formData, setFormData] = useState<IGroupEditParams>(formInitialData);
@@ -38,7 +32,7 @@ export const GroupEdit = ({ modalActive, closeModal, groupId }: IGroupCreateModa
     setIsSubmited(true);
     if (formData.name && (`${formData.orderNumber}`.length >= 6
       && `${formData.orderNumber}`.length <= 20) && formData.curatorId) {
-      groupEdit?.groupEdit({ ...formData }, groupId);
+      groupEdit?.groupEdit({ ...formData }, Id);
     }
   };
 
@@ -51,10 +45,10 @@ export const GroupEdit = ({ modalActive, closeModal, groupId }: IGroupCreateModa
   }, [groupEdit?.data]);
 
   useEffect(() => {
-    if (groupId) {
-      getGroupId?.getGroupId({ id: `${groupId}` });
+    if (Id) {
+      getGroupId?.getGroupId({ id: `${Id}` });
     }
-  }, [groupId]);
+  }, [Id]);
 
   useEffect(() => {
     if (getGroupId?.data) {

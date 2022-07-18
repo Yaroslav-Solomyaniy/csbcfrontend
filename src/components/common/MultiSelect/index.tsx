@@ -79,12 +79,25 @@ const Styles: any = {
     }),
   },
   modal: {
+    multiValue: (base: any) => ({
+      ...base,
+      border: '1px solid black',
+      backgroundColor: 'white',
+      color: 'black',
+      fontSize: '14px',
+    }),
+    multiValueLabel: (base: any) => ({
+      ...base,
+      backgroundColor: 'white',
+      color: 'black',
+    }),
+
     control: (provided: any) => ({
       ...provided,
       background: '#fff',
       borderColor: 'rgba(0,0,0,0.1)',
+      height: 'auto',
       minHeight: '32px',
-      height: '32px',
       borderRadius: '8px',
       marginTop: 16,
       border: '1px solid rgba(0, 0, 0, 0.1)',
@@ -110,7 +123,6 @@ const Styles: any = {
 
     valueContainer: (provided: any) => ({
       ...provided,
-      height: '32px',
       padding: '0 16px',
     }),
 
@@ -125,7 +137,6 @@ const Styles: any = {
     }),
     indicatorsContainer: (provided: any) => ({
       ...provided,
-      height: '32px',
     }),
   },
 };

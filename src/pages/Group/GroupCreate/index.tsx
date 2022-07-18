@@ -8,12 +8,7 @@ import Input from '../../../components/common/Input';
 import SelectCurator from '../../../components/common/Select/SelectCurator';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
 import { useMessagesContext } from '../../../context/useMessagesContext';
-import { LettersAndNumbersEnUa, NumbersAndLettersEn } from '../../../types';
-
-interface IGroupCreateModal {
-  modalActive: boolean;
-  closeModal: () => void;
-}
+import { ICreateModal, LettersAndNumbersEnUa, NumbersAndLettersEn } from '../../../types';
 
 const formInitialData = {
   name: '',
@@ -21,7 +16,7 @@ const formInitialData = {
   orderNumber: '',
 };
 
-export const GroupCreate = ({ modalActive, closeModal }: IGroupCreateModal): JSX.Element => {
+export const GroupCreate = ({ modalActive, closeModal }: ICreateModal): JSX.Element => {
   const { groupCreate } = useGroupContext();
   const { addInfo } = useMessagesContext();
   const [formData, setFormData] = useState<IGroupCreateParams>(formInitialData);

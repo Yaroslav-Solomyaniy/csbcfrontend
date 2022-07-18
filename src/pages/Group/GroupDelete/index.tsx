@@ -6,19 +6,13 @@ import { useGroupContext } from '../../../context/group';
 import Input from '../../../components/common/Input';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
 import { useMessagesContext } from '../../../context/useMessagesContext';
-import { NumbersAndLettersEn } from '../../../types';
-
-interface IGroupCreateModal {
-  modalActive: boolean;
-  closeModal: () => void;
-  groupId: number;
-}
+import { IDeleteModal, NumbersAndLettersEn } from '../../../types';
 
 const formInitialData = {
   deletedOrderNumber: '',
 };
 
-export const GroupDelete = ({ modalActive, closeModal, groupId }: IGroupCreateModal): JSX.Element => {
+export const GroupDelete = ({ modalActive, closeModal, Id }: IDeleteModal): JSX.Element => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const { addInfo } = useMessagesContext();
   const [formData, setFormData] = useState<IGroupDeleteParams>(formInitialData);
@@ -36,7 +30,7 @@ export const GroupDelete = ({ modalActive, closeModal, groupId }: IGroupCreateMo
 
     if (`${formData.deletedOrderNumber}`.length >= 6
       && `${formData.deletedOrderNumber}`.length <= 20) {
-      groupDelete?.groupDelete({ ...formData }, groupId);
+      groupDelete?.groupDelete({ ...formData }, Id);
     }
   };
 
@@ -48,10 +42,10 @@ export const GroupDelete = ({ modalActive, closeModal, groupId }: IGroupCreateMo
   }, [groupDelete?.data]);
 
   useEffect(() => {
-    if (groupId) {
-      getGroupId?.getGroupId({ id: `${groupId}` });
+    if (Id) {
+      getGroupId?.getGroupId({ id: `${Id}` });
     }
-  }, [groupId]);
+  }, [Id]);
 
   return (
     <ModalWindow modalTitle="Видалення групи" active={modalActive} closeModal={handleClose}>

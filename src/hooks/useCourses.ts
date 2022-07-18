@@ -103,9 +103,9 @@ export interface ICoursesCreateParams {
   isActive: boolean;
   semester: number;
   isCompulsory: string;
-  // isExam: string;
+  isExam: string;
   teacher: number;
-  groups: number[];
+  groups: number [];
 }
 
 export interface ICoursesCreateData {
@@ -146,34 +146,26 @@ interface IGetCourseIdParams {
 }
 
 interface IGetCourseIdData {
-  id: number;
   name: string;
-  credits: number;
-  lectureHours: number;
-  isExam: boolean;
+  credits: number | string;
+  lectureHours: number | string;
   isActive: boolean;
   semester: number;
-  isCompulsory: boolean;
+  isCompulsory: string;
+  isExam: string;
   teacher: {
-    id: number;
-    firstName: string;
-    lastName: string;
-    patronymic: string;
-    email: string;
+    'id': number;
+    'firstName': string;
+    'lastName': string;
+    'patronymic': string;
+    'email': string;
   };
-  groups: {
-    id: number;
-    name: string;
-    curator: {
-      id: number;
-      firstName: string;
-      lastName: string;
-      patronymic: string;
-      email: string;
-    };
-    orderNumber: string;
-    students: number;
-  };
+  groups:
+    {
+      'id': number;
+      'name': string;
+      'orderNumber': string;
+    }[];
 }
 
 export interface IUseGetCourseId {
@@ -204,26 +196,14 @@ export const useCourseGetId = (): IUseGetCourseId => {
 
 export interface ICourseEditParams {
   name: string;
-  credits: number;
-  lectureHours: number;
+  credits: number | string;
+  lectureHours: number | string;
   isActive: boolean;
   semester: number;
-  isCompulsory: boolean;
-  isExam: boolean;
+  isCompulsory: string;
+  isExam: string;
   teacher: number;
-  groups: {
-    id: number;
-    name: string;
-    curator: {
-      id: number;
-      firstName: string;
-      lastName: string;
-      patronymic: string;
-      email: string;
-    };
-    orderNumber: string;
-    students: number;
-  }[];
+  groups: number [];
 }
 
 export interface IUseCourseEdit {
@@ -252,20 +232,16 @@ export const useCourseEdit = (): IUseCourseEdit => {
   return { data, courseEdit };
 };
 
-export interface ICourseDeleteParams {
-  id: string;
-}
-
 export interface IUseCourseDelete {
   data: FetchSuccess | null;
-  courseDelete: (params: ICourseDeleteParams, id: number) => void;
+  courseDelete: (id: number) => void;
 }
 
 export const useCourseDelete = (): IUseCourseDelete => {
   const { user } = useAuthContext();
   const [data, setData] = useState<FetchSuccess | null>(null);
 
-  const courseDelete = (params: ICourseDeleteParams, id: number) => {
+  const courseDelete = (id: number) => {
     axios.delete(`${process.env.REACT_APP_API_URL}/courses/${id}`, {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,

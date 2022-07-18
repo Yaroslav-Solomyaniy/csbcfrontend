@@ -104,7 +104,7 @@ const Courses = (): JSX.Element => {
         list: [
           { id: 1, label: item.name },
           { id: 2, label: `${item.teacher.lastName} ${item.teacher.firstName} ${item.teacher.patronymic}` },
-          { id: 3, label: `${item.semester}` },
+          { id: 3, label: item.semester },
           { id: 4, label: `${item.credits}` },
           { id: 5, label: item.groups.map((group) => group.name).join(',') },
           { id: 6, label: `${item.lectureHours}` },
@@ -217,12 +217,12 @@ const Courses = (): JSX.Element => {
         />
         <CourseEditModal
           modalActive={!!isActiveModal.edit}
-          groupId={isActiveModal.edit}
+          Id={isActiveModal.edit}
           closeModal={closeModal}
         />
         <CourseDeleteModal
           modalActive={!!isActiveModal.delete}
-          groupId={isActiveModal.delete}
+          Id={isActiveModal.delete}
           closeModal={closeModal}
         />
       </div>

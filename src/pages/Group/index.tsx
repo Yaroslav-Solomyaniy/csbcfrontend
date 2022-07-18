@@ -162,8 +162,8 @@ const Group = (): JSX.Element => {
           onPaginationChange={(newPagination) => setParams({ ...params, pagination: newPagination })}
         />
         <GroupCreate modalActive={isActiveModal.create} closeModal={closeModal} />
-        <GroupEdit modalActive={!!isActiveModal.edit} groupId={isActiveModal.edit} closeModal={closeModal} />
-        <GroupDelete modalActive={!!isActiveModal.delete} groupId={isActiveModal.delete} closeModal={closeModal} />
+        <GroupEdit modalActive={!!isActiveModal.edit} Id={isActiveModal.edit} closeModal={closeModal} />
+        <GroupDelete modalActive={!!isActiveModal.delete} Id={isActiveModal.delete} closeModal={closeModal} />
       </div>
     </Layout>
   );

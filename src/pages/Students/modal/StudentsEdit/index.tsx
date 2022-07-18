@@ -89,7 +89,7 @@ export const StudentsEditModal = ({ modalActive, closeModal, id }: IGroupCreateM
   }, [getStudent?.data]);
 
   return (
-    <ModalWindow modalTitle="Редагування групи" active={modalActive} closeModal={handleClose}>
+    <ModalWindow modalTitle="Редагування студента" active={modalActive} closeModal={handleClose}>
       <form className={styles.form} onSubmit={onSubmit}>
         <Input
           required

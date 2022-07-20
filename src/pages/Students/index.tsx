@@ -17,7 +17,7 @@ import del from '../../images/table/delete.svg';
 import { initialPagination, Pagination } from '../../types';
 import StudentsEditModal from './modal/StudentsEdit';
 import { ITableRowItem } from '../../components/common/table/TableBody';
-import { IGetParams } from '../../hooks/useStudents';
+import { IDataStudentsItems, IGetParams } from '../../hooks/useStudents';
 import StudentsDelete from './modal/StudentsDelete';
 import StudentsReview from './modal/StudentsReview';
 
@@ -31,14 +31,14 @@ const dataHeader: ITableHeader[] = [
   { id: 7, label: 'Дії' },
 ];
 
-interface IIsActiveSudentsModalState {
+interface IIsActiveStudentsModalState {
   create: boolean;
   edit: number;
   review: number;
   delete: number;
 }
 
-const allCloseModalWindow: IIsActiveSudentsModalState = {
+const allCloseModalWindow: IIsActiveStudentsModalState = {
   create: false,
   edit: 0,
   review: 0,
@@ -58,7 +58,7 @@ interface Params {
 
 const Students = (): JSX.Element => {
   const { getStudents, getStudent, createStudents, deleteStudentsItem, patchStudentsItem } = useStudentsContext();
-  const [isActiveModal, setIsActiveModal] = useState<IIsActiveSudentsModalState>(allCloseModalWindow);
+  const [isActiveModal, setIsActiveModal] = useState<IIsActiveStudentsModalState>(allCloseModalWindow);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
   const [params, setParams] = useState<Params>({
     filter: { studentId: null, group: '', isFullTime: undefined },
@@ -67,6 +67,56 @@ const Students = (): JSX.Element => {
   const closeModal = () => {
     setIsActiveModal(allCloseModalWindow);
   };
+
+  const tableRows = (arrTableRows: IDataStudentsItems[]) => (
+    arrTableRows.length ? arrTableRows.map((item) => ({
+      list: [
+        { id: 1, label: `${item.user.lastName} ${item.user.firstName} ${item.user.patronymic}` },
+        { id: 2, label: item.group.name },
+        { id: 3, label: item.orderNumber },
+        { id: 4, label: item.isFullTime ? 'Денна' : 'Заочна' },
+        { id: 5, label: item.user.email },
+        { id: 6, label: item.edeboId },
+        {
+          id: 7,
+          label: (
+            <div className={styles.actions}>
+              <Button
+                isImg
+                type="button"
+                className={styles.actions__button_edit}
+                onClick={() => {
+                  setIsActiveModal({ ...allCloseModalWindow, edit: item.id });
+                }}
+              >
+                <img src={edit} alt="edit" />
+              </Button>
+              <Button
+                isImg
+                type="button"
+                className={styles.actions__button_delete}
+                onClick={() => {
+                  setIsActiveModal({ ...allCloseModalWindow, review: item.id });
+                }}
+              >
+                <img src={review} alt="review" />
+              </Button>
+              <Button
+                isImg
+                type="button"
+                className={styles.actions__button_delete}
+                onClick={() => {
+                  setIsActiveModal({ ...allCloseModalWindow, delete: item.id });
+                }}
+              >
+                <img src={del} alt="delete" />
+              </Button>
+            </div>
+          ),
+        },
+      ],
+      key: item.id,
+    })) : []);
 
   useEffect(() => {
     getStudents?.getStudent({});
@@ -96,107 +146,9 @@ const Students = (): JSX.Element => {
   useEffect(() => {
     if (getStudents?.data) {
       setParams({ ...params, pagination: getStudents.data.meta });
-      setDataRow(params.filter.studentId && getStudent?.data != null ? [{
-        list: [
-          { id: 1, label: `${getStudent?.data.user.lastName} ${getStudent?.data.user.firstName}` },
-          { id: 2, label: getStudent?.data.group.name },
-          { id: 3, label: getStudent?.data.orderNumber },
-          { id: 4, label: getStudent?.data.isFullTime ? 'Денна' : 'Заочна' },
-          { id: 5, label: getStudent?.data.user.email },
-          { id: 6, label: getStudent?.data.edeboId },
-          {
-            id: 7,
-            label: (
-              <div className={styles.actions}>
-                <Button
-                  isImg
-                  type="button"
-                  className={styles.actions__button_edit}
-                  onClick={() => {
-                    setIsActiveModal({
-                      ...allCloseModalWindow, edit: getStudent?.data ? getStudent?.data.id : 0,
-                    });
-                  }}
-                >
-                  <img src={edit} alt="edit" />
-                </Button>
-                <Button
-                  isImg
-                  type="button"
-                  className={styles.actions__button_delete}
-                  onClick={() => {
-                    setIsActiveModal({
-                      ...allCloseModalWindow, review: getStudent?.data ? getStudent?.data.id : 0,
-                    });
-                  }}
-                >
-                  <img src={review} alt="review" />
-                </Button>
-                <Button
-                  isImg
-                  type="button"
-                  className={styles.actions__button_delete}
-                  onClick={() => {
-                    setIsActiveModal({
-                      ...allCloseModalWindow, delete: getStudent?.data ? getStudent?.data.id : 0,
-                    });
-                  }}
-                >
-                  <img src={del} alt="delete" />
-                </Button>
-              </div>
-            ),
-          },
-        ],
-        key: getStudent?.data.id,
-      }] : getStudents?.data?.items.length ? getStudents?.data?.items.map((item) => ({
-        list: [
-          { id: 1, label: `${item.user.lastName} ${item.user.firstName}` },
-          { id: 2, label: item.group.name },
-          { id: 3, label: item.orderNumber },
-          { id: 4, label: item.isFullTime ? 'Денна' : 'Заочна' },
-          { id: 5, label: item.user.email },
-          { id: 6, label: item.edeboId },
-          {
-            id: 7,
-            label: (
-              <div className={styles.actions}>
-                <Button
-                  isImg
-                  type="button"
-                  className={styles.actions__button_edit}
-                  onClick={() => {
-                    setIsActiveModal({ ...allCloseModalWindow, edit: item.id });
-                  }}
-                >
-                  <img src={edit} alt="edit" />
-                </Button>
-                <Button
-                  isImg
-                  type="button"
-                  className={styles.actions__button_delete}
-                  onClick={() => {
-                    setIsActiveModal({ ...allCloseModalWindow, review: item.id });
-                  }}
-                >
-                  <img src={review} alt="review" />
-                </Button>
-                <Button
-                  isImg
-                  type="button"
-                  className={styles.actions__button_delete}
-                  onClick={() => {
-                    setIsActiveModal({ ...allCloseModalWindow, delete: item.id });
-                  }}
-                >
-                  <img src={del} alt="delete" />
-                </Button>
-              </div>
-            ),
-          },
-        ],
-        key: item.id,
-      })) : []);
+      setDataRow(params.filter.studentId && getStudent?.data != null
+        ? tableRows([getStudent?.data])
+        : tableRows(getStudents?.data.items));
     }
   }, [getStudents?.data, getStudent?.data]);
 

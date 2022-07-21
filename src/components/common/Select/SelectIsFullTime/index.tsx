@@ -1,7 +1,5 @@
-import { useEffect, useState } from 'react';
 import Select from '../index';
-import { Option, SelectType } from '../../../../types';
-import { useStudentsContext } from '../../../../context/students';
+import { SelectType } from '../../../../types';
 
 interface SelectCurator {
   label?: string;
@@ -15,21 +13,18 @@ interface SelectCurator {
   type: SelectType;
 }
 
-const SelectPIB = ({
+const SelectIsFullTime = ({
   type,
   label,
   onChange,
   value,
   placeholder,
   error,
-  isClearable,
-  isSearchable,
 }: SelectCurator): JSX.Element => {
   const options = [
     { value: 'Денна', label: 'Денна' },
     { value: 'Заочна', label: 'Заочна' },
   ];
-  const { getStudents } = useStudentsContext();
 
   return (
     <Select
@@ -47,7 +42,7 @@ const SelectPIB = ({
   );
 };
 
-SelectPIB.defaultProps = {
+SelectIsFullTime.defaultProps = {
   placeholder: '',
   isSearchable: false,
   isClearable: false,
@@ -57,4 +52,4 @@ SelectPIB.defaultProps = {
   error: '',
 };
 
-export default SelectPIB;
+export default SelectIsFullTime;

@@ -8,7 +8,6 @@ import Table from '../../components/common/table';
 import { ITableHeader } from '../../components/common/table/TableHeader';
 import StudentsCreateModal from './modal/StudentsCreate';
 import { useStudentsContext } from '../../context/students';
-import SelectGroup from '../../components/common/Select/SelectGroup';
 import SelectPIB from '../../components/common/Select/SelectPIB';
 import SelectIsFullTime from '../../components/common/Select/SelectIsFullTime';
 import edit from '../../images/table/edit.svg';
@@ -20,6 +19,7 @@ import { ITableRowItem } from '../../components/common/table/TableBody';
 import { IDataStudentsItems, IGetParams } from '../../hooks/useStudents';
 import StudentsDelete from './modal/StudentsDelete';
 import StudentsReview from './modal/StudentsReview';
+import SelectGroupByName from '../../components/common/Select/SelectGroupByName';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІП студента' },
@@ -171,7 +171,7 @@ const Students = (): JSX.Element => {
         <Table
           filter={(
             <>
-              <SelectGroup
+              <SelectGroupByName
                 type="filter"
                 placeholder="Група"
                 value={params.filter.group}

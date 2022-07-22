@@ -4,7 +4,7 @@ import { Option, SelectType } from '../../../../types';
 
 interface ISelectIsExam {
   label?: string;
-  value: string | number;
+  value: boolean;
   onChange: (value: string) => void;
   placeholder?: string;
   isSearchable?: boolean;
@@ -27,11 +27,11 @@ const SelectExam = ({
 }: ISelectIsExam): JSX.Element => {
   const [options, setOptions] = useState<Option[]>([
     {
-      value: 'true',
+      value: true,
       label: 'Іспит',
     },
     {
-      value: 'false',
+      value: false,
       label: 'Залік',
     }]);
 

@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react';
 import styles from '../index.module.scss';
 import ModalWindow from '../../../../components/common/ModalWindow';
 import { IStudents } from '../../../../hooks/useStudents';
-import Select from '../../../../components/common/Select';
 import Input from '../../../../components/common/Input';
 import { useStudentsContext } from '../../../../context/students';
-import SelectGroup from '../../../../components/common/Select/SelectGroup';
+import SelectGroup from '../../../../components/common/Select/SelectGroupByName';
 import ModalControlButtons from '../../../../components/common/ModalControlButtons';
 
 interface IGroupCreateModal {
@@ -163,7 +162,7 @@ export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateMod
           }}
           error={isSubmitted && !formData.user.email ? 'E-Mail не введено' : ''}
         />
-        <Select
+        {/* <Select
           type="modal"
           label="Форма навчання"
           required
@@ -179,7 +178,7 @@ export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateMod
           }}
           placeholder="Форма навчання"
           error={isSubmitted && formData.isFullTime === undefined ? 'Оберіть форму навчання' : ''}
-        />
+        /> */}
       </form>
       <ModalControlButtons
         handleClose={handleClose}

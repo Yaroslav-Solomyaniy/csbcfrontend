@@ -25,12 +25,7 @@ export interface IGetCoursesParams {
   isCompulsory?: boolean;
   isExam?: boolean;
   teacher?: number;
-  groups?: {
-    id?: number;
-    name?: string | undefined;
-    orderNumber?: string;
-    students?: number;
-  };
+  groups?: number;
   page?: number;
   limit?: number;
 }
@@ -98,12 +93,12 @@ export const useCoursesGet = (): IUseCoursesGet => {
 
 export interface ICoursesCreateParams {
   name: string;
-  credits: number | string;
-  lectureHours: number | string;
+  credits: number | null;
+  lectureHours: number | null;
   isActive: boolean;
   semester: number;
-  isCompulsory: string;
-  isExam: string;
+  isCompulsory: boolean | string;
+  isExam: boolean;
   teacher: number;
   groups: number [];
 }
@@ -122,11 +117,10 @@ export const useCreateCourse = (): IUseCoursesCreate => {
   const [data, setData] = useState<ICoursesCreateData | null>(null);
 
   const createCourse = (params: ICoursesCreateParams) => {
-    axios.post(`${process.env.REACT_APP_API_URL}/courses`, {
+    axios.post(`${process.env.REACT_APP_API_URL}/courses`, params, {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
-      params,
     })
       .then((response: AxiosResponse<ICoursesCreateData | null>) => {
         setData(response.data);
@@ -196,12 +190,12 @@ export const useCourseGetId = (): IUseGetCourseId => {
 
 export interface ICourseEditParams {
   name: string;
-  credits: number | string;
-  lectureHours: number | string;
+  credits: number | null;
+  lectureHours: number | null;
   isActive: boolean;
   semester: number;
-  isCompulsory: string;
-  isExam: string;
+  isCompulsory: boolean | string;
+  isExam: boolean;
   teacher: number;
   groups: number [];
 }

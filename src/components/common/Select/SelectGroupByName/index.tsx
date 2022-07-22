@@ -4,7 +4,7 @@ import { Option, SelectType } from '../../../../types';
 import { useGroupContext } from '../../../../context/group';
 import { useGetListGroups } from '../../../../hooks/useDropDown';
 
-interface SelectGroup {
+interface ISelectGroupByName {
   label?: string;
   value: string | number | undefined;
   onChange: (value: string) => void;
@@ -16,7 +16,7 @@ interface SelectGroup {
   type: SelectType;
 }
 
-const SelectGroup = ({
+const SelectGroupByName = ({
   type,
   label,
   onChange,
@@ -26,7 +26,7 @@ const SelectGroup = ({
   isClearable,
   required,
   error,
-}: SelectGroup): JSX.Element => {
+}: ISelectGroupByName): JSX.Element => {
   const { optionsGroups, getListGroups } = useGetListGroups();
   const [options, setOptions] = useState<Option[]>([]);
   const { groupCreate, groupEdit, groupDelete } = useGroupContext();
@@ -37,7 +37,7 @@ const SelectGroup = ({
 
   useEffect(() => {
     if (optionsGroups?.items.length) {
-      setOptions(optionsGroups.items.map((group) => ({ value: group.id, label: group.name })));
+      setOptions(optionsGroups.items.map((group) => ({ value: group.name, label: group.name })));
     }
   }, [optionsGroups]);
 
@@ -56,7 +56,7 @@ const SelectGroup = ({
   );
 };
 
-SelectGroup.defaultProps = {
+SelectGroupByName.defaultProps = {
   placeholder: '',
   isSearchable: false,
   isClearable: false,
@@ -66,4 +66,4 @@ SelectGroup.defaultProps = {
   error: '',
 };
 
-export default SelectGroup;
+export default SelectGroupByName;

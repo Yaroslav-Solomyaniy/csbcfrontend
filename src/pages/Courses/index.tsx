@@ -12,12 +12,12 @@ import { initialPagination, Pagination } from '../../types';
 import { useCourseContext } from '../../context/course';
 import { IGetCoursesData, IGetCoursesParams } from '../../hooks/useCourses';
 import SelectCourse from '../../components/common/Select/SelectCourse';
-import SelectGroup from '../../components/common/Select/SelectGroup';
-import SelectCompulsory from '../../components/common/Select/SelectCompulsory';
 import SelectTeacher from '../../components/common/Select/SelectTeacher';
 import CourseCreateModal from './CourseCreate';
 import CourseEditModal from './CourseEdit';
 import CourseDeleteModal from './CourseDelete';
+import SelectCompulsory from '../../components/common/Select/SelectCompulsory';
+import SelectGroupById from '../../components/common/Select/SelectGroupById';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'Назва' },
@@ -47,7 +47,7 @@ interface Filter {
   course: string;
   teacher: string;
   group: string;
-  conduct: string;
+  isCompulsory: boolean | string;
 }
 
 interface Params {
@@ -58,7 +58,7 @@ interface Params {
 const Courses = (): JSX.Element => {
   const { getCourses, courseDelete, courseEdit, courseCreate } = useCourseContext();
   const [params, setParams] = useState<Params>({
-    filter: { course: '', teacher: '', group: '', conduct: '' },
+    filter: { course: '', teacher: '', group: '', isCompulsory: '' },
     pagination: initialPagination,
   });
   const [isActiveModal, setIsActiveModal] = useState(allCloseModalWindow);
@@ -77,15 +77,10 @@ const Courses = (): JSX.Element => {
 
     if (params.filter.course) query.name = params.filter.course;
     if (params.filter.teacher) query.teacher = +params.filter.teacher;
-    if (params.filter.group) {
-      if (query.groups) {
-        query.groups.name = params.filter.group;
-      }
+    if (params.filter.group) query.groups = +params.filter.group;
+    if (params.filter.isCompulsory === 'true' || params.filter.isCompulsory === 'false') {
+      query.isCompulsory = params.filter.isCompulsory === 'true';
     }
-    if (params.filter.conduct === 'true' || params.filter.conduct === 'false') {
-      query.isCompulsory = params.filter.conduct === 'true';
-    }
-
     if (params.pagination.currentPage) query.page = params.pagination.currentPage;
     if (params.pagination.itemsPerPage) query.limit = params.pagination.itemsPerPage;
 
@@ -93,7 +88,7 @@ const Courses = (): JSX.Element => {
   }, [params.filter.course,
     params.filter.teacher,
     params.filter.group,
-    params.filter.conduct,
+    params.filter.isCompulsory,
     params.pagination.currentPage,
     params.pagination.itemsPerPage]);
 
@@ -104,7 +99,7 @@ const Courses = (): JSX.Element => {
         list: [
           { id: 1, label: item.name },
           { id: 2, label: `${item.teacher.lastName} ${item.teacher.firstName} ${item.teacher.patronymic}` },
-          { id: 3, label: item.semester },
+          { id: 3, label: item.semester === 1 ? 'I' : 'II' },
           { id: 4, label: `${item.credits}` },
           { id: 5, label: item.groups.map((group) => group.name).join(',') },
           { id: 6, label: `${item.lectureHours}` },
@@ -179,7 +174,7 @@ const Courses = (): JSX.Element => {
                 isClearable
                 isSearchable
               />
-              <SelectGroup
+              <SelectGroupById
                 type="filter"
                 placeholder="Групи"
                 onChange={(value) => setParams({
@@ -196,10 +191,10 @@ const Courses = (): JSX.Element => {
                 placeholder="Вид проведення"
                 onChange={(value) => setParams({
                   ...params,
-                  filter: { ...params.filter, conduct: value.toString() },
+                  filter: { ...params.filter, isCompulsory: value },
                   pagination: initialPagination,
                 })}
-                value={params.filter.conduct}
+                value={params.filter.isCompulsory}
                 isClearable
                 isSearchable
               />

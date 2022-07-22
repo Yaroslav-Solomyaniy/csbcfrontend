@@ -9,20 +9,20 @@ import Input from '../../../components/common/Input';
 import MultiSelectGroup from '../../../components/common/MultiSelect/MultiSelectGroup';
 import SelectTeacher from '../../../components/common/Select/SelectTeacher';
 import SelectSemester from '../../../components/common/Select/SelectSemester';
-import SelectExam from '../../../components/common/Select/SelectIsExam';
-import SelectCompulsory from '../../../components/common/Select/SelectCompulsory';
 import { useCourseContext } from '../../../context/course';
+import SelectCompulsory from '../../../components/common/Select/SelectCompulsory';
+import SelectExam from '../../../components/common/Select/SelectIsExam';
 
 const formInitialData: ICourseEditParams = {
   name: '',
   groups: [],
   teacher: 0,
-  credits: '',
-  semester: 0,
+  credits: null,
+  semester: 1,
   isActive: false,
-  isExam: '',
-  lectureHours: '',
-  isCompulsory: '',
+  isExam: false,
+  lectureHours: null,
+  isCompulsory: false,
 };
 
 export const CourseEdit = ({ modalActive, closeModal, Id }: IEditModal): JSX.Element => {
@@ -40,12 +40,12 @@ export const CourseEdit = ({ modalActive, closeModal, Id }: IEditModal): JSX.Ele
   const onSubmit = (e: React.FormEvent | undefined) => {
     e?.preventDefault?.();
     setIsSubmited(true);
-    if (formData.name && formData.credits.toString().length >= 1 && formData.isExam.toString().length >= 1
-      && formData.teacher.toString().length >= 1 && formData.semester.toString().length >= 1
-      && formData.lectureHours.toString().length >= 1 && formData.isCompulsory.toString().length >= 1
-      && formData.groups.toString().length >= 1) {
-      courseEdit?.courseEdit({ ...formData }, Id);
-    }
+    /*   if (formData.name && formData.credits.toString().length >= 1 && formData.isExam.toString().length >= 1
+         && formData.teacher.toString().length >= 1 && formData.semester.toString().length >= 1
+         && formData.lectureHours.toString().length >= 1 && formData.isCompulsory.toString().length >= 1
+         && formData.groups.toString().length >= 1) { */
+    courseEdit?.courseEdit({ ...formData }, Id);
+    /*    } */
   };
 
   useEffect(() => {
@@ -56,19 +56,20 @@ export const CourseEdit = ({ modalActive, closeModal, Id }: IEditModal): JSX.Ele
 
   useEffect(() => {
     if (getCourseId?.data) {
-      console.log(formData);
-      setFormData({
+      const data = {
         name: getCourseId?.data.name,
-        groups: getCourseId.data.groups.map((item) => (item.id)),
+        groups: getCourseId.data.groups.map((item) => item.id),
         teacher: getCourseId.data.teacher.id,
-        credits: getCourseId.data.credits,
+        credits: getCourseId.data.credits ? +getCourseId.data.credits : null,
         semester: getCourseId.data.semester,
         isActive: getCourseId.data.isActive,
-        isExam: getCourseId.data.isExam,
-        lectureHours: getCourseId.data.lectureHours,
+        isExam: !!getCourseId.data.isExam,
+        lectureHours: getCourseId.data.lectureHours ? +getCourseId.data.lectureHours : null,
         isCompulsory: getCourseId.data.isCompulsory,
-      });
-      console.log(formData);
+      };
+
+      setFormData(data);
+      console.log(data);
     }
   }, [getCourseId?.data]);
 
@@ -122,9 +123,9 @@ export const CourseEdit = ({ modalActive, closeModal, Id }: IEditModal): JSX.Ele
         />
         <Input
           onChange={(event) => {
-            setFormData({ ...formData, credits: event.target.value });
+            setFormData({ ...formData, credits: +event.target.value ? +event.target.value : null });
           }}
-          value={formData.credits.toString().slice(0, 3)}
+          value={formData.credits || ''}
           placeholder="К-сть кредитів"
           label="К-сть кредитів"
           required
@@ -152,7 +153,7 @@ export const CourseEdit = ({ modalActive, closeModal, Id }: IEditModal): JSX.Ele
           isSearchable
           isClearable
           onChange={(value) => {
-            setFormData({ ...formData, isExam: `${value}` });
+            setFormData({ ...formData, isExam: !!value });
           }}
           value={formData.isExam}
           error={isSubmitted && !formData.isExam ? 'Вид контролю не обрано.' : ''}
@@ -161,7 +162,7 @@ export const CourseEdit = ({ modalActive, closeModal, Id }: IEditModal): JSX.Ele
           onChange={(event) => {
             setFormData({ ...formData, lectureHours: +event.target.value });
           }}
-          value={formData.lectureHours.toString().slice(0, 3)}
+          value={formData.lectureHours || ''}
           placeholder="К-сть ауд.годин"
           label="К-сть ауд.годин"
           required

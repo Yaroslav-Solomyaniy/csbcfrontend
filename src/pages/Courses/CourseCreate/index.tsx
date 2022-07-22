@@ -8,20 +8,20 @@ import { ICoursesCreateParams } from '../../../hooks/useCourses';
 import { ICreateModal, LettersAndNumbersEnUa, OnlyNumbers } from '../../../types';
 import SelectTeacher from '../../../components/common/Select/SelectTeacher';
 import SelectSemester from '../../../components/common/Select/SelectSemester';
-import SelectCompulsory from '../../../components/common/Select/SelectCompulsory';
 import { useCourseContext } from '../../../context/course';
 import MultiSelectGroup from '../../../components/common/MultiSelect/MultiSelectGroup';
+import SelectCompulsory from '../../../components/common/Select/SelectCompulsory';
 import SelectExam from '../../../components/common/Select/SelectIsExam';
 
 const formInitialData: ICoursesCreateParams = {
   name: '',
   groups: [],
   teacher: 0,
-  credits: '',
-  semester: 0,
+  credits: null,
+  semester: 1,
   isActive: false,
-  isExam: '',
-  lectureHours: '',
+  isExam: false,
+  lectureHours: null,
   isCompulsory: '',
 };
 
@@ -40,11 +40,11 @@ export const CourseCreateModal = ({ modalActive, closeModal }: ICreateModal): JS
   const onSubmit = (e: React.FormEvent | undefined) => {
     e?.preventDefault?.();
     setIsSubmitted(true);
-    if (formData.name && formData.credits.toString().length >= 1 && formData.isExam.toString().length >= 1
+    if (formData.name && formData.credits
       && formData.teacher.toString().length >= 1 && formData.semester.toString().length >= 1
-      && formData.lectureHours.toString().length >= 1 && formData.isCompulsory.toString().length >= 1
-      && formData.groups.toString().length >= 1) {
-      courseCreate?.createCourse(formData);
+      && formData.lectureHours && formData.groups.toString().length >= 1
+      && (formData.isCompulsory === 'true' || formData.isCompulsory === 'false')) {
+      courseCreate?.createCourse({ ...formData, isCompulsory: formData.isCompulsory === 'true' });
     }
   };
 
@@ -101,9 +101,9 @@ export const CourseCreateModal = ({ modalActive, closeModal }: ICreateModal): JS
         />
         <Input
           onChange={(event) => {
-            setFormData({ ...formData, credits: event.target.value });
+            setFormData({ ...formData, credits: +event.target.value });
           }}
-          value={formData.credits.toString().slice(0, 3)}
+          value={formData.credits || ''}
           placeholder="К-сть кредитів"
           label="К-сть кредитів"
           required
@@ -116,7 +116,6 @@ export const CourseCreateModal = ({ modalActive, closeModal }: ICreateModal): JS
           placeholder="Семестр"
           required
           isSearchable
-          isClearable
           onChange={(value) => {
             setFormData({ ...formData, semester: +value });
           }}
@@ -129,9 +128,8 @@ export const CourseCreateModal = ({ modalActive, closeModal }: ICreateModal): JS
           placeholder="Вид контролю"
           required
           isSearchable
-          isClearable
           onChange={(value) => {
-            setFormData({ ...formData, isExam: `${value}` });
+            setFormData({ ...formData, isExam: Boolean(value) });
           }}
           value={formData.isExam}
           error={isSubmitted && !formData.isExam ? 'Вид контролю не обрано.' : ''}
@@ -140,7 +138,7 @@ export const CourseCreateModal = ({ modalActive, closeModal }: ICreateModal): JS
           onChange={(event) => {
             setFormData({ ...formData, lectureHours: +event.target.value });
           }}
-          value={formData.lectureHours.toString().slice(0, 3)}
+          value={formData.lectureHours || ''}
           placeholder="К-сть ауд.годин"
           label="К-сть ауд.годин"
           required
@@ -153,12 +151,12 @@ export const CourseCreateModal = ({ modalActive, closeModal }: ICreateModal): JS
           placeholder="Вид проведення"
           required
           isSearchable
-          isClearable
           onChange={(value) => {
             setFormData({ ...formData, isCompulsory: value });
           }}
           value={formData.isCompulsory}
-          error={isSubmitted && !formData.isCompulsory ? 'Вид проведення не обрано.' : ''}
+          /* error={(isSubmitted && !(formData.isCompulsory === 'true'
+            || formData.isCompulsory === 'false')) ? 'Вид проведення не обрано.' : ''} */
         />
 
       </form>

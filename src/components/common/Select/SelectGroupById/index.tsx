@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
+import Select from '../index';
 import { Option, SelectType } from '../../../../types';
 import { useGroupContext } from '../../../../context/group';
 import { useGetListGroups } from '../../../../hooks/useDropDown';
-import MultiSelect from '../index';
 
-interface IMultiSelectGroup {
+interface ISelectGroupById {
   label?: string;
-  value: string[];
-  onChange: (value: Option[]) => void;
+  value: string | number | undefined;
+  onChange: (value: string) => void;
   placeholder?: string;
   isSearchable?: boolean;
   isClearable?: boolean;
@@ -16,7 +16,7 @@ interface IMultiSelectGroup {
   type: SelectType;
 }
 
-const MultiSelectGroup = ({
+const SelectGroupById = ({
   type,
   label,
   onChange,
@@ -26,7 +26,7 @@ const MultiSelectGroup = ({
   isClearable,
   required,
   error,
-}: IMultiSelectGroup): JSX.Element => {
+}: ISelectGroupById): JSX.Element => {
   const { optionsGroups, getListGroups } = useGetListGroups();
   const [options, setOptions] = useState<Option[]>([]);
   const { groupCreate, groupEdit, groupDelete } = useGroupContext();
@@ -37,13 +37,12 @@ const MultiSelectGroup = ({
 
   useEffect(() => {
     if (optionsGroups?.items.length) {
-      setOptions(optionsGroups.items.map((group) => ({ value: `${group.id}`, label: group.name })));
+      setOptions(optionsGroups.items.map((group) => ({ value: group.id, label: group.name })));
     }
   }, [optionsGroups]);
-  console.log(options, value);
 
   return (
-    <MultiSelect
+    <Select
       label={label}
       type={type}
       onChange={onChange}
@@ -53,12 +52,11 @@ const MultiSelectGroup = ({
       isSearchable={isSearchable}
       isClearable={isClearable}
       required={required}
-      error={error}
     />
   );
 };
 
-MultiSelectGroup.defaultProps = {
+SelectGroupById.defaultProps = {
   placeholder: '',
   isSearchable: false,
   isClearable: false,
@@ -68,4 +66,4 @@ MultiSelectGroup.defaultProps = {
   error: '',
 };
 
-export default MultiSelectGroup;
+export default SelectGroupById;

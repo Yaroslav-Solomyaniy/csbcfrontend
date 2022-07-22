@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from '../index.module.scss';
 
 import { useStudentsContext } from '../../../../context/students';
-import SelectGroup from '../../../../components/common/Select/SelectGroup';
+import SelectGroup from '../../../../components/common/Select/SelectGroupByName';
 import Select from '../../../../components/common/Select';
 import ModalWindow from '../../../../components/common/ModalWindow';
 import Input from '../../../../components/common/Input';

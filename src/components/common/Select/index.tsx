@@ -8,7 +8,7 @@ import styles from './index.module.scss';
 interface Select {
   options: Option[];
   type: SelectType;
-  value: string | number | null | undefined;
+  value: string | number | boolean | null | undefined;
   onChange: (value: string) => void;
   label?: string;
   required?: boolean;
@@ -152,6 +152,8 @@ const Select = ({
     )}
     <div className={styles.selectWrap}>
       <ReactSelect<Option>
+        menuPosition="absolute"
+        menuPlacement="auto"
         styles={Styles[type]}
         isSearchable={isSearchable}
         className={styles.select}
@@ -177,6 +179,7 @@ Select.defaultProps = {
   placeholder: '',
   isSearchable: false,
   isClearable: false,
+  menuPosition: '',
 };
 
 export default Select;

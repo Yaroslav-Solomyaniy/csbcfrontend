@@ -160,6 +160,7 @@ const Select = ({
         options={options}
         placeholder={placeholder}
         isClearable={isClearable}
+        noOptionsMessage={() => 'Нічого не знайдено'}
         value={options.find((option) => option?.value?.toString() === value?.toString()) || null}
         onChange={(option: SingleValue<Option>) => onChange(option?.value ? `${option.value}` : '')}
       />

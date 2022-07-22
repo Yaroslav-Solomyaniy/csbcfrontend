@@ -3,7 +3,7 @@ import styles from '../index.module.scss';
 import ModalWindow from '../../../components/common/ModalWindow';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
 import { useMessagesContext } from '../../../context/useMessagesContext';
-import { IEditModal, LettersAndNumbersEnUa, OnlyNumbers } from '../../../types';
+import { IEditModal } from '../../../types';
 import { ICourseEditParams } from '../../../hooks/useCourses';
 import Input from '../../../components/common/Input';
 import MultiSelectGroup from '../../../components/common/MultiSelect/MultiSelectGroup';
@@ -12,6 +12,7 @@ import SelectSemester from '../../../components/common/Select/SelectSemester';
 import { useCourseContext } from '../../../context/course';
 import SelectCompulsory from '../../../components/common/Select/SelectCompulsory';
 import SelectExam from '../../../components/common/Select/SelectIsExam';
+import { FiveSymbolOnlyNumbers, LettersAndNumbersEnUa } from '../../../types/regExp';
 
 const formInitialData: ICourseEditParams = {
   name: '',
@@ -22,7 +23,7 @@ const formInitialData: ICourseEditParams = {
   isActive: false,
   isExam: false,
   lectureHours: null,
-  isCompulsory: false,
+  isCompulsory: '',
 };
 
 export const CourseEdit = ({ modalActive, closeModal, Id }: IEditModal): JSX.Element => {
@@ -40,12 +41,12 @@ export const CourseEdit = ({ modalActive, closeModal, Id }: IEditModal): JSX.Ele
   const onSubmit = (e: React.FormEvent | undefined) => {
     e?.preventDefault?.();
     setIsSubmited(true);
-    /*   if (formData.name && formData.credits.toString().length >= 1 && formData.isExam.toString().length >= 1
-         && formData.teacher.toString().length >= 1 && formData.semester.toString().length >= 1
-         && formData.lectureHours.toString().length >= 1 && formData.isCompulsory.toString().length >= 1
-         && formData.groups.toString().length >= 1) { */
-    courseEdit?.courseEdit({ ...formData }, Id);
-    /*    } */
+    if (formData.name && formData.credits
+      && formData.teacher && formData.semester
+      && formData.lectureHours && formData.groups.toString().length >= 1
+      && (formData.isCompulsory === 'true' || formData.isCompulsory === 'false')) {
+      courseEdit?.courseEdit({ ...formData, isCompulsory: formData.isCompulsory === 'true' }, Id);
+    }
   };
 
   useEffect(() => {
@@ -69,7 +70,6 @@ export const CourseEdit = ({ modalActive, closeModal, Id }: IEditModal): JSX.Ele
       };
 
       setFormData(data);
-      console.log(data);
     }
   }, [getCourseId?.data]);
 
@@ -123,14 +123,14 @@ export const CourseEdit = ({ modalActive, closeModal, Id }: IEditModal): JSX.Ele
         />
         <Input
           onChange={(event) => {
-            setFormData({ ...formData, credits: +event.target.value ? +event.target.value : null });
+            setFormData({ ...formData, credits: +event.target.value });
           }}
           value={formData.credits || ''}
           placeholder="К-сть кредитів"
           label="К-сть кредитів"
           required
           error={isSubmitted && !formData.credits ? 'К-сть кредитів не введено.' : ''}
-          pattern={OnlyNumbers}
+          pattern={FiveSymbolOnlyNumbers}
         />
         <SelectSemester
           type="modal"
@@ -138,7 +138,6 @@ export const CourseEdit = ({ modalActive, closeModal, Id }: IEditModal): JSX.Ele
           placeholder="Семестр"
           required
           isSearchable
-          isClearable
           onChange={(value) => {
             setFormData({ ...formData, semester: +value });
           }}
@@ -151,12 +150,12 @@ export const CourseEdit = ({ modalActive, closeModal, Id }: IEditModal): JSX.Ele
           placeholder="Вид контролю"
           required
           isSearchable
-          isClearable
           onChange={(value) => {
             setFormData({ ...formData, isExam: !!value });
           }}
           value={formData.isExam}
-          error={isSubmitted && !formData.isExam ? 'Вид контролю не обрано.' : ''}
+          error={(isSubmitted && !(formData.isExam === true
+            || formData.isExam === false)) ? 'Вид контролю не обрано.' : ''}
         />
         <Input
           onChange={(event) => {
@@ -167,7 +166,7 @@ export const CourseEdit = ({ modalActive, closeModal, Id }: IEditModal): JSX.Ele
           label="К-сть ауд.годин"
           required
           error={isSubmitted && !formData.lectureHours ? 'К-сть ауд.годин не введено.' : ''}
-          pattern={OnlyNumbers}
+          pattern={FiveSymbolOnlyNumbers}
         />
         <SelectCompulsory
           type="modal"
@@ -175,14 +174,11 @@ export const CourseEdit = ({ modalActive, closeModal, Id }: IEditModal): JSX.Ele
           placeholder="Вид проведення"
           required
           isSearchable
-          isClearable
           onChange={(value) => {
             setFormData({ ...formData, isCompulsory: value });
           }}
           value={formData.isCompulsory}
-          error={isSubmitted && !formData.isCompulsory ? 'Вид проведення не обрано.' : ''}
         />
-
       </form>
       <ModalControlButtons
         handleClose={handleClose}

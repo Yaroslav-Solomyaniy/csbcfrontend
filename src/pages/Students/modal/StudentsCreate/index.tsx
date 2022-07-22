@@ -162,23 +162,6 @@ export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateMod
           }}
           error={isSubmitted && !formData.user.email ? 'E-Mail не введено' : ''}
         />
-        {/* <Select
-          type="modal"
-          label="Форма навчання"
-          required
-          isSearchable
-          isClearable
-          options={[
-            { value: 'Денна', label: 'Денна' },
-            { value: 'Заочна', label: 'Заочна' },
-          ]}
-          value={formData.isFullTime ? 'Денна' : formData.isFullTime === undefined ? '' : 'Заочна'}
-          onChange={(value) => {
-            setFormData({ ...formData, isFullTime: value === 'Денна' ? true : value === 'Заочна' ? false : undefined });
-          }}
-          placeholder="Форма навчання"
-          error={isSubmitted && formData.isFullTime === undefined ? 'Оберіть форму навчання' : ''}
-        /> */}
       </form>
       <ModalControlButtons
         handleClose={handleClose}

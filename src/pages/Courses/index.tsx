@@ -103,7 +103,7 @@ const Courses = (): JSX.Element => {
           { id: 4, label: `${item.credits}` },
           { id: 5, label: item.groups.map((group) => group.name).join(',') },
           { id: 6, label: `${item.lectureHours}` },
-          { id: 7, label: item.isActive ? 'Екзамен' : 'Залік' },
+          { id: 7, label: item.isExam ? 'Екзамен' : 'Залік' },
           { id: 8, label: item.isCompulsory ? "Обов'язковий" : "Не обов'язковий" },
           {
             id: 9,

@@ -58,7 +58,7 @@ export const useGroupsGet = (): IUseGroupsGet => {
         setData(response.data);
       })
       .catch((error) => {
-        addErrors(error);
+        addErrors(error.response.data.message);
       });
   };
 
@@ -99,7 +99,7 @@ export const useGetGroupId = (): IUseGetGroupId => {
         setData(response.data);
       })
       .catch((error) => {
-        addErrors(error.message);
+        addErrors(error.response.data.message);
       });
   };
 

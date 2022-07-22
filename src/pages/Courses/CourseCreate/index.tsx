@@ -5,13 +5,14 @@ import ModalControlButtons from '../../../components/common/ModalControlButtons'
 import { useMessagesContext } from '../../../context/useMessagesContext';
 import Input from '../../../components/common/Input';
 import { ICoursesCreateParams } from '../../../hooks/useCourses';
-import { ICreateModal, LettersAndNumbersEnUa, OnlyNumbers } from '../../../types';
+import { ICreateModal } from '../../../types';
 import SelectTeacher from '../../../components/common/Select/SelectTeacher';
 import SelectSemester from '../../../components/common/Select/SelectSemester';
 import { useCourseContext } from '../../../context/course';
 import MultiSelectGroup from '../../../components/common/MultiSelect/MultiSelectGroup';
 import SelectCompulsory from '../../../components/common/Select/SelectCompulsory';
 import SelectExam from '../../../components/common/Select/SelectIsExam';
+import { FiveSymbolOnlyNumbers, LettersAndNumbersEnUa } from '../../../types/regExp';
 
 const formInitialData: ICoursesCreateParams = {
   name: '',
@@ -41,7 +42,7 @@ export const CourseCreateModal = ({ modalActive, closeModal }: ICreateModal): JS
     e?.preventDefault?.();
     setIsSubmitted(true);
     if (formData.name && formData.credits
-      && formData.teacher.toString().length >= 1 && formData.semester.toString().length >= 1
+      && formData.teacher && formData.semester
       && formData.lectureHours && formData.groups.toString().length >= 1
       && (formData.isCompulsory === 'true' || formData.isCompulsory === 'false')) {
       courseCreate?.createCourse({ ...formData, isCompulsory: formData.isCompulsory === 'true' });
@@ -108,7 +109,7 @@ export const CourseCreateModal = ({ modalActive, closeModal }: ICreateModal): JS
           label="К-сть кредитів"
           required
           error={isSubmitted && !formData.credits ? 'К-сть кредитів не введено.' : ''}
-          pattern={OnlyNumbers}
+          pattern={FiveSymbolOnlyNumbers}
         />
         <SelectSemester
           type="modal"
@@ -129,10 +130,11 @@ export const CourseCreateModal = ({ modalActive, closeModal }: ICreateModal): JS
           required
           isSearchable
           onChange={(value) => {
-            setFormData({ ...formData, isExam: Boolean(value) });
+            setFormData({ ...formData, isExam: !!value });
           }}
           value={formData.isExam}
-          error={isSubmitted && !formData.isExam ? 'Вид контролю не обрано.' : ''}
+          error={(isSubmitted && !(formData.isExam === true
+            || formData.isExam === false)) ? 'Вид контролю не обрано.' : ''}
         />
         <Input
           onChange={(event) => {
@@ -143,7 +145,7 @@ export const CourseCreateModal = ({ modalActive, closeModal }: ICreateModal): JS
           label="К-сть ауд.годин"
           required
           error={isSubmitted && !formData.lectureHours ? 'К-сть ауд.годин не введено.' : ''}
-          pattern={OnlyNumbers}
+          pattern={FiveSymbolOnlyNumbers}
         />
         <SelectCompulsory
           type="modal"
@@ -155,10 +157,9 @@ export const CourseCreateModal = ({ modalActive, closeModal }: ICreateModal): JS
             setFormData({ ...formData, isCompulsory: value });
           }}
           value={formData.isCompulsory}
-          /* error={(isSubmitted && !(formData.isCompulsory === 'true'
-            || formData.isCompulsory === 'false')) ? 'Вид проведення не обрано.' : ''} */
+          error={(isSubmitted && !(formData.isCompulsory === 'true'
+            || formData.isCompulsory === 'false')) ? 'Вид проведення не обрано.' : ''}
         />
-
       </form>
       <ModalControlButtons
         handleClose={handleClose}

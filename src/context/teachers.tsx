@@ -1,24 +1,26 @@
 import React, { createContext, useContext } from 'react';
-import { useTeacherGet } from '../hooks/useTeachers';
+import { IUseTeachersGet, useTeacherGet } from '../hooks/useTeachers';
 
-interface IStudentsContext {
-
+interface ITeachersContext {
+  getTeacher: IUseTeachersGet | null;
 }
 
-const defaultValue: IStudentsContext = {};
+const defaultValue: ITeachersContext = {
+  getTeacher: null,
+};
 
-export const StudentsContext = createContext<IStudentsContext>(defaultValue);
+export const TeachersContext = createContext<ITeachersContext>(defaultValue);
 
-const StudentsProvider = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
+const TeachersProvider = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
   const getTeacher = useTeacherGet();
 
   return (
-    <StudentsContext.Provider value={{}}>
+    <TeachersContext.Provider value={{ getTeacher }}>
       {children}
-    </StudentsContext.Provider>
+    </TeachersContext.Provider>
   );
 };
 
-export default StudentsProvider;
+export default TeachersProvider;
 
-export const useStudentsContext = (): IStudentsContext => useContext(StudentsContext);
+export const useTeachersContext = (): ITeachersContext => useContext(TeachersContext);

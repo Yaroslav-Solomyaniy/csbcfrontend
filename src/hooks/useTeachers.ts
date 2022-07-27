@@ -2,54 +2,57 @@ import { useState } from 'react';
 import axios, { AxiosResponse } from 'axios';
 import { IPaginateData, OrderBy } from '../types';
 import { useAuthContext } from '../context/useAuthContext';
-import { role } from '../enums/role';
 
-export interface IGetCuratorParams {
-  orderByColumn?:
-    | 'id'
-    | 'firstName'
-    | 'lastName'
-    | 'email'
-    | 'role'
-    | 'created'
-    | 'updated';
+export interface IGetTeacherParams {
   orderBy?: OrderBy;
-  search?: string;
-  name?: string;
-  firstName?: string;
-  lastName?: string;
-  patronymic?: string;
-  email?: string;
-  role?: string;
   page?: number;
   limit?: number;
 }
 
-export interface IGetCuratorData {
-  id: 0;
+interface IGetTeacherDataCoursesGroups {
+  id: number;
+  name: string;
+  orderNumber: string;
+}
+
+interface IGetTeacherDataCourses {
+  id: number;
+  name: string;
+  credits: number;
+  lectureHours: number;
+  isActive: boolean;
+  semester: number;
+  isCompulsory: boolean;
+  isExam: boolean;
+  groups: IGetTeacherDataCoursesGroups[];
+}
+
+export interface IGetTeacherData {
+  id: number;
   firstName: string;
   lastName: string;
   patronymic: string;
   email: string;
+  courses: IGetTeacherDataCourses[];
 }
 
-export interface IUseCuratorGet {
-  data: IPaginateData<IGetCuratorData> | null;
-  getTeacher: (params?: IGetCuratorParams) => void;
+export interface IUseTeachersGet {
+  data: IPaginateData<IGetTeacherData> | null;
+  getTeacher: (params?: IGetTeacherParams) => void;
 }
 
-export const useTeacherGet = (): IUseCuratorGet => {
+export const useTeacherGet = (): IUseTeachersGet => {
   const { user } = useAuthContext();
-  const [data, setData] = useState<IPaginateData<IGetCuratorData> | null>(null);
+  const [data, setData] = useState<IPaginateData<IGetTeacherData> | null>(null);
 
-  const getTeacher = (params?: IGetCuratorParams) => {
-    axios.get(`${process.env.REACT_APP_API_URL}/users/${role[1]}`, {
+  const getTeacher = (params?: IGetTeacherParams) => {
+    axios.get(`${process.env.REACT_APP_API_URL}/users/teacher/courses`, {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
       params: { orderByColumn: 'id', orderBy: 'DESC', ...params },
     })
-      .then((response: AxiosResponse<IPaginateData<IGetCuratorData> | null>) => {
+      .then((response: AxiosResponse<IPaginateData<IGetTeacherData> | null>) => {
         setData(response.data);
       })
       .catch((error) => {

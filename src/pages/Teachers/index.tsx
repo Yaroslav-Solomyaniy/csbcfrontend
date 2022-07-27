@@ -3,9 +3,7 @@ import styles from './index.module.scss';
 import Layout from '../../loyout/Layout';
 import { ITableHeader } from '../../components/common/table/TableHeader';
 import { ITableRowItem } from '../../components/common/table/TableBody';
-import { useStudentsContext } from '../../context/students';
 import { initialPagination, Pagination } from '../../types';
-import { IDataStudentsItems, IGetParams } from '../../hooks/useStudents';
 import Button from '../../components/common/Button';
 import edit from '../../images/table/edit.svg';
 import del from '../../images/table/delete.svg';
@@ -14,6 +12,10 @@ import Table from '../../components/common/table';
 import SelectGroup from '../../components/common/Select/SelectGroup';
 import SelectPIB from '../../components/common/Select/SelectPIB';
 import SelectCourse from '../../components/common/Select/SelectCourse';
+import { useTeachersContext } from '../../context/teachers';
+import { IGetTeacherData, IGetTeacherParams } from '../../hooks/useTeachers';
+import TeachersDelete from './modal/TeachersDelete';
+import TeachersCreate from './modal/TeachersCreate';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІП' },
@@ -47,70 +49,85 @@ interface Params {
 }
 
 const Teachers = (): JSX.Element => {
-  const { getStudents, getStudent, createStudents, deleteStudentsItem, patchStudentsItem } = useStudentsContext();
+  const { getTeacher } = useTeachersContext();
   const [isActiveModal, setIsActiveModal] = useState<IIsActiveTeacherModalState>(allCloseModalWindow);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
   const [params, setParams] = useState<Params>({
     filter: { teacherId: null, group: '', name: '' },
     pagination: initialPagination,
   });
+
   const closeModal = () => {
     setIsActiveModal(allCloseModalWindow);
   };
 
-  const tableRows = (arrTableRows: IDataStudentsItems[]) => (
-    arrTableRows.length ? arrTableRows.map((item) => ({
-      list: [
-        { id: 1, label: `${item.orderNumber}` },
-        { id: 2, label: item.orderNumber },
-        { id: 3, label: item.orderNumber },
-        { id: 4, label: item.orderNumber },
-        {
-          id: 5,
-          label: (
-            <div className={styles.actions}>
-              <Button
-                isImg
-                type="button"
-                className={styles.actions__button_edit}
-                onClick={() => {
-                  setIsActiveModal({ ...allCloseModalWindow, edit: item.id });
-                }}
-              >
-                <img src={edit} alt="edit" />
-              </Button>
-              <Button
-                isImg
-                type="button"
-                className={styles.actions__button_delete}
-                onClick={() => {
-                  setIsActiveModal({ ...allCloseModalWindow, delete: item.id });
-                }}
-              >
-                <img src={del} alt="delete" />
-              </Button>
-            </div>
-          ),
-        },
-      ],
-      key: item.id,
-    })) : []);
+  const tableRows = (arrTableRows: IGetTeacherData[]) => (
+    arrTableRows.length ? arrTableRows.map((item) => {
+      const arr: { subject: string[]; group: string[]; } = { subject: [], group: [] };
 
-  useEffect(() => {
-    getStudents?.getStudent({});
-  }, [createStudents?.data, patchStudentsItem?.data, deleteStudentsItem?.data]);
+      item.courses.forEach((subject) => {
+        arr.subject.push(subject.name);
+        let srt = '';
+
+        subject.groups.forEach((group) => {
+          srt += ` ${group.name}`;
+        });
+        arr.group.push(srt);
+      });
+
+      return {
+        list: [
+          { id: 1, label: `${item.lastName} ${item.firstName} ${item.patronymic}` },
+          { id: 2, label: arr.subject },
+          { id: 3, label: arr.group },
+          { id: 4, label: item.email },
+          {
+            id: 5,
+            label: (
+              <div className={styles.actions}>
+                <Button
+                  isImg
+                  type="button"
+                  className={styles.actions__button_edit}
+                  onClick={() => {
+                    setIsActiveModal({ ...allCloseModalWindow, edit: item.id });
+                  }}
+                >
+                  <img src={edit} alt="edit" />
+                </Button>
+                <Button
+                  isImg
+                  type="button"
+                  className={styles.actions__button_delete}
+                  onClick={() => {
+                    setIsActiveModal({ ...allCloseModalWindow, delete: item.id });
+                  }}
+                >
+                  <img src={del} alt="delete" />
+                </Button>
+              </div>
+            ),
+          },
+        ],
+        key: item.id,
+      };
+    }) : []);
+
+  // useEffect(() => {
+  //   getStudents?.getStudent({});
+  // }, [createStudents?.data, patchStudentsItem?.data, deleteStudentsItem?.data]);
 
   useEffect(() => {
     if (params.filter.teacherId) {
-      getStudent?.getStudent({ id: `${params.filter.teacherId}` });
+      getTeacher?.getTeacher({});
     } else {
-      const query: IGetParams = {};
+      const query: IGetTeacherParams = {};
 
-      if (params.filter.group) query.group = params.filter.group;
+      // if (params.filter.group) query.group = params.filter.group;
       if (params.pagination.currentPage) query.page = params.pagination.currentPage;
       if (params.pagination.itemsPerPage) query.limit = params.pagination.itemsPerPage;
 
-      getStudents?.getStudent(query);
+      getTeacher?.getTeacher(query);
     }
   }, [
     params.filter.group,
@@ -121,13 +138,11 @@ const Teachers = (): JSX.Element => {
   ]);
 
   useEffect(() => {
-    if (getStudents?.data) {
-      setParams({ ...params, pagination: getStudents.data.meta });
-      setDataRow(params.filter.teacherId && getStudent?.data != null
-        ? tableRows([])
-        : tableRows([]));
+    if (getTeacher?.data) {
+      setParams({ ...params, pagination: getTeacher.data.meta });
+      setDataRow(tableRows(getTeacher?.data ? getTeacher?.data.items : []));
     }
-  }, [getStudents?.data, getStudent?.data]);
+  }, [getTeacher?.data]);
 
   return (
     <Layout>
@@ -139,7 +154,9 @@ const Teachers = (): JSX.Element => {
               nameClass="primary"
               size="large"
               className={styles.actions}
-              onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
+              onClick={() => {
+                setIsActiveModal({ ...allCloseModalWindow, create: true });
+              }}
             >
               Створити
             </Button>
@@ -193,6 +210,8 @@ const Teachers = (): JSX.Element => {
           pagination={initialPagination}
           onPaginationChange={(newPagination) => setParams({ ...params, pagination: newPagination })}
         />
+        <TeachersCreate modalActive={isActiveModal.create} closeModal={closeModal} />
+        <TeachersDelete modalActive={!!isActiveModal.delete} closeModal={closeModal} studentId={isActiveModal.delete} />
       </div>
     </Layout>
   );

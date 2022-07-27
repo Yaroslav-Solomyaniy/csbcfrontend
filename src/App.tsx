@@ -21,6 +21,7 @@ import StudentsProvider from './context/students';
 import GroupProvider from './context/group';
 import Courses from './pages/Courses';
 import CourseProvider from './context/course';
+import TeachersProvider from './context/teachers';
 
 const App = (): JSX.Element => {
   const { user } = useAuthContext();
@@ -33,7 +34,7 @@ const App = (): JSX.Element => {
             <Route index element={<GroupProvider><Group /></GroupProvider>} />
             <Route path="/students" element={<StudentsProvider><Students /></StudentsProvider>} />
             <Route path="/curators" element={<Curators />} />
-            <Route path="/teachers" element={<Teachers />} />
+            <Route path="/teachers" element={<TeachersProvider><Teachers /></TeachersProvider>} />
             <Route path="/courses" element={<CourseProvider><Courses /></CourseProvider>} />
             <Route path="/estimates" element={<Estimates />} />
             <Route path="/voting-admin" element={<VotingAdmin />} />

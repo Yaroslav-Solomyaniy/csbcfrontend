@@ -10,7 +10,7 @@ export interface ITableRowItem {
   key: string | number;
   list: {
     id: string | number;
-    label: string | number | JSX.Element;
+    label: string[] | string | number | JSX.Element;
   }[];
 }
 
@@ -27,8 +27,14 @@ const TableBody = ({ dataRow, gridColumns, pagination, onPaginationChange }: ITa
       {dataRow.map(({ key, list }) => (
         <div className={clsx(styles.body__row, gridColumns)} key={key}>
           {list.map(({ id, label }) => (
-            <div className={clsx(styles.body__row_item, 'clip')} key={id}>
-              {label}
+            <div className={clsx(styles.body__row__item, 'clip')} key={id}>
+              {Array.isArray(label) ? (
+                label.map((el) => (
+                  <div className={clsx(styles.body__row__item__string, 'clip')} key={`${id}${el}`}>
+                    {el}
+                  </div>
+                ))
+              ) : label}
             </div>
           ))}
         </div>

@@ -3,7 +3,11 @@
   width: 100%;
   display: flex;
   flex-direction: column;
+
   &__link {
+    position: fixed;
+    top: 64px;
+    left: 12px;
     display: flex;
     font-family: 'Helvetica', sans-serif;
     text-decoration: none;
@@ -20,7 +24,8 @@
     align-items: center;
     justify-content: center;
   }
-  &__form{
+
+  &__form {
     height: 40%;
     width: 280px;
     display: flex;
@@ -54,7 +59,7 @@
       border-radius: 8px;
     }
 
-    &__button{
+    &__button {
       width: 280px;
       background: #428BCA;
       border-radius: 8px;

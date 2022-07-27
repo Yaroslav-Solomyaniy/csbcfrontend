@@ -9,6 +9,8 @@
   }
 
   &__button {
+    position: fixed;
+    top: 56px;
     background-color: #ffffff;
     display: flex;
     width: 123px;

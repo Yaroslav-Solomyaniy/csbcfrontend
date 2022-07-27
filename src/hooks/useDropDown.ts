@@ -24,7 +24,7 @@ export interface IUseGetListGroups {
 }
 
 export const useGetListGroups = (): IUseGetListGroups => {
-  const { addErrors, addInfo } = useMessagesContext();
+  const { addErrors } = useMessagesContext();
   const { user } = useAuthContext();
   const [optionsGroups, setOptionsGroups] = useState<IPaginateData<IGetListGroupsData> | null>(null);
 
@@ -68,7 +68,7 @@ interface IUseGetListCurators {
 }
 
 export const useGetListCurators = (): IUseGetListCurators => {
-  const { addErrors, addInfo } = useMessagesContext();
+  const { addErrors } = useMessagesContext();
   const { user } = useAuthContext();
   const [optionCurators, setOptionCurators] = useState<IPaginateData<IGetListCuratorsData> | null>(null);
 
@@ -128,7 +128,7 @@ interface IUseGetListCourses {
 }
 
 export const useGetListCourses = (): IUseGetListCourses => {
-  const { addErrors, addInfo } = useMessagesContext();
+  const { addErrors } = useMessagesContext();
   const { user } = useAuthContext();
   const [optionCourses, setOptionCourses] = useState<IPaginateData<IGetListCoursesData> | null>(null);
 
@@ -172,7 +172,7 @@ interface IUseGetListTeachers {
 }
 
 export const useGetListTeachers = (): IUseGetListTeachers => {
-  const { addErrors, addInfo } = useMessagesContext();
+  const { addErrors } = useMessagesContext();
   const { user } = useAuthContext();
   const [listTeachers, setListTeachers] = useState<IPaginateData<IGetListTeachersData> | null>(null);
 

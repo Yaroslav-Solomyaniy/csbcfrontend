@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Select from '../index';
 import { Option, SelectType } from '../../../../types';
 import { useGetListCurators } from '../../../../hooks/useDropDown';
+import { useCuratorContext } from '../../../../context/curators';
 
 interface SelectCurator {
   label?: string;
@@ -28,10 +29,11 @@ const SelectCurator = ({
 }: SelectCurator): JSX.Element => {
   const [options, setOptions] = useState<Option[]>([]);
   const { optionCurators, getListCurators } = useGetListCurators();
+  const { curatorDelete, curatorEdit, curatorCreate } = useCuratorContext();
 
   useEffect(() => {
     getListCurators();
-  }, []);
+  }, [curatorEdit, curatorDelete, curatorCreate]);
 
   useEffect(() => {
     if (optionCurators?.items.length) {

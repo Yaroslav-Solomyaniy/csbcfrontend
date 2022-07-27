@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import TitlePage from '../../components/TitlePage';
 import Button from '../../components/common/Button/index';
 import styles from './index.module.scss';
@@ -7,9 +7,15 @@ import { ITableHeader } from '../../components/common/table/TableHeader';
 import Table from '../../components/common/table';
 import SelectCurator from '../../components/common/Select/SelectCurator';
 import { ITableRowItem } from '../../components/common/table/TableBody';
-import SelectGroup from '../../components/common/Select/SelectGroupByName';
 import { initialPagination, Pagination } from '../../types';
-import CuratorCreateModal from './ModalCreate';
+import CuratorCreateModal from './Create';
+import { useCuratorContext } from '../../context/curators';
+import { IGetCuratorData, IGetCuratorParams } from '../../hooks/useCurators';
+import edit from '../../images/table/edit.svg';
+import del from '../../images/table/delete.svg';
+import CuratorEditModal from './Edit';
+import CuratorDeleteModal from './Delete';
+import SelectGroupById from '../../components/common/Select/SelectGroupById';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІБ' },
@@ -41,7 +47,7 @@ interface Params {
 }
 
 const Curators = (): JSX.Element => {
-  // const { getGroups, groupCreate, groupEdit, groupDelete } = useGroupContext();
+  const { getCurators, curatorCreate, curatorDelete, curatorEdit } = useCuratorContext();
   const [params, setParams] = useState<Params>({
     filter: { curator: '', group: '' },
     pagination: initialPagination,
@@ -53,54 +59,53 @@ const Curators = (): JSX.Element => {
     setIsActiveModal(allCloseModalWindow);
   };
 
-  // useEffect(() => {
-  //   getGroups?.getGroups();
-  // }, [groupCreate?.data, groupEdit?.data, groupDelete?.data]);
+  useEffect(() => {
+    getCurators?.getCurators();
+  }, [curatorCreate?.data, curatorEdit?.data, curatorDelete?.data]);
 
-  // useEffect(() => {
-  //   const query: IGetGroupParams = {};
-  //
-  //   if (params.filter.curator) query.curatorId = +params.filter.curator;
-  //   if (params.filter.group) query.name = params.filter.group;
-  //   if (params.pagination.currentPage) query.page = params.pagination.currentPage;
-  //   if (params.pagination.itemsPerPage) query.limit = params.pagination.itemsPerPage;
-  //
-  //   getGroups?.getGroups(query);
-  // }, [params.filter.group, params.filter.curator, params.pagination.currentPage, params.pagination.itemsPerPage]);
+  useEffect(() => {
+    const query: IGetCuratorParams = {};
 
-  // useEffect(() => {
-  //   if (getGroups?.data) {
-  //     setParams({ ...params, pagination: getGroups.data.meta });
-  //     setDataRow(getGroups?.data?.items.map((item: IGroupData) => ({
-  //       list: [
-  //         { id: 1, label: item.name },
-  //         { id: 2, label: `${item.curator.firstName} ${item.curator.lastName} ${item.curator.patronymic}` },
-  //         { id: 3, label: item.orderNumber },
-  //         { id: 4, label: `${item.students}` },
-  //         {
-  //           id: 5,
-  //           label: (
-  //             <div className={styles.actions}>
-  //               <Button
-  //                 onClick={() => setIsActiveModal({ ...isActiveModal, edit: item.id })}
-  //                 isImg
-  //               >
-  //                 <img src={edit} alt="edit" />
-  //               </Button>
-  //               <Button
-  //                 onClick={() => setIsActiveModal({ ...isActiveModal, delete: item.id })}
-  //                 isImg
-  //               >
-  //                 <img src={del} alt="delete" />
-  //               </Button>
-  //             </div>
-  //           ),
-  //         },
-  //       ],
-  //       key: item.id,
-  //     })));
-  //   }
-  // }, [getGroups?.data]);
+    if (params.filter.curator) query.curatorId = +params.filter.curator;
+    if (params.filter.group) query.group = +(params.filter.group);
+    if (params.pagination.currentPage) query.page = params.pagination.currentPage;
+    if (params.pagination.itemsPerPage) query.limit = params.pagination.itemsPerPage;
+
+    getCurators?.getCurators(query);
+  }, [params.filter.curator, params.filter.group, params.pagination.currentPage, params.pagination.itemsPerPage]);
+
+  useEffect(() => {
+    if (getCurators?.data) {
+      setParams({ ...params, pagination: getCurators.data.meta });
+      setDataRow(getCurators?.data?.items.map((item: IGetCuratorData) => ({
+        list: [
+          { id: 1, label: `${item.lastName} ${item.firstName} ${item.patronymic}` },
+          { id: 2, label: item.groups.map((group) => (group.name)).join(',') },
+          { id: 3, label: item.email },
+          {
+            id: 4,
+            label: (
+              <div className={styles.actions}>
+                <Button
+                  onClick={() => setIsActiveModal({ ...isActiveModal, edit: item.id })}
+                  isImg
+                >
+                  <img src={edit} alt="edit" />
+                </Button>
+                <Button
+                  onClick={() => setIsActiveModal({ ...isActiveModal, delete: item.id })}
+                  isImg
+                >
+                  <img src={del} alt="delete" />
+                </Button>
+              </div>
+            ),
+          },
+        ],
+        key: item.id,
+      })));
+    }
+  }, [getCurators?.data]);
 
   return (
     <Layout>
@@ -122,7 +127,7 @@ const Curators = (): JSX.Element => {
         <Table
           filter={(
             <>
-              <SelectGroup
+              <SelectGroupById
                 type="filter"
                 placeholder="Група"
                 onChange={(value) => setParams({
@@ -155,10 +160,16 @@ const Curators = (): JSX.Element => {
           onPaginationChange={(newPagination) => setParams({ ...params, pagination: newPagination })}
         />
         <CuratorCreateModal modalActive={isActiveModal.create} closeModal={closeModal} />
-        {/* <GroupEditModal modalActive={!!isActiveModal.edit} groupId={isActiveModal.edit}
-         closeModal={closeModal} /> */}
-        {/* <GroupDeleteModal modalActive={!!isActiveModal.delete} groupId={isActiveModal.delete}
-        closeModal={closeModal} /> */}
+        <CuratorEditModal
+          modalActive={!!isActiveModal.edit}
+          Id={isActiveModal.edit}
+          closeModal={closeModal}
+        />
+        <CuratorDeleteModal
+          modalActive={!!isActiveModal.delete}
+          Id={isActiveModal.delete}
+          closeModal={closeModal}
+        />
       </div>
     </Layout>
   );

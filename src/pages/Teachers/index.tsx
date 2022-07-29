@@ -1,21 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import styles from './index.module.scss';
-import Layout from '../../loyout/Layout';
 import { ITableHeader } from '../../components/common/table/TableHeader';
 import { ITableRowItem } from '../../components/common/table/TableBody';
 import { initialPagination, Pagination } from '../../types';
-import Button from '../../components/common/Button';
-import edit from '../../images/table/edit.svg';
-import del from '../../images/table/delete.svg';
-import TitlePage from '../../components/TitlePage';
-import Table from '../../components/common/table';
-import SelectGroup from '../../components/common/Select/SelectGroup';
-import SelectPIB from '../../components/common/Select/SelectPIB';
-import SelectCourse from '../../components/common/Select/SelectCourse';
 import { useTeachersContext } from '../../context/teachers';
 import { IGetTeacherData, IGetTeacherParams } from '../../hooks/useTeachers';
+import Layout from '../../loyout/Layout';
+import Button from '../../components/common/Button';
+import SelectGroup from '../../components/common/Select/SelectGroup';
+import SelectCourse from '../../components/common/Select/SelectCourse';
+import TitlePage from '../../components/TitlePage';
+import Table from '../../components/common/table';
 import TeachersDelete from './modal/TeachersDelete';
 import TeachersCreate from './modal/TeachersCreate';
+import SelectTeacher from '../../components/common/Select/SelectTeacher';
+import styles from './index.module.scss';
+import edit from '../../images/table/edit.svg';
+import del from '../../images/table/delete.svg';
+import TeachersEdit from './modal/TeachersEdit';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІП' },
@@ -53,7 +54,7 @@ const Teachers = (): JSX.Element => {
   const [isActiveModal, setIsActiveModal] = useState<IIsActiveTeacherModalState>(allCloseModalWindow);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
   const [params, setParams] = useState<Params>({
-    filter: { teacherId: null, group: '', name: '' },
+    filter: { teacherId: 0, group: '', name: '' },
     pagination: initialPagination,
   });
 
@@ -165,15 +166,21 @@ const Teachers = (): JSX.Element => {
         <Table
           filter={(
             <>
-              <SelectPIB
+              <SelectTeacher
                 type="filter"
                 placeholder="ПІБ"
+                required
+                isClearable
+                isSearchable
                 value={params.filter.teacherId}
                 onChange={(value) => setParams({ ...params, filter: { ...params.filter, teacherId: +value } })}
               />
               <SelectGroup
                 type="filter"
                 placeholder="Група"
+                required
+                isClearable
+                isSearchable
                 value={params.filter.group}
                 onChange={(value) => setParams({
                   ...params,
@@ -183,8 +190,6 @@ const Teachers = (): JSX.Element => {
                     teacherId: null,
                   },
                 })}
-                isClearable
-                isSearchable
               />
               <SelectCourse
                 type="filter"
@@ -211,7 +216,8 @@ const Teachers = (): JSX.Element => {
           onPaginationChange={(newPagination) => setParams({ ...params, pagination: newPagination })}
         />
         <TeachersCreate modalActive={isActiveModal.create} closeModal={closeModal} />
-        <TeachersDelete modalActive={!!isActiveModal.delete} closeModal={closeModal} studentId={isActiveModal.delete} />
+        <TeachersEdit modalActive={!!isActiveModal.edit} closeModal={closeModal} />
+        <TeachersDelete modalActive={!!isActiveModal.delete} closeModal={closeModal} id={isActiveModal.delete} />
       </div>
     </Layout>
   );

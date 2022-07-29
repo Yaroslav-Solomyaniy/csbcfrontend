@@ -5,7 +5,7 @@ import { useGetListTeachers } from '../../../../hooks/useDropDown';
 
 interface SelectTeacher {
   label?: string;
-  value: string | number;
+  value: string | number | null;
   onChange: (value: string) => void;
   placeholder?: string;
   isSearchable?: boolean;

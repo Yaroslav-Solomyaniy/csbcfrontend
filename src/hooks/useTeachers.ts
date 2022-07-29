@@ -2,6 +2,7 @@ import { useState } from 'react';
 import axios, { AxiosResponse } from 'axios';
 import { IPaginateData, OrderBy } from '../types';
 import { useAuthContext } from '../context/useAuthContext';
+import { useMessagesContext } from '../context/useMessagesContext';
 
 export interface IGetTeacherParams {
   orderBy?: OrderBy;
@@ -42,6 +43,7 @@ export interface IUseTeachersGet {
 }
 
 export const useTeacherGet = (): IUseTeachersGet => {
+  const { addErrors } = useMessagesContext();
   const { user } = useAuthContext();
   const [data, setData] = useState<IPaginateData<IGetTeacherData> | null>(null);
 
@@ -56,7 +58,7 @@ export const useTeacherGet = (): IUseTeachersGet => {
         setData(response.data);
       })
       .catch((error) => {
-        console.log(error);
+        addErrors(error.response.data.message);
       });
   };
 

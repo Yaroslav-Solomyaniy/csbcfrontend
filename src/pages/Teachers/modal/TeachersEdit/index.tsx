@@ -8,6 +8,7 @@ import Input from '../../../../components/common/Input';
 interface IStudentsDeleteModal {
   modalActive: boolean;
   closeModal: () => void;
+  id: number;
 }
 
 const formInitialData = {
@@ -23,7 +24,7 @@ const selectValueDefault = {
   course: '',
 };
 
-export const StudentsDeleteModal = ({ modalActive, closeModal }: IStudentsDeleteModal): JSX.Element => {
+export const StudentsEditModal = ({ modalActive, closeModal, id }: IStudentsDeleteModal): JSX.Element => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState(formInitialData);
   const [selectValue, setSelectValue] = useState(selectValueDefault);
@@ -48,9 +49,50 @@ export const StudentsDeleteModal = ({ modalActive, closeModal }: IStudentsDelete
       handleClose();
     }
   };
+  // const onSubmit = (e: React.FormEvent | undefined) => {
+  //   const query: IStudents = { user: {} };
+  //
+  //   e?.preventDefault?.();
+  //   setIsSubmitted(true);
+  //
+  //   if (formData.firstName !== getStudent?.data?.firstName) query.user.firstName = formData.firstName;
+  //   if (formData.lastName !== getStudent?.data?.user.lastName) query.user.lastName = formData.lastName;
+  //   if (formData.patronymic !== getStudent?.data?.patronymic) {
+  //     query.user.patronymic = formData.user.patronymic;
+  //   }
+  //   if (formData.email !== getStudent?.data?.user.email) query.user.email = formData.email;
+  //
+  //   patchStudentsItem?.patchStudent(query, id);
+  //   handleClose();
+  // };
+
+  //   useEffect(() => {
+  //     if (id) {
+  //     getStudent?.getStudent({ id: `${id}` });
+  //   }
+  // }, [id]);
+
+  // useEffect(() => {
+  //   if (getStudent?.data) {
+  //     setFormData({
+  //       dateOfBirth: getStudent.data.dateOfBirth,
+  //       groupId: getStudent.data.group.id,
+  //       user: {
+  //         firstName: getStudent.data.user.firstName,
+  //         lastName: getStudent.data.user.lastName,
+  //         patronymic: getStudent.data.user.patronymic,
+  //         email: getStudent.data.user.email,
+  //         role: 'student',
+  //       },
+  //       orderNumber: getStudent.data.orderNumber,
+  //       edeboId: getStudent.data.edeboId,
+  //       isFullTime: getStudent.data.isFullTime,
+  //     });
+  //   }
+  // }, [getStudent?.data]);
 
   return (
-    <ModalWindow modalTitle="Створення викладача" active={modalActive} closeModal={handleClose}>
+    <ModalWindow modalTitle="Редагуваня викладача" active={modalActive} closeModal={handleClose}>
       <form className={styles.form} onSubmit={onSubmit}>
         <Input
           required
@@ -97,10 +139,10 @@ export const StudentsDeleteModal = ({ modalActive, closeModal }: IStudentsDelete
         handleClose={handleClose}
         onSubmit={onSubmit}
         cancelButtonText="Відміна"
-        mainButtonText="Створити"
+        mainButtonText="Зберегти"
       />
     </ModalWindow>
   );
 };
 
-export default StudentsDeleteModal;
+export default StudentsEditModal;

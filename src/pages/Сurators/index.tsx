@@ -38,7 +38,7 @@ const allCloseModalWindow: IIsActiveModalState = {
 
 interface Filter {
   curator: string;
-  group: string;
+  groupName: string;
 }
 
 interface Params {
@@ -49,7 +49,7 @@ interface Params {
 const Curators = (): JSX.Element => {
   const { getCurators, curatorCreate, curatorDelete, curatorEdit } = useCuratorContext();
   const [params, setParams] = useState<Params>({
-    filter: { curator: '', group: '' },
+    filter: { curator: '', groupName: '' },
     pagination: initialPagination,
   });
   const [isActiveModal, setIsActiveModal] = useState(allCloseModalWindow);
@@ -66,13 +66,13 @@ const Curators = (): JSX.Element => {
   useEffect(() => {
     const query: IGetCuratorParams = {};
 
-    /*    if (params.filter.curator) query.curatorId = +params.filter.curator; */
-    if (params.filter.group) query.group = params.filter.group;
+    if (params.filter.curator) query.curatorId = +params.filter.curator;
+    if (params.filter.groupName) query.groupName = params.filter.groupName;
     if (params.pagination.currentPage) query.page = params.pagination.currentPage;
     if (params.pagination.itemsPerPage) query.limit = params.pagination.itemsPerPage;
 
     getCurators?.getCurators(query);
-  }, [params.filter.curator, params.filter.group, params.pagination.currentPage, params.pagination.itemsPerPage]);
+  }, [params.filter.curator, params.filter.groupName, params.pagination.currentPage, params.pagination.itemsPerPage]);
 
   useEffect(() => {
     if (getCurators?.data) {
@@ -132,10 +132,10 @@ const Curators = (): JSX.Element => {
                 placeholder="Група"
                 onChange={(value) => setParams({
                   ...params,
-                  filter: { ...params.filter, group: value },
+                  filter: { ...params.filter, groupName: value },
                   pagination: initialPagination,
                 })}
-                value={params.filter.group}
+                value={params.filter.groupName}
                 isClearable
                 isSearchable
               />

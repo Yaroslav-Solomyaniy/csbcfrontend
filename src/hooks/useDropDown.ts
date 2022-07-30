@@ -193,3 +193,45 @@ export const useGetListTeachers = (): IUseGetListTeachers => {
 
   return { listTeachers, getListTeachers };
 };
+
+interface IGetListAdministratorsParams {
+  orderBy?: OrderBy;
+  adminId?: number;
+  page?: number;
+  limit?: number;
+}
+
+interface IGetListAdministratorsData {
+  id: number;
+  firstName: string;
+  lastName: string;
+  patronymic: string;
+}
+
+interface IUseGetListAdministrators {
+  listAdmins: IPaginateData<IGetListAdministratorsData> | null;
+  getListAdministrators: (params?: IGetListAdministratorsParams) => void;
+}
+
+export const useGetListAdministrators = (): IUseGetListAdministrators => {
+  const { addErrors } = useMessagesContext();
+  const { user } = useAuthContext();
+  const [listAdmins, setListAdmins] = useState<IPaginateData<IGetListAdministratorsData> | null>(null);
+
+  const getListAdministrators = (params?: IGetListAdministratorsParams) => {
+    axios.get(`${process.env.REACT_APP_API_URL}/users/dropdown/admin`, {
+      headers: {
+        Authorization: `Bearer ${user?.accessToken}`,
+      },
+      params: { /* limit: 100, orderBy: 'DESC', */ ...params },
+    })
+      .then((response: AxiosResponse<IPaginateData<IGetListAdministratorsData> | null>) => {
+        setListAdmins(response.data);
+      })
+      .catch((error) => {
+        addErrors(error.message);
+      });
+  };
+
+  return { listAdmins, getListAdministrators };
+};

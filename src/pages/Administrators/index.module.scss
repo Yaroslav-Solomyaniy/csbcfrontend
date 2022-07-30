@@ -1,3 +1,29 @@
-.admin{
-  background: yellow;
+.columns {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.form {
+  padding: 40px 0;
+}
+
+.error {
+  transition: all .5s;
+  bottom: 0;
+}
+
+.actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(20px, 1fr));
+  grid-column-gap: 13px;
+}
+
+.subtitle {
+  font-family: 'Helvetica';
+  text-align: center;
+  padding: 0 15px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.75);
+  margin-bottom: 20px;
 }

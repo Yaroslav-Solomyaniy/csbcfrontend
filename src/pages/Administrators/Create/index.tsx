@@ -1,62 +1,52 @@
 import React, { useEffect, useState } from 'react';
-import styles from '../index.module.scss';
 import ModalWindow from '../../../components/common/ModalWindow';
-import ModalControlButtons from '../../../components/common/ModalControlButtons';
-import { IEditModal } from '../../../types';
-import { useCuratorContext } from '../../../context/curators';
+import styles from './index.module.scss';
 import Input from '../../../components/common/Input';
+import ModalControlButtons from '../../../components/common/ModalControlButtons';
+import { ICreateModal } from '../../../types';
 import { LettersAndNumbersEnUa } from '../../../types/regExp';
-import { IUserEditParams } from '../../../hooks/useUser';
+import { useMessagesContext } from '../../../context/useMessagesContext';
+import { IUserCreateParams } from '../../../hooks/useUser';
+import { useAdministratorsContext } from '../../../context/administators';
 
-const formInitialData: IUserEditParams = {
+const formInitialData: IUserCreateParams = {
   firstName: '',
   lastName: '',
   patronymic: '',
   email: '',
-  role: 'curator',
+  role: 'admin',
 };
 
-export const CuratorEditModal = ({ modalActive, closeModal, Id }: IEditModal): JSX.Element => {
-  const [isSubmitted, setIsSubmited] = useState(false);
-  const [formData, setFormData] = useState<IUserEditParams>(formInitialData);
-  const { curatorEdit, getCuratorId } = useCuratorContext();
+export const AdministratorCreateModal = ({ modalActive, closeModal }: ICreateModal): JSX.Element => {
+  const { administratorsCreate } = useAdministratorsContext();
+  const { addInfo } = useMessagesContext();
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [formData, setFormData] = useState<IUserCreateParams>(formInitialData);
 
   const handleClose = () => {
-    setIsSubmited(false);
+    setIsSubmitted(false);
     setFormData(formInitialData);
     closeModal();
   };
 
   const onSubmit = (e: React.FormEvent | undefined) => {
     e?.preventDefault?.();
-    setIsSubmited(true);
-
-    if (formData.firstName && formData.lastName && formData.patronymic && formData.lastName && formData.email) {
-      curatorEdit?.userEdit({ ...formData }, Id);
-      closeModal();
+    setIsSubmitted(true);
+    if (formData.firstName && formData.lastName && formData.patronymic && formData.email) {
+      administratorsCreate?.createUser(formData);
     }
   };
 
   useEffect(() => {
-    if (Id) {
-      getCuratorId?.getUserId({ id: `${Id}` });
+    closeModal();
+    if (administratorsCreate?.data) {
+      addInfo(`${formData.lastName} ${formData.firstName} ${formData.patronymic}
+      успішно доданий у список адміністраторів.`);
     }
-  }, [Id]);
-
-  useEffect(() => {
-    if (getCuratorId?.data) {
-      setFormData({
-        firstName: getCuratorId?.data.firstName,
-        lastName: getCuratorId?.data.lastName,
-        patronymic: getCuratorId?.data.patronymic,
-        email: getCuratorId?.data.email,
-        role: getCuratorId?.data.role,
-      });
-    }
-  }, [getCuratorId?.data]);
+  }, [administratorsCreate?.data]);
 
   return (
-    <ModalWindow modalTitle="Редагування куратора" active={modalActive} closeModal={handleClose}>
+    <ModalWindow modalTitle="Створення адміністратора" active={modalActive} closeModal={handleClose}>
       <form className={styles.form} onSubmit={onSubmit}>
         <Input
           onChange={(event) => {
@@ -96,20 +86,20 @@ export const CuratorEditModal = ({ modalActive, closeModal, Id }: IEditModal): J
             setFormData({ ...formData, email: event.target.value });
           }}
           value={formData.email}
-          placeholder="E-Mail"
-          label="E-Mail"
+          placeholder="E-mail"
+          label="E-mail"
           required
-          error={isSubmitted && !formData.email ? 'E-Mail не введено' : ''}
+          error={isSubmitted && !formData.email ? 'E-mail не введено' : ''}
         />
       </form>
       <ModalControlButtons
         handleClose={closeModal}
         onSubmit={onSubmit}
         cancelButtonText="Відміна"
-        mainButtonText="Зберегти"
+        mainButtonText="Додати"
       />
     </ModalWindow>
   );
 };
 
-export default CuratorEditModal;
+export default AdministratorCreateModal;

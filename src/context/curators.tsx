@@ -1,23 +1,22 @@
 import React, { createContext, useContext } from 'react';
+import { IUseCuratorsGet, useCuratorsGet } from '../hooks/useCurators';
 import {
-  IUseCuratorCreate,
-  IUseCuratorDelete,
-  IUseCuratorEdit,
-  IUseCuratorsGet,
-  IUseGetCuratorId,
-  useCuratorCreate,
-  useCuratorDelete,
-  useCuratorEdit,
-  useCuratorsGet,
-  useGetCuratorId,
-} from '../hooks/useCurators';
+  IUseUserCreate,
+  IUseUserDelete,
+  IUseUserEdit,
+  IUseUserGetId,
+  useUserCreate,
+  useUserDelete,
+  useUserEdit,
+  useUserGetId,
+} from '../hooks/useUser';
 
 interface ICuratorsContext {
   getCurators: IUseCuratorsGet | null;
-  curatorCreate: IUseCuratorCreate | null;
-  getCuratorId: IUseGetCuratorId | null;
-  curatorEdit: IUseCuratorEdit | null;
-  curatorDelete: IUseCuratorDelete | null;
+  curatorCreate: IUseUserCreate | null;
+  getCuratorId: IUseUserGetId | null;
+  curatorEdit: IUseUserEdit | null;
+  curatorDelete: IUseUserDelete | null;
 }
 
 const defaultValue: ICuratorsContext = {
@@ -32,10 +31,10 @@ export const CuratorsContext = createContext<ICuratorsContext>(defaultValue);
 
 const CuratorsProvider: React.FC = ({ children }): JSX.Element => {
   const getCurators = useCuratorsGet();
-  const curatorsCreate = useCuratorCreate();
-  const getCuratorId = useGetCuratorId();
-  const curatorEdit = useCuratorEdit();
-  const curatorDelete = useCuratorDelete();
+  const curatorsCreate = useUserCreate();
+  const getCuratorId = useUserGetId();
+  const curatorEdit = useUserEdit();
+  const curatorDelete = useUserDelete();
 
   return (
     <CuratorsContext.Provider

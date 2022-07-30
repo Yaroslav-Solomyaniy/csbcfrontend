@@ -3,8 +3,8 @@ import styles from '../index.module.scss';
 import ModalWindow from '../../../components/common/ModalWindow';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
 import { IDeleteModal } from '../../../types';
-import { useCuratorContext } from '../../../context/curators';
 import { useMessagesContext } from '../../../context/useMessagesContext';
+import { useAdministratorsContext } from '../../../context/administators';
 
 const formInitialData = {
   firstName: '',
@@ -12,50 +12,52 @@ const formInitialData = {
   patronymic: '',
 };
 
-export const CuratorDeleteModal = ({ modalActive, closeModal, Id }: IDeleteModal): JSX.Element => {
-  const { curatorDelete, getCuratorId } = useCuratorContext();
+export const AdministratorDeleteModal = ({ modalActive, closeModal, Id }: IDeleteModal): JSX.Element => {
+  const { administratorsDelete, getAdministratorsId } = useAdministratorsContext();
   const [formData, setFormData] = useState(formInitialData);
   const { addInfo } = useMessagesContext();
 
   useEffect(() => {
     if (Id) {
-      getCuratorId?.getUserId({ id: `${Id}` });
+      getAdministratorsId?.getUserId({ id: `${Id}` });
     }
   }, [Id]);
 
   useEffect(() => {
-    if (getCuratorId?.data) {
+    if (getAdministratorsId?.data) {
       setFormData({
-        firstName: getCuratorId?.data.firstName,
-        lastName: getCuratorId?.data.lastName,
-        patronymic: getCuratorId?.data.patronymic,
+        firstName: getAdministratorsId?.data.firstName,
+        lastName: getAdministratorsId?.data.lastName,
+        patronymic: getAdministratorsId?.data.patronymic,
       });
     }
-  }, [getCuratorId?.data]);
+  }, [getAdministratorsId?.data]);
 
   useEffect(() => {
-    if (curatorDelete?.data) {
-      addInfo(`${formData.lastName} ${formData.firstName} ${formData.patronymic} видалений зі списку кураторів.`);
+    if (administratorsDelete?.data) {
+      addInfo(`${formData.lastName} ${formData.firstName} ${formData.patronymic} видалений зі списку адміністраторів.`);
     }
-  }, [curatorDelete?.data]);
+  }, [administratorsDelete?.data]);
 
   const onSubmit = (e: React.FormEvent | undefined) => {
     e?.preventDefault?.();
-    curatorDelete?.userDelete(Id);
+    administratorsDelete?.userDelete(Id);
     closeModal();
   };
 
   return (
-    <ModalWindow modalTitle="Видалення куратора" active={modalActive} closeModal={closeModal}>
+    <ModalWindow modalTitle="Видалення адміністратора" active={modalActive} closeModal={closeModal}>
       <form className={styles.form} onSubmit={onSubmit}>
         <h3 className={styles.subtitle}>
           {' '}
-          Ви дійсно бажаєте видалити куратора
+          Ви дійсно бажаєте видалити адміністратора
           `
           {formData.lastName}
           {' '}
+
           {formData.firstName}
           {' '}
+
           {formData.patronymic}
           `?
           {' '}
@@ -71,4 +73,4 @@ export const CuratorDeleteModal = ({ modalActive, closeModal, Id }: IDeleteModal
   );
 };
 
-export default CuratorDeleteModal;
+export default AdministratorDeleteModal;

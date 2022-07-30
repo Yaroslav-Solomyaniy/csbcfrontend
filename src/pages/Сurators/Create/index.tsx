@@ -5,12 +5,12 @@ import Input from '../../../components/common/Input';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
 import { useCuratorContext } from '../../../context/curators';
 import { ICreateModal } from '../../../types';
-import { ICuratorCreateParams } from '../../../hooks/useCurators';
+
 import { LettersAndNumbersEnUa } from '../../../types/regExp';
 import { useMessagesContext } from '../../../context/useMessagesContext';
-import InputEmail from '../../../components/common/InputEmail';
+import { IUserCreateParams } from '../../../hooks/useUser';
 
-const formInitialData: ICuratorCreateParams = {
+const formInitialData: IUserCreateParams = {
   firstName: '',
   lastName: '',
   patronymic: '',
@@ -22,7 +22,7 @@ export const CuratorCreateModal = ({ modalActive, closeModal }: ICreateModal): J
   const { curatorCreate } = useCuratorContext();
   const { addInfo } = useMessagesContext();
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [formData, setFormData] = useState<ICuratorCreateParams>(formInitialData);
+  const [formData, setFormData] = useState<IUserCreateParams>(formInitialData);
 
   const handleClose = () => {
     setIsSubmitted(false);
@@ -34,7 +34,7 @@ export const CuratorCreateModal = ({ modalActive, closeModal }: ICreateModal): J
     e?.preventDefault?.();
     setIsSubmitted(true);
     if (formData.firstName && formData.lastName && formData.patronymic && formData.email) {
-      curatorCreate?.createCurator(formData);
+      curatorCreate?.createUser(formData);
     }
   };
 
@@ -81,13 +81,15 @@ export const CuratorCreateModal = ({ modalActive, closeModal }: ICreateModal): J
           error={isSubmitted && !formData.patronymic ? 'В поле "По-Батькові" нічого не введено' : ''}
           pattern={LettersAndNumbersEnUa}
         />
-        <InputEmail
+        <Input
+          onChange={(event) => {
+            setFormData({ ...formData, email: event.target.value });
+          }}
           value={formData.email}
-          onChange={(event) => setFormData({ ...formData, email: event.target.value })}
-          placeholder="E-Mail"
-          label="E-Mail"
-          error={isSubmitted ? 'E-Mail не введено' : ''}
+          placeholder="E-mail"
+          label="E-mail"
           required
+          error={isSubmitted && !formData.email ? 'E-mail не введено' : ''}
         />
       </form>
       <ModalControlButtons

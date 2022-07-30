@@ -3,23 +3,23 @@ import styles from '../index.module.scss';
 import ModalWindow from '../../../components/common/ModalWindow';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
 import { IEditModal } from '../../../types';
-import { useCuratorContext } from '../../../context/curators';
 import Input from '../../../components/common/Input';
 import { LettersAndNumbersEnUa } from '../../../types/regExp';
 import { IUserEditParams } from '../../../hooks/useUser';
+import { useAdministratorsContext } from '../../../context/administators';
 
 const formInitialData: IUserEditParams = {
   firstName: '',
   lastName: '',
   patronymic: '',
   email: '',
-  role: 'curator',
+  role: 'admin',
 };
 
-export const CuratorEditModal = ({ modalActive, closeModal, Id }: IEditModal): JSX.Element => {
+export const AdministratorEditModal = ({ modalActive, closeModal, Id }: IEditModal): JSX.Element => {
   const [isSubmitted, setIsSubmited] = useState(false);
   const [formData, setFormData] = useState<IUserEditParams>(formInitialData);
-  const { curatorEdit, getCuratorId } = useCuratorContext();
+  const { administratorsEdit, getAdministratorsId } = useAdministratorsContext();
 
   const handleClose = () => {
     setIsSubmited(false);
@@ -32,31 +32,31 @@ export const CuratorEditModal = ({ modalActive, closeModal, Id }: IEditModal): J
     setIsSubmited(true);
 
     if (formData.firstName && formData.lastName && formData.patronymic && formData.lastName && formData.email) {
-      curatorEdit?.userEdit({ ...formData }, Id);
+      administratorsEdit?.userEdit({ ...formData }, Id);
       closeModal();
     }
   };
 
   useEffect(() => {
     if (Id) {
-      getCuratorId?.getUserId({ id: `${Id}` });
+      getAdministratorsId?.getUserId({ id: `${Id}` });
     }
   }, [Id]);
 
   useEffect(() => {
-    if (getCuratorId?.data) {
+    if (getAdministratorsId?.data) {
       setFormData({
-        firstName: getCuratorId?.data.firstName,
-        lastName: getCuratorId?.data.lastName,
-        patronymic: getCuratorId?.data.patronymic,
-        email: getCuratorId?.data.email,
-        role: getCuratorId?.data.role,
+        firstName: getAdministratorsId?.data.firstName,
+        lastName: getAdministratorsId?.data.lastName,
+        patronymic: getAdministratorsId?.data.patronymic,
+        email: getAdministratorsId?.data.email,
+        role: getAdministratorsId?.data.role,
       });
     }
-  }, [getCuratorId?.data]);
+  }, [getAdministratorsId?.data]);
 
   return (
-    <ModalWindow modalTitle="Редагування куратора" active={modalActive} closeModal={handleClose}>
+    <ModalWindow modalTitle="Редагування адміністратора" active={modalActive} closeModal={handleClose}>
       <form className={styles.form} onSubmit={onSubmit}>
         <Input
           onChange={(event) => {
@@ -112,4 +112,4 @@ export const CuratorEditModal = ({ modalActive, closeModal, Id }: IEditModal): J
   );
 };
 
-export default CuratorEditModal;
+export default AdministratorEditModal;

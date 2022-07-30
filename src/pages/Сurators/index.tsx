@@ -15,7 +15,7 @@ import edit from '../../images/table/edit.svg';
 import del from '../../images/table/delete.svg';
 import CuratorEditModal from './Edit';
 import CuratorDeleteModal from './Delete';
-import SelectGroupById from '../../components/common/Select/SelectGroupById';
+import SelectGroupByName from '../../components/common/Select/SelectGroupByName';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІБ' },
@@ -66,8 +66,8 @@ const Curators = (): JSX.Element => {
   useEffect(() => {
     const query: IGetCuratorParams = {};
 
-    if (params.filter.curator) query.curatorId = +params.filter.curator;
-    if (params.filter.group) query.group = +(params.filter.group);
+    /*    if (params.filter.curator) query.curatorId = +params.filter.curator; */
+    if (params.filter.group) query.group = params.filter.group;
     if (params.pagination.currentPage) query.page = params.pagination.currentPage;
     if (params.pagination.itemsPerPage) query.limit = params.pagination.itemsPerPage;
 
@@ -127,7 +127,7 @@ const Curators = (): JSX.Element => {
         <Table
           filter={(
             <>
-              <SelectGroupById
+              <SelectGroupByName
                 type="filter"
                 placeholder="Група"
                 onChange={(value) => setParams({

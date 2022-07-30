@@ -40,7 +40,6 @@ const MultiSelectGroup = ({
       setOptions(optionsGroups.items.map((group) => ({ value: `${group.id}`, label: group.name })));
     }
   }, [optionsGroups]);
-  console.log(options, value);
 
   return (
     <MultiSelect

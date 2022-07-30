@@ -44,7 +44,7 @@ export const CourseEdit = ({ modalActive, closeModal, Id }: IEditModal): JSX.Ele
     if (formData.name && formData.credits
       && formData.teacher && formData.semester
       && formData.lectureHours && formData.groups.toString().length >= 1
-      && (formData.isCompulsory === 'true' || formData.isCompulsory === 'false')) {
+    ) {
       courseEdit?.courseEdit({ ...formData, isCompulsory: formData.isCompulsory === 'true' }, Id);
     }
   };

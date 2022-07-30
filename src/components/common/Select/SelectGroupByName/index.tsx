@@ -52,6 +52,7 @@ const SelectGroupByName = ({
       isSearchable={isSearchable}
       isClearable={isClearable}
       required={required}
+      error={error}
     />
   );
 };

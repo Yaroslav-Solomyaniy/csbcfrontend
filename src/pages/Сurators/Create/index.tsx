@@ -8,6 +8,7 @@ import { ICreateModal } from '../../../types';
 import { ICuratorCreateParams } from '../../../hooks/useCurators';
 import { LettersAndNumbersEnUa } from '../../../types/regExp';
 import { useMessagesContext } from '../../../context/useMessagesContext';
+import InputEmail from '../../../components/common/InputEmail';
 
 const formInitialData: ICuratorCreateParams = {
   firstName: '',
@@ -80,18 +81,14 @@ export const CuratorCreateModal = ({ modalActive, closeModal }: ICreateModal): J
           error={isSubmitted && !formData.patronymic ? 'В поле "По-Батькові" нічого не введено' : ''}
           pattern={LettersAndNumbersEnUa}
         />
-        <Input
-          onChange={(event) => {
-            setFormData({ ...formData, email: event.target.value });
-          }}
+        <InputEmail
           value={formData.email}
+          onChange={(event) => setFormData({ ...formData, email: event.target.value })}
           placeholder="E-Mail"
           label="E-Mail"
+          error={isSubmitted ? 'E-Mail не введено' : ''}
           required
-          error={isSubmitted && !formData.email ? 'E-Mail не введено' : ''}
-          /* pattern={LettersAndNumbersEnUa} */
         />
-
       </form>
       <ModalControlButtons
         handleClose={closeModal}

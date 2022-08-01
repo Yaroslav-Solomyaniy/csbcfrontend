@@ -2,58 +2,49 @@ import { useState } from 'react';
 import axios, { AxiosResponse } from 'axios';
 import { IPaginateData, OrderBy } from '../types';
 import { useAuthContext } from '../context/useAuthContext';
-import { role } from '../enums/role';
+import { useMessagesContext } from '../context/useMessagesContext';
 
 export interface IGetCuratorParams {
-  orderByColumn?:
-    | 'id'
-    | 'firstName'
-    | 'lastName'
-    | 'email'
-    | 'role'
-    | 'created'
-    | 'updated';
+  groupName?: string;
+  curatorId?: number;
   orderBy?: OrderBy;
-  search?: string;
-  name?: string;
-  firstName?: string;
-  lastName?: string;
-  patronymic?: string;
-  email?: string;
-  role?: string;
   page?: number;
   limit?: number;
 }
 
 export interface IGetCuratorData {
-  id: 0;
+  id: number;
   firstName: string;
   lastName: string;
   patronymic: string;
   email: string;
+  groups: {
+    name: string;
+  }[];
 }
 
-export interface IUseCuratorGet {
+export interface IUseCuratorsGet {
   data: IPaginateData<IGetCuratorData> | null;
   getCurators: (params?: IGetCuratorParams) => void;
 }
 
-export const useCuratorsGet = (): IUseCuratorGet => {
+export const useCuratorsGet = (): IUseCuratorsGet => {
   const { user } = useAuthContext();
+  const { addErrors } = useMessagesContext();
   const [data, setData] = useState<IPaginateData<IGetCuratorData> | null>(null);
 
   const getCurators = (params?: IGetCuratorParams) => {
-    axios.get(`${process.env.REACT_APP_API_URL}/users/${role[2]}`, {
+    axios.get(`${process.env.REACT_APP_API_URL}/users/curator/groups`, {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
-      params: { orderByColumn: 'id', orderBy: 'DESC', ...params },
+      params: { orderBy: 'DESC', ...params },
     })
       .then((response: AxiosResponse<IPaginateData<IGetCuratorData> | null>) => {
         setData(response.data);
       })
       .catch((error) => {
-        console.log(error);
+        addErrors(error.response.data.message);
       });
   };
 

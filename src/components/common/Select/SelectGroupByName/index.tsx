@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import Select from '../index';
 import { Option, SelectType } from '../../../../types';
-import { useGetListCurators } from '../../../../hooks/useDropDown';
-import { useCuratorContext } from '../../../../context/curators';
+import { useGroupContext } from '../../../../context/group';
+import { useGetListGroups } from '../../../../hooks/useDropDown';
 
-interface SelectCurator {
+interface ISelectGroupByName {
   label?: string;
-  value: string | number;
+  value: string | number | undefined;
   onChange: (value: string) => void;
   placeholder?: string;
   isSearchable?: boolean;
@@ -16,7 +16,7 @@ interface SelectCurator {
   type: SelectType;
 }
 
-const SelectCurator = ({
+const SelectGroupByName = ({
   type,
   label,
   onChange,
@@ -26,28 +26,25 @@ const SelectCurator = ({
   isClearable,
   required,
   error,
-}: SelectCurator): JSX.Element => {
+}: ISelectGroupByName): JSX.Element => {
+  const { optionsGroups, getListGroups } = useGetListGroups();
   const [options, setOptions] = useState<Option[]>([]);
-  const { optionCurators, getListCurators } = useGetListCurators();
-  const { curatorDelete, curatorEdit, curatorCreate } = useCuratorContext();
+  const { groupCreate, groupEdit, groupDelete } = useGroupContext();
 
   useEffect(() => {
-    getListCurators();
-  }, [curatorEdit, curatorDelete, curatorCreate]);
+    getListGroups();
+  }, [groupEdit?.data, groupCreate?.data, groupDelete?.data]);
 
   useEffect(() => {
-    if (optionCurators?.items.length) {
-      setOptions(optionCurators.items.map((curator) => ({
-        value: curator.id,
-        label: `${curator.lastName} ${curator.firstName} ${curator.patronymic}`,
-      })));
+    if (optionsGroups?.items.length) {
+      setOptions(optionsGroups.items.map((group) => ({ value: group.name, label: group.name })));
     }
-  }, [optionCurators]);
+  }, [optionsGroups]);
 
   return (
     <Select
-      type={type}
       label={label}
+      type={type}
       onChange={onChange}
       value={value}
       options={options}
@@ -60,7 +57,7 @@ const SelectCurator = ({
   );
 };
 
-SelectCurator.defaultProps = {
+SelectGroupByName.defaultProps = {
   placeholder: '',
   isSearchable: false,
   isClearable: false,
@@ -70,4 +67,4 @@ SelectCurator.defaultProps = {
   error: '',
 };
 
-export default SelectCurator;
+export default SelectGroupByName;

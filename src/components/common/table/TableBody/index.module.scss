@@ -1,6 +1,10 @@
 .body__row {
   display: grid;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  border-bottom: 1px solid #e8e8e8;
+
+  &:hover {
+    background: rgba(215, 231, 244, 1);
+  }
 
   &__item {
     background: rgba(255, 255, 255, 0.85);

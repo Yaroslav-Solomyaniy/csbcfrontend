@@ -4,7 +4,7 @@ import { Option, SelectType } from '../../../../types';
 
 interface ISelectCompulsory {
   label?: string;
-  value: string | number;
+  value: string | boolean;
   onChange: (value: string) => void;
   placeholder?: string;
   isSearchable?: boolean;

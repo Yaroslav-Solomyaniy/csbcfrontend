@@ -1,55 +1,62 @@
 import React, { useEffect, useState } from 'react';
-
-import { useGroupContext } from '../../../context/group';
+import styles from '../index.module.scss';
 import ModalWindow from '../../../components/common/ModalWindow';
-import styles from './index.module.scss';
-import Input from '../../../components/common/Input';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
+import { IEditModal } from '../../../types';
+import { useCuratorContext } from '../../../context/curators';
+import Input from '../../../components/common/Input';
+import { LettersAndNumbersEnUa } from '../../../types/regExp';
+import { IUserEditParams } from '../../../hooks/useUser';
 
-interface IGroupCreateModal {
-  modalActive: boolean;
-  closeModal: () => void;
-}
-
-interface typeFormInitialDataCurators {
-  firstName: string;
-  lastName: string;
-  patronymic: string;
-  email: string;
-}
-
-const formInitialData = {
+const formInitialData: IUserEditParams = {
   firstName: '',
   lastName: '',
   patronymic: '',
   email: '',
+  role: 'curator',
 };
 
-export const CuratorCreateModal = ({ modalActive, closeModal }: IGroupCreateModal): JSX.Element => {
-  const { groupCreate } = useGroupContext();
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [formData, setFormData] = useState<typeFormInitialDataCurators>(formInitialData);
+export const CuratorEditModal = ({ modalActive, closeModal, Id }: IEditModal): JSX.Element => {
+  const [isSubmitted, setIsSubmited] = useState(false);
+  const [formData, setFormData] = useState<IUserEditParams>(formInitialData);
+  const { curatorEdit, getCuratorId } = useCuratorContext();
 
   const handleClose = () => {
-    setIsSubmitted(false);
+    setIsSubmited(false);
     setFormData(formInitialData);
     closeModal();
   };
 
   const onSubmit = (e: React.FormEvent | undefined) => {
     e?.preventDefault?.();
-    setIsSubmitted(true);
-    if (formData.firstName && formData.lastName && formData.patronymic && formData.email) {
-      // groupCreate?.groupCreate(formData);
+    setIsSubmited(true);
+
+    if (formData.firstName && formData.lastName && formData.patronymic && formData.lastName && formData.email) {
+      curatorEdit?.userEdit({ ...formData }, Id);
+      closeModal();
     }
   };
 
   useEffect(() => {
-    closeModal();
-  }, [groupCreate?.data]);
+    if (Id) {
+      getCuratorId?.getUserId({ id: `${Id}` });
+    }
+  }, [Id]);
+
+  useEffect(() => {
+    if (getCuratorId?.data) {
+      setFormData({
+        firstName: getCuratorId?.data.firstName,
+        lastName: getCuratorId?.data.lastName,
+        patronymic: getCuratorId?.data.patronymic,
+        email: getCuratorId?.data.email,
+        role: getCuratorId?.data.role,
+      });
+    }
+  }, [getCuratorId?.data]);
 
   return (
-    <ModalWindow modalTitle="Створення куратора" active={modalActive} closeModal={handleClose}>
+    <ModalWindow modalTitle="Редагування куратора" active={modalActive} closeModal={handleClose}>
       <form className={styles.form} onSubmit={onSubmit}>
         <Input
           onChange={(event) => {
@@ -60,6 +67,7 @@ export const CuratorCreateModal = ({ modalActive, closeModal }: IGroupCreateModa
           label="Прізвище"
           required
           error={isSubmitted && !formData.lastName ? 'Прізвище не введено' : ''}
+          pattern={LettersAndNumbersEnUa}
         />
         <Input
           onChange={(event) => {
@@ -70,6 +78,7 @@ export const CuratorCreateModal = ({ modalActive, closeModal }: IGroupCreateModa
           label="Ім'я"
           required
           error={isSubmitted && !formData.firstName ? "\"Ім'я\" не введено" : ''}
+          pattern={LettersAndNumbersEnUa}
         />
         <Input
           onChange={(event) => {
@@ -80,6 +89,7 @@ export const CuratorCreateModal = ({ modalActive, closeModal }: IGroupCreateModa
           label="По-Батькові"
           required
           error={isSubmitted && !formData.patronymic ? 'В поле "По-Батькові" нічого не введено' : ''}
+          pattern={LettersAndNumbersEnUa}
         />
         <Input
           onChange={(event) => {
@@ -91,16 +101,15 @@ export const CuratorCreateModal = ({ modalActive, closeModal }: IGroupCreateModa
           required
           error={isSubmitted && !formData.email ? 'E-Mail не введено' : ''}
         />
-
       </form>
       <ModalControlButtons
         handleClose={closeModal}
         onSubmit={onSubmit}
         cancelButtonText="Відміна"
-        mainButtonText="Додати"
+        mainButtonText="Зберегти"
       />
     </ModalWindow>
   );
 };
 
-export default CuratorCreateModal;
+export default CuratorEditModal;

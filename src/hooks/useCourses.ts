@@ -25,12 +25,7 @@ export interface IGetCoursesParams {
   isCompulsory?: boolean;
   isExam?: boolean;
   teacher?: number;
-  groups?: {
-    id?: number;
-    name?: string | undefined;
-    orderNumber?: string;
-    students?: number;
-  };
+  groups?: number;
   page?: number;
   limit?: number;
 }
@@ -73,7 +68,7 @@ export interface IUseCoursesGet {
 
 export const useCoursesGet = (): IUseCoursesGet => {
   const { user } = useAuthContext();
-  const { addInfo, addErrors } = useMessagesContext();
+  const { addErrors } = useMessagesContext();
   const [data, setData] = useState<IPaginateData<IGetCoursesData> | null>(null);
 
   const getCourses = (params?: IGetCoursesParams) => {
@@ -87,7 +82,7 @@ export const useCoursesGet = (): IUseCoursesGet => {
         setData(response.data);
       })
       .catch((error) => {
-        addErrors(error);
+        addErrors(error.response.data.message);
       });
   };
 
@@ -98,12 +93,12 @@ export const useCoursesGet = (): IUseCoursesGet => {
 
 export interface ICoursesCreateParams {
   name: string;
-  credits: number | string;
-  lectureHours: number | string;
+  credits: number | null;
+  lectureHours: number | null;
   isActive: boolean;
   semester: number;
-  isCompulsory: string;
-  isExam: string;
+  isCompulsory: boolean | string;
+  isExam: boolean;
   teacher: number;
   groups: number [];
 }
@@ -119,20 +114,20 @@ export interface IUseCoursesCreate {
 
 export const useCreateCourse = (): IUseCoursesCreate => {
   const { user } = useAuthContext();
+  const { addErrors } = useMessagesContext();
   const [data, setData] = useState<ICoursesCreateData | null>(null);
 
   const createCourse = (params: ICoursesCreateParams) => {
-    axios.post(`${process.env.REACT_APP_API_URL}/courses`, {
+    axios.post(`${process.env.REACT_APP_API_URL}/courses`, params, {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
-      params,
     })
       .then((response: AxiosResponse<ICoursesCreateData | null>) => {
         setData(response.data);
       })
       .catch((error) => {
-        console.log(error);
+        addErrors(error.response.message);
       });
   };
 
@@ -175,6 +170,7 @@ export interface IUseGetCourseId {
 
 export const useCourseGetId = (): IUseGetCourseId => {
   const { user } = useAuthContext();
+  const { addErrors } = useMessagesContext();
   const [data, setData] = useState<IGetCourseIdData | null>(null);
 
   const getCourseId = (params: IGetCourseIdParams) => {
@@ -187,7 +183,7 @@ export const useCourseGetId = (): IUseGetCourseId => {
         setData(response.data);
       })
       .catch((error) => {
-        console.log(error);
+        addErrors(error.response.data.message);
       });
   };
 
@@ -196,12 +192,12 @@ export const useCourseGetId = (): IUseGetCourseId => {
 
 export interface ICourseEditParams {
   name: string;
-  credits: number | string;
-  lectureHours: number | string;
+  credits: number | null;
+  lectureHours: number | null;
   isActive: boolean;
   semester: number;
-  isCompulsory: string;
-  isExam: string;
+  isCompulsory: boolean | string;
+  isExam: boolean;
   teacher: number;
   groups: number [];
 }
@@ -213,6 +209,7 @@ export interface IUseCourseEdit {
 
 export const useCourseEdit = (): IUseCourseEdit => {
   const { user } = useAuthContext();
+  const { addErrors } = useMessagesContext();
   const [data, setData] = useState<FetchSuccess | null>(null);
 
   const courseEdit = (params: ICourseEditParams, id: number) => {
@@ -225,7 +222,7 @@ export const useCourseEdit = (): IUseCourseEdit => {
         setData(response.data);
       })
       .catch((error) => {
-        console.log(error);
+        addErrors(error.response.data.message);
       });
   };
 
@@ -239,6 +236,7 @@ export interface IUseCourseDelete {
 
 export const useCourseDelete = (): IUseCourseDelete => {
   const { user } = useAuthContext();
+  const { addErrors } = useMessagesContext();
   const [data, setData] = useState<FetchSuccess | null>(null);
 
   const courseDelete = (id: number) => {
@@ -251,7 +249,7 @@ export const useCourseDelete = (): IUseCourseDelete => {
         setData(response.data);
       })
       .catch((error) => {
-        console.log(error);
+        addErrors(error.response.data.message);
       });
   };
 

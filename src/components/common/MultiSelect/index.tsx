@@ -81,15 +81,16 @@ const Styles: any = {
   modal: {
     multiValue: (base: any) => ({
       ...base,
-      border: '1px solid black',
       backgroundColor: 'white',
-      color: 'black',
       fontSize: '14px',
+      border: '1px solid rgba(66, 139, 202, 1)',
+      borderRadius: 4,
     }),
     multiValueLabel: (base: any) => ({
       ...base,
+      padding: '2px 5px',
       backgroundColor: 'white',
-      color: 'black',
+      color: 'rgba(0, 0, 0, 0.75)',
     }),
 
     control: (provided: any) => ({
@@ -169,6 +170,7 @@ const MultiSelect = ({
         options={options}
         placeholder={placeholder}
         isClearable={isClearable}
+        noOptionsMessage={() => 'Нічого не знайдено'}
         value={options.filter((option) => value.includes(`${option.value}`))}
         onChange={(newValue) => onChange(newValue ? newValue as Option[] : [])}
         isMulti

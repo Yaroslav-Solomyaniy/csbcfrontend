@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import Select from '../index';
 import { Option, SelectType } from '../../../../types';
-import { useGroupContext } from '../../../../context/group';
-import { useGetListGroups } from '../../../../hooks/useDropDown';
+import { useGetListAdministrators } from '../../../../hooks/useDropDown';
+import { useAdministratorsContext } from '../../../../context/administators';
 
-interface SelectGroup {
+interface ISelectAdministrator {
   label?: string;
-  value: string | number | undefined | null;
+  value: string | number | undefined;
   onChange: (value: string) => void;
   placeholder?: string;
   isSearchable?: boolean;
@@ -16,7 +16,7 @@ interface SelectGroup {
   type: SelectType;
 }
 
-const SelectGroup = ({
+const SelectAdministrator = ({
   type,
   label,
   onChange,
@@ -26,20 +26,24 @@ const SelectGroup = ({
   isClearable,
   required,
   error,
-}: SelectGroup): JSX.Element => {
-  const { optionsGroups, getListGroups } = useGetListGroups();
+}: ISelectAdministrator): JSX.Element => {
+  const { listAdmins, getListAdministrators } = useGetListAdministrators();
   const [options, setOptions] = useState<Option[]>([]);
-  const { groupCreate, groupEdit, groupDelete } = useGroupContext();
+  const { administratorsCreate, administratorsDelete, administratorsEdit } = useAdministratorsContext();
 
   useEffect(() => {
-    getListGroups();
-  }, [groupEdit?.data, groupCreate?.data, groupDelete?.data]);
+    getListAdministrators();
+    console.log(listAdmins);
+  }, [administratorsDelete?.data, administratorsEdit?.data, administratorsCreate?.data]);
 
   useEffect(() => {
-    if (optionsGroups?.items.length) {
-      setOptions(optionsGroups.items.map((group) => ({ value: group.id, label: group.name })));
+    if (listAdmins?.items.length) {
+      setOptions(listAdmins.items.map((admin) => ({
+        value: admin.id,
+        label: `${admin.lastName} ${admin.firstName} ${admin.patronymic}`,
+      })));
     }
-  }, [optionsGroups]);
+  }, [listAdmins]);
 
   return (
     <Select
@@ -52,11 +56,12 @@ const SelectGroup = ({
       isSearchable={isSearchable}
       isClearable={isClearable}
       required={required}
+      error={error}
     />
   );
 };
 
-SelectGroup.defaultProps = {
+SelectAdministrator.defaultProps = {
   placeholder: '',
   isSearchable: false,
   isClearable: false,
@@ -66,4 +71,4 @@ SelectGroup.defaultProps = {
   error: '',
 };
 
-export default SelectGroup;
+export default SelectAdministrator;

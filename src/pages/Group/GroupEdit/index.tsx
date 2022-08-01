@@ -7,7 +7,8 @@ import Input from '../../../components/common/Input';
 import SelectCurator from '../../../components/common/Select/SelectCurator';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
 import { useMessagesContext } from '../../../context/useMessagesContext';
-import { IEditModal, LettersAndNumbersEnUa, NumbersAndLettersEn } from '../../../types';
+import { IEditModal } from '../../../types';
+import { LettersAndNumbersEnUa, NumbersAndLettersEn } from '../../../types/regExp';
 
 const formInitialData = {
   name: '',

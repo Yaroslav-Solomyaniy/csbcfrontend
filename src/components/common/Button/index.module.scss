@@ -3,7 +3,7 @@
   border-radius: 8px;
   font-size: 14px;
   font-weight: 400;
-  display: block;
+  display: block !important;
   height: 100%;
 }
 
@@ -56,4 +56,8 @@
   height: 20px;
   width: 20px;
   background: transparent;
+
+  &:hover {
+    color: rgba(45, 112, 169, 1);
+  }
 }

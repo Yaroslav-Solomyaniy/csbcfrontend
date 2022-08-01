@@ -6,7 +6,8 @@ import { useGroupContext } from '../../../context/group';
 import Input from '../../../components/common/Input';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
 import { useMessagesContext } from '../../../context/useMessagesContext';
-import { IDeleteModal, NumbersAndLettersEn } from '../../../types';
+import { IDeleteModal } from '../../../types';
+import { NumbersAndLettersEn } from '../../../types/regExp';
 
 const formInitialData = {
   deletedOrderNumber: '',

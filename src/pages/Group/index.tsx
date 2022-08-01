@@ -14,7 +14,7 @@ import { initialPagination, Pagination } from '../../types';
 import GroupCreate from './GroupCreate';
 import GroupDelete from './GroupDelete';
 import GroupEdit from './GroupEdit';
-import SelectGroup from '../../components/common/Select/SelectGroup';
+import SelectGroupByName from '../../components/common/Select/SelectGroupByName';
 import SelectCurator from '../../components/common/Select/SelectCurator';
 
 const dataHeader: ITableHeader[] = [
@@ -140,7 +140,7 @@ const Group = (): JSX.Element => {
                 isClearable
                 isSearchable
               />
-              <SelectGroup
+              <SelectGroupByName
                 type="filter"
                 placeholder="Група"
                 onChange={(value) => setParams({

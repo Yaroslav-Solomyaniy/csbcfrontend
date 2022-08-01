@@ -23,7 +23,7 @@ const TableFooter = ({ pagination, onPaginationChange }: TableFooter): JSX.Eleme
         { label: 15, value: 15 },
         { label: 30, value: 30 },
       ]}
-      onChange={(value) => onPaginationChange({ ...pagination, itemsPerPage: +value })}
+      onChange={(value) => onPaginationChange({ ...pagination, itemsPerPage: +value, currentPage: 1 })}
       value={pagination.itemsPerPage}
     />
     <div className={styles.footer__info}>

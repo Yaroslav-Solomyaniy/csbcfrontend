@@ -8,7 +8,6 @@ import Table from '../../components/common/table';
 import { ITableHeader } from '../../components/common/table/TableHeader';
 import StudentsCreateModal from './modal/StudentsCreate';
 import { useStudentsContext } from '../../context/students';
-import SelectGroup from '../../components/common/Select/SelectGroup';
 import SelectPIB from '../../components/common/Select/SelectStudent';
 import SelectIsFullTime from '../../components/common/Select/SelectIsFullTime';
 import edit from '../../images/table/edit.svg';

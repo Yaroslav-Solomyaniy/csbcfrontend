@@ -6,7 +6,6 @@ import { useTeachersContext } from '../../context/teachers';
 import { IGetTeacherData, IGetTeacherParams } from '../../hooks/useTeachers';
 import Layout from '../../loyout/Layout';
 import Button from '../../components/common/Button';
-import SelectGroup from '../../components/common/Select/SelectGroup';
 import SelectCourse from '../../components/common/Select/SelectCourse';
 import TitlePage from '../../components/TitlePage';
 import Table from '../../components/common/table';
@@ -17,6 +16,7 @@ import styles from './index.module.scss';
 import edit from '../../images/table/edit.svg';
 import del from '../../images/table/delete.svg';
 import TeachersEdit from './modal/TeachersEdit';
+import SelectGroupById from '../../components/common/Select/SelectGroupById';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІП' },
@@ -173,7 +173,7 @@ const Teachers = (): JSX.Element => {
                 value={params.filter.teacherId}
                 onChange={(value) => setParams({ ...params, filter: { ...params.filter, teacherId: +value } })}
               />
-              <SelectGroup
+              <SelectGroupById
                 type="filter"
                 placeholder="Група"
                 required

@@ -6,7 +6,7 @@ import { useGetListGroups } from '../../../../hooks/useDropDown';
 
 interface SelectGroup {
   label?: string;
-  value: string | number | undefined;
+  value: string | number | undefined | null;
   onChange: (value: string) => void;
   placeholder?: string;
   isSearchable?: boolean;

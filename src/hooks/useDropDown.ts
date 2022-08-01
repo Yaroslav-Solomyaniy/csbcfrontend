@@ -39,7 +39,7 @@ export const useGetListGroups = (): IUseGetListGroups => {
         setOptionsGroups(response.data);
       })
       .catch((error) => {
-        addErrors(error.message);
+        addErrors(error.response.data.message);
       });
   };
 
@@ -83,7 +83,7 @@ export const useGetListCurators = (): IUseGetListCurators => {
         setOptionCurators(response.data);
       })
       .catch((error) => {
-        addErrors(error.message);
+        addErrors(error.response.data.message);
       });
   };
 
@@ -128,7 +128,7 @@ interface IUseGetListCourses {
 }
 
 export const useGetListCourses = (): IUseGetListCourses => {
-  const { addErrors, addInfo } = useMessagesContext();
+  const { addErrors } = useMessagesContext();
   const { user } = useAuthContext();
   const [optionCourses, setOptionCourses] = useState<IPaginateData<IGetListCoursesData> | null>(null);
 
@@ -143,7 +143,7 @@ export const useGetListCourses = (): IUseGetListCourses => {
         setOptionCourses(response.data);
       })
       .catch((error) => {
-        addErrors(error.message);
+        addErrors(error.response.data.message);
       });
   };
 
@@ -172,7 +172,7 @@ interface IUseGetListTeachers {
 }
 
 export const useGetListTeachers = (): IUseGetListTeachers => {
-  const { addErrors, addInfo } = useMessagesContext();
+  const { addErrors } = useMessagesContext();
   const { user } = useAuthContext();
   const [listTeachers, setListTeachers] = useState<IPaginateData<IGetListTeachersData> | null>(null);
 
@@ -187,9 +187,53 @@ export const useGetListTeachers = (): IUseGetListTeachers => {
         setListTeachers(response.data);
       })
       .catch((error) => {
-        addErrors(error.message);
+        addErrors(error.response.data.message);
       });
   };
 
   return { listTeachers, getListTeachers };
+};
+
+// GET LIST STUDENT
+
+interface IGetListStudentParams {
+  orderBy?: OrderBy;
+  teacherName?: string;
+  page?: string;
+  limit?: string;
+}
+
+interface IGetListStudentsData {
+  'id': number;
+  'firstName': string;
+  'lastName': string;
+  'patronymic': string;
+}
+
+interface IUseGetListStudents {
+  listStudents: IPaginateData<IGetListStudentsData> | null;
+  getListStudents: (params?: IGetListStudentParams) => void;
+}
+
+export const useGetListStudents = (): IUseGetListStudents => {
+  const { addErrors } = useMessagesContext();
+  const { user } = useAuthContext();
+  const [listStudents, setListStudents] = useState<IPaginateData<IGetListStudentsData> | null>(null);
+
+  const getListStudents = (params?: IGetListStudentParams) => {
+    axios.get(`${process.env.REACT_APP_API_URL}/users/dropdown/student`, {
+      headers: {
+        Authorization: `Bearer ${user?.accessToken}`,
+      },
+      params: { limit: 100, orderBy: 'DESC', ...params },
+    })
+      .then((response: AxiosResponse<IPaginateData<IGetListStudentsData> | null>) => {
+        setListStudents(response.data);
+      })
+      .catch((error) => {
+        addErrors(error.response.data.message);
+      });
+  };
+
+  return { listStudents, getListStudents };
 };

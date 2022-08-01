@@ -2,36 +2,37 @@ import React, { useState } from 'react';
 import ModalWindow from '../../../../components/common/ModalWindow';
 import ModalControlButtons from '../../../../components/common/ModalControlButtons';
 import styles from '../index.module.scss';
-import SelectCourse from '../../../../components/common/Select/SelectCourse';
 import Input from '../../../../components/common/Input';
+import MultiSelectCourses from '../../../../components/common/MultiSelect/MultiSelectCourses';
 
 interface IStudentsDeleteModal {
   modalActive: boolean;
   closeModal: () => void;
 }
 
-const formInitialData = {
+interface IFormInitialData {
+  firstName: string;
+  lastName: string;
+  patronymic: string;
+  email: string;
+  courses: string[];
+}
+
+const formInitialData: IFormInitialData = {
   firstName: '',
   lastName: '',
   patronymic: '',
   email: '',
-  course: '',
-
-};
-
-const selectValueDefault = {
-  course: '',
+  courses: [],
 };
 
 export const StudentsDeleteModal = ({ modalActive, closeModal }: IStudentsDeleteModal): JSX.Element => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState(formInitialData);
-  const [selectValue, setSelectValue] = useState(selectValueDefault);
 
   const handleClose = () => {
     setIsSubmitted(false);
     setFormData(formInitialData);
-    setSelectValue(selectValueDefault);
     closeModal();
   };
 
@@ -53,11 +54,11 @@ export const StudentsDeleteModal = ({ modalActive, closeModal }: IStudentsDelete
     <ModalWindow modalTitle="Створення викладача" active={modalActive} closeModal={handleClose}>
       <form className={styles.form} onSubmit={onSubmit}>
         <Input
-          required
           label="Прізвище"
           placeholder="Прізвище"
+          required
           value={formData.lastName}
-          onChange={() => undefined}
+          onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
           error={isSubmitted && !formData.lastName ? 'Прізвище не введено' : ''}
         />
         <Input
@@ -65,7 +66,7 @@ export const StudentsDeleteModal = ({ modalActive, closeModal }: IStudentsDelete
           placeholder="Ім`я"
           required
           value={formData.firstName}
-          onChange={() => undefined}
+          onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
           error={isSubmitted && !formData.firstName ? 'Ім`я не введено' : ''}
         />
         <Input
@@ -73,24 +74,27 @@ export const StudentsDeleteModal = ({ modalActive, closeModal }: IStudentsDelete
           placeholder="По-Батькові"
           required
           value={formData.patronymic}
-          onChange={() => undefined}
+          onChange={(e) => setFormData({ ...formData, patronymic: e.target.value })}
           error={isSubmitted && !formData.patronymic ? 'По-Батькові не введено' : ''}
         />
         <Input
-          required
           label="E-Mail"
           placeholder="E-Mail"
+          required
           value={formData.email}
-          onChange={() => undefined}
+          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
           error={isSubmitted && !formData.email ? 'E-Mail не введено' : ''}
         />
-        <SelectCourse
+        <MultiSelectCourses
           type="modal"
           label="Предмети"
           placeholder="Предмети"
           required
-          onChange={() => undefined}
-          value={selectValue.course}
+          value={formData.courses}
+          onChange={(value) => setFormData({
+            ...formData,
+            courses: value.map((option) => `${option.value}`),
+          })}
         />
       </form>
       <ModalControlButtons

@@ -9,7 +9,7 @@ import { ITableHeader } from '../../components/common/table/TableHeader';
 import StudentsCreateModal from './modal/StudentsCreate';
 import { useStudentsContext } from '../../context/students';
 import SelectGroup from '../../components/common/Select/SelectGroup';
-import SelectPIB from '../../components/common/Select/SelectPIB';
+import SelectPIB from '../../components/common/Select/SelectStudent';
 import SelectIsFullTime from '../../components/common/Select/SelectIsFullTime';
 import edit from '../../images/table/edit.svg';
 import review from '../../images/table/review.svg';

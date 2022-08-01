@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ModalWindow from '../../../../components/common/ModalWindow';
 import ModalControlButtons from '../../../../components/common/ModalControlButtons';
 import styles from '../index.module.scss';
-import SelectCourse from '../../../../components/common/Select/SelectCourse';
 import Input from '../../../../components/common/Input';
+import { useTeachersContext } from '../../../../context/teachers';
+import { ITeacher } from '../../../../hooks/useTeachers';
+import MultiSelectCourses from '../../../../components/common/MultiSelect/MultiSelectCourses';
 
 interface IStudentsDeleteModal {
   modalActive: boolean;
@@ -11,95 +13,77 @@ interface IStudentsDeleteModal {
   id: number;
 }
 
-const formInitialData = {
+interface IFormInitialData {
+  firstName: string;
+  lastName: string;
+  patronymic: string;
+  email: string;
+  courses: string[];
+}
+
+const formInitialData: IFormInitialData = {
   firstName: '',
   lastName: '',
   patronymic: '',
   email: '',
-  course: '',
-
-};
-
-const selectValueDefault = {
-  course: '',
+  courses: [],
 };
 
 export const StudentsEditModal = ({ modalActive, closeModal, id }: IStudentsDeleteModal): JSX.Element => {
+  const { patchTeacher, getTeacher } = useTeachersContext();
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [formData, setFormData] = useState(formInitialData);
-  const [selectValue, setSelectValue] = useState(selectValueDefault);
+  const [formData, setFormData] = useState<IFormInitialData>(formInitialData);
 
   const handleClose = () => {
     setIsSubmitted(false);
     setFormData(formInitialData);
-    setSelectValue(selectValueDefault);
+    getTeacher?.getTeacher({ groups: [], courses: [] });
     closeModal();
   };
 
   const onSubmit = (e: React.FormEvent | undefined) => {
+    const query: ITeacher = { courses: [] };
+
     e?.preventDefault?.();
     setIsSubmitted(true);
 
-    if (
-      !!formData.firstName
-      && !!formData.lastName
-      && !!formData.patronymic
-      && !!formData.email
-    ) {
-      handleClose();
+    if (formData.firstName !== getTeacher?.data?.items[0].firstName) query.firstName = formData.firstName;
+    if (formData.lastName !== getTeacher?.data?.items[0].lastName) query.lastName = formData.lastName;
+    if (formData.patronymic !== getTeacher?.data?.items[0].patronymic) {
+      query.patronymic = formData.patronymic;
     }
+    if (formData.email !== getTeacher?.data?.items[0].email) query.email = formData.email;
+    query.courses = formData.courses.map((course) => +course);
+
+    patchTeacher?.patchTeacher(query, id);
+    handleClose();
   };
-  // const onSubmit = (e: React.FormEvent | undefined) => {
-  //   const query: IStudents = { user: {} };
-  //
-  //   e?.preventDefault?.();
-  //   setIsSubmitted(true);
-  //
-  //   if (formData.firstName !== getStudent?.data?.firstName) query.user.firstName = formData.firstName;
-  //   if (formData.lastName !== getStudent?.data?.user.lastName) query.user.lastName = formData.lastName;
-  //   if (formData.patronymic !== getStudent?.data?.patronymic) {
-  //     query.user.patronymic = formData.user.patronymic;
-  //   }
-  //   if (formData.email !== getStudent?.data?.user.email) query.user.email = formData.email;
-  //
-  //   patchStudentsItem?.patchStudent(query, id);
-  //   handleClose();
-  // };
 
-  //   useEffect(() => {
-  //     if (id) {
-  //     getStudent?.getStudent({ id: `${id}` });
-  //   }
-  // }, [id]);
+  useEffect(() => {
+    if (id) getTeacher?.getTeacher({ teacherId: id, groups: [], courses: [] });
+  }, [id]);
 
-  // useEffect(() => {
-  //   if (getStudent?.data) {
-  //     setFormData({
-  //       dateOfBirth: getStudent.data.dateOfBirth,
-  //       groupId: getStudent.data.group.id,
-  //       user: {
-  //         firstName: getStudent.data.user.firstName,
-  //         lastName: getStudent.data.user.lastName,
-  //         patronymic: getStudent.data.user.patronymic,
-  //         email: getStudent.data.user.email,
-  //         role: 'student',
-  //       },
-  //       orderNumber: getStudent.data.orderNumber,
-  //       edeboId: getStudent.data.edeboId,
-  //       isFullTime: getStudent.data.isFullTime,
-  //     });
-  //   }
-  // }, [getStudent?.data]);
+  useEffect(() => {
+    if (getTeacher?.data) {
+      setFormData({
+        firstName: getTeacher?.data?.items[0].firstName,
+        lastName: getTeacher?.data?.items[0].lastName,
+        patronymic: getTeacher?.data?.items[0].patronymic,
+        email: getTeacher?.data?.items[0].email,
+        courses: getTeacher?.data?.items[0].courses.map((course) => `${course.id}`) || [],
+      });
+    }
+  }, [getTeacher?.data]);
 
   return (
     <ModalWindow modalTitle="Редагуваня викладача" active={modalActive} closeModal={handleClose}>
       <form className={styles.form} onSubmit={onSubmit}>
         <Input
-          required
           label="Прізвище"
           placeholder="Прізвище"
+          required
           value={formData.lastName}
-          onChange={() => undefined}
+          onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
           error={isSubmitted && !formData.lastName ? 'Прізвище не введено' : ''}
         />
         <Input
@@ -107,7 +91,7 @@ export const StudentsEditModal = ({ modalActive, closeModal, id }: IStudentsDele
           placeholder="Ім`я"
           required
           value={formData.firstName}
-          onChange={() => undefined}
+          onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
           error={isSubmitted && !formData.firstName ? 'Ім`я не введено' : ''}
         />
         <Input
@@ -115,24 +99,27 @@ export const StudentsEditModal = ({ modalActive, closeModal, id }: IStudentsDele
           placeholder="По-Батькові"
           required
           value={formData.patronymic}
-          onChange={() => undefined}
+          onChange={(e) => setFormData({ ...formData, patronymic: e.target.value })}
           error={isSubmitted && !formData.patronymic ? 'По-Батькові не введено' : ''}
         />
         <Input
-          required
           label="E-Mail"
           placeholder="E-Mail"
+          required
           value={formData.email}
-          onChange={() => undefined}
+          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
           error={isSubmitted && !formData.email ? 'E-Mail не введено' : ''}
         />
-        <SelectCourse
+        <MultiSelectCourses
           type="modal"
           label="Предмети"
           placeholder="Предмети"
           required
-          onChange={() => undefined}
-          value={selectValue.course}
+          value={formData.courses}
+          onChange={(value) => setFormData({
+            ...formData,
+            courses: value.map((option) => `${option.value}`),
+          })}
         />
       </form>
       <ModalControlButtons

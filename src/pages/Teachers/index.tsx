@@ -40,8 +40,8 @@ const allCloseModalWindow: IIsActiveTeacherModalState = {
 
 interface Filter {
   teacherId: number | null;
-  group: string;
-  name: string;
+  group: number | null;
+  course: number | null;
 }
 
 interface Params {
@@ -54,7 +54,7 @@ const Teachers = (): JSX.Element => {
   const [isActiveModal, setIsActiveModal] = useState<IIsActiveTeacherModalState>(allCloseModalWindow);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
   const [params, setParams] = useState<Params>({
-    filter: { teacherId: 0, group: '', name: '' },
+    filter: { teacherId: 0, group: null, course: null },
     pagination: initialPagination,
   });
 
@@ -114,26 +114,24 @@ const Teachers = (): JSX.Element => {
       };
     }) : []);
 
-  // useEffect(() => {
-  //   getStudents?.getStudent({});
-  // }, [createStudents?.data, patchStudentsItem?.data, deleteStudentsItem?.data]);
+  useEffect(() => {
+    getTeacher?.getTeacher({ groups: [], courses: [] });
+  }, []);
 
   useEffect(() => {
-    if (params.filter.teacherId) {
-      getTeacher?.getTeacher({});
-    } else {
-      const query: IGetTeacherParams = {};
+    const query: IGetTeacherParams = { groups: [], courses: [] };
 
-      // if (params.filter.group) query.group = params.filter.group;
-      if (params.pagination.currentPage) query.page = params.pagination.currentPage;
-      if (params.pagination.itemsPerPage) query.limit = params.pagination.itemsPerPage;
+    if (params.filter.teacherId) query.teacherId = params.filter.teacherId;
+    if (params.filter.group) query.groups.push(params.filter.group);
+    if (params.filter.course) query.courses.push(params.filter.course);
+    if (params.pagination.currentPage) query.page = params.pagination.currentPage;
+    if (params.pagination.itemsPerPage) query.limit = params.pagination.itemsPerPage;
 
-      getTeacher?.getTeacher(query);
-    }
+    getTeacher?.getTeacher(query);
   }, [
-    params.filter.group,
     params.filter.teacherId,
-    params.filter.name,
+    params.filter.group,
+    params.filter.course,
     params.pagination.currentPage,
     params.pagination.itemsPerPage,
   ]);
@@ -186,7 +184,7 @@ const Teachers = (): JSX.Element => {
                   ...params,
                   filter: {
                     ...params.filter,
-                    group: value,
+                    group: +value,
                     teacherId: null,
                   },
                 })}
@@ -197,12 +195,12 @@ const Teachers = (): JSX.Element => {
                 required
                 isClearable
                 isSearchable
-                value={params.filter.name}
+                value={params.filter.course}
                 onChange={(value) => setParams({
                   ...params,
                   filter: {
                     ...params.filter,
-                    name: value,
+                    course: +value,
                     teacherId: null,
                   },
                 })}
@@ -216,7 +214,7 @@ const Teachers = (): JSX.Element => {
           onPaginationChange={(newPagination) => setParams({ ...params, pagination: newPagination })}
         />
         <TeachersCreate modalActive={isActiveModal.create} closeModal={closeModal} />
-        <TeachersEdit modalActive={!!isActiveModal.edit} closeModal={closeModal} />
+        <TeachersEdit modalActive={!!isActiveModal.edit} closeModal={closeModal} id={isActiveModal.edit} />
         <TeachersDelete modalActive={!!isActiveModal.delete} closeModal={closeModal} id={isActiveModal.delete} />
       </div>
     </Layout>

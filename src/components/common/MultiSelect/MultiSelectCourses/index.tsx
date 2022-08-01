@@ -1,21 +1,22 @@
 import { useEffect, useState } from 'react';
-import Select from '../index';
 import { Option, SelectType } from '../../../../types';
 import { useGetListCourses } from '../../../../hooks/useDropDown';
+import MultiSelect from '../index';
 import { useCourseContext } from '../../../../context/course';
 
-interface SelectCourse {
-  value: string | number | null;
-  onChange: (value: string) => void;
-  type: SelectType;
+interface IMultiSelectCourses {
   label?: string;
+  value: string[];
+  onChange: (value: Option[]) => void;
   placeholder?: string;
   isSearchable?: boolean;
   isClearable?: boolean;
+  error?: string;
   required?: boolean;
+  type: SelectType;
 }
 
-const SelectCourse = ({
+const MultiSelectCourses = ({
   type,
   label,
   onChange,
@@ -24,10 +25,11 @@ const SelectCourse = ({
   isSearchable,
   isClearable,
   required,
-}: SelectCourse): JSX.Element => {
-  const [options, setOptions] = useState<Option[]>([]);
+  error,
+}: IMultiSelectCourses): JSX.Element => {
   const { courseCreate, courseEdit, courseDelete } = useCourseContext();
   const { optionCourses, getListCourses } = useGetListCourses();
+  const [options, setOptions] = useState<Option[]>([]);
 
   useEffect(() => {
     getListCourses();
@@ -40,7 +42,7 @@ const SelectCourse = ({
   }, [optionCourses]);
 
   return (
-    <Select
+    <MultiSelect
       label={label}
       type={type}
       onChange={onChange}
@@ -50,17 +52,19 @@ const SelectCourse = ({
       isSearchable={isSearchable}
       isClearable={isClearable}
       required={required}
+      error={error}
     />
   );
 };
 
-SelectCourse.defaultProps = {
-  label: '',
+MultiSelectCourses.defaultProps = {
   placeholder: '',
   isSearchable: false,
   isClearable: false,
   required: false,
   isFilter: false,
+  label: '',
+  error: '',
 };
 
-export default SelectCourse;
+export default MultiSelectCourses;

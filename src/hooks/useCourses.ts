@@ -20,10 +20,10 @@ export interface IGetCoursesParams {
   name?: string;
   credits?: number;
   lectureHours?: number;
+  isExam?: boolean;
   isActive?: boolean;
   semester?: number;
   isCompulsory?: boolean;
-  isExam?: boolean;
   teacher?: number;
   groups?: number;
   page?: number;

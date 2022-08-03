@@ -130,12 +130,12 @@ const Estimates = (): JSX.Element => {
     params.pagination.itemsPerPage,
   ]);
 
-  // useEffect(() => {
-  //   if (getTeacher?.data) {
-  //     setParams({ ...params, pagination: getTeacher.data.meta });
-  //     setDataRow(tableRows(getTeacher?.data ? getTeacher?.data.items : []));
-  //   }
-  // }, [getTeacher?.data]);
+  useEffect(() => {
+    if (getTeacher?.data) {
+      setParams({ ...params, pagination: getTeacher.data.meta });
+      setDataRow(tableRows(getTeacher?.data ? getTeacher?.data.items : []));
+    }
+  }, [getTeacher?.data]);
 
   return (
     <Layout>

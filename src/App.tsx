@@ -24,6 +24,7 @@ import CourseProvider from './context/course';
 import TeachersProvider from './context/teachers';
 import CuratorsProvider from './context/curators';
 import AdministratorsProvider from './context/administators';
+import EstimatesProvider from './context/estimates';
 
 const App = (): JSX.Element => {
   const { user } = useAuthContext();
@@ -38,7 +39,14 @@ const App = (): JSX.Element => {
             <Route path="/curators" element={<CuratorsProvider><Curators /></CuratorsProvider>} />
             <Route path="/teachers" element={<TeachersProvider><Teachers /></TeachersProvider>} />
             <Route path="/courses" element={<CourseProvider><Courses /></CourseProvider>} />
-            <Route path="/estimates" element={<Estimates />} />
+            <Route
+              path="/estimates"
+              element={(
+                <EstimatesProvider>
+                  <Estimates />
+                </EstimatesProvider>
+              )}
+            />
             <Route path="/voting-admin" element={<VotingAdmin />} />
             <Route
               path="/administrators"

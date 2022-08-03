@@ -225,7 +225,11 @@ export const useGetListStudents = (): IUseGetListStudents => {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
-      params: { limit: 100, orderBy: 'DESC', ...params },
+      params: {
+        limit: 100,
+        orderBy: 'DESC',
+        ...params,
+      },
     })
       .then((response: AxiosResponse<IPaginateData<IGetListStudentsData> | null>) => {
         setListStudents(response.data);

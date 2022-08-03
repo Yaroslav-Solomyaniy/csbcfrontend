@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Select from '../index';
 import { Option } from '../../../../types';
 import { useStudentsContext } from '../../../../context/students';
+import { useGetListStudents } from '../../../../hooks/useDropDown';
 
 interface SelectPIB {
   type: 'filter' | 'modal';
@@ -12,7 +13,7 @@ interface SelectPIB {
   error?: string;
 }
 
-const SelectPIB = ({
+const SelectStudent = ({
   type,
   label,
   onChange,
@@ -20,21 +21,22 @@ const SelectPIB = ({
   placeholder,
   error,
 }: SelectPIB): JSX.Element => {
+  const { getListStudents, listStudents } = useGetListStudents();
   const [options, setOptions] = useState<Option[]>([]);
-  const { createStudents, patchStudentsItem, deleteStudentsItem, getStudents } = useStudentsContext();
+  const { createStudents, patchStudentsItem, deleteStudentsItem } = useStudentsContext();
 
   useEffect(() => {
-    getStudents?.getStudent({});
+    getListStudents({});
   }, [createStudents?.data, patchStudentsItem?.data, deleteStudentsItem?.data]);
 
   useEffect(() => {
-    if (getStudents?.data?.items.length) {
-      setOptions(getStudents?.data?.items.map((name) => ({
-        value: name.id,
-        label: `${name.user.lastName} ${name.user.firstName} ${name.user.patronymic}`,
-      })));
-    }
-  }, [getStudents?.data]);
+    // if (listStudents?.items.length) {
+    //   setOptions(listStudents?.items.map((name) => ({
+    //     value: name.id,
+    //     label: `${name.lastName} ${name.firstName} ${name.patronymic}`,
+    //   })));
+    // }
+  }, [listStudents]);
 
   return (
     <Select
@@ -52,10 +54,10 @@ const SelectPIB = ({
   );
 };
 
-SelectPIB.defaultProps = {
+SelectStudent.defaultProps = {
   placeholder: '',
   label: '',
   error: '',
 };
 
-export default SelectPIB;
+export default SelectStudent;

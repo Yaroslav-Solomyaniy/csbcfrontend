@@ -8,7 +8,7 @@ import Table from '../../components/common/table';
 import { ITableHeader } from '../../components/common/table/TableHeader';
 import StudentsCreateModal from './modal/StudentsCreate';
 import { useStudentsContext } from '../../context/students';
-import SelectPIB from '../../components/common/Select/SelectStudent';
+import SelectStudent from '../../components/common/Select/SelectStudent';
 import SelectIsFullTime from '../../components/common/Select/SelectIsFullTime';
 import edit from '../../images/table/edit.svg';
 import review from '../../images/table/review.svg';
@@ -186,7 +186,7 @@ const Students = (): JSX.Element => {
                 isClearable
                 isSearchable
               />
-              <SelectPIB
+              <SelectStudent
                 type="filter"
                 placeholder="ПІБ"
                 value={params.filter.studentId}
@@ -210,7 +210,7 @@ const Students = (): JSX.Element => {
           dataHeader={dataHeader}
           gridColumns={stylesStud.columns}
           dataRow={dataRow}
-          pagination={initialPagination}
+          pagination={params.pagination}
           onPaginationChange={(newPagination) => setParams({ ...params, pagination: newPagination })}
         />
         <StudentsCreateModal modalActive={isActiveModal.create} closeModal={closeModal} />

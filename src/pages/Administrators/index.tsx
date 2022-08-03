@@ -69,8 +69,15 @@ const Administrators = (): JSX.Element => {
     if (params.pagination.itemsPerPage) query.limit = params.pagination.itemsPerPage;
 
     getAdministrators?.getUser(query);
-  }, [params.filter.administrator, params.pagination.currentPage, params.pagination.itemsPerPage,
-    administratorsCreate?.data, administratorsEdit?.data, administratorsDelete?.data]);
+  }, [
+    getAdministrators,
+    params.filter.administrator,
+    params.pagination.currentPage,
+    params.pagination.itemsPerPage,
+    administratorsCreate?.data,
+    administratorsEdit?.data,
+    administratorsDelete?.data,
+  ]);
 
   useEffect(() => {
     if (getAdministrators?.data) {

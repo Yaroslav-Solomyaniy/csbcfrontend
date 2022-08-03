@@ -35,64 +35,26 @@ const App = (): JSX.Element => {
           <>
             <Route index element={<GroupProvider><Group /></GroupProvider>} />
             <Route path="/students" element={<StudentsProvider><Students /></StudentsProvider>} />
-            <Route path="/curators" element={<Curators />} />
+            <Route path="/curators" element={<CuratorsProvider><Curators /></CuratorsProvider>} />
             <Route path="/teachers" element={<TeachersProvider><Teachers /></TeachersProvider>} />
             <Route path="/courses" element={<CourseProvider><Courses /></CourseProvider>} />
             <Route path="/estimates" element={<Estimates />} />
             <Route path="/voting-admin" element={<VotingAdmin />} />
-            <Route path="/administrators" element={<Administrators />} />
-            <Route
-              path="/students"
-              element={<StudentsProvider><Students /></StudentsProvider>}
-            />
-            <Route
-              path="/curators"
-              element={<CuratorsProvider><Curators /></CuratorsProvider>}
-            />
-            <Route
-              path="/teachers"
-              element={<Teachers />}
-            />
-            <Route
-              path="/courses"
-              element={<CourseProvider><Courses /></CourseProvider>}
-            />
-            <Route
-              path="/estimates"
-              element={<Estimates />}
-            />
-            <Route
-              path="/voting-admin"
-              element={<VotingAdmin />}
-            />
             <Route
               path="/administrators"
-              element={<AdministratorsProvider><Administrators /></AdministratorsProvider>}
+              element={
+                <AdministratorsProvider><Administrators /></AdministratorsProvider>
+              }
             />
 
-            <Route
-              path="/individual-plan"
-              element={<IndPlan />}
-            />
-            <Route
-              path="/voting-students"
-              element={<VotingStudents />}
-            />
+            <Route path="/individual-plan" element={<IndPlan />} />
+            <Route path="/voting-students" element={<VotingStudents />} />
 
-            <Route
-              path="/teacher"
-              element={<Teacher />}
-            />
+            <Route path="/teacher" element={<Teacher />} />
 
-            <Route
-              path="/curator"
-              element={<Curator />}
-            />
+            <Route path="/curator" element={<Curator />} />
 
-            <Route
-              path="/change-password"
-              element={<ChangePassword />}
-            />
+            <Route path="/change-password" element={<ChangePassword />} />
           </>
         )}
         <Route

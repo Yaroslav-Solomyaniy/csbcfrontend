@@ -67,13 +67,15 @@ const Teachers = (): JSX.Element => {
       const arr: { subject: string[]; group: string[]; } = { subject: [], group: [] };
 
       item.courses.forEach((subject) => {
-        arr.subject.push(subject.name);
-        let srt = '';
+        if (!subject.isActive) {
+          arr.subject.push(subject.name);
+          let srt = '';
 
-        subject.groups.forEach((group) => {
-          srt += ` ${group.name}`;
-        });
-        arr.group.push(srt);
+          subject.groups.forEach((group) => {
+            srt += ` ${group.name}`;
+          });
+          arr.group.push(srt);
+        }
       });
 
       return {
@@ -140,6 +142,7 @@ const Teachers = (): JSX.Element => {
     if (getTeacher?.data) {
       setParams({ ...params, pagination: getTeacher.data.meta });
       setDataRow(tableRows(getTeacher?.data ? getTeacher?.data.items : []));
+      console.log(dataRow);
     }
   }, [getTeacher?.data]);
 
@@ -210,7 +213,7 @@ const Teachers = (): JSX.Element => {
           dataHeader={dataHeader}
           gridColumns={styles.columns}
           dataRow={dataRow}
-          pagination={initialPagination}
+          pagination={params.pagination}
           onPaginationChange={(newPagination) => setParams({ ...params, pagination: newPagination })}
         />
         <TeachersCreate modalActive={isActiveModal.create} closeModal={closeModal} />

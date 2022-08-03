@@ -34,7 +34,11 @@ const TableBody = ({ dataRow, gridColumns, pagination, onPaginationChange }: ITa
                     {el}
                   </div>
                 ))
-              ) : label}
+              ) : (
+                <div className={clsx(styles.body__row__item__string, 'clip')} key={`${id}${label}`}>
+                  {label}
+                </div>
+              )}
             </div>
           ))}
         </div>

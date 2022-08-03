@@ -9,6 +9,10 @@ import styles from '../Teachers/index.module.scss';
 import Button from '../../components/common/Button';
 import edit from '../../images/table/edit.svg';
 import del from '../../images/table/delete.svg';
+import SelectStudent from '../../components/common/Select/SelectStudent';
+import SelectGroupById from '../../components/common/Select/SelectGroupById';
+import TitlePage from '../../components/TitlePage';
+import Table from '../../components/common/table';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІП' },
@@ -136,77 +140,56 @@ const Estimates = (): JSX.Element => {
   return (
     <Layout>
       <div className={styles.students}>
-        {/* <TitlePage */}
-        {/*  title="Викладачі" */}
-        {/*  action={( */}
-        WWW
-        {/*    <Button */}
-        {/*      nameClass="primary" */}
-        {/*      size="large" */}
-        {/*      className={styles.actions} */}
-        {/*      onClick={() => { */}
-        {/*        setIsActiveModal({ ...allCloseModalWindow, create: true }); */}
-        {/*      }} */}
-        {/*    > */}
-        {/*      Створити */}
-        {/*    </Button> */}
-        {/*  )} */}
-        {/* /> */}
-        {/* <Table */}
-        {/*  filter={( */}
-        {/*    <> */}
-        {/*      <SelectTeacher */}
-        {/*        type="filter" */}
-        {/*        placeholder="ПІБ" */}
-        {/*        required */}
-        {/*        isClearable */}
-        {/*        isSearchable */}
-        {/*        value={params.filter.teacherId} */}
-        {/*        onChange={(value) => setParams({ ...params, filter: { ...params.filter, teacherId: +value } })} */}
-        {/*      /> */}
-        {/*      <SelectGroup */}
-        {/*        type="filter" */}
-        {/*        placeholder="Група" */}
-        {/*        required */}
-        {/*        isClearable */}
-        {/*        isSearchable */}
-        {/*        value={params.filter.group} */}
-        {/*        onChange={(value) => setParams({ */}
-        {/*          ...params, */}
-        {/*          filter: { */}
-        {/*            ...params.filter, */}
-        {/*            group: value, */}
-        {/*            teacherId: null, */}
-        {/*          }, */}
-        {/*        })} */}
-        {/*      /> */}
-        {/*      <SelectCourse */}
-        {/*        type="filter" */}
-        {/*        placeholder="Предмет" */}
-        {/*        required */}
-        {/*        isClearable */}
-        {/*        isSearchable */}
-        {/*        value={params.filter.name} */}
-        {/*        onChange={(value) => setParams({ */}
-        {/*          ...params, */}
-        {/*          filter: { */}
-        {/*            ...params.filter, */}
-        {/*            name: value, */}
-        {/*            teacherId: null, */}
-        {/*          }, */}
-        {/*        })} */}
-        {/*      /> */}
-        {/*    </> */}
-        {/*  )} */}
-        {/*  dataHeader={dataHeader} */}
-        {/*  gridColumns={styles.columns} */}
-        {/*  dataRow={dataRow} */}
-        {/*  pagination={initialPagination} */}
-        {/*  onPaginationChange={(newPagination) => setParams({ ...params, pagination: newPagination })} */}
-        {/* /> */}
-        {/* <TeachersCreate modalActive={isActiveModal.create} closeModal={closeModal} /> */}
-        {/* <TeachersEdit modalActive={!!isActiveModal.edit} closeModal={closeModal} id={isActiveModal.edit} /> */}
-        {/* <TeachersDelete modalActive={!!isActiveModal.delete} closeModal={closeModal} id={isActiveModal.delete} /> */}
+        <TitlePage
+          title="Оцінки"
+          action={(
+            <Button
+              nameClass="primary"
+              size="large"
+              className={styles.actions}
+              onClick={() => {
+                setIsActiveModal({ ...allCloseModalWindow, create: true });
+              }}
+            >
+              Створити
+            </Button>
+          )}
+        />
+        <Table
+          filter={(
+            <>
+              <SelectGroupById
+                type="filter"
+                placeholder="Група"
+                required
+                isClearable
+                isSearchable
+                value={params.filter.group}
+                onChange={(value) => setParams({
+                  ...params,
+                  filter: {
+                    ...params.filter,
+                    group: value,
+                    teacherId: null,
+                  },
+                })}
+              />
+              <SelectStudent
+                type="filter"
+                placeholder="ПІБ"
+                value={params.filter.teacherId}
+                onChange={(value) => setParams({
+                  ...params, filter: { ...params.filter, teacherId: +value },
+                })}
+              />
+            </>
+          )}
+          dataHeader={dataHeader}
+          gridColumns={styles.columns}
+          dataRow={dataRow}
+          pagination={initialPagination}
+          onPaginationChange={(newPagination) => setParams({ ...params, pagination: newPagination })}
+        />
       </div>
     </Layout>
   );

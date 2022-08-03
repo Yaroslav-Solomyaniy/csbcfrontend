@@ -20,7 +20,7 @@ export const StudentsDeleteModal = ({ modalActive, closeModal, id }: IStudentsDe
 
   const onSubmit = (e: React.FormEvent | undefined) => {
     e?.preventDefault?.();
-    deleteTeacher?.deleteTeacher(id);
+    deleteTeacher?.userDelete(id);
   };
 
   useEffect(() => {

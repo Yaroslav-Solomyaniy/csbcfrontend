@@ -1,17 +1,11 @@
 import React, { createContext, useContext } from 'react';
-import {
-  IUseDeleteTeacher,
-  IUsePatchTeacher,
-  IUseTeachersGet,
-  useDeleteTeacher,
-  useTeacherGet,
-  useTeacherPatch,
-} from '../hooks/useTeachers';
+import { IUsePatchTeacher, IUseTeachersGet, useTeacherGet, useTeacherPatch } from '../hooks/useTeachers';
+import { IUseUserDelete, useUserDelete } from '../hooks/useUser';
 
 interface ITeachersContext {
   getTeacher: IUseTeachersGet | null;
   patchTeacher: IUsePatchTeacher | null;
-  deleteTeacher: IUseDeleteTeacher | null;
+  deleteTeacher: IUseUserDelete | null;
 }
 
 const defaultValue: ITeachersContext = {
@@ -25,7 +19,7 @@ export const TeachersContext = createContext<ITeachersContext>(defaultValue);
 const TeachersProvider = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
   const getTeacher = useTeacherGet();
   const patchTeacher = useTeacherPatch();
-  const deleteTeacher = useDeleteTeacher();
+  const deleteTeacher = useUserDelete();
 
   return (
     <TeachersContext.Provider value={{ getTeacher, patchTeacher, deleteTeacher }}>

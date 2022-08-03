@@ -114,20 +114,20 @@ export const useStudentsGet = (): IUseGetStudents => {
 };
 
 interface IAddStudentsUser {
-  firstName?: string;
-  lastName?: string;
-  patronymic?: string;
-  email?: string;
-  role?: string;
+  firstName: string;
+  lastName: string;
+  patronymic: string;
+  email: string;
+  role: string;
 }
 
 export interface IStudents {
-  dateOfBirth?: string;
-  groupId?: number;
+  dateOfBirth: string;
+  groupId: number;
   user: IAddStudentsUser;
-  orderNumber?: string;
-  edeboId?: string;
-  isFullTime?: boolean | undefined;
+  orderNumber: string;
+  edeboId: string;
+  isFullTime: boolean | undefined;
 }
 
 interface ICreateStudentsData {

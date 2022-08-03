@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import styles from '../index.module.scss';
 
 import { useStudentsContext } from '../../../../context/students';
-import SelectGroup from '../../../../components/common/Select/SelectGroupByName';
-import Select from '../../../../components/common/Select';
 import ModalWindow from '../../../../components/common/ModalWindow';
-import Input from '../../../../components/common/Input';
 import ModalControlButtons from '../../../../components/common/ModalControlButtons';
 import { IStudents } from '../../../../hooks/useStudents';
+import Input from '../../../../components/common/Input';
+import SelectGroupById from '../../../../components/common/Select/SelectGroupById';
+import { Email, EmailValidation } from '../../../../types/regExp';
+import Select from '../../../../components/common/Select';
 
 interface IGroupCreateModal {
   modalActive: boolean;
@@ -42,25 +43,23 @@ export const StudentsEditModal = ({ modalActive, closeModal, id }: IGroupCreateM
   };
 
   const onSubmit = (e: React.FormEvent | undefined) => {
-    const query: IStudents = { user: {} };
-
     e?.preventDefault?.();
     setIsSubmitted(true);
 
-    if (formData.dateOfBirth !== getStudent?.data?.dateOfBirth) query.dateOfBirth = formData.dateOfBirth;
-    if (formData.groupId !== getStudent?.data?.group.id) query.groupId = formData.groupId;
-    if (formData.user.firstName !== getStudent?.data?.user.firstName) query.user.firstName = formData.user.firstName;
-    if (formData.user.lastName !== getStudent?.data?.user.lastName) query.user.lastName = formData.user.lastName;
-    if (formData.user.patronymic !== getStudent?.data?.user.patronymic) {
-      query.user.patronymic = formData.user.patronymic;
+    if (formData.user.firstName
+      && `${formData.isFullTime}`.length !== 0
+      && formData.dateOfBirth
+      && `${formData.edeboId}`.length === 8
+      && formData.groupId
+      && `${formData.orderNumber}`.length >= 6
+      && `${formData.orderNumber}`.length <= 20
+      && formData.user.lastName
+      && formData.user.patronymic
+      && Email.test(formData.user.email)
+    ) {
+      patchStudentsItem?.patchStudent(formData, id);
+      handleClose();
     }
-    if (formData.user.email !== getStudent?.data?.user.email) query.user.email = formData.user.email;
-    if (formData.orderNumber !== getStudent?.data?.orderNumber) query.orderNumber = formData.orderNumber;
-    if (formData.edeboId !== getStudent?.data?.edeboId) query.edeboId = formData.edeboId;
-    if (formData.isFullTime !== getStudent?.data?.isFullTime) query.isFullTime = formData.isFullTime;
-
-    patchStudentsItem?.patchStudent(query, id);
-    handleClose();
   };
 
   useEffect(() => {
@@ -95,7 +94,7 @@ export const StudentsEditModal = ({ modalActive, closeModal, id }: IGroupCreateM
           required
           label="Прізвище"
           placeholder="Прізвище"
-          value={formData.user.lastName}
+          value={formData.user.lastName.slice(0, 15)}
           onChange={(event) => {
             setFormData({ ...formData, user: { ...formData.user, lastName: event.target.value } });
           }}
@@ -105,7 +104,7 @@ export const StudentsEditModal = ({ modalActive, closeModal, id }: IGroupCreateM
           required
           label="Ім`я"
           placeholder="Ім`я"
-          value={formData.user.firstName}
+          value={formData.user.firstName.slice(0, 10)}
           onChange={(event) => {
             setFormData({ ...formData, user: { ...formData.user, firstName: event.target.value } });
           }}
@@ -115,7 +114,7 @@ export const StudentsEditModal = ({ modalActive, closeModal, id }: IGroupCreateM
           required
           label="По-Батькові"
           placeholder="По-Батькові"
-          value={formData.user.patronymic}
+          value={formData.user.patronymic.slice(0, 15)}
           onChange={(event) => {
             setFormData({ ...formData, user: { ...formData.user, patronymic: event.target.value } });
           }}
@@ -126,13 +125,13 @@ export const StudentsEditModal = ({ modalActive, closeModal, id }: IGroupCreateM
           required
           label="Дата народження"
           placeholder="Дата народження"
-          value={formData.dateOfBirth}
+          value={formData.dateOfBirth.slice(0, 10)}
           onChange={(event) => {
             setFormData({ ...formData, dateOfBirth: event.target.value });
           }}
           error={isSubmitted && !formData.dateOfBirth ? 'Дату народження не введено' : ''}
         />
-        <SelectGroup
+        <SelectGroupById
           type="modal"
           label="Група"
           placeholder="Група"
@@ -147,7 +146,7 @@ export const StudentsEditModal = ({ modalActive, closeModal, id }: IGroupCreateM
           required
           label="Номер наказу"
           placeholder="Номер наказу"
-          value={formData.orderNumber}
+          value={formData.orderNumber.slice(0, 20)}
           onChange={(event) => {
             setFormData({ ...formData, orderNumber: event.target.value });
           }}
@@ -159,39 +158,40 @@ export const StudentsEditModal = ({ modalActive, closeModal, id }: IGroupCreateM
           required
           label="ЄДЕБО"
           placeholder="ЄДЕБО"
-          value={formData.edeboId}
+          value={formData.edeboId?.slice(0, 8)}
           onChange={(event) => {
             setFormData({ ...formData, edeboId: event.target.value });
           }}
-          error={isSubmitted && (`${formData.edeboId}`.length <= 8
-            ? 'Номер ЄДЕБО повинен містити менше 8-ми символів.' : '')}
+          error={isSubmitted && (`${formData.edeboId}`.length === 8
+            ? 'Номер ЄДЕБО повинен містити не менше 8-ми символів.' : '')}
         />
         <Input
           required
           label="E-Mail"
           placeholder="E-Mail"
-          value={formData.user.email}
+          value={formData.user.email?.slice(0, 40)}
           onChange={(event) => {
             setFormData({ ...formData, user: { ...formData.user, email: event.target.value } });
           }}
-          error={isSubmitted && !formData.user.email ? 'E-Mail не введено' : ''}
+          error={isSubmitted && !Email.test(formData.user.email)
+            ? (formData.user.email.length < 1 ? 'E-mail не введено' : 'E-mail введено не вірно') : ''}
+          pattern={EmailValidation}
         />
         <Select
           type="modal"
           label="Форма навчання"
           required
           isSearchable
-          isClearable
           options={[
             { value: 'Денна', label: 'Денна' },
             { value: 'Заочна', label: 'Заочна' },
           ]}
-          value={formData.isFullTime ? 'Денна' : formData.isFullTime === undefined ? '' : 'Заочна'}
+          value={formData.isFullTime ? 'Денна' : 'Заочна'}
           onChange={(value) => {
-            setFormData({ ...formData, isFullTime: value === 'Денна' ? true : value === 'Заочна' ? false : undefined });
+            setFormData({ ...formData, isFullTime: value === 'Денна' });
           }}
           placeholder="Форма навчання"
-          error={isSubmitted && formData.isFullTime === undefined ? 'Оберіть форму навчання' : ''}
+          error={isSubmitted && !formData.isFullTime ? 'Оберіть форму навчання' : ''}
         />
       </form>
       <ModalControlButtons

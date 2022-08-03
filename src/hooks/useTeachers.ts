@@ -92,7 +92,7 @@ export const useTeacherPatch = (): IUsePatchTeacher => {
   const { addErrors } = useMessagesContext();
 
   const patchTeacher = (params: ITeacher, id: number): void => {
-    axios.patch(`${process.env.REACT_APP_API_URL}/user/teacher/${id}`, params, {
+    axios.patch(`${process.env.REACT_APP_API_URL}/users/teacher/${id}`, params, {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
         params: `{ id: ${id} }`,
@@ -105,30 +105,4 @@ export const useTeacherPatch = (): IUsePatchTeacher => {
   };
 
   return { data, patchTeacher };
-};
-
-export interface IUseDeleteTeacher {
-  data: IDataPatchTeachersItem | null;
-  deleteTeacher: (id: number) => void;
-}
-
-export const useDeleteTeacher = (): IUseDeleteTeacher => {
-  const { user } = useAuthContext();
-  const [data, setData] = useState<IDataPatchTeachersItem | null>(null);
-  const { addErrors } = useMessagesContext();
-
-  const deleteTeacher = (id: number): void => {
-    axios.delete(`${process.env.REACT_APP_API_URL}/user/teacher/${id}`, {
-      headers: {
-        Authorization: `Bearer ${user?.accessToken}`,
-        params: `{ id: ${id} }`,
-      },
-    }).then((e) => {
-      setData(e.data);
-    }).catch((error) => {
-      addErrors(error.response.data.message);
-    });
-  };
-
-  return { data, deleteTeacher };
 };

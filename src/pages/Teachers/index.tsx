@@ -141,8 +141,7 @@ const Teachers = (): JSX.Element => {
   useEffect(() => {
     if (getTeacher?.data) {
       setParams({ ...params, pagination: getTeacher.data.meta });
-      setDataRow(tableRows(getTeacher?.data ? getTeacher?.data.items : []));
-      console.log(dataRow);
+      setDataRow(tableRows(getTeacher.data ? getTeacher.data.items : []));
     }
   }, [getTeacher?.data]);
 
@@ -188,7 +187,6 @@ const Teachers = (): JSX.Element => {
                   filter: {
                     ...params.filter,
                     group: +value,
-                    teacherId: null,
                   },
                 })}
               />
@@ -204,7 +202,6 @@ const Teachers = (): JSX.Element => {
                   filter: {
                     ...params.filter,
                     course: +value,
-                    teacherId: null,
                   },
                 })}
               />

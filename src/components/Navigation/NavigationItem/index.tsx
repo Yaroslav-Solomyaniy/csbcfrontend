@@ -5,17 +5,21 @@ import styles from './index.module.scss';
 
 export interface INavigationItem {
   title: string;
-  to:string;
-  ico: string;
+  to: string;
+  ico: string | JSX.Element;
   isOpen: boolean;
 }
 
-const NavigationItem = ({ title, to, ico, isOpen }: INavigationItem):JSX.Element => (
+const NavigationItem = ({ title, to, ico, isOpen }: INavigationItem): JSX.Element => (
   <NavLink
     className={({ isActive }) => clsx(styles.link, styles.h42p, isActive && styles.Active, !isOpen && styles.hidden)}
     to={to}
   >
-    <img className={styles.icon} src={ico} alt={title} />
+    {typeof ico === 'string' ? (
+      <img className={styles.icon} src={ico} alt={title} />
+    ) : (
+      ico
+    )}
     <span className={clsx(styles.title)}>{title}</span>
   </NavLink>
 );

@@ -1,6 +1,5 @@
 import React from 'react';
-
-import svgGroup from '../../images/Group.svg';
+import { Group } from '../common/Icon';
 import svgStudents from '../../images/Students.svg';
 import svgAdministrators from '../../images/Administrators.svg';
 import svgCurators from '../../images/Curators.svg';
@@ -15,14 +14,14 @@ import styles from './index.module.scss';
 export interface IRoute {
   title: string;
   to: string;
-  ico: string;
+  ico: string | JSX.Element;
 }
 
 const routes: IRoute[] = [
   {
     title: 'Групи',
     to: '/',
-    ico: svgGroup,
+    ico: <Group />,
   },
   {
     title: 'Студенти',

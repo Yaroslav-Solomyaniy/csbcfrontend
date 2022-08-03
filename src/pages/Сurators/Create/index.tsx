@@ -52,7 +52,7 @@ export const CuratorCreateModal = ({ modalActive, closeModal }: ICreateModal): J
           onChange={(event) => {
             setFormData({ ...formData, lastName: event.target.value });
           }}
-          value={formData.lastName}
+          value={formData.lastName.slice(0, 15)}
           placeholder="Прізвище"
           label="Прізвище"
           required
@@ -63,7 +63,7 @@ export const CuratorCreateModal = ({ modalActive, closeModal }: ICreateModal): J
           onChange={(event) => {
             setFormData({ ...formData, firstName: event.target.value });
           }}
-          value={formData.firstName}
+          value={formData.firstName.slice(0, 10)}
           placeholder="Ім'я"
           label="Ім'я"
           required
@@ -74,7 +74,7 @@ export const CuratorCreateModal = ({ modalActive, closeModal }: ICreateModal): J
           onChange={(event) => {
             setFormData({ ...formData, patronymic: event.target.value });
           }}
-          value={formData.patronymic}
+          value={formData.patronymic.slice(0, 15)}
           placeholder="По-Батькові"
           label="По-Батькові"
           required
@@ -85,7 +85,7 @@ export const CuratorCreateModal = ({ modalActive, closeModal }: ICreateModal): J
           onChange={(event) => {
             setFormData({ ...formData, email: event.target.value });
           }}
-          value={formData.email}
+          value={formData.email.slice(0, 40)}
           placeholder="E-mail"
           label="E-mail"
           required
@@ -94,7 +94,7 @@ export const CuratorCreateModal = ({ modalActive, closeModal }: ICreateModal): J
         />
       </form>
       <ModalControlButtons
-        handleClose={closeModal}
+        handleClose={handleClose}
         onSubmit={onSubmit}
         cancelButtonText="Відміна"
         mainButtonText="Додати"

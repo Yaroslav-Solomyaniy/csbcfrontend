@@ -73,7 +73,7 @@ export const AdministratorEditModal = ({ modalActive, closeModal, Id }: IEditMod
           onChange={(event) => {
             setFormData({ ...formData, lastName: event.target.value });
           }}
-          value={formData.lastName}
+          value={formData.lastName.slice(0, 15)}
           placeholder="Прізвище"
           label="Прізвище"
           required
@@ -84,7 +84,7 @@ export const AdministratorEditModal = ({ modalActive, closeModal, Id }: IEditMod
           onChange={(event) => {
             setFormData({ ...formData, firstName: event.target.value });
           }}
-          value={formData.firstName}
+          value={formData.firstName.slice(0, 10)}
           placeholder="Ім'я"
           label="Ім'я"
           required
@@ -95,7 +95,7 @@ export const AdministratorEditModal = ({ modalActive, closeModal, Id }: IEditMod
           onChange={(event) => {
             setFormData({ ...formData, patronymic: event.target.value });
           }}
-          value={formData.patronymic}
+          value={formData.patronymic.slice(0, 15)}
           placeholder="По-Батькові"
           label="По-Батькові"
           required
@@ -106,7 +106,7 @@ export const AdministratorEditModal = ({ modalActive, closeModal, Id }: IEditMod
           onChange={(event) => {
             setFormData({ ...formData, email: event.target.value });
           }}
-          value={formData.email}
+          value={formData.email.slice(0, 40)}
           placeholder="E-Mail"
           label="E-Mail"
           required

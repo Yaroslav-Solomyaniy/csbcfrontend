@@ -17,6 +17,11 @@ export const CuratorDeleteModal = ({ modalActive, closeModal, Id }: IDeleteModal
   const [formData, setFormData] = useState(formInitialData);
   const { addInfo } = useMessagesContext();
 
+  const handleClose = () => {
+    setFormData(formInitialData);
+    closeModal();
+  };
+
   useEffect(() => {
     if (Id) {
       getCuratorId?.getUserId({ id: `${Id}` });
@@ -46,7 +51,7 @@ export const CuratorDeleteModal = ({ modalActive, closeModal, Id }: IDeleteModal
   };
 
   return (
-    <ModalWindow modalTitle="Видалення куратора" active={modalActive} closeModal={closeModal}>
+    <ModalWindow modalTitle="Видалення куратора" active={modalActive} closeModal={handleClose}>
       <form className={styles.form} onSubmit={onSubmit}>
         <h3 className={styles.subtitle}>
           {' '}
@@ -62,7 +67,7 @@ export const CuratorDeleteModal = ({ modalActive, closeModal, Id }: IDeleteModal
         </h3>
       </form>
       <ModalControlButtons
-        handleClose={closeModal}
+        handleClose={handleClose}
         onSubmit={onSubmit}
         cancelButtonText="Відміна"
         mainButtonText="Видалити"

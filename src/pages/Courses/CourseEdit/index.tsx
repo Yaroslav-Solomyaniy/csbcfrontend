@@ -20,7 +20,6 @@ const formInitialData: ICourseEditParams = {
   teacher: 0,
   credits: null,
   semester: 1,
-  isActive: false,
   isExam: false,
   lectureHours: null,
   isCompulsory: '',

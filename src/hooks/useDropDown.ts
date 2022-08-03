@@ -39,7 +39,7 @@ export const useGetListGroups = (): IUseGetListGroups => {
         setOptionsGroups(response.data);
       })
       .catch((error) => {
-        addErrors(error.message);
+        addErrors(error.response.data.message);
       });
   };
 
@@ -83,7 +83,7 @@ export const useGetListCurators = (): IUseGetListCurators => {
         setOptionCurators(response.data);
       })
       .catch((error) => {
-        addErrors(error.message);
+        addErrors(error.response.data.message);
       });
   };
 
@@ -143,7 +143,7 @@ export const useGetListCourses = (): IUseGetListCourses => {
         setOptionCourses(response.data);
       })
       .catch((error) => {
-        addErrors(error.message);
+        addErrors(error.response.data.message);
       });
   };
 
@@ -187,16 +187,60 @@ export const useGetListTeachers = (): IUseGetListTeachers => {
         setListTeachers(response.data);
       })
       .catch((error) => {
-        addErrors(error.message);
+        addErrors(error.response.data.message);
       });
   };
 
   return { listTeachers, getListTeachers };
 };
 
-interface IGetListAdministratorsParams {
+// GET LIST STUDENT
+
+interface IGetListStudentParams {
   orderBy?: OrderBy;
-  adminId?: number;
+  teacherName?: string;
+  page?: string;
+  limit?: string;
+}
+
+interface IGetListStudentsData {
+  'id': number;
+  'firstName': string;
+  'lastName': string;
+  'patronymic': string;
+}
+
+interface IUseGetListStudents {
+  listStudents: IPaginateData<IGetListStudentsData> | null;
+  getListStudents: (params?: IGetListStudentParams) => void;
+}
+
+export const useGetListStudents = (): IUseGetListStudents => {
+  const { addErrors } = useMessagesContext();
+  const { user } = useAuthContext();
+  const [listStudents, setListStudents] = useState<IPaginateData<IGetListStudentsData> | null>(null);
+
+  const getListStudents = (params?: IGetListStudentParams) => {
+    axios.get(`${process.env.REACT_APP_API_URL}/users/dropdown/student`, {
+      headers: {
+        Authorization: `Bearer ${user?.accessToken}`,
+      },
+      params: { limit: 100, orderBy: 'DESC', ...params },
+    })
+      .then((response: AxiosResponse<IPaginateData<IGetListStudentsData> | null>) => {
+        setListStudents(response.data);
+      })
+      .catch((error) => {
+        addErrors(error.response.data.message);
+      });
+  };
+
+  return { listStudents, getListStudents };
+};
+
+interface IGetListAdministratorsParams {
+  orderByColumn?: 'id' | 'firstname' | 'lastname' | 'email' | 'role' | 'created' | 'updated';
+  orderBy?: OrderBy;
   page?: number;
   limit?: number;
 }
@@ -223,7 +267,7 @@ export const useGetListAdministrators = (): IUseGetListAdministrators => {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
-      params: { /* limit: 100, orderBy: 'DESC', */ ...params },
+      params: { limit: 100, orderBy: 'DESC', orderByColumn: 'updated', ...params },
     })
       .then((response: AxiosResponse<IPaginateData<IGetListAdministratorsData> | null>) => {
         setListAdmins(response.data);

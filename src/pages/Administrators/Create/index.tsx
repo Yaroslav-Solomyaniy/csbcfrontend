@@ -4,7 +4,7 @@ import styles from './index.module.scss';
 import Input from '../../../components/common/Input';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
 import { ICreateModal } from '../../../types';
-import { LettersAndNumbersEnUa } from '../../../types/regExp';
+import { Email, LettersAndNumbersEnUa } from '../../../types/regExp';
 import { useMessagesContext } from '../../../context/useMessagesContext';
 import { IUserCreateParams } from '../../../hooks/useUser';
 import { useAdministratorsContext } from '../../../context/administators';
@@ -32,13 +32,13 @@ export const AdministratorCreateModal = ({ modalActive, closeModal }: ICreateMod
   const onSubmit = (e: React.FormEvent | undefined) => {
     e?.preventDefault?.();
     setIsSubmitted(true);
-    if (formData.firstName && formData.lastName && formData.patronymic && formData.email) {
+    if (formData.firstName && formData.lastName && formData.patronymic && Email.test(formData.email)) {
       administratorsCreate?.createUser(formData);
     }
   };
 
   useEffect(() => {
-    closeModal();
+    handleClose();
     if (administratorsCreate?.data) {
       addInfo(`${formData.lastName} ${formData.firstName} ${formData.patronymic}
       успішно доданий у список адміністраторів.`);
@@ -89,11 +89,12 @@ export const AdministratorCreateModal = ({ modalActive, closeModal }: ICreateMod
           placeholder="E-mail"
           label="E-mail"
           required
-          error={isSubmitted && !formData.email ? 'E-mail не введено' : ''}
+          error={isSubmitted && !Email.test(formData.email)
+            ? (formData.email.length < 1 ? 'E-mail не введено' : 'E-mail введено не вірно') : ''}
         />
       </form>
       <ModalControlButtons
-        handleClose={closeModal}
+        handleClose={handleClose}
         onSubmit={onSubmit}
         cancelButtonText="Відміна"
         mainButtonText="Додати"

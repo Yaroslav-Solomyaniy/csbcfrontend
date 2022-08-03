@@ -16,6 +16,7 @@ interface Select {
   placeholder?: string;
   isSearchable?: boolean;
   isClearable?: boolean;
+  isDisabled?: boolean;
 }
 
 const Styles: any = {
@@ -31,7 +32,6 @@ const Styles: any = {
     }),
     valueContainer: (provided: any) => ({
       ...provided,
-      // padding: '9px 8px 9px 16px',
     }),
     indicatorSeparator: (provided: any) => ({
       ...provided,
@@ -141,6 +141,7 @@ const Select = ({
   isSearchable,
   isClearable,
   type,
+  isDisabled,
 }: Select): JSX.Element => (
 
   <div className={styles.wrap}>
@@ -152,6 +153,7 @@ const Select = ({
     )}
     <div className={styles.selectWrap}>
       <ReactSelect<Option>
+        isDisabled={isDisabled}
         menuPosition="absolute"
         menuPlacement="auto"
         styles={Styles[type]}
@@ -181,6 +183,7 @@ Select.defaultProps = {
   isSearchable: false,
   isClearable: false,
   menuPosition: '',
+  isDisabled: false,
 };
 
 export default Select;

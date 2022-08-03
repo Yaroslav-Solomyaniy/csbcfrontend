@@ -17,6 +17,7 @@ const TableFooter = ({ pagination, onPaginationChange }: TableFooter): JSX.Eleme
   <div className={styles.footer}>
     <label className={styles.footer__lable}>Рядків на сторінці</label>
     <Select
+      isDisabled={!(pagination.totalItems > 10)}
       type="pagination"
       options={[
         { label: 10, value: 10 },

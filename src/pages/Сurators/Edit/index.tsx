@@ -5,7 +5,7 @@ import ModalControlButtons from '../../../components/common/ModalControlButtons'
 import { IEditModal } from '../../../types';
 import { useCuratorContext } from '../../../context/curators';
 import Input from '../../../components/common/Input';
-import { Email, LettersAndNumbersEnUa } from '../../../types/regExp';
+import { Email, EmailValidation, LettersAndNumbersEnUa } from '../../../types/regExp';
 import { IUserEditParams } from '../../../hooks/useUser';
 import { useMessagesContext } from '../../../context/useMessagesContext';
 
@@ -114,6 +114,7 @@ export const CuratorEditModal = ({ modalActive, closeModal, Id }: IEditModal): J
           required
           error={isSubmitted && !Email.test(formData.email)
             ? (formData.email.length < 1 ? 'E-mail не введено' : 'E-mail введено не вірно') : ''}
+          pattern={EmailValidation}
         />
       </form>
       <ModalControlButtons

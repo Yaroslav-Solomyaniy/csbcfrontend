@@ -4,3 +4,4 @@ export const NumbersAndLettersEn = new RegExp('^[a-zA-Z0-9-]*$');
 export const FiveSymbolOnlyNumbers = new RegExp('^\\d{1,5}$');
 // eslint-disable-next-line max-len
 export const Email = /^(([^<>()[\]\\.,;:\s@\\"]+(\.[^<>()[\]\\.,;:\s@\\"]+)*)|(\\".+\\"))@(([^<>()[\]\\.,;:\s@\\"]+\.)+[^<>()[\]\\.,;:\s@\\"]{2,})$/i;
+export const EmailValidation = /^[A-Za-z0-9.@_-]+$/;

@@ -4,7 +4,7 @@ import styles from './index.module.scss';
 import Input from '../../../components/common/Input';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
 import { ICreateModal } from '../../../types';
-import { Email, LettersAndNumbersEnUa } from '../../../types/regExp';
+import { Email, EmailValidation, LettersAndNumbersEnUa } from '../../../types/regExp';
 import { useMessagesContext } from '../../../context/useMessagesContext';
 import { IUserCreateParams } from '../../../hooks/useUser';
 import { useAdministratorsContext } from '../../../context/administators';
@@ -91,6 +91,7 @@ export const AdministratorCreateModal = ({ modalActive, closeModal }: ICreateMod
           required
           error={isSubmitted && !Email.test(formData.email)
             ? (formData.email.length < 1 ? 'E-mail не введено' : 'E-mail введено не вірно') : ''}
+          pattern={EmailValidation}
         />
       </form>
       <ModalControlButtons

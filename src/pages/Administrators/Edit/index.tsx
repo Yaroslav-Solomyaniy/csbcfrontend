@@ -4,7 +4,7 @@ import ModalWindow from '../../../components/common/ModalWindow';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
 import { IEditModal } from '../../../types';
 import Input from '../../../components/common/Input';
-import { Email, LettersAndNumbersEnUa } from '../../../types/regExp';
+import { Email, EmailValidation, LettersAndNumbersEnUa } from '../../../types/regExp';
 import { IUserEditParams } from '../../../hooks/useUser';
 import { useAdministratorsContext } from '../../../context/administators';
 import { useMessagesContext } from '../../../context/useMessagesContext';
@@ -112,6 +112,7 @@ export const AdministratorEditModal = ({ modalActive, closeModal, Id }: IEditMod
           required
           error={isSubmitted && !Email.test(formData.email)
             ? (formData.email.length < 1 ? 'E-mail не введено' : 'E-mail введено не вірно') : ''}
+          pattern={EmailValidation}
         />
       </form>
       <ModalControlButtons

@@ -5,8 +5,9 @@ import ModalControlButtons from '../../../components/common/ModalControlButtons'
 import { IEditModal } from '../../../types';
 import { useCuratorContext } from '../../../context/curators';
 import Input from '../../../components/common/Input';
-import { LettersAndNumbersEnUa } from '../../../types/regExp';
+import { Email, EmailValidation, LettersAndNumbersEnUa } from '../../../types/regExp';
 import { IUserEditParams } from '../../../hooks/useUser';
+import { useMessagesContext } from '../../../context/useMessagesContext';
 
 const formInitialData: IUserEditParams = {
   firstName: '',
@@ -20,6 +21,7 @@ export const CuratorEditModal = ({ modalActive, closeModal, Id }: IEditModal): J
   const [isSubmitted, setIsSubmited] = useState(false);
   const [formData, setFormData] = useState<IUserEditParams>(formInitialData);
   const { curatorEdit, getCuratorId } = useCuratorContext();
+  const { addInfo } = useMessagesContext();
 
   const handleClose = () => {
     setIsSubmited(false);
@@ -31,11 +33,22 @@ export const CuratorEditModal = ({ modalActive, closeModal, Id }: IEditModal): J
     e?.preventDefault?.();
     setIsSubmited(true);
 
-    if (formData.firstName && formData.lastName && formData.patronymic && formData.lastName && formData.email) {
+    if (formData.firstName
+      && formData.lastName
+      && formData.patronymic
+      && formData.lastName
+      && Email.test(formData.email)) {
       curatorEdit?.userEdit({ ...formData }, Id);
-      closeModal();
     }
   };
+
+  useEffect(() => {
+    handleClose();
+    if (curatorEdit?.data) {
+      addInfo(`${formData.lastName} ${formData.firstName} ${formData.patronymic}
+         - куратор успішно відредагований.`);
+    }
+  }, [curatorEdit?.data]);
 
   useEffect(() => {
     if (Id) {
@@ -62,7 +75,7 @@ export const CuratorEditModal = ({ modalActive, closeModal, Id }: IEditModal): J
           onChange={(event) => {
             setFormData({ ...formData, lastName: event.target.value });
           }}
-          value={formData.lastName}
+          value={formData.lastName.slice(0, 15)}
           placeholder="Прізвище"
           label="Прізвище"
           required
@@ -73,7 +86,7 @@ export const CuratorEditModal = ({ modalActive, closeModal, Id }: IEditModal): J
           onChange={(event) => {
             setFormData({ ...formData, firstName: event.target.value });
           }}
-          value={formData.firstName}
+          value={formData.firstName.slice(0, 10)}
           placeholder="Ім'я"
           label="Ім'я"
           required
@@ -84,7 +97,7 @@ export const CuratorEditModal = ({ modalActive, closeModal, Id }: IEditModal): J
           onChange={(event) => {
             setFormData({ ...formData, patronymic: event.target.value });
           }}
-          value={formData.patronymic}
+          value={formData.patronymic.slice(0, 15)}
           placeholder="По-Батькові"
           label="По-Батькові"
           required
@@ -95,15 +108,17 @@ export const CuratorEditModal = ({ modalActive, closeModal, Id }: IEditModal): J
           onChange={(event) => {
             setFormData({ ...formData, email: event.target.value });
           }}
-          value={formData.email}
+          value={formData.email.slice(0, 40)}
           placeholder="E-Mail"
           label="E-Mail"
           required
-          error={isSubmitted && !formData.email ? 'E-Mail не введено' : ''}
+          error={isSubmitted && !Email.test(formData.email)
+            ? (formData.email.length < 1 ? 'E-mail не введено' : 'E-mail введено не вірно') : ''}
+          pattern={EmailValidation}
         />
       </form>
       <ModalControlButtons
-        handleClose={closeModal}
+        handleClose={handleClose}
         onSubmit={onSubmit}
         cancelButtonText="Відміна"
         mainButtonText="Зберегти"

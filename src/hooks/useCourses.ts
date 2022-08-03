@@ -194,7 +194,7 @@ export interface ICourseEditParams {
   name: string;
   credits: number | null;
   lectureHours: number | null;
-  isActive: boolean;
+  isActive?: boolean;
   semester: number;
   isCompulsory: boolean | string;
   isExam: boolean;

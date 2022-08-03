@@ -64,7 +64,7 @@ const Administrators = (): JSX.Element => {
   useEffect(() => {
     const query: IGetUserParams = { role: 'admin' };
 
-    /* if (params.filter.administrator) query.id = +params.filter.administrator; */
+    if (params.filter.administrator) query.id = +params.filter.administrator;
     if (params.pagination.currentPage) query.page = params.pagination.currentPage;
     if (params.pagination.itemsPerPage) query.limit = params.pagination.itemsPerPage;
 

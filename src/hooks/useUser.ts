@@ -89,7 +89,7 @@ export const useUserCreate = (): IUseUserCreate => {
         setData(response.data);
       })
       .catch((error) => {
-        addErrors(error.response.message);
+        addErrors(error.response.data.message);
       });
   };
 

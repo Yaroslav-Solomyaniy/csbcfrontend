@@ -23,6 +23,11 @@ export const AdministratorDeleteModal = ({ modalActive, closeModal, Id }: IDelet
     }
   }, [Id]);
 
+  const handleClose = () => {
+    setFormData(formInitialData);
+    closeModal();
+  };
+
   useEffect(() => {
     if (getAdministratorsId?.data) {
       setFormData({
@@ -46,7 +51,7 @@ export const AdministratorDeleteModal = ({ modalActive, closeModal, Id }: IDelet
   };
 
   return (
-    <ModalWindow modalTitle="Видалення адміністратора" active={modalActive} closeModal={closeModal}>
+    <ModalWindow modalTitle="Видалення адміністратора" active={modalActive} closeModal={handleClose}>
       <form className={styles.form} onSubmit={onSubmit}>
         <h3 className={styles.subtitle}>
           {' '}
@@ -64,7 +69,7 @@ export const AdministratorDeleteModal = ({ modalActive, closeModal, Id }: IDelet
         </h3>
       </form>
       <ModalControlButtons
-        handleClose={closeModal}
+        handleClose={handleClose}
         onSubmit={onSubmit}
         cancelButtonText="Відміна"
         mainButtonText="Видалити"

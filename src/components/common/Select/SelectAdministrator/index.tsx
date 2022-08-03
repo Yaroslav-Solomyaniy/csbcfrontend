@@ -33,7 +33,6 @@ const SelectAdministrator = ({
 
   useEffect(() => {
     getListAdministrators();
-    console.log(listAdmins);
   }, [administratorsDelete?.data, administratorsEdit?.data, administratorsCreate?.data]);
 
   useEffect(() => {

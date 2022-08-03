@@ -5,6 +5,7 @@ import { useAuthContext } from '../context/useAuthContext';
 import { useMessagesContext } from '../context/useMessagesContext';
 
 export interface IGetCuratorParams {
+  orderByColumn?: 'id' | 'updated';
   groupName?: string;
   curatorId?: number;
   orderBy?: OrderBy;

@@ -17,6 +17,7 @@ const TableFooter = ({ pagination, onPaginationChange }: TableFooter): JSX.Eleme
   <div className={styles.footer}>
     <label className={styles.footer__lable}>Рядків на сторінці</label>
     <Select
+      isDisabled={!(pagination.totalItems > 10)}
       type="pagination"
       options={[
         { label: 10, value: 10 },
@@ -39,38 +40,41 @@ const TableFooter = ({ pagination, onPaginationChange }: TableFooter): JSX.Eleme
       {' '}
       {pagination.totalItems}
     </div>
-    <div className={styles.footer__buttons}>
-      <Button
-        isImg
-        className={styles.footer__buttons_first}
-        onClick={() => onPaginationChange({ ...pagination, currentPage: 1 })}
-      >
-        <img src={first} alt="first" />
-      </Button>
-      <Button
-        isImg
-        className={styles.footer__buttons_prev}
-        disabled={pagination.currentPage === 1}
-        onClick={() => onPaginationChange({ ...pagination, currentPage: pagination.currentPage - 1 })}
-      >
-        <img src={prev} alt="prev" />
-      </Button>
-      <Button
-        isImg
-        className={styles.footer__buttons_next}
-        disabled={pagination.totalPages < pagination.currentPage + 1}
-        onClick={() => onPaginationChange({ ...pagination, currentPage: pagination.currentPage + 1 })}
-      >
-        <img src={next} alt="next" />
-      </Button>
-      <Button
-        isImg
-        className={styles.footer__buttons_last}
-        onClick={() => onPaginationChange({ ...pagination, currentPage: pagination.totalPages })}
-      >
-        <img src={last} alt="last" />
-      </Button>
-    </div>
+    {pagination.totalItems > 10 && (
+      <div className={styles.footer__buttons}>
+        <Button
+          isImg
+          className={styles.footer__buttons_first}
+          onClick={() => onPaginationChange({ ...pagination, currentPage: 1 })}
+        >
+          <img src={first} alt="first" />
+        </Button>
+        <Button
+          isImg
+          className={styles.footer__buttons_prev}
+          disabled={pagination.currentPage === 1}
+          onClick={() => onPaginationChange({ ...pagination, currentPage: pagination.currentPage - 1 })}
+        >
+          <img src={prev} alt="prev" />
+        </Button>
+        <Button
+          isImg
+          className={styles.footer__buttons_next}
+          disabled={pagination.totalPages < pagination.currentPage + 1}
+          onClick={() => onPaginationChange({ ...pagination, currentPage: pagination.currentPage + 1 })}
+        >
+          <img src={next} alt="next" />
+        </Button>
+        <Button
+          isImg
+          className={styles.footer__buttons_last}
+          onClick={() => onPaginationChange({ ...pagination, currentPage: pagination.totalPages })}
+        >
+          <img src={last} alt="last" />
+        </Button>
+      </div>
+    )}
+
   </div>
 );
 

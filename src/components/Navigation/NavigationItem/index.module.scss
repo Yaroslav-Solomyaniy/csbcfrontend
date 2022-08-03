@@ -42,6 +42,20 @@
     margin: 12px;
   }
 
+  > svg {
+    transition: all 0.5s;
+    margin: 12px;
+    height: 15px;
+    width: 15px;
+    fill: #607180;
+  }
+
+  &:hover {
+    > svg {
+      color: black;
+    }
+  }
+
 }
 
 .hidden {

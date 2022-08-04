@@ -49,15 +49,7 @@ export interface IGetCoursesData {
   groups: {
     id: number;
     name: string;
-    curator: {
-      id: number;
-      firstName: string;
-      lastName: string;
-      patronymic: string;
-      email: string;
-    };
     orderNumber: string;
-    students: number;
   }[];
 }
 
@@ -76,10 +68,11 @@ export const useCoursesGet = (): IUseCoursesGet => {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
-      params: { orderByColumn: 'id', orderBy: 'DESC', ...params },
+      params: { orderBy: 'DESC', ...params },
     })
       .then((response: AxiosResponse<IPaginateData<IGetCoursesData> | null>) => {
         setData(response.data);
+        console.log(response);
       })
       .catch((error) => {
         addErrors(error.response.data.message);

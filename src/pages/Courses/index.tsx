@@ -91,14 +91,13 @@ const Courses = (): JSX.Element => {
     params.filter.isCompulsory,
     params.pagination.currentPage,
     params.pagination.itemsPerPage]);
-
   useEffect(() => {
     if (getCourses?.data) {
       setParams({ ...params, pagination: getCourses.data.meta });
       setDataRow(getCourses?.data?.items.map((item: IGetCoursesData) => ({
         list: [
           { id: 1, label: item.name },
-          { id: 2, label: `${item.teacher.lastName} ${item.teacher.firstName} ${item.teacher.patronymic}` },
+          { id: 2, label: /* `${item.teacher.lastName} ${item.teacher.firstName} ${item.teacher.patronymic}` */ '' },
           { id: 3, label: item.semester === 1 ? 'I' : 'II' },
           { id: 4, label: `${item.credits}` },
           { id: 5, label: item.groups.map((group) => group.name).join(',') },

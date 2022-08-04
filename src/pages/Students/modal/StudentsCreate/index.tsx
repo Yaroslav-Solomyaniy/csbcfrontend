@@ -73,7 +73,6 @@ export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateMod
       && formData.user.patronymic
       && Email.test(formData.user.email)
     ) {
-      console.log(formData);
       createStudents?.addStudent(formData);
     }
   };

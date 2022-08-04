@@ -19,7 +19,7 @@ import { ITableRowItem } from '../../components/common/table/TableBody';
 import { IDataStudentsItems, IGetParams } from '../../hooks/useStudents';
 import StudentsDelete from './modal/StudentsDelete';
 import StudentsReview from './modal/StudentsReview';
-import SelectGroupByName from '../../components/common/Select/SelectGroupByName';
+import SelectGroupById from '../../components/common/Select/SelectGroupById';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІП студента' },
@@ -171,7 +171,7 @@ const Students = (): JSX.Element => {
         <Table
           filter={(
             <>
-              <SelectGroupByName
+              <SelectGroupById
                 type="filter"
                 placeholder="Група"
                 value={params.filter.group}

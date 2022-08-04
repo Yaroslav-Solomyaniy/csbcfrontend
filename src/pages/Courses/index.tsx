@@ -91,7 +91,6 @@ const Courses = (): JSX.Element => {
     params.filter.isCompulsory,
     params.pagination.currentPage,
     params.pagination.itemsPerPage]);
-
   useEffect(() => {
     if (getCourses?.data) {
       setParams({ ...params, pagination: getCourses.data.meta });

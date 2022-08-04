@@ -68,8 +68,51 @@ export const useTeacherGet = (): IUseTeachersGet => {
   return { data, getTeacher };
 };
 
+export interface ITeacherCreateParams {
+  firstName: string;
+  lastName: string;
+  patronymic: string;
+  email: string;
+  role: string;
+  courses: number[];
+}
+
+export interface ITeacherCreateData {
+  id: number;
+  firstName: string;
+  lastName: string;
+  patronymic: string;
+  email: string;
+}
+
+export interface IUseTeacherCreate {
+  data: ITeacherCreateData | null;
+  createTeacher: (params: ITeacherCreateParams) => void;
+}
+
+export const useCreateTeacher = (): IUseTeacherCreate => {
+  const { user } = useAuthContext();
+  const { addErrors } = useMessagesContext();
+  const [data, setData] = useState<ITeacherCreateData | null>(null);
+
+  const createTeacher = (params: ITeacherCreateParams) => {
+    axios.post(`${process.env.REACT_APP_API_URL}/users/teacher/create`, params, {
+      headers: {
+        Authorization: `Bearer ${user?.accessToken}`,
+      },
+    })
+      .then((response: AxiosResponse<ITeacherCreateData | null>) => {
+        setData(response.data);
+      })
+      .catch((error) => {
+        addErrors(error.response.data.message);
+      });
+  };
+
+  return { data, createTeacher };
+};
+
 export interface ITeacher {
-  id?: number;
   firstName?: string;
   lastName?: string;
   patronymic?: string;

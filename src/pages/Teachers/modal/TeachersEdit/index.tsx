@@ -13,15 +13,7 @@ interface IStudentsDeleteModal {
   id: number;
 }
 
-interface IFormInitialData {
-  firstName: string;
-  lastName: string;
-  patronymic: string;
-  email: string;
-  courses: string[];
-}
-
-const formInitialData: IFormInitialData = {
+const formInitialData: ITeacher = {
   firstName: '',
   lastName: '',
   patronymic: '',
@@ -32,7 +24,7 @@ const formInitialData: IFormInitialData = {
 export const StudentsEditModal = ({ modalActive, closeModal, id }: IStudentsDeleteModal): JSX.Element => {
   const { patchTeacher, getTeacher } = useTeachersContext();
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [formData, setFormData] = useState<IFormInitialData>(formInitialData);
+  const [formData, setFormData] = useState<ITeacher>(formInitialData);
 
   const handleClose = () => {
     setIsSubmitted(false);
@@ -42,20 +34,10 @@ export const StudentsEditModal = ({ modalActive, closeModal, id }: IStudentsDele
   };
 
   const onSubmit = (e: React.FormEvent | undefined) => {
-    const query: ITeacher = { courses: [] };
-
     e?.preventDefault?.();
     setIsSubmitted(true);
-
-    if (formData.firstName !== getTeacher?.data?.items[0].firstName) query.firstName = formData.firstName;
-    if (formData.lastName !== getTeacher?.data?.items[0].lastName) query.lastName = formData.lastName;
-    if (formData.patronymic !== getTeacher?.data?.items[0].patronymic) {
-      query.patronymic = formData.patronymic;
-    }
-    if (formData.email !== getTeacher?.data?.items[0].email) query.email = formData.email;
-    query.courses = formData.courses.map((course) => +course);
-
-    patchTeacher?.patchTeacher(query, id);
+    patchTeacher?.patchTeacher(formData, id);
+    setFormData(formInitialData);
     handleClose();
   };
 
@@ -64,13 +46,13 @@ export const StudentsEditModal = ({ modalActive, closeModal, id }: IStudentsDele
   }, [id]);
 
   useEffect(() => {
-    if (getTeacher?.data) {
+    if (getTeacher?.data && id !== 0) {
       setFormData({
         firstName: getTeacher?.data?.items[0].firstName,
         lastName: getTeacher?.data?.items[0].lastName,
         patronymic: getTeacher?.data?.items[0].patronymic,
         email: getTeacher?.data?.items[0].email,
-        courses: getTeacher?.data?.items[0].courses.map((course) => `${course.id}`) || [],
+        courses: getTeacher?.data?.items[0].courses.map((course) => course.id) || [],
       });
     }
   }, [getTeacher?.data]);
@@ -115,10 +97,10 @@ export const StudentsEditModal = ({ modalActive, closeModal, id }: IStudentsDele
           label="Предмети"
           placeholder="Предмети"
           required
-          value={formData.courses}
+          value={formData.courses.map((value) => `${value}`)}
           onChange={(value) => setFormData({
             ...formData,
-            courses: value.map((option) => `${option.value}`),
+            courses: value.map((option) => +option.value),
           })}
         />
       </form>

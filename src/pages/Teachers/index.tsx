@@ -50,7 +50,7 @@ interface Params {
 }
 
 const Teachers = (): JSX.Element => {
-  const { getTeacher } = useTeachersContext();
+  const { getTeacher, createTeacher, patchTeacher, deleteTeacher } = useTeachersContext();
   const [isActiveModal, setIsActiveModal] = useState<IIsActiveTeacherModalState>(allCloseModalWindow);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
   const [params, setParams] = useState<Params>({
@@ -67,21 +67,21 @@ const Teachers = (): JSX.Element => {
       const arr: { subject: string[]; group: string[]; } = { subject: [], group: [] };
 
       item.courses.forEach((subject) => {
-        if (!subject.isActive) {
-          arr.subject.push(subject.name);
-          let srt = '';
+        // if (!subject.isActive) {
+        arr.subject.push(subject.name);
+        let srt = '';
 
-          subject.groups.forEach((group) => {
-            srt += ` ${group.name}`;
-          });
-          arr.group.push(srt);
-        }
+        subject.groups.forEach((group) => {
+          srt += ` ${group.name}`;
+        });
+        arr.group.push(srt);
+        // }
       });
 
       return {
         list: [
           { id: 1, label: `${item.lastName} ${item.firstName} ${item.patronymic}` },
-          { id: 2, label: arr.subject },
+          { id: 2, label: arr.subject ? arr.subject : '' },
           { id: 3, label: arr.group },
           { id: 4, label: item.email },
           {
@@ -143,7 +143,12 @@ const Teachers = (): JSX.Element => {
       setParams({ ...params, pagination: getTeacher.data.meta });
       setDataRow(tableRows(getTeacher.data ? getTeacher.data.items : []));
     }
-  }, [getTeacher?.data]);
+  }, [
+    createTeacher?.data,
+    getTeacher?.data,
+    patchTeacher?.data,
+    deleteTeacher?.data,
+  ]);
 
   return (
     <Layout>

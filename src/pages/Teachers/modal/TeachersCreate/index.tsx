@@ -4,31 +4,27 @@ import ModalControlButtons from '../../../../components/common/ModalControlButto
 import styles from '../index.module.scss';
 import Input from '../../../../components/common/Input';
 import MultiSelectCourses from '../../../../components/common/MultiSelect/MultiSelectCourses';
+import { useTeachersContext } from '../../../../context/teachers';
+import { ITeacherCreateParams } from '../../../../hooks/useTeachers';
 
 interface IStudentsDeleteModal {
   modalActive: boolean;
   closeModal: () => void;
 }
 
-interface IFormInitialData {
-  firstName: string;
-  lastName: string;
-  patronymic: string;
-  email: string;
-  courses: string[];
-}
-
-const formInitialData: IFormInitialData = {
+const formInitialData: ITeacherCreateParams = {
   firstName: '',
   lastName: '',
   patronymic: '',
   email: '',
+  role: 'teacher',
   courses: [],
 };
 
 export const StudentsDeleteModal = ({ modalActive, closeModal }: IStudentsDeleteModal): JSX.Element => {
+  const { createTeacher } = useTeachersContext();
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [formData, setFormData] = useState(formInitialData);
+  const [formData, setFormData] = useState<ITeacherCreateParams>(formInitialData);
 
   const handleClose = () => {
     setIsSubmitted(false);
@@ -47,6 +43,7 @@ export const StudentsDeleteModal = ({ modalActive, closeModal }: IStudentsDelete
       && !!formData.email
     ) {
       handleClose();
+      createTeacher?.createTeacher(formData);
     }
   };
 
@@ -90,10 +87,10 @@ export const StudentsDeleteModal = ({ modalActive, closeModal }: IStudentsDelete
           label="Предмети"
           placeholder="Предмети"
           required
-          value={formData.courses}
+          value={formData.courses.map((value) => `${value}`)}
           onChange={(value) => setFormData({
             ...formData,
-            courses: value.map((option) => `${option.value}`),
+            courses: value.map((option) => +option.value),
           })}
         />
       </form>

@@ -39,7 +39,10 @@ export const useCuratorsGet = (): IUseCuratorsGet => {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
-      params: { ...params },
+      params: {
+        orderByColumn: 'updated',
+        ...params,
+      },
     })
       .then((response: AxiosResponse<IPaginateData<IGetCuratorData> | null>) => {
         setData(response.data);

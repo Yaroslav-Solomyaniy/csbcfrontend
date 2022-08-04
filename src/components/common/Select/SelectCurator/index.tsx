@@ -6,7 +6,7 @@ import { useCuratorContext } from '../../../../context/curators';
 
 interface SelectCurator {
   label?: string;
-  value: string | number;
+  value: string | number | null;
   onChange: (value: string) => void;
   placeholder?: string;
   isSearchable?: boolean;
@@ -39,7 +39,7 @@ const SelectCurator = ({
     if (optionCurators?.items.length) {
       setOptions(optionCurators.items.map((curator) => ({
         value: curator.id,
-        label: `${curator.lastName} ${curator.firstName} ${curator.patronymic}`,
+        label: `${curator.lastName || null} ${curator.firstName || null} ${curator.patronymic || null}`,
       })));
     }
   }, [optionCurators]);

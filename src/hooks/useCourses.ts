@@ -39,13 +39,13 @@ export interface IGetCoursesData {
   semester: number;
   isExam: boolean;
   isCompulsory: boolean;
-  teacher: {
-    id: number;
-    firstName: string;
-    lastName: string;
-    patronymic: string;
-    email: string;
-  };
+  teacher?: {
+    id?: number;
+    firstName?: string;
+    lastName?: string;
+    patronymic?: string;
+    email?: string;
+  } | null;
   groups: {
     id: number;
     name: string;
@@ -147,7 +147,7 @@ interface IGetCourseIdData {
     'lastName': string;
     'patronymic': string;
     'email': string;
-  };
+  } | null;
   groups:
     {
       'id': number;
@@ -191,7 +191,7 @@ export interface ICourseEditParams {
   semester: number;
   isCompulsory: boolean | string;
   isExam: boolean;
-  teacher: number;
+  teacher: number | null;
   groups: number [];
 }
 

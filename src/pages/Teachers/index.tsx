@@ -118,7 +118,11 @@ const Teachers = (): JSX.Element => {
 
   useEffect(() => {
     getTeacher?.getTeacher({ groups: [], courses: [] });
-  }, []);
+  }, [
+    createTeacher?.data,
+    patchTeacher?.data,
+    deleteTeacher?.data,
+  ]);
 
   useEffect(() => {
     const query: IGetTeacherParams = { groups: [], courses: [] };

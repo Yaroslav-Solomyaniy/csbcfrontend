@@ -30,12 +30,12 @@ const SelectStudent = ({
   }, [createStudents?.data, patchStudentsItem?.data, deleteStudentsItem?.data]);
 
   useEffect(() => {
-    // if (listStudents?.items.length) {
-    //   setOptions(listStudents?.items.map((name) => ({
-    //     value: name.id,
-    //     label: `${name.lastName} ${name.firstName} ${name.patronymic}`,
-    //   })));
-    // }
+    if (listStudents?.items.length) {
+      setOptions(listStudents?.items.map((name) => ({
+        value: name.id,
+        label: `${name.user.lastName} ${name.user.firstName} ${name.user.patronymic}`,
+      })));
+    }
   }, [listStudents]);
 
   return (

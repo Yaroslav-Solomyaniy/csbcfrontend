@@ -82,7 +82,7 @@ export interface IGetParams {
   group?: string;
   orderNumber?: string;
   edeboId?: string;
-  isFullTime?: boolean;
+  isFullTime?: boolean | null;
   page?: number;
   limit?: number;
 }
@@ -102,7 +102,11 @@ export const useStudentsGet = (): IUseGetStudents => {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
-      params,
+      params: {
+        // orderByColumn: 'updated',
+        orderBy: 'DESC',
+        ...params,
+      },
     }).then((respons: AxiosResponse<IDataStudents>) => {
       setData(respons.data);
     }).catch((error) => {
@@ -150,7 +154,6 @@ export const useStudentCreate = (): ICreateStudents => {
         Authorization: `Bearer ${user?.accessToken}`,
       },
     }).then((response: AxiosResponse<ICreateStudentsData>) => {
-      addInfo('Студента успішно додано');
       setData(response.data);
     }).catch((error) => {
       addErrors(error.response.data.message);

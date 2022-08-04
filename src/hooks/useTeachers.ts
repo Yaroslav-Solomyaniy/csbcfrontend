@@ -51,7 +51,7 @@ export const useTeacherGet = (): IUseTeachersGet => {
   const [data, setData] = useState<IPaginateData<IGetTeacherData> | null>(null);
 
   const getTeacher = (params?: IGetTeacherParams) => {
-    axios.get(`${process.env.REACT_APP_API_URL}/users/teacher/courses`, {
+    axios.get(`${process.env.REACT_APP_API_URL}/users/teacher`, {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },

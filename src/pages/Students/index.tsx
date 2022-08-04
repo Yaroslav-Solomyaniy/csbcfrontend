@@ -48,7 +48,7 @@ const allCloseModalWindow: IIsActiveStudentsModalState = {
 interface Filter {
   studentId: number | null;
   group: string;
-  isFullTime: boolean | undefined;
+  isFullTime: boolean | null;
 }
 
 interface Params {
@@ -61,7 +61,7 @@ const Students = (): JSX.Element => {
   const [isActiveModal, setIsActiveModal] = useState<IIsActiveStudentsModalState>(allCloseModalWindow);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
   const [params, setParams] = useState<Params>({
-    filter: { studentId: null, group: '', isFullTime: undefined },
+    filter: { studentId: null, group: '', isFullTime: null },
     pagination: initialPagination,
   });
   const closeModal = () => {
@@ -128,7 +128,7 @@ const Students = (): JSX.Element => {
     } else {
       const query: IGetParams = {};
 
-      if (params.filter.isFullTime) query.isFullTime = params.filter.isFullTime;
+      if (params.filter.isFullTime !== null) query.isFullTime = params.filter.isFullTime;
       if (params.filter.group) query.group = params.filter.group;
       if (params.pagination.currentPage) query.page = params.pagination.currentPage;
       if (params.pagination.itemsPerPage) query.limit = params.pagination.itemsPerPage;
@@ -180,7 +180,6 @@ const Students = (): JSX.Element => {
                   filter: {
                     ...params.filter,
                     group: value,
-                    studentId: null,
                   },
                 })}
                 isClearable
@@ -200,8 +199,7 @@ const Students = (): JSX.Element => {
                   ...params,
                   filter: {
                     ...params.filter,
-                    isFullTime: value === 'Денна' ? true : value === '' ? undefined : false,
-                    studentId: null,
+                    isFullTime: value === 'Денна' ? true : value === '' ? null : false,
                   },
                 })}
               />

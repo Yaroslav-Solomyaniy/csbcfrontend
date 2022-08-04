@@ -35,7 +35,7 @@ export const useCuratorsGet = (): IUseCuratorsGet => {
   const [data, setData] = useState<IPaginateData<IGetCuratorData> | null>(null);
 
   const getCurators = (params?: IGetCuratorParams) => {
-    axios.get(`${process.env.REACT_APP_API_URL}/users/curator/groups`, {
+    axios.get(`${process.env.REACT_APP_API_URL}/users/curator`, {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },

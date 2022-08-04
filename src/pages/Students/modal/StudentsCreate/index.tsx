@@ -8,6 +8,7 @@ import ModalControlButtons from '../../../../components/common/ModalControlButto
 import SelectGroupById from '../../../../components/common/Select/SelectGroupById';
 import { Email, EmailValidation } from '../../../../types/regExp';
 import Select from '../../../../components/common/Select';
+import { useMessagesContext } from '../../../../context/useMessagesContext';
 
 interface IGroupCreateModal {
   closeModal: () => void;
@@ -36,7 +37,7 @@ const selectValueDefault = {
 
 export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateModal): JSX.Element => {
   const { createStudents, getOptionsGroups } = useStudentsContext();
-
+  const { addInfo } = useMessagesContext();
   const [formData, setFormData] = useState<IStudents>(formInitialData);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [selectValue, setSelectValue] = useState(selectValueDefault);
@@ -61,20 +62,29 @@ export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateMod
     setIsSubmitted(true);
 
     if (
-      !!formData.dateOfBirth
-      && !!formData.groupId
-      && !!formData.user.firstName
-      && !!formData.user.lastName
-      && !!formData.user.patronymic
-      && !!formData.user.email
-      && `${formData.orderNumber}`.length >= 6
+      `${formData.isFullTime}`.length !== 0
+      && formData.dateOfBirth
       && `${formData.edeboId}`.length === 8
-      && `${formData.isFullTime}`.length !== 0
+      && formData.groupId
+      && `${formData.orderNumber}`.length >= 6
+      && `${formData.orderNumber}`.length <= 20
+      && formData.user.firstName
+      && formData.user.lastName
+      && formData.user.patronymic
+      && Email.test(formData.user.email)
     ) {
+      console.log(formData);
       createStudents?.addStudent(formData);
-      handleClose();
     }
   };
+
+  useEffect(() => {
+    if (createStudents?.data) {
+      handleClose();
+      addInfo(`Студента
+    ${formData.user.lastName} ${formData.user.firstName} ${formData.user.patronymic} успішно додано`);
+    }
+  }, [createStudents?.data]);
 
   return (
     <ModalWindow modalTitle="Створення студента" active={modalActive} closeModal={handleClose}>
@@ -147,7 +157,7 @@ export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateMod
           required
           label="ЄДЕБО"
           placeholder="ЄДЕБО"
-          value={formData.edeboId?.slice(0, 10)}
+          value={formData.edeboId?.slice(0, 8)}
           onChange={(event) => {
             setFormData({ ...formData, edeboId: event.target.value });
           }}

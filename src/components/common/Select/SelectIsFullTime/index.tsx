@@ -3,7 +3,7 @@ import { SelectType } from '../../../../types';
 
 interface SelectCurator {
   label?: string;
-  value: boolean | undefined;
+  value: boolean | null;
   onChange: (value: string) => void;
   placeholder?: string;
   isSearchable?: boolean;
@@ -31,7 +31,7 @@ const SelectIsFullTime = ({
       type={type}
       label={label}
       onChange={onChange}
-      value={value ? 'Денна' : value === undefined ? '' : 'Заочна'}
+      value={value ? 'Денна' : value === null ? '' : 'Заочна'}
       options={options}
       placeholder={placeholder}
       isSearchable

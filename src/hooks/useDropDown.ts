@@ -204,10 +204,13 @@ interface IGetListStudentParams {
 }
 
 interface IGetListStudentsData {
-  'id': number;
-  'firstName': string;
-  'lastName': string;
-  'patronymic': string;
+  id: number;
+  user: {
+    id: number;
+    firstName: string;
+    lastName: string;
+    patronymic: string;
+  };
 }
 
 interface IUseGetListStudents {
@@ -221,7 +224,7 @@ export const useGetListStudents = (): IUseGetListStudents => {
   const [listStudents, setListStudents] = useState<IPaginateData<IGetListStudentsData> | null>(null);
 
   const getListStudents = (params?: IGetListStudentParams) => {
-    axios.get(`${process.env.REACT_APP_API_URL}/users/dropdown/student`, {
+    axios.get(`${process.env.REACT_APP_API_URL}/students/dropdown/name`, {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },

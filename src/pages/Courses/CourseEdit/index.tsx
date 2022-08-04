@@ -59,7 +59,7 @@ export const CourseEdit = ({ modalActive, closeModal, Id }: IEditModal): JSX.Ele
       const data = {
         name: getCourseId?.data.name,
         groups: getCourseId.data.groups.map((item) => item.id),
-        teacher: getCourseId.data.teacher.id,
+        teacher: getCourseId?.data?.teacher?.id || null,
         credits: getCourseId.data.credits ? +getCourseId.data.credits : null,
         semester: getCourseId.data.semester,
         isActive: getCourseId.data.isActive,

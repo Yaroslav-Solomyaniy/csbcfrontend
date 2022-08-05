@@ -70,7 +70,6 @@ const Administrators = (): JSX.Element => {
 
     getAdministrators?.getUser(query);
   }, [
-    getAdministrators,
     params.filter.administrator,
     params.pagination.currentPage,
     params.pagination.itemsPerPage,

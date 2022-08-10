@@ -1,0 +1,26 @@
+.react-datepicker__input-container > input {
+  max-width: 248px;
+  width: 100%;
+  height: 30px;
+  font-size: 16px;
+  padding: 4px 16px;
+  margin-top: 16px;
+  border-radius: 8px;
+}
+
+.react-datepicker__close-icon {
+  max-height: 30px;
+  height: 30px;
+  margin-top: 16px;
+  background: transparent;
+  color: black;
+}
+
+.react-datepicker__close-icon::after {
+  width: 0;
+  height: 30px;
+  color: black;
+  background: transparent;
+  padding: 0;
+  font-size: 25px;
+}

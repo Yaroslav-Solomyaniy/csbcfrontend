@@ -84,7 +84,6 @@ const App = (): JSX.Element => {
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
-
   );
 };
 

@@ -1,7 +1,5 @@
 import React, { CSSProperties } from 'react';
 
-/* eslint-disable max-len */
-
 interface Svg {
   children: React.ReactNode;
   className?: string;

@@ -128,6 +128,56 @@ const Styles: any = {
       height: '32px',
     }),
   },
+  multimodal: {
+    control: (provided: any) => ({
+      ...provided,
+      background: '#fff',
+      borderColor: 'rgba(0,0,0,0.1)',
+      minHeight: '32px',
+      height: '32px',
+      borderRadius: '8px',
+      marginTop: 16,
+      border: '1px solid rgba(0, 0, 0, 0.1)',
+      boxShadow: 'none',
+      '&:hover': {
+        border: '1px solid rgba(39, 111, 173, 1)',
+      },
+      '&:focus': {
+        border: '1px solid rgba(39, 111, 173, 1)',
+      },
+      '&:active': {
+        border: '1px solid rgba(39, 111, 173, 1)',
+      },
+    }),
+    menu: (base: any) => ({
+      ...base,
+      background: 'rgba(215, 231, 244, 1)',
+    }),
+    menuList: (base: any) => ({
+      ...base,
+      background: 'white',
+    }),
+
+    valueContainer: (provided: any) => ({
+      ...provided,
+      height: '32px',
+      padding: '0 16px',
+    }),
+
+    input: (provided: any) => ({
+      ...provided,
+      margin: '0px',
+      padding: '0',
+    }),
+    indicatorSeparator: (provided: any) => ({
+      ...provided,
+      display: 'none',
+    }),
+    indicatorsContainer: (provided: any) => ({
+      ...provided,
+      height: '32px',
+    }),
+  },
 };
 
 const Select = ({
@@ -146,12 +196,14 @@ const Select = ({
 
   <div className={styles.wrap}>
     {label && (
-    <label className={clsx(styles.label, error && styles.error_label)}>
+    <label
+      className={clsx(type === 'multimodal' ? styles.multiModalLabel : styles.label, error && styles.error_label)}
+    >
       {label}
       {required && <span className={styles.required}>*</span>}
     </label>
     )}
-    <div className={styles.selectWrap}>
+    <div className={clsx(type === 'multimodal' ? styles.multiSelectWrap : styles.selectWrap)}>
       <ReactSelect<Option>
         isDisabled={isDisabled}
         menuPosition="absolute"

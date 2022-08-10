@@ -1,0 +1,103 @@
+import React, { useState } from 'react';
+import styles from './index.module.scss';
+import SelectSemester from '../../Select/SelectSemester';
+import SelectCourse from '../../Select/SelectCourse';
+import Button from '../../Button';
+import plus from '../../../../images/plus.svg';
+import minus from '../../../../images/minus.svg';
+
+interface IMultiSelectCourseSemestr {
+  error?: string;
+  isProfileCourse?: boolean;
+}
+
+const MultiSelectCourseSemestr = ({ error, isProfileCourse }: IMultiSelectCourseSemestr): JSX.Element => {
+  const initialState = [
+    { id: new Date().getTime(), courseId: '', semester: 1 },
+  ];
+
+  const [data, setData] = useState(initialState);
+
+  const updateCourse = (id: number, course: string) => {
+    const newState = data.map((obj) => {
+      if (obj.id === id) {
+        return { ...obj, courseId: course };
+      }
+
+      return obj;
+    });
+
+    setData(newState);
+  };
+
+  const updateSemester = (id: number, item: string) => {
+    const newState = data.map((obj) => {
+      if (obj.id === id) {
+        return { ...obj, semester: +item };
+      }
+
+      return obj;
+    });
+
+    setData(newState);
+  };
+
+  const addNewRow = () => {
+    setData((oldArray) => [...oldArray, { id: new Date().getTime(), courseId: '', semester: 1 }]);
+  };
+  const deleteRowById = (itemId: number) => {
+    setData(data.filter((items) => items.id !== itemId));
+  };
+
+  return (
+    <div className={styles.multiSel}>
+      <h6 className={styles.title}>{isProfileCourse ? 'Профільні предмети:' : 'Непрофільні предмети:'}</h6>
+      {data.map((obj, index) => (
+        <div key={obj.id} className={styles.row}>
+          <SelectCourse
+            placeholder="Предмет"
+            isClearable
+            isSearchable
+            value={obj.courseId}
+            onChange={(e) => updateCourse(obj.id, e)}
+            type="multimodal"
+          />
+          <SelectSemester
+            value={obj.semester}
+            onChange={(e) => updateSemester(obj.id, e)}
+            type="modal"
+          />
+          {index === data.length - 1
+            ? (
+              <Button onClick={(e) => addNewRow()} isImg className={styles.button}>
+                <img
+                  src={plus}
+                  alt="Добавити елемент"
+                />
+              </Button>
+            )
+            : (
+              <Button onClick={(e) => deleteRowById(obj.id)} isImg className={styles.button}>
+                <img
+                  src={minus}
+                  alt="Видалити елемент"
+                />
+              </Button>
+            )}
+        </div>
+      ))}
+      {error && (
+        <div className={styles.error}>
+          <div className={styles.textError}>{error}</div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+MultiSelectCourseSemestr.defaultProps = {
+  error: '',
+  isProfileCourse: false,
+};
+
+export default MultiSelectCourseSemestr;

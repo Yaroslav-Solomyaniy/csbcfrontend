@@ -20,6 +20,7 @@ body {
   height: 100vh;
   font-family: Halvetica, Arial, sans-serif;
   font-size: 14px;
+  background: white;
 }
 
 .LinkPasswordRecovery {

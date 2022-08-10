@@ -13,6 +13,7 @@ interface SelectCourse {
   isSearchable?: boolean;
   isClearable?: boolean;
   required?: boolean;
+  error?: string;
 }
 
 const SelectCourse = ({
@@ -24,6 +25,7 @@ const SelectCourse = ({
   isSearchable,
   isClearable,
   required,
+  error,
 }: SelectCourse): JSX.Element => {
   const [options, setOptions] = useState<Option[]>([]);
   const { courseCreate, courseEdit, courseDelete } = useCourseContext();
@@ -50,6 +52,7 @@ const SelectCourse = ({
       isSearchable={isSearchable}
       isClearable={isClearable}
       required={required}
+      error={error}
     />
   );
 };
@@ -61,6 +64,7 @@ SelectCourse.defaultProps = {
   isClearable: false,
   required: false,
   isFilter: false,
+  error: '',
 };
 
 export default SelectCourse;

@@ -12,19 +12,25 @@
   pointer-events: none;
   transition: all 0.5s;
 
+
   &.active {
     opacity: 1;
     pointer-events: all;
   }
 
   &__content {
+    max-height: 700px;
     width: 700px;
-    height: auto;
+    overflow: auto;
     background: #F3F3F3;
     border-radius: 8px;
     transform: scale(0.5);
     transition: all .5s;
     padding: 15px;
+
+    &::-webkit-scrollbar-button {
+      width: 5px;
+    }
 
     &.active {
       transform: scale(1);

@@ -14,16 +14,20 @@
     margin-top: 16px;
   }
 
+  .multiSelectWrap {
+    .select {
+      min-width: 270px;
+      max-width: 270px;
+      margin-right: 10px;
+    }
+  }
+
   .selectWrap {
     width: 100%;
 
     .select {
       max-width: 280px;
       width: 100%;
-    }
-
-    .control {
-      border-radius: 8px;
     }
 
     .error {

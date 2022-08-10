@@ -6,7 +6,7 @@ interface IButton {
   children: React.ReactChild | React.ReactNode;
   nameClass?: string;
   className?: string;
-  onClick: (e: React.FormEvent | undefined) => void;
+  onClick: (e: React.FormEvent | undefined) => void | void;
   size?: string;
   disabled?: boolean;
   isImg?: boolean;

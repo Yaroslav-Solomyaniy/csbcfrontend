@@ -3,7 +3,7 @@ export interface Option {
   label: string | number;
 }
 
-export type SelectType = 'filter' | 'modal' | 'pagination';
+export type SelectType = 'filter' | 'modal' | 'pagination' | 'multimodal';
 export type OrderBy = 'ASC' | 'DESC';
 
 export interface IEditModal {

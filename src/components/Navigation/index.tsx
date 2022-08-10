@@ -1,13 +1,15 @@
 import React from 'react';
-import { Group } from '../common/Icon';
-import svgStudents from '../../images/Students.svg';
-import svgAdministrators from '../../images/Administrators.svg';
-import svgCurators from '../../images/Curators.svg';
-import svgTeachers from '../../images/Teachers.svg';
-import svgCourses from '../../images/Courses.svg';
-import svgEstimates from '../../images/Estimates.svg';
-import svgIndividualPlan from '../../images/individual_plan.svg';
-import svgVotingAdmin from '../../images/VotingAdmin.svg';
+import {
+  Administrators,
+  Courses,
+  Curators,
+  Estimates,
+  Group,
+  IndividualPlan,
+  Students,
+  Teachers,
+  VotingAdmin,
+} from '../common/Icon';
 import NavigationItem from './NavigationItem';
 import styles from './index.module.scss';
 
@@ -26,57 +28,57 @@ const routes: IRoute[] = [
   {
     title: 'Студенти',
     to: '/students',
-    ico: svgStudents,
+    ico: <Students />,
   },
   {
     title: 'Куратори',
     to: '/curators',
-    ico: svgCurators,
+    ico: <Curators />,
   },
   {
     title: 'Викладачі',
     to: '/teachers',
-    ico: svgTeachers,
+    ico: <Teachers />,
   },
   {
     title: 'Предмети',
     to: '/courses',
-    ico: svgCourses,
+    ico: <Courses />,
   },
   {
     title: 'Оцінки',
     to: '/estimates',
-    ico: svgEstimates,
+    ico: <Estimates />,
   },
   {
     title: 'Голоc. адмін',
     to: '/voting-admin',
-    ico: svgVotingAdmin,
+    ico: <VotingAdmin />,
   },
   {
     title: 'Адміністратори',
     to: '/administrators',
-    ico: svgAdministrators,
+    ico: <Administrators />,
   },
   {
     title: 'Індив. план',
     to: '/individual-plan',
-    ico: svgIndividualPlan,
+    ico: <IndividualPlan />,
   },
   {
     title: 'Голос. студ.',
     to: '/voting-students',
-    ico: svgVotingAdmin,
+    ico: <VotingAdmin />,
   },
   {
     title: 'Викладач',
     to: '/teacher',
-    ico: svgTeachers,
+    ico: <Teachers />,
   },
   {
     title: 'Куратор',
     to: '/curator',
-    ico: svgCurators,
+    ico: <Curators />,
   },
 ];
 

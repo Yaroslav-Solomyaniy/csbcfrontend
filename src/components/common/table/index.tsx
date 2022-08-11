@@ -10,8 +10,8 @@ interface ITable {
   dataRow: ITableRowItem[];
   gridColumns: string;
   filter?: JSX.Element;
-  pagination: Pagination;
-  onPaginationChange: (pagination: Pagination) => void;
+  pagination?: Pagination;
+  onPaginationChange?: (pagination: Pagination) => void;
 }
 
 const Table = ({ dataHeader, dataRow, gridColumns, filter, pagination, onPaginationChange }: ITable): JSX.Element => (
@@ -33,8 +33,6 @@ const Table = ({ dataHeader, dataRow, gridColumns, filter, pagination, onPaginat
   </>
 );
 
-Table.defaultProps = {
-  filter: <div />,
-};
+Table.defaultProps = { filter: <div />, pagination: [], onPaginationChange: undefined };
 
 export default Table;

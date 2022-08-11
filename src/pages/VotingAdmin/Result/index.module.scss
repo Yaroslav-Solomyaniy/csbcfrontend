@@ -1,0 +1,46 @@
+.statusVoting {
+  text-align: center;
+  margin: 15px 0;
+  font-size: 14px;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.75);
+}
+
+.blockControlButtons {
+  display: flex;
+}
+
+.controlButton {
+  width: 50%;
+  border: none;
+  border-radius: 0;
+  color: rgba(0, 0, 0, 0.85);
+  background: transparent;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 22px;
+  border-bottom: 2px solid grey;
+  cursor: pointer;
+}
+
+.isActiveButton {
+  border-bottom: 2px solid rgb(66, 139, 202);
+  cursor: pointer;
+}
+
+.BlockCourses {
+  margin-bottom: 30px;
+
+  &Title {
+    margin-top: 16px;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 28px;
+  }
+}
+
+
+.columns {
+  grid-template-columns: repeat(3, 1fr);
+}

@@ -72,7 +72,6 @@ export const useCoursesGet = (): IUseCoursesGet => {
     })
       .then((response: AxiosResponse<IPaginateData<IGetCoursesData> | null>) => {
         setData(response.data);
-        console.log(response);
       })
       .catch((error) => {
         addErrors(error.response.data.message);

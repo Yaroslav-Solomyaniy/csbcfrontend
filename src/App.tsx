@@ -34,27 +34,38 @@ const App = (): JSX.Element => {
       <Routes>
         {user && (
           <>
-            <Route index element={<GroupProvider><Group /></GroupProvider>} />
-            <Route path="/students" element={<StudentsProvider><Students /></StudentsProvider>} />
-            <Route path="/curators" element={<CuratorsProvider><Curators /></CuratorsProvider>} />
-            <Route path="/teachers" element={<TeachersProvider><Teachers /></TeachersProvider>} />
-            <Route path="/courses" element={<CourseProvider><Courses /></CourseProvider>} />
+            <Route
+              index
+              element={<GroupProvider><Group /></GroupProvider>}
+            />
+            <Route
+              path="/students"
+              element={<StudentsProvider><Students /></StudentsProvider>}
+            />
+            <Route
+              path="/curators"
+              element={<CuratorsProvider><Curators /></CuratorsProvider>}
+            />
+            <Route
+              path="/teachers"
+              element={<TeachersProvider><Teachers /></TeachersProvider>}
+            />
+            <Route
+              path="/courses"
+              element={<CourseProvider><Courses /></CourseProvider>}
+            />
             <Route
               path="/estimates"
-              element={(
-                <EstimatesProvider>
-                  <Estimates />
-                </EstimatesProvider>
-              )}
+              element={(<EstimatesProvider><Estimates /></EstimatesProvider>)}
             />
-            <Route path="/voting-admin" element={<VotingAdmin />} />
+            <Route
+              path="/voting-admin"
+              element={<VotingAdmin />}
+            />
             <Route
               path="/administrators"
-              element={
-                <AdministratorsProvider><Administrators /></AdministratorsProvider>
-              }
+              element={<AdministratorsProvider><Administrators /></AdministratorsProvider>}
             />
-
             <Route path="/individual-plan" element={<IndPlan />} />
             <Route path="/voting-students" element={<VotingStudents />} />
 

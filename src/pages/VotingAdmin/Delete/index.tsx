@@ -12,7 +12,7 @@ const formInitialData = {
   patronymic: '',
 };
 
-export const AdministratorDeleteModal = ({ modalActive, closeModal, Id }: IDeleteModal): JSX.Element => {
+export const VotingDeleteModal = ({ modalActive, closeModal, Id }: IDeleteModal): JSX.Element => {
   const { administratorsDelete, getAdministratorsId } = useAdministratorsContext();
   const [formData, setFormData] = useState(formInitialData);
   const { addInfo } = useMessagesContext();
@@ -51,19 +51,13 @@ export const AdministratorDeleteModal = ({ modalActive, closeModal, Id }: IDelet
   };
 
   return (
-    <ModalWindow modalTitle="Видалення адміністратора" active={modalActive} closeModal={handleClose}>
+    <ModalWindow modalTitle="Видалення голосування" active={modalActive} closeModal={handleClose}>
       <form className={styles.form} onSubmit={onSubmit}>
         <h3 className={styles.subtitle}>
           {' '}
-          Ви дійсно бажаєте видалити адміністратора
+          Ви дійсно бажаєте видалити голосування для груп:
           `
           {formData.lastName}
-          {' '}
-
-          {formData.firstName}
-          {' '}
-
-          {formData.patronymic}
           `?
           {' '}
         </h3>
@@ -78,4 +72,4 @@ export const AdministratorDeleteModal = ({ modalActive, closeModal, Id }: IDelet
   );
 };
 
-export default AdministratorDeleteModal;
+export default VotingDeleteModal;

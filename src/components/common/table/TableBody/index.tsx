@@ -17,8 +17,8 @@ export interface ITableRowItem {
 interface ITableBody {
   gridColumns: string;
   dataRow: ITableRowItem[];
-  pagination: Pagination;
-  onPaginationChange: (pagination: Pagination) => void;
+  pagination?: Pagination;
+  onPaginationChange?: (pagination: Pagination) => void;
 }
 
 const TableBody = ({ dataRow, gridColumns, pagination, onPaginationChange }: ITableBody): JSX.Element => (
@@ -44,8 +44,14 @@ const TableBody = ({ dataRow, gridColumns, pagination, onPaginationChange }: ITa
         </div>
       ))}
     </div>
-    <TableFooter pagination={pagination} onPaginationChange={onPaginationChange} />
+    {pagination && onPaginationChange
+      ? <TableFooter pagination={pagination} onPaginationChange={onPaginationChange} />
+      : ''}
   </>
 );
 
+TableBody.defaultProps = {
+  pagination: [],
+  onPaginationChange: (e: any) => undefined,
+};
 export default TableBody;

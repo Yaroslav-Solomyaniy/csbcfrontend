@@ -29,7 +29,7 @@ const SelectDate = ({ value, onChange, label, error, required }: SelectDate) => 
         selected={value}
         onChange={onChange}
         timeInputLabel="Час:"
-        dateFormat="Pp:mm"
+        dateFormat="Pp"
         timeFormat="p"
         showTimeInput
         showMonthDropdown

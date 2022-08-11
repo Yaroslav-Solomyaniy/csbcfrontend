@@ -7,6 +7,7 @@ import { ITableHeader } from '../../components/common/table/TableHeader';
 import Table from '../../components/common/table';
 import { ITableRowItem } from '../../components/common/table/TableBody';
 import { initialPagination, Pagination } from '../../types';
+import VotingResultModal from './Result';
 import VotingCreateModal from './Create';
 
 const dataHeader: ITableHeader[] = [
@@ -22,14 +23,14 @@ export interface IIsActiveModalState {
   create: boolean;
   edit: number;
   delete: number;
-  result: number;
+  result: boolean;
 }
 
 const allCloseModalWindow: IIsActiveModalState = {
   create: false,
   edit: 0,
   delete: 0,
-  result: 0,
+  result: false,
 };
 
 interface Params {
@@ -84,14 +85,24 @@ const VotingAdmin = (): JSX.Element => {
         <TitlePage
           title="Голосування"
           action={(
-            <Button
-              nameClass="primary"
-              size="large"
-              className={styles.actions}
-              onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
-            >
-              Створити
-            </Button>
+            <>
+              <Button
+                nameClass="primary"
+                size="large"
+                className={styles.actions}
+                onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
+              >
+                Створити
+              </Button>
+              <Button
+                nameClass="primary"
+                size="large"
+                className={styles.actions}
+                onClick={() => setIsActiveModal({ ...isActiveModal, result: true })}
+              >
+                Результати
+              </Button>
+            </>
           )}
         />
 
@@ -103,16 +114,9 @@ const VotingAdmin = (): JSX.Element => {
           onPaginationChange={(newPagination) => setParams({ ...params, pagination: newPagination })}
         />
         <VotingCreateModal modalActive={isActiveModal.create} closeModal={closeModal} />
-        {/*   <AdministratorEditModal
-          modalActive={!!isActiveModal.edit}
-          Id={isActiveModal.edit}
-          closeModal={closeModal}
-        />
-        <AdministratorDeleteModal
-          modalActive={!!isActiveModal.delete}
-          Id={isActiveModal.delete}
-          closeModal={closeModal}
-        /> */}
+        {/* <VotingEditModal modalActive={!!isActiveModal.edit} Id={isActiveModal.edit} closeModal={closeModal} />
+        <VotingDeleteModal modalActive={!!isActiveModal.delete} Id={isActiveModal.delete} closeModal={closeModal} /> */}
+        <VotingResultModal modalActive={isActiveModal.result} Id={isActiveModal.edit} closeModal={closeModal} />
       </div>
     </Layout>
   );

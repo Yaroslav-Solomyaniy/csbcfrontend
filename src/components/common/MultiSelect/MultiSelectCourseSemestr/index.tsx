@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './index.module.scss';
 import SelectSemester from '../../Select/SelectSemester';
 import SelectCourse from '../../Select/SelectCourse';
@@ -9,15 +9,20 @@ import minus from '../../../../images/minus.svg';
 interface IMultiSelectCourseSemestr {
   error?: string;
   isProfileCourse?: boolean;
+  data: {
+    id: number;
+    courseId: string;
+    semester: number;
+  }[];
+  setData: (data: { id: number; courseId: string; semester: number; }[]) => void;
 }
 
-const MultiSelectCourseSemestr = ({ error, isProfileCourse }: IMultiSelectCourseSemestr): JSX.Element => {
-  const initialState = [
-    { id: new Date().getTime(), courseId: '', semester: 1 },
-  ];
-
-  const [data, setData] = useState(initialState);
-
+const MultiSelectCourseSemestr = ({
+  error,
+  isProfileCourse,
+  data,
+  setData,
+}: IMultiSelectCourseSemestr): JSX.Element => {
   const updateCourse = (id: number, course: string) => {
     const newState = data.map((obj) => {
       if (obj.id === id) {
@@ -43,7 +48,7 @@ const MultiSelectCourseSemestr = ({ error, isProfileCourse }: IMultiSelectCourse
   };
 
   const addNewRow = () => {
-    setData((oldArray) => [...oldArray, { id: new Date().getTime(), courseId: '', semester: 1 }]);
+    setData([...data, { id: new Date().getTime(), courseId: '', semester: 1 }]);
   };
   const deleteRowById = (itemId: number) => {
     setData(data.filter((items) => items.id !== itemId));

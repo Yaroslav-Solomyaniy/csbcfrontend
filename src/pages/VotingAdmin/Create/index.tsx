@@ -3,27 +3,34 @@ import ModalWindow from '../../../components/common/ModalWindow';
 import styles from '../index.module.scss';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
 import { ICreateModal } from '../../../types';
-import { useMessagesContext } from '../../../context/useMessagesContext';
-import { useAdministratorsContext } from '../../../context/administators';
 import 'react-datepicker/dist/react-datepicker.css';
 import SelectDate from '../../../components/common/Select/SelectDate';
 import MultiSelectGroup from '../../../components/common/MultiSelect/MultiSelectGroup';
 import MultiSelectCourseSemestr from '../../../components/common/MultiSelect/MultiSelectCourseSemestr';
 
-interface IVoting {
+export interface IVoting {
   groups: number [];
+  firstDate: Date | null;
+  lastDate: Date | null;
+  requiredCourse: { id: number; courseId: string; semester: number; }[];
+  notRequiredCourse: { id: number; courseId: string; semester: number; }[];
 }
+
+export const initialState = [
+  { id: new Date().getTime(), courseId: '', semester: 1 },
+];
 
 const formInitialData: IVoting/*: IUserCreateParams */ = {
   groups: [],
+  firstDate: null,
+  lastDate: null,
+  requiredCourse: initialState,
+  notRequiredCourse: initialState,
 };
 
 export const VotingCreateModal = ({ modalActive, closeModal }: ICreateModal): JSX.Element => {
-  const { administratorsCreate } = useAdministratorsContext();
-  const { addInfo } = useMessagesContext();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState/* <IUserCreateParams> */(formInitialData);
-  const [date, setDate] = useState<Date | null>(new Date());
 
   const handleClose = () => {
     setIsSubmitted(false);
@@ -34,7 +41,6 @@ export const VotingCreateModal = ({ modalActive, closeModal }: ICreateModal): JS
   const onSubmit = (e: React.FormEvent | undefined) => {
     e?.preventDefault?.();
     setIsSubmitted(true);
-    console.log(date);
     /* if (formData.firstName && formData.lastName && formData.patronymic && Email.test(formData.email)) {
        administratorsCreate?.createUser(formData);
      } */
@@ -50,6 +56,10 @@ export const VotingCreateModal = ({ modalActive, closeModal }: ICreateModal): JS
     }, [administratorsCreate?.data]);
   */
 
+  /* useEffect(() => {
+     setFormData({ ...formData, requireCourse: requiredCourse, notRequireCourse: notRequiredCourse });
+   }, [requiredCourse, notRequiredCourse]);
+ */
   return (
     <ModalWindow modalTitle="Створення голосування" active={modalActive} closeModal={handleClose}>
       <form className={styles.form} onSubmit={onSubmit}>
@@ -70,21 +80,30 @@ export const VotingCreateModal = ({ modalActive, closeModal }: ICreateModal): JS
           value={formData.groups.map((group) => `${group}`)}
           error={isSubmitted && formData.groups.length < 1 ? 'Групи не обрано.' : ''}
         />
-        <MultiSelectCourseSemestr isProfileCourse error="Тут буде якась помилка з роду помилок" />
-        <MultiSelectCourseSemestr error="Тут буде якась помилка з роду помилок" />
+        <MultiSelectCourseSemestr
+          data={formData.requiredCourse}
+          setData={(item) => setFormData({ ...formData, requiredCourse: item })}
+          isProfileCourse
+          error={isSubmitted && (formData.requiredCourse.every((element) => element.courseId === ''))
+            ? 'Не обрано жодного профільного предмету' : ''}
+        />
+        <MultiSelectCourseSemestr
+          data={formData.notRequiredCourse}
+          setData={(item) => setFormData({ ...formData, notRequiredCourse: item })}
+          error={isSubmitted && (formData.notRequiredCourse.every((element) => element.courseId === ''))
+            ? 'Не обрано жодного непрофільного предмету' : ''}
+        />
         <SelectDate
           label="Дата початку"
-          onChange={(newDate) => setDate(newDate)}
-          value={date}
-          isClearable
-          error={isSubmitted ? 'Помилка є' : 'Помилки немає'}
+          onChange={(item) => setFormData({ ...formData, firstDate: item })}
+          value={formData.firstDate}
+          error={isSubmitted && !formData.firstDate ? 'Дата початку голосування не обрана' : ''}
         />
         <SelectDate
           label="Дата кінця"
-          onChange={(newDate) => setDate(newDate)}
-          value={date}
-          isClearable
-          error={isSubmitted ? 'Помилка є' : 'Помилки немає'}
+          onChange={(item) => setFormData({ ...formData, lastDate: item })}
+          value={formData.lastDate}
+          error={isSubmitted && !formData.lastDate ? 'Дата кінця голосування не обрана' : ''}
         />
       </form>
       <ModalControlButtons

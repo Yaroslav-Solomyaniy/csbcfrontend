@@ -60,7 +60,7 @@ export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateMod
   const onSubmit = (e: React.FormEvent | undefined) => {
     e?.preventDefault?.();
     setIsSubmitted(true);
-
+    console.log(formData);
     if (
       `${formData.isFullTime}`.length !== 0
       && formData.dateOfBirth

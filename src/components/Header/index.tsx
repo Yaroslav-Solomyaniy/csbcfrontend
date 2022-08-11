@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
 import { NavLink } from 'react-router-dom';
-import logo from '../../images/logo.png';
+import logo from '../../images/logo.svg';
 import styles from './index.module.scss';
 import buttonNav from '../../images/buttonNav.svg';
 import { useAuthContext } from '../../context/useAuthContext';

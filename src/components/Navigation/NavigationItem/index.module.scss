@@ -1,6 +1,6 @@
 .icon {
-  height: 15px;
-  width: 15px;
+  height: 16px;
+  width: 16px;
   margin: 6px;
   fill: #607180;
   color: red;
@@ -9,12 +9,27 @@
 .Active {
   background-color: #ffffff;
 
-  .icon path {
-    fill: #000000;
-  }
-
   .title {
     color: #000000;
+  }
+
+  .link:hover {
+    transition: all 0.1s;
+    background-color: #D7E7F4;
+  }
+
+  > svg {
+    color: black;
+  }
+
+  &:hover {
+    transition: all 0.1s;
+    background-color: #ffffff;
+    color: black;
+
+    > svg {
+      color: black;
+    }
   }
 }
 
@@ -30,6 +45,7 @@
   align-items: center;
   text-decoration: none;
   border-radius: 8px;
+  transition: all 1s;
 
   .title {
     overflow: hidden;
@@ -39,19 +55,22 @@
   }
 
   .icon {
-    transition: all 0.5s;
     margin: 12px;
   }
 
   > svg {
-    transition: all 0.5s;
-    margin: 12px;
-    height: 15px;
-    width: 15px;
+    width: 16px;
+    height: 16px;
+    margin: 13px 16px;
+    transition: all 0.1s;
     fill: #607180;
   }
 
   &:hover {
+    transition: all 0.1s;
+    background-color: #D7E7F4;
+    color: black;
+
     > svg {
       color: black;
     }

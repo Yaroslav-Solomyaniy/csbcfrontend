@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useGroupContext } from '../../../context/group';
 import { IGroupCreateParams } from '../../../hooks/useGroups';
 import ModalWindow from '../../../components/common/ModalWindow';
-import styles from './index.module.scss';
+import styles from '../../pagesStyle.module.scss';
 import Input from '../../../components/common/Input';
 import SelectCurator from '../../../components/common/Select/SelectCurator';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';

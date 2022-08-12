@@ -13,6 +13,7 @@ import TeachersDelete from './modal/TeachersDelete';
 import TeachersCreate from './modal/TeachersCreate';
 import SelectTeacher from '../../components/common/Select/SelectTeacher';
 import styles from './index.module.scss';
+import pagesStyle from '../pagesStyle.module.scss';
 import edit from '../../images/table/edit.svg';
 import del from '../../images/table/delete.svg';
 import TeachersEdit from './modal/TeachersEdit';
@@ -87,11 +88,10 @@ const Teachers = (): JSX.Element => {
           {
             id: 5,
             label: (
-              <div className={styles.actions}>
+              <div className={pagesStyle.actions}>
                 <Button
                   isImg
                   type="button"
-                  className={styles.actions__button_edit}
                   onClick={() => {
                     setIsActiveModal({ ...allCloseModalWindow, edit: item.id });
                   }}
@@ -101,7 +101,6 @@ const Teachers = (): JSX.Element => {
                 <Button
                   isImg
                   type="button"
-                  className={styles.actions__button_delete}
                   onClick={() => {
                     setIsActiveModal({ ...allCloseModalWindow, delete: item.id });
                   }}
@@ -156,14 +155,13 @@ const Teachers = (): JSX.Element => {
 
   return (
     <Layout>
-      <div className={styles.students}>
+      <div>
         <TitlePage
           title="Викладачі"
           action={(
             <Button
               nameClass="primary"
               size="large"
-              className={styles.actions}
               onClick={() => {
                 setIsActiveModal({ ...allCloseModalWindow, create: true });
               }}

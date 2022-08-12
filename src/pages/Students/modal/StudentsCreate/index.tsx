@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import styles from '../index.module.scss';
+import stylesStud from '../../../pagesStyle.module.scss';
 import ModalWindow from '../../../../components/common/ModalWindow';
 import { IStudentCreateParams } from '../../../../hooks/useStudents';
 import Input from '../../../../components/common/Input';
@@ -82,7 +82,7 @@ export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateMod
 
   return (
     <ModalWindow modalTitle="Створення студента" active={modalActive} closeModal={handleClose}>
-      <form className={styles.form} onSubmit={onSubmit}>
+      <form className={stylesStud.form} onSubmit={onSubmit}>
         <Input
           required
           label="Прізвище"

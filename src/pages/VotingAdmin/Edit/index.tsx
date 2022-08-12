@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ModalWindow from '../../../components/common/ModalWindow';
-import styles from '../index.module.scss';
+import pagesStyle from '../../pagesStyle.module.scss';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
 import { IEditModal } from '../../../types';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -62,7 +62,7 @@ export const VotingEditModal = ({ modalActive, closeModal }: IEditModal): JSX.El
  */
   return (
     <ModalWindow modalTitle="Редагування голосування" active={modalActive} closeModal={handleClose}>
-      <form className={styles.form} onSubmit={onSubmit}>
+      <form className={pagesStyle.form} onSubmit={onSubmit}>
         <MultiSelectGroup
           type="modal"
           label="Групи"

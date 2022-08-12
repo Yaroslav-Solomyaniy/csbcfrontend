@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import styles from '../../Group/index.module.scss';
+// eslint-disable-next-line import/no-unresolved
+import pagesStyle from '../../pagesStyle.module.scss';
 import ModalWindow from '../../../components/common/ModalWindow';
 import { IGroupDeleteParams } from '../../../hooks/useGroups';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
@@ -49,8 +50,8 @@ export const CourseDeleteModal = ({ modalActive, closeModal, Id }: IGroupCreateM
 
   return (
     <ModalWindow modalTitle="Видалення предмету" active={modalActive} closeModal={handleClose}>
-      <form className={styles.form} onSubmit={onSubmit}>
-        <h3 className={styles.subtitle}>
+      <form className={pagesStyle.form} onSubmit={onSubmit}>
+        <h3 className={pagesStyle.subtitle}>
           Ви дійсно бажаєте видалити предмет "
           {getCourseId?.data?.name}
           "?

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import styles from '../index.module.scss';
+import pagesStyle from '../../pagesStyle.module.scss';
 import ModalWindow from '../../../components/common/ModalWindow';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
 import { IDeleteModal } from '../../../types';
@@ -52,8 +52,8 @@ export const VotingDeleteModal = ({ modalActive, closeModal, Id }: IDeleteModal)
 
   return (
     <ModalWindow modalTitle="Видалення голосування" active={modalActive} closeModal={handleClose}>
-      <form className={styles.form} onSubmit={onSubmit}>
-        <h3 className={styles.subtitle}>
+      <form className={pagesStyle.form} onSubmit={onSubmit}>
+        <h3 className={pagesStyle.subtitle}>
           {' '}
           Ви дійсно бажаєте видалити голосування для груп:
           `

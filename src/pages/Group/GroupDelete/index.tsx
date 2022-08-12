@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import styles from '../index.module.scss';
+import styles from '../../pagesStyle.module.scss';
 import ModalWindow from '../../../components/common/ModalWindow';
 import { IGroupDeleteParams } from '../../../hooks/useGroups';
 import { useGroupContext } from '../../../context/group';
@@ -51,7 +51,7 @@ export const GroupDelete = ({ modalActive, closeModal, Id }: IDeleteModal): JSX.
   return (
     <ModalWindow modalTitle="Видалення групи" active={modalActive} closeModal={handleClose}>
       <form className={styles.form} onSubmit={onSubmit}>
-        <h3 className={styles.subtitle}>Для підтвердження видалення введіть номер наказу.</h3>
+        <h3 className={styles.subtitle}>Для підтвердження видалення групи введіть номер наказу.</h3>
         <Input
           onChange={(event) => {
             setFormData({ ...formData, deletedOrderNumber: event.target.value });

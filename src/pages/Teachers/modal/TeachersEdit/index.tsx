@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ModalWindow from '../../../../components/common/ModalWindow';
 import ModalControlButtons from '../../../../components/common/ModalControlButtons';
-import styles from '../index.module.scss';
+import pagesStyle from '../../../pagesStyle.module.scss';
 import Input from '../../../../components/common/Input';
 import { useTeachersContext } from '../../../../context/teachers';
 import { ITeacher } from '../../../../hooks/useTeachers';
@@ -59,7 +59,7 @@ export const StudentsEditModal = ({ modalActive, closeModal, id }: IStudentsDele
 
   return (
     <ModalWindow modalTitle="Редагуваня викладача" active={modalActive} closeModal={handleClose}>
-      <form className={styles.form} onSubmit={onSubmit}>
+      <form className={pagesStyle.form} onSubmit={onSubmit}>
         <Input
           label="Прізвище"
           placeholder="Прізвище"

@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './index.module.scss';
+import stylesStud from '../../../pagesStyle.module.scss';
 import ModalWindow from '../../../../components/common/ModalWindow';
 import Select from '../../../../components/common/Select';
 import ModalControlButtons from '../../../../components/common/ModalControlButtons';
@@ -24,7 +25,7 @@ const StudentsReviewEdit = ({ modalActive, closeModal }: IStudentsReviewModal) =
 
   return (
     <ModalWindow modalTitle="Редагування індивідуального плану" active={modalActive} closeModal={handleClose}>
-      <form className={styles.form} onSubmit={onSubmit}>
+      <form className={stylesStud.form} onSubmit={onSubmit}>
         <p className={styles.form__name}>
           {`${getStudentById?.data?.user.lastName} ${getStudentById?.data?.user.firstName}
             ${getStudentById?.data?.user.patronymic}`}

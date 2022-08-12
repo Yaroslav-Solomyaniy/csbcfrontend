@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ModalWindow from '../../../components/common/ModalWindow';
-import styles from './index.module.scss';
+import pagesStyle from '../../pagesStyle.module.scss';
 import Input from '../../../components/common/Input';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
 import { useCuratorContext } from '../../../context/curators';
@@ -47,7 +47,7 @@ export const CuratorCreateModal = ({ modalActive, closeModal }: ICreateModal): J
 
   return (
     <ModalWindow modalTitle="Створення куратора" active={modalActive} closeModal={handleClose}>
-      <form className={styles.form} onSubmit={onSubmit}>
+      <form className={pagesStyle.form} onSubmit={onSubmit}>
         <Input
           onChange={(event) => {
             setFormData({ ...formData, lastName: event.target.value });

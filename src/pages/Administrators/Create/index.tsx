@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ModalWindow from '../../../components/common/ModalWindow';
-import styles from './index.module.scss';
+import pagesStyle from '../../pagesStyle.module.scss';
 import Input from '../../../components/common/Input';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
 import { ICreateModal } from '../../../types';
@@ -47,7 +47,7 @@ export const AdministratorCreateModal = ({ modalActive, closeModal }: ICreateMod
 
   return (
     <ModalWindow modalTitle="Створення адміністратора" active={modalActive} closeModal={handleClose}>
-      <form className={styles.form} onSubmit={onSubmit}>
+      <form className={pagesStyle.form} onSubmit={onSubmit}>
         <Input
           onChange={(event) => {
             setFormData({ ...formData, lastName: event.target.value });

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import styles from '../Group/index.module.scss';
-import stylesStud from './index.module.scss';
+import styles from './index.module.scss';
+import stylesStud from '../pagesStyle.module.scss';
 import Layout from '../../loyout/Layout';
 import TitlePage from '../../components/TitlePage';
 import Button from '../../components/common/Button';
@@ -99,11 +99,10 @@ const Students = (): JSX.Element => {
           {
             id: 7,
             label: (
-              <div className={styles.actions}>
+              <div className={stylesStud.actions}>
                 <Button
                   isImg
                   type="button"
-                  className={styles.actions__button_edit}
                   onClick={() => {
                     setIsActiveModal({ ...allCloseModalWindow, edit: item.id });
                   }}
@@ -113,7 +112,6 @@ const Students = (): JSX.Element => {
                 <Button
                   isImg
                   type="button"
-                  className={styles.actions__button_delete}
                   onClick={() => {
                     setIsActiveModal({ ...allCloseModalWindow, review: item.id });
                   }}
@@ -123,7 +121,6 @@ const Students = (): JSX.Element => {
                 <Button
                   isImg
                   type="button"
-                  className={styles.actions__button_delete}
                   onClick={() => {
                     setIsActiveModal({ ...allCloseModalWindow, delete: item.id });
                   }}
@@ -141,14 +138,13 @@ const Students = (): JSX.Element => {
 
   return (
     <Layout>
-      <div className={styles.students}>
+      <div>
         <TitlePage
           title="Студенти"
           action={(
             <Button
               nameClass="primary"
               size="large"
-              className={styles.actions}
               onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
             >
               Створити
@@ -193,7 +189,7 @@ const Students = (): JSX.Element => {
             </>
           )}
           dataHeader={dataHeader}
-          gridColumns={stylesStud.columns}
+          gridColumns={styles.columns}
           dataRow={dataRow}
           pagination={params.pagination}
           onPaginationChange={(newPagination) => setParams({ ...params, pagination: newPagination })}

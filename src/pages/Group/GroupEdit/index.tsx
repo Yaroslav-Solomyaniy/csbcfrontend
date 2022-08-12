@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import styles from '../index.module.scss';
+import styles from '../../pagesStyle.module.scss';
 import ModalWindow from '../../../components/common/ModalWindow';
 import { IGroupEditParams } from '../../../hooks/useGroups';
 import { useGroupContext } from '../../../context/group';

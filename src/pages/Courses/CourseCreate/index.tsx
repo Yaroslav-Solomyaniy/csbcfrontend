@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ModalWindow from '../../../components/common/ModalWindow';
-import styles from './index.module.scss';
+import pagesStyle from '../../pagesStyle.module.scss';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
 import { useMessagesContext } from '../../../context/useMessagesContext';
 import Input from '../../../components/common/Input';
@@ -58,7 +58,7 @@ export const CourseCreateModal = ({ modalActive, closeModal }: ICreateModal): JS
 
   return (
     <ModalWindow modalTitle="Створення предмету" active={modalActive} closeModal={handleClose}>
-      <form className={styles.form} onSubmit={onSubmit}>
+      <form className={pagesStyle.form} onSubmit={onSubmit}>
         <Input
           onChange={(event) => {
             setFormData({ ...formData, name: event.target.value });

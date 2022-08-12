@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import styles from '../index.module.scss';
+import pagesStyle from '../../pagesStyle.module.scss';
 import ModalWindow from '../../../components/common/ModalWindow';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
 import { useMessagesContext } from '../../../context/useMessagesContext';
@@ -78,7 +78,7 @@ export const CourseEdit = ({ modalActive, closeModal, Id }: IEditModal): JSX.Ele
 
   return (
     <ModalWindow modalTitle="Редагування предмету" active={modalActive} closeModal={handleClose}>
-      <form className={styles.form} onSubmit={onSubmit}>
+      <form className={pagesStyle.form} onSubmit={onSubmit}>
         <Input
           onChange={(event) => {
             setFormData({ ...formData, name: event.target.value });

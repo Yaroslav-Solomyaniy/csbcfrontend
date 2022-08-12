@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import styles from '../index.module.scss';
+import stylesStud from '../../../pagesStyle.module.scss';
 
 import { useStudentsContext } from '../../../../context/students';
 import ModalWindow from '../../../../components/common/ModalWindow';
@@ -89,7 +89,7 @@ export const StudentsEditModal = ({ modalActive, closeModal, id }: IGroupCreateM
 
   return (
     <ModalWindow modalTitle="Редагування студента" active={modalActive} closeModal={handleClose}>
-      <form className={styles.form} onSubmit={onSubmit}>
+      <form className={stylesStud.form} onSubmit={onSubmit}>
         <Input
           required
           label="Прізвище"

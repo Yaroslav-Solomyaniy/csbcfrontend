@@ -3,7 +3,7 @@ import ModalWindow from '../../../../components/common/ModalWindow';
 import Input from '../../../../components/common/Input';
 import ModalControlButtons from '../../../../components/common/ModalControlButtons';
 import { useStudentsContext } from '../../../../context/students';
-import styles from '../index.module.scss';
+import stylesStud from '../../../pagesStyle.module.scss';
 
 interface IStudentsDeleteModal {
   modalActive: boolean;
@@ -50,8 +50,8 @@ export const StudentsDeleteModal = ({ modalActive, closeModal, studentId }: IStu
 
   return (
     <ModalWindow modalTitle="Видалення студента" active={modalActive} closeModal={handleClose}>
-      <form className={styles.form} onSubmit={onSubmit}>
-        <h3 className={styles.subtitle}>Для підтвердження видалення введіть номер наказу.</h3>
+      <form className={stylesStud.form} onSubmit={onSubmit}>
+        <h3 className={stylesStud.subtitle}>Для підтвердження видалення введіть номер наказу.</h3>
         <Input
           onChange={(event) => {
             setFormData({ ...formData, deletedOrderNumber: event.target.value });

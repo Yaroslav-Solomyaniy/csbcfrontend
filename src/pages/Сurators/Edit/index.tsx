@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import styles from '../index.module.scss';
+import pagesStyle from '../../pagesStyle.module.scss';
 import ModalWindow from '../../../components/common/ModalWindow';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
 import { IEditModal } from '../../../types';
@@ -70,7 +70,7 @@ export const CuratorEditModal = ({ modalActive, closeModal, Id }: IEditModal): J
 
   return (
     <ModalWindow modalTitle="Редагування куратора" active={modalActive} closeModal={handleClose}>
-      <form className={styles.form} onSubmit={onSubmit}>
+      <form className={pagesStyle.form} onSubmit={onSubmit}>
         <Input
           onChange={(event) => {
             setFormData({ ...formData, lastName: event.target.value });

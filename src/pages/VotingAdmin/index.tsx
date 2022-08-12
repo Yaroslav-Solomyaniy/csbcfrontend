@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import TitlePage from '../../components/TitlePage';
 import Button from '../../components/common/Button/index';
 import styles from './index.module.scss';
+import pagesStyle from '../pagesStyle.module.scss';
 import Layout from '../../loyout/Layout';
 import { ITableHeader } from '../../components/common/table/TableHeader';
 import Table from '../../components/common/table';
@@ -58,7 +59,7 @@ const VotingAdmin = (): JSX.Element => {
            {
              id: 3,
              label: (
-               <div className={styles.actions}>
+               <div className={pagesStyle.actions}>
                  <Button
                    onClick={() => setIsActiveModal({ ...isActiveModal, edit: item.id })}
                    isImg
@@ -81,7 +82,7 @@ const VotingAdmin = (): JSX.Element => {
    }, [getAdministrators?.data]); */
   return (
     <Layout>
-      <div className={styles.curators}>
+      <div>
         <TitlePage
           title="Голосування"
           action={(
@@ -89,7 +90,6 @@ const VotingAdmin = (): JSX.Element => {
               <Button
                 nameClass="primary"
                 size="large"
-                className={styles.actions}
                 onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
               >
                 Створити
@@ -97,7 +97,6 @@ const VotingAdmin = (): JSX.Element => {
               <Button
                 nameClass="primary"
                 size="large"
-                className={styles.actions}
                 onClick={() => setIsActiveModal({ ...isActiveModal, result: true })}
               >
                 Результати

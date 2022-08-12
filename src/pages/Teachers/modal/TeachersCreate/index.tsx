@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ModalWindow from '../../../../components/common/ModalWindow';
 import ModalControlButtons from '../../../../components/common/ModalControlButtons';
-import styles from '../index.module.scss';
+import pagesStyle from '../../../pagesStyle.module.scss';
 import Input from '../../../../components/common/Input';
 import MultiSelectCourses from '../../../../components/common/MultiSelect/MultiSelectCourses';
 import { useTeachersContext } from '../../../../context/teachers';
@@ -49,7 +49,7 @@ export const StudentsDeleteModal = ({ modalActive, closeModal }: IStudentsDelete
 
   return (
     <ModalWindow modalTitle="Створення викладача" active={modalActive} closeModal={handleClose}>
-      <form className={styles.form} onSubmit={onSubmit}>
+      <form className={pagesStyle.form} onSubmit={onSubmit}>
         <Input
           label="Прізвище"
           placeholder="Прізвище"

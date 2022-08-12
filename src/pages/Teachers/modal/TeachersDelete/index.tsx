@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import ModalWindow from '../../../../components/common/ModalWindow';
 import ModalControlButtons from '../../../../components/common/ModalControlButtons';
-import styles from '../index.module.scss';
+import pagesStyle from '../../../pagesStyle.module.scss';
 import { useTeachersContext } from '../../../../context/teachers';
 
 interface IStudentsDeleteModal {
@@ -35,8 +35,8 @@ export const StudentsDeleteModal = ({ modalActive, closeModal, id }: IStudentsDe
 
   return (
     <ModalWindow modalTitle="Видалення викладача" active={modalActive} closeModal={handleClose}>
-      <form className={styles.form} onSubmit={onSubmit}>
-        <h3 className={styles.subtitle}>
+      <form className={pagesStyle.form} onSubmit={onSubmit}>
+        <h3 className={pagesStyle.subtitle}>
           Ви дійсно бажаєте видалити викладача
           {`
             ${getTeacher?.data?.items[0].lastName}

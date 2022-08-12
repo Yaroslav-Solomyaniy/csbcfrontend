@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import clsx from 'clsx';
 import ModalWindow from '../../../components/common/ModalWindow';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
 import { IEditModal } from '../../../types';
@@ -7,8 +8,6 @@ import Button from '../../../components/common/Button';
 import Table from '../../../components/common/table';
 import { ITableHeader } from '../../../components/common/table/TableHeader';
 import { ITableRowItem } from '../../../components/common/table/TableBody';
-// eslint-disable-next-line import/order
-import clsx from 'clsx';
 
 const dataHeaderCourses: ITableHeader[] = [
   { id: 1, label: 'Предмет' },

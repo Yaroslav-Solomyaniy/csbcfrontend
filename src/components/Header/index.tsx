@@ -8,11 +8,10 @@ import { useAuthContext } from '../../context/useAuthContext';
 
 interface IHeader {
   setOpen: () => void;
-  isAuth: boolean;
   isRenderButtonMenu?: boolean;
 }
 
-const Header = ({ setOpen, isAuth, isRenderButtonMenu = true }: IHeader): JSX.Element => {
+const Header = ({ setOpen, isRenderButtonMenu = true }: IHeader): JSX.Element => {
   const [navOpen, setNavOpen] = useState(true);
   const [dropMenuOpen, setDropMenuOpen] = useState(false);
   const { logout, user } = useAuthContext();
@@ -20,7 +19,7 @@ const Header = ({ setOpen, isAuth, isRenderButtonMenu = true }: IHeader): JSX.El
   return (
     <header className={styles.header}>
       <div className={styles.header__item}>
-        {isRenderButtonMenu && isAuth && (
+        {isRenderButtonMenu && (user?.role === 'admin' || user?.role === 'student') && (
           <button
             className={clsx(styles.navigation__button, navOpen && styles.navigation__button__revert)}
             type="button"
@@ -34,7 +33,7 @@ const Header = ({ setOpen, isAuth, isRenderButtonMenu = true }: IHeader): JSX.El
         )}
         <img className={styles.logo} src={logo} alt="logo" />
       </div>
-      {isAuth && (
+      {user && (
         <button
           type="button"
           className={styles.header__item}

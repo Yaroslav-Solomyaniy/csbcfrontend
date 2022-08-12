@@ -23,11 +23,11 @@ const SelectStudent = ({
 }: SelectPIB): JSX.Element => {
   const { getListStudents, listStudents } = useGetListStudents();
   const [options, setOptions] = useState<Option[]>([]);
-  const { createStudents, patchStudentsItem, deleteStudentsItem } = useStudentsContext();
+  const { studentCreate, studentEdit, studentDelete } = useStudentsContext();
 
   useEffect(() => {
     getListStudents({});
-  }, [createStudents?.data, patchStudentsItem?.data, deleteStudentsItem?.data]);
+  }, [studentCreate?.data, studentEdit?.data, studentDelete?.data]);
 
   useEffect(() => {
     if (listStudents?.items.length) {

@@ -25,12 +25,12 @@ interface IStudentsReviewModal {
 }
 
 const StudentsReview = ({ modalActive, closeModal, id }: IStudentsReviewModal) => {
-  const { getStudent } = useStudentsContext();
+  const { getStudentById } = useStudentsContext();
   const [modalEditActive, setModalEditActive] = useState(false);
 
   useEffect(() => {
     if (id) {
-      getStudent?.getStudent({ id: `${id}` });
+      getStudentById?.getStudentId({ id: `${id}` });
     }
   }, [id]);
 
@@ -40,8 +40,8 @@ const StudentsReview = ({ modalActive, closeModal, id }: IStudentsReviewModal) =
         <button className={styles.cancel} onClick={closeModal} type="button">
           <img className={styles.arrow} src={StudentModalArrow} alt="повернутись" />
           Індивідуальний план студента групи
-          {` ${getStudent?.data?.group.name} ${getStudent?.data?.user.lastName}
-           ${getStudent?.data?.user.firstName} ${getStudent?.data?.user.patronymic}`}
+          {` ${getStudentById?.data?.group.name} ${getStudentById?.data?.user.lastName}
+           ${getStudentById?.data?.user.firstName} ${getStudentById?.data?.user.patronymic}`}
         </button>
         <div className={styles.content__subtitle}>
           <h1 className={styles.content__subtitle__h1}>Обовязкові предмети</h1>

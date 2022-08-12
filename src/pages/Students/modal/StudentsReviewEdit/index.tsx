@@ -11,7 +11,7 @@ interface IStudentsReviewModal {
 }
 
 const StudentsReviewEdit = ({ modalActive, closeModal }: IStudentsReviewModal) => {
-  const { getStudent } = useStudentsContext();
+  const { getStudentById } = useStudentsContext();
 
   const handleClose = () => {
     closeModal();
@@ -26,8 +26,8 @@ const StudentsReviewEdit = ({ modalActive, closeModal }: IStudentsReviewModal) =
     <ModalWindow modalTitle="Редагування індивідуального плану" active={modalActive} closeModal={handleClose}>
       <form className={styles.form} onSubmit={onSubmit}>
         <p className={styles.form__name}>
-          {`${getStudent?.data?.user.lastName} ${getStudent?.data?.user.firstName}
-            ${getStudent?.data?.user.patronymic}`}
+          {`${getStudentById?.data?.user.lastName} ${getStudentById?.data?.user.firstName}
+            ${getStudentById?.data?.user.patronymic}`}
         </p>
         <p className={styles.form__title}>Вибіркові предмети</p>
         <Select

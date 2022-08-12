@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from '../index.module.scss';
 import ModalWindow from '../../../../components/common/ModalWindow';
-import { IStudents } from '../../../../hooks/useStudents';
+import { IStudentCreateParams } from '../../../../hooks/useStudents';
 import Input from '../../../../components/common/Input';
 import { useStudentsContext } from '../../../../context/students';
 import ModalControlButtons from '../../../../components/common/ModalControlButtons';
@@ -36,15 +36,11 @@ const selectValueDefault = {
 };
 
 export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateModal): JSX.Element => {
-  const { createStudents, getOptionsGroups } = useStudentsContext();
+  const { studentCreate } = useStudentsContext();
   const { addInfo } = useMessagesContext();
-  const [formData, setFormData] = useState<IStudents>(formInitialData);
+  const [formData, setFormData] = useState<IStudentCreateParams>(formInitialData);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [selectValue, setSelectValue] = useState(selectValueDefault);
-
-  useEffect(() => {
-    getOptionsGroups?.getListGroups();
-  }, []);
 
   const handleClose = () => {
     setIsSubmitted(false);
@@ -60,7 +56,6 @@ export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateMod
   const onSubmit = (e: React.FormEvent | undefined) => {
     e?.preventDefault?.();
     setIsSubmitted(true);
-    console.log(formData);
     if (
       `${formData.isFullTime}`.length !== 0
       && formData.dateOfBirth
@@ -73,17 +68,17 @@ export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateMod
       && formData.user.patronymic
       && Email.test(formData.user.email)
     ) {
-      createStudents?.addStudent(formData);
+      studentCreate?.studentCreate(formData);
     }
   };
 
   useEffect(() => {
-    if (createStudents?.data) {
+    if (studentCreate?.data) {
       handleClose();
       addInfo(`Студента
     ${formData.user.lastName} ${formData.user.firstName} ${formData.user.patronymic} успішно додано`);
     }
-  }, [createStudents?.data]);
+  }, [studentCreate?.data]);
 
   return (
     <ModalWindow modalTitle="Створення студента" active={modalActive} closeModal={handleClose}>

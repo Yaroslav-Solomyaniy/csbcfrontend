@@ -24,6 +24,7 @@
     "date-fns": "^2.29.1",
     "env-cmd": "^10.1.0",
     "firebase": "^9.6.2",
+    "jwt-decode": "^3.1.2",
     "moment-timezone": "^0.5.34",
     "postcss-loader": "^7.0.1",
     "react": "^17.0.2",

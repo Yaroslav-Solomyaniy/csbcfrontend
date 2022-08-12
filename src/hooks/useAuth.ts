@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useState } from 'react';
+import jwt_decode from 'jwt-decode';
 import { useMessagesContext } from '../context/useMessagesContext';
 
 export interface LoginParams {
@@ -13,9 +14,7 @@ export interface LoginData {
   lastName: string;
   patronymic: string;
   email: string;
-  role: string;
-  updated: string;
-  created: string;
+  role: 'admin' | 'student' | 'curator' | 'teacher';
   accessToken: string;
   refreshToken: string;
 }
@@ -26,16 +25,24 @@ interface ILogin {
   checked: boolean;
 }
 
+interface IDecodedData{
+  sub:number;
+  role:string;
+  iat: number;
+  exp: number;
+}
+
 export const useLogin = (): ILogin => {
   const [data, setData] = useState<LoginData | null>(null);
   const [checked, setChecked] = useState(false);
   const { addErrors } = useMessagesContext();
 
   const postLogin = (params: LoginParams, check: boolean) => {
-    // axiosPost('auth/login', params);
     axios.post(`${process.env.REACT_APP_API_URL}/auth/login`, params)
       .then((response) => {
-        setData(response.data);
+        const decode: IDecodedData = jwt_decode(`${response.data?.accessToken}`);
+
+        setData({ ...response.data, role: decode.role });
       }).catch((e) => {
         addErrors(e.response.data.message);
       });

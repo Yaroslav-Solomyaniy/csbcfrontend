@@ -9,7 +9,7 @@ import { useAuthContext } from '../context/useAuthContext';
 import ModalMessage from '../components/common/ModalMessage';
 
 const Layout = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const { messages, closeError, closeWarning, closeInfo } = useMessagesContext();
   const { user } = useAuthContext();
   const setOpen = (): void => {
@@ -18,9 +18,9 @@ const Layout = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
 
   return (
     <>
-      <Header setOpen={setOpen} isAuth={!!user} />
+      <Header setOpen={setOpen} />
       <div className={styles.nav_and_content}>
-        {!!user && <Navigation isOpen={isOpen} />}
+        {(user?.role === 'admin' || user?.role === 'student') && <Navigation isOpen={isOpen} roles={user?.role} />}
         <div className={styles.content}>
           <div className={clsx(stylesPortal.portal__unauthorized, user && stylesPortal.portal__authorized)}>
             {messages.error.map((error) => (

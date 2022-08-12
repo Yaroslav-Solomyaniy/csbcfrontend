@@ -8,7 +8,7 @@ import {
   IndividualPlan,
   Students,
   Teachers,
-  VotingAdmin,
+  Voting,
 } from '../common/Icon';
 import NavigationItem from './NavigationItem';
 import styles from './index.module.scss';
@@ -19,7 +19,7 @@ export interface IRoute {
   ico: string | JSX.Element;
 }
 
-const routes: IRoute[] = [
+/* const routes: IRoute[] = [
   {
     title: 'Групи',
     to: '/',
@@ -53,7 +53,7 @@ const routes: IRoute[] = [
   {
     title: 'Голоc. адмін',
     to: '/voting-admin',
-    ico: <VotingAdmin />,
+    ico: <Voting />,
   },
   {
     title: 'Адміністратори',
@@ -68,7 +68,7 @@ const routes: IRoute[] = [
   {
     title: 'Голос. студ.',
     to: '/voting-students',
-    ico: <VotingAdmin />,
+    ico: <Voting />,
   },
   {
     title: 'Викладач',
@@ -80,16 +80,76 @@ const routes: IRoute[] = [
     to: '/curator',
     ico: <Curators />,
   },
-];
+]; */
+interface Iroutes {
+  admin: IRoute[];
+  student: IRoute[];
+}
+
+const routes: Iroutes = {
+  admin: [
+    {
+      title: 'Групи',
+      to: '/',
+      ico: <Group />,
+    },
+    {
+      title: 'Студенти',
+      to: '/students',
+      ico: <Students />,
+    },
+    {
+      title: 'Куратори',
+      to: '/curators',
+      ico: <Curators />,
+    },
+    {
+      title: 'Викладачі',
+      to: '/teachers',
+      ico: <Teachers />,
+    },
+    {
+      title: 'Предмети',
+      to: '/courses',
+      ico: <Courses />,
+    },
+    {
+      title: 'Оцінки',
+      to: '/estimates',
+      ico: <Estimates />,
+    },
+    {
+      title: 'Голосування',
+      to: '/voting-admin',
+      ico: <Voting />,
+    },
+    {
+      title: 'Адміністратори',
+      to: '/administrators',
+      ico: <Administrators />,
+    }],
+  student: [
+    {
+      title: 'Індивід. план',
+      to: '/individual-plan',
+      ico: <IndividualPlan />,
+    },
+    {
+      title: 'Голосування',
+      to: '/voting-students',
+      ico: <Voting />,
+    }],
+};
 
 interface INavigation {
   isOpen: boolean;
+  roles: 'student' | 'admin';
 }
 
-const Navigation = ({ isOpen }: INavigation): JSX.Element => (
+const Navigation = ({ isOpen, roles }: INavigation): JSX.Element => (
   <div className={styles.nav__menu}>
     <div className={styles.nav__menu__links}>
-      {routes.map((rout) => (
+      {routes[roles].map((rout) => (
         <NavigationItem key={rout.to} {...rout} isOpen={isOpen} />
       ))}
     </div>

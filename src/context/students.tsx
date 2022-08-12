@@ -1,62 +1,58 @@
 import React, { createContext, useContext, useEffect } from 'react';
 import {
-  ICreateStudents,
-  IUseDeleteStudentsItem,
+  IUseStudentCreate,
+  IUseStudentDelete,
   IUseGetStudents,
-  IUseGetStudentsItem,
-  IUsePatchStudentsItem,
+  IUseGetStudentId,
+  IUseStudentEdit,
   useStudentCreate,
   useStudentDelete,
   useStudentGetId,
-  useStudentPatch,
-  useStudentsGet,
+  useStudentEdit,
+  useGetStudents,
 } from '../hooks/useStudents';
 import { IUseGetListGroups, useGetListGroups } from '../hooks/useDropDown';
 
 interface IStudentsContext {
-  getOptionsGroups: IUseGetListGroups | null;
-  createStudents: ICreateStudents | null;
   getStudents: IUseGetStudents | null;
-  getStudent: IUseGetStudentsItem | null;
-  patchStudentsItem: IUsePatchStudentsItem | null;
-  deleteStudentsItem: IUseDeleteStudentsItem | null;
+  studentCreate: IUseStudentCreate | null;
+  getStudentById: IUseGetStudentId | null;
+  studentEdit: IUseStudentEdit | null;
+  studentDelete: IUseStudentDelete | null;
 }
 
 const defaultValue: IStudentsContext = {
-  getOptionsGroups: null,
-  createStudents: null,
   getStudents: null,
-  getStudent: null,
-  patchStudentsItem: null,
-  deleteStudentsItem: null,
+  studentCreate: null,
+  getStudentById: null,
+  studentEdit: null,
+  studentDelete: null,
 };
 
 export const StudentsContext = createContext<IStudentsContext>(defaultValue);
 
 const StudentsProvider = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
-  const getOptionsGroups = useGetListGroups();
-  const createStudents = useStudentCreate();
-  const getStudents = useStudentsGet();
-  const getStudent = useStudentGetId();
-  const patchStudentsItem = useStudentPatch();
-  const deleteStudentsItem = useStudentDelete();
+  const getStudents = useGetStudents();
+  const studentCreate = useStudentCreate();
+  const getStudentById = useStudentGetId();
+  const studentEdit = useStudentEdit();
+  const studentDelete = useStudentDelete();
 
   useEffect(() => {
-    getStudents?.getStudent({});
-  }, [createStudents?.data, patchStudentsItem?.data, deleteStudentsItem?.data]);
+    getStudents?.getStudents({});
+  }, [studentCreate?.data, studentEdit?.data, studentDelete?.data]);
 
   useEffect(() => {
-    getStudents.getStudent({});
+    getStudents.getStudents({});
   }, []);
 
   return (
     <StudentsContext.Provider value={{
-      getOptionsGroups,
       getStudents,
-      getStudent,
-      createStudents,
-      patchStudentsItem,
-      deleteStudentsItem,
+      studentCreate,
+      getStudentById,
+      studentEdit,
+      studentDelete,
     }}
     >
       {children}

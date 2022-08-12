@@ -4,7 +4,7 @@ import styles from '../index.module.scss';
 import { useStudentsContext } from '../../../../context/students';
 import ModalWindow from '../../../../components/common/ModalWindow';
 import ModalControlButtons from '../../../../components/common/ModalControlButtons';
-import { IStudents } from '../../../../hooks/useStudents';
+import { IStudentCreateParams } from '../../../../hooks/useStudents';
 import Input from '../../../../components/common/Input';
 import SelectGroupById from '../../../../components/common/Select/SelectGroupById';
 import { Email, EmailValidation } from '../../../../types/regExp';
@@ -32,9 +32,9 @@ const formInitialData = {
 };
 
 export const StudentsEditModal = ({ modalActive, closeModal, id }: IGroupCreateModal): JSX.Element => {
-  const { patchStudentsItem, getStudent } = useStudentsContext();
+  const { studentEdit, getStudentById } = useStudentsContext();
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [formData, setFormData] = useState<IStudents>(formInitialData);
+  const [formData, setFormData] = useState<IStudentCreateParams>(formInitialData);
 
   const handleClose = () => {
     setIsSubmitted(false);
@@ -57,35 +57,35 @@ export const StudentsEditModal = ({ modalActive, closeModal, id }: IGroupCreateM
       && formData.user.patronymic
       && Email.test(formData.user.email)
     ) {
-      patchStudentsItem?.patchStudent(formData, id);
+      studentEdit?.studentEdit(formData, id);
       handleClose();
     }
   };
 
   useEffect(() => {
     if (id) {
-      getStudent?.getStudent({ id: `${id}` });
+      getStudentById?.getStudentId({ id: `${id}` });
     }
   }, [id]);
 
   useEffect(() => {
-    if (getStudent?.data) {
+    if (getStudentById?.data) {
       setFormData({
-        dateOfBirth: getStudent.data.dateOfBirth,
-        groupId: getStudent.data.group.id,
+        dateOfBirth: getStudentById.data.dateOfBirth,
+        groupId: getStudentById.data.group.id,
         user: {
-          firstName: getStudent.data.user.firstName,
-          lastName: getStudent.data.user.lastName,
-          patronymic: getStudent.data.user.patronymic,
-          email: getStudent.data.user.email,
+          firstName: getStudentById.data.user.firstName,
+          lastName: getStudentById.data.user.lastName,
+          patronymic: getStudentById.data.user.patronymic,
+          email: getStudentById.data.user.email,
           role: 'student',
         },
-        orderNumber: getStudent.data.orderNumber,
-        edeboId: getStudent.data.edeboId,
-        isFullTime: getStudent.data.isFullTime,
+        orderNumber: getStudentById.data.orderNumber,
+        edeboId: getStudentById.data.edeboId,
+        isFullTime: getStudentById.data.isFullTime,
       });
     }
-  }, [getStudent?.data]);
+  }, [getStudentById?.data]);
 
   return (
     <ModalWindow modalTitle="Редагування студента" active={modalActive} closeModal={handleClose}>

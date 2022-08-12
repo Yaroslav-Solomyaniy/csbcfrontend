@@ -2,21 +2,7 @@ import axios, { AxiosResponse } from 'axios';
 import { useState } from 'react';
 import { useAuthContext } from '../context/useAuthContext';
 import { useMessagesContext } from '../context/useMessagesContext';
-
-interface IDataStudentsMeta {
-  'totalItems': number;
-  'itemCount': number;
-  'itemsPerPage': number;
-  'totalPages': number;
-  'currentPage': number;
-}
-
-interface IDataStudentsLinks {
-  'first': string;
-  'previous': string;
-  'next': string;
-  'last': string;
-}
+import { FetchSuccess, IPaginateData } from '../types';
 
 interface IGroupCurator {
   'id': number;
@@ -49,7 +35,7 @@ interface IUser {
   created: string;
 }
 
-export interface IDataStudentsItems {
+export interface IStudentData {
   id: number;
   dateOfBirth: string;
   group: IGroup;
@@ -57,12 +43,6 @@ export interface IDataStudentsItems {
   orderNumber: string;
   edeboId: string;
   isFullTime: boolean;
-}
-
-interface IDataStudents {
-  meta: IDataStudentsMeta;
-  links: IDataStudentsLinks;
-  items: IDataStudentsItems[];
 }
 
 export interface IGetParams {
@@ -74,6 +54,7 @@ export interface IGetParams {
     | 'orderNumber'
     | 'edeboId'
     | 'isFullTime';
+  id?:number;
   firstName?: string;
   lastName?: string;
   patronymic?: string;
@@ -88,36 +69,45 @@ export interface IGetParams {
 }
 
 export interface IUseGetStudents {
-  data: IDataStudents | null;
-  getStudent: (params: IGetParams) => void;
+  data: IPaginateData<IStudentData>| null;
+  getStudents: (params: IGetParams) => void;
 }
 
-export const useStudentsGet = (): IUseGetStudents => {
+export const useGetStudents = (): IUseGetStudents => {
   const { user } = useAuthContext();
-  const [data, setData] = useState<IDataStudents | null>(null);
+  const [data, setData] = useState<IPaginateData<IStudentData> | null>(null);
   const { addErrors } = useMessagesContext();
 
-  const getStudent = (params: IGetParams): void => {
+  const getStudents = (params: IGetParams): void => {
     axios.get(`${process.env.REACT_APP_API_URL}/students`, {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
       params: {
-        // orderByColumn: 'updated',
+        orderByColumn: 'updated',
         orderBy: 'DESC',
         ...params,
       },
-    }).then((respons: AxiosResponse<IDataStudents>) => {
-      setData(respons.data);
+    }).then((response: AxiosResponse<IPaginateData<IStudentData>| null>) => {
+      setData(response.data);
     }).catch((error) => {
       addErrors(error.response.data.message);
     });
   };
 
-  return { data, getStudent };
+  return { data, getStudents };
 };
 
-interface IAddStudentsUser {
+export interface IStudentCreateParams {
+  dateOfBirth: string;
+  groupId: number;
+  user: IStudentCreateUser;
+  orderNumber: string;
+  edeboId: string;
+  isFullTime: boolean | undefined;
+}
+
+interface IStudentCreateUser {
   firstName: string;
   lastName: string;
   patronymic: string;
@@ -125,129 +115,116 @@ interface IAddStudentsUser {
   role: string;
 }
 
-export interface IStudents {
-  dateOfBirth: string;
-  groupId: number;
-  user: IAddStudentsUser;
-  orderNumber: string;
-  edeboId: string;
-  isFullTime: boolean | undefined;
-}
-
-interface ICreateStudentsData {
+interface IStudentCreateData {
   id: number;
 }
 
-export interface ICreateStudents {
-  data: ICreateStudentsData | null;
-  addStudent: (params: IStudents) => void;
+export interface IUseStudentCreate {
+  data: IStudentCreateData | null;
+  studentCreate: (params: IStudentCreateParams) => void;
 }
 
-export const useStudentCreate = (): ICreateStudents => {
+export const useStudentCreate = (): IUseStudentCreate => {
   const { user } = useAuthContext();
-  const { addErrors, addInfo } = useMessagesContext();
-  const [data, setData] = useState<ICreateStudentsData | null>(null);
+  const { addErrors } = useMessagesContext();
+  const [data, setData] = useState<IStudentCreateData | null>(null);
 
-  const addStudent = (params: IStudents) => {
+  const studentCreate = (params: IStudentCreateParams) => {
     axios.post(`${process.env.REACT_APP_API_URL}/students`, params, {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
-    }).then((response: AxiosResponse<ICreateStudentsData>) => {
+    }).then((response: AxiosResponse<IStudentCreateData>) => {
       setData(response.data);
     }).catch((error) => {
       addErrors(error.response.data.message);
     });
   };
 
-  return { data, addStudent };
+  return { data, studentCreate };
 };
 
-interface IGetStudentsItemParams {
+interface IGetStudentIdParams {
   id: string;
 }
 
-export interface IUseGetStudentsItem {
-  data: IDataStudentsItems | null;
-  getStudent: (params: IGetStudentsItemParams) => void;
+export interface IUseGetStudentId {
+  data: IStudentData | null;
+  getStudentId: (params: IGetStudentIdParams) => void;
 }
 
-export const useStudentGetId = (): IUseGetStudentsItem => {
+export const useStudentGetId = (): IUseGetStudentId => {
   const { user } = useAuthContext();
-  const [data, setData] = useState<IDataStudentsItems | null>(null);
+  const [data, setData] = useState<IStudentData | null>(null);
   const { addErrors } = useMessagesContext();
 
-  const getStudent = (params: IGetStudentsItemParams): void => {
+  const getStudentId = (params: IGetStudentIdParams): void => {
     axios.get(`${process.env.REACT_APP_API_URL}/students/${params.id}`, {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
-        params: `${params}`,
       },
-    }).then((respons: AxiosResponse<IDataStudentsItems>) => {
-      setData(respons.data);
+    }).then((response: AxiosResponse<IStudentData>) => {
+      setData(response.data);
     }).catch((error) => {
       addErrors(error.response.data.message);
     });
   };
 
-  return { data, getStudent };
+  return { data, getStudentId };
 };
 
-interface IDataPatchStudentsItem {
-  message: string;
+export interface IUseStudentEdit {
+  data: FetchSuccess | null;
+  studentEdit: (params: IStudentCreateParams, id: number) => void;
 }
 
-export interface IUsePatchStudentsItem {
-  data: IDataPatchStudentsItem | null;
-  patchStudent: (params: IStudents, id: number) => void;
-}
-
-export const useStudentPatch = (): IUsePatchStudentsItem => {
+export const useStudentEdit = (): IUseStudentEdit => {
   const { user } = useAuthContext();
-  const [data, setData] = useState<IDataPatchStudentsItem | null>(null);
+  const [data, setData] = useState<FetchSuccess | null>(null);
   const { addErrors } = useMessagesContext();
 
-  const patchStudent = (params: IStudents, id: number): void => {
+  const studentEdit = (params: IStudentCreateParams, id: number): void => {
     axios.patch(`${process.env.REACT_APP_API_URL}/students/${id}`, params, {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
-        params: `{ id: ${id} }`,
+        /* params: `{ id: ${id} }`, */
       },
-    }).then((e) => {
-      setData(e.data);
-    }).catch((error) => {
-      addErrors(error.response.data.message);
-    });
+    }).then((response: AxiosResponse<FetchSuccess | null>) => {
+      setData(response.data);
+    })
+      .catch((error) => {
+        addErrors(error.response.data.message);
+      });
   };
 
-  return { data, patchStudent };
+  return { data, studentEdit };
 };
 
-export interface IUseDeleteStudentsItem {
+export interface IUseStudentDelete {
   data: string | null;
-  deleteStudent: (id: number, name: string) => void;
+  studentDelete: (id: number, name: string) => void;
 }
 
-export const useStudentDelete = (): IUseDeleteStudentsItem => {
+export const useStudentDelete = (): IUseStudentDelete => {
   const { user } = useAuthContext();
   const [data, setData] = useState<string | null>(null);
   const { addErrors, addInfo } = useMessagesContext();
 
-  const deleteStudent = (id: number, name: string): void => {
+  const studentDelete = (id: number, name: string): void => {
     axios.delete(`${process.env.REACT_APP_API_URL}/students/${id}`, {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
-      params: {
+      /* params: {
         id,
-      },
-    }).then((respons) => {
+      }, */
+    }).then((response) => {
+      setData(response.data);
       addInfo(`Студента ${name} успішно видалено`);
-      setData(respons.data);
     }).catch((error) => {
       addErrors(error.response.data.message);
     });
   };
 
-  return { data, deleteStudent };
+  return { data, studentDelete };
 };

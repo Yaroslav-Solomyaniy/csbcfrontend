@@ -18,7 +18,7 @@ const formInitialData = {
 export const StudentsDeleteModal = ({ modalActive, closeModal, studentId }: IStudentsDeleteModal): JSX.Element => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState(formInitialData);
-  const { deleteStudentsItem, getStudent } = useStudentsContext();
+  const { studentDelete, getStudentById } = useStudentsContext();
 
   const handleClose = () => {
     setIsSubmitted(false);
@@ -32,19 +32,19 @@ export const StudentsDeleteModal = ({ modalActive, closeModal, studentId }: IStu
 
     if (`${formData.deletedOrderNumber}`.length >= 6
       && `${formData.deletedOrderNumber}`.length <= 20) {
-      deleteStudentsItem?.deleteStudent(studentId, `${getStudent?.data?.user.lastName}
-      ${getStudent?.data?.user.firstName}
-      ${getStudent?.data?.user.patronymic}`);
+      studentDelete?.studentDelete(studentId, `${getStudentById?.data?.user.lastName}
+      ${getStudentById?.data?.user.firstName}
+      ${getStudentById?.data?.user.patronymic}`);
     }
   };
 
   useEffect(() => {
     handleClose();
-  }, [deleteStudentsItem?.data]);
+  }, [studentDelete?.data]);
 
   useEffect(() => {
     if (studentId) {
-      getStudent?.getStudent({ id: `${studentId}` });
+      getStudentById?.getStudentId({ id: `${studentId}` });
     }
   }, [studentId]);
 

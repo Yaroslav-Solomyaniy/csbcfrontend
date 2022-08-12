@@ -35,7 +35,7 @@ const ChangePassword = (): JSX.Element => {
   return (
     <div className={styles.changePassword}>
 
-      <Header setOpen={() => undefined} isAuth={false} isRenderButtonMenu={false} />
+      <Header setOpen={() => undefined} isRenderButtonMenu={false} />
 
       <div className={clsx(
         stylesPortal.portal__unauthorized,

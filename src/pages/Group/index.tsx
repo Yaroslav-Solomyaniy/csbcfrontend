@@ -119,7 +119,6 @@ const Group = (): JSX.Element => {
             <Button
               nameClass="primary"
               size="large"
-              className={styles.actions}
               onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
             >
               Створити

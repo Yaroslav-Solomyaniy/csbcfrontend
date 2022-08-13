@@ -56,7 +56,9 @@ const Layout = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
                 }}
               />
             ))}
+
           </div>
+
           {children}
         </div>
       </div>

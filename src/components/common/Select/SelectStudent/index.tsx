@@ -1,16 +1,19 @@
 import { useEffect, useState } from 'react';
 import Select from '../index';
-import { Option } from '../../../../types';
+import { Option, SelectType } from '../../../../types';
 import { useStudentsContext } from '../../../../context/students';
 import { useGetListStudents } from '../../../../hooks/useDropDown';
 
 interface SelectPIB {
-  type: 'filter' | 'modal';
   label?: string;
-  value: null | number;
+  value: string | number | null;
   onChange: (value: string) => void;
   placeholder?: string;
+  isSearchable?: boolean;
+  isClearable?: boolean;
   error?: string;
+  required?: boolean;
+  type: SelectType;
 }
 
 const SelectStudent = ({
@@ -19,6 +22,9 @@ const SelectStudent = ({
   onChange,
   value,
   placeholder,
+  isSearchable,
+  isClearable,
+  required,
   error,
 }: SelectPIB): JSX.Element => {
   const { getListStudents, listStudents } = useGetListStudents();
@@ -40,23 +46,27 @@ const SelectStudent = ({
 
   return (
     <Select
-      type={type}
       label={label}
+      type={type}
       onChange={onChange}
       value={value}
       options={options}
       placeholder={placeholder}
-      required
-      isSearchable
-      isClearable
+      isSearchable={isSearchable}
+      isClearable={isClearable}
+      required={required}
       error={error}
     />
   );
 };
 
 SelectStudent.defaultProps = {
-  placeholder: '',
   label: '',
+  placeholder: '',
+  isSearchable: false,
+  isClearable: false,
+  required: false,
+  isFilter: false,
   error: '',
 };
 

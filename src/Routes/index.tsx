@@ -17,7 +17,7 @@ import AdministratorsProvider from '../context/administators';
 import Administrators from '../pages/Administrators';
 import IndPlan from '../pages/IndividualPlan';
 import VotingStudents from '../pages/VotingStudents';
-import Teacher from '../pages/Teacher';
+import TeacherPage from '../pages/Teacher';
 import Curator from '../pages/Сurator';
 import ChangePassword from '../pages/ChangePassword';
 import Login from '../pages/Login';
@@ -74,7 +74,7 @@ const AppRoutes = () => {
       </>
       )}
       {user?.role === 'teacher' && (
-        <Route index element={<Teacher />} />
+        <Route index element={<TeacherPage />} />
       )}
       {user?.role === 'curator' && (
       <Route index element={<Curator />} />

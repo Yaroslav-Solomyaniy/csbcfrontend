@@ -3,7 +3,6 @@ import ModalWindow from '../../../components/common/ModalWindow';
 import pagesStyle from '../../pagesStyle.module.scss';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
 import { ICreateModal } from '../../../types';
-import 'react-datepicker/dist/react-datepicker.css';
 import SelectDate from '../../../components/common/Select/SelectDate';
 import MultiSelectGroup from '../../../components/common/MultiSelect/MultiSelectGroup';
 import MultiSelectCourseSemestr from '../../../components/common/MultiSelect/MultiSelectCourseSemestr';

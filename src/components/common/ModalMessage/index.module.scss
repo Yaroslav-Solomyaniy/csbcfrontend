@@ -7,11 +7,10 @@
 }
 
 .login__modal {
-  position: relative;
   z-index: 23;
   flex-grow: 1;
   display: flex;
-  min-height: 74px;
+  min-height: 55px;
   max-height: 200px;
   height: auto;
   align-items: center;
@@ -20,15 +19,11 @@
   line-height: 22px;
   box-shadow: 0 7px 10px rgba(0, 0, 0, 0.1);
   border-radius: 0 0 8px 8px;
-  width: auto;
   margin-bottom: 2px;
 
-  transition: all .5s;
+  transition: all 2s;
   bottom: 25px;
 
-  //  &not(:first-child) {
-  //
-  //}
   &__error {
     transition: all .5s;
     bottom: 0;

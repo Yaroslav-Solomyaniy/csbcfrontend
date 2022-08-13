@@ -4,8 +4,7 @@ import { ITableHeader } from '../../components/common/table/TableHeader';
 import { initialPagination, Pagination } from '../../types';
 import { useTeachersContext } from '../../context/teachers';
 import { ITableRowItem } from '../../components/common/table/TableBody';
-import { IGetTeacherData } from '../../hooks/useTeachers';
-import styles from '../Teachers/index.module.scss';
+import styles from './index.module.scss';
 import Button from '../../components/common/Button';
 import edit from '../../images/table/edit.svg';
 import del from '../../images/table/delete.svg';
@@ -17,8 +16,6 @@ import Table from '../../components/common/table';
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІП' },
   { id: 2, label: 'Предмет' },
-  { id: 3, label: 'Група' },
-  { id: 4, label: 'E-Mail' },
   { id: 5, label: 'Дії' },
 ];
 
@@ -58,57 +55,41 @@ const Estimates = (): JSX.Element => {
     setIsActiveModal(allCloseModalWindow);
   };
 
-  const tableRows = (arrTableRows: IGetTeacherData[]) => (
-    arrTableRows.length ? arrTableRows.map((item) => {
-      const arr: { subject: string[]; group: string[]; } = { subject: [], group: [] };
-
-      item.courses.forEach((subject) => {
-        arr.subject.push(subject.name);
-        let srt = '';
-
-        subject.groups.forEach((group) => {
-          srt += ` ${group.name}`;
-        });
-        arr.group.push(srt);
-      });
-
-      return {
-        list: [
-          { id: 1, label: `${item.lastName} ${item.firstName} ${item.patronymic}` },
-          { id: 2, label: arr.subject },
-          { id: 3, label: arr.group },
-          { id: 4, label: item.email },
-          {
-            id: 5,
-            label: (
-              <div className={styles.actions}>
-                <Button
-                  isImg
-                  type="button"
-                  className={styles.actions__button_edit}
-                  onClick={() => {
-                    setIsActiveModal({ ...allCloseModalWindow, edit: item.id });
-                  }}
-                >
-                  <img src={edit} alt="edit" />
-                </Button>
-                <Button
-                  isImg
-                  type="button"
-                  className={styles.actions__button_delete}
-                  onClick={() => {
-                    setIsActiveModal({ ...allCloseModalWindow, delete: item.id });
-                  }}
-                >
-                  <img src={del} alt="delete" />
-                </Button>
-              </div>
-            ),
-          },
-        ],
-        key: item.id,
-      };
-    }) : []);
+  const tableRows = (arrTableRows: any) => (
+    arrTableRows.length ? arrTableRows.map((item: any) => ({
+      list: [
+        { id: 1, label: `${item.lastName} ${item.firstName} ${item.patronymic}` },
+        { id: 2, label: ['12', '12', '12', '12'] },
+        {
+          id: 3,
+          label: (
+            <div className={styles.actions}>
+              <Button
+                isImg
+                type="button"
+                className={styles.actions__button_edit}
+                onClick={() => {
+                  setIsActiveModal({ ...allCloseModalWindow, edit: item.id });
+                }}
+              >
+                <img src={edit} alt="edit" />
+              </Button>
+              <Button
+                isImg
+                type="button"
+                className={styles.actions__button_delete}
+                onClick={() => {
+                  setIsActiveModal({ ...allCloseModalWindow, delete: item.id });
+                }}
+              >
+                <img src={del} alt="delete" />
+              </Button>
+            </div>
+          ),
+        },
+      ],
+      key: item.id,
+    })) : []);
 
   useEffect(() => {
     if (params.filter.teacherId) {
@@ -131,11 +112,34 @@ const Estimates = (): JSX.Element => {
   ]);
 
   useEffect(() => {
-    if (getTeacher?.data) {
-      setParams({ ...params, pagination: getTeacher.data.meta });
-      setDataRow(tableRows(getTeacher?.data ? getTeacher?.data.items : []));
-    }
-  }, [getTeacher?.data]);
+    // if (getTeacher?.data) {
+    // setParams({ ...params, pagination: getTeacher.data.meta });
+    setDataRow(tableRows([
+      {
+        id: 1,
+        lastName: 'asdf',
+        firstName: 'asівdf',
+        patronymic: 'aмsdf',
+        group: { id: 1, name: '1Т-15' },
+        course: [
+          { name: 'Дискретка', grade: 73 },
+          { name: 'Дискретка', grade: 73 },
+        ],
+      },
+      {
+        id: 1,
+        lastName: 'asdf',
+        firstName: 'asівdf',
+        patronymic: 'aмsdf',
+        group: { id: 1, name: '1Т-15' },
+        course: [
+          { name: 'Дискретка', grade: 73 },
+          { name: 'Дискретка', grade: 73 },
+        ],
+      },
+    ]));
+    // }
+  }, []);
 
   return (
     <Layout>
@@ -184,6 +188,7 @@ const Estimates = (): JSX.Element => {
               />
             </>
           )}
+          isScroll
           dataHeader={dataHeader}
           gridColumns={styles.columns}
           dataRow={dataRow}

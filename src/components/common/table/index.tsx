@@ -12,9 +12,18 @@ interface ITable {
   filter?: JSX.Element;
   pagination: Pagination;
   onPaginationChange: (pagination: Pagination) => void;
+  isScroll?: boolean;
 }
 
-const Table = ({ dataHeader, dataRow, gridColumns, filter, pagination, onPaginationChange }: ITable): JSX.Element => (
+const Table = ({
+  dataHeader,
+  dataRow,
+  gridColumns,
+  filter,
+  pagination,
+  onPaginationChange,
+  isScroll,
+}: ITable): JSX.Element => (
   <>
     <TableFilter filter={filter} />
     <div className={styles.table}>
@@ -22,6 +31,7 @@ const Table = ({ dataHeader, dataRow, gridColumns, filter, pagination, onPaginat
       {dataRow.length
         ? (
           <TableBody
+            isScroll={isScroll}
             dataRow={dataRow}
             gridColumns={gridColumns}
             pagination={pagination}
@@ -35,6 +45,7 @@ const Table = ({ dataHeader, dataRow, gridColumns, filter, pagination, onPaginat
 
 Table.defaultProps = {
   filter: <div />,
+  isScroll: false,
 };
 
 export default Table;

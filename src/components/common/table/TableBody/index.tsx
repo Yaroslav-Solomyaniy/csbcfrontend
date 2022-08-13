@@ -19,9 +19,10 @@ interface ITableBody {
   dataRow: ITableRowItem[];
   pagination: Pagination;
   onPaginationChange: (pagination: Pagination) => void;
+  isScroll?: boolean;
 }
 
-const TableBody = ({ dataRow, gridColumns, pagination, onPaginationChange }: ITableBody): JSX.Element => (
+const TableBody = ({ dataRow, gridColumns, pagination, onPaginationChange, isScroll }: ITableBody): JSX.Element => (
   <>
     <div className={styles.content}>
       {dataRow.map(({ key, list }) => (
@@ -47,5 +48,9 @@ const TableBody = ({ dataRow, gridColumns, pagination, onPaginationChange }: ITa
     <TableFooter pagination={pagination} onPaginationChange={onPaginationChange} />
   </>
 );
+
+TableBody.defaultProps = {
+  isScroll: false,
+};
 
 export default TableBody;

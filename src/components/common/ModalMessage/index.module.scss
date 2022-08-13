@@ -26,9 +26,9 @@
   transition: all .5s;
   bottom: 25px;
 
-  &not(:first-child) {
-
-}
+  //  &not(:first-child) {
+  //
+  //}
   &__error {
     transition: all .5s;
     bottom: 0;
@@ -48,9 +48,7 @@
   }
 
   &__div {
-    height: 42px;
-
-    font-family: 'Helvetica', sans-serif;
+    height: 22px;
     font-style: normal;
     font-weight: 700;
     font-size: 20px;
@@ -58,8 +56,6 @@
 
     display: flex;
     align-items: center;
-
-
   }
 }
 

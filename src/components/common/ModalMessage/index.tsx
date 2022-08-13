@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 import styles from './index.module.scss';
@@ -17,7 +17,7 @@ const ModalMessage = ({ message, closeModal, type }: IModalMessage): JSX.Element
     if (closeMod) closeModal();
   }, [closeMod]);
 
-  setTimeout(() => setCloseMod(true), 10000);
+  setTimeout(() => setCloseMod(true), 4500);
 
   return (
     <div className={clsx(styles.login__modal)}>

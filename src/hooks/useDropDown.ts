@@ -7,6 +7,7 @@ import { useMessagesContext } from '../context/useMessagesContext';
 // GET LIST GROUPS
 
 interface IGetListGroupsParams {
+  orderByColumn?: 'updated';
   orderBy?: OrderBy;
   curatorName?: string;
   page?: number;
@@ -33,7 +34,7 @@ export const useGetListGroups = (): IUseGetListGroups => {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
-      params: { limit: 100, orderBy: 'DESC', ...params },
+      params: { OrderByColumn: 'updated', limit: 100, orderBy: 'DESC', ...params },
     })
       .then((response: AxiosResponse<IPaginateData<IGetListGroupsData> | null>) => {
         setOptionsGroups(response.data);
@@ -49,6 +50,7 @@ export const useGetListGroups = (): IUseGetListGroups => {
 // GET LIST CURATORS
 
 interface IGetListCuratorsParams {
+  orderByColumn?: 'updated';
   orderBy?: OrderBy;
   curatorName?: string;
   page?: number;
@@ -77,7 +79,7 @@ export const useGetListCurators = (): IUseGetListCurators => {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
-      params: { limit: 100, orderBy: 'DESC', ...params },
+      params: { OrderByColumn: 'updated', limit: 100, orderBy: 'DESC', ...params },
     })
       .then((response: AxiosResponse<IPaginateData<IGetListCuratorsData> | null>) => {
         setOptionCurators(response.data);

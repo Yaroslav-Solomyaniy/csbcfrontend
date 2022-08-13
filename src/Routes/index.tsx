@@ -65,27 +65,22 @@ const AppRoutes = () => {
             path="/administrators"
             element={<AdministratorsProvider><Administrators /></AdministratorsProvider>}
           />
-          <Route path="/change-password" element={<ChangePassword />} />
         </>
       )}
       {user?.role === 'student' && (
       <>
         <Route index element={<IndPlan />} />
         <Route path="/voting-students" element={<VotingStudents />} />
-        <Route path="/change-password" element={<ChangePassword />} />
       </>
       )}
       {user?.role === 'teacher' && (
-        <>
-          <Route index element={<Teacher />} />
-          <Route path="/change-password" element={<ChangePassword />} />
-        </>
+        <Route index element={<Teacher />} />
       )}
       {user?.role === 'curator' && (
-        <>
-          <Route index element={<Curator />} />
-          <Route path="/change-password" element={<ChangePassword />} />
-        </>
+      <Route index element={<Curator />} />
+      )}
+      {user && (
+      <Route path="/change-password" element={<ChangePassword />} />
       )}
 
       <Route

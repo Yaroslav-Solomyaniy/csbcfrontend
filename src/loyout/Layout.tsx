@@ -20,7 +20,10 @@ const Layout = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
     <>
       <Header setOpen={setOpen} />
       <div className={styles.nav_and_content}>
-        {(user?.role === 'admin' || user?.role === 'student') && <Navigation isOpen={isOpen} roles={user?.role} />}
+        {(user?.role === 'admin' || user?.role === 'student') && (
+          <Navigation isOpen={isOpen} role={user.role} />
+        )}
+
         <div className={styles.content}>
           <div className={clsx(stylesPortal.portal__unauthorized, user && stylesPortal.portal__authorized)}>
             {messages.error.map((error) => (

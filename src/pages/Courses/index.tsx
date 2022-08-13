@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import TitlePage from '../../components/TitlePage';
 import Button from '../../components/common/Button/index';
-
 import styles from './index.module.scss';
 import pagesStyle from '../pagesStyle.module.scss';
-
 import Layout from '../../loyout/Layout';
 import { ITableHeader } from '../../components/common/table/TableHeader';
 import Table from '../../components/common/table';
-import edit from '../../images/table/edit.svg';
-import del from '../../images/table/delete.svg';
 import { ITableRowItem } from '../../components/common/table/TableBody';
 import { initialPagination, Pagination } from '../../types';
 import { useCourseContext } from '../../context/course';
@@ -21,6 +17,7 @@ import CourseEditModal from './CourseEdit';
 import CourseDeleteModal from './CourseDelete';
 import SelectCompulsory from '../../components/common/Select/SelectCompulsory';
 import SelectGroupById from '../../components/common/Select/SelectGroupById';
+import { Delete, Edit } from '../../components/common/Icon';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'Назва' },
@@ -120,13 +117,13 @@ const Courses = (): JSX.Element => {
                   onClick={() => setIsActiveModal({ ...isActiveModal, edit: item.id })}
                   isImg
                 >
-                  <img src={edit} alt="edit" />
+                  <Edit />
                 </Button>
                 <Button
                   onClick={() => setIsActiveModal({ ...isActiveModal, delete: item.id })}
                   isImg
                 >
-                  <img src={del} alt="delete" />
+                  <Delete />
                 </Button>
               </div>
             ),

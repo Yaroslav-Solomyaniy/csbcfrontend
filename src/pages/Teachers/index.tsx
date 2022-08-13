@@ -14,10 +14,9 @@ import TeachersCreate from './modal/TeachersCreate';
 import SelectTeacher from '../../components/common/Select/SelectTeacher';
 import styles from './index.module.scss';
 import pagesStyle from '../pagesStyle.module.scss';
-import edit from '../../images/table/edit.svg';
-import del from '../../images/table/delete.svg';
 import TeachersEdit from './modal/TeachersEdit';
 import SelectGroupById from '../../components/common/Select/SelectGroupById';
+import { Delete, Edit } from '../../components/common/Icon';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІП' },
@@ -96,7 +95,7 @@ const Teachers = (): JSX.Element => {
                     setIsActiveModal({ ...allCloseModalWindow, edit: item.id });
                   }}
                 >
-                  <img src={edit} alt="edit" />
+                  <Edit />
                 </Button>
                 <Button
                   isImg
@@ -105,7 +104,7 @@ const Teachers = (): JSX.Element => {
                     setIsActiveModal({ ...allCloseModalWindow, delete: item.id });
                   }}
                 >
-                  <img src={del} alt="delete" />
+                  <Delete />
                 </Button>
               </div>
             ),

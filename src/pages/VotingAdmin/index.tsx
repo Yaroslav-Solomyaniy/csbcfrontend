@@ -64,13 +64,13 @@ const VotingAdmin = (): JSX.Element => {
                    onClick={() => setIsActiveModal({ ...isActiveModal, edit: item.id })}
                    isImg
                  >
-                   <img src={edit} alt="edit" />
+                   <Edit/>
                  </Button>
                  <Button
                    onClick={() => setIsActiveModal({ ...isActiveModal, delete: item.id })}
                    isImg
                  >
-                   <img src={del} alt="delete" />
+                   <Delete/>
                  </Button>
                </div>
              ),

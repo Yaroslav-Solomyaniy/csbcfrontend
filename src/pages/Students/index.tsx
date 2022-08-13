@@ -10,9 +10,6 @@ import StudentsCreateModal from './modal/StudentsCreate';
 import { useStudentsContext } from '../../context/students';
 import SelectStudent from '../../components/common/Select/SelectStudent';
 import SelectIsFullTime from '../../components/common/Select/SelectIsFullTime';
-import edit from '../../images/table/edit.svg';
-import review from '../../images/table/review.svg';
-import del from '../../images/table/delete.svg';
 import { initialPagination, Pagination } from '../../types';
 import StudentsEditModal from './modal/StudentsEdit';
 import { ITableRowItem } from '../../components/common/table/TableBody';
@@ -20,6 +17,7 @@ import { IGetParams, IStudentData } from '../../hooks/useStudents';
 import StudentsDelete from './modal/StudentsDelete';
 import StudentsReview from './modal/StudentsReview';
 import SelectGroupById from '../../components/common/Select/SelectGroupById';
+import { Delete, Edit, Review } from '../../components/common/Icon';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІП студента' },
@@ -107,7 +105,7 @@ const Students = (): JSX.Element => {
                     setIsActiveModal({ ...allCloseModalWindow, edit: item.id });
                   }}
                 >
-                  <img src={edit} alt="edit" />
+                  <Edit />
                 </Button>
                 <Button
                   isImg
@@ -116,7 +114,7 @@ const Students = (): JSX.Element => {
                     setIsActiveModal({ ...allCloseModalWindow, review: item.id });
                   }}
                 >
-                  <img src={review} alt="review" />
+                  <Review />
                 </Button>
                 <Button
                   isImg
@@ -125,7 +123,7 @@ const Students = (): JSX.Element => {
                     setIsActiveModal({ ...allCloseModalWindow, delete: item.id });
                   }}
                 >
-                  <img src={del} alt="delete" />
+                  <Delete />
                 </Button>
               </div>
             ),

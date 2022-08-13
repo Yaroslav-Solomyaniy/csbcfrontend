@@ -7,8 +7,6 @@ import Layout from '../../loyout/Layout';
 import { ITableHeader } from '../../components/common/table/TableHeader';
 import Table from '../../components/common/table';
 import { IGetGroupParams, IGroupData } from '../../hooks/useGroups';
-import edit from '../../images/table/edit.svg';
-import del from '../../images/table/delete.svg';
 import { ITableRowItem } from '../../components/common/table/TableBody';
 import { useGroupContext } from '../../context/group';
 import { initialPagination, Pagination } from '../../types';
@@ -17,6 +15,7 @@ import GroupDelete from './GroupDelete';
 import GroupEdit from './GroupEdit';
 import SelectGroupByName from '../../components/common/Select/SelectGroupByName';
 import SelectCurator from '../../components/common/Select/SelectCurator';
+import { Delete, Edit } from '../../components/common/Icon';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'Номер групи' },
@@ -93,13 +92,13 @@ const Group = (): JSX.Element => {
                   onClick={() => setIsActiveModal({ ...isActiveModal, edit: item.id })}
                   isImg
                 >
-                  <img src={edit} alt="edit" />
+                  <Edit />
                 </Button>
                 <Button
                   onClick={() => setIsActiveModal({ ...isActiveModal, delete: item.id })}
                   isImg
                 >
-                  <img src={del} alt="delete" />
+                  <Delete />
                 </Button>
               </div>
             ),

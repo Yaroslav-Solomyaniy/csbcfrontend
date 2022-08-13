@@ -13,9 +13,8 @@ import { AdministratorEditModal } from './Edit';
 import { AdministratorDeleteModal } from './Delete';
 import { useAdministratorsContext } from '../../context/administators';
 import { IGetUserData, IGetUserParams } from '../../hooks/useUser';
-import edit from '../../images/table/edit.svg';
-import del from '../../images/table/delete.svg';
 import SelectAdministrator from '../../components/common/Select/SelectAdministrator';
+import { Delete, Edit } from '../../components/common/Icon';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІБ' },
@@ -94,13 +93,13 @@ const Administrators = (): JSX.Element => {
                   onClick={() => setIsActiveModal({ ...isActiveModal, edit: item.id })}
                   isImg
                 >
-                  <img src={edit} alt="edit" />
+                  <Edit />
                 </Button>
                 <Button
                   onClick={() => setIsActiveModal({ ...isActiveModal, delete: item.id })}
                   isImg
                 >
-                  <img src={del} alt="delete" />
+                  <Delete />
                 </Button>
               </div>
             ),

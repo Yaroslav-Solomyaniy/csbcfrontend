@@ -4,6 +4,8 @@ import styles from './index.module.scss';
 import { LoginParams } from '../../hooks/useAuth';
 import { useAuthContext } from '../../context/useAuthContext';
 import Layout from '../../loyout/Layout';
+import Button from '../../components/common/Button';
+import Input from '../../components/common/Input';
 
 const Login = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
   const { postLogin } = useAuthContext();
@@ -12,7 +14,7 @@ const Login = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
     email: '',
     password: '',
   });
-  const [check, setCheck] = useState(true);
+  const [check, setCheck] = useState(false);
 
   const login = () => {
     if (credentials.password.length >= 8) {
@@ -70,14 +72,15 @@ const Login = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
               />
               Зберегти дані
             </label>
-            <button
-              type="submit"
+            <Button
+              size="large"
+              nameClass="primary"
               className={styles.login__form__button}
               disabled={!credentials.email || !credentials.password}
               onClick={login}
             >
               Вхід
-            </button>
+            </Button>
             {children}
           </div>
         </div>

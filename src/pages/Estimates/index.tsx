@@ -12,6 +12,7 @@ import SelectStudent from '../../components/common/Select/SelectStudent';
 import SelectGroupById from '../../components/common/Select/SelectGroupById';
 import TitlePage from '../../components/TitlePage';
 import Table from '../../components/common/table';
+import { Delete, Edit } from '../../components/common/Icon';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІП' },
@@ -72,7 +73,7 @@ const Estimates = (): JSX.Element => {
                   setIsActiveModal({ ...allCloseModalWindow, edit: item.id });
                 }}
               >
-                <img src={edit} alt="edit" />
+                <Edit />
               </Button>
               <Button
                 isImg
@@ -82,7 +83,7 @@ const Estimates = (): JSX.Element => {
                   setIsActiveModal({ ...allCloseModalWindow, delete: item.id });
                 }}
               >
-                <img src={del} alt="delete" />
+                <Delete />
               </Button>
             </div>
           ),

@@ -12,11 +12,10 @@ import { initialPagination, Pagination } from '../../types';
 import CuratorCreateModal from './Create';
 import { useCuratorContext } from '../../context/curators';
 import { IGetCuratorData, IGetCuratorParams } from '../../hooks/useCurators';
-import edit from '../../images/table/edit.svg';
-import del from '../../images/table/delete.svg';
 import CuratorEditModal from './Edit';
 import CuratorDeleteModal from './Delete';
 import SelectGroupByName from '../../components/common/Select/SelectGroupByName';
+import { Delete, Edit } from '../../components/common/Icon';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІБ' },
@@ -91,13 +90,13 @@ const Curators = (): JSX.Element => {
                   onClick={() => setIsActiveModal({ ...isActiveModal, edit: item.id })}
                   isImg
                 >
-                  <img src={edit} alt="edit" />
+                  <Edit />
                 </Button>
                 <Button
                   onClick={() => setIsActiveModal({ ...isActiveModal, delete: item.id })}
                   isImg
                 >
-                  <img src={del} alt="delete" />
+                  <Delete />
                 </Button>
               </div>
             ),

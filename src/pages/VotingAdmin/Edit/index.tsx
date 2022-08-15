@@ -61,7 +61,7 @@ export const VotingEditModal = ({ modalActive, closeModal }: IEditModal): JSX.El
    }, [requiredCourse, notRequiredCourse]);
  */
   return (
-    <ModalWindow modalTitle="Редагування голосування" active={modalActive} closeModal={handleClose}>
+    <ModalWindow modalTitle="Редагування голосування" active={modalActive} closeModal={handleClose} overflowY>
       <form className={pagesStyle.form} onSubmit={onSubmit}>
         <MultiSelectGroup
           type="modal"

@@ -3,7 +3,7 @@ import DatePicker from 'react-datepicker';
 import clsx from 'clsx';
 import uk from 'date-fns/locale/uk';
 import styles from '../index.module.scss';
-
+import 'react-datepicker/dist/react-datepicker.css';
 import './style.css';
 
 interface SelectDate {

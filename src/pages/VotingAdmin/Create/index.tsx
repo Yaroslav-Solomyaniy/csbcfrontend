@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import DatePicker from 'react-datepicker';
 import ModalWindow from '../../../components/common/ModalWindow';
 import pagesStyle from '../../pagesStyle.module.scss';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
@@ -60,7 +61,7 @@ export const VotingCreateModal = ({ modalActive, closeModal }: ICreateModal): JS
    }, [requiredCourse, notRequiredCourse]);
  */
   return (
-    <ModalWindow modalTitle="Створення голосування" active={modalActive} closeModal={handleClose}>
+    <ModalWindow modalTitle="Створення голосування" active={modalActive} closeModal={handleClose} overflowY>
       <form className={pagesStyle.form} onSubmit={onSubmit}>
         <MultiSelectGroup
           type="modal"

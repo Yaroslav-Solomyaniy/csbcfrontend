@@ -21,13 +21,12 @@
   &__content {
     max-height: 700px;
     width: 700px;
-    overflow: auto;
     background: #F3F3F3;
     border-radius: 8px;
     transform: scale(0.5);
     transition: all .5s;
     padding: 15px 25px;
-    
+
     &.active {
       transform: scale(1);
       transition: all .4s;
@@ -43,5 +42,8 @@
     font-size: 20px;
     line-height: 28px;
     text-align: center;
+  }
+  &__overflow{
+    overflow-y: scroll;
   }
 }

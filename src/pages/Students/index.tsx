@@ -171,6 +171,8 @@ const Students = (): JSX.Element => {
                 placeholder="ПІБ"
                 value={params.filter.studentId}
                 onChange={(value) => setParams({ ...params, filter: { ...params.filter, studentId: +value } })}
+                isClearable
+                isSearchable
               />
               <SelectIsFullTime
                 type="filter"
@@ -183,6 +185,8 @@ const Students = (): JSX.Element => {
                     isFullTime: value === 'Денна' ? true : value === '' ? null : false,
                   },
                 })}
+                isClearable
+                isSearchable
               />
             </>
           )}

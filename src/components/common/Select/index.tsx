@@ -30,9 +30,6 @@ const Styles: any = {
       height: '32px',
       borderRadius: '8px',
     }),
-    valueContainer: (provided: any) => ({
-      ...provided,
-    }),
     indicatorSeparator: (provided: any) => ({
       ...provided,
       display: 'none',
@@ -41,7 +38,30 @@ const Styles: any = {
       ...provided,
       height: '32px',
     }),
-
+    option: (base: any, state: any) => ({
+      ...base,
+      '&:hover': {
+        cursor: 'pointer',
+      },
+    }),
+    menuList: (base: any) => ({
+      ...base,
+      background: 'white',
+    }),
+    clearIndicator: (provided: any) => ({
+      ...provided,
+      '&:hover': {
+        backgroundColor: 'transparent',
+        color: 'rgba(45, 112, 169, 1)',
+      },
+    }),
+    dropdownIndicator: (provided: any) => ({
+      ...provided,
+      '&:hover': {
+        backgroundColor: 'transparent',
+        color: 'rgba(45, 112, 169, 1)',
+      },
+    }),
   },
   filter: {
     control: (provided: any) => ({
@@ -69,13 +89,29 @@ const Styles: any = {
       ...provided,
       display: 'none',
     }),
-    menu: (base: any) => ({
+    option: (base: any, state: any) => ({
       ...base,
-      background: 'rgba(215, 231, 244, 1)',
+      '&:hover': {
+        cursor: 'pointer',
+      },
     }),
     menuList: (base: any) => ({
       ...base,
       background: 'white',
+    }),
+    clearIndicator: (provided: any) => ({
+      ...provided,
+      '&:hover': {
+        backgroundColor: 'transparent',
+        color: 'rgba(45, 112, 169, 1)',
+      },
+    }),
+    dropdownIndicator: (provided: any) => ({
+      ...provided,
+      '&:hover': {
+        backgroundColor: 'transparent',
+        color: 'rgba(45, 112, 169, 1)',
+      },
     }),
   },
   modal: {
@@ -98,14 +134,11 @@ const Styles: any = {
       '&:active': {
         border: '1px solid rgba(39, 111, 173, 1)',
       },
+
     }),
     menu: (base: any) => ({
       ...base,
       background: 'rgba(215, 231, 244, 1)',
-    }),
-    menuList: (base: any) => ({
-      ...base,
-      background: 'white',
     }),
 
     valueContainer: (provided: any) => ({
@@ -127,7 +160,32 @@ const Styles: any = {
       ...provided,
       height: '32px',
     }),
+    option: (base: any, state: any) => ({
+      ...base,
+      '&:hover': {
+        cursor: 'pointer',
+      },
+    }),
+    menuList: (base: any) => ({
+      ...base,
+      background: 'white',
+    }),
+    clearIndicator: (provided: any) => ({
+      ...provided,
+      '&:hover': {
+        backgroundColor: 'transparent',
+        color: 'rgba(45, 112, 169, 1)',
+      },
+    }),
+    dropdownIndicator: (provided: any) => ({
+      ...provided,
+      '&:hover': {
+        backgroundColor: 'transparent',
+        color: 'rgba(45, 112, 169, 1)',
+      },
+    }),
   },
+
   multimodal: {
     control: (provided: any) => ({
       ...provided,
@@ -153,10 +211,6 @@ const Styles: any = {
       ...base,
       background: 'rgba(215, 231, 244, 1)',
     }),
-    menuList: (base: any) => ({
-      ...base,
-      background: 'white',
-    }),
 
     valueContainer: (provided: any) => ({
       ...provided,
@@ -176,6 +230,30 @@ const Styles: any = {
     indicatorsContainer: (provided: any) => ({
       ...provided,
       height: '32px',
+    }),
+    option: (base: any, state: any) => ({
+      ...base,
+      '&:hover': {
+        cursor: 'pointer',
+      },
+    }),
+    menuList: (base: any) => ({
+      ...base,
+      background: 'white',
+    }),
+    clearIndicator: (provided: any) => ({
+      ...provided,
+      '&:hover': {
+        backgroundColor: 'transparent',
+        color: 'rgba(45, 112, 169, 1)',
+      },
+    }),
+    dropdownIndicator: (provided: any) => ({
+      ...provided,
+      '&:hover': {
+        backgroundColor: 'transparent',
+        color: 'rgba(45, 112, 169, 1)',
+      },
     }),
   },
 };

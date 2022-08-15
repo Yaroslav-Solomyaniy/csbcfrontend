@@ -50,9 +50,9 @@ export const GroupCreate = ({ modalActive, closeModal }: ICreateModal): JSX.Elem
       <form className={styles.form} onSubmit={onSubmit}>
         <Input
           onChange={(event) => {
-            setFormData({ ...formData, name: event.target.value });
+            setFormData({ ...formData, name: event.target.value.slice(0, 6) });
           }}
-          value={formData.name.slice(0, 6)}
+          value={formData.name}
           placeholder="Номер групи"
           label="Номер групи"
           required
@@ -62,9 +62,9 @@ export const GroupCreate = ({ modalActive, closeModal }: ICreateModal): JSX.Elem
 
         <Input
           onChange={(event) => {
-            setFormData({ ...formData, orderNumber: event.target.value });
+            setFormData({ ...formData, orderNumber: event.target.value.slice(0, 8) });
           }}
-          value={formData.orderNumber.slice(0, 8)}
+          value={formData.orderNumber}
           error={isSubmitted && (`${formData.orderNumber}`.length < 6
           || `${formData.orderNumber}`.length > 20
             ? 'Номер наказу повинен містити не менше 6-ти символів.' : '')}
@@ -81,7 +81,7 @@ export const GroupCreate = ({ modalActive, closeModal }: ICreateModal): JSX.Elem
           isSearchable
           isClearable
           onChange={(value) => {
-            setFormData({ ...formData, curatorId: +value });
+            setFormData({ ...formData, curatorId: +value.slice(0, 8) });
           }}
           value={formData.curatorId}
           error={isSubmitted && !formData.curatorId ? 'Куратор не обраний.' : ''}

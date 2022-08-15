@@ -75,7 +75,7 @@ const Courses = (): JSX.Element => {
   useEffect(() => {
     const query: IGetCoursesParams = {};
 
-    if (params.filter.course) query.name = params.filter.course;
+    if (params.filter.course) query.id = +params.filter.course;
     if (params.filter.teacher) query.teacher = +params.filter.teacher;
     if (params.filter.group) query.groups = +params.filter.group;
     if (params.filter.isCompulsory === 'true' || params.filter.isCompulsory === 'false') {

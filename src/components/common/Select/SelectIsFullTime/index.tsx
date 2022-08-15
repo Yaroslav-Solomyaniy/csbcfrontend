@@ -20,6 +20,9 @@ const SelectIsFullTime = ({
   value,
   placeholder,
   error,
+  isSearchable,
+  isClearable,
+  required,
 }: SelectCurator): JSX.Element => {
   const options = [
     { value: 'Денна', label: 'Денна' },
@@ -34,9 +37,9 @@ const SelectIsFullTime = ({
       value={value ? 'Денна' : value === null ? '' : 'Заочна'}
       options={options}
       placeholder={placeholder}
-      isSearchable
-      isClearable
-      required
+      isSearchable={isSearchable}
+      isClearable={isClearable}
+      required={required}
       error={error}
     />
   );

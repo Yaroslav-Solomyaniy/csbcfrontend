@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Moment from 'react-moment';
 import stylesStud from '../../../pagesStyle.module.scss';
 
 import { useStudentsContext } from '../../../../context/students';
@@ -59,7 +60,7 @@ export const StudentsEditModal = ({ modalActive, closeModal, id }: IGroupCreateM
       && formData.user.patronymic
       && Email.test(formData.user.email)
     ) {
-      studentEdit?.studentEdit({ ...formData, dateOfBirth: new Date(formData.dateOfBirth).toLocaleDateString() }, id);
+      studentEdit?.studentEdit({ ...formData, dateOfBirth: new Date(formData.dateOfBirth).toISOString() }, id);
       handleClose();
     }
   };
@@ -72,8 +73,9 @@ export const StudentsEditModal = ({ modalActive, closeModal, id }: IGroupCreateM
 
   useEffect(() => {
     if (getStudentById?.data) {
-      /* setFormData({
-        dateOfBirth: getStudentById.data.dateOfBirth,
+      console.log(new Date(getStudentById.data.dateOfBirth).toLocaleDateString('es-PA'));
+      setFormData({
+        dateOfBirth: new Date(2020, 20, 30).toUTCString(),
         groupId: getStudentById.data.group.id,
         user: {
           firstName: getStudentById.data.user.firstName,
@@ -84,9 +86,8 @@ export const StudentsEditModal = ({ modalActive, closeModal, id }: IGroupCreateM
         },
         orderNumber: getStudentById.data.orderNumber,
         edeboId: getStudentById.data.edeboId,
-        isFullTime: /!* getStudentById.data.isFullTime *!/ false,
-      }); */
-      console.log(new Date(getStudentById.data.dateOfBirth));
+        isFullTime: getStudentById.data.isFullTime,
+      });
     }
   }, [getStudentById?.data]);
 
@@ -127,7 +128,7 @@ export const StudentsEditModal = ({ modalActive, closeModal, id }: IGroupCreateM
           required
           label="Дата народження"
           placeholder="Дата народження"
-         /* dateFormat="dd.MM.yyyy" */
+          dateFormat="dd/MM/yyyy"
           onChange={(item) => setFormData({ ...formData, dateOfBirth: item })}
           value={formData.dateOfBirth}
           error={isSubmitted && !formData.dateOfBirth ? 'Дату народження не введено' : ''}

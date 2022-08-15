@@ -118,7 +118,7 @@ export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateMod
           label="Дата народження"
           placeholder="Дата народження"
           onChange={(item) => setFormData({ ...formData, dateOfBirth: item })}
-          dateFormat="dd.MM.yyyy"
+          dateFormat="MM.dd.yyyy"
           value={formData.dateOfBirth}
           error={isSubmitted && !formData.dateOfBirth ? 'Дату народження не введено' : ''}
         />

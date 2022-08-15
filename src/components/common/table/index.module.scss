@@ -5,6 +5,11 @@
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 8px;
 
+  &__scroll {
+    width: 100%;
+    overflow: auto;
+  }
+
   &__not_found {
     background: rgba(255, 255, 255, 1);
     display: flex;

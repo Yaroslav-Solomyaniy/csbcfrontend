@@ -1,6 +1,21 @@
-.header{
+.header {
+  flex-wrap: nowrap;
   display: grid;
-  &__item{
+
+  &__scroll &__item {
+    &:first-child {
+      position: sticky;
+      left: 0;
+    }
+
+    &:last-child {
+      border-left: .5px solid rgba(0, 0, 0, 0.06);
+      position: sticky;
+      right: 0;
+    }
+  }
+
+  &__item {
     padding: 10px 16px;
     background: rgba(236, 243, 254, 1);
     border-right: 1px solid rgba(0, 0, 0, 0.06);

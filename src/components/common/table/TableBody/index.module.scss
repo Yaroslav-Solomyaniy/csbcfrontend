@@ -1,3 +1,7 @@
+.content {
+  width: 100%;
+}
+
 .body__row {
   display: grid;
   background: rgba(255, 255, 255, 1);
@@ -8,11 +12,24 @@
   }
 
   &__item {
-    background: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255);
     padding: 5px 11px;
     color: rgba(0, 0, 0, 0.75);
 
+    &__scroll {
+      &:first-child {
+        position: sticky;
+        left: 0;
+      }
+
+      &:last-child {
+        position: sticky;
+        right: 0;
+      }
+    }
+
     &__string {
+      display: inline-block;
       height: 22px;
       line-height: 22px;
       margin: 5px;

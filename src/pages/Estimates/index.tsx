@@ -2,39 +2,38 @@ import React, { useEffect, useState } from 'react';
 import Layout from '../../loyout/Layout';
 import { ITableHeader } from '../../components/common/table/TableHeader';
 import { initialPagination, Pagination } from '../../types';
-import { useTeachersContext } from '../../context/teachers';
 import { ITableRowItem } from '../../components/common/table/TableBody';
 import styles from './index.module.scss';
 import Button from '../../components/common/Button';
 import edit from '../../images/table/edit.svg';
-import del from '../../images/table/delete.svg';
+import hystory from '../../images/table/history.svg';
+import download from '../../images/table/download.svg';
 import SelectStudent from '../../components/common/Select/SelectStudent';
 import SelectGroupById from '../../components/common/Select/SelectGroupById';
 import TitlePage from '../../components/TitlePage';
 import Table from '../../components/common/table';
-
-const dataHeader: ITableHeader[] = [
-  { id: 1, label: 'ПІП' },
-  { id: 2, label: 'Предмет' },
-  { id: 5, label: 'Дії' },
-];
+import { useGetListCourses } from '../../hooks/useDropDown';
+import { useEstimatesContext } from '../../context/estimates';
+import { IGetGradesData, IGetGradesParams } from '../../hooks/useEstimates';
+import SelectSemester from '../../components/common/Select/SelectSemester';
+import EstimatesEdit from './EstimatesEdit';
 
 interface IIsActiveTeacherModalState {
-  create: boolean;
   edit: number;
-  delete: number;
+  history: number;
+  download: number;
 }
 
 const allCloseModalWindow: IIsActiveTeacherModalState = {
-  create: false,
+  download: 0,
   edit: 0,
-  delete: 0,
+  history: 0,
 };
 
 interface Filter {
-  teacherId: number | null;
+  studentId: number | null;
   group: string;
-  name: string;
+  semester: string;
 }
 
 interface Params {
@@ -43,121 +42,123 @@ interface Params {
 }
 
 const Estimates = (): JSX.Element => {
-  const { getTeacher } = useTeachersContext();
+  const { estimatesGet } = useEstimatesContext();
+  const dropCurses = useGetListCourses();
   const [isActiveModal, setIsActiveModal] = useState<IIsActiveTeacherModalState>(allCloseModalWindow);
+  const [dataHeader, setDataHeader] = useState<ITableHeader[]>([]);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
   const [params, setParams] = useState<Params>({
-    filter: { teacherId: 0, group: '', name: '' },
+    filter: { studentId: 0, group: '', semester: '' },
     pagination: initialPagination,
   });
-
   const closeModal = () => {
     setIsActiveModal(allCloseModalWindow);
   };
 
-  const tableRows = (arrTableRows: any) => (
-    arrTableRows.length ? arrTableRows.map((item: any) => ({
-      list: [
-        { id: 1, label: `${item.lastName} ${item.firstName} ${item.patronymic}` },
-        { id: 2, label: ['12', '12', '12', '12'] },
-        {
-          id: 3,
-          label: (
-            <div className={styles.actions}>
-              <Button
-                isImg
-                type="button"
-                className={styles.actions__button_edit}
-                onClick={() => {
-                  setIsActiveModal({ ...allCloseModalWindow, edit: item.id });
-                }}
-              >
-                <img src={edit} alt="edit" />
-              </Button>
-              <Button
-                isImg
-                type="button"
-                className={styles.actions__button_delete}
-                onClick={() => {
-                  setIsActiveModal({ ...allCloseModalWindow, delete: item.id });
-                }}
-              >
-                <img src={del} alt="delete" />
-              </Button>
-            </div>
-          ),
-        },
-      ],
-      key: item.id,
-    })) : []);
+  const tableRows = (arrTableRows: any) => {
+    let id = 1;
+
+    return (
+      arrTableRows.length > 0 ? arrTableRows.map((item: IGetGradesData) => {
+        const arrTableRowsGrade = dropCurses.optionCourses
+          ? dropCurses.optionCourses?.items.map((el) => {
+            const estimaates = item.courses.filter((course) => course.id === el.id);
+
+            return ({ id: ++id, label: estimaates.length ? estimaates[0].grade : '-' });
+          })
+          : [];
+
+        return ({
+          list: [
+            { id: 1, label: `${/* item.lastName} ${item.firstName} ${item.patronymic */ item.id} ` },
+            ...arrTableRowsGrade,
+            {
+              id: ++id,
+              label: (
+                <div className={styles.actions}>
+                  <Button
+                    isImg
+                    type="button"
+                    className={styles.actions__button_edit}
+                    onClick={() => {
+                      setIsActiveModal({ ...allCloseModalWindow, edit: item.id });
+                    }}
+                  >
+                    <img src={edit} alt="edit" />
+                  </Button>
+                  <Button
+                    isImg
+                    type="button"
+                    className={styles.actions__button_delete}
+                    onClick={() => {
+                      setIsActiveModal({ ...allCloseModalWindow, history: item.id });
+                    }}
+                  >
+                    <img src={hystory} alt="hystory" />
+                  </Button>
+                  <Button
+                    isImg
+                    type="button"
+                    className={styles.actions__button_delete}
+                    onClick={() => {
+                      setIsActiveModal({ ...allCloseModalWindow, download: item.id });
+                    }}
+                  >
+                    <img src={download} alt="download" />
+                  </Button>
+                </div>
+              ),
+            },
+          ],
+          key: item.id,
+        });
+      }) : []);
+  };
 
   useEffect(() => {
-    if (params.filter.teacherId) {
-      // getTeacher?.getTeacher({});
-    } else {
-      // const query: IGetTeacherParams = {};
-      //
-      // if (params.filter.group) query.group = params.filter.group;
-      // if (params.pagination.currentPage) query.page = params.pagination.currentPage;
-      // if (params.pagination.itemsPerPage) query.limit = params.pagination.itemsPerPage;
-      //
-      // getTeacher?.getTeacher(query);
+    dropCurses.getListCourses();
+  }, [estimatesGet?.data]);
+
+  useEffect(() => {
+    let id = 1;
+
+    setDataHeader([
+      { id: 1, label: 'ПІБ' },
+      ...dropCurses.optionCourses ? dropCurses.optionCourses.items.map(
+        (el) => ({ id: ++id, label: el.name }),
+      ) : [],
+      { id: ++id, label: 'Дії' },
+    ]);
+
+    if (estimatesGet?.data) {
+      setParams({ ...params, pagination: estimatesGet?.data.meta });
+      setDataRow(tableRows(estimatesGet.data.items));
     }
+  }, [estimatesGet?.data, dropCurses.optionCourses]);
+
+  useEffect(() => {
+    const query: IGetGradesParams = {};
+
+    // if (params.filter.group) query = params.filter.group;
+    if (params.filter.studentId) query.studentId = params.filter.studentId;
+    if (params.pagination.currentPage) query.page = params.pagination.currentPage;
+    if (params.pagination.itemsPerPage) query.limit = params.pagination.itemsPerPage;
+
+    estimatesGet?.getEstimateStudent(query);
+    // }
   }, [
     params.filter.group,
-    params.filter.teacherId,
-    params.filter.name,
+    params.filter.studentId,
+    params.filter.semester,
     params.pagination.currentPage,
     params.pagination.itemsPerPage,
   ]);
-
-  useEffect(() => {
-    // if (getTeacher?.data) {
-    // setParams({ ...params, pagination: getTeacher.data.meta });
-    setDataRow(tableRows([
-      {
-        id: 1,
-        lastName: 'asdf',
-        firstName: 'asівdf',
-        patronymic: 'aмsdf',
-        group: { id: 1, name: '1Т-15' },
-        course: [
-          { name: 'Дискретка', grade: 73 },
-          { name: 'Дискретка', grade: 73 },
-        ],
-      },
-      {
-        id: 1,
-        lastName: 'asdf',
-        firstName: 'asівdf',
-        patronymic: 'aмsdf',
-        group: { id: 1, name: '1Т-15' },
-        course: [
-          { name: 'Дискретка', grade: 73 },
-          { name: 'Дискретка', grade: 73 },
-        ],
-      },
-    ]));
-    // }
-  }, []);
 
   return (
     <Layout>
       <div className={styles.students}>
         <TitlePage
           title="Оцінки"
-          action={(
-            <Button
-              nameClass="primary"
-              size="large"
-              className={styles.actions}
-              onClick={() => {
-                setIsActiveModal({ ...allCloseModalWindow, create: true });
-              }}
-            >
-              Створити
-            </Button>
-          )}
         />
         <Table
           filter={(
@@ -174,20 +175,29 @@ const Estimates = (): JSX.Element => {
                   filter: {
                     ...params.filter,
                     group: value,
-                    teacherId: null,
+                    studentId: null,
                   },
                 })}
               />
               <SelectStudent
                 type="filter"
                 placeholder="ПІБ"
-                value={params.filter.teacherId}
+                value={params.filter.studentId}
                 onChange={(value) => setParams({
-                  ...params, filter: { ...params.filter, teacherId: +value },
+                  ...params, filter: { ...params.filter, studentId: +value },
+                })}
+              />
+              <SelectSemester
+                type="filter"
+                placeholder="Семестр"
+                value={params.filter.semester}
+                onChange={(value) => setParams({
+                  ...params, filter: { ...params.filter, studentId: +value },
                 })}
               />
             </>
           )}
+          columScrollHorizontal={2 + (dropCurses.optionCourses ? +`${dropCurses.optionCourses?.items.length}` : 0)}
           isScroll
           dataHeader={dataHeader}
           gridColumns={styles.columns}
@@ -195,6 +205,7 @@ const Estimates = (): JSX.Element => {
           pagination={initialPagination}
           onPaginationChange={(newPagination) => setParams({ ...params, pagination: newPagination })}
         />
+        <EstimatesEdit modalActive={!!isActiveModal.edit} closeModal={closeModal} Id={isActiveModal.edit} />
       </div>
     </Layout>
   );

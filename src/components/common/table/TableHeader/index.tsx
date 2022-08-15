@@ -10,14 +10,24 @@ export interface ITableHeader {
 interface IDataHeader {
   dataHeader: ITableHeader[];
   gridColumns: string;
+  columScrollHorizontal?: number;
+  isScroll?: boolean;
 }
 
-const TableHeader = ({ dataHeader, gridColumns }: IDataHeader): JSX.Element => (
-  <div className={clsx(styles.header, gridColumns)}>
+const TableHeader = ({ dataHeader, gridColumns, isScroll, columScrollHorizontal }: IDataHeader): JSX.Element => (
+  <div
+    className={clsx(styles.header, isScroll && styles.header__scroll, !isScroll && gridColumns)}
+    style={isScroll ? { gridTemplateColumns: `repeat(${columScrollHorizontal}, 20%)` } : {}}
+  >
     {dataHeader.map((item) => (
       <div className={styles.header__item} key={item.id}>{item.label}</div>
     ))}
   </div>
 );
+
+TableHeader.defaultProps = {
+  isScroll: false,
+  columScrollHorizontal: 0,
+};
 
 export default TableHeader;

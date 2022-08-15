@@ -3,7 +3,7 @@ import pagesStyle from '../../pagesStyle.module.scss';
 import ModalWindow from '../../../components/common/ModalWindow';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
 import { IEditModal } from '../../../types';
-import Input from '../../../components/common/Input';
+import ModalInput from '../../../components/common/ModalInput';
 import { Email, EmailValidation, LettersAndNumbersEnUa } from '../../../types/regExp';
 import { IUserEditParams } from '../../../hooks/useUser';
 import { useAdministratorsContext } from '../../../context/administators';
@@ -45,7 +45,7 @@ export const AdministratorEditModal = ({ modalActive, closeModal, Id }: IEditMod
     handleClose();
     if (administratorsEdit?.data) {
       addInfo(`${formData.lastName} ${formData.firstName} ${formData.patronymic}
-        успішно відредагований як адміністратор`);
+        успішно відредагований`);
     }
   }, [administratorsEdit?.data]);
 
@@ -69,7 +69,7 @@ export const AdministratorEditModal = ({ modalActive, closeModal, Id }: IEditMod
   return (
     <ModalWindow modalTitle="Редагування адміністратора" active={modalActive} closeModal={handleClose}>
       <form className={pagesStyle.form} onSubmit={onSubmit}>
-        <Input
+        <ModalInput
           onChange={(event) => {
             setFormData({ ...formData, lastName: event.target.value });
           }}
@@ -80,7 +80,7 @@ export const AdministratorEditModal = ({ modalActive, closeModal, Id }: IEditMod
           error={isSubmitted && !formData.lastName ? 'Прізвище не введено' : ''}
           pattern={LettersAndNumbersEnUa}
         />
-        <Input
+        <ModalInput
           onChange={(event) => {
             setFormData({ ...formData, firstName: event.target.value });
           }}
@@ -91,7 +91,7 @@ export const AdministratorEditModal = ({ modalActive, closeModal, Id }: IEditMod
           error={isSubmitted && !formData.firstName ? "\"Ім'я\" не введено" : ''}
           pattern={LettersAndNumbersEnUa}
         />
-        <Input
+        <ModalInput
           onChange={(event) => {
             setFormData({ ...formData, patronymic: event.target.value });
           }}
@@ -102,7 +102,7 @@ export const AdministratorEditModal = ({ modalActive, closeModal, Id }: IEditMod
           error={isSubmitted && !formData.patronymic ? 'В поле "По-Батькові" нічого не введено' : ''}
           pattern={LettersAndNumbersEnUa}
         />
-        <Input
+        <ModalInput
           onChange={(event) => {
             setFormData({ ...formData, email: event.target.value });
           }}

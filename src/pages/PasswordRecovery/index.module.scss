@@ -51,23 +51,20 @@
     }
 
     &__input {
-      color: #6F6F6F;
+      color:  rgba(0, 0, 0, 0.75);
+      font-weight: 400;
       padding: 10px 16px;
       font-size: 14px;
-      margin: 32px 0 16px;
-      border: 2px solid rgba(0, 0, 0, 0.1);;
+      margin-top: 32px;
+      border: 1px solid rgba(0, 0, 0, 0.1);
       border-radius: 8px;
+      &:hover{
+        border: 1px solid rgba(39, 111, 173, 1);
+      }
     }
 
     &__button {
-      width: 280px;
-      background: #428BCA;
-      border-radius: 8px;
-      padding: 10px 24px;
-      font-size: 14px;
-      color: #ffffff;
+      margin-top: 16px;
     }
   }
-
-
 }

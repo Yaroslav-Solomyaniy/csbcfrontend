@@ -3,7 +3,7 @@ import styles from '../../pagesStyle.module.scss';
 import ModalWindow from '../../../components/common/ModalWindow';
 import { IGroupEditParams } from '../../../hooks/useGroups';
 import { useGroupContext } from '../../../context/group';
-import Input from '../../../components/common/Input';
+import ModalInput from '../../../components/common/ModalInput';
 import SelectCurator from '../../../components/common/Select/SelectCurator';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
 import { useMessagesContext } from '../../../context/useMessagesContext';
@@ -59,7 +59,7 @@ export const TeacherRatingEdit = ({ modalActive, closeModal, Id }: IEditModal): 
         <div className={styles.subtitle}>Куратор Іван Сидорович, 2К-19</div>
         <div className={styles.subtitle}>Предмет :Інженерія програмного забеспечення</div>
         <div className={styles.subtitle}>Поточна оцінка: 82</div>
-        <Input
+        <ModalInput
           onChange={(event) => {
             setFormData({ ...formData, rating: +event.target.value });
           }}

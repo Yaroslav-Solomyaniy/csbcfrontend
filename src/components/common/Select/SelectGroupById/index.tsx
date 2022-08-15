@@ -5,27 +5,36 @@ import { useGroupContext } from '../../../../context/group';
 import { useGetListGroups } from '../../../../hooks/useDropDown';
 
 interface ISelectGroupById {
-  label?: string;
   value: string | number | undefined | null;
   onChange: (value: string) => void;
+  type: SelectType;
+  label?: string;
+  required?: boolean;
+  error?: string;
   placeholder?: string;
   isSearchable?: boolean;
   isClearable?: boolean;
-  error?: string;
-  required?: boolean;
-  type: SelectType;
+  isDisabled?: boolean;
+  menuPos?: 'fixed' | 'absolute';
+  menuPlace?: 'top' | 'auto' | 'bottom';
+  isFilter?: boolean;
 }
 
 const SelectGroupById = ({
-  type,
   label,
-  onChange,
   value,
+  onChange,
+  required,
+  error,
   placeholder,
   isSearchable,
   isClearable,
-  required,
-  error,
+  type,
+  isDisabled,
+  menuPos,
+  menuPlace,
+  isFilter,
+
 }: ISelectGroupById): JSX.Element => {
   const { optionsGroups, getListGroups } = useGetListGroups();
   const [options, setOptions] = useState<Option[]>([]);
@@ -53,18 +62,25 @@ const SelectGroupById = ({
       isClearable={isClearable}
       required={required}
       error={error}
+      isDisabled={isDisabled}
+      isFilter={isFilter}
+      menuPlace={menuPlace}
+      menuPos={menuPos}
     />
   );
 };
 
 SelectGroupById.defaultProps = {
+  label: '',
+  error: '',
+  required: false,
   placeholder: '',
   isSearchable: false,
   isClearable: false,
-  required: false,
+  menuPos: 'absolute',
+  menuPlace: 'auto',
+  isDisabled: false,
   isFilter: false,
-  label: '',
-  error: '',
 };
 
 export default SelectGroupById;

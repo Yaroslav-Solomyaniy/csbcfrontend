@@ -2,20 +2,22 @@ import React from 'react';
 import DatePicker from 'react-datepicker';
 import clsx from 'clsx';
 import uk from 'date-fns/locale/uk';
-import styles from '../index.module.scss';
+import styles from '../../Select/index.module.scss';
 import 'react-datepicker/dist/react-datepicker.css';
-import './style.css';
+import './dateAndTimePicker.css';
+import MyDatePicker from '../index';
 
-interface SelectDate {
-  value: Date | null;
-  onChange: (date: Date | null) => void;
+interface SelectDateAndTime {
+  value: Date | string | null;
+  onChange: (date: Date| string | null) => void;
+  placeholder?: string;
   label?: string;
   isClearable?: boolean;
   error?: string;
   required?: boolean;
 }
 
-const SelectDate = ({ value, onChange, label, error, required }: SelectDate) => (
+const SelectDateAndTime = ({ value, onChange, label, error, required, placeholder }: SelectDateAndTime) => (
   <div className={styles.wrap}>
     {label && (
       <label className={clsx(styles.label, error && styles.error_label)}>
@@ -24,15 +26,16 @@ const SelectDate = ({ value, onChange, label, error, required }: SelectDate) => 
       </label>
     )}
     <div className={styles.selectWrap}>
-      <DatePicker
-        locale={uk}
-        selected={value}
+      <MyDatePicker
         onChange={onChange}
+        value={value}
+        placeholder={placeholder}
+        showMonthDropdown
+        showDisabledMonthNavigation
         timeInputLabel="Час:"
         dateFormat="Pp"
         timeFormat="p"
         showTimeInput
-        showMonthDropdown
       />
       {error && (
         <div className={styles.error}>
@@ -43,7 +46,7 @@ const SelectDate = ({ value, onChange, label, error, required }: SelectDate) => 
   </div>
 );
 
-SelectDate.defaultProps = {
+SelectDateAndTime.defaultProps = {
   placeholder: '',
   isSearchable: false,
   isClearable: false,
@@ -53,4 +56,4 @@ SelectDate.defaultProps = {
   error: '',
 };
 
-export default SelectDate;
+export default SelectDateAndTime;

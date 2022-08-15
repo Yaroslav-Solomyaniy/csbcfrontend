@@ -3,7 +3,7 @@ import styles from './index.module.scss';
 import ModalWindow from '../../../components/common/ModalWindow';
 import { IGroupEditParams } from '../../../hooks/useGroups';
 import { useGroupContext } from '../../../context/group';
-import Input from '../../../components/common/Input';
+import ModalInput from '../../../components/common/ModalInput';
 import SelectCurator from '../../../components/common/Select/SelectCurator';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
 import { useMessagesContext } from '../../../context/useMessagesContext';

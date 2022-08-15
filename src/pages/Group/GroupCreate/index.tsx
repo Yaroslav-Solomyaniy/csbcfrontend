@@ -4,7 +4,7 @@ import { useGroupContext } from '../../../context/group';
 import { IGroupCreateParams } from '../../../hooks/useGroups';
 import ModalWindow from '../../../components/common/ModalWindow';
 import styles from '../../pagesStyle.module.scss';
-import Input from '../../../components/common/Input';
+import ModalInput from '../../../components/common/ModalInput';
 import SelectCurator from '../../../components/common/Select/SelectCurator';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
 import { useMessagesContext } from '../../../context/useMessagesContext';
@@ -41,14 +41,14 @@ export const GroupCreate = ({ modalActive, closeModal }: ICreateModal): JSX.Elem
   useEffect(() => {
     handleClose();
     if (groupCreate?.data) {
-      addInfo(`Група ${groupCreate?.data?.name} успішно створена.`);
+      addInfo(`Група "${groupCreate?.data?.name}" успішно створена`);
     }
   }, [groupCreate?.data]);
 
   return (
     <ModalWindow modalTitle="Створення групи" active={modalActive} closeModal={handleClose}>
       <form className={styles.form} onSubmit={onSubmit}>
-        <Input
+        <ModalInput
           onChange={(event) => {
             setFormData({ ...formData, name: event.target.value.slice(0, 6) });
           }}
@@ -60,7 +60,7 @@ export const GroupCreate = ({ modalActive, closeModal }: ICreateModal): JSX.Elem
           pattern={LettersAndNumbersEnUa}
         />
 
-        <Input
+        <ModalInput
           onChange={(event) => {
             setFormData({ ...formData, orderNumber: event.target.value.slice(0, 8) });
           }}
@@ -81,7 +81,7 @@ export const GroupCreate = ({ modalActive, closeModal }: ICreateModal): JSX.Elem
           isSearchable
           isClearable
           onChange={(value) => {
-            setFormData({ ...formData, curatorId: +value.slice(0, 8) });
+            setFormData({ ...formData, curatorId: +value });
           }}
           value={formData.curatorId}
           error={isSubmitted && !formData.curatorId ? 'Куратор не обраний.' : ''}

@@ -54,7 +54,10 @@ iframe {
 
 input{
   outline: none;
+  border: 1px solid #e6e6e6;
 }
-input:hover, input:focus, input:focus-visible, input:active{
-  outline: 1px solid rgba(39, 111, 173, 1);
+
+input:hover, input:focus, input:active{
+  outline: none;
+  border: 1px solid rgba(39, 111, 173, 1)
 }

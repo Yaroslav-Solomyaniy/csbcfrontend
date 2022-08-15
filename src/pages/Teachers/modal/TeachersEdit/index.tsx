@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ModalWindow from '../../../../components/common/ModalWindow';
 import ModalControlButtons from '../../../../components/common/ModalControlButtons';
 import pagesStyle from '../../../pagesStyle.module.scss';
-import Input from '../../../../components/common/Input';
+import ModalInput from '../../../../components/common/ModalInput';
 import { useTeachersContext } from '../../../../context/teachers';
 import { ITeacher } from '../../../../hooks/useTeachers';
 import MultiSelectCourses from '../../../../components/common/MultiSelect/MultiSelectCourses';
@@ -60,7 +60,7 @@ export const StudentsEditModal = ({ modalActive, closeModal, id }: IStudentsDele
   return (
     <ModalWindow modalTitle="Редагуваня викладача" active={modalActive} closeModal={handleClose}>
       <form className={pagesStyle.form} onSubmit={onSubmit}>
-        <Input
+        <ModalInput
           label="Прізвище"
           placeholder="Прізвище"
           required
@@ -68,7 +68,7 @@ export const StudentsEditModal = ({ modalActive, closeModal, id }: IStudentsDele
           onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
           error={isSubmitted && !formData.lastName ? 'Прізвище не введено' : ''}
         />
-        <Input
+        <ModalInput
           label="Ім`я"
           placeholder="Ім`я"
           required
@@ -76,7 +76,7 @@ export const StudentsEditModal = ({ modalActive, closeModal, id }: IStudentsDele
           onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
           error={isSubmitted && !formData.firstName ? 'Ім`я не введено' : ''}
         />
-        <Input
+        <ModalInput
           label="По-Батькові"
           placeholder="По-Батькові"
           required
@@ -84,7 +84,7 @@ export const StudentsEditModal = ({ modalActive, closeModal, id }: IStudentsDele
           onChange={(e) => setFormData({ ...formData, patronymic: e.target.value })}
           error={isSubmitted && !formData.patronymic ? 'По-Батькові не введено' : ''}
         />
-        <Input
+        <ModalInput
           label="E-Mail"
           placeholder="E-Mail"
           required

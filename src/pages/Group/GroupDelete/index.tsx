@@ -3,7 +3,7 @@ import styles from '../../pagesStyle.module.scss';
 import ModalWindow from '../../../components/common/ModalWindow';
 import { IGroupDeleteParams } from '../../../hooks/useGroups';
 import { useGroupContext } from '../../../context/group';
-import Input from '../../../components/common/Input';
+import ModalInput from '../../../components/common/ModalInput';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
 import { useMessagesContext } from '../../../context/useMessagesContext';
 import { IDeleteModal } from '../../../types';
@@ -38,7 +38,7 @@ export const GroupDelete = ({ modalActive, closeModal, Id }: IDeleteModal): JSX.
   useEffect(() => {
     handleClose();
     if (groupDelete?.data) {
-      addInfo(`Групу: ${getGroupId?.data?.name} успішно видалено за номером наказу: ${formData.deletedOrderNumber}.`);
+      addInfo(`Група "${getGroupId?.data?.name}" успішно видалена`);
     }
   }, [groupDelete?.data]);
 
@@ -52,14 +52,14 @@ export const GroupDelete = ({ modalActive, closeModal, Id }: IDeleteModal): JSX.
     <ModalWindow modalTitle="Видалення групи" active={modalActive} closeModal={handleClose}>
       <form className={styles.form} onSubmit={onSubmit}>
         <h3 className={styles.subtitle}>Для підтвердження видалення групи введіть номер наказу.</h3>
-        <Input
+        <ModalInput
           onChange={(event) => {
-            setFormData({ ...formData, deletedOrderNumber: event.target.value });
+            setFormData({ ...formData, deletedOrderNumber: event.target.value.slice(0, 8) });
           }}
-          value={formData.deletedOrderNumber.slice(0, 8)}
+          value={formData.deletedOrderNumber}
           error={isSubmitted && (`${formData.deletedOrderNumber}`.length < 6
           || `${formData.deletedOrderNumber}`.length > 20
-            ? 'Номер наказу повинен містити не менше 6-ти символів.' : '')}
+            ? 'Номер наказу повинен містити не менше 6-ти символів' : '')}
           placeholder="Номер наказу"
           label="Номер наказу"
           required

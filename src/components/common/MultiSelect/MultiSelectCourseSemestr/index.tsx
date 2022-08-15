@@ -7,7 +7,7 @@ import plus from '../../../../images/plus.svg';
 import minus from '../../../../images/minus.svg';
 import { Minus, Plus } from '../../Icon';
 
-interface IMultiSelectCourseSemestr {
+interface IMultiSelectCourseSemestr{
   error?: string;
   isProfileCourse?: boolean;
   data: {
@@ -67,11 +67,17 @@ const MultiSelectCourseSemestr = ({
             value={obj.courseId}
             onChange={(e) => updateCourse(obj.id, e)}
             type="multimodal"
+            menuPos="absolute"
+            menuPlace={
+           /*  data.length < 3 && */'auto'
+            }
           />
           <SelectSemester
             value={obj.semester}
             onChange={(e) => updateSemester(obj.id, e)}
             type="modal"
+            menuPos="absolute"
+            menuPlace="bottom"
           />
           {index === data.length - 1
             ? (

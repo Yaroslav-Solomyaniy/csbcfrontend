@@ -5,27 +5,35 @@ import { useStudentsContext } from '../../../../context/students';
 import { useGetListStudents } from '../../../../hooks/useDropDown';
 
 interface SelectPIB {
-  label?: string;
   value: string | number | null;
   onChange: (value: string) => void;
+  type: SelectType;
+  label?: string;
+  required?: boolean;
+  error?: string;
   placeholder?: string;
   isSearchable?: boolean;
   isClearable?: boolean;
-  error?: string;
-  required?: boolean;
-  type: SelectType;
+  isDisabled?: boolean;
+  menuPos?: 'fixed' | 'absolute';
+  menuPlace?: 'top' | 'auto' | 'bottom';
+  isFilter?: boolean;
 }
 
 const SelectStudent = ({
-  type,
   label,
-  onChange,
   value,
+  onChange,
+  required,
+  error,
   placeholder,
   isSearchable,
   isClearable,
-  required,
-  error,
+  type,
+  isDisabled,
+  menuPos,
+  menuPlace,
+  isFilter,
 }: SelectPIB): JSX.Element => {
   const { getListStudents, listStudents } = useGetListStudents();
   const [options, setOptions] = useState<Option[]>([]);
@@ -56,18 +64,25 @@ const SelectStudent = ({
       isClearable={isClearable}
       required={required}
       error={error}
+      isDisabled={isDisabled}
+      isFilter={isFilter}
+      menuPlace={menuPlace}
+      menuPos={menuPos}
     />
   );
 };
 
 SelectStudent.defaultProps = {
   label: '',
+  error: '',
+  required: false,
   placeholder: '',
   isSearchable: false,
   isClearable: false,
-  required: false,
+  menuPos: 'absolute',
+  menuPlace: 'auto',
+  isDisabled: false,
   isFilter: false,
-  error: '',
 };
 
 export default SelectStudent;

@@ -34,6 +34,7 @@ const AppRoutes = () => {
       {user?.role === 'admin' && (
         <>
           <Route
+            /* path="/groups" */
             index
             element={<GroupProvider><Group /></GroupProvider>}
           />
@@ -99,7 +100,6 @@ const AppRoutes = () => {
           </PasRec>
         )}
       />
-      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 };

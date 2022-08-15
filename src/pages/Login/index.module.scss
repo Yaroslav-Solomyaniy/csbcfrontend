@@ -35,27 +35,6 @@
       margin: 8px 0;
       border: 1px solid rgba(0, 0, 0, 0.1);
       border-radius: 8px;
-
-      &[type="checkbox"] {
-        background: #565656;
-        width: 17px;
-        height: 17px;
-        margin: 3px;
-      }
-    }
-
-    &__password {
-      font-size: 11px;
-      overflow: hidden;
-      transition: all .6s;
-      height: 0;
-      color: #000000;
-
-      &__error {
-        transition: all .5s;
-        height: 15px;
-        color: #FF0000;
-      }
     }
 
     &__button {
@@ -70,6 +49,8 @@
       text-underline-offset: 2px;
     }
   }
+}
 
-
+.checkbox{
+  margin: 19px 0;
 }

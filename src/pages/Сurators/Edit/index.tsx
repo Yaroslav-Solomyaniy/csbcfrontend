@@ -4,7 +4,7 @@ import ModalWindow from '../../../components/common/ModalWindow';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
 import { IEditModal } from '../../../types';
 import { useCuratorContext } from '../../../context/curators';
-import Input from '../../../components/common/Input';
+import ModalInput from '../../../components/common/ModalInput';
 import { Email, EmailValidation, LettersAndNumbersEnUa } from '../../../types/regExp';
 import { IUserEditParams } from '../../../hooks/useUser';
 import { useMessagesContext } from '../../../context/useMessagesContext';
@@ -45,8 +45,7 @@ export const CuratorEditModal = ({ modalActive, closeModal, Id }: IEditModal): J
   useEffect(() => {
     handleClose();
     if (curatorEdit?.data) {
-      addInfo(`${formData.lastName} ${formData.firstName} ${formData.patronymic}
-         - куратор успішно відредагований.`);
+      addInfo(`Куратор ${formData.lastName} ${formData.firstName} ${formData.patronymic} успішно відредагований`);
     }
   }, [curatorEdit?.data]);
 
@@ -71,7 +70,7 @@ export const CuratorEditModal = ({ modalActive, closeModal, Id }: IEditModal): J
   return (
     <ModalWindow modalTitle="Редагування куратора" active={modalActive} closeModal={handleClose}>
       <form className={pagesStyle.form} onSubmit={onSubmit}>
-        <Input
+        <ModalInput
           onChange={(event) => {
             setFormData({ ...formData, lastName: event.target.value });
           }}
@@ -82,7 +81,7 @@ export const CuratorEditModal = ({ modalActive, closeModal, Id }: IEditModal): J
           error={isSubmitted && !formData.lastName ? 'Прізвище не введено' : ''}
           pattern={LettersAndNumbersEnUa}
         />
-        <Input
+        <ModalInput
           onChange={(event) => {
             setFormData({ ...formData, firstName: event.target.value });
           }}
@@ -93,7 +92,7 @@ export const CuratorEditModal = ({ modalActive, closeModal, Id }: IEditModal): J
           error={isSubmitted && !formData.firstName ? "\"Ім'я\" не введено" : ''}
           pattern={LettersAndNumbersEnUa}
         />
-        <Input
+        <ModalInput
           onChange={(event) => {
             setFormData({ ...formData, patronymic: event.target.value });
           }}
@@ -104,7 +103,7 @@ export const CuratorEditModal = ({ modalActive, closeModal, Id }: IEditModal): J
           error={isSubmitted && !formData.patronymic ? 'В поле "По-Батькові" нічого не введено' : ''}
           pattern={LettersAndNumbersEnUa}
         />
-        <Input
+        <ModalInput
           onChange={(event) => {
             setFormData({ ...formData, email: event.target.value });
           }}

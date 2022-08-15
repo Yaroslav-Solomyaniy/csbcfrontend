@@ -3,27 +3,35 @@ import Select from '../index';
 import { Option, SelectType } from '../../../../types';
 
 interface ISelectReason {
-  label?: string;
   value: string | number;
   onChange: (value: string) => void;
+  type: SelectType;
+  label?: string;
+  required?: boolean;
+  error?: string;
   placeholder?: string;
   isSearchable?: boolean;
   isClearable?: boolean;
-  error?: string;
-  required?: boolean;
-  type: SelectType;
+  isDisabled?: boolean;
+  menuPos?: 'fixed' | 'absolute';
+  menuPlace?: 'top' | 'auto' | 'bottom';
+  isFilter?: boolean;
 }
 
 const SelectReason = ({
-  type,
   label,
-  onChange,
   value,
+  onChange,
+  required,
+  error,
   placeholder,
   isSearchable,
   isClearable,
-  required,
-  error,
+  type,
+  isDisabled,
+  menuPos,
+  menuPlace,
+  isFilter,
 }: ISelectReason): JSX.Element => {
   const [options, setOptions] = useState<Option[]>([
     {
@@ -41,8 +49,8 @@ const SelectReason = ({
 
   return (
     <Select
-      type={type}
       label={label}
+      type={type}
       onChange={onChange}
       value={value}
       options={options}
@@ -51,18 +59,25 @@ const SelectReason = ({
       isClearable={isClearable}
       required={required}
       error={error}
+      isDisabled={isDisabled}
+      isFilter={isFilter}
+      menuPlace={menuPlace}
+      menuPos={menuPos}
     />
   );
 };
 
 SelectReason.defaultProps = {
+  label: '',
+  error: '',
+  required: false,
   placeholder: '',
   isSearchable: false,
   isClearable: false,
-  required: false,
+  menuPos: 'absolute',
+  menuPlace: 'auto',
+  isDisabled: false,
   isFilter: false,
-  label: '',
-  error: '',
 };
 
 export default SelectReason;

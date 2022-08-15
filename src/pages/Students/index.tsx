@@ -20,7 +20,7 @@ import SelectGroupById from '../../components/common/Select/SelectGroupById';
 import { Delete, Edit, Review } from '../../components/common/Icon';
 
 const dataHeader: ITableHeader[] = [
-  { id: 1, label: 'ПІП студента' },
+  { id: 1, label: 'ПІБ студента' },
   { id: 2, label: 'Група' },
   { id: 3, label: 'Номер наказу' },
   { id: 4, label: 'Форма навчання' },
@@ -46,7 +46,7 @@ const allCloseModalWindow: IIsActiveStudentsModalState = {
 interface Filter {
   studentId: number | null;
   group: string;
-  isFullTime: boolean | null;
+  isFullTime: boolean | undefined;
 }
 
 interface Params {
@@ -59,7 +59,7 @@ const Students = (): JSX.Element => {
   const [isActiveModal, setIsActiveModal] = useState<IIsActiveStudentsModalState>(allCloseModalWindow);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
   const [params, setParams] = useState<Params>({
-    filter: { studentId: null, group: '', isFullTime: null },
+    filter: { studentId: null, group: '', isFullTime: undefined },
     pagination: initialPagination,
   });
 
@@ -165,6 +165,7 @@ const Students = (): JSX.Element => {
                 })}
                 isClearable
                 isSearchable
+                isFilter
               />
               <SelectStudent
                 type="filter"
@@ -173,6 +174,7 @@ const Students = (): JSX.Element => {
                 onChange={(value) => setParams({ ...params, filter: { ...params.filter, studentId: +value } })}
                 isClearable
                 isSearchable
+                isFilter
               />
               <SelectIsFullTime
                 type="filter"
@@ -182,11 +184,12 @@ const Students = (): JSX.Element => {
                   ...params,
                   filter: {
                     ...params.filter,
-                    isFullTime: value === 'Денна' ? true : value === '' ? null : false,
+                    isFullTime: value === 'Денна' ? true : value === '' ? undefined : false,
                   },
                 })}
                 isClearable
                 isSearchable
+                isFilter
               />
             </>
           )}

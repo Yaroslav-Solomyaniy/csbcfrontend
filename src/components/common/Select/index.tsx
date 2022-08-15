@@ -1,15 +1,14 @@
 import React from 'react';
 import ReactSelect, { SingleValue } from 'react-select';
-
 import clsx from 'clsx';
 import { Option, SelectType } from '../../../types';
 import styles from './index.module.scss';
 
 interface Select {
   options: Option[];
-  type: SelectType;
   value: string | number | boolean | null | undefined;
   onChange: (value: string) => void;
+  type: SelectType;
   label?: string;
   required?: boolean;
   error?: string;
@@ -17,6 +16,9 @@ interface Select {
   isSearchable?: boolean;
   isClearable?: boolean;
   isDisabled?: boolean;
+  menuPos?: 'fixed' | 'absolute';
+  menuPlace?: 'top' | 'auto' | 'bottom';
+  isFilter?: boolean;
 }
 
 const Styles: any = {
@@ -43,6 +45,10 @@ const Styles: any = {
       '&:hover': {
         cursor: 'pointer',
       },
+    }),
+    menu: (base: any) => ({
+      ...base,
+      overflow: 'hidden',
     }),
     menuList: (base: any) => ({
       ...base,
@@ -95,6 +101,10 @@ const Styles: any = {
         cursor: 'pointer',
       },
     }),
+    menu: (base: any) => ({
+      ...base,
+      overflow: 'hidden',
+    }),
     menuList: (base: any) => ({
       ...base,
       background: 'white',
@@ -139,6 +149,7 @@ const Styles: any = {
     menu: (base: any) => ({
       ...base,
       background: 'rgba(215, 231, 244, 1)',
+      overflow: 'hidden',
     }),
 
     valueContainer: (provided: any) => ({
@@ -210,6 +221,7 @@ const Styles: any = {
     menu: (base: any) => ({
       ...base,
       background: 'rgba(215, 231, 244, 1)',
+      overflow: 'hidden',
     }),
 
     valueContainer: (provided: any) => ({
@@ -240,6 +252,7 @@ const Styles: any = {
     menuList: (base: any) => ({
       ...base,
       background: 'white',
+      height: '170px',
     }),
     clearIndicator: (provided: any) => ({
       ...provided,
@@ -270,22 +283,25 @@ const Select = ({
   isClearable,
   type,
   isDisabled,
+  menuPos,
+  menuPlace,
+  isFilter,
 }: Select): JSX.Element => (
 
-  <div className={styles.wrap}>
+  <div className={clsx(isFilter ? styles.filterSelect : styles.wrap)}>
     {label && (
-    <label
-      className={clsx(type === 'multimodal' ? styles.multiModalLabel : styles.label, error && styles.error_label)}
-    >
-      {label}
-      {required && <span className={styles.required}>*</span>}
-    </label>
+      <label
+        className={clsx(type === 'multimodal' ? styles.multiModalLabel : styles.label, error && styles.error_label)}
+      >
+        {label}
+        {required && <span className={styles.required}>*</span>}
+      </label>
     )}
-    <div className={clsx(type === 'multimodal' ? styles.multiSelectWrap : styles.selectWrap)}>
+    <div className={clsx(type === 'multimodal' ? styles.multiSelectWrap : isFilter ? '' : styles.selectWrap)}>
       <ReactSelect<Option>
         isDisabled={isDisabled}
-        menuPosition="absolute"
-        menuPlacement="auto"
+        menuPosition={menuPos}
+        menuPlacement={menuPlace}
         styles={Styles[type]}
         isSearchable={isSearchable}
         className={styles.select}
@@ -297,9 +313,9 @@ const Select = ({
         onChange={(option: SingleValue<Option>) => onChange(option?.value ? `${option.value}` : '')}
       />
       {error && (
-      <div className={styles.error}>
-        <div className={styles.textError}>{error}</div>
-      </div>
+        <div className={styles.error}>
+          <div className={styles.textError}>{error}</div>
+        </div>
       )}
     </div>
   </div>
@@ -312,8 +328,10 @@ Select.defaultProps = {
   placeholder: '',
   isSearchable: false,
   isClearable: false,
-  menuPosition: '',
+  menuPos: 'fixed',
+  menuPlace: 'auto',
   isDisabled: false,
+  isFilter: false,
 };
 
 export default Select;

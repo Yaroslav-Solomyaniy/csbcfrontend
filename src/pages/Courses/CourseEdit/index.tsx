@@ -5,7 +5,7 @@ import ModalControlButtons from '../../../components/common/ModalControlButtons'
 import { useMessagesContext } from '../../../context/useMessagesContext';
 import { IEditModal } from '../../../types';
 import { ICourseEditParams } from '../../../hooks/useCourses';
-import Input from '../../../components/common/Input';
+import ModalInput from '../../../components/common/ModalInput';
 import MultiSelectGroup from '../../../components/common/MultiSelect/MultiSelectGroup';
 import SelectTeacher from '../../../components/common/Select/SelectTeacher';
 import SelectSemester from '../../../components/common/Select/SelectSemester';
@@ -79,7 +79,7 @@ export const CourseEdit = ({ modalActive, closeModal, Id }: IEditModal): JSX.Ele
   return (
     <ModalWindow modalTitle="Редагування предмету" active={modalActive} closeModal={handleClose}>
       <form className={pagesStyle.form} onSubmit={onSubmit}>
-        <Input
+        <ModalInput
           onChange={(event) => {
             setFormData({ ...formData, name: event.target.value });
           }}
@@ -120,7 +120,7 @@ export const CourseEdit = ({ modalActive, closeModal, Id }: IEditModal): JSX.Ele
           value={formData.teacher}
           error={isSubmitted && !formData.teacher ? 'Викладача не обрано.' : ''}
         />
-        <Input
+        <ModalInput
           onChange={(event) => {
             setFormData({ ...formData, credits: +event.target.value });
           }}
@@ -156,7 +156,7 @@ export const CourseEdit = ({ modalActive, closeModal, Id }: IEditModal): JSX.Ele
           error={(isSubmitted && !(formData.isExam === true
             || formData.isExam === false)) ? 'Вид контролю не обрано.' : ''}
         />
-        <Input
+        <ModalInput
           onChange={(event) => {
             setFormData({ ...formData, lectureHours: +event.target.value });
           }}

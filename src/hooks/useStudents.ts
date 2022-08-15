@@ -99,7 +99,7 @@ export const useGetStudents = (): IUseGetStudents => {
 };
 
 export interface IStudentCreateParams {
-  dateOfBirth: string;
+  dateOfBirth: Date | string | null;
   groupId: number;
   user: IStudentCreateUser;
   orderNumber: string;

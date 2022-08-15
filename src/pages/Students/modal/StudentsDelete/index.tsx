@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ModalWindow from '../../../../components/common/ModalWindow';
-import Input from '../../../../components/common/Input';
+import ModalInput from '../../../../components/common/ModalInput';
 import ModalControlButtons from '../../../../components/common/ModalControlButtons';
 import { useStudentsContext } from '../../../../context/students';
 import stylesStud from '../../../pagesStyle.module.scss';
@@ -52,7 +52,7 @@ export const StudentsDeleteModal = ({ modalActive, closeModal, studentId }: IStu
     <ModalWindow modalTitle="Видалення студента" active={modalActive} closeModal={handleClose}>
       <form className={stylesStud.form} onSubmit={onSubmit}>
         <h3 className={stylesStud.subtitle}>Для підтвердження видалення введіть номер наказу.</h3>
-        <Input
+        <ModalInput
           onChange={(event) => {
             setFormData({ ...formData, deletedOrderNumber: event.target.value });
           }}

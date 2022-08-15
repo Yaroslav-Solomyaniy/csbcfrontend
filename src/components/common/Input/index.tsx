@@ -4,64 +4,47 @@ import styles from './index.module.scss';
 
 interface IInput {
   inputType?: string;
-  label?: string;
   value: string | number | undefined;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  required?: boolean;
-  error?: string | boolean;
   placeholder?: string;
   pattern?: RegExp;
+  className?: string;
+  error?: string | boolean;
 }
 
-const Input = ({
-  label,
-  value,
-  onChange,
-  required,
-  error,
-  placeholder,
-  pattern,
-  inputType,
-}: IInput): JSX.Element => (
-  <div className={styles.wrap}>
-    {label && (
-    <label className={clsx(styles.label, error && styles.error_label)}>
-      {label}
-      {required && <span className={styles.required}>*</span>}
-    </label>
-    )}
-    <div className={styles.InputWrap}>
-      <input
-        type={inputType}
-        className={styles.input}
-        placeholder={placeholder}
-        value={value}
-        onChange={(e) => {
-          if (pattern) {
-            if (pattern.test(e.target.value) || !e.target.value) {
-              onChange(e);
-            }
-          } else {
+const Input = ({ className, value, onChange, placeholder, pattern, inputType, error }: IInput): JSX.Element => (
+  <>
+    <input
+      type={inputType}
+      className={className}
+      placeholder={placeholder}
+      value={value}
+      onChange={(e) => {
+        if (pattern) {
+          if (pattern.test(e.target.value) || !e.target.value) {
             onChange(e);
           }
-        }}
-      />
-      {error && (
-      <div className={styles.error}>
-        <div className={styles.textError}>{error}</div>
-      </div>
-      )}
+        } else {
+          onChange(e);
+        }
+      }}
+    />
+    {error && (
+    <div className={styles.error}>
+      <div className={styles.textError}>{error}</div>
     </div>
-  </div>
+    )}
+  </>
 );
 
 Input.defaultProps = {
-  inputType: 'value',
+  inputType: 'text',
   label: '',
   required: false,
   placeholder: '',
   error: '',
   pattern: '',
+  className: '',
 };
 
 export default Input;

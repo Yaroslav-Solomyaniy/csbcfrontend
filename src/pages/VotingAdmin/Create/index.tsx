@@ -4,14 +4,14 @@ import ModalWindow from '../../../components/common/ModalWindow';
 import pagesStyle from '../../pagesStyle.module.scss';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
 import { ICreateModal } from '../../../types';
-import SelectDate from '../../../components/common/Select/SelectDate';
+import SelectDateAndTime from '../../../components/common/datePicker/SelectDateAndTime';
 import MultiSelectGroup from '../../../components/common/MultiSelect/MultiSelectGroup';
 import MultiSelectCourseSemestr from '../../../components/common/MultiSelect/MultiSelectCourseSemestr';
 
 export interface IVoting {
   groups: number [];
-  firstDate: Date | null;
-  lastDate: Date | null;
+  firstDate: Date | string | null;
+  lastDate: Date | string | null;
   requiredCourse: { id: number; courseId: string; semester: number; }[];
   notRequiredCourse: { id: number; courseId: string; semester: number; }[];
 }
@@ -93,13 +93,13 @@ export const VotingCreateModal = ({ modalActive, closeModal }: ICreateModal): JS
           error={isSubmitted && (formData.notRequiredCourse.every((element) => element.courseId === ''))
             ? 'Не обрано жодного непрофільного предмету' : ''}
         />
-        <SelectDate
+        <SelectDateAndTime
           label="Дата початку"
           onChange={(item) => setFormData({ ...formData, firstDate: item })}
           value={formData.firstDate}
           error={isSubmitted && !formData.firstDate ? 'Дата початку голосування не обрана' : ''}
         />
-        <SelectDate
+        <SelectDateAndTime
           label="Дата кінця"
           onChange={(item) => setFormData({ ...formData, lastDate: item })}
           value={formData.lastDate}

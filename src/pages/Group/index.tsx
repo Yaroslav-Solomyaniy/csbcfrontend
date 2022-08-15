@@ -138,6 +138,7 @@ const Group = (): JSX.Element => {
                 value={params.filter.curator}
                 isClearable
                 isSearchable
+                isFilter
               />
               <SelectGroupByName
                 type="filter"
@@ -150,6 +151,7 @@ const Group = (): JSX.Element => {
                 value={params.filter.group}
                 isClearable
                 isSearchable
+                isFilter
               />
             </>
           )}

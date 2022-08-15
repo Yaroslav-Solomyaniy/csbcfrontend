@@ -3,10 +3,6 @@ import styles from './index.module.scss';
 import { Pagination } from '../../../../types';
 import Button from '../../Button';
 import Select from '../../Select';
-import first from '../../../../images/Pagination/first.svg';
-import prev from '../../../../images/Pagination/prev.svg';
-import next from '../../../../images/Pagination/next.svg';
-import last from '../../../../images/Pagination/last.svg';
 import { First, Last, Next, Prev } from '../../Icon';
 
 interface TableFooter {
@@ -46,6 +42,7 @@ const TableFooter = ({ pagination, onPaginationChange }: TableFooter): JSX.Eleme
         <Button
           isImg
           className={styles.footer__buttons_first}
+          disabled={pagination.currentPage === 1}
           onClick={() => onPaginationChange({ ...pagination, currentPage: 1 })}
         >
           <First />
@@ -69,6 +66,7 @@ const TableFooter = ({ pagination, onPaginationChange }: TableFooter): JSX.Eleme
         <Button
           isImg
           className={styles.footer__buttons_last}
+          disabled={pagination.totalPages === pagination.currentPage}
           onClick={() => onPaginationChange({ ...pagination, currentPage: pagination.totalPages })}
         >
           <Last />

@@ -9,23 +9,31 @@ interface SelectCourse {
   onChange: (value: string) => void;
   type: SelectType;
   label?: string;
+  required?: boolean;
+  error?: string;
   placeholder?: string;
   isSearchable?: boolean;
   isClearable?: boolean;
-  required?: boolean;
-  error?: string;
+  isDisabled?: boolean;
+  menuPos?: 'fixed' | 'absolute';
+  menuPlace?: 'top' | 'auto' | 'bottom';
+  isFilter?: boolean;
 }
 
 const SelectCourse = ({
-  type,
   label,
-  onChange,
   value,
+  onChange,
+  required,
+  error,
   placeholder,
   isSearchable,
   isClearable,
-  required,
-  error,
+  type,
+  isDisabled,
+  menuPos,
+  menuPlace,
+  isFilter,
 }: SelectCourse): JSX.Element => {
   const [options, setOptions] = useState<Option[]>([]);
   const { courseCreate, courseEdit, courseDelete } = useCourseContext();
@@ -53,18 +61,25 @@ const SelectCourse = ({
       isClearable={isClearable}
       required={required}
       error={error}
+      isDisabled={isDisabled}
+      isFilter={isFilter}
+      menuPlace={menuPlace}
+      menuPos={menuPos}
     />
   );
 };
 
 SelectCourse.defaultProps = {
   label: '',
+  error: '',
+  required: false,
   placeholder: '',
   isSearchable: false,
   isClearable: false,
-  required: false,
+  menuPos: 'absolute',
+  menuPlace: 'auto',
+  isDisabled: false,
   isFilter: false,
-  error: '',
 };
 
 export default SelectCourse;

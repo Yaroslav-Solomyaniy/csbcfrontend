@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ModalWindow from '../../../components/common/ModalWindow';
 import pagesStyle from '../../pagesStyle.module.scss';
-import Input from '../../../components/common/Input';
+import ModalInput from '../../../components/common/ModalInput';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
 import { ICreateModal } from '../../../types';
 import { Email, EmailValidation, LettersAndNumbersEnUa } from '../../../types/regExp';
@@ -48,7 +48,7 @@ export const AdministratorCreateModal = ({ modalActive, closeModal }: ICreateMod
   return (
     <ModalWindow modalTitle="Створення адміністратора" active={modalActive} closeModal={handleClose}>
       <form className={pagesStyle.form} onSubmit={onSubmit}>
-        <Input
+        <ModalInput
           onChange={(event) => {
             setFormData({ ...formData, lastName: event.target.value });
           }}
@@ -59,7 +59,7 @@ export const AdministratorCreateModal = ({ modalActive, closeModal }: ICreateMod
           error={isSubmitted && !formData.lastName ? 'Прізвище не введено' : ''}
           pattern={LettersAndNumbersEnUa}
         />
-        <Input
+        <ModalInput
           onChange={(event) => {
             setFormData({ ...formData, firstName: event.target.value });
           }}
@@ -70,7 +70,7 @@ export const AdministratorCreateModal = ({ modalActive, closeModal }: ICreateMod
           error={isSubmitted && !formData.firstName ? "\"Ім'я\" не введено" : ''}
           pattern={LettersAndNumbersEnUa}
         />
-        <Input
+        <ModalInput
           onChange={(event) => {
             setFormData({ ...formData, patronymic: event.target.value });
           }}
@@ -81,16 +81,16 @@ export const AdministratorCreateModal = ({ modalActive, closeModal }: ICreateMod
           error={isSubmitted && !formData.patronymic ? 'В поле "По-Батькові" нічого не введено' : ''}
           pattern={LettersAndNumbersEnUa}
         />
-        <Input
+        <ModalInput
           onChange={(event) => {
             setFormData({ ...formData, email: event.target.value });
           }}
           value={formData.email.slice(0, 40)}
-          placeholder="E-mail"
-          label="E-mail"
+          placeholder="Електронна пошта"
+          label="Електронна пошта"
           required
           error={isSubmitted && !Email.test(formData.email)
-            ? (formData.email.length < 1 ? 'E-mail не введено' : 'E-mail введено не вірно') : ''}
+            ? (formData.email.length < 1 ? 'Електронну пошту не введено' : 'Електронну пошту введено не вірно') : ''}
           pattern={EmailValidation}
         />
       </form>

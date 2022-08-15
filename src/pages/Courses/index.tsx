@@ -25,7 +25,7 @@ const dataHeader: ITableHeader[] = [
   { id: 3, label: 'Семестр' },
   { id: 4, label: 'Кредити' },
   { id: 5, label: 'Групи' },
-  { id: 6, label: 'Ауд.Години' },
+  { id: 6, label: 'Ауд.години' },
   { id: 7, label: 'Вид контролю' },
   { id: 8, label: 'Вид проведення' },
   { id: 9, label: 'Дії' },

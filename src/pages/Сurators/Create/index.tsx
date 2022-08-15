@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ModalWindow from '../../../components/common/ModalWindow';
 import pagesStyle from '../../pagesStyle.module.scss';
-import Input from '../../../components/common/Input';
+import ModalInput from '../../../components/common/ModalInput';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
 import { useCuratorContext } from '../../../context/curators';
 import { ICreateModal } from '../../../types';
@@ -41,14 +41,14 @@ export const CuratorCreateModal = ({ modalActive, closeModal }: ICreateModal): J
   useEffect(() => {
     closeModal();
     if (curatorCreate?.data) {
-      addInfo(`${formData.lastName} ${formData.firstName} ${formData.patronymic} успішно доданий у список кураторів.`);
+      addInfo(`${formData.lastName} ${formData.firstName} ${formData.patronymic} доданий у список кураторів`);
     }
   }, [curatorCreate?.data]);
 
   return (
     <ModalWindow modalTitle="Створення куратора" active={modalActive} closeModal={handleClose}>
       <form className={pagesStyle.form} onSubmit={onSubmit}>
-        <Input
+        <ModalInput
           onChange={(event) => {
             setFormData({ ...formData, lastName: event.target.value });
           }}
@@ -59,7 +59,7 @@ export const CuratorCreateModal = ({ modalActive, closeModal }: ICreateModal): J
           error={isSubmitted && !formData.lastName ? 'Прізвище не введено' : ''}
           pattern={LettersAndNumbersEnUa}
         />
-        <Input
+        <ModalInput
           onChange={(event) => {
             setFormData({ ...formData, firstName: event.target.value });
           }}
@@ -70,7 +70,7 @@ export const CuratorCreateModal = ({ modalActive, closeModal }: ICreateModal): J
           error={isSubmitted && !formData.firstName ? "\"Ім'я\" не введено" : ''}
           pattern={LettersAndNumbersEnUa}
         />
-        <Input
+        <ModalInput
           onChange={(event) => {
             setFormData({ ...formData, patronymic: event.target.value });
           }}
@@ -81,7 +81,7 @@ export const CuratorCreateModal = ({ modalActive, closeModal }: ICreateModal): J
           error={isSubmitted && !formData.patronymic ? 'В поле "По-Батькові" нічого не введено' : ''}
           pattern={LettersAndNumbersEnUa}
         />
-        <Input
+        <ModalInput
           onChange={(event) => {
             setFormData({ ...formData, email: event.target.value });
           }}

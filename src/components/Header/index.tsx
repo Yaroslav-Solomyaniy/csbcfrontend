@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
-import { NavLink } from 'react-router-dom';
+import { Navigate, NavLink, useNavigate } from 'react-router-dom';
 import logo from '../../images/logo.svg';
 import styles from './index.module.scss';
 import buttonNav from '../../images/buttonNav.svg';
@@ -51,7 +51,13 @@ const Header = ({ setOpen, isRenderButtonMenu = true }: IHeader): JSX.Element =>
             <NavLink className={styles.avatarka__modal__item} to="/change-password">
               <span className={styles.avatarka__modal__item__span}>Змінити пароль</span>
             </NavLink>
-            <div className={styles.avatarka__modal__item} onClick={logout}>
+            <div
+              className={styles.avatarka__modal__item}
+              onClick={() => {
+                logout();
+                Navigate({ to: '/', replace: true });
+              }}
+            >
               <span className={styles.avatarka__modal__item__span}>Вихід</span>
             </div>
           </div>

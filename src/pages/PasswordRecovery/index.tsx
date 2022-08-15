@@ -2,14 +2,17 @@ import React, { useState } from 'react';
 import styles from './index.module.scss';
 import { ForgotPassword, useForgotPassword } from '../../hooks/useAuth';
 import Layout from '../../loyout/Layout';
+import Input from '../../components/common/Input';
+import { Email, EmailValidation } from '../../types/regExp';
+import Button from '../../components/common/Button';
 
 const PasswordRecovery = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
   const { postForgotPassword } = useForgotPassword();
-  const [email, setEmail] = useState<ForgotPassword>({ email: '' });
+  const [formData, setFormData] = useState<ForgotPassword>({ email: '' });
 
   const passwordRecovery = () => {
-    postForgotPassword(email);
-    setEmail({ email: '' });
+    postForgotPassword(formData);
+    setFormData({ email: '' });
   };
 
   return (
@@ -19,24 +22,28 @@ const PasswordRecovery = ({ children }: JSX.ElementChildrenAttribute): JSX.Eleme
         <div className={styles.passwordRecovery__div}>
           <div className={styles.passwordRecovery__form}>
             <h1 className={styles.passwordRecovery__form__title}>Відновлення паролю</h1>
-            <input
+            <Input
               className={styles.passwordRecovery__form__input}
-              type="email"
-              placeholder="Електронна адреса"
-              value={email.email}
-              onChange={(event) => setEmail({
-                ...email,
+              placeholder="Електронна пошта"
+              value={formData.email}
+              onChange={(event) => setFormData({
+                ...formData,
                 email: event.target.value,
               })}
+              error={!Email.test(formData.email)
+                ? (formData.email.length < 1 ? 'Електронну пошту не введено'
+                  : 'Електронна пошта введено не вірно') : ''}
+              pattern={EmailValidation}
             />
-            <button
-              type="submit"
+            <Button
+              size="large"
+              nameClass="primary"
               className={styles.passwordRecovery__form__button}
-              disabled={!email.email}
+              disabled={!Email.test(formData.email)}
               onClick={passwordRecovery}
             >
               Надіслати
-            </button>
+            </Button>
           </div>
         </div>
 

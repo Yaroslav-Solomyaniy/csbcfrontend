@@ -1,29 +1,37 @@
 import Select from '../index';
 import { SelectType } from '../../../../types';
 
-interface SelectCurator {
-  label?: string;
-  value: boolean | null;
+interface ISelectIsFullTime {
+  value: boolean | undefined;
   onChange: (value: string) => void;
+  type: SelectType;
+  label?: string;
+  required?: boolean;
+  error?: string;
   placeholder?: string;
   isSearchable?: boolean;
   isClearable?: boolean;
-  error?: string;
-  required?: boolean;
-  type: SelectType;
+  isDisabled?: boolean;
+  menuPos?: 'fixed' | 'absolute';
+  menuPlace?: 'top' | 'auto' | 'bottom';
+  isFilter?: boolean;
 }
 
 const SelectIsFullTime = ({
-  type,
   label,
-  onChange,
   value,
-  placeholder,
+  onChange,
+  required,
   error,
+  placeholder,
   isSearchable,
   isClearable,
-  required,
-}: SelectCurator): JSX.Element => {
+  type,
+  isDisabled,
+  menuPos,
+  menuPlace,
+  isFilter,
+}: ISelectIsFullTime): JSX.Element => {
   const options = [
     { value: 'Денна', label: 'Денна' },
     { value: 'Заочна', label: 'Заочна' },
@@ -31,28 +39,35 @@ const SelectIsFullTime = ({
 
   return (
     <Select
-      type={type}
       label={label}
+      type={type}
       onChange={onChange}
-      value={value ? 'Денна' : value === null ? '' : 'Заочна'}
+      value={value ? 'Денна' : value === undefined ? '' : 'Заочна'}
       options={options}
       placeholder={placeholder}
       isSearchable={isSearchable}
       isClearable={isClearable}
       required={required}
       error={error}
+      isDisabled={isDisabled}
+      isFilter={isFilter}
+      menuPlace={menuPlace}
+      menuPos={menuPos}
     />
   );
 };
 
 SelectIsFullTime.defaultProps = {
+  label: '',
+  error: '',
+  required: false,
   placeholder: '',
   isSearchable: false,
   isClearable: false,
-  required: false,
+  menuPos: 'absolute',
+  menuPlace: 'auto',
+  isDisabled: false,
   isFilter: false,
-  label: '',
-  error: '',
 };
 
 export default SelectIsFullTime;

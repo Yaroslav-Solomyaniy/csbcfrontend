@@ -95,7 +95,7 @@ export const useGradesGet = (): IUseGradesGet => {
 // get course by id
 
 interface IGetGradesIdParams {
-  id: string;
+  id: number;
 }
 
 interface IGetGradesIdData {
@@ -126,7 +126,7 @@ interface IGetGradesIdData {
 
 export interface IUseGradesGetId {
   data: IGetGradesIdData | null;
-  getCourseId: (params: IGetGradesIdParams) => void;
+  getEstimatesId: (params: IGetGradesIdParams) => void;
 }
 
 export const useGradesGetId = (): IUseGradesGetId => {
@@ -134,7 +134,7 @@ export const useGradesGetId = (): IUseGradesGetId => {
   const { addErrors } = useMessagesContext();
   const [data, setData] = useState<IGetGradesIdData | null>(null);
 
-  const getCourseId = (params: IGetGradesIdParams) => {
+  const getEstimatesId = (params: IGetGradesIdParams) => {
     axios.get(`${process.env.REACT_APP_API_URL}/courses/${params.id}`, {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
@@ -148,7 +148,7 @@ export const useGradesGetId = (): IUseGradesGetId => {
       });
   };
 
-  return { data, getCourseId };
+  return { data, getEstimatesId };
 };
 
 export interface ICourseEditParams {
@@ -163,7 +163,7 @@ export interface IUseEstimatesEdit {
 
 export const useEstimatesEdit = (): IUseEstimatesEdit => {
   const { user } = useAuthContext();
-  const { addErrors } = useMessagesContext();
+  const { addErrors, addInfo } = useMessagesContext();
   const [data, setData] = useState<FetchSuccess | null>(null);
 
   const estimatesEdit = (params: ICourseEditParams, id: number) => {
@@ -174,6 +174,7 @@ export const useEstimatesEdit = (): IUseEstimatesEdit => {
     })
       .then((response: AxiosResponse<FetchSuccess | null>) => {
         setData(response.data);
+        addInfo('Оцінку успішно відредаговано.');
       })
       .catch((error) => {
         addErrors(error.response.data.message);

@@ -16,7 +16,7 @@ import { useGetListCourses } from '../../hooks/useDropDown';
 import { useEstimatesContext } from '../../context/estimates';
 import { IGetGradesData, IGetGradesParams } from '../../hooks/useEstimates';
 import SelectSemester from '../../components/common/Select/SelectSemester';
-import EstimatesEdit from './EstimatesEdit';
+import EstimatesEdit from './EstimatesEdit/index';
 
 interface IIsActiveTeacherModalState {
   edit: number;

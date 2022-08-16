@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import moment from 'moment';
 import stylesStud from '../../../pagesStyle.module.scss';
 import ModalWindow from '../../../../components/common/ModalWindow';
 import { IStudentCreateParams } from '../../../../hooks/useStudents';
@@ -7,7 +8,6 @@ import { useStudentsContext } from '../../../../context/students';
 import ModalControlButtons from '../../../../components/common/ModalControlButtons';
 import SelectGroupById from '../../../../components/common/Select/SelectGroupById';
 import { Email, EmailValidation } from '../../../../types/regExp';
-import Select from '../../../../components/common/Select';
 import { useMessagesContext } from '../../../../context/useMessagesContext';
 import SelectDate from '../../../../components/common/datePicker/SelectDate';
 import SelectIsFullTime from '../../../../components/common/Select/SelectIsFullTime';
@@ -18,7 +18,7 @@ interface IGroupCreateModal {
 }
 
 const formInitialData = {
-  dateOfBirth: null,
+  dateOfBirth: '',
   groupId: 0,
   user: {
     firstName: '',
@@ -68,7 +68,7 @@ export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateMod
       && formData.user.patronymic
       && Email.test(formData.user.email)
     ) {
-      studentCreate?.studentCreate({ ...formData, dateOfBirth: new Date(formData.dateOfBirth).toLocaleDateString() });
+      studentCreate?.studentCreate(formData);
     }
   };
 
@@ -111,15 +111,15 @@ export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateMod
           onChange={(event) => {
             setFormData({ ...formData, user: { ...formData.user, patronymic: event.target.value.slice(0, 20) } });
           }}
-          error={isSubmitted && !formData.user.patronymic ? 'По-Батькові не введено' : ''}
+          error={isSubmitted && !formData.user.patronymic ? 'По батькові не введено' : ''}
         />
         <SelectDate
           required
           label="Дата народження"
           placeholder="Дата народження"
-          onChange={(item) => setFormData({ ...formData, dateOfBirth: item })}
-          dateFormat="MM.dd.yyyy"
-          value={formData.dateOfBirth}
+          onChange={(item) => setFormData({ ...formData, dateOfBirth: item ? moment(item).format('DD.MM.YYYY') : '' })}
+          dateFormat="DD.MM.YYYY"
+          value={formData.dateOfBirth || ''}
           error={isSubmitted && !formData.dateOfBirth ? 'Дату народження не введено' : ''}
         />
         <SelectGroupById
@@ -180,7 +180,7 @@ export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateMod
             setFormData({ ...formData, isFullTime: value === 'Денна' });
           }}
           placeholder="Форма навчання"
-          error={isSubmitted && `${formData.isFullTime}`.length === 0 ? 'Оберіть форму навчання' : ''}
+          error={isSubmitted && `${formData.isFullTime}`.length === 0 ? 'Не обрано форму навчання' : ''}
         />
       </form>
       <ModalControlButtons

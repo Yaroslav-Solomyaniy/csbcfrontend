@@ -143,6 +143,7 @@ const Courses = (): JSX.Element => {
             <Button
               nameClass="primary"
               size="large"
+              className={pagesStyle.buttonsCreate}
               onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
             >
               Створити
@@ -164,6 +165,7 @@ const Courses = (): JSX.Element => {
                 value={params.filter.course}
                 isClearable
                 isSearchable
+                isFilter
               />
               <SelectTeacher
                 type="filter"
@@ -176,6 +178,7 @@ const Courses = (): JSX.Element => {
                 value={params.filter.teacher}
                 isClearable
                 isSearchable
+                isFilter
               />
               <SelectGroupById
                 type="filter"
@@ -188,6 +191,7 @@ const Courses = (): JSX.Element => {
                 value={params.filter.group}
                 isClearable
                 isSearchable
+                isFilter
               />
               <SelectCompulsory
                 type="filter"
@@ -200,6 +204,7 @@ const Courses = (): JSX.Element => {
                 value={params.filter.isCompulsory}
                 isClearable
                 isSearchable
+                isFilter
               />
             </>
           )}

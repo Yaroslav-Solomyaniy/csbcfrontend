@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Moment from 'react-moment';
+import moment from 'moment';
 import stylesStud from '../../../pagesStyle.module.scss';
 
 import { useStudentsContext } from '../../../../context/students';
@@ -9,10 +9,9 @@ import { IStudentCreateParams } from '../../../../hooks/useStudents';
 import ModalInput from '../../../../components/common/ModalInput';
 import SelectGroupById from '../../../../components/common/Select/SelectGroupById';
 import { Email, EmailValidation } from '../../../../types/regExp';
-import Select from '../../../../components/common/Select';
-import SelectDateAndTime from '../../../../components/common/datePicker/SelectDateAndTime';
 import SelectDate from '../../../../components/common/datePicker/SelectDate';
 import SelectIsFullTime from '../../../../components/common/Select/SelectIsFullTime';
+import { useMessagesContext } from '../../../../context/useMessagesContext';
 
 interface IGroupCreateModal {
   modalActive: boolean;
@@ -21,7 +20,7 @@ interface IGroupCreateModal {
 }
 
 const formInitialData = {
-  dateOfBirth: null,
+  dateOfBirth: '',
   groupId: 0,
   user: {
     firstName: '',
@@ -39,6 +38,7 @@ export const StudentsEditModal = ({ modalActive, closeModal, id }: IGroupCreateM
   const { studentEdit, getStudentById } = useStudentsContext();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState<IStudentCreateParams>(formInitialData);
+  const { addInfo } = useMessagesContext();
 
   const handleClose = () => {
     setIsSubmitted(false);
@@ -60,8 +60,7 @@ export const StudentsEditModal = ({ modalActive, closeModal, id }: IGroupCreateM
       && formData.user.patronymic
       && Email.test(formData.user.email)
     ) {
-      studentEdit?.studentEdit({ ...formData, dateOfBirth: new Date(formData.dateOfBirth).toISOString() }, id);
-      handleClose();
+      studentEdit?.studentEdit(formData, id);
     }
   };
 
@@ -72,10 +71,17 @@ export const StudentsEditModal = ({ modalActive, closeModal, id }: IGroupCreateM
   }, [id]);
 
   useEffect(() => {
+    if (studentEdit?.data) {
+      handleClose();
+      addInfo(`Студента
+    "${formData.user.lastName} ${formData.user.firstName} ${formData.user.patronymic}" успішно відредаговано`);
+    }
+  }, [studentEdit?.data]);
+
+  useEffect(() => {
     if (getStudentById?.data) {
-      console.log(new Date(getStudentById.data.dateOfBirth).toLocaleDateString('es-PA'));
-      setFormData({
-        dateOfBirth: new Date(2020, 20, 30).toUTCString(),
+      const data = {
+        dateOfBirth: moment(getStudentById.data.dateOfBirth).format('DD.MM.YYYY'),
         groupId: getStudentById.data.group.id,
         user: {
           firstName: getStudentById.data.user.firstName,
@@ -87,7 +93,9 @@ export const StudentsEditModal = ({ modalActive, closeModal, id }: IGroupCreateM
         orderNumber: getStudentById.data.orderNumber,
         edeboId: getStudentById.data.edeboId,
         isFullTime: getStudentById.data.isFullTime,
-      });
+      };
+
+      setFormData(data);
     }
   }, [getStudentById?.data]);
 
@@ -122,14 +130,13 @@ export const StudentsEditModal = ({ modalActive, closeModal, id }: IGroupCreateM
           onChange={(event) => {
             setFormData({ ...formData, user: { ...formData.user, patronymic: event.target.value.slice(0, 15) } });
           }}
-          error={isSubmitted && !formData.user.patronymic ? 'По-Батькові не введено' : ''}
+          error={isSubmitted && !formData.user.patronymic ? 'По батькові не введено' : ''}
         />
         <SelectDate
           required
           label="Дата народження"
           placeholder="Дата народження"
-          dateFormat="dd/MM/yyyy"
-          onChange={(item) => setFormData({ ...formData, dateOfBirth: item })}
+          onChange={(item) => setFormData({ ...formData, dateOfBirth: item ? moment(item).format('DD.MM.YYYY') : '' })}
           value={formData.dateOfBirth}
           error={isSubmitted && !formData.dateOfBirth ? 'Дату народження не введено' : ''}
         />
@@ -191,7 +198,7 @@ export const StudentsEditModal = ({ modalActive, closeModal, id }: IGroupCreateM
             setFormData({ ...formData, isFullTime: value === 'Денна' });
           }}
           placeholder="Форма навчання"
-          error={isSubmitted && `${formData.isFullTime}`.length === 0 ? 'Оберіть форму навчання' : ''}
+          error={isSubmitted && `${formData.isFullTime}`.length === 0 ? 'Не обрано форму навчання' : ''}
         />
       </form>
       <ModalControlButtons

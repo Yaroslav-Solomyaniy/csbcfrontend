@@ -90,6 +90,7 @@ const VotingAdmin = (): JSX.Element => {
               <Button
                 nameClass="primary"
                 size="large"
+                className={pagesStyle.buttonsCreate}
                 onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
               >
                 Створити
@@ -97,6 +98,7 @@ const VotingAdmin = (): JSX.Element => {
               <Button
                 nameClass="primary"
                 size="large"
+                className={pagesStyle.buttonsCreate}
                 onClick={() => setIsActiveModal({ ...isActiveModal, result: true })}
               >
                 Результати

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
-import { Navigate, NavLink, useNavigate } from 'react-router-dom';
+import { Link, Navigate, NavLink, useNavigate } from 'react-router-dom';
 import logo from '../../images/logo.svg';
 import styles from './index.module.scss';
 import buttonNav from '../../images/buttonNav.svg';
@@ -55,10 +55,14 @@ const Header = ({ setOpen, isRenderButtonMenu = true }: IHeader): JSX.Element =>
               className={styles.avatarka__modal__item}
               onClick={() => {
                 logout();
-                Navigate({ to: '/', replace: true });
+                Navigate({ to: '/', replace: false });
               }}
             >
-              <span className={styles.avatarka__modal__item__span}>Вихід</span>
+              <span
+                className={styles.avatarka__modal__item__span}
+              >
+                Вихід
+              </span>
             </div>
           </div>
         </button>

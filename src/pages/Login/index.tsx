@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import styles from './index.module.scss';
 import { LoginParams } from '../../hooks/useAuth';
 import { useAuthContext } from '../../context/useAuthContext';
@@ -8,7 +9,7 @@ import Input from '../../components/common/Input';
 import { Email, EmailValidation } from '../../types/regExp';
 import CheckBox from './MyCheckBox.module.scss';
 
-const Login = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
+const Login = (): JSX.Element => {
   const { postLogin } = useAuthContext();
   const [formData, setFormData] = useState<LoginParams>({ email: '', password: '' });
   const [check, setCheck] = useState(false);
@@ -70,7 +71,7 @@ const Login = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
             >
               Вхід
             </Button>
-            {children}
+            <Link to="/Password-recovery" className="LinkPasswordRecovery">Відновити пароль</Link>
           </div>
         </div>
       </div>

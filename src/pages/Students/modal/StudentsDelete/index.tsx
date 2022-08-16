@@ -4,6 +4,7 @@ import ModalInput from '../../../../components/common/ModalInput';
 import ModalControlButtons from '../../../../components/common/ModalControlButtons';
 import { useStudentsContext } from '../../../../context/students';
 import stylesStud from '../../../pagesStyle.module.scss';
+import { useMessagesContext } from '../../../../context/useMessagesContext';
 
 interface IStudentsDeleteModal {
   modalActive: boolean;
@@ -19,6 +20,7 @@ export const StudentsDeleteModal = ({ modalActive, closeModal, studentId }: IStu
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState(formInitialData);
   const { studentDelete, getStudentById } = useStudentsContext();
+  const { addInfo } = useMessagesContext();
 
   const handleClose = () => {
     setIsSubmitted(false);
@@ -32,14 +34,16 @@ export const StudentsDeleteModal = ({ modalActive, closeModal, studentId }: IStu
 
     if (`${formData.deletedOrderNumber}`.length >= 6
       && `${formData.deletedOrderNumber}`.length <= 20) {
-      studentDelete?.studentDelete(studentId, `${getStudentById?.data?.user.lastName}
-      ${getStudentById?.data?.user.firstName}
-      ${getStudentById?.data?.user.patronymic}`);
+      studentDelete?.studentDelete(studentId);
     }
   };
 
   useEffect(() => {
-    handleClose();
+    if (studentDelete?.data) {
+      handleClose();
+      addInfo(`Студента "${getStudentById?.data?.user.lastName}
+      ${getStudentById?.data?.user.firstName} ${getStudentById?.data?.user.patronymic}" успішно видалено`);
+    }
   }, [studentDelete?.data]);
 
   useEffect(() => {

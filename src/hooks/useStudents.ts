@@ -99,7 +99,7 @@ export const useGetStudents = (): IUseGetStudents => {
 };
 
 export interface IStudentCreateParams {
-  dateOfBirth: Date | string | null;
+  dateOfBirth:string;
   groupId: number;
   user: IStudentCreateUser;
   orderNumber: string;
@@ -187,7 +187,6 @@ export const useStudentEdit = (): IUseStudentEdit => {
     axios.patch(`${process.env.REACT_APP_API_URL}/students/${id}`, params, {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
-        /* params: `{ id: ${id} }`, */
       },
     }).then((response: AxiosResponse<FetchSuccess | null>) => {
       setData(response.data);
@@ -202,25 +201,21 @@ export const useStudentEdit = (): IUseStudentEdit => {
 
 export interface IUseStudentDelete {
   data: string | null;
-  studentDelete: (id: number, name: string) => void;
+  studentDelete: (id: number) => void;
 }
 
 export const useStudentDelete = (): IUseStudentDelete => {
   const { user } = useAuthContext();
   const [data, setData] = useState<string | null>(null);
-  const { addErrors, addInfo } = useMessagesContext();
+  const { addErrors } = useMessagesContext();
 
-  const studentDelete = (id: number, name: string): void => {
+  const studentDelete = (id: number): void => {
     axios.delete(`${process.env.REACT_APP_API_URL}/students/${id}`, {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
-      /* params: {
-        id,
-      }, */
     }).then((response) => {
       setData(response.data);
-      addInfo(`Студента ${name} успішно видалено`);
     }).catch((error) => {
       addErrors(error.response.data.message);
     });

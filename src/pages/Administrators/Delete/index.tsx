@@ -40,7 +40,7 @@ export const AdministratorDeleteModal = ({ modalActive, closeModal, Id }: IDelet
 
   useEffect(() => {
     if (administratorsDelete?.data) {
-      addInfo(`${formData.lastName} ${formData.firstName} ${formData.patronymic} видалений зі списку адміністраторів.`);
+      addInfo(`${formData.lastName} ${formData.firstName} ${formData.patronymic} видалений зі списку адміністраторів`);
     }
   }, [administratorsDelete?.data]);
 

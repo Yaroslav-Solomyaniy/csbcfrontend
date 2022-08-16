@@ -52,7 +52,7 @@ export const CourseCreateModal = ({ modalActive, closeModal }: ICreateModal): JS
   useEffect(() => {
     handleClose();
     if (courseCreate?.data) {
-      addInfo('Новий предмет успішно додано.');
+      addInfo(`Предмет "${formData.name}" успішно додано`);
     }
   }, [courseCreate?.data]);
 
@@ -61,9 +61,9 @@ export const CourseCreateModal = ({ modalActive, closeModal }: ICreateModal): JS
       <form className={pagesStyle.form} onSubmit={onSubmit}>
         <ModalInput
           onChange={(event) => {
-            setFormData({ ...formData, name: event.target.value });
+            setFormData({ ...formData, name: event.target.value.slice(0, 50) });
           }}
-          value={formData.name.slice(0, 50)}
+          value={formData.name}
           placeholder="Назва предмету"
           label="Назва предмету"
           required

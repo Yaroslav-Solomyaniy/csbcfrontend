@@ -1,15 +1,13 @@
 import React from 'react';
-import DatePicker from 'react-datepicker';
 import clsx from 'clsx';
-import uk from 'date-fns/locale/uk';
 import styles from '../../Select/index.module.scss';
 import 'react-datepicker/dist/react-datepicker.css';
 import './dateAndTimePicker.css';
 import MyDatePicker from '../index';
 
 interface SelectDateAndTime {
-  value: Date | string | null;
-  onChange: (date: Date| string | null) => void;
+  value: string;
+  onChange: (date: Date| null) => void;
   placeholder?: string;
   label?: string;
   isClearable?: boolean;

@@ -40,7 +40,7 @@ export const CuratorDeleteModal = ({ modalActive, closeModal, Id }: IDeleteModal
 
   useEffect(() => {
     if (curatorDelete?.data) {
-      addInfo(`Куратор ${formData.lastName} ${formData.firstName} ${formData.patronymic} успішно видалений`);
+      addInfo(`Куратор "${formData.lastName} ${formData.firstName} ${formData.patronymic}" видалений`);
     }
   }, [curatorDelete?.data]);
 

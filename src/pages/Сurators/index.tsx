@@ -116,6 +116,7 @@ const Curators = (): JSX.Element => {
             <Button
               nameClass="primary"
               size="large"
+              className={pagesStyle.buttonsCreate}
               onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
             >
               Створити
@@ -137,6 +138,7 @@ const Curators = (): JSX.Element => {
                 value={params.filter.groupName}
                 isClearable
                 isSearchable
+                isFilter
               />
               <SelectCurator
                 type="filter"
@@ -149,6 +151,7 @@ const Curators = (): JSX.Element => {
                 value={params.filter.curator}
                 isClearable
                 isSearchable
+                isFilter
               />
             </>
           )}

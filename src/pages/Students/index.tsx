@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './index.module.scss';
-import stylesStud from '../pagesStyle.module.scss';
+import pagesStyle from '../pagesStyle.module.scss';
 import Layout from '../../loyout/Layout';
 import TitlePage from '../../components/TitlePage';
 import Button from '../../components/common/Button';
@@ -97,7 +97,7 @@ const Students = (): JSX.Element => {
           {
             id: 7,
             label: (
-              <div className={stylesStud.actions}>
+              <div className={pagesStyle.actions}>
                 <Button
                   isImg
                   type="button"
@@ -143,6 +143,7 @@ const Students = (): JSX.Element => {
             <Button
               nameClass="primary"
               size="large"
+              className={pagesStyle.buttonsCreate}
               onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
             >
               Створити
@@ -187,8 +188,6 @@ const Students = (): JSX.Element => {
                     isFullTime: value === 'Денна' ? true : value === '' ? undefined : false,
                   },
                 })}
-                isClearable
-                isSearchable
                 isFilter
               />
             </>

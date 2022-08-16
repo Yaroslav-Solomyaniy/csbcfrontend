@@ -34,7 +34,6 @@ const AppRoutes = () => {
       {user?.role === 'admin' && (
         <>
           <Route
-            /* path="/groups" */
             index
             element={<GroupProvider><Group /></GroupProvider>}
           />
@@ -83,23 +82,24 @@ const AppRoutes = () => {
       {user && (
       <Route path="/change-password" element={<ChangePassword />} />
       )}
+      {!user && (
+        <>
+          <Route
+            path="/password-recovery"
+            element={(
+              <PasRec>
+                <Link to="/" className={styles.passwordRecovery__link}>
+                  <img src={leftArrow} alt="left arrow" />
+                  Повернутись до входу
+                </Link>
+              </PasRec>
+            )}
+          />
+          <Route index element={(<Login />)} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </>
+      )}
 
-      <Route
-        index
-        element={(
-          <Login><Link to="/Password-recovery" className="LinkPasswordRecovery">Відновити пароль</Link></Login>)}
-      />
-      <Route
-        path="/password-recovery"
-        element={(
-          <PasRec>
-            <Link to="/" className={styles.passwordRecovery__link}>
-              <img src={leftArrow} alt="left arrow" />
-              Повернутись до входу
-            </Link>
-          </PasRec>
-        )}
-      />
     </Routes>
   );
 };

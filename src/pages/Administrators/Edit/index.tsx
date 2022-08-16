@@ -44,8 +44,7 @@ export const AdministratorEditModal = ({ modalActive, closeModal, Id }: IEditMod
   useEffect(() => {
     handleClose();
     if (administratorsEdit?.data) {
-      addInfo(`${formData.lastName} ${formData.firstName} ${formData.patronymic}
-        успішно відредагований`);
+      addInfo(`Адміністратор "${formData.lastName} ${formData.firstName} ${formData.patronymic}" відредагований`);
     }
   }, [administratorsEdit?.data]);
 
@@ -71,9 +70,9 @@ export const AdministratorEditModal = ({ modalActive, closeModal, Id }: IEditMod
       <form className={pagesStyle.form} onSubmit={onSubmit}>
         <ModalInput
           onChange={(event) => {
-            setFormData({ ...formData, lastName: event.target.value });
+            setFormData({ ...formData, lastName: event.target.value.slice(0, 15) });
           }}
-          value={formData.lastName.slice(0, 15)}
+          value={formData.lastName}
           placeholder="Прізвище"
           label="Прізвище"
           required
@@ -82,36 +81,36 @@ export const AdministratorEditModal = ({ modalActive, closeModal, Id }: IEditMod
         />
         <ModalInput
           onChange={(event) => {
-            setFormData({ ...formData, firstName: event.target.value });
+            setFormData({ ...formData, firstName: event.target.value.slice(0, 10) });
           }}
-          value={formData.firstName.slice(0, 10)}
+          value={formData.firstName}
           placeholder="Ім'я"
           label="Ім'я"
           required
-          error={isSubmitted && !formData.firstName ? "\"Ім'я\" не введено" : ''}
+          error={isSubmitted && !formData.firstName ? "Ім'я не введено" : ''}
           pattern={LettersAndNumbersEnUa}
         />
         <ModalInput
           onChange={(event) => {
-            setFormData({ ...formData, patronymic: event.target.value });
+            setFormData({ ...formData, patronymic: event.target.value.slice(0, 15) });
           }}
-          value={formData.patronymic.slice(0, 15)}
+          value={formData.patronymic}
           placeholder="По-Батькові"
           label="По-Батькові"
           required
-          error={isSubmitted && !formData.patronymic ? 'В поле "По-Батькові" нічого не введено' : ''}
+          error={isSubmitted && !formData.patronymic ? 'По батькові не введено' : ''}
           pattern={LettersAndNumbersEnUa}
         />
         <ModalInput
           onChange={(event) => {
-            setFormData({ ...formData, email: event.target.value });
+            setFormData({ ...formData, email: event.target.value.slice(0, 40) });
           }}
-          value={formData.email.slice(0, 40)}
-          placeholder="E-Mail"
-          label="E-Mail"
+          value={formData.email}
+          placeholder="Електронна пошта"
+          label="Електронна пошта"
           required
           error={isSubmitted && !Email.test(formData.email)
-            ? (formData.email.length < 1 ? 'E-mail не введено' : 'E-mail введено не вірно') : ''}
+            ? (formData.email.length < 1 ? 'Електронну пошту не введено' : 'Електронну пошту введено не вірно') : ''}
           pattern={EmailValidation}
         />
       </form>

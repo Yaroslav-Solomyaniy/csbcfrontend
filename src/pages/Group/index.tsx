@@ -117,6 +117,7 @@ const Group = (): JSX.Element => {
           action={(
             <Button
               nameClass="primary"
+              className={pagesStyle.buttonsCreate}
               size="large"
               onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
             >

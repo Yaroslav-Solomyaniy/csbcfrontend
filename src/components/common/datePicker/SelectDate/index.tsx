@@ -6,8 +6,8 @@ import '../datePicker.css';
 import MyDatePicker from '../index';
 
 interface SelectDate {
-  value: Date | string | null;
-  onChange: (date: Date| string | null) => void;
+  value: string;
+  onChange: (date: Date | null) => void;
   placeholder?: string;
   label?: string;
   error?: string;

@@ -1,14 +1,15 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
 import clsx from 'clsx';
+import moment from 'moment';
 import uk from 'date-fns/locale/uk';
 import styles from '../Select/index.module.scss';
 import 'react-datepicker/dist/react-datepicker.css';
 import './datePicker.css';
 
 interface IMyDatePicker {
-  value: string| Date | null;
-  onChange: (date: Date| string | null) => void;
+  value: string;
+  onChange: (date: Date | null) => void;
   placeholder?: string;
   label?: string;
   error?: string;
@@ -50,7 +51,7 @@ const MyDatePicker = ({
       <DatePicker
         placeholderText={placeholder}
         locale={uk}
-        selected={typeof value === 'string' ? new Date() : value}
+        value={value}
         onChange={onChange}
         showMonthDropdown={showMonthDropdown}
         dateFormat={dateFormat}

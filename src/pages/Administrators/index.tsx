@@ -119,6 +119,7 @@ const Administrators = (): JSX.Element => {
             <Button
               nameClass="primary"
               size="large"
+              className={pagesStyle.buttonsCreate}
               onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
             >
               Створити
@@ -139,6 +140,7 @@ const Administrators = (): JSX.Element => {
               value={params.filter.administrator}
               isClearable
               isSearchable
+              isFilter
             />
           )}
           dataHeader={dataHeader}

@@ -29,7 +29,7 @@ export const StudentsEditModal = ({ modalActive, closeModal, id }: IStudentsDele
   const handleClose = () => {
     setIsSubmitted(false);
     setFormData(formInitialData);
-    getTeacher?.getTeacher({ groups: [], courses: [] });
+    getTeacher?.getTeacher({ groups: '', courses: '' });
     closeModal();
   };
 
@@ -42,7 +42,7 @@ export const StudentsEditModal = ({ modalActive, closeModal, id }: IStudentsDele
   };
 
   useEffect(() => {
-    if (id) getTeacher?.getTeacher({ teacherId: id, groups: [], courses: [] });
+    if (id) getTeacher?.getTeacher({ teacherId: id, groups: '', courses: '' });
   }, [id]);
 
   useEffect(() => {

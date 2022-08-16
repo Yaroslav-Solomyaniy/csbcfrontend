@@ -74,6 +74,9 @@ export const CourseEdit = ({ modalActive, closeModal, Id }: IEditModal): JSX.Ele
 
   useEffect(() => {
     handleClose();
+    if (courseEdit?.data) {
+      addInfo(`Предмет "${formData.name}" успішно відредаговано`);
+    }
   }, [courseEdit?.data]);
 
   return (
@@ -81,9 +84,9 @@ export const CourseEdit = ({ modalActive, closeModal, Id }: IEditModal): JSX.Ele
       <form className={pagesStyle.form} onSubmit={onSubmit}>
         <ModalInput
           onChange={(event) => {
-            setFormData({ ...formData, name: event.target.value });
+            setFormData({ ...formData, name: event.target.value.slice(0, 50) });
           }}
-          value={formData.name.slice(0, 50)}
+          value={formData.name}
           placeholder="Назва предмету"
           label="Назва предмету"
           required

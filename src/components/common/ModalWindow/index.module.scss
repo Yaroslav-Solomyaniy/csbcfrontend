@@ -19,7 +19,7 @@
   }
 
   &__content {
-    max-height: 700px;
+    max-height: 80vh;
     width: 700px;
     background: #F3F3F3;
     border-radius: 8px;
@@ -44,6 +44,6 @@
     text-align: center;
   }
   &__overflow{
-    overflow-y: scroll;
+    overflow-y: auto;
   }
 }

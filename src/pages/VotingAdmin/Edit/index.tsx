@@ -7,6 +7,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import SelectDateAndTime from '../../../components/common/datePicker/SelectDateAndTime';
 import MultiSelectGroup from '../../../components/common/MultiSelect/MultiSelectGroup';
 import MultiSelectCourseSemestr from '../../../components/common/MultiSelect/MultiSelectCourseSemestr';
+import moment from 'moment';
 
 export interface IVoting {
   groups: number [];
@@ -96,13 +97,13 @@ export const VotingEditModal = ({ modalActive, closeModal }: IEditModal): JSX.El
         <SelectDateAndTime
           label="Дата початку"
           onChange={(item) => setFormData({ ...formData, firstDate: item })}
-          value={formData.firstDate}
+          value={moment(formData.firstDate).format('DD.MM.YYYY')}
           error={isSubmitted && !formData.firstDate ? 'Дата початку голосування не обрана' : ''}
         />
         <SelectDateAndTime
           label="Дата кінця"
           onChange={(item) => setFormData({ ...formData, lastDate: item })}
-          value={formData.lastDate}
+          value={moment(formData.lastDate).format('DD.MM.YYYY')}
           error={isSubmitted && !formData.lastDate ? 'Дата кінця голосування не обрана' : ''}
         />
       </form>

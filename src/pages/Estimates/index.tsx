@@ -6,13 +6,12 @@ import { useTeachersContext } from '../../context/teachers';
 import { ITableRowItem } from '../../components/common/table/TableBody';
 import styles from './index.module.scss';
 import Button from '../../components/common/Button';
-import edit from '../../images/table/edit.svg';
-import del from '../../images/table/delete.svg';
 import SelectStudent from '../../components/common/Select/SelectStudent';
 import SelectGroupById from '../../components/common/Select/SelectGroupById';
 import TitlePage from '../../components/TitlePage';
 import Table from '../../components/common/table';
 import { Delete, Edit } from '../../components/common/Icon';
+import pagesStyle from '../pagesStyle.module.scss';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІП' },
@@ -144,14 +143,14 @@ const Estimates = (): JSX.Element => {
 
   return (
     <Layout>
-      <div className={styles.students}>
+      <div>
         <TitlePage
           title="Оцінки"
           action={(
             <Button
               nameClass="primary"
               size="large"
-              className={styles.actions}
+              className={pagesStyle.buttonsCreate}
               onClick={() => {
                 setIsActiveModal({ ...allCloseModalWindow, create: true });
               }}
@@ -178,6 +177,7 @@ const Estimates = (): JSX.Element => {
                     teacherId: null,
                   },
                 })}
+                isFilter
               />
               <SelectStudent
                 type="filter"
@@ -186,6 +186,7 @@ const Estimates = (): JSX.Element => {
                 onChange={(value) => setParams({
                   ...params, filter: { ...params.filter, teacherId: +value },
                 })}
+                isFilter
               />
             </>
           )}

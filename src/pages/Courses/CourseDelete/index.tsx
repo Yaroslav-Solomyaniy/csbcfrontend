@@ -36,9 +36,9 @@ export const CourseDeleteModal = ({ modalActive, closeModal, Id }: IGroupCreateM
   };
 
   useEffect(() => {
-    handleClose();
     if (courseDelete?.data) {
-      addInfo(`Предмет ${getCourseId?.data?.name} успішно видалено`);
+      handleClose();
+      addInfo(`Предмет "${getCourseId?.data?.name}" успішно видалено`);
     }
   }, [courseDelete?.data]);
 

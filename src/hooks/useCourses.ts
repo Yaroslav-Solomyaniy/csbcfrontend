@@ -16,6 +16,7 @@ export interface IGetCoursesParams {
     | 'teacher'
     | 'groups';
   orderBy?: OrderBy;
+  id?: number;
   search?: string;
   name?: string;
   credits?: number;

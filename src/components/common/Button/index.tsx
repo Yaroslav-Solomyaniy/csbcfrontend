@@ -23,9 +23,11 @@ const Button = ({
 }: IButton): JSX.Element => (
   <button
     className={clsx(
-      isImg ? styles.img
-        : styles.default,
-      nameClass && styles[nameClass],
+      isImg && styles.img,
+      (disabled && isImg) && styles.imgDisabled,
+      isImg ? (disabled ? clsx(styles.img) : styles.img)
+        : disabled && styles[`${nameClass}_disabled`],
+      nameClass ? styles[nameClass] : styles.default,
       size && styles[size],
       className,
     )}

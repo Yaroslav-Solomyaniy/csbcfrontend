@@ -4,7 +4,7 @@ import { useGroupContext } from '../../../context/group';
 import { IGroupCreateParams } from '../../../hooks/useGroups';
 import ModalWindow from '../../../components/common/ModalWindow';
 import styles from '../../pagesStyle.module.scss';
-import Input from '../../../components/common/Input';
+import ModalInput from '../../../components/common/ModalInput';
 import SelectCurator from '../../../components/common/Select/SelectCurator';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
 import { useMessagesContext } from '../../../context/useMessagesContext';
@@ -41,18 +41,18 @@ export const GroupCreate = ({ modalActive, closeModal }: ICreateModal): JSX.Elem
   useEffect(() => {
     handleClose();
     if (groupCreate?.data) {
-      addInfo(`Група ${groupCreate?.data?.name} успішно створена.`);
+      addInfo(`Група "${groupCreate?.data?.name}" успішно створена`);
     }
   }, [groupCreate?.data]);
 
   return (
     <ModalWindow modalTitle="Створення групи" active={modalActive} closeModal={handleClose}>
       <form className={styles.form} onSubmit={onSubmit}>
-        <Input
+        <ModalInput
           onChange={(event) => {
-            setFormData({ ...formData, name: event.target.value });
+            setFormData({ ...formData, name: event.target.value.slice(0, 6) });
           }}
-          value={formData.name.slice(0, 6)}
+          value={formData.name}
           placeholder="Номер групи"
           label="Номер групи"
           required
@@ -60,11 +60,11 @@ export const GroupCreate = ({ modalActive, closeModal }: ICreateModal): JSX.Elem
           pattern={LettersAndNumbersEnUa}
         />
 
-        <Input
+        <ModalInput
           onChange={(event) => {
-            setFormData({ ...formData, orderNumber: event.target.value });
+            setFormData({ ...formData, orderNumber: event.target.value.slice(0, 8) });
           }}
-          value={formData.orderNumber.slice(0, 8)}
+          value={formData.orderNumber}
           error={isSubmitted && (`${formData.orderNumber}`.length < 6
           || `${formData.orderNumber}`.length > 20
             ? 'Номер наказу повинен містити не менше 6-ти символів.' : '')}

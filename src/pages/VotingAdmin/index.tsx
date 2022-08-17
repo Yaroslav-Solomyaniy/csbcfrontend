@@ -64,13 +64,13 @@ const VotingAdmin = (): JSX.Element => {
                    onClick={() => setIsActiveModal({ ...isActiveModal, edit: item.id })}
                    isImg
                  >
-                   <img src={edit} alt="edit" />
+                   <Edit/>
                  </Button>
                  <Button
                    onClick={() => setIsActiveModal({ ...isActiveModal, delete: item.id })}
                    isImg
                  >
-                   <img src={del} alt="delete" />
+                   <Delete/>
                  </Button>
                </div>
              ),
@@ -90,6 +90,7 @@ const VotingAdmin = (): JSX.Element => {
               <Button
                 nameClass="primary"
                 size="large"
+                className={pagesStyle.buttonsCreate}
                 onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
               >
                 Створити
@@ -97,6 +98,7 @@ const VotingAdmin = (): JSX.Element => {
               <Button
                 nameClass="primary"
                 size="large"
+                className={pagesStyle.buttonsCreate}
                 onClick={() => setIsActiveModal({ ...isActiveModal, result: true })}
               >
                 Результати

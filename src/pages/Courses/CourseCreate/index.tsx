@@ -3,7 +3,7 @@ import ModalWindow from '../../../components/common/ModalWindow';
 import pagesStyle from '../../pagesStyle.module.scss';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
 import { useMessagesContext } from '../../../context/useMessagesContext';
-import Input from '../../../components/common/Input';
+import ModalInput from '../../../components/common/ModalInput';
 import { ICoursesCreateParams } from '../../../hooks/useCourses';
 import { ICreateModal } from '../../../types';
 import SelectTeacher from '../../../components/common/Select/SelectTeacher';
@@ -52,18 +52,18 @@ export const CourseCreateModal = ({ modalActive, closeModal }: ICreateModal): JS
   useEffect(() => {
     handleClose();
     if (courseCreate?.data) {
-      addInfo('Новий предмет успішно додано.');
+      addInfo(`Предмет "${formData.name}" успішно додано`);
     }
   }, [courseCreate?.data]);
 
   return (
     <ModalWindow modalTitle="Створення предмету" active={modalActive} closeModal={handleClose}>
       <form className={pagesStyle.form} onSubmit={onSubmit}>
-        <Input
+        <ModalInput
           onChange={(event) => {
-            setFormData({ ...formData, name: event.target.value });
+            setFormData({ ...formData, name: event.target.value.slice(0, 50) });
           }}
-          value={formData.name.slice(0, 50)}
+          value={formData.name}
           placeholder="Назва предмету"
           label="Назва предмету"
           required
@@ -100,7 +100,7 @@ export const CourseCreateModal = ({ modalActive, closeModal }: ICreateModal): JS
           value={formData.teacher}
           error={isSubmitted && !formData.teacher ? 'Викладача не обрано.' : ''}
         />
-        <Input
+        <ModalInput
           onChange={(event) => {
             setFormData({ ...formData, credits: +event.target.value });
           }}
@@ -136,7 +136,7 @@ export const CourseCreateModal = ({ modalActive, closeModal }: ICreateModal): JS
           error={(isSubmitted && !(formData.isExam === true
             || formData.isExam === false)) ? 'Вид контролю не обрано.' : ''}
         />
-        <Input
+        <ModalInput
           onChange={(event) => {
             setFormData({ ...formData, lectureHours: +event.target.value });
           }}

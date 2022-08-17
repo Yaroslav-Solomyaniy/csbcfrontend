@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
+import moment from 'moment';
 import stylesStud from '../../../pagesStyle.module.scss';
 import ModalWindow from '../../../../components/common/ModalWindow';
 import { IStudentCreateParams } from '../../../../hooks/useStudents';
-import Input from '../../../../components/common/Input';
+import ModalInput from '../../../../components/common/ModalInput';
 import { useStudentsContext } from '../../../../context/students';
 import ModalControlButtons from '../../../../components/common/ModalControlButtons';
 import SelectGroupById from '../../../../components/common/Select/SelectGroupById';
 import { Email, EmailValidation } from '../../../../types/regExp';
-import Select from '../../../../components/common/Select';
 import { useMessagesContext } from '../../../../context/useMessagesContext';
+import SelectDate from '../../../../components/common/datePicker/SelectDate';
+import SelectIsFullTime from '../../../../components/common/Select/SelectIsFullTime';
 
 interface IGroupCreateModal {
   closeModal: () => void;
@@ -27,12 +29,12 @@ const formInitialData = {
   },
   orderNumber: '',
   edeboId: '',
-  isFullTime: undefined,
+  isFullTime: true,
 };
 
 const selectValueDefault = {
   group: '',
-  isFullTime: '',
+  isFullTime: 'Денна',
 };
 
 export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateModal): JSX.Element => {
@@ -56,11 +58,9 @@ export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateMod
   const onSubmit = (e: React.FormEvent | undefined) => {
     e?.preventDefault?.();
     setIsSubmitted(true);
-    if (
-      `${formData.isFullTime}`.length !== 0
-      && formData.dateOfBirth
+    if (formData.dateOfBirth
       && `${formData.edeboId}`.length === 8
-      && formData.groupId
+      && formData.groupId.toString().length > 1
       && `${formData.orderNumber}`.length >= 6
       && `${formData.orderNumber}`.length <= 20
       && formData.user.firstName
@@ -76,52 +76,50 @@ export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateMod
     if (studentCreate?.data) {
       handleClose();
       addInfo(`Студента
-    ${formData.user.lastName} ${formData.user.firstName} ${formData.user.patronymic} успішно додано`);
+    "${formData.user.lastName} ${formData.user.firstName} ${formData.user.patronymic}" успішно додано`);
     }
   }, [studentCreate?.data]);
 
   return (
     <ModalWindow modalTitle="Створення студента" active={modalActive} closeModal={handleClose}>
       <form className={stylesStud.form} onSubmit={onSubmit}>
-        <Input
+        <ModalInput
           required
           label="Прізвище"
           placeholder="Прізвище"
-          value={formData.user.lastName.slice(0, 15)}
+          value={formData.user.lastName}
           onChange={(event) => {
-            setFormData({ ...formData, user: { ...formData.user, lastName: event.target.value } });
+            setFormData({ ...formData, user: { ...formData.user, lastName: event.target.value.slice(0, 20) } });
           }}
           error={isSubmitted && !formData.user.lastName ? 'Прізвище не введено' : ''}
         />
-        <Input
+        <ModalInput
           required
           label="Ім`я"
           placeholder="Ім`я"
-          value={formData.user.firstName.slice(0, 10)}
+          value={formData.user.firstName}
           onChange={(event) => {
-            setFormData({ ...formData, user: { ...formData.user, firstName: event.target.value } });
+            setFormData({ ...formData, user: { ...formData.user, firstName: event.target.value.slice(0, 20) } });
           }}
           error={isSubmitted && !formData.user.firstName ? 'Ім`я не введено' : ''}
         />
-        <Input
+        <ModalInput
           required
-          label="По-Батькові"
-          placeholder="По-Батькові"
-          value={formData.user.patronymic.slice(0, 15)}
+          label="По батькові"
+          placeholder="По батькові"
+          value={formData.user.patronymic}
           onChange={(event) => {
-            setFormData({ ...formData, user: { ...formData.user, patronymic: event.target.value } });
+            setFormData({ ...formData, user: { ...formData.user, patronymic: event.target.value.slice(0, 20) } });
           }}
-          error={isSubmitted && !formData.user.patronymic ? 'По-Батькові не введено' : ''}
+          error={isSubmitted && !formData.user.patronymic ? 'По батькові не введено' : ''}
         />
-        <Input
-          inputType="date"
+        <SelectDate
           required
           label="Дата народження"
           placeholder="Дата народження"
-          value={formData.dateOfBirth.slice(0, 10)}
-          onChange={(event) => {
-            setFormData({ ...formData, dateOfBirth: event.target.value });
-          }}
+          onChange={(item) => setFormData({ ...formData, dateOfBirth: item ? moment(item).format('DD.MM.YYYY') : '' })}
+          dateFormat="DD.MM.YYYY"
+          value={formData.dateOfBirth || ''}
           error={isSubmitted && !formData.dateOfBirth ? 'Дату народження не введено' : ''}
         />
         <SelectGroupById
@@ -134,57 +132,55 @@ export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateMod
           onChange={(value) => {
             setFormData({ ...formData, groupId: +value });
           }}
+          error={isSubmitted && !formData.groupId ? 'Жодної групи не обрано' : ''}
         />
-        <Input
+        <ModalInput
           required
           label="Номер наказу"
           placeholder="Номер наказу"
-          value={formData.orderNumber.slice(0, 20)}
+          value={formData.orderNumber}
           onChange={(event) => {
-            setFormData({ ...formData, orderNumber: event.target.value });
+            setFormData({ ...formData, orderNumber: event.target.value.slice(0, 20) });
           }}
           error={isSubmitted && (`${formData.orderNumber}`.length < 6
           || `${formData.orderNumber}`.length > 20
             ? 'Номер наказу повинен містити не менше 6-ти символів.' : '')}
         />
-        <Input
+        <ModalInput
           required
           label="ЄДЕБО"
           placeholder="ЄДЕБО"
-          value={formData.edeboId?.slice(0, 8)}
+          value={formData.edeboId}
           onChange={(event) => {
-            setFormData({ ...formData, edeboId: event.target.value });
+            setFormData({ ...formData, edeboId: event.target.value.slice(0, 8) });
           }}
-          error={isSubmitted && (`${formData.edeboId}`.length < 8
-            ? 'Номер ЄДЕБО повинен містити не менше 8-ми символів.' : '')}
+          error={isSubmitted && formData.edeboId.length !== 8
+            ? 'Номер ЄДЕБО повинен містити 8 символів' : ''}
         />
-        <Input
+        <ModalInput
           required
           label="E-Mail"
           placeholder="E-Mail"
-          value={formData.user.email?.slice(0, 40)}
+          value={formData.user.email}
           onChange={(event) => {
-            setFormData({ ...formData, user: { ...formData.user, email: event.target.value } });
+            setFormData({ ...formData, user: { ...formData.user, email: event.target.value.slice(0, 40) } });
           }}
           error={isSubmitted && !Email.test(formData.user.email)
             ? (formData.user.email.length < 1 ? 'E-mail не введено' : 'E-mail введено не вірно') : ''}
           pattern={EmailValidation}
         />
-        <Select
+        <SelectIsFullTime
+          menuPos="absolute"
           type="modal"
           label="Форма навчання"
           required
           isSearchable
-          options={[
-            { value: 'Денна', label: 'Денна' },
-            { value: 'Заочна', label: 'Заочна' },
-          ]}
-          value={formData.isFullTime ? 'Денна' : 'Заочна'}
+          value={formData.isFullTime}
           onChange={(value) => {
             setFormData({ ...formData, isFullTime: value === 'Денна' });
           }}
           placeholder="Форма навчання"
-          error={isSubmitted && `${formData.isFullTime}`.length === 0 ? 'Оберіть форму навчання' : ''}
+          error={isSubmitted && `${formData.isFullTime}`.length === 0 ? 'Не обрано форму навчання' : ''}
         />
       </form>
       <ModalControlButtons

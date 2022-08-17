@@ -29,39 +29,23 @@
       margin-right: 8px;
       height: 16px;
       background: transparent;
-
-      &:hover {
-        background: rgba(215, 231, 244, 1);
-      }
     }
 
     &_prev {
       margin-right: 12px;
       height: 16px;
       background: transparent;
-
-      &:hover {
-        background: rgba(215, 231, 244, 1);
-      }
     }
 
     &_next {
       margin-right: 8px;
       background: transparent;
       height: 16px;
-
-      &:hover {
-        background: rgba(215, 231, 244, 1);
-      }
     }
 
     &_last {
       background: transparent;
       height: 16px;
-
-      &:hover {
-        background: rgba(215, 231, 244, 1);
-      }
     }
   }
 }

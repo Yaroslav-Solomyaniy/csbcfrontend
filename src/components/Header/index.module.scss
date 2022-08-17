@@ -24,7 +24,7 @@
   border-radius: 8px;
   padding: 3px;
   margin: 3px 0 0 16px;
-  transform: rotate(0deg);
+  transform: rotate(180deg);
   transition: all .5s;
 
   .navButtonSvg {
@@ -32,7 +32,7 @@
   }
 
   &__revert {
-    transform: rotate(180deg);
+    transform: rotate(0deg);
     transition: all .5s;
   }
 }

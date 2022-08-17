@@ -3,7 +3,7 @@ import styles from '../../pagesStyle.module.scss';
 import ModalWindow from '../../../components/common/ModalWindow';
 import { IGroupEditParams } from '../../../hooks/useGroups';
 import { useGroupContext } from '../../../context/group';
-import Input from '../../../components/common/Input';
+import ModalInput from '../../../components/common/ModalInput';
 import SelectCurator from '../../../components/common/Select/SelectCurator';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
 import { useMessagesContext } from '../../../context/useMessagesContext';
@@ -38,10 +38,9 @@ export const GroupEdit = ({ modalActive, closeModal, Id }: IEditModal): JSX.Elem
   };
 
   useEffect(() => {
-    handleClose();
     if (groupEdit?.data) {
-      addInfo(`Група: ${getGroupId?.data?.name} з номером наказу:
-      ${getGroupId?.data?.orderNumber} успішно відредагована.`);
+      handleClose();
+      addInfo(`Група "${getGroupId?.data?.name}" успішно відредагована`);
     }
   }, [groupEdit?.data]);
 
@@ -64,9 +63,9 @@ export const GroupEdit = ({ modalActive, closeModal, Id }: IEditModal): JSX.Elem
   return (
     <ModalWindow modalTitle="Редагування групи" active={modalActive} closeModal={handleClose}>
       <form className={styles.form} onSubmit={onSubmit}>
-        <Input
+        <ModalInput
           onChange={(event) => {
-            setFormData({ ...formData, name: event.target.value });
+            setFormData({ ...formData, name: event.target.value.slice(0, 6) });
           }}
           value={formData.name}
           error={isSubmitted && !formData.name ? 'Номер групи не введено.' : ''}
@@ -75,11 +74,11 @@ export const GroupEdit = ({ modalActive, closeModal, Id }: IEditModal): JSX.Elem
           required
           pattern={LettersAndNumbersEnUa}
         />
-        <Input
+        <ModalInput
           onChange={(event) => {
-            setFormData({ ...formData, orderNumber: event.target.value });
+            setFormData({ ...formData, orderNumber: event.target.value.slice(0, 8) });
           }}
-          value={formData.orderNumber.slice(0, 8)}
+          value={formData.orderNumber}
           error={isSubmitted && (`${formData.orderNumber}`.length < 6
           || `${formData.orderNumber}`.length > 20
             ? 'Номер наказу повинен містити не менше 6-ти символів.' : '')}

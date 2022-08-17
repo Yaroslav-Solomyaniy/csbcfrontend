@@ -29,48 +29,28 @@
     }
 
     &__input {
-      color: #6F6F6F;
       padding: 10px 16px;
+      height: 20px;
       font-size: 14px;
       margin: 8px 0;
-      border: 2px solid rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(0, 0, 0, 0.1);
       border-radius: 8px;
-
-      &[type="checkbox"] {
-        background: #565656;
-        width: 17px;
-        height: 17px;
-        margin: 3px;
-      }
-    }
-
-    &__password {
-      font-size: 11px;
-      overflow: hidden;
-      transition: all .6s;
-      height: 0;
-      color: #000000;
-
-      &__error {
-        transition: all .5s;
-        height: 15px;
-        color: #FF0000;
-      }
     }
 
     &__button {
       width: 280px;
-      background: #428BCA;
-      border-radius: 8px;
-      padding: 10px 24px;
+      height: 42px;
       font-size: 14px;
       color: #ffffff;
     }
 
     a {
       margin: 32px auto 0;
+      text-underline-offset: 2px;
     }
   }
+}
 
-
+.checkbox{
+  margin: 19px 0;
 }

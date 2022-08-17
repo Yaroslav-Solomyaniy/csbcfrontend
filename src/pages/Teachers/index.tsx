@@ -14,10 +14,9 @@ import TeachersCreate from './modal/TeachersCreate';
 import SelectTeacher from '../../components/common/Select/SelectTeacher';
 import styles from './index.module.scss';
 import pagesStyle from '../pagesStyle.module.scss';
-import edit from '../../images/table/edit.svg';
-import del from '../../images/table/delete.svg';
 import TeachersEdit from './modal/TeachersEdit';
 import SelectGroupById from '../../components/common/Select/SelectGroupById';
+import { Delete, Edit } from '../../components/common/Icon';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІП' },
@@ -96,7 +95,7 @@ const Teachers = (): JSX.Element => {
                     setIsActiveModal({ ...allCloseModalWindow, edit: item.id });
                   }}
                 >
-                  <img src={edit} alt="edit" />
+                  <Edit />
                 </Button>
                 <Button
                   isImg
@@ -105,7 +104,7 @@ const Teachers = (): JSX.Element => {
                     setIsActiveModal({ ...allCloseModalWindow, delete: item.id });
                   }}
                 >
-                  <img src={del} alt="delete" />
+                  <Delete />
                 </Button>
               </div>
             ),
@@ -116,7 +115,7 @@ const Teachers = (): JSX.Element => {
     }) : []);
 
   useEffect(() => {
-    getTeacher?.getTeacher({ groups: [], courses: [] });
+    getTeacher?.getTeacher({ groups: '', courses: '' });
   }, [
     createTeacher?.data,
     patchTeacher?.data,
@@ -124,11 +123,11 @@ const Teachers = (): JSX.Element => {
   ]);
 
   useEffect(() => {
-    const query: IGetTeacherParams = { groups: [], courses: [] };
+    const query: IGetTeacherParams = { groups: '', courses: '' };
 
     if (params.filter.teacherId) query.teacherId = params.filter.teacherId;
-    if (params.filter.group) query.groups.push(params.filter.group);
-    if (params.filter.course) query.courses.push(params.filter.course);
+    if (params.filter.group) query.groups = +(params.filter.group);
+    if (params.filter.course) query.courses = +(params.filter.course);
     if (params.pagination.currentPage) query.page = params.pagination.currentPage;
     if (params.pagination.itemsPerPage) query.limit = params.pagination.itemsPerPage;
 
@@ -162,6 +161,7 @@ const Teachers = (): JSX.Element => {
             <Button
               nameClass="primary"
               size="large"
+              className={pagesStyle.buttonsCreate}
               onClick={() => {
                 setIsActiveModal({ ...allCloseModalWindow, create: true });
               }}
@@ -181,6 +181,7 @@ const Teachers = (): JSX.Element => {
                 isSearchable
                 value={params.filter.teacherId}
                 onChange={(value) => setParams({ ...params, filter: { ...params.filter, teacherId: +value } })}
+                isFilter
               />
               <SelectGroupById
                 type="filter"
@@ -188,6 +189,7 @@ const Teachers = (): JSX.Element => {
                 required
                 isClearable
                 isSearchable
+                isFilter
                 value={params.filter.group}
                 onChange={(value) => setParams({
                   ...params,
@@ -211,6 +213,7 @@ const Teachers = (): JSX.Element => {
                     course: +value,
                   },
                 })}
+                isFilter
               />
             </>
           )}

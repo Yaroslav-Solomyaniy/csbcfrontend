@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import TitlePage from '../../components/TitlePage';
 import Button from '../../components/common/Button/index';
-
 import styles from './index.module.scss';
 import pagesStyle from '../pagesStyle.module.scss';
-
 import Layout from '../../loyout/Layout';
 import { ITableHeader } from '../../components/common/table/TableHeader';
 import Table from '../../components/common/table';
-import edit from '../../images/table/edit.svg';
-import del from '../../images/table/delete.svg';
 import { ITableRowItem } from '../../components/common/table/TableBody';
 import { initialPagination, Pagination } from '../../types';
 import { useCourseContext } from '../../context/course';
@@ -21,6 +17,7 @@ import CourseEditModal from './CourseEdit';
 import CourseDeleteModal from './CourseDelete';
 import SelectCompulsory from '../../components/common/Select/SelectCompulsory';
 import SelectGroupById from '../../components/common/Select/SelectGroupById';
+import { Delete, Edit } from '../../components/common/Icon';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'Назва' },
@@ -28,7 +25,7 @@ const dataHeader: ITableHeader[] = [
   { id: 3, label: 'Семестр' },
   { id: 4, label: 'Кредити' },
   { id: 5, label: 'Групи' },
-  { id: 6, label: 'Ауд.Години' },
+  { id: 6, label: 'Ауд.години' },
   { id: 7, label: 'Вид контролю' },
   { id: 8, label: 'Вид проведення' },
   { id: 9, label: 'Дії' },
@@ -78,7 +75,7 @@ const Courses = (): JSX.Element => {
   useEffect(() => {
     const query: IGetCoursesParams = {};
 
-    if (params.filter.course) query.name = params.filter.course;
+    if (params.filter.course) query.id = +params.filter.course;
     if (params.filter.teacher) query.teacher = +params.filter.teacher;
     if (params.filter.group) query.groups = +params.filter.group;
     if (params.filter.isCompulsory === 'true' || params.filter.isCompulsory === 'false') {
@@ -120,13 +117,13 @@ const Courses = (): JSX.Element => {
                   onClick={() => setIsActiveModal({ ...isActiveModal, edit: item.id })}
                   isImg
                 >
-                  <img src={edit} alt="edit" />
+                  <Edit />
                 </Button>
                 <Button
                   onClick={() => setIsActiveModal({ ...isActiveModal, delete: item.id })}
                   isImg
                 >
-                  <img src={del} alt="delete" />
+                  <Delete />
                 </Button>
               </div>
             ),
@@ -146,6 +143,7 @@ const Courses = (): JSX.Element => {
             <Button
               nameClass="primary"
               size="large"
+              className={pagesStyle.buttonsCreate}
               onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
             >
               Створити
@@ -167,6 +165,7 @@ const Courses = (): JSX.Element => {
                 value={params.filter.course}
                 isClearable
                 isSearchable
+                isFilter
               />
               <SelectTeacher
                 type="filter"
@@ -179,6 +178,7 @@ const Courses = (): JSX.Element => {
                 value={params.filter.teacher}
                 isClearable
                 isSearchable
+                isFilter
               />
               <SelectGroupById
                 type="filter"
@@ -191,6 +191,7 @@ const Courses = (): JSX.Element => {
                 value={params.filter.group}
                 isClearable
                 isSearchable
+                isFilter
               />
               <SelectCompulsory
                 type="filter"
@@ -203,6 +204,7 @@ const Courses = (): JSX.Element => {
                 value={params.filter.isCompulsory}
                 isClearable
                 isSearchable
+                isFilter
               />
             </>
           )}

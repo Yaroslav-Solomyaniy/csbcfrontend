@@ -1,25 +1,39 @@
 import { useEffect, useState } from 'react';
 import Select from '../index';
-import { Option } from '../../../../types';
+import { Option, SelectType } from '../../../../types';
 import { useStudentsContext } from '../../../../context/students';
 import { useGetListStudents } from '../../../../hooks/useDropDown';
 
 interface SelectPIB {
-  type: 'filter' | 'modal';
-  label?: string;
-  value: null | number;
+  value: string | number | null;
   onChange: (value: string) => void;
-  placeholder?: string;
+  type: SelectType;
+  label?: string;
+  required?: boolean;
   error?: string;
+  placeholder?: string;
+  isSearchable?: boolean;
+  isClearable?: boolean;
+  isDisabled?: boolean;
+  menuPos?: 'fixed' | 'absolute';
+  menuPlace?: 'top' | 'auto' | 'bottom';
+  isFilter?: boolean;
 }
 
 const SelectStudent = ({
-  type,
   label,
-  onChange,
   value,
-  placeholder,
+  onChange,
+  required,
   error,
+  placeholder,
+  isSearchable,
+  isClearable,
+  type,
+  isDisabled,
+  menuPos,
+  menuPlace,
+  isFilter,
 }: SelectPIB): JSX.Element => {
   const { getListStudents, listStudents } = useGetListStudents();
   const [options, setOptions] = useState<Option[]>([]);
@@ -40,24 +54,35 @@ const SelectStudent = ({
 
   return (
     <Select
-      type={type}
       label={label}
+      type={type}
       onChange={onChange}
       value={value}
       options={options}
       placeholder={placeholder}
-      required
-      isSearchable
-      isClearable
+      isSearchable={isSearchable}
+      isClearable={isClearable}
+      required={required}
       error={error}
+      isDisabled={isDisabled}
+      isFilter={isFilter}
+      menuPlace={menuPlace}
+      menuPos={menuPos}
     />
   );
 };
 
 SelectStudent.defaultProps = {
-  placeholder: '',
   label: '',
   error: '',
+  required: false,
+  placeholder: '',
+  isSearchable: false,
+  isClearable: false,
+  menuPos: 'absolute',
+  menuPlace: 'auto',
+  isDisabled: false,
+  isFilter: false,
 };
 
 export default SelectStudent;

@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
+import { Navigate } from 'react-router-dom';
 import { LoginData, LoginParams, useLogin } from '../hooks/useAuth';
 
 interface AuthContext {
@@ -15,8 +16,22 @@ const defaultValue: AuthContext = {
 
 export const AuthContext = createContext<AuthContext>(defaultValue);
 
+const getStorageData = ():LoginData | null => {
+  const authLocal: string | null = localStorage.getItem('auth') || null;
+  const authSession: string | null = sessionStorage.getItem('auth') || null;
+
+  if (authSession) {
+    return JSON.parse(authSession);
+  }
+  if (authLocal) {
+    return JSON.parse(authLocal);
+  }
+
+  return null;
+};
+
 const AuthProvider = ({ children }: { children: JSX.Element; }): JSX.Element => {
-  const [user, setUser] = useState<LoginData | null>(null);
+  const [user, setUser] = useState<LoginData | null>(getStorageData());
   const { postLogin, data, checked } = useLogin();
 
   useEffect(() => {
@@ -33,15 +48,7 @@ const AuthProvider = ({ children }: { children: JSX.Element; }): JSX.Element => 
 
   useEffect(() => {
     try {
-      const authLocal: string | null = localStorage.getItem('auth') || null;
-      const authSession: string | null = sessionStorage.getItem('auth') || null;
-
-      if (authSession) {
-        setUser(JSON.parse(authSession));
-      }
-      if (authLocal) {
-        setUser(JSON.parse(authLocal));
-      }
+      setUser(getStorageData());
     } catch (error) {
       logout();
     }

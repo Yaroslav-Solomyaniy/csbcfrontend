@@ -4,7 +4,7 @@ import ModalWindow from '../../../components/common/ModalWindow';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
 import { IEditModal } from '../../../types';
 import { useCuratorContext } from '../../../context/curators';
-import Input from '../../../components/common/Input';
+import ModalInput from '../../../components/common/ModalInput';
 import { Email, EmailValidation, LettersAndNumbersEnUa } from '../../../types/regExp';
 import { IUserEditParams } from '../../../hooks/useUser';
 import { useMessagesContext } from '../../../context/useMessagesContext';
@@ -45,8 +45,7 @@ export const CuratorEditModal = ({ modalActive, closeModal, Id }: IEditModal): J
   useEffect(() => {
     handleClose();
     if (curatorEdit?.data) {
-      addInfo(`${formData.lastName} ${formData.firstName} ${formData.patronymic}
-         - куратор успішно відредагований.`);
+      addInfo(`Куратор "${formData.lastName} ${formData.firstName} ${formData.patronymic}" відредагований`);
     }
   }, [curatorEdit?.data]);
 
@@ -71,49 +70,41 @@ export const CuratorEditModal = ({ modalActive, closeModal, Id }: IEditModal): J
   return (
     <ModalWindow modalTitle="Редагування куратора" active={modalActive} closeModal={handleClose}>
       <form className={pagesStyle.form} onSubmit={onSubmit}>
-        <Input
-          onChange={(event) => {
-            setFormData({ ...formData, lastName: event.target.value });
-          }}
-          value={formData.lastName.slice(0, 15)}
+        <ModalInput
+          onChange={(e) => setFormData({ ...formData, lastName: e.target.value.slice(0, 20) })}
+          value={formData.lastName}
           placeholder="Прізвище"
           label="Прізвище"
           required
           error={isSubmitted && !formData.lastName ? 'Прізвище не введено' : ''}
           pattern={LettersAndNumbersEnUa}
         />
-        <Input
-          onChange={(event) => {
-            setFormData({ ...formData, firstName: event.target.value });
-          }}
-          value={formData.firstName.slice(0, 10)}
+        <ModalInput
+          onChange={(e) => setFormData({ ...formData, firstName: e.target.value.slice(0, 15) })}
+          value={formData.firstName}
           placeholder="Ім'я"
           label="Ім'я"
           required
-          error={isSubmitted && !formData.firstName ? "\"Ім'я\" не введено" : ''}
+          error={isSubmitted && !formData.firstName ? "Ім'я не введено" : ''}
           pattern={LettersAndNumbersEnUa}
         />
-        <Input
-          onChange={(event) => {
-            setFormData({ ...formData, patronymic: event.target.value });
-          }}
-          value={formData.patronymic.slice(0, 15)}
-          placeholder="По-Батькові"
-          label="По-Батькові"
+        <ModalInput
+          onChange={(e) => setFormData({ ...formData, patronymic: e.target.value.slice(0, 20) })}
+          value={formData.patronymic}
+          placeholder="По батькові"
+          label="По батькові"
           required
-          error={isSubmitted && !formData.patronymic ? 'В поле "По-Батькові" нічого не введено' : ''}
+          error={isSubmitted && !formData.patronymic ? 'По батькові не введено' : ''}
           pattern={LettersAndNumbersEnUa}
         />
-        <Input
-          onChange={(event) => {
-            setFormData({ ...formData, email: event.target.value });
-          }}
-          value={formData.email.slice(0, 40)}
-          placeholder="E-Mail"
-          label="E-Mail"
+        <ModalInput
+          value={formData.email}
+          placeholder="Електронна пошта"
+          label="Електронна пошта"
           required
+          onChange={(e) => setFormData({ ...formData, email: e.target.value.slice(0, 40) })}
           error={isSubmitted && !Email.test(formData.email)
-            ? (formData.email.length < 1 ? 'E-mail не введено' : 'E-mail введено не вірно') : ''}
+            ? (formData.email.length < 1 ? 'Електронну пошту не введено' : 'Електронна пошта введено не вірно') : ''}
           pattern={EmailValidation}
         />
       </form>

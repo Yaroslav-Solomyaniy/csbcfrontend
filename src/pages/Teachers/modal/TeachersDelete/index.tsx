@@ -14,7 +14,7 @@ export const StudentsDeleteModal = ({ modalActive, closeModal, id }: IStudentsDe
   const { deleteTeacher, getTeacher } = useTeachersContext();
 
   const handleClose = () => {
-    getTeacher?.getTeacher({ groups: [], courses: [] });
+    getTeacher?.getTeacher({ groups: '', courses: '' });
     closeModal();
   };
 
@@ -29,7 +29,7 @@ export const StudentsDeleteModal = ({ modalActive, closeModal, id }: IStudentsDe
 
   useEffect(() => {
     if (id) {
-      getTeacher?.getTeacher({ teacherId: id, groups: [], courses: [] });
+      getTeacher?.getTeacher({ teacherId: id, groups: '', courses: '' });
     }
   }, [id]);
 

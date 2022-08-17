@@ -3,28 +3,35 @@ import Select from '../index';
 import { Option, SelectType } from '../../../../types';
 
 interface ISelectIsExam {
-  label?: string;
   value: boolean;
   onChange: (value: string) => void;
+  type: SelectType;
+  label?: string;
+  required?: boolean;
+  error?: string;
   placeholder?: string;
   isSearchable?: boolean;
   isClearable?: boolean;
-  error?: string;
-  required?: boolean;
-  type: SelectType;
+  isDisabled?: boolean;
+  menuPos?: 'fixed' | 'absolute';
+  menuPlace?: 'top' | 'auto' | 'bottom';
+  isFilter?: boolean;
 }
 
 const SelectExam = ({
-  type,
   label,
-  onChange,
   value,
+  onChange,
+  required,
+  error,
   placeholder,
   isSearchable,
   isClearable,
-  required,
-  error,
-}: ISelectIsExam): JSX.Element => {
+  type,
+  isDisabled,
+  menuPos,
+  menuPlace,
+  isFilter }: ISelectIsExam): JSX.Element => {
   const [options, setOptions] = useState<Option[]>([
     {
       value: true,
@@ -37,8 +44,8 @@ const SelectExam = ({
 
   return (
     <Select
-      type={type}
       label={label}
+      type={type}
       onChange={onChange}
       value={value}
       options={options}
@@ -47,18 +54,25 @@ const SelectExam = ({
       isClearable={isClearable}
       required={required}
       error={error}
+      isDisabled={isDisabled}
+      isFilter={isFilter}
+      menuPlace={menuPlace}
+      menuPos={menuPos}
     />
   );
 };
 
 SelectExam.defaultProps = {
+  label: '',
+  error: '',
+  required: false,
   placeholder: '',
   isSearchable: false,
   isClearable: false,
-  required: false,
+  menuPos: 'absolute',
+  menuPlace: 'auto',
+  isDisabled: false,
   isFilter: false,
-  label: '',
-  error: '',
 };
 
 export default SelectExam;

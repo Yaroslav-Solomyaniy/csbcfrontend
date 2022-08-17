@@ -17,7 +17,7 @@ import AdministratorsProvider from '../context/administators';
 import Administrators from '../pages/Administrators';
 import IndPlan from '../pages/IndividualPlan';
 import VotingStudents from '../pages/VotingStudents';
-import Teacher from '../pages/Teacher';
+import TeacherPage from '../pages/Teacher';
 import Curator from '../pages/Сurator';
 import ChangePassword from '../pages/ChangePassword';
 import Login from '../pages/Login';
@@ -74,7 +74,7 @@ const AppRoutes = () => {
       </>
       )}
       {user?.role === 'teacher' && (
-        <Route index element={<Teacher />} />
+        <Route index element={<TeacherPage />} />
       )}
       {user?.role === 'curator' && (
       <Route index element={<Curator />} />
@@ -82,24 +82,24 @@ const AppRoutes = () => {
       {user && (
       <Route path="/change-password" element={<ChangePassword />} />
       )}
+      {!user && (
+        <>
+          <Route
+            path="/password-recovery"
+            element={(
+              <PasRec>
+                <Link to="/" className={styles.passwordRecovery__link}>
+                  <img src={leftArrow} alt="left arrow" />
+                  Повернутись до входу
+                </Link>
+              </PasRec>
+            )}
+          />
+          <Route index element={(<Login />)} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </>
+      )}
 
-      <Route
-        index
-        element={(
-          <Login><Link to="/Password-recovery" className="LinkPasswordRecovery">Відновити пароль</Link></Login>)}
-      />
-      <Route
-        path="/password-recovery"
-        element={(
-          <PasRec>
-            <Link to="/" className={styles.passwordRecovery__link}>
-              <img src={leftArrow} alt="left arrow" />
-              Повернутись до входу
-            </Link>
-          </PasRec>
-        )}
-      />
-      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 };

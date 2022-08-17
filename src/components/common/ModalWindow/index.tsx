@@ -7,11 +7,15 @@ interface ImodalWindow {
   active: boolean;
   children: React.ReactNode | React.ReactChild;
   closeModal: () => void;
+  overflowY?: boolean;
 }
 
-const ModalWindow = ({ modalTitle, active, children, closeModal }: ImodalWindow): JSX.Element => (
+const ModalWindow = ({ modalTitle, active, children, closeModal, overflowY }: ImodalWindow): JSX.Element => (
   <div className={clsx(styles.modal, active && styles.active)} onClick={closeModal}>
-    <div className={clsx(styles.modal__content, active && styles.active)} onClick={(e) => e.stopPropagation()}>
+    <div
+      className={clsx(styles.modal__content, active && styles.active, overflowY && styles.modal__overflow)}
+      onClick={(e) => e.stopPropagation()}
+    >
       <div className={styles.modal__container}>
         <div className={styles.modal__title}>{modalTitle}</div>
         {children}
@@ -20,4 +24,7 @@ const ModalWindow = ({ modalTitle, active, children, closeModal }: ImodalWindow)
   </div>
 );
 
+ModalWindow.defaultProps = {
+  overflowY: false,
+};
 export default ModalWindow;

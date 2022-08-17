@@ -5,27 +5,36 @@ import { useGetListAdministrators } from '../../../../hooks/useDropDown';
 import { useAdministratorsContext } from '../../../../context/administators';
 
 interface ISelectAdministrator {
-  label?: string;
   value: string | number | undefined;
   onChange: (value: string) => void;
+  type: SelectType;
+  label?: string;
+  required?: boolean;
+  error?: string;
   placeholder?: string;
   isSearchable?: boolean;
   isClearable?: boolean;
-  error?: string;
-  required?: boolean;
-  type: SelectType;
+  isDisabled?: boolean;
+  menuPos?: 'fixed' | 'absolute';
+  menuPlace?: 'top' | 'auto' | 'bottom';
+  isFilter?: boolean;
 }
 
 const SelectAdministrator = ({
-  type,
   label,
-  onChange,
   value,
+  onChange,
+  required,
+  error,
   placeholder,
   isSearchable,
   isClearable,
-  required,
-  error,
+  type,
+  isDisabled,
+  menuPos,
+  menuPlace,
+  isFilter,
+
 }: ISelectAdministrator): JSX.Element => {
   const { listAdmins, getListAdministrators } = useGetListAdministrators();
   const [options, setOptions] = useState<Option[]>([]);
@@ -56,18 +65,25 @@ const SelectAdministrator = ({
       isClearable={isClearable}
       required={required}
       error={error}
+      isDisabled={isDisabled}
+      isFilter={isFilter}
+      menuPlace={menuPlace}
+      menuPos={menuPos}
     />
   );
 };
 
 SelectAdministrator.defaultProps = {
+  label: '',
+  error: '',
+  required: false,
   placeholder: '',
   isSearchable: false,
   isClearable: false,
-  required: false,
+  menuPos: 'absolute',
+  menuPlace: 'auto',
+  isDisabled: false,
   isFilter: false,
-  label: '',
-  error: '',
 };
 
 export default SelectAdministrator;

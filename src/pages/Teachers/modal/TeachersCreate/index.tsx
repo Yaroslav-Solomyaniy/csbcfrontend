@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import ModalWindow from '../../../../components/common/ModalWindow';
 import ModalControlButtons from '../../../../components/common/ModalControlButtons';
 import pagesStyle from '../../../pagesStyle.module.scss';
-import Input from '../../../../components/common/Input';
+import ModalInput from '../../../../components/common/ModalInput';
 import MultiSelectCourses from '../../../../components/common/MultiSelect/MultiSelectCourses';
 import { useTeachersContext } from '../../../../context/teachers';
 import { ITeacherCreateParams } from '../../../../hooks/useTeachers';
+import { Email, EmailValidation } from '../../../../types/regExp';
 
 interface IStudentsDeleteModal {
   modalActive: boolean;
@@ -50,37 +51,39 @@ export const StudentsDeleteModal = ({ modalActive, closeModal }: IStudentsDelete
   return (
     <ModalWindow modalTitle="Створення викладача" active={modalActive} closeModal={handleClose}>
       <form className={pagesStyle.form} onSubmit={onSubmit}>
-        <Input
+        <ModalInput
           label="Прізвище"
           placeholder="Прізвище"
           required
           value={formData.lastName}
-          onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+          onChange={(e) => setFormData({ ...formData, lastName: e.target.value.slice(0, 20) })}
           error={isSubmitted && !formData.lastName ? 'Прізвище не введено' : ''}
         />
-        <Input
+        <ModalInput
           label="Ім`я"
           placeholder="Ім`я"
           required
           value={formData.firstName}
-          onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+          onChange={(e) => setFormData({ ...formData, firstName: e.target.value.slice(0, 15) })}
           error={isSubmitted && !formData.firstName ? 'Ім`я не введено' : ''}
         />
-        <Input
-          label="По-Батькові"
-          placeholder="По-Батькові"
+        <ModalInput
+          label="По батькові"
+          placeholder="По батькові"
           required
           value={formData.patronymic}
-          onChange={(e) => setFormData({ ...formData, patronymic: e.target.value })}
-          error={isSubmitted && !formData.patronymic ? 'По-Батькові не введено' : ''}
+          onChange={(e) => setFormData({ ...formData, patronymic: e.target.value.slice(0, 20) })}
+          error={isSubmitted && !formData.patronymic ? 'По батькові не введено' : ''}
         />
-        <Input
-          label="E-Mail"
-          placeholder="E-Mail"
+        <ModalInput
+          label="Електронна пошта"
+          placeholder="Електронна пошта"
           required
           value={formData.email}
-          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-          error={isSubmitted && !formData.email ? 'E-Mail не введено' : ''}
+          onChange={(e) => setFormData({ ...formData, email: e.target.value.slice(0, 40) })}
+          error={isSubmitted && !Email.test(formData.email)
+            ? (formData.email.length < 1 ? 'Електронну пошту не введено' : 'Електронна пошта введено не вірно') : ''}
+          pattern={EmailValidation}
         />
         <MultiSelectCourses
           type="modal"
@@ -92,8 +95,10 @@ export const StudentsDeleteModal = ({ modalActive, closeModal }: IStudentsDelete
             ...formData,
             courses: value.map((option) => +option.value),
           })}
+          error={isSubmitted && !formData.courses ? 'Не обрано жодного предмету' : ''}
         />
       </form>
+
       <ModalControlButtons
         handleClose={handleClose}
         onSubmit={onSubmit}

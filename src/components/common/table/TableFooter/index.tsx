@@ -3,10 +3,7 @@ import styles from './index.module.scss';
 import { Pagination } from '../../../../types';
 import Button from '../../Button';
 import Select from '../../Select';
-import first from '../../../../images/table/first.svg';
-import prev from '../../../../images/table/prev.svg';
-import next from '../../../../images/table/next.svg';
-import last from '../../../../images/table/last.svg';
+import { First, Last, Next, Prev } from '../../Icon';
 
 interface TableFooter {
   pagination: Pagination;
@@ -45,9 +42,10 @@ const TableFooter = ({ pagination, onPaginationChange }: TableFooter): JSX.Eleme
         <Button
           isImg
           className={styles.footer__buttons_first}
+          disabled={pagination.currentPage === 1}
           onClick={() => onPaginationChange({ ...pagination, currentPage: 1 })}
         >
-          <img src={first} alt="first" />
+          <First />
         </Button>
         <Button
           isImg
@@ -55,7 +53,7 @@ const TableFooter = ({ pagination, onPaginationChange }: TableFooter): JSX.Eleme
           disabled={pagination.currentPage === 1}
           onClick={() => onPaginationChange({ ...pagination, currentPage: pagination.currentPage - 1 })}
         >
-          <img src={prev} alt="prev" />
+          <Prev />
         </Button>
         <Button
           isImg
@@ -63,14 +61,15 @@ const TableFooter = ({ pagination, onPaginationChange }: TableFooter): JSX.Eleme
           disabled={pagination.totalPages < pagination.currentPage + 1}
           onClick={() => onPaginationChange({ ...pagination, currentPage: pagination.currentPage + 1 })}
         >
-          <img src={next} alt="next" />
+          <Next />
         </Button>
         <Button
           isImg
           className={styles.footer__buttons_last}
+          disabled={pagination.totalPages === pagination.currentPage}
           onClick={() => onPaginationChange({ ...pagination, currentPage: pagination.totalPages })}
         >
-          <img src={last} alt="last" />
+          <Last />
         </Button>
       </div>
     )}

@@ -52,3 +52,12 @@ iframe {
   text-overflow: ellipsis;
 }
 
+input{
+  outline: none;
+  border: 1px solid #e6e6e6;
+}
+
+input:hover, input:focus, input:active{
+  outline: none;
+  border: 1px solid rgba(39, 111, 173, 1)
+}

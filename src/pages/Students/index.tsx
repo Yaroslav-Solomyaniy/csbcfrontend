@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './index.module.scss';
-import stylesStud from '../pagesStyle.module.scss';
+import pagesStyle from '../pagesStyle.module.scss';
 import Layout from '../../loyout/Layout';
 import TitlePage from '../../components/TitlePage';
 import Button from '../../components/common/Button';
@@ -10,9 +10,6 @@ import StudentsCreateModal from './modal/StudentsCreate';
 import { useStudentsContext } from '../../context/students';
 import SelectStudent from '../../components/common/Select/SelectStudent';
 import SelectIsFullTime from '../../components/common/Select/SelectIsFullTime';
-import edit from '../../images/table/edit.svg';
-import review from '../../images/table/review.svg';
-import del from '../../images/table/delete.svg';
 import { initialPagination, Pagination } from '../../types';
 import StudentsEditModal from './modal/StudentsEdit';
 import { ITableRowItem } from '../../components/common/table/TableBody';
@@ -20,9 +17,10 @@ import { IGetParams, IStudentData } from '../../hooks/useStudents';
 import StudentsDelete from './modal/StudentsDelete';
 import StudentsReview from './modal/StudentsReview';
 import SelectGroupById from '../../components/common/Select/SelectGroupById';
+import { Delete, Edit, Review } from '../../components/common/Icon';
 
 const dataHeader: ITableHeader[] = [
-  { id: 1, label: 'ПІП студента' },
+  { id: 1, label: 'ПІБ студента' },
   { id: 2, label: 'Група' },
   { id: 3, label: 'Номер наказу' },
   { id: 4, label: 'Форма навчання' },
@@ -48,7 +46,7 @@ const allCloseModalWindow: IIsActiveStudentsModalState = {
 interface Filter {
   studentId: number | null;
   group: string;
-  isFullTime: boolean | null;
+  isFullTime: boolean | undefined;
 }
 
 interface Params {
@@ -61,7 +59,7 @@ const Students = (): JSX.Element => {
   const [isActiveModal, setIsActiveModal] = useState<IIsActiveStudentsModalState>(allCloseModalWindow);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
   const [params, setParams] = useState<Params>({
-    filter: { studentId: null, group: '', isFullTime: null },
+    filter: { studentId: null, group: '', isFullTime: undefined },
     pagination: initialPagination,
   });
 
@@ -99,7 +97,7 @@ const Students = (): JSX.Element => {
           {
             id: 7,
             label: (
-              <div className={stylesStud.actions}>
+              <div className={pagesStyle.actions}>
                 <Button
                   isImg
                   type="button"
@@ -107,7 +105,7 @@ const Students = (): JSX.Element => {
                     setIsActiveModal({ ...allCloseModalWindow, edit: item.id });
                   }}
                 >
-                  <img src={edit} alt="edit" />
+                  <Edit />
                 </Button>
                 <Button
                   isImg
@@ -116,7 +114,7 @@ const Students = (): JSX.Element => {
                     setIsActiveModal({ ...allCloseModalWindow, review: item.id });
                   }}
                 >
-                  <img src={review} alt="review" />
+                  <Review />
                 </Button>
                 <Button
                   isImg
@@ -125,7 +123,7 @@ const Students = (): JSX.Element => {
                     setIsActiveModal({ ...allCloseModalWindow, delete: item.id });
                   }}
                 >
-                  <img src={del} alt="delete" />
+                  <Delete />
                 </Button>
               </div>
             ),
@@ -145,6 +143,7 @@ const Students = (): JSX.Element => {
             <Button
               nameClass="primary"
               size="large"
+              className={pagesStyle.buttonsCreate}
               onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
             >
               Створити
@@ -167,12 +166,16 @@ const Students = (): JSX.Element => {
                 })}
                 isClearable
                 isSearchable
+                isFilter
               />
               <SelectStudent
                 type="filter"
                 placeholder="ПІБ"
                 value={params.filter.studentId}
                 onChange={(value) => setParams({ ...params, filter: { ...params.filter, studentId: +value } })}
+                isClearable
+                isSearchable
+                isFilter
               />
               <SelectIsFullTime
                 type="filter"
@@ -182,9 +185,10 @@ const Students = (): JSX.Element => {
                   ...params,
                   filter: {
                     ...params.filter,
-                    isFullTime: value === 'Денна' ? true : value === '' ? null : false,
+                    isFullTime: value === 'Денна' ? true : value === '' ? undefined : false,
                   },
                 })}
+                isFilter
               />
             </>
           )}

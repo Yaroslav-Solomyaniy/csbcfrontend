@@ -1,21 +1,21 @@
 import React from 'react';
-import DatePicker from 'react-datepicker';
 import clsx from 'clsx';
-import uk from 'date-fns/locale/uk';
-import styles from '../index.module.scss';
-
-import './style.css';
+import styles from '../../Select/index.module.scss';
+import 'react-datepicker/dist/react-datepicker.css';
+import '../datePicker.css';
+import MyDatePicker from '../index';
 
 interface SelectDate {
-  value: Date | null;
+  value: string;
   onChange: (date: Date | null) => void;
+  placeholder?: string;
   label?: string;
-  isClearable?: boolean;
   error?: string;
   required?: boolean;
+  dateFormat?: string;
 }
 
-const SelectDate = ({ value, onChange, label, error, required }: SelectDate) => (
+const SelectDate = ({ value, onChange, label, error, required, placeholder, dateFormat }: SelectDate) => (
   <div className={styles.wrap}>
     {label && (
       <label className={clsx(styles.label, error && styles.error_label)}>
@@ -24,15 +24,15 @@ const SelectDate = ({ value, onChange, label, error, required }: SelectDate) => 
       </label>
     )}
     <div className={styles.selectWrap}>
-      <DatePicker
-        locale={uk}
-        selected={value}
+      <MyDatePicker
         onChange={onChange}
-        timeInputLabel="Час:"
-        dateFormat="Pp"
-        timeFormat="p"
-        showTimeInput
+        value={value}
+        placeholder={placeholder}
+        dateFormat={dateFormat}
         showMonthDropdown
+        showDisabledMonthNavigation
+        maxDate={new Date()}
+        minDate={new Date(1980, 1, 1)}
       />
       {error && (
         <div className={styles.error}>
@@ -45,12 +45,11 @@ const SelectDate = ({ value, onChange, label, error, required }: SelectDate) => 
 
 SelectDate.defaultProps = {
   placeholder: '',
-  isSearchable: false,
-  isClearable: false,
   required: false,
   isFilter: false,
   label: '',
   error: '',
+  dateFormat: '',
 };
 
 export default SelectDate;

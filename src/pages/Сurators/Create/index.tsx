@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ModalWindow from '../../../components/common/ModalWindow';
 import pagesStyle from '../../pagesStyle.module.scss';
-import Input from '../../../components/common/Input';
+import ModalInput from '../../../components/common/ModalInput';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
 import { useCuratorContext } from '../../../context/curators';
 import { ICreateModal } from '../../../types';
@@ -41,56 +41,56 @@ export const CuratorCreateModal = ({ modalActive, closeModal }: ICreateModal): J
   useEffect(() => {
     closeModal();
     if (curatorCreate?.data) {
-      addInfo(`${formData.lastName} ${formData.firstName} ${formData.patronymic} успішно доданий у список кураторів.`);
+      addInfo(`${formData.lastName} ${formData.firstName} ${formData.patronymic} доданий у список`);
     }
   }, [curatorCreate?.data]);
 
   return (
     <ModalWindow modalTitle="Створення куратора" active={modalActive} closeModal={handleClose}>
       <form className={pagesStyle.form} onSubmit={onSubmit}>
-        <Input
+        <ModalInput
           onChange={(event) => {
-            setFormData({ ...formData, lastName: event.target.value });
+            setFormData({ ...formData, lastName: event.target.value.slice(0, 20) });
           }}
-          value={formData.lastName.slice(0, 15)}
+          value={formData.lastName}
           placeholder="Прізвище"
           label="Прізвище"
           required
           error={isSubmitted && !formData.lastName ? 'Прізвище не введено' : ''}
           pattern={LettersAndNumbersEnUa}
         />
-        <Input
+        <ModalInput
           onChange={(event) => {
-            setFormData({ ...formData, firstName: event.target.value });
+            setFormData({ ...formData, firstName: event.target.value.slice(0, 15) });
           }}
-          value={formData.firstName.slice(0, 10)}
+          value={formData.firstName}
           placeholder="Ім'я"
           label="Ім'я"
           required
-          error={isSubmitted && !formData.firstName ? "\"Ім'я\" не введено" : ''}
+          error={isSubmitted && !formData.firstName ? "Ім'я не введено" : ''}
           pattern={LettersAndNumbersEnUa}
         />
-        <Input
+        <ModalInput
           onChange={(event) => {
-            setFormData({ ...formData, patronymic: event.target.value });
+            setFormData({ ...formData, patronymic: event.target.value.slice(0, 20) });
           }}
-          value={formData.patronymic.slice(0, 15)}
-          placeholder="По-Батькові"
-          label="По-Батькові"
+          value={formData.patronymic}
+          placeholder="По батькові"
+          label="По батькові"
           required
-          error={isSubmitted && !formData.patronymic ? 'В поле "По-Батькові" нічого не введено' : ''}
+          error={isSubmitted && !formData.patronymic ? 'По батькові не введено' : ''}
           pattern={LettersAndNumbersEnUa}
         />
-        <Input
+        <ModalInput
           onChange={(event) => {
-            setFormData({ ...formData, email: event.target.value });
+            setFormData({ ...formData, email: event.target.value.slice(0, 40) });
           }}
-          value={formData.email.slice(0, 40)}
-          placeholder="E-mail"
-          label="E-mail"
+          value={formData.email}
+          placeholder="Електронна пошта"
+          label="Електронна пошта"
           required
           error={isSubmitted && !Email.test(formData.email)
-            ? (formData.email.length < 1 ? 'E-mail не введено' : 'E-mail введено не вірно') : ''}
+            ? (formData.email.length < 1 ? 'Електронну пошту не введено' : 'Електронна пошта введено не вірно') : ''}
           pattern={EmailValidation}
         />
       </form>

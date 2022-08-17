@@ -59,18 +59,27 @@ const Estimates = (): JSX.Element => {
     let id = 1;
 
     return (
-      arrTableRows.length > 0 ? arrTableRows.map((item: IGetGradesData) => {
+      arrTableRows.length ? arrTableRows.map((item: IGetGradesData) => {
         const arrTableRowsGrade = dropCurses.optionCourses
           ? dropCurses.optionCourses?.items.map((el) => {
-            const estimaates = item.courses.filter((course) => course.id === el.id);
+            const estimaates = item.courses.filter(
+              (course) => course.id === el.id,
+            );
 
-            return ({ id: ++id, label: estimaates.length ? estimaates[0].grade : '-' });
+            return ({
+              id: ++id,
+              label: estimaates.length
+                ? estimaates[0].grades.length
+                  ? estimaates[0].grades.map((grades) => `${grades.grade}`)
+                  : '-'
+                : '-',
+            });
           })
           : [];
 
         return ({
           list: [
-            { id: 1, label: `${/* item.lastName} ${item.firstName} ${item.patronymic */ item.id} ` },
+            { id: 1, label: `${item.user.lastName} ${item.user.firstName} ${item.user.patronymic} ` },
             ...arrTableRowsGrade,
             {
               id: ++id,
@@ -145,7 +154,6 @@ const Estimates = (): JSX.Element => {
     if (params.pagination.itemsPerPage) query.limit = params.pagination.itemsPerPage;
 
     estimatesGet?.getEstimateStudent(query);
-    // }
   }, [
     params.filter.group,
     params.filter.studentId,
@@ -197,7 +205,7 @@ const Estimates = (): JSX.Element => {
               />
             </>
           )}
-          columScrollHorizontal={2 + (dropCurses.optionCourses ? +`${dropCurses.optionCourses?.items.length}` : 0)}
+          columScrollHorizontal={dropCurses.optionCourses ? +`${dropCurses.optionCourses?.items.length}` : 0}
           isScroll
           dataHeader={dataHeader}
           gridColumns={styles.columns}

@@ -22,14 +22,13 @@ const formInitialData: ITeacher = {
 };
 
 export const StudentsEditModal = ({ modalActive, closeModal, id }: IStudentsDeleteModal): JSX.Element => {
-  const { patchTeacher, getTeacher } = useTeachersContext();
+  const { patchTeacher, getTeacherId } = useTeachersContext();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState<ITeacher>(formInitialData);
 
   const handleClose = () => {
     setIsSubmitted(false);
     setFormData(formInitialData);
-    getTeacher?.getTeacher({ groups: '', courses: '' });
     closeModal();
   };
 
@@ -42,20 +41,20 @@ export const StudentsEditModal = ({ modalActive, closeModal, id }: IStudentsDele
   };
 
   useEffect(() => {
-    if (id) getTeacher?.getTeacher({ teacherId: id, groups: '', courses: '' });
+    if (id) getTeacherId?.getTeacherId(id);
   }, [id]);
 
   useEffect(() => {
-    if (getTeacher?.data && id !== 0) {
+    if (getTeacherId?.data && id !== 0) {
       setFormData({
-        firstName: getTeacher?.data?.items[0].firstName,
-        lastName: getTeacher?.data?.items[0].lastName,
-        patronymic: getTeacher?.data?.items[0].patronymic,
-        email: getTeacher?.data?.items[0].email,
-        courses: getTeacher?.data?.items[0].courses.map((course) => course.id) || [],
+        firstName: getTeacherId?.data?.firstName,
+        lastName: getTeacherId?.data?.lastName,
+        patronymic: getTeacherId?.data?.patronymic,
+        email: getTeacherId?.data?.email,
+        courses: getTeacherId?.data?.courses.map((course) => course.id) || [],
       });
     }
-  }, [getTeacher?.data]);
+  }, [getTeacherId?.data]);
 
   return (
     <ModalWindow modalTitle="Редагуваня викладача" active={modalActive} closeModal={handleClose}>

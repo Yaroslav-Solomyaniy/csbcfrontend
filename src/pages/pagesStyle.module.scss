@@ -9,7 +9,6 @@
 }
 
 .subtitle {
-  font-family: 'Helvetica';
   text-align: center;
   padding: 0 15px;
   font-style: normal;
@@ -18,11 +17,13 @@
   color: rgba(0, 0, 0, 0.75);
   margin-bottom: 20px;
 }
+
 .error {
   transition: all .5s;
   bottom: 0;
 }
-.buttonsCreate{
+
+.buttonsCreate {
   min-height: 42px;
   min-width: 112px;
 }

@@ -54,10 +54,21 @@ export interface IGetGradesParams {
 
 export interface IGetGradesData {
   id: number;
-  // lastName: string;
-  // firstName: string;
-  // patronymic: string;
-  courses: { id: number; grade: number; }[];
+  user: {
+    id: number;
+    lastName: string;
+    firstName: string;
+    patronymic: string;
+  };
+
+  courses: {
+    id: number;
+    name: string;
+    grades: {
+      id: number;
+      grade: number;
+    }[];
+  }[];
 }
 
 export interface IUseGradesGet {

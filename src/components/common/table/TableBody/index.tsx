@@ -24,7 +24,15 @@ const TableBody = ({ dataRow, gridColumns, isScroll, columScrollHorizontal }: IT
       <div
         className={clsx(styles.body__row, gridColumns)}
         key={key}
-        style={isScroll ? { gridTemplateColumns: `repeat(${columScrollHorizontal}, 20%)` } : {}}
+        style={isScroll ? {
+          gridTemplateColumns: `20% repeat(${columScrollHorizontal}, ${
+            columScrollHorizontal
+              ? columScrollHorizontal > 6
+                ? 10
+                : 60 / columScrollHorizontal
+              : 60
+          }%) 20%`,
+        } : {}}
       >
         {list.map(({ id, label }) => (
           <div className={clsx(styles.body__row__item, 'clip', isScroll && styles.body__row__item__scroll)} key={id}>

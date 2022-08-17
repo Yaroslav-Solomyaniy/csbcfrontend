@@ -17,7 +17,15 @@ interface IDataHeader {
 const TableHeader = ({ dataHeader, gridColumns, isScroll, columScrollHorizontal }: IDataHeader): JSX.Element => (
   <div
     className={clsx(styles.header, isScroll && styles.header__scroll, !isScroll && gridColumns)}
-    style={isScroll ? { gridTemplateColumns: `repeat(${columScrollHorizontal}, 20%)` } : {}}
+    style={isScroll ? {
+      gridTemplateColumns: `20% repeat(${columScrollHorizontal}, ${
+        columScrollHorizontal
+          ? columScrollHorizontal > 6
+            ? 10
+            : 60 / columScrollHorizontal
+          : 60
+      }%) 20%`,
+    } : {}}
   >
     {dataHeader.map((item) => (
       <div className={styles.header__item} key={item.id}>{item.label}</div>

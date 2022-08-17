@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import ReactSelect, { SingleValue, components } from 'react-select';
+import ReactSelect, { SingleValue } from 'react-select';
 import clsx from 'clsx';
 import { Option, SelectType } from '../../../types';
 import styles from './index.module.scss';
@@ -78,6 +78,7 @@ const Styles: any = {
       ...provided,
       background: '#fff',
       height: '42px',
+      width: '280px',
       borderRadius: '8px',
       border: '1px solid rgba(0, 0, 0, 0.1)',
       boxShadow: 'none',
@@ -296,12 +297,12 @@ const Select = ({
   return (
     <div className={clsx(isFilter ? styles.filterSelect : styles.wrap)}>
       {label && (
-      <label
-        className={clsx(type === 'multimodal' ? styles.multiModalLabel : styles.label, error && styles.error_label)}
-      >
-        {label}
-        {required && <span className={styles.required}>*</span>}
-      </label>
+        <label
+          className={clsx(type === 'multimodal' ? styles.multiModalLabel : styles.label, error && styles.error_label)}
+        >
+          {label}
+          {required && <span className={styles.required}>*</span>}
+        </label>
       )}
       <div className={clsx(type === 'multimodal' ? styles.multiSelectWrap : isFilter ? '' : styles.selectWrap)}>
         <ReactSelect<Option>
@@ -337,9 +338,9 @@ const Select = ({
           }}
         />
         {error && (
-        <div className={styles.error}>
-          <div className={styles.textError}>{error}</div>
-        </div>
+          <div className={styles.error}>
+            <div className={styles.textError}>{error}</div>
+          </div>
         )}
       </div>
     </div>

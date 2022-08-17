@@ -16,7 +16,7 @@ const formInitialData = {
 export const EstimatesEdit = ({ modalActive, closeModal, Id }: IEditModal): JSX.Element => {
   const { estimatesEdit, estimatesGetId } = useEstimatesContext();
   const { addInfo } = useMessagesContext();
-  const [formData, setFormData] = useState<>(formInitialData);
+  const [formData, setFormData] = useState(formInitialData);
   const [isSubmitted, setIsSubmited] = useState(false);
 
   const handleClose = () => {
@@ -42,11 +42,11 @@ export const EstimatesEdit = ({ modalActive, closeModal, Id }: IEditModal): JSX.
 
   useEffect(() => {
     if (estimatesGetId?.data) {
-      setFormData({
-        name: estimatesGetId?.data.name,
-        orderNumber: estimatesGetId?.data.orderNumber,
-        curatorId: estimatesGetId?.data.curator.id,
-      });
+      // setFormData({
+      //   name: estimatesGetId?.data.name,
+      //   orderNumber: estimatesGetId?.data.orderNumber,
+      //   curatorId: estimatesGetId?.data.curator.id,
+      // });
     }
   }, [estimatesGetId?.data]);
 
@@ -55,10 +55,10 @@ export const EstimatesEdit = ({ modalActive, closeModal, Id }: IEditModal): JSX.
       <form className={styles.form} onSubmit={onSubmit}>
         <Input
           onChange={(event) => {
-            setFormData({ ...formData, name: event.target.value });
+            setFormData({ ...formData, newEstimates: event.target.value });
           }}
-          value={formData.name}
-          error={isSubmitted && !formData.name ? 'Номер групи не введено.' : ''}
+          value={formData.newEstimates}
+          error={isSubmitted && !formData.newEstimates ? 'Номер групи не введено.' : ''}
           placeholder="Номер групи"
           label="Номер групи"
           required
@@ -71,10 +71,10 @@ export const EstimatesEdit = ({ modalActive, closeModal, Id }: IEditModal): JSX.
           isSearchable
           isClearable
           onChange={(value) => {
-            setFormData({ ...formData, curatorId: +value });
+            setFormData({ ...formData, reasonChange: value });
           }}
-          value={formData.curatorId}
-          error={isSubmitted && !formData.curatorId ? 'Куратор не обраний.' : ''}
+          value={formData.reasonChange}
+          error={isSubmitted && !formData.reasonChange ? 'Куратор не обраний.' : ''}
         />
 
       </form>

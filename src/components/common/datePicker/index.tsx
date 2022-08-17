@@ -1,14 +1,12 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
 import clsx from 'clsx';
-import moment from 'moment';
 import uk from 'date-fns/locale/uk';
 import styles from '../Select/index.module.scss';
 import 'react-datepicker/dist/react-datepicker.css';
 import './datePicker.css';
 
 interface IMyDatePicker {
-  value: string;
   onChange: (date: Date | null) => void;
   placeholder?: string;
   label?: string;
@@ -22,14 +20,15 @@ interface IMyDatePicker {
   showTimeInput?:boolean;
   timeFormat?:string;
   timeInputLabel?:string;
+  selected?: Date;
 }
 
 const MyDatePicker = ({
-  value,
   onChange,
   label,
   error,
   required,
+  selected,
   placeholder,
   showMonthDropdown,
   timeFormat,
@@ -51,7 +50,7 @@ const MyDatePicker = ({
       <DatePicker
         placeholderText={placeholder}
         locale={uk}
-        value={value}
+        selected={selected}
         onChange={onChange}
         showMonthDropdown={showMonthDropdown}
         dateFormat={dateFormat}
@@ -78,13 +77,14 @@ MyDatePicker.defaultProps = {
   label: '',
   error: '',
   showMonthDropdown: false,
-  dateFormat: 'dd.mm.yyyy',
+  dateFormat: 'dd.MM.yyyy',
   minDate: null,
   maxDate: null,
   showDisabledMonthNavigation: false,
   showTimeInput: false,
   timeFormat: '',
   timeInputLabel: '',
+  selected: null,
 };
 
 export default MyDatePicker;

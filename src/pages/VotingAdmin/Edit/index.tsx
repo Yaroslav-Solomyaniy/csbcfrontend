@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
+import moment from 'moment';
 import ModalWindow from '../../../components/common/ModalWindow';
 import pagesStyle from '../../pagesStyle.module.scss';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
 import { IEditModal } from '../../../types';
 import 'react-datepicker/dist/react-datepicker.css';
-import SelectDateAndTime from '../../../components/common/datePicker/SelectDateAndTime';
 import MultiSelectGroup from '../../../components/common/MultiSelect/MultiSelectGroup';
 import MultiSelectCourseSemestr from '../../../components/common/MultiSelect/MultiSelectCourseSemestr';
-import moment from 'moment';
 
 export interface IVoting {
   groups: number [];
@@ -94,7 +93,7 @@ export const VotingEditModal = ({ modalActive, closeModal }: IEditModal): JSX.El
           error={isSubmitted && (formData.notRequiredCourse.every((element) => element.courseId === ''))
             ? 'Не обрано жодного непрофільного предмету' : ''}
         />
-        <SelectDateAndTime
+        {/*  <SelectDateAndTime
           label="Дата початку"
           onChange={(item) => setFormData({ ...formData, firstDate: item })}
           value={moment(formData.firstDate).format('DD.MM.YYYY')}
@@ -105,7 +104,7 @@ export const VotingEditModal = ({ modalActive, closeModal }: IEditModal): JSX.El
           onChange={(item) => setFormData({ ...formData, lastDate: item })}
           value={moment(formData.lastDate).format('DD.MM.YYYY')}
           error={isSubmitted && !formData.lastDate ? 'Дата кінця голосування не обрана' : ''}
-        />
+        /> */}
       </form>
       <ModalControlButtons
         handleClose={handleClose}

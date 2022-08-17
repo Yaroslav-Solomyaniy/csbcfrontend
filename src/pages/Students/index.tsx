@@ -189,6 +189,8 @@ const Students = (): JSX.Element => {
                   },
                 })}
                 isFilter
+                isSearchable
+                isClearable
               />
             </>
           )}

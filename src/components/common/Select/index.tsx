@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { Option, SelectType } from '../../../types';
 import styles from './index.module.scss';
 
-interface Select {
+interface ISelect {
   options: Option[];
   value: string | number | boolean | null | undefined;
   onChange: (value: string) => void;
@@ -26,13 +26,19 @@ const Styles: any = {
     control: (provided: any) => ({
       ...provided,
       background: '#fff',
-      borderColor: 'rgba(0,0,0,10%)',
+      border: '1px solid rgba(0, 0, 0, 0.1)',
       maxWidth: 75,
       minHeight: '100%',
       height: '32px',
       borderRadius: '8px',
       boxShadow: 'none',
       '&:hover': {
+        border: '1px solid rgba(39, 111, 173, 1)',
+      },
+      '&:focus': {
+        border: '1px solid rgba(39, 111, 173, 1)',
+      },
+      '&:active': {
         border: '1px solid rgba(39, 111, 173, 1)',
       },
     }),
@@ -46,17 +52,20 @@ const Styles: any = {
     }),
     option: (base: any, state: any) => ({
       ...base,
+      background: state.isSelected ? '#428BCA' : '#FEFEFE',
       '&:hover': {
         cursor: 'pointer',
+        background: state.isSelected ? '#428BCA' : '#D7E7F4',
       },
     }),
     menu: (base: any) => ({
       ...base,
+      background: '#FEFEFE',
       overflow: 'hidden',
     }),
     menuList: (base: any) => ({
       ...base,
-      background: 'white',
+      background: '#FEFEFE',
     }),
     clearIndicator: (provided: any) => ({
       ...provided,
@@ -77,10 +86,10 @@ const Styles: any = {
     control: (provided: any) => ({
       ...provided,
       background: '#fff',
+      border: '1px solid rgba(0, 0, 0, 0.1)',
       height: '42px',
       width: '280px',
       borderRadius: '8px',
-      border: '1px solid rgba(0, 0, 0, 0.1)',
       boxShadow: 'none',
       '&:hover': {
         border: '1px solid rgba(39, 111, 173, 1)',
@@ -92,27 +101,31 @@ const Styles: any = {
         border: '1px solid rgba(39, 111, 173, 1)',
       },
     }),
-    valueContainer: (provided: any) => ({
-      ...provided,
-      padding: '9px 8px 9px 16px',
-    }),
     indicatorSeparator: (provided: any) => ({
       ...provided,
       display: 'none',
     }),
     option: (base: any, state: any) => ({
       ...base,
+      background: state.isSelected ? '#428BCA' : '#FEFEFE',
       '&:hover': {
         cursor: 'pointer',
+        background: state.isSelected ? '#428BCA' : '#D7E7F4',
       },
     }),
     menu: (base: any) => ({
       ...base,
+      background: '#FEFEFE',
       overflow: 'hidden',
     }),
     menuList: (base: any) => ({
       ...base,
-      background: 'white',
+      background: '#FEFEFE',
+    }),
+    valueContainer: (provided: any) => ({
+      ...provided,
+      padding: '9px 16px',
+      fontSize: '14px',
     }),
     clearIndicator: (provided: any) => ({
       ...provided,
@@ -133,12 +146,11 @@ const Styles: any = {
     control: (provided: any) => ({
       ...provided,
       background: '#fff',
-      borderColor: 'rgba(0,0,0,0.1)',
+      border: '1px solid rgba(0, 0, 0, 0.1)',
       minHeight: '32px',
       height: '32px',
       borderRadius: '8px',
       marginTop: 16,
-      border: '1px solid rgba(0, 0, 0, 0.1)',
       boxShadow: 'none',
       '&:hover': {
         border: '1px solid rgba(39, 111, 173, 1)',
@@ -149,42 +161,42 @@ const Styles: any = {
       '&:active': {
         border: '1px solid rgba(39, 111, 173, 1)',
       },
-
-    }),
-    menu: (base: any) => ({
-      ...base,
-      background: 'rgba(215, 231, 244, 1)',
-      overflow: 'hidden',
-    }),
-
-    valueContainer: (provided: any) => ({
-      ...provided,
-      height: '32px',
-      padding: '0 16px',
-    }),
-
-    input: (provided: any) => ({
-      ...provided,
-      margin: '0px',
-      padding: '0',
     }),
     indicatorSeparator: (provided: any) => ({
       ...provided,
       display: 'none',
     }),
-    indicatorsContainer: (provided: any) => ({
-      ...provided,
-      height: '32px',
-    }),
     option: (base: any, state: any) => ({
       ...base,
+      background: state.isSelected ? '#428BCA' : '#FEFEFE',
       '&:hover': {
         cursor: 'pointer',
+        background: state.isSelected ? '#428BCA' : '#D7E7F4',
       },
+    }),
+    menu: (base: any) => ({
+      ...base,
+      background: '#FEFEFE',
+      overflow: 'hidden',
     }),
     menuList: (base: any) => ({
       ...base,
-      background: 'white',
+      background: '#FEFEFE',
+    }),
+    valueContainer: (provided: any) => ({
+      ...provided,
+      padding: '8px 16px',
+      fontSize: '14px',
+      height: '32px',
+    }),
+    input: (provided: any) => ({
+      ...provided,
+      margin: '0px',
+      padding: '0',
+    }),
+    indicatorsContainer: (provided: any) => ({
+      ...provided,
+      height: '32px',
     }),
     clearIndicator: (provided: any) => ({
       ...provided,
@@ -201,17 +213,15 @@ const Styles: any = {
       },
     }),
   },
-
   multimodal: {
     control: (provided: any) => ({
       ...provided,
       background: '#fff',
-      borderColor: 'rgba(0,0,0,0.1)',
+      border: '1px solid rgba(0, 0, 0, 0.1)',
       minHeight: '32px',
       height: '32px',
       borderRadius: '8px',
       marginTop: 16,
-      border: '1px solid rgba(0, 0, 0, 0.1)',
       boxShadow: 'none',
       '&:hover': {
         border: '1px solid rgba(39, 111, 173, 1)',
@@ -223,41 +233,41 @@ const Styles: any = {
         border: '1px solid rgba(39, 111, 173, 1)',
       },
     }),
+    indicatorSeparator: (provided: any) => ({
+      ...provided,
+      display: 'none',
+    }),
+    option: (base: any, state: any) => ({
+      ...base,
+      background: state.isSelected ? '#428BCA' : '#FEFEFE',
+      '&:hover': {
+        cursor: 'pointer',
+        background: state.isSelected ? '#428BCA' : '#D7E7F4',
+      },
+    }),
     menu: (base: any) => ({
       ...base,
-      background: 'rgba(215, 231, 244, 1)',
+      background: '#FEFEFE',
       overflow: 'hidden',
     }),
-
+    menuList: (base: any) => ({
+      ...base,
+      background: '#FEFEFE',
+      height: '170px',
+    }),
     valueContainer: (provided: any) => ({
       ...provided,
       height: '32px',
       padding: '0 16px',
     }),
-
     input: (provided: any) => ({
       ...provided,
       margin: '0px',
       padding: '0',
     }),
-    indicatorSeparator: (provided: any) => ({
-      ...provided,
-      display: 'none',
-    }),
     indicatorsContainer: (provided: any) => ({
       ...provided,
       height: '32px',
-    }),
-    option: (base: any, state: any) => ({
-      ...base,
-      '&:hover': {
-        cursor: 'pointer',
-      },
-    }),
-    menuList: (base: any) => ({
-      ...base,
-      background: 'white',
-      height: '170px',
     }),
     clearIndicator: (provided: any) => ({
       ...provided,
@@ -291,7 +301,7 @@ const Select = ({
   menuPos,
   menuPlace,
   isFilter,
-}: Select): JSX.Element => {
+}: ISelect): JSX.Element => {
   const focusIndexRef = useRef(-1);
 
   return (

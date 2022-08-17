@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import moment from 'moment';
 import ModalWindow from '../../../components/common/ModalWindow';
 import pagesStyle from '../../pagesStyle.module.scss';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
@@ -7,7 +8,6 @@ import 'react-datepicker/dist/react-datepicker.css';
 import SelectDateAndTime from '../../../components/common/datePicker/SelectDateAndTime';
 import MultiSelectGroup from '../../../components/common/MultiSelect/MultiSelectGroup';
 import MultiSelectCourseSemestr from '../../../components/common/MultiSelect/MultiSelectCourseSemestr';
-import moment from 'moment';
 
 export interface IVoting {
   groups: number [];

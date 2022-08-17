@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import moment from 'moment';
 import stylesStud from '../../../pagesStyle.module.scss';
 import ModalWindow from '../../../../components/common/ModalWindow';
 import { IStudentCreateParams } from '../../../../hooks/useStudents';
@@ -58,7 +57,7 @@ export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateMod
   const onSubmit = (e: React.FormEvent | undefined) => {
     e?.preventDefault?.();
     setIsSubmitted(true);
-    if (formData.dateOfBirth
+    /*    if (formData.dateOfBirth
       && `${formData.edeboId}`.length === 8
       && formData.groupId.toString().length > 1
       && `${formData.orderNumber}`.length >= 6
@@ -69,7 +68,8 @@ export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateMod
       && Email.test(formData.user.email)
     ) {
       studentCreate?.studentCreate(formData);
-    }
+    } */
+    console.log(formData);
   };
 
   useEffect(() => {
@@ -113,7 +113,12 @@ export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateMod
           }}
           error={isSubmitted && !formData.user.patronymic ? 'По батькові не введено' : ''}
         />
-        <SelectDate
+        {/*  <DatePicker
+          value={formData.dateOfBirth || ''}
+          selected={new Date()}
+          onChange={(item) => setFormData({ ...formData, dateOfBirth: item ? moment(item).format('DD.MM.YYYY') : '' })}
+        /> */}
+        {/* <SelectDate
           required
           label="Дата народження"
           placeholder="Дата народження"
@@ -121,7 +126,7 @@ export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateMod
           dateFormat="DD.MM.YYYY"
           value={formData.dateOfBirth || ''}
           error={isSubmitted && !formData.dateOfBirth ? 'Дату народження не введено' : ''}
-        />
+        /> */}
         <SelectGroupById
           type="modal"
           label="Група"

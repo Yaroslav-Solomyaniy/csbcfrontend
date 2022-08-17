@@ -54,7 +54,7 @@ export interface IGetParams {
     | 'orderNumber'
     | 'edeboId'
     | 'isFullTime';
-  id?:number;
+    id?:number;
   firstName?: string;
   lastName?: string;
   patronymic?: string;
@@ -99,7 +99,7 @@ export const useGetStudents = (): IUseGetStudents => {
 };
 
 export interface IStudentCreateParams {
-  dateOfBirth:string;
+  dateOfBirth: string | Date | null;
   groupId: number;
   user: IStudentCreateUser;
   orderNumber: string;

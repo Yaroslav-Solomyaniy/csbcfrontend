@@ -9,9 +9,9 @@ import { IStudentCreateParams } from '../../../../hooks/useStudents';
 import ModalInput from '../../../../components/common/ModalInput';
 import SelectGroupById from '../../../../components/common/Select/SelectGroupById';
 import { Email, EmailValidation } from '../../../../types/regExp';
-import SelectDate from '../../../../components/common/datePicker/SelectDate';
 import SelectIsFullTime from '../../../../components/common/Select/SelectIsFullTime';
 import { useMessagesContext } from '../../../../context/useMessagesContext';
+import MyDatePicker from '../../../../components/common/datePicker';
 
 interface IGroupCreateModal {
   modalActive: boolean;
@@ -20,7 +20,7 @@ interface IGroupCreateModal {
 }
 
 const formInitialData = {
-  dateOfBirth: '',
+  dateOfBirth: null,
   groupId: 0,
   user: {
     firstName: '',
@@ -60,7 +60,7 @@ export const StudentsEditModal = ({ modalActive, closeModal, id }: IGroupCreateM
       && formData.user.patronymic
       && Email.test(formData.user.email)
     ) {
-      studentEdit?.studentEdit(formData, id);
+      studentEdit?.studentEdit({ ...formData, dateOfBirth: moment(formData.dateOfBirth).format('DD.MM.yyyy') }, id);
     }
   };
 
@@ -81,7 +81,7 @@ export const StudentsEditModal = ({ modalActive, closeModal, id }: IGroupCreateM
   useEffect(() => {
     if (getStudentById?.data) {
       const data = {
-        dateOfBirth: moment(getStudentById.data.dateOfBirth).format('DD.MM.YYYY'),
+        dateOfBirth: moment(getStudentById.data.dateOfBirth, 'DD.MM.yyyy').toDate(),
         groupId: getStudentById.data.group.id,
         user: {
           firstName: getStudentById.data.user.firstName,
@@ -132,13 +132,15 @@ export const StudentsEditModal = ({ modalActive, closeModal, id }: IGroupCreateM
           }}
           error={isSubmitted && !formData.user.patronymic ? 'По батькові не введено' : ''}
         />
-        <SelectDate
-          required
+        <MyDatePicker
           label="Дата народження"
           placeholder="Дата народження"
-          onChange={(item) => setFormData({ ...formData, dateOfBirth: item ? moment(item).format('DD.MM.YYYY') : '' })}
-          value={formData.dateOfBirth}
-          error={isSubmitted && !formData.dateOfBirth ? 'Дату народження не введено' : ''}
+          onChange={(date:Date | null) => setFormData({ ...formData, dateOfBirth: date || null })}
+          selected={formData.dateOfBirth !== null ? new Date(formData.dateOfBirth) : undefined}
+          showMonthDropdown
+          showDisabledMonthNavigation
+          maxDate={new Date()}
+          minDate={new Date(1970, 1, 1)}
         />
         <SelectGroupById
           type="modal"

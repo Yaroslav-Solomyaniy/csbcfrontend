@@ -21,8 +21,10 @@ export const GroupDelete = ({ modalActive, closeModal, Id }: IDeleteModal): JSX.
 
   const handleClose = () => {
     setIsSubmitted(false);
-    setFormData(formInitialData);
     closeModal();
+    setTimeout(() => {
+      setFormData(formInitialData);
+    }, 1500);
   };
 
   const onSubmit = (e: React.FormEvent | undefined) => {

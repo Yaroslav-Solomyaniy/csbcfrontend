@@ -41,8 +41,10 @@ export const VotingResultModal = ({ modalActive, closeModal }: IEditModal): JSX.
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
 
   const handleClose = () => {
-    setFormData(formInitialData);
     closeModal();
+    setTimeout(() => {
+      setFormData(formInitialData);
+    }, 1500);
   };
 
   const ActiveStudentsBlock = () => {

@@ -24,8 +24,10 @@ export const GroupEdit = ({ modalActive, closeModal, Id }: IEditModal): JSX.Elem
 
   const handleClose = () => {
     setIsSubmited(false);
-    setFormData(formInitialData);
     closeModal();
+    setTimeout(() => {
+      setFormData(formInitialData);
+    }, 1500);
   };
 
   const onSubmit = (e: React.FormEvent | undefined) => {

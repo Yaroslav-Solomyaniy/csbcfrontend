@@ -26,8 +26,10 @@ export const CuratorCreateModal = ({ modalActive, closeModal }: ICreateModal): J
 
   const handleClose = () => {
     setIsSubmitted(false);
-    setFormData(formInitialData);
     closeModal();
+    setTimeout(() => {
+      setFormData(formInitialData);
+    }, 1500);
   };
 
   const onSubmit = (e: React.FormEvent | undefined) => {

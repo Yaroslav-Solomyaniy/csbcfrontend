@@ -34,8 +34,10 @@ export const CourseCreateModal = ({ modalActive, closeModal }: ICreateModal): JS
 
   const handleClose = () => {
     setIsSubmitted(false);
-    setFormData(formInitialData);
     closeModal();
+    setTimeout(() => {
+      setFormData(formInitialData);
+    }, 1500);
   };
 
   const onSubmit = (e: React.FormEvent | undefined) => {

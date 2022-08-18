@@ -25,8 +25,10 @@ export const GroupCreate = ({ modalActive, closeModal }: ICreateModal): JSX.Elem
 
   const handleClose = () => {
     setIsSubmitted(false);
-    setFormData(formInitialData);
     closeModal();
+    setTimeout(() => {
+      setFormData(formInitialData);
+    }, 1500);
   };
 
   const onSubmit = (e: React.FormEvent | undefined) => {

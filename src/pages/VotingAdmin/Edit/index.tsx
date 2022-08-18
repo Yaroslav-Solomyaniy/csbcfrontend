@@ -34,8 +34,10 @@ export const VotingEditModal = ({ modalActive, closeModal }: IEditModal): JSX.El
 
   const handleClose = () => {
     setIsSubmitted(false);
-    setFormData(formInitialData);
     closeModal();
+    setTimeout(() => {
+      setFormData(formInitialData);
+    }, 1500);
   };
 
   const onSubmit = (e: React.FormEvent | undefined) => {

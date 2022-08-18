@@ -43,7 +43,7 @@ interface Params {
 }
 
 const Estimates = (): JSX.Element => {
-  const { getTeacher } = useTeachersContext();
+  const { teachersGet } = useTeachersContext();
   const [isActiveModal, setIsActiveModal] = useState<IIsActiveTeacherModalState>(allCloseModalWindow);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
   const [params, setParams] = useState<Params>({
@@ -93,7 +93,7 @@ const Estimates = (): JSX.Element => {
 
   useEffect(() => {
     if (params.filter.teacherId) {
-      // getTeacher?.getTeacher({});
+      // teachersGet?.teachersGet({});
     } else {
       // const query: IGetTeacherParams = {};
       //
@@ -101,7 +101,7 @@ const Estimates = (): JSX.Element => {
       // if (params.pagination.currentPage) query.page = params.pagination.currentPage;
       // if (params.pagination.itemsPerPage) query.limit = params.pagination.itemsPerPage;
       //
-      // getTeacher?.getTeacher(query);
+      // teachersGet?.teachersGet(query);
     }
   }, [
     params.filter.group,
@@ -112,8 +112,8 @@ const Estimates = (): JSX.Element => {
   ]);
 
   useEffect(() => {
-    // if (getTeacher?.data) {
-    // setParams({ ...params, pagination: getTeacher.data.meta });
+    // if (teachersGet?.data) {
+    // setParams({ ...params, pagination: teachersGet.data.meta });
     setDataRow(tableRows([
       {
         id: 1,

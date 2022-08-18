@@ -24,8 +24,10 @@ export const VotingDeleteModal = ({ modalActive, closeModal, Id }: IDeleteModal)
   }, [Id]);
 
   const handleClose = () => {
-    setFormData(formInitialData);
     closeModal();
+    setTimeout(() => {
+      setFormData(formInitialData);
+    }, 1500);
   };
 
   useEffect(() => {

@@ -4,15 +4,11 @@ import ModalControlButtons from '../../../../components/common/ModalControlButto
 import pagesStyle from '../../../pagesStyle.module.scss';
 import ModalInput from '../../../../components/common/ModalInput';
 import { useTeachersContext } from '../../../../context/teachers';
-import { ITeacherCreateParams } from '../../../../hooks/useTeachers';
 import { Email, EmailValidation } from '../../../../types/regExp';
+import { IUserCreateParams } from '../../../../hooks/useUser';
+import { ICreateModal } from '../../../../types';
 
-interface IStudentsDeleteModal {
-  modalActive: boolean;
-  closeModal: () => void;
-}
-
-const formInitialData: ITeacherCreateParams = {
+const formInitialData: IUserCreateParams = {
   firstName: '',
   lastName: '',
   patronymic: '',
@@ -20,15 +16,17 @@ const formInitialData: ITeacherCreateParams = {
   role: 'teacher',
 };
 
-export const StudentsDeleteModal = ({ modalActive, closeModal }: IStudentsDeleteModal): JSX.Element => {
-  const { createTeacher } = useTeachersContext();
+export const TeacherCreateModal = ({ modalActive, closeModal }: ICreateModal): JSX.Element => {
+  const { teacherCreate } = useTeachersContext();
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [formData, setFormData] = useState<ITeacherCreateParams>(formInitialData);
+  const [formData, setFormData] = useState<IUserCreateParams>(formInitialData);
 
   const handleClose = () => {
     setIsSubmitted(false);
-    setFormData(formInitialData);
     closeModal();
+    setTimeout(() => {
+      setFormData(formInitialData);
+    }, 1500);
   };
 
   const onSubmit = (e: React.FormEvent | undefined) => {
@@ -42,7 +40,7 @@ export const StudentsDeleteModal = ({ modalActive, closeModal }: IStudentsDelete
       && !!formData.email
     ) {
       handleClose();
-      createTeacher?.createTeacher(formData);
+      teacherCreate?.createUser(formData);
     }
   };
 
@@ -95,4 +93,4 @@ export const StudentsDeleteModal = ({ modalActive, closeModal }: IStudentsDelete
   );
 };
 
-export default StudentsDeleteModal;
+export default TeacherCreateModal;

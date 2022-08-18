@@ -12,12 +12,7 @@ import { Email, EmailValidation } from '../../../../types/regExp';
 import SelectIsFullTime from '../../../../components/common/Select/SelectIsFullTime';
 import { useMessagesContext } from '../../../../context/useMessagesContext';
 import MyDatePicker from '../../../../components/common/datePicker';
-
-interface IGroupCreateModal {
-  modalActive: boolean;
-  closeModal: () => void;
-  id: number;
-}
+import { IEditModal } from '../../../../types';
 
 const formInitialData = {
   dateOfBirth: null,
@@ -34,7 +29,7 @@ const formInitialData = {
   isFullTime: undefined,
 };
 
-export const StudentsEditModal = ({ modalActive, closeModal, id }: IGroupCreateModal): JSX.Element => {
+export const StudentsEditModal = ({ modalActive, closeModal, Id }: IEditModal): JSX.Element => {
   const { studentEdit, getStudentById } = useStudentsContext();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState<IStudentCreateParams>(formInitialData);
@@ -42,8 +37,10 @@ export const StudentsEditModal = ({ modalActive, closeModal, id }: IGroupCreateM
 
   const handleClose = () => {
     setIsSubmitted(false);
-    setFormData(formInitialData);
     closeModal();
+    setTimeout(() => {
+      setFormData(formInitialData);
+    }, 1500);
   };
 
   const onSubmit = (e: React.FormEvent | undefined) => {
@@ -60,15 +57,15 @@ export const StudentsEditModal = ({ modalActive, closeModal, id }: IGroupCreateM
       && formData.user.patronymic
       && Email.test(formData.user.email)
     ) {
-      studentEdit?.studentEdit({ ...formData, dateOfBirth: moment(formData.dateOfBirth).format('DD.MM.yyyy') }, id);
+      studentEdit?.studentEdit({ ...formData, dateOfBirth: moment(formData.dateOfBirth).format('DD.MM.yyyy') }, Id);
     }
   };
 
   useEffect(() => {
-    if (id) {
-      getStudentById?.getStudentId({ id: `${id}` });
+    if (Id) {
+      getStudentById?.getStudentId({ id: `${Id}` });
     }
-  }, [id]);
+  }, [Id]);
 
   useEffect(() => {
     if (studentEdit?.data) {

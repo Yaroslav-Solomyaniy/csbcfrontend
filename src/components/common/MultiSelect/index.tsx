@@ -19,37 +19,17 @@ interface MultiSelect {
 }
 
 const Styles: any = {
-  pagination: {
+  modal: {
     control: (provided: any) => ({
       ...provided,
       background: '#fff',
-      borderColor: 'rgba(0,0,0,10%)',
-      maxWidth: 75,
-      minHeight: '100%',
-      height: '32px',
-      borderRadius: '8px',
-    }),
-    valueContainer: (provided: any) => ({
-      ...provided,
-      // padding: '9px 8px 9px 16px',
-    }),
-    indicatorSeparator: (provided: any) => ({
-      ...provided,
-      display: 'none',
-    }),
-    indicatorsContainer: (provided: any) => ({
-      ...provided,
-      height: '32px',
-    }),
-
-  },
-  filter: {
-    control: (provided: any) => ({
-      ...provided,
-      background: '#fff',
-      height: '42px',
-      borderRadius: '8px',
       border: '1px solid rgba(0, 0, 0, 0.1)',
+      height: 'auto',
+      minHeight: '32px',
+      borderRadius: '8px',
+      marginTop: 16,
+      padding: '2px 0',
+      color: 'rgba(0, 0, 0, 0.75)',
       boxShadow: 'none',
       '&:hover': {
         border: '1px solid rgba(39, 111, 173, 1)',
@@ -61,70 +41,48 @@ const Styles: any = {
         border: '1px solid rgba(39, 111, 173, 1)',
       },
     }),
-    valueContainer: (provided: any) => ({
-      ...provided,
-      padding: '9px 8px 9px 16px',
-    }),
-    indicatorSeparator: (provided: any) => ({
-      ...provided,
-      display: 'none',
-    }),
-    menu: (base: any) => ({
-      ...base,
-      background: 'rgba(215, 231, 244, 1)',
-    }),
-    menuList: (base: any) => ({
-      ...base,
-      background: 'white',
-    }),
-  },
-  modal: {
     multiValue: (base: any) => ({
       ...base,
       backgroundColor: 'white',
       fontSize: '14px',
-      border: '1px solid rgba(66, 139, 202, 1)',
+      border: '1px solid  rgba(66, 139, 202, 1)',
       borderRadius: 4,
+      margin: '2px 2px',
+      minWidth: '45%',
+      width: 'auto',
+      display: 'flex',
+      justifyContent: 'space-Between',
     }),
     multiValueLabel: (base: any) => ({
       ...base,
       padding: '2px 5px',
       backgroundColor: 'white',
-      color: 'rgba(0, 0, 0, 0.75)',
-    }),
 
-    control: (provided: any) => ({
-      ...provided,
-      background: '#fff',
-      borderColor: 'rgba(0,0,0,0.1)',
-      height: 'auto',
-      minHeight: '32px',
-      borderRadius: '8px',
-      marginTop: 16,
-      border: '1px solid rgba(0, 0, 0, 0.1)',
-      boxShadow: 'none',
+    }),
+    multiValueRemove: (base: any) => ({
+      ...base,
+      color: 'rgba(0, 0, 0, 0.75)',
       '&:hover': {
-        border: '1px solid rgba(39, 111, 173, 1)',
-      },
-      '&:focus': {
-        border: '1px solid rgba(39, 111, 173, 1)',
-      },
-      '&:active': {
-        border: '1px solid rgba(39, 111, 173, 1)',
+        color: 'rgba(39, 111, 173, 1)',
       },
     }),
     menu: (base: any) => ({
       ...base,
-      background: 'rgba(215, 231, 244, 1)',
+      background: '#FEFEFE',
+      overflow: 'hidden',
     }),
     menuList: (base: any) => ({
       ...base,
-      background: 'white',
+      background: '#FEFEFE',
     }),
 
     valueContainer: (provided: any) => ({
       ...provided,
       padding: '0 16px',
+    }),
+    indicatorSeparator: (provided: any) => ({
+      ...provided,
+      display: 'none',
     }),
 
     input: (provided: any) => ({
@@ -132,12 +90,19 @@ const Styles: any = {
       margin: '0px',
       padding: '0',
     }),
-    indicatorSeparator: (provided: any) => ({
+    clearIndicator: (provided: any) => ({
       ...provided,
-      display: 'none',
+      '&:hover': {
+        backgroundColor: 'transparent',
+        color: 'rgba(45, 112, 169, 1)',
+      },
     }),
-    indicatorsContainer: (provided: any) => ({
+    dropdownIndicator: (provided: any) => ({
       ...provided,
+      '&:hover': {
+        backgroundColor: 'transparent',
+        color: 'rgba(45, 112, 169, 1)',
+      },
     }),
   },
 };

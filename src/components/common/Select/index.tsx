@@ -19,6 +19,7 @@ interface ISelect {
   menuPos?: 'fixed' | 'absolute';
   menuPlace?: 'top' | 'auto' | 'bottom';
   isFilter?: boolean;
+  isSemesterInMultiSelect?: boolean;
 }
 
 const Styles: any = {
@@ -302,6 +303,7 @@ const Select = ({
   error,
   placeholder,
   isSearchable,
+  isSemesterInMultiSelect,
   isClearable,
   type,
   isDisabled,
@@ -321,7 +323,11 @@ const Select = ({
         {required && <span className={styles.required}>*</span>}
       </label>
       )}
-      <div className={clsx(type === 'multimodal' ? styles.multiSelectWrap : isFilter ? '' : styles.selectWrap)}>
+      <div className={clsx(
+        isSemesterInMultiSelect && styles.selectWrapSemester,
+        type === 'multimodal' ? styles.multiSelectWrap : isFilter ? '' : styles.selectWrap,
+      )}
+      >
         <ReactSelect<Option>
           isDisabled={isDisabled}
           menuPosition={menuPos}
@@ -375,6 +381,7 @@ Select.defaultProps = {
   menuPlace: 'auto',
   isDisabled: false,
   isFilter: false,
+  isSemesterInMultiSelect: false,
 };
 
 export default Select;

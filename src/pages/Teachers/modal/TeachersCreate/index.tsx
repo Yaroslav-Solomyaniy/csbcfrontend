@@ -3,7 +3,6 @@ import ModalWindow from '../../../../components/common/ModalWindow';
 import ModalControlButtons from '../../../../components/common/ModalControlButtons';
 import pagesStyle from '../../../pagesStyle.module.scss';
 import ModalInput from '../../../../components/common/ModalInput';
-import MultiSelectCourses from '../../../../components/common/MultiSelect/MultiSelectCourses';
 import { useTeachersContext } from '../../../../context/teachers';
 import { ITeacherCreateParams } from '../../../../hooks/useTeachers';
 import { Email, EmailValidation } from '../../../../types/regExp';
@@ -19,7 +18,6 @@ const formInitialData: ITeacherCreateParams = {
   patronymic: '',
   email: '',
   role: 'teacher',
-  courses: [],
 };
 
 export const StudentsDeleteModal = ({ modalActive, closeModal }: IStudentsDeleteModal): JSX.Element => {
@@ -84,18 +82,6 @@ export const StudentsDeleteModal = ({ modalActive, closeModal }: IStudentsDelete
           error={isSubmitted && !Email.test(formData.email)
             ? (formData.email.length < 1 ? 'Електронну пошту не введено' : 'Електронна пошта введено не вірно') : ''}
           pattern={EmailValidation}
-        />
-        <MultiSelectCourses
-          type="modal"
-          label="Предмети"
-          placeholder="Предмети"
-          required
-          value={formData.courses.map((value) => `${value}`)}
-          onChange={(value) => setFormData({
-            ...formData,
-            courses: value.map((option) => +option.value),
-          })}
-          error={isSubmitted && !formData.courses ? 'Не обрано жодного предмету' : ''}
         />
       </form>
 

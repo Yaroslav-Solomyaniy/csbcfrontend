@@ -68,13 +68,14 @@ export const useTeacherGet = (): IUseTeachersGet => {
   return { data, getTeacher };
 };
 
+// Create Teacher
+
 export interface ITeacherCreateParams {
   firstName: string;
   lastName: string;
   patronymic: string;
   email: string;
   role: string;
-  courses: number[];
 }
 
 export interface ITeacherCreateData {
@@ -117,7 +118,6 @@ export interface ITeacher {
   lastName?: string;
   patronymic?: string;
   email?: string;
-  courses: number[];
 }
 
 interface IDataPatchTeachersItem {

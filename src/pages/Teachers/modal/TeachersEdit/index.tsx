@@ -18,7 +18,6 @@ const formInitialData: ITeacher = {
   lastName: '',
   patronymic: '',
   email: '',
-  courses: [],
 };
 
 export const StudentsEditModal = ({ modalActive, closeModal, id }: IStudentsDeleteModal): JSX.Element => {
@@ -52,7 +51,6 @@ export const StudentsEditModal = ({ modalActive, closeModal, id }: IStudentsDele
         lastName: getTeacher?.data?.items[0].lastName,
         patronymic: getTeacher?.data?.items[0].patronymic,
         email: getTeacher?.data?.items[0].email,
-        courses: getTeacher?.data?.items[0].courses.map((course) => course.id) || [],
       });
     }
   }, [getTeacher?.data]);
@@ -91,17 +89,6 @@ export const StudentsEditModal = ({ modalActive, closeModal, id }: IStudentsDele
           value={formData.email}
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
           error={isSubmitted && !formData.email ? 'E-Mail не введено' : ''}
-        />
-        <MultiSelectCourses
-          type="modal"
-          label="Предмети"
-          placeholder="Предмети"
-          required
-          value={formData.courses.map((value) => `${value}`)}
-          onChange={(value) => setFormData({
-            ...formData,
-            courses: value.map((option) => +option.value),
-          })}
         />
       </form>
       <ModalControlButtons

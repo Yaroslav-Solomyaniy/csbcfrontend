@@ -31,6 +31,8 @@ const Styles: any = {
       minHeight: '100%',
       height: '32px',
       borderRadius: '8px',
+      fontWeight: 400,
+      color: 'rgba(0, 0, 0, 0.75)',
       boxShadow: 'none',
       '&:hover': {
         border: '1px solid rgba(39, 111, 173, 1)',
@@ -90,6 +92,8 @@ const Styles: any = {
       height: '42px',
       borderRadius: '8px',
       boxShadow: 'none',
+      fontWeight: 400,
+      color: 'rgba(0, 0, 0, 0.75)',
       '&:hover': {
         border: '1px solid rgba(39, 111, 173, 1)',
       },
@@ -151,6 +155,8 @@ const Styles: any = {
       borderRadius: '8px',
       marginTop: 16,
       boxShadow: 'none',
+      fontWeight: 400,
+      color: 'rgba(0, 0, 0, 0.75)',
       '&:hover': {
         border: '1px solid rgba(39, 111, 173, 1)',
       },
@@ -216,6 +222,8 @@ const Styles: any = {
     control: (provided: any) => ({
       ...provided,
       background: '#fff',
+      fontWeight: 400,
+      color: 'rgba(0, 0, 0, 0.75)',
       border: '1px solid rgba(0, 0, 0, 0.1)',
       minHeight: '32px',
       height: '32px',

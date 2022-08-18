@@ -7,11 +7,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.5);
   opacity: 0;
   pointer-events: none;
   transition: all 0.5s;
-
 
   &.active {
     opacity: 1;
@@ -23,6 +22,7 @@
     width: 700px;
     background: #F3F3F3;
     border-radius: 8px;
+
     transform: scale(0.5);
     transition: all .5s;
     padding: 15px 25px;
@@ -46,4 +46,12 @@
   &__overflow{
     overflow-y: auto;
   }
+}
+
+.modalMenuContent
+{
+  z-index: 1000;
+  position: absolute;
+  top: 56px;
+  right: 26px;
 }

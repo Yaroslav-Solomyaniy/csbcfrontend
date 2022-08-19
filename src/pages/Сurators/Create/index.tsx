@@ -41,7 +41,7 @@ export const CuratorCreateModal = ({ modalActive, closeModal }: ICreateModal): J
   };
 
   useEffect(() => {
-    closeModal();
+    handleClose();
     if (curatorCreate?.data) {
       addInfo(`${formData.lastName} ${formData.firstName} ${formData.patronymic} доданий у список`);
     }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ModalWindow from '../../../../components/common/ModalWindow';
 import ModalControlButtons from '../../../../components/common/ModalControlButtons';
 import pagesStyle from '../../../pagesStyle.module.scss';
@@ -7,6 +7,7 @@ import { useTeachersContext } from '../../../../context/teachers';
 import { Email, EmailValidation } from '../../../../types/regExp';
 import { IUserCreateParams } from '../../../../hooks/useUser';
 import { ICreateModal } from '../../../../types';
+import { useMessagesContext } from '../../../../context/useMessagesContext';
 
 const formInitialData: IUserCreateParams = {
   firstName: '',
@@ -20,6 +21,7 @@ export const TeacherCreateModal = ({ modalActive, closeModal }: ICreateModal): J
   const { teacherCreate } = useTeachersContext();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState<IUserCreateParams>(formInitialData);
+  const { addInfo } = useMessagesContext();
 
   const handleClose = () => {
     setIsSubmitted(false);
@@ -33,16 +35,17 @@ export const TeacherCreateModal = ({ modalActive, closeModal }: ICreateModal): J
     e?.preventDefault?.();
     setIsSubmitted(true);
 
-    if (
-      !!formData.firstName
-      && !!formData.lastName
-      && !!formData.patronymic
-      && !!formData.email
-    ) {
-      handleClose();
+    if (formData.firstName && formData.lastName && formData.patronymic && Email.test(formData.email)) {
       teacherCreate?.createUser(formData);
     }
   };
+
+  useEffect(() => {
+    if (teacherCreate?.data) {
+      handleClose();
+      addInfo(`${formData.lastName} ${formData.firstName} ${formData.patronymic} доданий у список`);
+    }
+  }, [teacherCreate?.data]);
 
   return (
     <ModalWindow modalTitle="Створення викладача" active={modalActive} closeModal={handleClose}>

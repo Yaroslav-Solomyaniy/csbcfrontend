@@ -24,6 +24,18 @@ export const TeachersDeleteModal = ({ modalActive, closeModal, Id }: IDeleteModa
     }, 1500);
   };
 
+  const onSubmit = (e: React.FormEvent | undefined) => {
+    e?.preventDefault?.();
+    teacherDelete?.userDelete(Id);
+  };
+
+  useEffect(() => {
+    if (teacherDelete?.data) {
+      closeModal();
+      addInfo(`Викладач "${formData.lastName} ${formData.firstName} ${formData.patronymic}" видалений`);
+    }
+  }, [teacherDelete?.data]);
+
   useEffect(() => {
     if (Id) {
       getTeacherById?.getUserId({ id: `${Id}` });
@@ -39,18 +51,6 @@ export const TeachersDeleteModal = ({ modalActive, closeModal, Id }: IDeleteModa
       });
     }
   }, [getTeacherById?.data]);
-
-  useEffect(() => {
-    if (teacherDelete?.data) {
-      closeModal();
-      addInfo(`Викладач "${formData.lastName} ${formData.firstName} ${formData.patronymic}" видалений`);
-    }
-  }, [teacherDelete?.data]);
-
-  const onSubmit = (e: React.FormEvent | undefined) => {
-    e?.preventDefault?.();
-    teacherDelete?.userDelete(Id);
-  };
 
   return (
     <ModalWindow modalTitle="Видалення викладача" active={modalActive} closeModal={handleClose}>

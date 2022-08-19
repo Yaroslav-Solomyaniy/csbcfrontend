@@ -93,7 +93,7 @@ export const useGradesGet = (): IUseGradesGet => {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
-      params: { orderByColumn: 'id', orderBy: 'DESC', ...params },
+      params: { orderByColumn: 'updated', orderBy: 'DESC', ...params },
     })
       .then((response: AxiosResponse<IPaginateData<IGetGradesData> | null>) => {
         setData(response.data);

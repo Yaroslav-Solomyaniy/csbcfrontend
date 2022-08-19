@@ -5,7 +5,7 @@ import { useAuthContext } from '../context/useAuthContext';
 import { useMessagesContext } from '../context/useMessagesContext';
 
 export interface IGetCuratorParams {
-  orderByColumn?: 'id' | 'updated';
+  orderByColumn?: 'id' | 'firstName' | 'lastName' | 'email' | 'role' | 'created' | 'updated';
   groupName?: string;
   curatorId?: number;
   orderBy?: OrderBy;
@@ -41,6 +41,7 @@ export const useCuratorsGet = (): IUseCuratorsGet => {
       },
       params: {
         orderByColumn: 'updated',
+        orderBy: 'DESC',
         ...params,
       },
     })

@@ -8,6 +8,14 @@ export interface IGetTeacherParams {
   teacherId?: number;
   groups: string | number;
   courses: string | number;
+  orderByColumns?:
+    'id'
+    | 'firstName'
+    | 'lastName'
+    | 'email'
+    | 'role'
+    | 'created'
+    | 'updated';
   orderBy?: OrderBy;
   page?: number;
   limit?: number;
@@ -53,7 +61,7 @@ export const useTeacherGet = (): IUseTeachersGet => {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
-      params: { orderByColumn: 'id', orderBy: 'DESC', ...params },
+      params: { orderByColumn: 'updated', orderBy: 'DESC', ...params },
     })
       .then((response: AxiosResponse<IPaginateData<IGetTeacherData> | null>) => {
         setData(response.data);

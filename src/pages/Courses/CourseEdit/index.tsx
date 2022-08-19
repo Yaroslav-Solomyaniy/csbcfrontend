@@ -45,7 +45,7 @@ export const CourseEdit = ({ modalActive, closeModal, Id }: IEditModal): JSX.Ele
     if (formData.name && formData.credits
       && formData.teacher && formData.semester
       && formData.lectureHours && formData.groups.toString().length >= 1
-    ) {
+      && (formData.isCompulsory === 'true' || formData.isCompulsory === 'false')) {
       courseEdit?.courseEdit({ ...formData, isCompulsory: formData.isCompulsory === 'true' }, Id);
     }
   };
@@ -67,7 +67,7 @@ export const CourseEdit = ({ modalActive, closeModal, Id }: IEditModal): JSX.Ele
         isActive: getCourseId.data.isActive,
         isExam: !!getCourseId.data.isExam,
         lectureHours: getCourseId.data.lectureHours ? +getCourseId.data.lectureHours : null,
-        isCompulsory: getCourseId.data.isCompulsory,
+        isCompulsory: `${getCourseId.data.isCompulsory}`,
       };
 
       setFormData(data);

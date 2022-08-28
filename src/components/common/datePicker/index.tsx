@@ -20,6 +20,7 @@ interface IMyDatePicker {
   showTimeInput?:boolean;
   timeFormat?:string;
   timeInputLabel?:string;
+  showTimeSelect?:boolean;
   selected?: Date;
 }
 
@@ -33,6 +34,7 @@ const MyDatePicker = ({
   showMonthDropdown,
   timeFormat,
   dateFormat,
+  showTimeSelect,
   minDate,
   maxDate,
   showDisabledMonthNavigation,
@@ -54,7 +56,9 @@ const MyDatePicker = ({
         onChange={onChange}
         showMonthDropdown={showMonthDropdown}
         dateFormat={dateFormat}
+        showTimeSelect={showTimeSelect}
         minDate={minDate}
+        timeIntervals={15}
         maxDate={maxDate}
         showDisabledMonthNavigation={showDisabledMonthNavigation}
         showTimeInput={showTimeInput}
@@ -85,6 +89,7 @@ MyDatePicker.defaultProps = {
   timeFormat: '',
   timeInputLabel: '',
   selected: null,
+  showTimeSelect: false,
 };
 
 export default MyDatePicker;

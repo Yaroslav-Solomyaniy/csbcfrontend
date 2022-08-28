@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import TitlePage from '../../components/TitlePage';
 import Button from '../../components/common/Button/index';
 import styles from './index.module.scss';
@@ -10,6 +10,11 @@ import { ITableRowItem } from '../../components/common/table/TableBody';
 import { initialPagination, Pagination } from '../../types';
 import VotingResultModal from './Result';
 import VotingCreateModal from './Create';
+import { useVotingAdminContext, VotingAdminContext } from '../../context/voting';
+import { IGetVotingAdminData, IGetVotingAdminParams } from '../../hooks/useVotingAdmin';
+import { Delete, Edit, Review } from '../../components/common/Icon';
+import VotingEditModal from './Edit';
+import VotingDeleteModal from './Delete';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'Групи' },
@@ -24,14 +29,14 @@ export interface IIsActiveModalState {
   create: boolean;
   edit: number;
   delete: number;
-  result: boolean;
+  result: number;
 }
 
 const allCloseModalWindow: IIsActiveModalState = {
   create: false,
   edit: 0,
   delete: 0,
-  result: false,
+  result: 0,
 };
 
 interface Params {
@@ -44,66 +49,82 @@ const VotingAdmin = (): JSX.Element => {
   });
   const [isActiveModal, setIsActiveModal] = useState(allCloseModalWindow);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
+  const { getVoting, votingCreate, votingEdit, votingDelete } = useVotingAdminContext();
 
   const closeModal = () => {
     setIsActiveModal(allCloseModalWindow);
   };
 
-  /* useEffect(() => {
-     if (getAdministrators?.data) {
-       setParams({ ...params, pagination: getAdministrators.data.meta });
-       setDataRow(getAdministrators?.data?.items.map((item: IGetUserData) => ({
-         list: [
-           { id: 1, label: `${item.lastName} ${item.firstName} ${item.patronymic}` },
-           { id: 2, label: item.email },
-           {
-             id: 3,
-             label: (
-               <div className={pagesStyle.actions}>
-                 <Button
-                   onClick={() => setIsActiveModal({ ...isActiveModal, edit: item.id })}
-                   isImg
-                 >
-                   <Edit/>
-                 </Button>
-                 <Button
-                   onClick={() => setIsActiveModal({ ...isActiveModal, delete: item.id })}
-                   isImg
-                 >
-                   <Delete/>
-                 </Button>
-               </div>
-             ),
-           },
-         ],
-         key: item.id,
-       })));
-     }
-   }, [getAdministrators?.data]); */
+  useEffect(() => {
+    const query: IGetVotingAdminParams = {};
+
+    if (params.pagination.currentPage) query.page = params.pagination.currentPage;
+    if (params.pagination.itemsPerPage) query.limit = params.pagination.itemsPerPage;
+
+    getVoting?.votingGet(query);
+  }, [
+    votingCreate?.data,
+    votingEdit?.data,
+    votingDelete?.data,
+    params.pagination.currentPage,
+    params.pagination.itemsPerPage,
+  ]);
+
+  useEffect(() => {
+    if (getVoting?.data) {
+      setParams({ ...params, pagination: getVoting.data.meta });
+      setDataRow(getVoting?.data?.items.map((item: IGetVotingAdminData) => ({
+        list: [
+          { id: 1, label: item.groups.map((group) => group.name).join(', ') },
+          { id: 2, label: new Date(item.startDate).toLocaleString() },
+          { id: 3, label: new Date(item.endDate).toLocaleString() },
+          { id: 4, label: `${item.tookPart} / ${item.allStudents}` },
+          { id: 5, label: item.status },
+          {
+            id: 6,
+            label: (
+              <div className={pagesStyle.actions}>
+                <Button
+                  onClick={() => setIsActiveModal({ ...isActiveModal, edit: item.id })}
+                  isImg
+                >
+                  <Edit />
+                </Button>
+                <Button
+                  onClick={() => setIsActiveModal({ ...isActiveModal, delete: item.id })}
+                  isImg
+                >
+                  <Delete />
+                </Button>
+                <Button
+                  onClick={() => setIsActiveModal({ ...isActiveModal, result: item.id })}
+                  isImg
+                >
+                  <Review />
+                </Button>
+              </div>
+            ),
+          },
+        ],
+        key: item.id,
+      })));
+    }
+  }, [getVoting?.data]);
+
   return (
     <Layout>
       <div>
         <TitlePage
           title="Голосування"
           action={(
-            <>
-              <Button
-                nameClass="primary"
-                size="large"
-                className={pagesStyle.buttonsCreate}
-                onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
-              >
-                Створити
-              </Button>
-              <Button
-                nameClass="primary"
-                size="large"
-                className={pagesStyle.buttonsCreate}
-                onClick={() => setIsActiveModal({ ...isActiveModal, result: true })}
-              >
-                Результати
-              </Button>
-            </>
+            <Button
+              nameClass="primary"
+              size="large"
+              className={pagesStyle.buttonsCreate}
+              onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
+            >
+              Створити
+            </Button>
           )}
         />
 
@@ -115,9 +136,13 @@ const VotingAdmin = (): JSX.Element => {
           onPaginationChange={(newPagination) => setParams({ ...params, pagination: newPagination })}
         />
         <VotingCreateModal modalActive={isActiveModal.create} closeModal={closeModal} />
-        {/* <VotingEditModal modalActive={!!isActiveModal.edit} Id={isActiveModal.edit} closeModal={closeModal} />
-        <VotingDeleteModal modalActive={!!isActiveModal.delete} Id={isActiveModal.delete} closeModal={closeModal} /> */}
-        <VotingResultModal modalActive={isActiveModal.result} Id={isActiveModal.edit} closeModal={closeModal} />
+        <VotingEditModal modalActive={!!isActiveModal.edit} Id={isActiveModal.edit} closeModal={closeModal} />
+        <VotingDeleteModal modalActive={!!isActiveModal.delete} Id={isActiveModal.delete} closeModal={closeModal} />
+        <VotingResultModal
+          modalActive={!!isActiveModal.result}
+          votingId={isActiveModal.result}
+          closeModal={closeModal}
+        />
       </div>
     </Layout>
   );

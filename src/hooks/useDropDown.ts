@@ -106,6 +106,7 @@ interface IGetListCoursesParams{
     | 'created'
     | 'updated';
   orderBy?: OrderBy;
+  isCompulsory?: boolean;
   courseName?: string | number;
   page?:number;
   limit?: number;

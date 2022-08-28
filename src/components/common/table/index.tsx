@@ -44,7 +44,7 @@ const Table = ({
 );
 
 Table.defaultProps = {
-  pagination: [],
+  pagination: null,
   onPaginationChange: undefined,
   filter: <div />,
   isScroll: false,

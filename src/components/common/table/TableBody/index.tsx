@@ -52,8 +52,8 @@ const TableBody = ({ dataRow, gridColumns, pagination, onPaginationChange }: ITa
 );
 
 TableBody.defaultProps = {
-  pagination: [],
-  onPaginationChange: (e: any) => undefined,
+  pagination: null,
+  onPaginationChange: undefined,
   isScroll: false,
 };
 

@@ -10,7 +10,7 @@ import { ITableRowItem } from '../../components/common/table/TableBody';
 import { initialPagination, Pagination } from '../../types';
 import VotingResultModal from './Result';
 import VotingCreateModal from './Create';
-import { useVotingAdminContext, VotingAdminContext } from '../../context/voting';
+import { useVotingAdminContext } from '../../context/voting';
 import { IGetVotingAdminData, IGetVotingAdminParams } from '../../hooks/useVotingAdmin';
 import { Delete, Edit, Review } from '../../components/common/Icon';
 import VotingEditModal from './Edit';
@@ -47,6 +47,7 @@ const VotingAdmin = (): JSX.Element => {
   const [params, setParams] = useState<Params>({
     pagination: initialPagination,
   });
+  const { getVoting, votingDelete, votingEdit, votingCreate } = useVotingAdminContext();
   const [isActiveModal, setIsActiveModal] = useState(allCloseModalWindow);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
 
@@ -135,7 +136,7 @@ const VotingAdmin = (): JSX.Element => {
           onPaginationChange={(newPagination) => setParams({ ...params, pagination: newPagination })}
         />
         <VotingCreateModal modalActive={isActiveModal.create} closeModal={closeModal} />
-        <VotingEditModal modalActive={!!isActiveModal.edit} Id={isActiveModal.edit} closeModal={closeModal} />
+        <VotingEditModal modalActive={!!isActiveModal.edit} studentId={isActiveModal.edit} closeModal={closeModal} />
         <VotingDeleteModal modalActive={!!isActiveModal.delete} Id={isActiveModal.delete} closeModal={closeModal} />
         <VotingResultModal
           modalActive={!!isActiveModal.result}

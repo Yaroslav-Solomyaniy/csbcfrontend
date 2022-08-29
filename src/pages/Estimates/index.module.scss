@@ -46,7 +46,7 @@
   padding: 10px;
   left: 100%;
   top: 0;
-  border: 1px solid #2d70a9;
+  border: 1px solid #349aff;
   border-radius: 4px;
   margin: 0;
 
@@ -54,14 +54,14 @@
     height: auto;
     width: 20%;
     text-align: center;
-    background-color: #7cacff;
-    border: 1px solid #2d70a9;
+    background-color: #349aff;
+    border: 1px solid #0088ff;
     border-radius: 4px;
   }
 
   &__open {
     transition: all 0.5s;
-    background-color: #D7E7F4;
+    //background-color: #D7E7F4;
     left: 0;
   }
 }

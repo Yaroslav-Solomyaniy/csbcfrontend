@@ -216,7 +216,7 @@ const Teachers = (): JSX.Element => {
           onPaginationChange={(newPagination) => setParams({ ...params, pagination: newPagination })}
         />
         <TeacherCreateModal modalActive={isActiveModal.create} closeModal={closeModal} />
-        <TeacherEditModal modalActive={!!isActiveModal.edit} closeModal={closeModal} Id={isActiveModal.edit} />
+        <TeacherEditModal modalActive={!!isActiveModal.edit} closeModal={closeModal} studentId={isActiveModal.edit} />
         <TeachersDeleteModal modalActive={!!isActiveModal.delete} closeModal={closeModal} Id={isActiveModal.delete} />
       </div>
     </Layout>

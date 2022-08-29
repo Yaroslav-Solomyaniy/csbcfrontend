@@ -29,7 +29,7 @@ const formInitialData = {
   isFullTime: undefined,
 };
 
-export const StudentsEditModal = ({ modalActive, closeModal, Id }: IEditModal): JSX.Element => {
+export const StudentsEditModal = ({ modalActive, closeModal, studentId }: IEditModal): JSX.Element => {
   const { studentEdit, getStudentById } = useStudentsContext();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState<IStudentCreateParams>(formInitialData);
@@ -57,15 +57,18 @@ export const StudentsEditModal = ({ modalActive, closeModal, Id }: IEditModal): 
       && formData.user.patronymic
       && Email.test(formData.user.email)
     ) {
-      studentEdit?.studentEdit({ ...formData, dateOfBirth: moment(formData.dateOfBirth).format('DD.MM.yyyy') }, Id);
+      studentEdit?.studentEdit({
+        ...formData,
+        dateOfBirth: moment(formData.dateOfBirth).format('DD.MM.yyyy'),
+      }, studentId);
     }
   };
 
   useEffect(() => {
-    if (Id) {
-      getStudentById?.getStudentId({ id: `${Id}` });
+    if (studentId) {
+      getStudentById?.getStudentId({ id: `${studentId}` });
     }
-  }, [Id]);
+  }, [studentId]);
 
   useEffect(() => {
     if (studentEdit?.data) {
@@ -132,7 +135,7 @@ export const StudentsEditModal = ({ modalActive, closeModal, Id }: IEditModal): 
         <MyDatePicker
           label="Дата народження"
           placeholder="Дата народження"
-          onChange={(date:Date | null) => setFormData({ ...formData, dateOfBirth: date || null })}
+          onChange={(date: Date | null) => setFormData({ ...formData, dateOfBirth: date || null })}
           selected={formData.dateOfBirth !== null ? new Date(formData.dateOfBirth) : undefined}
           showMonthDropdown
           showDisabledMonthNavigation

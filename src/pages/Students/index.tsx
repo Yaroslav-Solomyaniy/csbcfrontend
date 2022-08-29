@@ -86,7 +86,7 @@ const Students = (): JSX.Element => {
   useEffect(() => {
     if (getStudents?.data) {
       setParams({ ...params, pagination: getStudents.data.meta });
-      setDataRow(getStudents.data.items.map((item:IStudentData) => ({
+      setDataRow(getStudents.data.items.map((item: IStudentData) => ({
         list: [
           { id: 1, label: `${item.user.lastName} ${item.user.firstName} ${item.user.patronymic}` },
           { id: 2, label: item.group.name },
@@ -201,7 +201,7 @@ const Students = (): JSX.Element => {
           onPaginationChange={(newPagination) => setParams({ ...params, pagination: newPagination })}
         />
         <StudentsCreateModal modalActive={isActiveModal.create} closeModal={closeModal} />
-        <StudentsEditModal modalActive={!!isActiveModal.edit} closeModal={closeModal} Id={isActiveModal.edit} />
+        <StudentsEditModal modalActive={!!isActiveModal.edit} closeModal={closeModal} studentId={isActiveModal.edit} />
         <StudentsDelete modalActive={!!isActiveModal.delete} closeModal={closeModal} studentId={isActiveModal.delete} />
         <StudentsReview modalActive={!!isActiveModal.review} closeModal={closeModal} id={isActiveModal.review} />
       </div>

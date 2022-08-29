@@ -94,7 +94,6 @@ const ActionsButton = ({
         )}
         // onClick={() => close(0)}
       >
-        semester:
         <Button onClick={() => close(1)} type="button">I</Button>
         <Button onClick={() => close(2)} type="button">II</Button>
         <Button onClick={() => close(3)} type="button">III</Button>

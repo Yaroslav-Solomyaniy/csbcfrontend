@@ -12,10 +12,10 @@ interface ITable {
   dataRow: ITableRowItem[];
   gridColumns: string;
   filter?: JSX.Element;
-  isScroll?: boolean;
-  columScrollHorizontal?: number;
   pagination?: Pagination;
   onPaginationChange?: (pagination: Pagination) => void;
+  columScrollHorizontal?: number;
+  isScroll?: boolean;
 }
 
 const Table = ({
@@ -25,6 +25,7 @@ const Table = ({
   filter,
   pagination,
   onPaginationChange,
+  columScrollHorizontal,
   isScroll,
 }: ITable): JSX.Element => (
   <>

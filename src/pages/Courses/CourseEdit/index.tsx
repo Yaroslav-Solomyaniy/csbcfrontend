@@ -46,7 +46,7 @@ export const CourseEdit = ({ modalActive, closeModal, studentId }: IEditModal): 
       && formData.teacher && formData.semester
       && formData.lectureHours && formData.groups.toString().length >= 1
       && (formData.isCompulsory === 'true' || formData.isCompulsory === 'false')) {
-      courseEdit?.courseEdit({ ...formData, isCompulsory: formData.isCompulsory === 'true' }, Id);
+      courseEdit?.courseEdit({ ...formData, isCompulsory: formData.isCompulsory === 'true' }, studentId);
     }
   };
 

@@ -20,7 +20,7 @@ const formInitialData: IVotingEditParams = {
   notRequiredCourses: [],
 };
 
-export const VotingEditModal = ({ modalActive, closeModal, Id }: IEditModal): JSX.Element => {
+export const VotingEditModal = ({ modalActive, closeModal, studentId }: IEditModal): JSX.Element => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState(formInitialData);
   const { votingGetById, votingEdit } = useVotingAdminContext();
@@ -44,9 +44,11 @@ export const VotingEditModal = ({ modalActive, closeModal, Id }: IEditModal): JS
       && formData.endDate
       && (formData.endDate > formData.startDate)
     ) {
-      votingEdit?.votingEdit({ ...formData,
+      votingEdit?.votingEdit({
+        ...formData,
         startDate: moment(formData.startDate).format(),
-        endDate: moment(formData.endDate).format() }, Id);
+        endDate: moment(formData.endDate).format(),
+      }, studentId);
     }
   };
 
@@ -58,10 +60,10 @@ export const VotingEditModal = ({ modalActive, closeModal, Id }: IEditModal): JS
   }, [votingEdit?.data]);
 
   useEffect(() => {
-    if (Id) {
-      votingGetById?.getVotingById({ id: `${Id}` });
+    if (studentId) {
+      votingGetById?.getVotingById({ id: `${studentId}` });
     }
-  }, [Id]);
+  }, [studentId]);
 
   useEffect(() => {
     if (votingGetById?.data) {
@@ -132,7 +134,7 @@ export const VotingEditModal = ({ modalActive, closeModal, Id }: IEditModal): JS
         <MyDatePicker
           label="Дата початку"
           placeholder="Дата початку"
-          onChange={(date:Date | null) => setFormData({ ...formData, startDate: date || null })}
+          onChange={(date: Date | null) => setFormData({ ...formData, startDate: date || null })}
           selected={formData.startDate !== null ? new Date(formData.startDate) : undefined}
           showMonthDropdown
           showTimeInput
@@ -147,7 +149,7 @@ export const VotingEditModal = ({ modalActive, closeModal, Id }: IEditModal): JS
         <MyDatePicker
           label="Дата кінця"
           placeholder="Дата кінця"
-          onChange={(date:Date | null) => setFormData({ ...formData, endDate: date || null })}
+          onChange={(date: Date | null) => setFormData({ ...formData, endDate: date || null })}
           selected={formData.endDate !== null ? new Date(formData.endDate) : undefined}
           showMonthDropdown
           showTimeInput

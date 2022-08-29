@@ -4,57 +4,68 @@ import ModalControlButtons from '../../../../components/common/ModalControlButto
 import pagesStyle from '../../../pagesStyle.module.scss';
 import ModalInput from '../../../../components/common/ModalInput';
 import { useTeachersContext } from '../../../../context/teachers';
-import { ITeacher } from '../../../../hooks/useTeachers';
-import MultiSelectCourses from '../../../../components/common/MultiSelect/MultiSelectCourses';
+import { Email, EmailValidation } from '../../../../types/regExp';
+import { IEditModal } from '../../../../types';
+import { IUserEditParams } from '../../../../hooks/useUser';
+import { useMessagesContext } from '../../../../context/useMessagesContext';
 
-interface IStudentsDeleteModal {
-  modalActive: boolean;
-  closeModal: () => void;
-  id: number;
-}
-
-const formInitialData: ITeacher = {
+const formInitialData: IUserEditParams = {
   firstName: '',
   lastName: '',
   patronymic: '',
   email: '',
-  courses: [],
 };
 
-export const StudentsEditModal = ({ modalActive, closeModal, id }: IStudentsDeleteModal): JSX.Element => {
-  const { patchTeacher, getTeacherId } = useTeachersContext();
+export const TeacherEditModal = ({ modalActive, closeModal, Id }: IEditModal): JSX.Element => {
+  const { teacherEdit, getTeacherById } = useTeachersContext();
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [formData, setFormData] = useState<ITeacher>(formInitialData);
+  const [formData, setFormData] = useState<IUserEditParams>(formInitialData);
+  const { addInfo } = useMessagesContext();
 
   const handleClose = () => {
     setIsSubmitted(false);
-    setFormData(formInitialData);
     closeModal();
+    setTimeout(() => {
+      setFormData(formInitialData);
+    }, 1500);
   };
 
   const onSubmit = (e: React.FormEvent | undefined) => {
     e?.preventDefault?.();
     setIsSubmitted(true);
-    patchTeacher?.patchTeacher(formData, id);
-    setFormData(formInitialData);
-    handleClose();
+
+    if (formData.firstName
+      && formData.lastName
+      && formData.patronymic
+      && formData.lastName
+      && Email.test(formData.email)) {
+      teacherEdit?.userEdit({ ...formData }, Id);
+    }
   };
 
   useEffect(() => {
-    if (id) getTeacherId?.getTeacherId(id);
-  }, [id]);
+    if (teacherEdit?.data) {
+      handleClose();
+      addInfo(`Викладач "${formData.lastName} ${formData.firstName} ${formData.patronymic}" відредагований`);
+    }
+  }, [teacherEdit?.data]);
 
   useEffect(() => {
-    if (getTeacherId?.data && id !== 0) {
+    if (Id) {
+      getTeacherById?.getUserId({ id: `${Id}` });
+    }
+  }, [Id]);
+
+  useEffect(() => {
+    if (getTeacherById?.data) {
       setFormData({
-        firstName: getTeacherId?.data?.firstName,
-        lastName: getTeacherId?.data?.lastName,
-        patronymic: getTeacherId?.data?.patronymic,
-        email: getTeacherId?.data?.email,
-        courses: getTeacherId?.data?.courses.map((course) => course.id) || [],
+        firstName: getTeacherById.data.firstName,
+        lastName: getTeacherById.data.lastName,
+        patronymic: getTeacherById.data.patronymic,
+        email: getTeacherById.data.email,
       });
     }
-  }, [getTeacherId?.data]);
+  }, [getTeacherById?.data]);
 
   return (
     <ModalWindow modalTitle="Редагуваня викладача" active={modalActive} closeModal={handleClose}>
@@ -64,7 +75,7 @@ export const StudentsEditModal = ({ modalActive, closeModal, id }: IStudentsDele
           placeholder="Прізвище"
           required
           value={formData.lastName}
-          onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+          onChange={(e) => setFormData({ ...formData, lastName: e.target.value.slice(0, 20) })}
           error={isSubmitted && !formData.lastName ? 'Прізвище не введено' : ''}
         />
         <ModalInput
@@ -72,35 +83,26 @@ export const StudentsEditModal = ({ modalActive, closeModal, id }: IStudentsDele
           placeholder="Ім`я"
           required
           value={formData.firstName}
-          onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+          onChange={(e) => setFormData({ ...formData, firstName: e.target.value.slice(0, 15) })}
           error={isSubmitted && !formData.firstName ? 'Ім`я не введено' : ''}
         />
         <ModalInput
-          label="По-Батькові"
-          placeholder="По-Батькові"
+          label="По батькові"
+          placeholder="По батькові"
           required
           value={formData.patronymic}
-          onChange={(e) => setFormData({ ...formData, patronymic: e.target.value })}
-          error={isSubmitted && !formData.patronymic ? 'По-Батькові не введено' : ''}
+          onChange={(e) => setFormData({ ...formData, patronymic: e.target.value.slice(0, 20) })}
+          error={isSubmitted && !formData.patronymic ? 'По батькові не введено' : ''}
         />
         <ModalInput
-          label="E-Mail"
-          placeholder="E-Mail"
+          label="Електронна пошта"
+          placeholder="Електронна пошта"
           required
           value={formData.email}
-          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-          error={isSubmitted && !formData.email ? 'E-Mail не введено' : ''}
-        />
-        <MultiSelectCourses
-          type="modal"
-          label="Предмети"
-          placeholder="Предмети"
-          required
-          value={formData.courses.map((value) => `${value}`)}
-          onChange={(value) => setFormData({
-            ...formData,
-            courses: value.map((option) => +option.value),
-          })}
+          onChange={(e) => setFormData({ ...formData, email: e.target.value.slice(0, 40) })}
+          error={isSubmitted && !Email.test(formData.email)
+            ? (formData.email.length < 1 ? 'Електронну пошту не введено' : 'Електронна пошта введено не вірно') : ''}
+          pattern={EmailValidation}
         />
       </form>
       <ModalControlButtons
@@ -113,4 +115,4 @@ export const StudentsEditModal = ({ modalActive, closeModal, id }: IStudentsDele
   );
 };
 
-export default StudentsEditModal;
+export default TeacherEditModal;

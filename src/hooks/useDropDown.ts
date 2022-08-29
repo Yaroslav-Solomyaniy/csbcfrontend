@@ -93,6 +93,24 @@ export const useGetListCurators = (): IUseGetListCurators => {
 };
 
 // GET LIST COURSES
+interface IGetListCoursesParams{
+  orderByColumn?: 'id'
+    | 'name'
+    | 'credits'
+    | 'lectureHours'
+    | 'isActive'
+    | 'semester'
+    | 'isCompulsory'
+    | 'teacher'
+    | 'groups'
+    | 'created'
+    | 'updated';
+  orderBy?: OrderBy;
+  isCompulsory?: boolean;
+  courseName?: string | number;
+  page?:number;
+  limit?: number;
+}
 
 export interface IGetListCoursesData {
   id: number;
@@ -126,7 +144,7 @@ export interface IGetListCoursesData {
 
 interface IUseGetListCourses {
   optionCourses: IPaginateData<IGetListCoursesData> | null;
-  getListCourses: () => void;
+  getListCourses: (params?: IGetListCoursesParams) => void;
 }
 
 export const useGetListCourses = (): IUseGetListCourses => {
@@ -134,12 +152,12 @@ export const useGetListCourses = (): IUseGetListCourses => {
   const { user } = useAuthContext();
   const [optionCourses, setOptionCourses] = useState<IPaginateData<IGetListCoursesData> | null>(null);
 
-  const getListCourses = () => {
+  const getListCourses = (params?: IGetListCoursesParams) => {
     axios.get(`${process.env.REACT_APP_API_URL}/courses/course/dropdown`, {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
-      params: { limit: 100, orderBy: 'DESC' },
+      params: { OrderByColumn: 'updated', limit: 100, orderBy: 'DESC', ...params },
     })
       .then((response: AxiosResponse<IPaginateData<IGetListCoursesData> | null>) => {
         setOptionCourses(response.data);
@@ -155,10 +173,11 @@ export const useGetListCourses = (): IUseGetListCourses => {
 // GET LIST TEACHER
 
 interface IGetListTeachersParams {
+  orderByColumn?: 'id' | 'firstname' | 'lastname' | 'email' | 'role' | 'created' | 'updated';
   orderBy?: OrderBy;
+  page?: number;
+  limit?: number;
   teacherName?: string;
-  page?: string;
-  limit?: string;
 }
 
 interface IGetListTeachersData {
@@ -183,7 +202,7 @@ export const useGetListTeachers = (): IUseGetListTeachers => {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
-      params: { limit: 100, orderBy: 'DESC', ...params },
+      params: { OrderByColumn: 'updated', limit: 100, orderBy: 'DESC', ...params },
     })
       .then((response: AxiosResponse<IPaginateData<IGetListTeachersData> | null>) => {
         setListTeachers(response.data);

@@ -48,9 +48,11 @@ export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateMod
 
   const handleClose = () => {
     setIsSubmitted(false);
-    setFormData(formInitialData);
-    setSelectValue(selectValueDefault);
     closeModal();
+    setTimeout(() => {
+      setFormData(formInitialData);
+      setSelectValue(selectValueDefault);
+    }, 1500);
   };
 
   useEffect(() => {

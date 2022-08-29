@@ -4,19 +4,19 @@ import { ITableRowItem } from '../../components/common/table/TableBody';
 import { initialPagination, Pagination } from '../../types';
 import { useTeachersContext } from '../../context/teachers';
 import { IGetTeacherData, IGetTeacherParams } from '../../hooks/useTeachers';
+import { Delete, Edit } from '../../components/common/Icon';
 import Layout from '../../loyout/Layout';
 import Button from '../../components/common/Button';
 import SelectCourse from '../../components/common/Select/SelectCourse';
 import TitlePage from '../../components/TitlePage';
 import Table from '../../components/common/table';
-import TeachersDelete from './modal/TeachersDelete';
-import TeachersCreate from './modal/TeachersCreate';
 import SelectTeacher from '../../components/common/Select/SelectTeacher';
 import styles from './index.module.scss';
 import pagesStyle from '../pagesStyle.module.scss';
-import TeachersEdit from './modal/TeachersEdit';
 import SelectGroupById from '../../components/common/Select/SelectGroupById';
-import { Delete, Edit } from '../../components/common/Icon';
+import TeachersDeleteModal from './modal/TeachersDelete';
+import TeacherCreateModal from './modal/TeachersCreate';
+import TeacherEditModal from './modal/TeachersEdit';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІП' },
@@ -50,7 +50,7 @@ interface Params {
 }
 
 const Teachers = (): JSX.Element => {
-  const { getTeacher, createTeacher, patchTeacher, deleteTeacher } = useTeachersContext();
+  const { teachersGet, teacherCreate, teacherEdit, teacherDelete } = useTeachersContext();
   const [isActiveModal, setIsActiveModal] = useState<IIsActiveTeacherModalState>(allCloseModalWindow);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
   const [params, setParams] = useState<Params>({
@@ -115,14 +115,6 @@ const Teachers = (): JSX.Element => {
     }) : []);
 
   useEffect(() => {
-    getTeacher?.getTeacher({ groups: '', courses: '' });
-  }, [
-    createTeacher?.data,
-    patchTeacher?.data,
-    deleteTeacher?.data,
-  ]);
-
-  useEffect(() => {
     const query: IGetTeacherParams = { groups: '', courses: '' };
 
     if (params.filter.teacherId) query.teacherId = params.filter.teacherId;
@@ -131,7 +123,7 @@ const Teachers = (): JSX.Element => {
     if (params.pagination.currentPage) query.page = params.pagination.currentPage;
     if (params.pagination.itemsPerPage) query.limit = params.pagination.itemsPerPage;
 
-    getTeacher?.getTeacher(query);
+    teachersGet?.getTeacher(query);
   }, [
     params.filter.teacherId,
     params.filter.group,
@@ -141,15 +133,15 @@ const Teachers = (): JSX.Element => {
   ]);
 
   useEffect(() => {
-    if (getTeacher?.data) {
-      setParams({ ...params, pagination: getTeacher.data.meta });
-      setDataRow(tableRows(getTeacher.data ? getTeacher.data.items : []));
+    if (teachersGet?.data) {
+      setParams({ ...params, pagination: teachersGet.data.meta });
+      setDataRow(tableRows(teachersGet.data ? teachersGet.data.items : []));
     }
   }, [
-    createTeacher?.data,
-    getTeacher?.data,
-    patchTeacher?.data,
-    deleteTeacher?.data,
+    teacherCreate?.data,
+    teachersGet?.data,
+    teacherEdit?.data,
+    teacherDelete?.data,
   ]);
 
   return (
@@ -223,9 +215,9 @@ const Teachers = (): JSX.Element => {
           pagination={params.pagination}
           onPaginationChange={(newPagination) => setParams({ ...params, pagination: newPagination })}
         />
-        <TeachersCreate modalActive={isActiveModal.create} closeModal={closeModal} />
-        <TeachersEdit modalActive={!!isActiveModal.edit} closeModal={closeModal} id={isActiveModal.edit} />
-        <TeachersDelete modalActive={!!isActiveModal.delete} closeModal={closeModal} id={isActiveModal.delete} />
+        <TeacherCreateModal modalActive={isActiveModal.create} closeModal={closeModal} />
+        <TeacherEditModal modalActive={!!isActiveModal.edit} closeModal={closeModal} Id={isActiveModal.edit} />
+        <TeachersDeleteModal modalActive={!!isActiveModal.delete} closeModal={closeModal} Id={isActiveModal.delete} />
       </div>
     </Layout>
   );

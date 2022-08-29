@@ -68,9 +68,7 @@ const MultiSelectCourseSemestr = ({
             onChange={(e) => updateCourse(obj.id, e)}
             type="multimodal"
             menuPos="absolute"
-            menuPlace={
-           /*  data.length < 3 && */'auto'
-            }
+            menuPlace="auto"
           />
           <SelectSemester
             value={obj.semester}
@@ -78,6 +76,7 @@ const MultiSelectCourseSemestr = ({
             type="modal"
             menuPos="absolute"
             menuPlace="bottom"
+            isSemesterInMultiSelect
           />
           {index === data.length - 1
             ? (

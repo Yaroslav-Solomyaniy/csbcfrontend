@@ -35,36 +35,18 @@ const StudentsReview = ({ modalActive, closeModal, id }: IStudentsReviewModal) =
   }, [id]);
 
   return (
-    <div className={clsx(styles.modal, modalActive && styles.modal__active)}>
-      <div className={styles.content}>
-        <button className={styles.cancel} onClick={closeModal} type="button">
-          <img className={styles.arrow} src={StudentModalArrow} alt="повернутись" />
-          Індивідуальний план студента групи
-          {` ${getStudentById?.data?.group.name} ${getStudentById?.data?.user.lastName}
+    <div className={clsx(modalActive && styles.overlay)}>
+      <div className={clsx(styles.modal, modalActive && styles.modal__active)}>
+        <div className={styles.content}>
+          <button className={styles.cancel} onClick={closeModal} type="button">
+            <img className={styles.arrow} src={StudentModalArrow} alt="повернутись" />
+            Індивідуальний план студента групи
+            {` ${getStudentById?.data?.group.name} ${getStudentById?.data?.user.lastName}
            ${getStudentById?.data?.user.firstName} ${getStudentById?.data?.user.patronymic}`}
-        </button>
-        <div className={styles.content__subtitle}>
-          <h1 className={styles.content__subtitle__h1}>Обовязкові предмети</h1>
-        </div>
-        <Table
-          dataHeader={dataHeader}
-          gridColumns={styles.content__columns}
-          dataRow={[]}
-          pagination={initialPagination}
-          onPaginationChange={() => undefined}
-        />
-        <div className={styles.content__subtitle}>
-          <h1 className={styles.content__subtitle__h1}>Вибіркові предмети</h1>
-          <Button
-            nameClass="secondary"
-            size="large"
-            className={styles.content__subtitle__actions}
-            onClick={() => setModalEditActive(true)}
-          >
-            Редагувати
-          </Button>
-        </div>
-        <div>
+          </button>
+          <div className={styles.content__subtitle}>
+            <h1 className={styles.content__subtitle__h1}>Обовязкові предмети</h1>
+          </div>
           <Table
             dataHeader={dataHeader}
             gridColumns={styles.content__columns}
@@ -72,10 +54,30 @@ const StudentsReview = ({ modalActive, closeModal, id }: IStudentsReviewModal) =
             pagination={initialPagination}
             onPaginationChange={() => undefined}
           />
-        </div>
+          <div className={styles.content__subtitle}>
+            <h1 className={styles.content__subtitle__h1}>Вибіркові предмети</h1>
+            <Button
+              nameClass="secondary"
+              size="large"
+              className={styles.content__subtitle__actions}
+              onClick={() => setModalEditActive(true)}
+            >
+              Редагувати
+            </Button>
+          </div>
+          <div>
+            <Table
+              dataHeader={dataHeader}
+              gridColumns={styles.content__columns}
+              dataRow={[]}
+              pagination={initialPagination}
+              onPaginationChange={() => undefined}
+            />
+          </div>
 
+        </div>
+        <StudentsReviewEdit closeModal={() => setModalEditActive(false)} modalActive={modalEditActive} />
       </div>
-      <StudentsReviewEdit closeModal={() => setModalEditActive(false)} modalActive={modalEditActive} />
     </div>
   );
 };

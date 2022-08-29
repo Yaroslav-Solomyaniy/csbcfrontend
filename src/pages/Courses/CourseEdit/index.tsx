@@ -33,8 +33,10 @@ export const CourseEdit = ({ modalActive, closeModal, studentId }: IEditModal): 
 
   const handleClose = () => {
     setIsSubmited(false);
-    setFormData(formInitialData);
     closeModal();
+    setTimeout(() => {
+      setFormData(formInitialData);
+    }, 1500);
   };
 
   const onSubmit = (e: React.FormEvent | undefined) => {
@@ -43,8 +45,8 @@ export const CourseEdit = ({ modalActive, closeModal, studentId }: IEditModal): 
     if (formData.name && formData.credits
       && formData.teacher && formData.semester
       && formData.lectureHours && formData.groups.toString().length >= 1
-    ) {
-      courseEdit?.courseEdit({ ...formData, isCompulsory: formData.isCompulsory === 'true' }, studentId);
+      && (formData.isCompulsory === 'true' || formData.isCompulsory === 'false')) {
+      courseEdit?.courseEdit({ ...formData, isCompulsory: formData.isCompulsory === 'true' }, Id);
     }
   };
 
@@ -65,7 +67,7 @@ export const CourseEdit = ({ modalActive, closeModal, studentId }: IEditModal): 
         isActive: getCourseId.data.isActive,
         isExam: !!getCourseId.data.isExam,
         lectureHours: getCourseId.data.lectureHours ? +getCourseId.data.lectureHours : null,
-        isCompulsory: getCourseId.data.isCompulsory,
+        isCompulsory: `${getCourseId.data.isCompulsory}`,
       };
 
       setFormData(data);

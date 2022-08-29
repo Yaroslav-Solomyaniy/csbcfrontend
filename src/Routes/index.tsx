@@ -25,6 +25,7 @@ import PasRec from '../pages/PasswordRecovery';
 import styles from '../pages/PasswordRecovery/index.module.scss';
 import leftArrow from '../images/login/leftArrow.svg';
 import { useAuthContext } from '../context/useAuthContext';
+import VotingAdminProvider from '../context/voting';
 
 const AppRoutes = () => {
   const { user } = useAuthContext();
@@ -59,7 +60,7 @@ const AppRoutes = () => {
           />
           <Route
             path="/voting-admin"
-            element={<VotingAdmin />}
+            element={<VotingAdminProvider><VotingAdmin /></VotingAdminProvider>}
           />
           <Route
             path="/administrators"

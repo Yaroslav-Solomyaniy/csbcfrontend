@@ -19,6 +19,7 @@ interface ISelect {
   menuPos?: 'fixed' | 'absolute';
   menuPlace?: 'top' | 'auto' | 'bottom';
   isFilter?: boolean;
+  isSemesterInMultiSelect?: boolean;
 }
 
 const Styles: any = {
@@ -31,6 +32,8 @@ const Styles: any = {
       minHeight: '100%',
       height: '32px',
       borderRadius: '8px',
+      fontWeight: 400,
+      color: 'rgba(0, 0, 0, 0.75)',
       boxShadow: 'none',
       '&:hover': {
         border: '1px solid rgba(39, 111, 173, 1)',
@@ -91,6 +94,8 @@ const Styles: any = {
       width: '280px',
       borderRadius: '8px',
       boxShadow: 'none',
+      fontWeight: 400,
+      color: 'rgba(0, 0, 0, 0.75)',
       '&:hover': {
         border: '1px solid rgba(39, 111, 173, 1)',
       },
@@ -152,6 +157,8 @@ const Styles: any = {
       borderRadius: '8px',
       marginTop: 16,
       boxShadow: 'none',
+      fontWeight: 400,
+      color: 'rgba(0, 0, 0, 0.75)',
       '&:hover': {
         border: '1px solid rgba(39, 111, 173, 1)',
       },
@@ -217,6 +224,8 @@ const Styles: any = {
     control: (provided: any) => ({
       ...provided,
       background: '#fff',
+      fontWeight: 400,
+      color: 'rgba(0, 0, 0, 0.75)',
       border: '1px solid rgba(0, 0, 0, 0.1)',
       minHeight: '32px',
       height: '32px',
@@ -295,6 +304,7 @@ const Select = ({
   error,
   placeholder,
   isSearchable,
+  isSemesterInMultiSelect,
   isClearable,
   type,
   isDisabled,
@@ -314,7 +324,11 @@ const Select = ({
           {required && <span className={styles.required}>*</span>}
         </label>
       )}
-      <div className={clsx(type === 'multimodal' ? styles.multiSelectWrap : isFilter ? '' : styles.selectWrap)}>
+      <div className={clsx(
+        isSemesterInMultiSelect && styles.selectWrapSemester,
+        type === 'multimodal' ? styles.multiSelectWrap : isFilter ? '' : styles.selectWrap,
+      )}
+      >
         <ReactSelect<Option>
           isDisabled={isDisabled}
           menuPosition={menuPos}
@@ -368,6 +382,7 @@ Select.defaultProps = {
   menuPlace: 'auto',
   isDisabled: false,
   isFilter: false,
+  isSemesterInMultiSelect: false,
 };
 
 export default Select;

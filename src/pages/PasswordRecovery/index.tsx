@@ -30,9 +30,6 @@ const PasswordRecovery = ({ children }: JSX.ElementChildrenAttribute): JSX.Eleme
                 ...formData,
                 email: event.target.value,
               })}
-              error={!Email.test(formData.email)
-                ? (formData.email.length < 1 ? 'Електронну пошту не введено'
-                  : 'Електронна пошта введено не вірно') : ''}
               pattern={EmailValidation}
             />
             <Button

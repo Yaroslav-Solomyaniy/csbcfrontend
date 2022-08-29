@@ -8,15 +8,26 @@ export interface IGetTeacherParams {
   teacherId?: number;
   groups: string | number;
   courses: string | number;
+  orderByColumns?:
+    'id'
+    | 'firstName'
+    | 'lastName'
+    | 'email'
+    | 'role'
+    | 'created'
+    | 'updated';
   orderBy?: OrderBy;
   page?: number;
   limit?: number;
 }
 
-interface IGetTeacherDataCoursesGroups {
+export interface IGetTeacherData {
   id: number;
-  name: string;
-  orderNumber: string;
+  firstName: string;
+  lastName: string;
+  patronymic: string;
+  email: string;
+  courses: IGetTeacherDataCourses[];
 }
 
 interface IGetTeacherDataCourses {
@@ -28,16 +39,11 @@ interface IGetTeacherDataCourses {
   semester: number;
   isCompulsory: boolean;
   isExam: boolean;
-  groups: IGetTeacherDataCoursesGroups[];
-}
-
-export interface IGetTeacherData {
-  id: number;
-  firstName: string;
-  lastName: string;
-  patronymic: string;
-  email: string;
-  courses: IGetTeacherDataCourses[];
+  groups: {
+    id: number;
+    name: string;
+    orderNumber: string;
+  }[];
 }
 
 export interface IUseTeachersGet {
@@ -55,7 +61,7 @@ export const useTeacherGet = (): IUseTeachersGet => {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
-      params: { orderByColumn: 'id', orderBy: 'DESC', ...params },
+      params: { orderByColumn: 'updated', orderBy: 'DESC', ...params },
     })
       .then((response: AxiosResponse<IPaginateData<IGetTeacherData> | null>) => {
         setData(response.data);
@@ -66,133 +72,4 @@ export const useTeacherGet = (): IUseTeachersGet => {
   };
 
   return { data, getTeacher };
-};
-
-interface IGetTeacherIdDataCourses {
-  id: number;
-  name: string;
-  credits: number;
-  lectureHours: number;
-  isActive: boolean;
-  semester: number;
-  isCompulsory: boolean;
-  isExam: boolean;
-}
-
-export interface IGetTeacherIdData {
-  id: number;
-  firstName: string;
-  lastName: string;
-  patronymic: string;
-  email: string;
-  courses: IGetTeacherIdDataCourses[];
-}
-
-export interface IUseTeachersGetId {
-  data: IGetTeacherIdData | null;
-  getTeacherId: (id: number) => void;
-}
-
-export const useTeacherGetId = (): IUseTeachersGetId => {
-  const { addErrors } = useMessagesContext();
-  const { user } = useAuthContext();
-  const [data, setData] = useState<IGetTeacherIdData | null>(null);
-
-  const getTeacherId = (id: number) => {
-    axios.get(`${process.env.REACT_APP_API_URL}/users/teacher/${id}`, {
-      headers: {
-        Authorization: `Bearer ${user?.accessToken}`,
-      },
-    })
-      .then((response: AxiosResponse<IGetTeacherIdData | null>) => {
-        setData(response.data);
-      })
-      .catch((error) => {
-        addErrors(error.response.data.message);
-      });
-  };
-
-  return { data, getTeacherId };
-};
-
-export interface ITeacherCreateParams {
-  firstName: string;
-  lastName: string;
-  patronymic: string;
-  email: string;
-  role: string;
-  courses: number[];
-}
-
-export interface ITeacherCreateData {
-  id: number;
-  firstName: string;
-  lastName: string;
-  patronymic: string;
-  email: string;
-}
-
-export interface IUseTeacherCreate {
-  data: ITeacherCreateData | null;
-  createTeacher: (params: ITeacherCreateParams) => void;
-}
-
-export const useCreateTeacher = (): IUseTeacherCreate => {
-  const { user } = useAuthContext();
-  const { addErrors } = useMessagesContext();
-  const [data, setData] = useState<ITeacherCreateData | null>(null);
-
-  const createTeacher = (params: ITeacherCreateParams) => {
-    axios.post(`${process.env.REACT_APP_API_URL}/users/teacher/create`, params, {
-      headers: {
-        Authorization: `Bearer ${user?.accessToken}`,
-      },
-    })
-      .then((response: AxiosResponse<ITeacherCreateData | null>) => {
-        setData(response.data);
-      })
-      .catch((error) => {
-        addErrors(error.response.data.message);
-      });
-  };
-
-  return { data, createTeacher };
-};
-
-export interface ITeacher {
-  firstName?: string;
-  lastName?: string;
-  patronymic?: string;
-  email?: string;
-  courses: number[];
-}
-
-interface IDataPatchTeachersItem {
-  message: string;
-}
-
-export interface IUsePatchTeacher {
-  data: IDataPatchTeachersItem | null;
-  patchTeacher: (params: ITeacher, id: number) => void;
-}
-
-export const useTeacherPatch = (): IUsePatchTeacher => {
-  const { user } = useAuthContext();
-  const [data, setData] = useState<IDataPatchTeachersItem | null>(null);
-  const { addErrors } = useMessagesContext();
-
-  const patchTeacher = (params: ITeacher, id: number): void => {
-    axios.patch(`${process.env.REACT_APP_API_URL}/users/teacher/${id}`, params, {
-      headers: {
-        Authorization: `Bearer ${user?.accessToken}`,
-        params: `{ id: ${id} }`,
-      },
-    }).then((e) => {
-      setData(e.data);
-    }).catch((error) => {
-      addErrors(error.response.data.message);
-    });
-  };
-
-  return { data, patchTeacher };
 };

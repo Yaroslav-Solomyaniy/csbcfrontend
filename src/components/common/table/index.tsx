@@ -26,7 +26,6 @@ const Table = ({
   pagination,
   onPaginationChange,
   isScroll,
-  columScrollHorizontal,
 }: ITable): JSX.Element => (
   <>
     <TableFilter filter={filter} />
@@ -57,8 +56,8 @@ const Table = ({
 );
 
 Table.defaultProps = {
-  pagination: [],
-  onPaginationChange: (e: any) => undefined,
+  pagination: null,
+  onPaginationChange: undefined,
   filter: <div />,
   isScroll: false,
   columScrollHorizontal: 0,

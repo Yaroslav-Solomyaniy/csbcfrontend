@@ -5,61 +5,58 @@ import ModalControlButtons from '../../../components/common/ModalControlButtons'
 import { IDeleteModal } from '../../../types';
 import { useMessagesContext } from '../../../context/useMessagesContext';
 import { useAdministratorsContext } from '../../../context/administators';
+import { useVotingAdminContext } from '../../../context/voting';
 
 const formInitialData = {
-  firstName: '',
-  lastName: '',
-  patronymic: '',
+  groups: [''],
 };
 
 export const VotingDeleteModal = ({ modalActive, closeModal, Id }: IDeleteModal): JSX.Element => {
-  const { administratorsDelete, getAdministratorsId } = useAdministratorsContext();
   const [formData, setFormData] = useState(formInitialData);
+  const { votingGetById, votingDelete } = useVotingAdminContext();
   const { addInfo } = useMessagesContext();
 
-  useEffect(() => {
-    if (Id) {
-      getAdministratorsId?.getUserId({ id: `${Id}` });
-    }
-  }, [Id]);
-
   const handleClose = () => {
-    setFormData(formInitialData);
     closeModal();
+    setTimeout(() => {
+      setFormData(formInitialData);
+    }, 1500);
   };
 
   useEffect(() => {
-    if (getAdministratorsId?.data) {
-      setFormData({
-        firstName: getAdministratorsId?.data.firstName,
-        lastName: getAdministratorsId?.data.lastName,
-        patronymic: getAdministratorsId?.data.patronymic,
-      });
+    if (Id) {
+      votingGetById?.getVotingById({ id: `${Id}` });
     }
-  }, [getAdministratorsId?.data]);
+  }, [Id]);
 
   useEffect(() => {
-    if (administratorsDelete?.data) {
-      addInfo(`${formData.lastName} ${formData.firstName} ${formData.patronymic} видалений зі списку адміністраторів.`);
+    if (votingGetById?.data) {
+      setFormData({
+        groups: votingGetById.data.groups.map((group) => group.name),
+      });
     }
-  }, [administratorsDelete?.data]);
+  }, [votingGetById?.data]);
+
+  useEffect(() => {
+    if (votingDelete?.data) {
+      handleClose();
+      addInfo(`Голосування для груп ${formData.groups.map((group) => group).join(',')} видалене`);
+    }
+  }, [votingDelete?.data]);
 
   const onSubmit = (e: React.FormEvent | undefined) => {
     e?.preventDefault?.();
-    administratorsDelete?.userDelete(Id);
-    closeModal();
+    votingDelete?.votingDelete(Id);
   };
 
   return (
     <ModalWindow modalTitle="Видалення голосування" active={modalActive} closeModal={handleClose}>
       <form className={pagesStyle.form} onSubmit={onSubmit}>
         <h3 className={pagesStyle.subtitle}>
-          {' '}
           Ви дійсно бажаєте видалити голосування для груп:
-          `
-          {formData.lastName}
-          `?
-          {' '}
+          "
+          {formData.groups.map((group) => group).join(',')}
+          "  ?
         </h3>
       </form>
       <ModalControlButtons

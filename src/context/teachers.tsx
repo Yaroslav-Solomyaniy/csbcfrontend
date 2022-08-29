@@ -1,43 +1,52 @@
 import React, { createContext, useContext } from 'react';
 import {
-  IUsePatchTeacher,
-  IUseTeacherCreate,
   IUseTeachersGet,
-  IUseTeachersGetId,
-  useCreateTeacher,
   useTeacherGet,
-  useTeacherGetId,
-  useTeacherPatch,
 } from '../hooks/useTeachers';
-import { IUseUserDelete, useUserDelete } from '../hooks/useUser';
+import {
+  IUseUserCreate,
+  IUseUserDelete,
+  IUseUserEdit,
+  IUseUserGetId,
+  useUserCreate,
+  useUserDelete, useUserEdit, useUserGetId,
+} from '../hooks/useUser';
 
 interface ITeachersContext {
-  createTeacher: IUseTeacherCreate | null;
-  getTeacher: IUseTeachersGet | null;
-  patchTeacher: IUsePatchTeacher | null;
-  deleteTeacher: IUseUserDelete | null;
-  getTeacherId: IUseTeachersGetId | null;
+  teachersGet: IUseTeachersGet | null;
+  teacherCreate: IUseUserCreate | null;
+  getTeacherById: IUseUserGetId | null;
+  teacherEdit: IUseUserEdit | null;
+  teacherDelete: IUseUserDelete | null;
 }
 
 const defaultValue: ITeachersContext = {
-  createTeacher: null,
-  getTeacher: null,
-  getTeacherId: null,
-  patchTeacher: null,
-  deleteTeacher: null,
+  teachersGet: null,
+  teacherCreate: null,
+  getTeacherById: null,
+  teacherEdit: null,
+  teacherDelete: null,
 };
 
 export const TeachersContext = createContext<ITeachersContext>(defaultValue);
 
 const TeachersProvider = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
-  const createTeacher = useCreateTeacher();
-  const getTeacher = useTeacherGet();
-  const getTeacherId = useTeacherGetId();
-  const patchTeacher = useTeacherPatch();
-  const deleteTeacher = useUserDelete();
+  const teachersGet = useTeacherGet();
+  const teacherCreate = useUserCreate();
+  const teacherGetId = useUserGetId();
+  const teacherEdit = useUserEdit();
+  const teacherDelete = useUserDelete();
 
   return (
-    <TeachersContext.Provider value={{ createTeacher, getTeacher, patchTeacher, deleteTeacher, getTeacherId }}>
+    <TeachersContext.Provider value={
+      {
+        teachersGet,
+        teacherCreate,
+        getTeacherById: teacherGetId,
+        teacherEdit,
+        teacherDelete }
+}
+    >
       {children}
     </TeachersContext.Provider>
   );

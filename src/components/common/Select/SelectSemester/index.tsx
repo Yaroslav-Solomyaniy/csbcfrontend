@@ -16,6 +16,7 @@ interface ISelectSemester {
   menuPos?: 'fixed' | 'absolute';
   menuPlace?: 'top' | 'auto' | 'bottom';
   isFilter?: boolean;
+  isSemesterInMultiSelect?: boolean;
 }
 
 const SelectSemester = ({
@@ -28,6 +29,7 @@ const SelectSemester = ({
   isSearchable,
   isClearable,
   type,
+  isSemesterInMultiSelect,
   isDisabled,
   menuPos,
   menuPlace,
@@ -58,6 +60,7 @@ const SelectSemester = ({
       isDisabled={isDisabled}
       isFilter={isFilter}
       menuPlace={menuPlace}
+      isSemesterInMultiSelect={isSemesterInMultiSelect}
       menuPos={menuPos}
     />
   );
@@ -74,6 +77,7 @@ SelectSemester.defaultProps = {
   menuPlace: 'auto',
   isDisabled: false,
   isFilter: false,
+  isSemesterInMultiSelect: false,
 };
 
 export default SelectSemester;

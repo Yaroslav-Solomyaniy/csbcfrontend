@@ -14,7 +14,9 @@ export interface IGetCoursesParams {
     | 'semester'
     | 'isCompulsory'
     | 'teacher'
-    | 'groups';
+    | 'groups'
+    | 'created'
+    |'updated';
   orderBy?: OrderBy;
   id?: number;
   search?: string;
@@ -69,7 +71,7 @@ export const useCoursesGet = (): IUseCoursesGet => {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
-      params: { orderBy: 'DESC', ...params },
+      params: { orderByColumn: 'updated', orderBy: 'DESC', ...params },
     })
       .then((response: AxiosResponse<IPaginateData<IGetCoursesData> | null>) => {
         setData(response.data);

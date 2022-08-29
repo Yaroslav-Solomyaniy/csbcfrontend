@@ -9,27 +9,41 @@ import { useAuthContext } from '../../context/useAuthContext';
 import stylesPortal from '../../stylesPortal.module.scss';
 import ModalMessage from '../../components/common/ModalMessage';
 import { useMessagesContext } from '../../context/useMessagesContext';
+import Input from '../../components/common/Input';
+import { Email } from '../../types/regExp';
+import Button from '../../components/common/Button';
 
+interface IChangePassword{
+  oldPassword: string;
+  newPassword: string;
+  confirmedPassword: string;
+}
+const initialFormData:IChangePassword = {
+  oldPassword: '',
+  newPassword: '',
+  confirmedPassword: '',
+};
 const ChangePassword = (): JSX.Element => {
+  const { patchChangePassword } = useChangePassword();
+  const [formData, setFormData] = useState<IChangePassword>(initialFormData);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const { messages, closeError, closeWarning, closeInfo } = useMessagesContext();
   const { user } = useAuthContext();
   const navigate = useNavigate();
-  const { patchChangePassword } = useChangePassword();
-  const [credentials, setCredentials] = useState<{
-    oldPassword: string;
-    newPassword: string;
-    confirmedPassword: string;
-  }>({
-    oldPassword: '',
-    newPassword: '',
-    confirmedPassword: '',
-  });
 
-  const changePassword = () => {
-    patchChangePassword({
-      password: credentials.newPassword,
-      accessToken: user?.accessToken,
-    });
+  const onSubmit = (e: (React.FormEvent<Element> | undefined)) => {
+    setIsSubmitted(true);
+    if (formData.oldPassword.length > 7
+      && formData.newPassword.length > 7
+      && formData.confirmedPassword.length > 7
+      && (formData.newPassword === formData.confirmedPassword)) {
+      patchChangePassword({
+        password: formData.newPassword,
+        accessToken: user?.accessToken,
+      });
+      setIsSubmitted(false);
+      setFormData(initialFormData);
+    }
   };
 
   return (
@@ -82,44 +96,50 @@ const ChangePassword = (): JSX.Element => {
       <div className={styles.changePassword__div}>
         <div className={styles.changePassword__form}>
           <h1 className={styles.changePassword__form__title}>Зміна паролю</h1>
-          <input
+          <Input
             className={styles.changePassword__form__input}
-            type="password"
+            inputType="password"
             placeholder="Поточний пароль"
-            value={credentials.oldPassword}
-            onChange={(event) => setCredentials({
-              ...credentials,
+            value={formData.oldPassword}
+            onChange={(event) => setFormData({
+              ...formData,
               oldPassword: event.target.value,
             })}
+            error={isSubmitted && formData.oldPassword?.length < 8 ? 'Поточний пароль містить менше 8-ми символів' : ''}
           />
-          <input
+          <Input
             className={styles.changePassword__form__input}
-            type="password"
+            inputType="password"
             placeholder="Новий пароль"
-            value={credentials.newPassword}
-            onChange={(event) => setCredentials({
-              ...credentials,
+            value={formData.newPassword}
+            onChange={(event) => setFormData({
+              ...formData,
               newPassword: event.target.value,
             })}
+            error={isSubmitted && formData.newPassword?.length < 8 ? 'Новий пароль містить менше 8-ми символів' : ''}
           />
-          <input
+          <Input
             className={styles.changePassword__form__input}
-            type="password"
+            inputType="password"
             placeholder="Підтвердіть новий пароль"
-            value={credentials.confirmedPassword}
-            onChange={(event) => setCredentials({
-              ...credentials,
+            value={formData.confirmedPassword}
+            onChange={(event) => setFormData({
+              ...formData,
               confirmedPassword: event.target.value,
             })}
+            error={isSubmitted && formData.newPassword !== formData.confirmedPassword
+              ? 'Підтверджуючий пароль введено невірно'
+              : (isSubmitted && formData.confirmedPassword?.length < 8
+                ? 'Підтверджуючий містить менше 8-ми символів' : '')}
           />
-          <button
-            type="submit"
+          <Button
+            size="large"
+            nameClass="primary"
             className={styles.changePassword__form__button}
-            disabled={!(credentials.newPassword === credentials.confirmedPassword)}
-            onClick={() => changePassword()}
+            onClick={onSubmit}
           >
-            Зберегти
-          </button>
+            Вхід
+          </Button>
         </div>
       </div>
     </div>

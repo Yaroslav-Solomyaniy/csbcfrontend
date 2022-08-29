@@ -1,52 +1,51 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ModalWindow from '../../../../components/common/ModalWindow';
 import ModalControlButtons from '../../../../components/common/ModalControlButtons';
 import pagesStyle from '../../../pagesStyle.module.scss';
 import ModalInput from '../../../../components/common/ModalInput';
-import MultiSelectCourses from '../../../../components/common/MultiSelect/MultiSelectCourses';
 import { useTeachersContext } from '../../../../context/teachers';
-import { ITeacherCreateParams } from '../../../../hooks/useTeachers';
 import { Email, EmailValidation } from '../../../../types/regExp';
+import { IUserCreateParams } from '../../../../hooks/useUser';
+import { ICreateModal } from '../../../../types';
+import { useMessagesContext } from '../../../../context/useMessagesContext';
 
-interface IStudentsDeleteModal {
-  modalActive: boolean;
-  closeModal: () => void;
-}
-
-const formInitialData: ITeacherCreateParams = {
+const formInitialData: IUserCreateParams = {
   firstName: '',
   lastName: '',
   patronymic: '',
   email: '',
   role: 'teacher',
-  courses: [],
 };
 
-export const StudentsDeleteModal = ({ modalActive, closeModal }: IStudentsDeleteModal): JSX.Element => {
-  const { createTeacher } = useTeachersContext();
+export const TeacherCreateModal = ({ modalActive, closeModal }: ICreateModal): JSX.Element => {
+  const { teacherCreate } = useTeachersContext();
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [formData, setFormData] = useState<ITeacherCreateParams>(formInitialData);
+  const [formData, setFormData] = useState<IUserCreateParams>(formInitialData);
+  const { addInfo } = useMessagesContext();
 
   const handleClose = () => {
     setIsSubmitted(false);
-    setFormData(formInitialData);
     closeModal();
+    setTimeout(() => {
+      setFormData(formInitialData);
+    }, 1500);
   };
 
   const onSubmit = (e: React.FormEvent | undefined) => {
     e?.preventDefault?.();
     setIsSubmitted(true);
 
-    if (
-      !!formData.firstName
-      && !!formData.lastName
-      && !!formData.patronymic
-      && !!formData.email
-    ) {
-      handleClose();
-      createTeacher?.createTeacher(formData);
+    if (formData.firstName && formData.lastName && formData.patronymic && Email.test(formData.email)) {
+      teacherCreate?.createUser(formData);
     }
   };
+
+  useEffect(() => {
+    if (teacherCreate?.data) {
+      handleClose();
+      addInfo(`${formData.lastName} ${formData.firstName} ${formData.patronymic} доданий у список`);
+    }
+  }, [teacherCreate?.data]);
 
   return (
     <ModalWindow modalTitle="Створення викладача" active={modalActive} closeModal={handleClose}>
@@ -85,18 +84,6 @@ export const StudentsDeleteModal = ({ modalActive, closeModal }: IStudentsDelete
             ? (formData.email.length < 1 ? 'Електронну пошту не введено' : 'Електронна пошта введено не вірно') : ''}
           pattern={EmailValidation}
         />
-        <MultiSelectCourses
-          type="modal"
-          label="Предмети"
-          placeholder="Предмети"
-          required
-          value={formData.courses.map((value) => `${value}`)}
-          onChange={(value) => setFormData({
-            ...formData,
-            courses: value.map((option) => +option.value),
-          })}
-          error={isSubmitted && !formData.courses ? 'Не обрано жодного предмету' : ''}
-        />
       </form>
 
       <ModalControlButtons
@@ -109,4 +96,4 @@ export const StudentsDeleteModal = ({ modalActive, closeModal }: IStudentsDelete
   );
 };
 
-export default StudentsDeleteModal;
+export default TeacherCreateModal;

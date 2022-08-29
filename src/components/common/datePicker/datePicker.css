@@ -3,8 +3,10 @@
   width: 100%;
   min-height: 22px;
   height: 22px;
+  font-family: 'Helvetica'!important;
+  color: rgba(0, 0, 0, 0.75);
   max-height: 22px;
-  font-size: 16px;
+  font-size: 14px;
   padding: 4px 16px;
   margin-top: 16px;
   border-radius: 8px;

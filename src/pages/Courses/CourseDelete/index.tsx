@@ -6,18 +6,13 @@ import { IGroupDeleteParams } from '../../../hooks/useGroups';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
 import { useMessagesContext } from '../../../context/useMessagesContext';
 import { useCourseContext } from '../../../context/course';
-
-interface IGroupCreateModal {
-  modalActive: boolean;
-  closeModal: () => void;
-  Id: number;
-}
+import { IDeleteModal } from '../../../types';
 
 const formInitialData = {
   deletedOrderNumber: '',
 };
 
-export const CourseDeleteModal = ({ modalActive, closeModal, Id }: IGroupCreateModal): JSX.Element => {
+export const CourseDeleteModal = ({ modalActive, closeModal, Id }: IDeleteModal): JSX.Element => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState<IGroupDeleteParams>(formInitialData);
   const { courseDelete, getCourseId } = useCourseContext();
@@ -25,8 +20,10 @@ export const CourseDeleteModal = ({ modalActive, closeModal, Id }: IGroupCreateM
 
   const handleClose = () => {
     setIsSubmitted(false);
-    setFormData(formInitialData);
     closeModal();
+    setTimeout(() => {
+      setFormData(formInitialData);
+    }, 1500);
   };
 
   const onSubmit = (e: React.FormEvent | undefined) => {

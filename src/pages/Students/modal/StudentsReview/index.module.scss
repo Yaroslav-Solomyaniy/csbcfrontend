@@ -1,3 +1,14 @@
+.overlay{
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 100;
+    background: rgba(0, 0, 0, 0.5);
+  }
+
 .modal {
   height: 100%;
   width: 100%;
@@ -9,11 +20,11 @@
   right: -110%;
   display: block;
   background-color: #ffffff;
-  transition: all 0.8s;
-
+  transition: all 1s linear;
   &__active {
-    transition: all 0.8s;
+    transition: all 1s linear;
     right: 0;
+    overflow: hidden;
   }
 }
 

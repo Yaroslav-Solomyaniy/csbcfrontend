@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { ButtonHTMLAttributes, DetailedHTMLProps, useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { Link, Navigate, NavLink, useNavigate } from 'react-router-dom';
 import logo from '../../images/logo.svg';
 import styles from './index.module.scss';
 import buttonNav from '../../images/buttonNav.svg';
 import { useAuthContext } from '../../context/useAuthContext';
+import useOnClickOutside from '../../hooks/UseClickOutsideElement';
 
 interface IHeader {
   setOpen: () => void;
@@ -15,6 +16,10 @@ const Header = ({ setOpen, isRenderButtonMenu = true }: IHeader): JSX.Element =>
   const [navOpen, setNavOpen] = useState(true);
   const [dropMenuOpen, setDropMenuOpen] = useState(false);
   const { logout, user } = useAuthContext();
+
+  const btnRef = React.useRef() as React.MutableRefObject<HTMLButtonElement>;
+
+  useOnClickOutside(btnRef, () => setDropMenuOpen(false));
 
   return (
     <header className={styles.header}>
@@ -35,6 +40,7 @@ const Header = ({ setOpen, isRenderButtonMenu = true }: IHeader): JSX.Element =>
       </div>
       {user && (
         <button
+          ref={btnRef}
           type="button"
           className={styles.header__item}
           onClick={() => {
@@ -58,16 +64,11 @@ const Header = ({ setOpen, isRenderButtonMenu = true }: IHeader): JSX.Element =>
                 Navigate({ to: '/', replace: false });
               }}
             >
-              <span
-                className={styles.avatarka__modal__item__span}
-              >
-                Вихід
-              </span>
+              <span className={styles.avatarka__modal__item__span}>Вихід</span>
             </div>
           </div>
         </button>
       )}
-
     </header>
   );
 };
@@ -75,5 +76,4 @@ const Header = ({ setOpen, isRenderButtonMenu = true }: IHeader): JSX.Element =>
 Header.defaultProps = {
   isRenderButtonMenu: true,
 };
-
 export default Header;

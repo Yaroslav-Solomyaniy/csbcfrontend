@@ -1,66 +1,63 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import ModalWindow from '../../../components/common/ModalWindow';
 import pagesStyle from '../../pagesStyle.module.scss';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
 import { ICreateModal } from '../../../types';
 import MultiSelectGroup from '../../../components/common/MultiSelect/MultiSelectGroup';
-import MultiSelectCourseSemestr from '../../../components/common/MultiSelect/MultiSelectCourseSemestr';
+import { ICreateVotingParams } from '../../../hooks/useVotingAdmin';
+import MyDatePicker from '../../../components/common/datePicker';
+import { useVotingAdminContext } from '../../../context/voting';
+import { useMessagesContext } from '../../../context/useMessagesContext';
+import MultiSelectCoursesNoOptional from '../../../components/common/MultiSelect/MultiSelectCoursesNoOptional';
 
-export interface IVoting {
-  groups: number [];
-  firstDate: Date | string | null;
-  lastDate: Date | string | null;
-  requiredCourse: { id: number; courseId: string; semester: number; }[];
-  notRequiredCourse: { id: number; courseId: string; semester: number; }[];
-}
-
-export const initialState = [
-  { id: new Date().getTime(), courseId: '', semester: 1 },
-];
-
-const formInitialData: IVoting/*: IUserCreateParams */ = {
+const formInitialData: ICreateVotingParams = {
   groups: [],
-  firstDate: null,
-  lastDate: null,
-  requiredCourse: initialState,
-  notRequiredCourse: initialState,
+  startDate: null,
+  endDate: null,
+  requiredCourses: [],
+  notRequiredCourses: [],
 };
 
 export const VotingCreateModal = ({ modalActive, closeModal }: ICreateModal): JSX.Element => {
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [formData, setFormData] = useState/* <IUserCreateParams> */(formInitialData);
+  const [formData, setFormData] = useState<ICreateVotingParams>(formInitialData);
+  const { votingCreate } = useVotingAdminContext();
+  const { addInfo } = useMessagesContext();
 
   const handleClose = () => {
     setIsSubmitted(false);
-    setFormData(formInitialData);
     closeModal();
+    setTimeout(() => {
+      setFormData(formInitialData);
+    }, 200);
   };
 
   const onSubmit = (e: React.FormEvent | undefined) => {
     e?.preventDefault?.();
     setIsSubmitted(true);
-    /* if (formData.firstName && formData.lastName && formData.patronymic && Email.test(formData.email)) {
-       administratorsCreate?.createUser(formData);
-     } */
+    if (formData.groups
+      && formData.requiredCourses
+      && formData.notRequiredCourses
+      && formData.startDate
+      && formData.endDate
+      && (formData.endDate > formData.startDate)
+    ) {
+      votingCreate?.votingCreate({ ...formData,
+        startDate: moment(formData.startDate).format(),
+        endDate: moment(formData.endDate).format() });
+    }
   };
 
-  /*
-    useEffect(() => {
+  useEffect(() => {
+    if (votingCreate?.data) {
       handleClose();
-      if (administratorsCreate?.data) {
-        addInfo(`${formData.lastName} ${formData.firstName} ${formData.patronymic}
-        успішно доданий у список адміністраторів.`);
-      }
-    }, [administratorsCreate?.data]);
-  */
+      addInfo('Нове голосування додане у список');
+    }
+  }, [votingCreate?.data]);
 
-  /* useEffect(() => {
-     setFormData({ ...formData, requireCourse: requiredCourse, notRequireCourse: notRequiredCourse });
-   }, [requiredCourse, notRequiredCourse]);
- */
   return (
-    <ModalWindow modalTitle="Створення голосування" active={modalActive} closeModal={handleClose} overflowY>
+    <ModalWindow modalTitle="Створення голосування" active={modalActive} closeModal={handleClose}>
       <form className={pagesStyle.form} onSubmit={onSubmit}>
         <MultiSelectGroup
           type="modal"
@@ -79,31 +76,75 @@ export const VotingCreateModal = ({ modalActive, closeModal }: ICreateModal): JS
           value={formData.groups.map((group) => `${group}`)}
           error={isSubmitted && formData.groups.length < 1 ? 'Групи не обрано.' : ''}
         />
-        <MultiSelectCourseSemestr
-          data={formData.requiredCourse}
-          setData={(item) => setFormData({ ...formData, requiredCourse: item })}
-          isProfileCourse
-          error={isSubmitted && (formData.requiredCourse.every((element) => element.courseId === ''))
-            ? 'Не обрано жодного профільного предмету' : ''}
+        <MultiSelectCoursesNoOptional
+          type="modal"
+          label="Профільні предмети"
+          placeholder="Профільні предмети"
+          required
+          isSearchable
+          isClearable
+          onChange={(value) => {
+            setFormData({
+              ...formData,
+              requiredCourses: value.map((option) => (
+                +option.value)),
+            });
+          }}
+          value={formData.requiredCourses.map((course) => `${course}`)}
+          error={isSubmitted && formData.requiredCourses.length < 1 ? 'Не обрано жодного предмету' : ''}
         />
-        <MultiSelectCourseSemestr
-          data={formData.notRequiredCourse}
-          setData={(item) => setFormData({ ...formData, notRequiredCourse: item })}
-          error={isSubmitted && (formData.notRequiredCourse.every((element) => element.courseId === ''))
-            ? 'Не обрано жодного непрофільного предмету' : ''}
+        <MultiSelectCoursesNoOptional
+          type="modal"
+          label="Не профільні предмети"
+          placeholder="Не профільні предмети"
+          required
+          isSearchable
+          isClearable
+          onChange={(value) => {
+            setFormData({
+              ...formData,
+              notRequiredCourses: value.map((option) => (
+                +option.value)),
+            });
+          }}
+          value={formData.notRequiredCourses.map((course) => `${course}`)}
+          error={isSubmitted && formData.notRequiredCourses.length < 1 ? 'Не обрано жодного предмету' : ''}
         />
-        {/*  <SelectDateAndTime
+        <MyDatePicker
           label="Дата початку"
-          onChange={(item) => setFormData({ ...formData, firstDate: item })}
-          value={moment(formData.firstDate).format('DD.MM.YYYY')}
-          error={isSubmitted && !formData.firstDate ? 'Дата початку голосування не обрана' : ''}
+          placeholder="Дата початку"
+          onChange={(date:Date | null) => setFormData({ ...formData, startDate: date || null })}
+          selected={formData.startDate !== null ? new Date(formData.startDate) : undefined}
+          showMonthDropdown
+          showTimeInput
+          showTimeSelect
+          dateFormat="Pp"
+          required
+          timeInputLabel="Час початку:"
+          showDisabledMonthNavigation
+          minDate={new Date(1970, 1, 1)}
+          error={isSubmitted && !formData.startDate ? 'Дату початку не обрано' : ''}
         />
-        <SelectDateAndTime
+        <MyDatePicker
           label="Дата кінця"
-          onChange={(item) => setFormData({ ...formData, lastDate: item })}
-          value={moment(formData.lastDate).format('DD.MM.YYYY')}
-          error={isSubmitted && !formData.lastDate ? 'Дата кінця голосування не обрана' : ''}
-        /> */}
+          placeholder="Дата кінця"
+          onChange={(date:Date | null) => setFormData({ ...formData, endDate: date || null })}
+          selected={formData.endDate !== null ? new Date(formData.endDate) : undefined}
+          showMonthDropdown
+          showTimeInput
+          showTimeSelect
+          required
+          dateFormat="Pp"
+          timeInputLabel="Час кінця:"
+          showDisabledMonthNavigation
+          minDate={new Date(1970, 1, 1)}
+          error={isSubmitted
+            && ((formData.endDate !== null ? formData.endDate : new Date())
+            < (formData.startDate !== null ? formData.startDate : new Date()))
+            ? 'Дата кінця не може бути меншою за дату початку'
+            : (isSubmitted && !formData.endDate ? 'Дату кінця не обрано' : '')}
+        />
+
       </form>
       <ModalControlButtons
         handleClose={handleClose}

@@ -1,48 +1,71 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ModalWindow from '../../../../components/common/ModalWindow';
 import ModalControlButtons from '../../../../components/common/ModalControlButtons';
 import pagesStyle from '../../../pagesStyle.module.scss';
 import { useTeachersContext } from '../../../../context/teachers';
+import { useMessagesContext } from '../../../../context/useMessagesContext';
+import { IDeleteModal } from '../../../../types';
 
-interface IStudentsDeleteModal {
-  modalActive: boolean;
-  closeModal: () => void;
-  id: number;
-}
+const formInitialData = {
+  firstName: '',
+  lastName: '',
+  patronymic: '',
+};
 
-export const StudentsDeleteModal = ({ modalActive, closeModal, id }: IStudentsDeleteModal): JSX.Element => {
-  const { deleteTeacher, getTeacher } = useTeachersContext();
+export const TeachersDeleteModal = ({ modalActive, closeModal, Id }: IDeleteModal): JSX.Element => {
+  const { getTeacherById, teacherDelete } = useTeachersContext();
+  const [formData, setFormData] = useState(formInitialData);
+  const { addInfo } = useMessagesContext();
 
   const handleClose = () => {
-    getTeacher?.getTeacher({ groups: '', courses: '' });
     closeModal();
+    setTimeout(() => {
+      setFormData(formInitialData);
+    }, 1500);
   };
 
   const onSubmit = (e: React.FormEvent | undefined) => {
     e?.preventDefault?.();
-    deleteTeacher?.userDelete(id);
+    teacherDelete?.userDelete(Id);
   };
 
   useEffect(() => {
-    handleClose();
-  }, [deleteTeacher?.data]);
+    if (teacherDelete?.data) {
+      closeModal();
+      addInfo(`Викладач "${formData.lastName} ${formData.firstName} ${formData.patronymic}" видалений`);
+    }
+  }, [teacherDelete?.data]);
 
   useEffect(() => {
-    if (id) {
-      getTeacher?.getTeacher({ teacherId: id, groups: '', courses: '' });
+    if (Id) {
+      getTeacherById?.getUserId({ id: `${Id}` });
     }
-  }, [id]);
+  }, [Id]);
+
+  useEffect(() => {
+    if (getTeacherById?.data) {
+      setFormData({
+        firstName: getTeacherById?.data.firstName,
+        lastName: getTeacherById?.data.lastName,
+        patronymic: getTeacherById?.data.patronymic,
+      });
+    }
+  }, [getTeacherById?.data]);
 
   return (
     <ModalWindow modalTitle="Видалення викладача" active={modalActive} closeModal={handleClose}>
       <form className={pagesStyle.form} onSubmit={onSubmit}>
         <h3 className={pagesStyle.subtitle}>
+          {' '}
           Ви дійсно бажаєте видалити викладача
-          {`
-            ${getTeacher?.data?.items[0].lastName}
-            ${getTeacher?.data?.items[0].firstName}
-            ${getTeacher?.data?.items[0].patronymic}
-          `}
+          `
+          {formData.lastName}
+          {' '}
+          {formData.firstName}
+          {' '}
+          {formData.patronymic}
+          `?
+          {' '}
         </h3>
       </form>
       <ModalControlButtons
@@ -55,4 +78,4 @@ export const StudentsDeleteModal = ({ modalActive, closeModal, id }: IStudentsDe
   );
 };
 
-export default StudentsDeleteModal;
+export default TeachersDeleteModal;

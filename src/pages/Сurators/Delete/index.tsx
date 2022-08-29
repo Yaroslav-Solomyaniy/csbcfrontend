@@ -18,8 +18,10 @@ export const CuratorDeleteModal = ({ modalActive, closeModal, Id }: IDeleteModal
   const { addInfo } = useMessagesContext();
 
   const handleClose = () => {
-    setFormData(formInitialData);
     closeModal();
+    setTimeout(() => {
+      setFormData(formInitialData);
+    }, 1500);
   };
 
   useEffect(() => {
@@ -40,6 +42,7 @@ export const CuratorDeleteModal = ({ modalActive, closeModal, Id }: IDeleteModal
 
   useEffect(() => {
     if (curatorDelete?.data) {
+      closeModal();
       addInfo(`Куратор "${formData.lastName} ${formData.firstName} ${formData.patronymic}" видалений`);
     }
   }, [curatorDelete?.data]);
@@ -47,7 +50,6 @@ export const CuratorDeleteModal = ({ modalActive, closeModal, Id }: IDeleteModal
   const onSubmit = (e: React.FormEvent | undefined) => {
     e?.preventDefault?.();
     curatorDelete?.userDelete(Id);
-    closeModal();
   };
 
   return (

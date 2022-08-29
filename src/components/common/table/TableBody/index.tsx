@@ -55,6 +55,8 @@ const TableBody = ({ dataRow, gridColumns, isScroll, columScrollHorizontal }: IT
 );
 
 TableBody.defaultProps = {
+  pagination: null,
+  onPaginationChange: undefined,
   isScroll: false,
   columScrollHorizontal: 0,
 };

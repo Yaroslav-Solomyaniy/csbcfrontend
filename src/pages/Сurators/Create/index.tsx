@@ -26,8 +26,10 @@ export const CuratorCreateModal = ({ modalActive, closeModal }: ICreateModal): J
 
   const handleClose = () => {
     setIsSubmitted(false);
-    setFormData(formInitialData);
     closeModal();
+    setTimeout(() => {
+      setFormData(formInitialData);
+    }, 1500);
   };
 
   const onSubmit = (e: React.FormEvent | undefined) => {
@@ -39,7 +41,7 @@ export const CuratorCreateModal = ({ modalActive, closeModal }: ICreateModal): J
   };
 
   useEffect(() => {
-    closeModal();
+    handleClose();
     if (curatorCreate?.data) {
       addInfo(`${formData.lastName} ${formData.firstName} ${formData.patronymic} доданий у список`);
     }

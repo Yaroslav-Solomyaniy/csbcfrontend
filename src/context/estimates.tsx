@@ -1,39 +1,41 @@
 import React, { createContext, useContext } from 'react';
 import {
   IUseEstimatesEdit,
-  IUseGradesCreate,
   IUseGradesGet,
   IUseGradesGetId,
-  useCreateGrades,
-  useEstimatesEdit,
+  IUseGradesHistoryGetId,
+  useGradesEdit,
   useGradesGet,
   useGradesGetId,
+  useGradesHistoryGet,
 } from '../hooks/useEstimates';
 
 interface IEstimatesContext {
-  estimatesEdit: IUseEstimatesEdit | null;
-  estimatesCreate: IUseGradesCreate | null;
-  estimatesGet: IUseGradesGet | null;
-  estimatesGetId: IUseGradesGetId | null;
+  gradesEdit: IUseEstimatesEdit | null;
+  gradesGet: IUseGradesGet | null;
+  gradesGetId: IUseGradesGetId | null;
+  gradeshistoryGet: IUseGradesHistoryGetId | null;
 }
 
 const defaultValue: IEstimatesContext = {
-  estimatesEdit: null,
-  estimatesCreate: null,
-  estimatesGet: null,
-  estimatesGetId: null,
+  gradesEdit: null,
+  gradesGet: null,
+  gradesGetId: null,
+  gradeshistoryGet: null,
 };
 
 export const TeachersContext = createContext<IEstimatesContext>(defaultValue);
 
 const EstimatesProvider = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
-  const estimatesEdit = useEstimatesEdit();
-  const estimatesCreate = useCreateGrades();
-  const estimatesGet = useGradesGet();
-  const estimatesGetId = useGradesGetId();
+  const gradesEdit = useGradesEdit();
+  const gradesGet = useGradesGet();
+  const gradesGetId = useGradesGetId();
+  const gradeshistoryGet = useGradesHistoryGet();
 
   return (
-    <TeachersContext.Provider value={{ estimatesCreate, estimatesGet, estimatesGetId, estimatesEdit }}>
+    <TeachersContext.Provider
+      value={{ gradesGet, gradesGetId, gradesEdit, gradeshistoryGet }}
+    >
       {children}
     </TeachersContext.Provider>
   );

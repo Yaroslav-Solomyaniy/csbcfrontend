@@ -17,7 +17,7 @@ const formInitialData: IUserEditParams = {
   role: 'curator',
 };
 
-export const CuratorEditModal = ({ modalActive, closeModal, Id }: IEditModal): JSX.Element => {
+export const CuratorEditModal = ({ modalActive, closeModal, studentId }: IEditModal): JSX.Element => {
   const [isSubmitted, setIsSubmited] = useState(false);
   const [formData, setFormData] = useState<IUserEditParams>(formInitialData);
   const { curatorEdit, getCuratorId } = useCuratorContext();
@@ -38,7 +38,7 @@ export const CuratorEditModal = ({ modalActive, closeModal, Id }: IEditModal): J
       && formData.patronymic
       && formData.lastName
       && Email.test(formData.email)) {
-      curatorEdit?.userEdit({ ...formData }, Id);
+      curatorEdit?.userEdit({ ...formData }, studentId);
     }
   };
 
@@ -50,10 +50,10 @@ export const CuratorEditModal = ({ modalActive, closeModal, Id }: IEditModal): J
   }, [curatorEdit?.data]);
 
   useEffect(() => {
-    if (Id) {
-      getCuratorId?.getUserId({ id: `${Id}` });
+    if (studentId) {
+      getCuratorId?.getUserId({ id: `${studentId}` });
     }
-  }, [Id]);
+  }, [studentId]);
 
   useEffect(() => {
     if (getCuratorId?.data) {

@@ -1,26 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styles from './index.module.scss';
 import ModalWindow from '../../../components/common/ModalWindow';
-import { IGroupEditParams } from '../../../hooks/useGroups';
-import { useGroupContext } from '../../../context/group';
-import ModalInput from '../../../components/common/ModalInput';
-import SelectCurator from '../../../components/common/Select/SelectCurator';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
 import { useMessagesContext } from '../../../context/useMessagesContext';
 import { IEditModal } from '../../../types';
-import { LettersAndNumbersEnUa, NumbersAndLettersEn, OnlyNumbers } from '../../../types/regExp';
-import SelectSemester from '../../../components/common/Select/SelectSemester';
-import SelectReason from '../../../components/common/Select/SelectReason';
 import Table from '../../../components/common/table';
 import { ITableHeader } from '../../../components/common/table/TableHeader';
 import { ITableRowItem } from '../../../components/common/table/TableBody';
 
-interface typeFormData{
+interface typeFormData {
   rating: number | null;
   reason: number;
 }
 
-const formInitialData:typeFormData = {
+const formInitialData: typeFormData = {
   rating: null,
   reason: 1,
 };
@@ -33,7 +26,7 @@ const dataHeader: ITableHeader[] = [
   { id: 3, label: 'Хто змінив' },
 ];
 
-export const TeacherRatingHistory = ({ modalActive, closeModal, Id }: IEditModal): JSX.Element => {
+export const TeacherRatingHistory = ({ modalActive, closeModal, studentId }: IEditModal): JSX.Element => {
   const { addInfo } = useMessagesContext();
   const [formData, setFormData] = useState<typeFormData>(formInitialData);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);

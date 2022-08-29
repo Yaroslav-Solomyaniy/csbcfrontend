@@ -117,7 +117,7 @@ const VotingAdmin = (): JSX.Element => {
         <VotingCreateModal modalActive={isActiveModal.create} closeModal={closeModal} />
         {/* <VotingEditModal modalActive={!!isActiveModal.edit} Id={isActiveModal.edit} closeModal={closeModal} />
         <VotingDeleteModal modalActive={!!isActiveModal.delete} Id={isActiveModal.delete} closeModal={closeModal} /> */}
-        <VotingResultModal modalActive={isActiveModal.result} Id={isActiveModal.edit} closeModal={closeModal} />
+        <VotingResultModal modalActive={isActiveModal.result} studentId={isActiveModal.edit} closeModal={closeModal} />
       </div>
     </Layout>
   );

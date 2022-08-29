@@ -167,7 +167,7 @@ const Curators = (): JSX.Element => {
         />
         <CuratorEditModal
           modalActive={!!isActiveModal.edit}
-          Id={isActiveModal.edit}
+          studentId={isActiveModal.edit}
           closeModal={closeModal}
         />
         <CuratorDeleteModal

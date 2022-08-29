@@ -16,7 +16,7 @@ const formInitialData = {
   orderNumber: '',
 };
 
-export const GroupEdit = ({ modalActive, closeModal, Id }: IEditModal): JSX.Element => {
+export const GroupEdit = ({ modalActive, closeModal, studentId }: IEditModal): JSX.Element => {
   const { groupEdit, getGroupId } = useGroupContext();
   const { addInfo } = useMessagesContext();
   const [formData, setFormData] = useState<IGroupEditParams>(formInitialData);
@@ -33,7 +33,7 @@ export const GroupEdit = ({ modalActive, closeModal, Id }: IEditModal): JSX.Elem
     setIsSubmited(true);
     if (formData.name && (`${formData.orderNumber}`.length >= 6
       && `${formData.orderNumber}`.length <= 20) && formData.curatorId) {
-      groupEdit?.groupEdit({ ...formData }, Id);
+      groupEdit?.groupEdit({ ...formData }, studentId);
     }
   };
 
@@ -45,10 +45,10 @@ export const GroupEdit = ({ modalActive, closeModal, Id }: IEditModal): JSX.Elem
   }, [groupEdit?.data]);
 
   useEffect(() => {
-    if (Id) {
-      getGroupId?.getGroupId({ id: `${Id}` });
+    if (studentId) {
+      getGroupId?.getGroupId({ id: `${studentId}` });
     }
-  }, [Id]);
+  }, [studentId]);
 
   useEffect(() => {
     if (getGroupId?.data) {

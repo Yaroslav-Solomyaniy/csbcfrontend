@@ -1,28 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import styles from '../../pagesStyle.module.scss';
 import ModalWindow from '../../../components/common/ModalWindow';
-import { IGroupEditParams } from '../../../hooks/useGroups';
 import { useGroupContext } from '../../../context/group';
 import ModalInput from '../../../components/common/ModalInput';
-import SelectCurator from '../../../components/common/Select/SelectCurator';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
 import { useMessagesContext } from '../../../context/useMessagesContext';
 import { IEditModal } from '../../../types';
-import { LettersAndNumbersEnUa, NumbersAndLettersEn, OnlyNumbers } from '../../../types/regExp';
-import SelectSemester from '../../../components/common/Select/SelectSemester';
+import { OnlyNumbers } from '../../../types/regExp';
 import SelectReason from '../../../components/common/Select/SelectReason';
 
-interface typeFormData{
+interface typeFormData {
   rating: number | undefined;
   reason: number;
 }
 
-const formInitialData:typeFormData = {
+const formInitialData: typeFormData = {
   rating: undefined,
   reason: 1,
 };
 
-export const TeacherRatingEdit = ({ modalActive, closeModal, Id }: IEditModal): JSX.Element => {
+export const TeacherRatingEdit = ({ modalActive, closeModal, studentId }: IEditModal): JSX.Element => {
   const { groupEdit, getGroupId } = useGroupContext();
   const { addInfo } = useMessagesContext();
   const [formData, setFormData] = useState<typeFormData>(formInitialData);
@@ -48,10 +45,10 @@ export const TeacherRatingEdit = ({ modalActive, closeModal, Id }: IEditModal): 
   }, [groupEdit?.data]);
 
   useEffect(() => {
-    if (Id) {
-      getGroupId?.getGroupId({ id: `${Id}` });
+    if (studentId) {
+      getGroupId?.getGroupId({ id: `${studentId}` });
     }
-  }, [Id]);
+  }, [studentId]);
 
   return (
     <ModalWindow modalTitle="Редагування оцінки" active={modalActive} closeModal={handleClose}>

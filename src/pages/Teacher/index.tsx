@@ -1,19 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import TitlePage from '../../components/TitlePage';
 import Button from '../../components/common/Button/index';
 import styles from './index.module.scss';
-import pagesStyle from '../pagesStyle.module.scss';
 import Layout from '../../loyout/Layout';
 import { ITableHeader } from '../../components/common/table/TableHeader';
 import Table from '../../components/common/table';
-import edit from '../../images/table/edit.svg';
-import del from '../../images/table/delete.svg';
 import { ITableRowItem } from '../../components/common/table/TableBody';
 import { initialPagination, Pagination } from '../../types';
-import GroupEdit, { TeacherRatingEdit } from './RatingEdit';
-import SelectGroupByName from '../../components/common/Select/SelectGroupByName';
-import SelectStudent from '../../components/common/Select/SelectStudent';
-import SelectCourse from '../../components/common/Select/SelectCourse';
+import { TeacherRatingEdit } from './RatingEdit';
 import TeacherRatingHistory from './RatingHistory';
 
 const dataHeader: ITableHeader[] = [
@@ -133,56 +127,56 @@ const TeacherPage = (): JSX.Element => {
           )}
         />
         <Table
-         /* filter={(
-            <>
-              <SelectStudent
-                type="filter"
-                placeholder="ПІБ"
-                onChange={(value) => setParams({
-                  ...params,
-                  filter: { ...params.filter, student: value },
-                  pagination: initialPagination,
-                })}
-                value={+params.filter.student}
-                isClearable
-                isSearchable
-              />
-              <SelectGroupByName
-                type="filter"
-                placeholder="Група"
-                onChange={(value) => setParams({
-                  ...params,
-                  filter: { ...params.filter, group: value },
-                  pagination: initialPagination,
-                })}
-                value={params.filter.group}
-                isClearable
-                isSearchable
-              />
-              <SelectCourse
-                type="filter"
-                placeholder="Предмет"
-                onChange={(value) => setParams({
-                  ...params,
-                  filter: { ...params.filter, course: value },
-                  pagination: initialPagination,
-                })}
-                value={params.filter.course}
-                isClearable
-                isSearchable
-              />
-            </>
-          )} */
+          /* filter={(
+             <>
+               <SelectStudent
+                 type="filter"
+                 placeholder="ПІБ"
+                 onChange={(value) => setParams({
+                   ...params,
+                   filter: { ...params.filter, student: value },
+                   pagination: initialPagination,
+                 })}
+                 value={+params.filter.student}
+                 isClearable
+                 isSearchable
+               />
+               <SelectGroupByName
+                 type="filter"
+                 placeholder="Група"
+                 onChange={(value) => setParams({
+                   ...params,
+                   filter: { ...params.filter, group: value },
+                   pagination: initialPagination,
+                 })}
+                 value={params.filter.group}
+                 isClearable
+                 isSearchable
+               />
+               <SelectCourse
+                 type="filter"
+                 placeholder="Предмет"
+                 onChange={(value) => setParams({
+                   ...params,
+                   filter: { ...params.filter, course: value },
+                   pagination: initialPagination,
+                 })}
+                 value={params.filter.course}
+                 isClearable
+                 isSearchable
+               />
+             </>
+           )} */
           dataHeader={dataHeader}
           dataRow={dataRow}
           gridColumns={styles.columns}
           pagination={params.pagination}
           onPaginationChange={(newPagination) => setParams({ ...params, pagination: newPagination })}
         />
-        <TeacherRatingEdit modalActive={!!isActiveModal.edit} Id={isActiveModal.edit} closeModal={closeModal} />
+        <TeacherRatingEdit modalActive={!!isActiveModal.edit} studentId={isActiveModal.edit} closeModal={closeModal} />
         <TeacherRatingHistory
           modalActive={!!isActiveModal.history}
-          Id={isActiveModal.history}
+          studentId={isActiveModal.history}
           closeModal={closeModal}
         />
       </div>

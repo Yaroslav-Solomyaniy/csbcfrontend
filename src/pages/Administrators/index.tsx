@@ -152,7 +152,7 @@ const Administrators = (): JSX.Element => {
         <AdministratorCreateModal modalActive={isActiveModal.create} closeModal={closeModal} />
         <AdministratorEditModal
           modalActive={!!isActiveModal.edit}
-          Id={isActiveModal.edit}
+          studentId={isActiveModal.edit}
           closeModal={closeModal}
         />
         <AdministratorDeleteModal

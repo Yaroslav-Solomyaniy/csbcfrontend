@@ -16,7 +16,7 @@ const formInitialData: IUserEditParams = {
   email: '',
 };
 
-export const AdministratorEditModal = ({ modalActive, closeModal, Id }: IEditModal): JSX.Element => {
+export const AdministratorEditModal = ({ modalActive, closeModal, studentId }: IEditModal): JSX.Element => {
   const [isSubmitted, setIsSubmited] = useState(false);
   const [formData, setFormData] = useState<IUserEditParams>(formInitialData);
   const { administratorsEdit, getAdministratorsId } = useAdministratorsContext();
@@ -37,7 +37,7 @@ export const AdministratorEditModal = ({ modalActive, closeModal, Id }: IEditMod
       && formData.patronymic
       && formData.lastName
       && Email.test(formData.email)) {
-      administratorsEdit?.userEdit({ ...formData }, Id);
+      administratorsEdit?.userEdit({ ...formData }, studentId);
     }
   };
 
@@ -49,10 +49,10 @@ export const AdministratorEditModal = ({ modalActive, closeModal, Id }: IEditMod
   }, [administratorsEdit?.data]);
 
   useEffect(() => {
-    if (Id) {
-      getAdministratorsId?.getUserId({ id: `${Id}` });
+    if (studentId) {
+      getAdministratorsId?.getUserId({ id: `${studentId}` });
     }
-  }, [Id]);
+  }, [studentId]);
 
   useEffect(() => {
     if (getAdministratorsId?.data) {

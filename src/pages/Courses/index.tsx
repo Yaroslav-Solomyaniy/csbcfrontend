@@ -220,7 +220,7 @@ const Courses = (): JSX.Element => {
         />
         <CourseEditModal
           modalActive={!!isActiveModal.edit}
-          Id={isActiveModal.edit}
+          studentId={isActiveModal.edit}
           closeModal={closeModal}
         />
         <CourseDeleteModal

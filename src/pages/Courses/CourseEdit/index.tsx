@@ -25,7 +25,7 @@ const formInitialData: ICourseEditParams = {
   isCompulsory: '',
 };
 
-export const CourseEdit = ({ modalActive, closeModal, Id }: IEditModal): JSX.Element => {
+export const CourseEdit = ({ modalActive, closeModal, studentId }: IEditModal): JSX.Element => {
   const { addInfo } = useMessagesContext();
   const [formData, setFormData] = useState<ICourseEditParams>(formInitialData);
   const [isSubmitted, setIsSubmited] = useState(false);
@@ -44,15 +44,15 @@ export const CourseEdit = ({ modalActive, closeModal, Id }: IEditModal): JSX.Ele
       && formData.teacher && formData.semester
       && formData.lectureHours && formData.groups.toString().length >= 1
     ) {
-      courseEdit?.courseEdit({ ...formData, isCompulsory: formData.isCompulsory === 'true' }, Id);
+      courseEdit?.courseEdit({ ...formData, isCompulsory: formData.isCompulsory === 'true' }, studentId);
     }
   };
 
   useEffect(() => {
-    if (Id) {
-      getCourseId?.getCourseId({ id: `${Id}` });
+    if (studentId) {
+      getCourseId?.getCourseId({ id: `${studentId}` });
     }
-  }, [Id]);
+  }, [studentId]);
 
   useEffect(() => {
     if (getCourseId?.data) {

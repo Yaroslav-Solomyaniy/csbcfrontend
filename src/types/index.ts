@@ -9,7 +9,8 @@ export type OrderBy = 'ASC' | 'DESC';
 export interface IEditModal {
   modalActive: boolean;
   closeModal: () => void;
-  Id: number;
+  studentId: number;
+  courseId?: number;
 }
 
 export interface IDeleteModal {

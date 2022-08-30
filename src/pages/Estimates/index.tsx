@@ -231,16 +231,6 @@ const Estimates = (): JSX.Element => {
         <Table
           filter={(
             <>
-              <SelectGroupById
-                type="filter"
-                placeholder="Група"
-                required
-                isClearable
-                value={params.filter.group}
-                onChange={(value) => setParams({
-                  ...params, filter: { ...params.filter, group: value },
-                })}
-              />
               <SelectStudent
                 type="filter"
                 placeholder="ПІБ"
@@ -250,6 +240,16 @@ const Estimates = (): JSX.Element => {
                 value={params.filter.studentId}
                 onChange={(value) => setParams({
                   ...params, filter: { ...params.filter, studentId: +value },
+                })}
+              />
+              <SelectGroupById
+                type="filter"
+                placeholder="Група"
+                required
+                isClearable
+                value={params.filter.group}
+                onChange={(value) => setParams({
+                  ...params, filter: { ...params.filter, group: value },
                 })}
               />
               <SelectSemester

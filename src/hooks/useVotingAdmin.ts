@@ -96,7 +96,7 @@ export const useVotingGet = (): IUseVotingGet => {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
-      params: { orderByColumn: 'updated', orderBy: 'DESC', ...params },
+      params: { orderByColumn: 'created', orderBy: 'DESC', ...params },
     })
       .then((response: AxiosResponse<IPaginateData<IGetVotingAdminData> | null>) => {
         setData(response.data);

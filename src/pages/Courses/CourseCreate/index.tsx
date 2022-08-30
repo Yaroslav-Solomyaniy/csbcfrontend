@@ -167,7 +167,7 @@ export const CourseCreateModal = ({ modalActive, closeModal }: ICreateModal): JS
         handleClose={handleClose}
         onSubmit={onSubmit}
         cancelButtonText="Відміна"
-        mainButtonText="Додати"
+        mainButtonText="Створити"
       />
     </ModalWindow>
   );

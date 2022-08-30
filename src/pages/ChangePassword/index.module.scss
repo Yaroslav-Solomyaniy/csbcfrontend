@@ -36,38 +36,28 @@
     flex-direction: column;
 
     &__input {
-      padding: 10px 16px;
-      height: 20px;
+      padding: 0 16px;
+      min-height: 40px;
+      max-height: 40px;
       font-size: 14px;
-      margin: 8px 0;
-      border: 1px solid rgba(0, 0, 0, 0.1);
+      margin: 16px 0 0 0;
       border-radius: 8px;
     }
 
     &__button {
-      margin-top: 8px;
-      width: 280px;
-      height: 42px;
+      margin: 16px 0 0 0;
+      min-height: 42px;
       font-size: 14px;
       color: #ffffff;
     }
 
     &__title {
-      width: 280px;
-      height: 32px;
-      margin-bottom: 32px;
-
+      margin-bottom: 16px;
       font-weight: 700;
       font-size: 20px;
-      line-height: 32px;
-
+      line-height: 28px;
       text-align: center;
-
       color: rgba(0, 0, 0, 0.85);
-
-      flex: none;
-      order: 0;
-      flex-grow: 0;
     }
 
 

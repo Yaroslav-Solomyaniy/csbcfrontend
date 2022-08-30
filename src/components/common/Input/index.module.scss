@@ -19,11 +19,12 @@
 
 .error {
   display: flex;
-  margin-top: 5px;
+  margin-top: 4px;
   .textError {
-    padding-left: 10px;
     font-weight: 400;
-    color: red;
+    font-size: 12px;
+    line-height: 20px;
+    color: #FF0000;
   }
 }
 

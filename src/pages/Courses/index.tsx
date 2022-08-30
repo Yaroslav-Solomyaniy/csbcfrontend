@@ -169,7 +169,7 @@ const Courses = (): JSX.Element => {
               />
               <SelectTeacher
                 type="filter"
-                placeholder="ПІБ"
+                placeholder="Викладач"
                 onChange={(value) => setParams({
                   ...params,
                   filter: { ...params.filter, teacher: value },

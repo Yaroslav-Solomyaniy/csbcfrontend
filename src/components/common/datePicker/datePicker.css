@@ -39,5 +39,13 @@
   background: rgba(66, 139, 202, 1);
 }
 
-
-
+.react-datepicker__month-select{
+  background: transparent;
+}
+.react-datepicker__year-select{
+  margin: 10px 20px;
+  background: transparent;
+}
+.react-datepicker__year-option:hover{
+  background: rgba(215, 231, 244, 1);
+}

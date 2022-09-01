@@ -40,7 +40,7 @@ export const useCuratorsGet = (): IUseCuratorsGet => {
         Authorization: `Bearer ${user?.accessToken}`,
       },
       params: {
-        orderByColumn: 'updated',
+        orderByColumn: 'created',
         orderBy: 'DESC',
         ...params,
       },

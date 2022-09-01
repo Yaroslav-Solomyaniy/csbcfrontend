@@ -61,7 +61,7 @@ export const useTeacherGet = (): IUseTeachersGet => {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
-      params: { orderByColumn: 'updated', orderBy: 'DESC', ...params },
+      params: { orderByColumn: 'created', orderBy: 'DESC', ...params },
     })
       .then((response: AxiosResponse<IPaginateData<IGetTeacherData> | null>) => {
         setData(response.data);

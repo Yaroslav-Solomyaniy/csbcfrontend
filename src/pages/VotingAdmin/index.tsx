@@ -15,8 +15,6 @@ import { IGetVotingAdminData, IGetVotingAdminParams } from '../../hooks/useVotin
 import { Delete, Edit, Review } from '../../components/common/Icon';
 import VotingEditModal from './Edit';
 import VotingDeleteModal from './Delete';
-import SelectCurator from '../../components/common/Select/SelectCurator';
-import SelectGroupByName from '../../components/common/Select/SelectGroupByName';
 import SelectStatusVoting from '../../components/common/Select/SelectStatusVoting';
 import SelectGroupById from '../../components/common/Select/SelectGroupById';
 

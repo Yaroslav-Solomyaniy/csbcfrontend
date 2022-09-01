@@ -52,7 +52,7 @@ export const useGroupsGet = (): IUseGroupsGet => {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
-      params: { orderByColumn: 'updated', orderBy: 'DESC', ...params },
+      params: { orderByColumn: 'created', orderBy: 'DESC', ...params },
     })
       .then((response: AxiosResponse<IPaginateData<IGroupData> | null>) => {
         setData(response.data);

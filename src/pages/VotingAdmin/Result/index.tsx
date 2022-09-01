@@ -45,8 +45,6 @@ interface IResultModal {
 export const VotingResultModal = ({ modalActive, closeModal, votingId }: IResultModal): JSX.Element => {
   const [formData, setFormData] = useState(formInitialData);
   const [activeBlock, setActiveBlock] = useState<boolean>(false);
-  const [dataRowSemesterOne, setdataRowSemesterOne] = useState<ITableRowItem[]>([]);
-  const [dataRowSemesterTwo, setdataRowSemesterTwo] = useState<ITableRowItem[]>([]);
   const { votingResult } = useVotingAdminContext();
 
   useEffect(() => {

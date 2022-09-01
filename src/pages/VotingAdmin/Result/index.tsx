@@ -107,8 +107,9 @@ export const VotingResultModal = ({ modalActive, closeModal, votingId }: IResult
       {!activeBlock
         && (
           <div className={styles.BlockCourses}>
-            <h1 className={styles.BlockCoursesTitle}>Семестр I</h1>
+            <h1 className={styles.Title}>Семестр I</h1>
             <Table
+              isTableResult
               dataHeader={dataHeaderCourses}
               dataRow={formData.courses.filter((item) => item.semester === 1).map((item) => ({
                 list: [
@@ -120,8 +121,9 @@ export const VotingResultModal = ({ modalActive, closeModal, votingId }: IResult
               }))}
               gridColumns={styles.columns}
             />
-            <h1 className={styles.BlockCoursesTitle}>Семестр II</h1>
+            <h1 className={styles.Title}>Семестр II</h1>
             <Table
+              isTableResult
               dataHeader={dataHeaderCourses}
               dataRow={formData.courses.filter((item) => item.semester === 2).map((item) => ({
                 list: [
@@ -140,13 +142,18 @@ export const VotingResultModal = ({ modalActive, closeModal, votingId }: IResult
         <div className={styles.BlockStudents}>
           {formData.groups.map((item) => (
             <>
-              <h1 className={styles.BlockCoursesTitle}>{item.name}</h1>
+              <h1 className={styles.Title}>
+                Група
+                {' '}
+                {item.name}
+              </h1>
               <Table
+                isTableResult
                 dataHeader={dataHeaderStudents}
                 dataRow={formData.students.filter((student) => student.group.name === item.name).map((stud) => ({
                   list: [
                     { id: 1, label: `${stud.user.lastName} ${stud.user.firstName} ${stud.user.patronymic}` },
-                    { id: 2, label: stud.isVoted ? <IsCheck /> : <IsCheck /> },
+                    { id: 2, label: stud.isVoted ? <IsCheck /> : '' },
                   ],
                   key: item.id,
                 }))}
@@ -156,7 +163,6 @@ export const VotingResultModal = ({ modalActive, closeModal, votingId }: IResult
           ))}
         </div>
         )}
-
       <ModalControlButtons
         handleClose={handleClose}
         onSubmit={(e) => e}

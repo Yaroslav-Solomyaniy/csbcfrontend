@@ -30,14 +30,18 @@
 
 .BlockCourses {
   margin-bottom: 30px;
-
-  &Title {
-    margin-top: 16px;
-    font-style: normal;
-    font-weight: 700;
-    font-size: 20px;
-    line-height: 28px;
-  }
+}
+.BlockStudents{
+  overflow-y: auto;
+  max-height: 500px;
+  margin-bottom: 30px;
+}
+.Title {
+  margin-top: 16px;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 28px;
 }
 
 

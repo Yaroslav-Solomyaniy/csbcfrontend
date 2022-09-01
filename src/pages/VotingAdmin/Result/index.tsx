@@ -14,12 +14,16 @@ import { IUserEditParams } from '../../../hooks/useUser';
 import { IGetVotingAdminData, IGetVotingResultDataById } from '../../../hooks/useVotingAdmin';
 import { useVotingAdminContext } from '../../../context/voting';
 import pagesStyle from '../../pagesStyle.module.scss';
-import { Delete, Edit, Review } from '../../../components/common/Icon';
+import { Delete, Edit, IsCheck, Review } from '../../../components/common/Icon';
 
 const dataHeaderCourses: ITableHeader[] = [
   { id: 1, label: 'Предмет' },
   { id: 2, label: 'Викладач' },
   { id: 3, label: 'К-ть голосів' },
+];
+const dataHeaderStudents: ITableHeader[] = [
+  { id: 1, label: 'ПІБ' },
+  { id: 2, label: 'Статус' },
 ];
 
 const formInitialData: IGetVotingResultDataById = {
@@ -27,6 +31,7 @@ const formInitialData: IGetVotingResultDataById = {
   tookPart: 0,
   status: '',
   groups: [],
+  students: [],
   startDate: '',
   courses: [],
 };
@@ -39,10 +44,29 @@ interface IResultModal {
 
 export const VotingResultModal = ({ modalActive, closeModal, votingId }: IResultModal): JSX.Element => {
   const [formData, setFormData] = useState(formInitialData);
-  const [activeBlock, setActiveBlock] = useState<string | null>(null);
+  const [activeBlock, setActiveBlock] = useState<boolean>(false);
   const [dataRowSemesterOne, setdataRowSemesterOne] = useState<ITableRowItem[]>([]);
   const [dataRowSemesterTwo, setdataRowSemesterTwo] = useState<ITableRowItem[]>([]);
   const { votingResult } = useVotingAdminContext();
+
+  useEffect(() => {
+    if (votingId) {
+      votingResult?.votingGetResultById({ id: `${votingId}` });
+    }
+  }, [votingId]);
+  useEffect(() => {
+    if (votingResult?.data) {
+      setFormData({
+        id: votingResult?.data.id,
+        tookPart: votingResult?.data.tookPart,
+        status: votingResult?.data.status,
+        students: votingResult?.data.students,
+        groups: votingResult?.data.groups,
+        startDate: votingResult.data.startDate,
+        courses: votingResult.data.courses,
+      });
+    }
+  }, [votingResult?.data]);
 
   const handleClose = () => {
     closeModal();
@@ -50,67 +74,11 @@ export const VotingResultModal = ({ modalActive, closeModal, votingId }: IResult
       setFormData(formInitialData);
     }, 200);
   };
-
-  useEffect(() => {
-    if (votingId) {
-      votingResult?.votingGetResultById({ id: `${votingId}` });
-    }
-  }, [votingId]);
-
-  const coursesInfo = () => {
-    setdataRowSemesterOne(formData.courses.filter((item) => item.semester === 1).map((item) => ({
-      list: [
-        { id: 1, label: item.name },
-        { id: 2, label: `${item.teacher.lastName} ${item.teacher.firstName} ${item.teacher.patronymic}` },
-        { id: 3, label: item.id },
-      ],
-      key: item.id,
-    })));
-    setdataRowSemesterTwo(formData.courses.filter((item) => item.semester === 2).map((item) => ({
-      list: [
-        { id: 1, label: item.name },
-        { id: 2, label: `${item.teacher.lastName} ${item.teacher.firstName} ${item.teacher.patronymic}` },
-        { id: 3, label: item.id },
-      ],
-      key: item.id,
-    })));
-  };
-
-  useEffect(() => {
-    coursesInfo();
-  }, [formData]);
-
-  useEffect(() => {
-    if (activeBlock === 'course') {
-      coursesInfo();
-    } else if (activeBlock === 'students') {
-      console.log('Students modal window');
-    } else {
-      console.log('Error modal');
-    }
-  }, [activeBlock]);
-
-  useEffect(() => {
-    if (votingResult?.data) {
-      setFormData({
-        id: votingResult?.data.id,
-        tookPart: votingResult?.data.tookPart,
-        status: votingResult?.data.status,
-        groups: votingResult?.data.groups,
-        startDate: votingResult.data.startDate,
-        courses: votingResult.data.courses,
-      });
-      setActiveBlock('course');
-    }
-  }, [votingResult?.data]);
-
   const ActiveStudentsBlock = () => {
-    setActiveBlock('students');
-    console.log(formData);
+    setActiveBlock(true);
   };
   const ActiveCourseBlock = () => {
-    setActiveBlock('course');
-    console.log(formData);
+    setActiveBlock(false);
   };
 
   return (
@@ -124,37 +92,71 @@ export const VotingResultModal = ({ modalActive, closeModal, votingId }: IResult
       <h4 className={styles.statusVoting}>{formData.status}</h4>
       <div className={styles.blockControlButtons}>
         <Button
-          className={clsx(styles.controlButton, activeBlock === 'course' && styles.isActiveButton)}
+          className={clsx(styles.controlButton, !activeBlock && styles.isActiveButton)}
           onClick={ActiveCourseBlock}
         >
           Предмети
         </Button>
         <Button
-          className={clsx(styles.controlButton, activeBlock === 'students' && styles.isActiveButton)}
+          className={clsx(styles.controlButton, activeBlock && styles.isActiveButton)}
           onClick={ActiveStudentsBlock}
         >
           Студенти
         </Button>
       </div>
-      {activeBlock === 'course'
+      {!activeBlock
         && (
           <div className={styles.BlockCourses}>
             <h1 className={styles.BlockCoursesTitle}>Семестр I</h1>
             <Table
               dataHeader={dataHeaderCourses}
-              dataRow={dataRowSemesterOne}
+              dataRow={formData.courses.filter((item) => item.semester === 1).map((item) => ({
+                list: [
+                  { id: 1, label: item.name },
+                  { id: 2, label: `${item.teacher.lastName} ${item.teacher.firstName} ${item.teacher.patronymic}` },
+                  { id: 3, label: item.allVotes },
+                ],
+                key: item.id,
+              }))}
               gridColumns={styles.columns}
             />
             <h1 className={styles.BlockCoursesTitle}>Семестр II</h1>
             <Table
               dataHeader={dataHeaderCourses}
-              dataRow={dataRowSemesterTwo}
+              dataRow={formData.courses.filter((item) => item.semester === 2).map((item) => ({
+                list: [
+                  { id: 1, label: item.name },
+                  { id: 2, label: `${item.teacher.lastName} ${item.teacher.firstName} ${item.teacher.patronymic}` },
+                  { id: 3, label: item.allVotes },
+                ],
+                key: item.id,
+              }))}
               gridColumns={styles.columns}
             />
           </div>
         )}
-      {activeBlock === 'students'
-        && <div className={styles.BlockStudents}>studik</div>}
+      {activeBlock
+        && (
+        <div className={styles.BlockStudents}>
+          {formData.groups.map((item) => (
+            <>
+              <h1 className={styles.BlockCoursesTitle}>{item.name}</h1>
+              <Table
+                dataHeader={dataHeaderStudents}
+                dataRow={formData.students.filter((student) => student.group.name === item.name).map((stud) => ({
+                  list: [
+                    { id: 1, label: `${stud.user.lastName} ${stud.user.firstName} ${stud.user.patronymic}` },
+                    { id: 2, label: stud.isVoted ? <IsCheck /> : <IsCheck /> },
+                  ],
+                  key: item.id,
+                }))}
+                gridColumns={styles.columnsStudents}
+              />
+            </>
+          ))}
+        </div>
+        )}
+
       <ModalControlButtons
         handleClose={handleClose}
         onSubmit={(e) => e}

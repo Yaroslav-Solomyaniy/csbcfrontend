@@ -15,6 +15,10 @@ import { IGetVotingAdminData, IGetVotingAdminParams } from '../../hooks/useVotin
 import { Delete, Edit, Review } from '../../components/common/Icon';
 import VotingEditModal from './Edit';
 import VotingDeleteModal from './Delete';
+import SelectCurator from '../../components/common/Select/SelectCurator';
+import SelectGroupByName from '../../components/common/Select/SelectGroupByName';
+import SelectStatusVoting from '../../components/common/Select/SelectStatusVoting';
+import SelectGroupById from '../../components/common/Select/SelectGroupById';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'Групи' },
@@ -39,12 +43,19 @@ const allCloseModalWindow: IIsActiveModalState = {
   result: 0,
 };
 
+interface Filter {
+  group: string;
+  status: string;
+}
+
 interface Params {
+  filter: Filter;
   pagination: Pagination;
 }
 
 const VotingAdmin = (): JSX.Element => {
   const [params, setParams] = useState<Params>({
+    filter: { group: '', status: '' },
     pagination: initialPagination,
   });
   const { getVoting, votingDelete, votingEdit, votingCreate } = useVotingAdminContext();
@@ -58,6 +69,8 @@ const VotingAdmin = (): JSX.Element => {
   useEffect(() => {
     const query: IGetVotingAdminParams = {};
 
+    if (params.filter.group) query.groups = +params.filter.group;
+    if (params.filter.status) query.status = params.filter.status;
     if (params.pagination.currentPage) query.page = params.pagination.currentPage;
     if (params.pagination.itemsPerPage) query.limit = params.pagination.itemsPerPage;
 
@@ -66,6 +79,8 @@ const VotingAdmin = (): JSX.Element => {
     votingCreate?.data,
     votingEdit?.data,
     votingDelete?.data,
+    params.filter.group,
+    params.filter.status,
     params.pagination.currentPage,
     params.pagination.itemsPerPage,
   ]);
@@ -129,6 +144,37 @@ const VotingAdmin = (): JSX.Element => {
         />
 
         <Table
+          filter={(
+            <>
+              <SelectGroupById
+                type="filter"
+                placeholder="Група"
+                onChange={(value) => setParams({
+                  ...params,
+                  filter: { ...params.filter, group: value },
+                  pagination: initialPagination,
+                })}
+                value={params.filter.group}
+                isClearable
+                isSearchable
+                isFilter
+              />
+              <SelectStatusVoting
+                type="filter"
+                placeholder="Статус"
+                onChange={(value) => setParams({
+                  ...params,
+                  filter: { ...params.filter, status: value },
+                  pagination: initialPagination,
+                })}
+                value={params.filter.status}
+                isClearable
+                isSearchable
+                isFilter
+              />
+
+            </>
+          )}
           dataHeader={dataHeader}
           dataRow={dataRow}
           gridColumns={styles.columns}

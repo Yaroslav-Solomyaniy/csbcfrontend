@@ -31,6 +31,12 @@
 .BlockCourses {
   margin-bottom: 30px;
 }
+.BlockCoursesNoResult{
+  padding: 100px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .BlockStudents{
   overflow-y: auto;
   max-height: 500px;

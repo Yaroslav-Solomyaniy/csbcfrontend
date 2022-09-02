@@ -15,16 +15,8 @@ import { IGetVotingAdminData, IGetVotingResultDataById } from '../../../hooks/us
 import { useVotingAdminContext } from '../../../context/voting';
 import pagesStyle from '../../pagesStyle.module.scss';
 import { Delete, Edit, IsCheck, Review } from '../../../components/common/Icon';
-
-const dataHeaderCourses: ITableHeader[] = [
-  { id: 1, label: 'Предмет' },
-  { id: 2, label: 'Викладач' },
-  { id: 3, label: 'К-ть голосів' },
-];
-const dataHeaderStudents: ITableHeader[] = [
-  { id: 1, label: 'ПІБ' },
-  { id: 2, label: 'Статус' },
-];
+import ResultCourses from './ResultCourses';
+import ResultStudents from './ResultStudents';
 
 const formInitialData: IGetVotingResultDataById = {
   id: 0,
@@ -88,6 +80,7 @@ export const VotingResultModal = ({ modalActive, closeModal, votingId }: IResult
       closeModal={handleClose}
     >
       <h4 className={styles.statusVoting}>{formData.status}</h4>
+
       <div className={styles.blockControlButtons}>
         <Button
           className={clsx(styles.controlButton, !activeBlock && styles.isActiveButton)}
@@ -102,65 +95,8 @@ export const VotingResultModal = ({ modalActive, closeModal, votingId }: IResult
           Студенти
         </Button>
       </div>
-      {!activeBlock
-        && (
-          <div className={styles.BlockCourses}>
-            <h1 className={styles.Title}>Семестр I</h1>
-            <Table
-              isTableResult
-              dataHeader={dataHeaderCourses}
-              dataRow={formData.courses.filter((item) => item.semester === 1).map((item) => ({
-                list: [
-                  { id: 1, label: item.name },
-                  { id: 2, label: `${item.teacher.lastName} ${item.teacher.firstName} ${item.teacher.patronymic}` },
-                  { id: 3, label: item.allVotes },
-                ],
-                key: item.id,
-              }))}
-              gridColumns={styles.columns}
-            />
-            <h1 className={styles.Title}>Семестр II</h1>
-            <Table
-              isTableResult
-              dataHeader={dataHeaderCourses}
-              dataRow={formData.courses.filter((item) => item.semester === 2).map((item) => ({
-                list: [
-                  { id: 1, label: item.name },
-                  { id: 2, label: `${item.teacher.lastName} ${item.teacher.firstName} ${item.teacher.patronymic}` },
-                  { id: 3, label: item.allVotes },
-                ],
-                key: item.id,
-              }))}
-              gridColumns={styles.columns}
-            />
-          </div>
-        )}
-      {activeBlock
-        && (
-        <div className={styles.BlockStudents}>
-          {formData.groups.map((item) => (
-            <>
-              <h1 className={styles.Title}>
-                Група
-                {' '}
-                {item.name}
-              </h1>
-              <Table
-                isTableResult
-                dataHeader={dataHeaderStudents}
-                dataRow={formData.students.filter((student) => student.group.name === item.name).map((stud) => ({
-                  list: [
-                    { id: 1, label: `${stud.user.lastName} ${stud.user.firstName} ${stud.user.patronymic}` },
-                    { id: 2, label: stud.isVoted ? <IsCheck /> : '' },
-                  ],
-                  key: item.id,
-                }))}
-                gridColumns={styles.columnsStudents}
-              />
-            </>
-          ))}
-        </div>
-        )}
+      {!activeBlock && <ResultCourses formData={formData} />}
+      {activeBlock && <ResultStudents formData={formData} />}
       <ModalControlButtons
         handleClose={handleClose}
         onSubmit={(e) => e}

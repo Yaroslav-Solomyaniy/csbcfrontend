@@ -99,6 +99,7 @@ const VotingAdmin = (): JSX.Element => {
               <div className={pagesStyle.actions}>
                 <Button
                   onClick={() => setIsActiveModal({ ...isActiveModal, edit: item.id })}
+                  disabled={item.status === 'Закінчене'}
                   isImg
                 >
                   <Edit />
@@ -112,6 +113,7 @@ const VotingAdmin = (): JSX.Element => {
                 <Button
                   onClick={() => setIsActiveModal({ ...isActiveModal, result: item.id })}
                   isImg
+                  disabled={item.status === 'Нове'}
                 >
                   <Review />
                 </Button>

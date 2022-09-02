@@ -19,7 +19,7 @@ import TeacherCreateModal from './modal/TeachersCreate';
 import TeacherEditModal from './modal/TeachersEdit';
 
 const dataHeader: ITableHeader[] = [
-  { id: 1, label: 'ПІП' },
+  { id: 1, label: 'ПІБ' },
   { id: 2, label: 'Предмет' },
   { id: 3, label: 'Група' },
   { id: 4, label: 'E-Mail' },
@@ -126,6 +126,9 @@ const Teachers = (): JSX.Element => {
     teachersGet?.getTeacher(query);
   }, [
     params.filter.teacherId,
+    teacherCreate?.data,
+    teacherEdit?.data,
+    teacherDelete?.data,
     params.filter.group,
     params.filter.course,
     params.pagination.currentPage,

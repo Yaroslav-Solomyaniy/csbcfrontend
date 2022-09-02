@@ -153,6 +153,15 @@ const Students = (): JSX.Element => {
         <Table
           filter={(
             <>
+              <SelectStudent
+                type="filter"
+                placeholder="ПІБ"
+                value={params.filter.studentId}
+                onChange={(value) => setParams({ ...params, filter: { ...params.filter, studentId: +value } })}
+                isClearable
+                isSearchable
+                isFilter
+              />
               <SelectGroupById
                 type="filter"
                 placeholder="Група"
@@ -164,15 +173,6 @@ const Students = (): JSX.Element => {
                     group: value,
                   },
                 })}
-                isClearable
-                isSearchable
-                isFilter
-              />
-              <SelectStudent
-                type="filter"
-                placeholder="ПІБ"
-                value={params.filter.studentId}
-                onChange={(value) => setParams({ ...params, filter: { ...params.filter, studentId: +value } })}
                 isClearable
                 isSearchable
                 isFilter

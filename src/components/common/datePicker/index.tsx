@@ -60,6 +60,9 @@ const MyDatePicker = ({
         minDate={minDate}
         timeIntervals={15}
         maxDate={maxDate}
+        shouldCloseOnSelect={false}
+        showYearDropdown
+        dropdownMode="select"
         showDisabledMonthNavigation={showDisabledMonthNavigation}
         showTimeInput={showTimeInput}
         timeFormat={timeFormat}

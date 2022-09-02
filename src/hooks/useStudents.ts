@@ -53,7 +53,9 @@ export interface IGetParams {
     | 'studentId'
     | 'orderNumber'
     | 'edeboId'
-    | 'isFullTime';
+    | 'isFullTime'
+    | 'updated'
+    |'created';
     id?:number;
   firstName?: string;
   lastName?: string;
@@ -84,7 +86,7 @@ export const useGetStudents = (): IUseGetStudents => {
         Authorization: `Bearer ${user?.accessToken}`,
       },
       params: {
-        orderByColumn: 'updated',
+        orderByColumn: 'created',
         orderBy: 'DESC',
         ...params,
       },

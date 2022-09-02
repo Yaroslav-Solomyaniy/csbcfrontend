@@ -7,7 +7,7 @@ import { useMessagesContext } from '../context/useMessagesContext';
 // GET LIST GROUPS
 
 interface IGetListGroupsParams {
-  orderByColumn?: 'updated';
+  orderByColumn?: 'id' | 'Name' | 'curator_id' | 'order_number' | 'deleted_order_number' | 'created' | 'updated';
   orderBy?: OrderBy;
   curatorName?: string;
   page?: number;
@@ -34,7 +34,7 @@ export const useGetListGroups = (): IUseGetListGroups => {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
-      params: { OrderByColumn: 'updated', limit: 100, orderBy: 'DESC', ...params },
+      params: { OrderByColumn: 'Name', limit: 100, orderBy: 'ASC', ...params },
     })
       .then((response: AxiosResponse<IPaginateData<IGetListGroupsData> | null>) => {
         setOptionsGroups(response.data);
@@ -50,7 +50,7 @@ export const useGetListGroups = (): IUseGetListGroups => {
 // GET LIST CURATORS
 
 interface IGetListCuratorsParams {
-  orderByColumn?: 'updated';
+  orderByColumn?: 'id' | 'Name' | 'curator_id' | 'order_number' | 'deleted_order_number' | 'created' | 'updated';
   orderBy?: OrderBy;
   curatorName?: string;
   page?: number;
@@ -79,7 +79,7 @@ export const useGetListCurators = (): IUseGetListCurators => {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
-      params: { OrderByColumn: 'updated', limit: 100, orderBy: 'DESC', ...params },
+      params: { OrderByColumn: 'Name', limit: 100, orderBy: 'ASC', ...params },
     })
       .then((response: AxiosResponse<IPaginateData<IGetListCuratorsData> | null>) => {
         setOptionCurators(response.data);
@@ -157,7 +157,7 @@ export const useGetListCourses = (): IUseGetListCourses => {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
-      params: { OrderByColumn: 'updated', limit: 100, orderBy: 'DESC', ...params },
+      params: { OrderByColumn: 'name', limit: 100, orderBy: 'ASC', ...params },
     })
       .then((response: AxiosResponse<IPaginateData<IGetListCoursesData> | null>) => {
         setOptionCourses(response.data);
@@ -202,7 +202,7 @@ export const useGetListTeachers = (): IUseGetListTeachers => {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
-      params: { OrderByColumn: 'updated', limit: 100, orderBy: 'DESC', ...params },
+      params: { OrderByColumn: 'id', limit: 100, orderBy: 'ASC', ...params },
     })
       .then((response: AxiosResponse<IPaginateData<IGetListTeachersData> | null>) => {
         setListTeachers(response.data);
@@ -218,6 +218,7 @@ export const useGetListTeachers = (): IUseGetListTeachers => {
 // GET LIST STUDENT
 
 interface IGetListStudentParams {
+  orderByColumn?: 'id'| 'dateOfBirth'| 'groupId'| 'studentId'| 'orderNumber'| 'edeboId'| 'isFullTime'| 'updated'| 'created';
   orderBy?: OrderBy;
   teacherName?: string;
   page?: string;
@@ -250,8 +251,9 @@ export const useGetListStudents = (): IUseGetListStudents => {
         Authorization: `Bearer ${user?.accessToken}`,
       },
       params: {
+        orderByColumn: 'id',
         limit: 100,
-        orderBy: 'DESC',
+        orderBy: 'ASC',
         ...params,
       },
     })
@@ -295,7 +297,7 @@ export const useGetListAdministrators = (): IUseGetListAdministrators => {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
-      params: { limit: 100, orderBy: 'DESC', orderByColumn: 'updated', ...params },
+      params: { orderByColumn: 'id', limit: 100, orderBy: 'ASC', ...params },
     })
       .then((response: AxiosResponse<IPaginateData<IGetListAdministratorsData> | null>) => {
         setListAdmins(response.data);

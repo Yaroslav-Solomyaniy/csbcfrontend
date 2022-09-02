@@ -24,11 +24,10 @@ const Styles: any = {
       ...provided,
       background: '#fff',
       border: '1px solid rgba(0, 0, 0, 0.1)',
-      height: 'auto',
-      minHeight: '32px',
+      minHeight: 25,
+      boxSizing: 'border-box',
       borderRadius: '8px',
       marginTop: 16,
-      padding: '2px 0',
       color: 'rgba(0, 0, 0, 0.75)',
       boxShadow: 'none',
       '&:hover': {
@@ -45,7 +44,8 @@ const Styles: any = {
       ...base,
       backgroundColor: 'white',
       fontSize: '14px',
-      border: '1px solid  rgba(66, 139, 202, 1)',
+      border: '1px solid rgba(66, 139, 202, 1)',
+      overflow: 'hidden',
       borderRadius: 4,
       margin: '2px 2px',
       minWidth: '45%',
@@ -55,7 +55,7 @@ const Styles: any = {
     }),
     multiValueLabel: (base: any) => ({
       ...base,
-      padding: '2px 5px',
+      /* padding: '2px 5px', */
       backgroundColor: 'white',
 
     }),
@@ -78,13 +78,17 @@ const Styles: any = {
 
     valueContainer: (provided: any) => ({
       ...provided,
-      padding: '0 16px',
+      padding: '0 15px',
     }),
     indicatorSeparator: (provided: any) => ({
       ...provided,
       display: 'none',
     }),
-
+    indicatorsContainer: (provided: any) => ({
+      ...provided,
+      minHeight: 30,
+      maxHeight: 30,
+    }),
     input: (provided: any) => ({
       ...provided,
       margin: '0px',

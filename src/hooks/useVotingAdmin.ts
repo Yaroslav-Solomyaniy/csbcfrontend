@@ -58,9 +58,10 @@ export interface IGetVotingAdminParams {
   search?: string;
   id?: number;
   name?: string;
-  groups?:number[];
+  groups?:number;
   startDate?: string;
   endDate?: string;
+  status?: string;
   requiredCourses?:number[];
   notRequiredCourses?:number[];
   page?: number;
@@ -96,7 +97,7 @@ export const useVotingGet = (): IUseVotingGet => {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
-      params: { orderByColumn: 'updated', orderBy: 'DESC', ...params },
+      params: { orderByColumn: 'created', orderBy: 'DESC', ...params },
     })
       .then((response: AxiosResponse<IPaginateData<IGetVotingAdminData> | null>) => {
         setData(response.data);
@@ -234,18 +235,32 @@ export interface IGetVotingResultDataById {
       name: string;
     }[];
   startDate: string;
-  students?: [];
+  students: {
+    id: number;
+    user: {
+      id: number;
+      firstName: string;
+      lastName: string;
+      patronymic: string;
+    };
+    group:{
+      id: number;
+      name: string;
+    };
+    'isVoted': boolean;
+  }[];
   courses:
     {
       id: number | string;
       name: string;
       semester: number;
-      teacher: {
+       teacher: {
         id: number | string;
         firstName: string;
         lastName: string;
         patronymic: string;
       };
+      allVotes: number;
     }[];
 }
 

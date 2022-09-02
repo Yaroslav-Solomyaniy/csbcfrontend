@@ -138,7 +138,7 @@ const ChangePassword = (): JSX.Element => {
             className={styles.changePassword__form__button}
             onClick={onSubmit}
           >
-            Вхід
+            Зберегти
           </Button>
         </div>
       </div>

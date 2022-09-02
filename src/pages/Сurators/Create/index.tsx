@@ -100,7 +100,7 @@ export const CuratorCreateModal = ({ modalActive, closeModal }: ICreateModal): J
         handleClose={handleClose}
         onSubmit={onSubmit}
         cancelButtonText="Відміна"
-        mainButtonText="Додати"
+        mainButtonText="Створити"
       />
     </ModalWindow>
   );

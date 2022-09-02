@@ -48,8 +48,7 @@ export const StudentsEditModal = ({ modalActive, closeModal, studentId }: IEditM
     setIsSubmitted(true);
 
     if (formData.dateOfBirth
-      && formData.edeboId.length === 8
-      && formData.groupId.toString().length > 1
+     && formData.edeboId.length === 8
       && `${formData.orderNumber}`.length >= 6
       && `${formData.orderNumber}`.length <= 20
       && formData.user.firstName

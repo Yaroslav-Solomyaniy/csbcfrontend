@@ -100,7 +100,7 @@ export const AdministratorCreateModal = ({ modalActive, closeModal }: ICreateMod
         handleClose={handleClose}
         onSubmit={onSubmit}
         cancelButtonText="Відміна"
-        mainButtonText="Додати"
+        mainButtonText="Створити"
       />
     </ModalWindow>
   );

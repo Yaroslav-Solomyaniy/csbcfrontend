@@ -30,6 +30,15 @@ Svg.defaultProps = {
   style: {},
 };
 
+export const IsCheck = ({ ...props }: Record<any, any>): JSX.Element => (
+  <Svg viewBox="0 0 21 19" {...props}>
+    <path
+      d="M21 7.00003L9 19L3.5 13.5L4.91 12.09L9 16.17L19.59 5.59003L21 7.00003Z"
+      fill="currentColor"
+    />
+  </Svg>
+);
+
 export const First = ({ ...props }: Record<any, any>): JSX.Element => (
   <Svg viewBox="0 0 16 16" {...props}>
     <path

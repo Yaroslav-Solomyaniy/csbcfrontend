@@ -38,8 +38,9 @@ const ChangePassword = (): JSX.Element => {
       && formData.confirmedPassword.length > 7
       && (formData.newPassword === formData.confirmedPassword)) {
       patchChangePassword({
-        password: formData.newPassword,
-        accessToken: user?.accessToken,
+        oldPassword: formData.oldPassword,
+        newPassword: formData.newPassword,
+        email: user?.email,
       });
       setIsSubmitted(false);
       setFormData(initialFormData);

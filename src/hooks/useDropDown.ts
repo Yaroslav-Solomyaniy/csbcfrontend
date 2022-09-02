@@ -218,7 +218,16 @@ export const useGetListTeachers = (): IUseGetListTeachers => {
 // GET LIST STUDENT
 
 interface IGetListStudentParams {
-  orderByColumn?: 'id'| 'dateOfBirth'| 'groupId'| 'studentId'| 'orderNumber'| 'edeboId'| 'isFullTime'| 'updated'| 'created';
+  orderByColumn?:
+    'id'
+    | 'dateOfBirth'
+    | 'groupId'
+    | 'studentId'
+    | 'orderNumber'
+    | 'edeboId'
+    | 'isFullTime'
+    | 'updated'
+    | 'created';
   orderBy?: OrderBy;
   teacherName?: string;
   page?: string;

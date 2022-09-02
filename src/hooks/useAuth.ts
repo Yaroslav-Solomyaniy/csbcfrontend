@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import jwt_decode from 'jwt-decode';
 import { useMessagesContext } from '../context/useMessagesContext';
+import { useAuthContext } from '../context/useAuthContext';
 
 export interface LoginParams {
   email: string;
@@ -123,8 +124,9 @@ export const useForgotPassword = (): { postForgotPassword: (params: ForgotPasswo
 };
 
 export interface IPassword {
-  password: string;
-  accessToken: string | undefined;
+  oldPassword: string;
+  newPassword: string;
+  email: string | undefined;
 }
 
 interface IChangePassword {
@@ -133,11 +135,12 @@ interface IChangePassword {
 
 export const useChangePassword = (): IChangePassword => {
   const { addErrors, addInfo } = useMessagesContext();
+  const { user } = useAuthContext();
 
   const patchChangePassword = (params: IPassword) => {
-    axios.patch(`${process.env.REACT_APP_API_URL}/auth/change-password`, { password: params.password }, {
+    axios.patch(`${process.env.REACT_APP_API_URL}/auth/change-password`, params, {
       headers: {
-        Authorization: `Bearer ${params.accessToken}`,
+        Authorization: `Bearer ${user?.accessToken}`,
       },
     }).then((e) => {
       addInfo(`${e.data.success

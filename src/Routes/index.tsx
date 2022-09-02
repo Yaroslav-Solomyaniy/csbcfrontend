@@ -69,19 +69,19 @@ const AppRoutes = () => {
         </>
       )}
       {user?.role === 'student' && (
-      <>
-        <Route index element={<IndPlan />} />
-        <Route path="/voting-students" element={<VotingStudents />} />
-      </>
+        <>
+          <Route index element={<IndPlan />} />
+          <Route path="/voting-students" element={<VotingStudents />} />
+        </>
       )}
       {user?.role === 'teacher' && (
         <Route index element={<TeacherPage />} />
       )}
       {user?.role === 'curator' && (
-      <Route index element={<Curator />} />
+        <Route index element={<Curator />} />
       )}
       {user && (
-      <Route path="/change-password" element={<ChangePassword />} />
+        <Route path="/change-password" element={<ChangePassword />} />
       )}
       {!user && (
         <>

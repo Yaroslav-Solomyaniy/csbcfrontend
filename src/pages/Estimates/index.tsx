@@ -6,9 +6,6 @@ import { initialPagination, Pagination } from '../../types';
 import { ITableRowItem } from '../../components/common/table/TableBody';
 import styles from './index.module.scss';
 import Button from '../../components/common/Button';
-import edit from '../../images/table/edit.svg';
-import hystory from '../../images/table/history.svg';
-import download from '../../images/table/download.svg';
 import SelectStudent from '../../components/common/Select/SelectStudent';
 import SelectGroupById from '../../components/common/Select/SelectGroupById';
 import TitlePage from '../../components/TitlePage';
@@ -19,6 +16,8 @@ import { IGetGradesData, IGetGradesParams } from '../../hooks/useEstimates';
 import SelectSemester from '../../components/common/Select/SelectSemester';
 import EstimatesEdit from './modal/EstimatesEdit/index';
 import EstimatesHistory from './modal/EstimatesHystory';
+import { Download, Edit, History } from '../../components/common/Icon';
+import pagesStyle from '../pagesStyle.module.scss';
 
 interface IIsActiveTeacherModalState {
   openHistory: boolean;
@@ -65,27 +64,27 @@ const ActionsButton = ({
   const [semester, setSemester] = useState(0);
 
   return (
-    <div className={styles.actions}>
+    <div className={pagesStyle.actions}>
       <Button
         isImg
         type="button"
         onClick={onClickEdit}
       >
-        <img src={edit} alt="edit" />
+        <Edit />
       </Button>
       <Button
         isImg
         type="button"
         onClick={onClickHistory}
       >
-        <img src={hystory} alt="hystory" />
+        <History />
       </Button>
       <Button
         isImg
         type="button"
         onClick={onClickDownload}
       >
-        <img src={download} alt="download" />
+        <Download />
       </Button>
       <div
         className={clsx(
@@ -98,6 +97,7 @@ const ActionsButton = ({
         <Button onClick={() => close(2)} type="button">II</Button>
         <Button onClick={() => close(3)} type="button">III</Button>
         <Button onClick={() => close(4)} type="button">all</Button>
+        <Button onClick={() => close(0)} type="button">X</Button>
       </div>
     </div>
   );

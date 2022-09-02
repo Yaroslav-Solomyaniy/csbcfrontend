@@ -1,20 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import moment from 'moment';
-import uk from 'date-fns/locale/uk';
 import ModalWindow from '../../../components/common/ModalWindow';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
-import { IEditModal } from '../../../types';
 import styles from './index.module.scss';
 import Button from '../../../components/common/Button';
-import Table from '../../../components/common/table';
-import { ITableHeader } from '../../../components/common/table/TableHeader';
-import { ITableRowItem } from '../../../components/common/table/TableBody';
-import { IUserEditParams } from '../../../hooks/useUser';
-import { IGetVotingAdminData, IGetVotingResultDataById } from '../../../hooks/useVotingAdmin';
+import { IGetVotingResultDataById } from '../../../hooks/useVotingAdmin';
 import { useVotingAdminContext } from '../../../context/voting';
-import pagesStyle from '../../pagesStyle.module.scss';
-import { Delete, Edit, IsCheck, Review } from '../../../components/common/Icon';
 import ResultCourses from './ResultCourses';
 import ResultStudents from './ResultStudents';
 

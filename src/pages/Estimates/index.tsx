@@ -19,7 +19,7 @@ import EstimatesHistory from './modal/EstimatesHystory';
 import { Download, Edit, History } from '../../components/common/Icon';
 import pagesStyle from '../pagesStyle.module.scss';
 
-interface IIsActiveTeacherModalState {
+interface IIsActiveGradesModal {
   openHistory: boolean;
   studentEdit: number;
   gradeEdit: number;
@@ -28,7 +28,7 @@ interface IIsActiveTeacherModalState {
   semester: number;
 }
 
-const allCloseModalWindow: IIsActiveTeacherModalState = {
+const allCloseModalWindow: IIsActiveGradesModal = {
   openHistory: false,
   studentEdit: 0,
   gradeEdit: 0,
@@ -38,7 +38,7 @@ const allCloseModalWindow: IIsActiveTeacherModalState = {
 };
 
 interface Filter {
-  studentId: number | null;
+  studentId: string;
   group: string;
   semester: string;
 }
@@ -104,18 +104,39 @@ const ActionsButton = ({
 };
 
 const Estimates = (): JSX.Element => {
-  const { gradesGet } = useEstimatesContext();
-  const dropCurses = useGetListCourses();
-  const [isActiveModal, setIsActiveModal] = useState<IIsActiveTeacherModalState>(allCloseModalWindow);
+  const [isActiveModal, setIsActiveModal] = useState<IIsActiveGradesModal>(allCloseModalWindow);
   const [dataHeader, setDataHeader] = useState<ITableHeader[]>([]);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
+  const { gradesGet } = useEstimatesContext();
+  const dropCurses = useGetListCourses();
   const [params, setParams] = useState<Params>({
-    filter: { studentId: 0, group: '', semester: '' },
+    filter: { studentId: '', group: '', semester: '' },
     pagination: initialPagination,
   });
   const closeModal = () => {
     setIsActiveModal(allCloseModalWindow);
   };
+
+  useEffect(() => {
+    dropCurses.getListCourses();
+  }, [gradesGet?.data]);
+
+  useEffect(() => {
+    const query: IGetGradesParams = {};
+
+    // if (params.filter.group) query = params.filter.group;
+    if (params.filter.studentId) query.studentId = +params.filter.studentId;
+    if (params.pagination.currentPage) query.page = params.pagination.currentPage;
+    if (params.pagination.itemsPerPage) query.limit = params.pagination.itemsPerPage;
+
+    gradesGet?.getEstimateStudent(query);
+  }, [
+    params.filter.group,
+    params.filter.studentId,
+    params.filter.semester,
+    params.pagination.currentPage,
+    params.pagination.itemsPerPage,
+  ]);
 
   const tableRows = (arrTableRows: IGetGradesData[]) => {
     let id = 2;
@@ -184,10 +205,6 @@ const Estimates = (): JSX.Element => {
   };
 
   useEffect(() => {
-    dropCurses.getListCourses();
-  }, [gradesGet?.data]);
-
-  useEffect(() => {
     let id = 2;
 
     setDataHeader([
@@ -205,29 +222,10 @@ const Estimates = (): JSX.Element => {
     }
   }, [gradesGet?.data, dropCurses.optionCourses, isActiveModal]);
 
-  useEffect(() => {
-    const query: IGetGradesParams = {};
-
-    // if (params.filter.group) query = params.filter.group;
-    if (params.filter.studentId) query.studentId = params.filter.studentId;
-    if (params.pagination.currentPage) query.page = params.pagination.currentPage;
-    if (params.pagination.itemsPerPage) query.limit = params.pagination.itemsPerPage;
-
-    gradesGet?.getEstimateStudent(query);
-  }, [
-    params.filter.group,
-    params.filter.studentId,
-    params.filter.semester,
-    params.pagination.currentPage,
-    params.pagination.itemsPerPage,
-  ]);
-
   return (
     <Layout>
-      <div className={styles.students}>
-        <TitlePage
-          title="Оцінки"
-        />
+      <div className={styles.grades}>
+        <TitlePage title="Оцінки" />
         <Table
           filter={(
             <>
@@ -239,7 +237,7 @@ const Estimates = (): JSX.Element => {
                 isSearchable
                 value={params.filter.studentId}
                 onChange={(value) => setParams({
-                  ...params, filter: { ...params.filter, studentId: +value },
+                  ...params, filter: { ...params.filter, studentId: value },
                 })}
               />
               <SelectGroupById

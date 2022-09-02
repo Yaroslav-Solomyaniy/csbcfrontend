@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './index.module.scss';
 import Table from '../../../components/common/table';
 import { ITableHeader } from '../../../components/common/table/TableHeader';

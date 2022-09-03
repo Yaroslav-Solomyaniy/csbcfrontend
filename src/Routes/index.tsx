@@ -26,6 +26,7 @@ import styles from '../pages/PasswordRecovery/index.module.scss';
 import leftArrow from '../images/login/leftArrow.svg';
 import { useAuthContext } from '../context/useAuthContext';
 import VotingAdminProvider from '../context/voting';
+import StudentProvider from '../context/student';
 
 const AppRoutes = () => {
   const { user } = useAuthContext();
@@ -71,7 +72,7 @@ const AppRoutes = () => {
       {user?.role === 'student' && (
       <>
         <Route index element={<IndPlan />} />
-        <Route path="/voting-students" element={<VotingStudents />} />
+        <Route path="/voting-students" element={<StudentProvider><VotingStudents /></StudentProvider>} />
       </>
       )}
       {user?.role === 'teacher' && (

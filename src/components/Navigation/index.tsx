@@ -71,7 +71,7 @@ const routes: IRoute[] = [
   },
   {
     title: 'Індивід. план',
-    to: '/individual-plan',
+    to: '/',
     ico: <IndividualPlan />,
     role: ['student'],
   },

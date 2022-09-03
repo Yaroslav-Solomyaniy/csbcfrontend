@@ -42,13 +42,13 @@ export interface IGetCoursesData {
   semester: number;
   isExam: boolean;
   isCompulsory: boolean;
-  teacher?: {
-    id?: number;
-    firstName?: string;
-    lastName?: string;
-    patronymic?: string;
-    email?: string;
-  } | null;
+  teacher: {
+    id: number;
+    firstName: string;
+    lastName: string;
+    patronymic: string;
+    email: string;
+  };
   groups: {
     id: number;
     name: string;

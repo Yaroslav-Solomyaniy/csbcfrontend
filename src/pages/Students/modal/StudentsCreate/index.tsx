@@ -52,7 +52,7 @@ export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateMod
     setTimeout(() => {
       setFormData(formInitialData);
       setSelectValue(selectValueDefault);
-    }, 1500);
+    }, 200);
   };
 
   useEffect(() => {

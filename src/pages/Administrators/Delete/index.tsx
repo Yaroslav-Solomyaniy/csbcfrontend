@@ -27,7 +27,7 @@ export const AdministratorDeleteModal = ({ modalActive, closeModal, Id }: IDelet
     closeModal();
     setTimeout(() => {
       setFormData(formInitialData);
-    }, 1500);
+    }, 200);
   };
 
   useEffect(() => {

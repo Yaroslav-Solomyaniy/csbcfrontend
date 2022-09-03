@@ -40,7 +40,7 @@ export const StudentsEditModal = ({ modalActive, closeModal, studentId }: IEditM
     closeModal();
     setTimeout(() => {
       setFormData(formInitialData);
-    }, 1500);
+    }, 200);
   };
 
   const onSubmit = (e: React.FormEvent | undefined) => {

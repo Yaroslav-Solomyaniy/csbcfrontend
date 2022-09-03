@@ -27,7 +27,7 @@ export const TeacherEditModal = ({ modalActive, closeModal, studentId }: IEditMo
     closeModal();
     setTimeout(() => {
       setFormData(formInitialData);
-    }, 1500);
+    }, 200);
   };
 
   const onSubmit = (e: React.FormEvent | undefined) => {

@@ -21,7 +21,7 @@ export const CuratorDeleteModal = ({ modalActive, closeModal, Id }: IDeleteModal
     closeModal();
     setTimeout(() => {
       setFormData(formInitialData);
-    }, 1500);
+    }, 200);
   };
 
   useEffect(() => {

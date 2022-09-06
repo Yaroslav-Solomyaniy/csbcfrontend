@@ -8,13 +8,16 @@ import { ITableHeader } from '../../components/common/table/TableHeader';
 import Table from '../../components/common/table';
 import { ITableRowItem } from '../../components/common/table/TableBody';
 import { initialPagination, Pagination } from '../../types';
-import VotingResultModal from './Result';
-import VotingCreateModal from './Create';
+
 import { useVotingAdminContext } from '../../context/voting';
 import { IGetVotingAdminData, IGetVotingAdminParams } from '../../hooks/useVotingAdmin';
 import { Delete, Edit, Review } from '../../components/common/Icon';
+
 import VotingEditModal from './Edit';
 import VotingDeleteModal from './Delete';
+import VotingResultModal from './Result';
+import VotingCreateModal from './Create';
+
 import SelectStatusVoting from '../../components/common/Select/SelectStatusVoting';
 import SelectGroupById from '../../components/common/Select/SelectGroupById';
 

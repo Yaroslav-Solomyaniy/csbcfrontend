@@ -65,6 +65,7 @@ const StudentsReview = ({ modalActive, closeModal, id }: IStudentsReviewModal) =
               Редагувати
             </Button>
           </div>
+
           <div>
             <Table
               dataHeader={dataHeader}

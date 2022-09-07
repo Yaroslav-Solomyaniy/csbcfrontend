@@ -1,36 +1,31 @@
 import React, { createContext, useContext, useEffect } from 'react';
 import {
-  IUseStudentCreate,
-  IUseStudentDelete,
-  IUseGetStudents,
-  IUseGetStudentId,
-  IUseStudentEdit,
-  useStudentCreate,
-  useStudentDelete,
-  useStudentGetId,
-  useStudentEdit,
-  useGetStudents,
-} from '../hooks/useStudents';
-import { IUseGetListGroups, useGetListGroups } from '../hooks/useDropDown';
-import { IUseStudentVotingGet, useStudentVotingGet } from '../hooks/usePageInStudents';
-import { IUseCoursesGet, useCoursesGet } from '../hooks/useCourses';
+  IUseStudentVotingCreate,
+  IUseStudentVotingGet,
+  useStudentVotingCreate,
+  useStudentVotingGet,
+} from '../hooks/usePageInStudents';
 
 interface IStudentContext {
   getVoting: IUseStudentVotingGet | null;
+  votingCreate: IUseStudentVotingCreate | null;
 }
 
 const defaultValue: IStudentContext = {
   getVoting: null,
+  votingCreate: null,
 };
 
 export const StudentContext = createContext<IStudentContext>(defaultValue);
 
 const StudentProvider = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
   const getVoting = useStudentVotingGet();
+  const votingCreate = useStudentVotingCreate();
 
   return (
     <StudentContext.Provider value={{
       getVoting,
+      votingCreate,
     }}
     >
       {children}

@@ -4,3 +4,28 @@
 .firstTitle{
   padding: 0!important;
 }
+.contentVoting{
+  height: 100%;
+}
+.voting_footer{
+  margin-top: 42px;
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 65px;
+}
+.noActiveVoting{
+  display: flex;
+  justify-content: center;
+  margin-top: 250px;
+  &Title{
+    font-weight: 700;
+    display: inline-block;
+    font-size: 20px;
+    line-height: 28px;
+    border-radius: 8px;
+    color: rgba(0, 0, 0, 0.75);
+    padding: 23px 123px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 1);
+  }
+}

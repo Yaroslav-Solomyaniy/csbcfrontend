@@ -18,9 +18,25 @@ const formInitialData: IVotingEditParams = {
   endDate: null,
   requiredCourses: [],
   notRequiredCourses: [],
+  isRevote: false,
 };
 
-export const VotingEditModal = ({ modalActive, closeModal, studentId }: IEditModal): JSX.Element => {
+interface IEditModalAndRevote {
+  modalActive: boolean;
+  closeModal: () => void;
+  id: number;
+  titleModalWindow: string;
+  isRevote?: boolean;
+}
+
+export const VotingEditModal = (
+  { modalActive,
+    closeModal,
+    id,
+    titleModalWindow,
+    isRevote,
+  }: IEditModalAndRevote,
+): JSX.Element => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState(formInitialData);
   const { votingGetById, votingEdit } = useVotingAdminContext();
@@ -48,22 +64,25 @@ export const VotingEditModal = ({ modalActive, closeModal, studentId }: IEditMod
         ...formData,
         startDate: moment(formData.startDate).format(),
         endDate: moment(formData.endDate).format(),
-      }, studentId);
+        isRevote,
+      }, id);
     }
   };
 
   useEffect(() => {
     if (votingEdit?.data) {
       handleClose();
-      addInfo('Голосування успішно відредаговане');
+      if (isRevote) {
+        addInfo(' Переголосування успішно відредаговане');
+      } else addInfo('Голосування успішно відредаговане');
     }
   }, [votingEdit?.data]);
 
   useEffect(() => {
-    if (studentId) {
-      votingGetById?.getVotingById({ id: `${studentId}` });
+    if (id) {
+      votingGetById?.getVotingById({ id: `${id}` });
     }
-  }, [studentId]);
+  }, [id]);
 
   useEffect(() => {
     if (votingGetById?.data) {
@@ -78,7 +97,7 @@ export const VotingEditModal = ({ modalActive, closeModal, studentId }: IEditMod
   }, [votingGetById?.data]);
 
   return (
-    <ModalWindow modalTitle="Редагування голосування" active={modalActive} closeModal={handleClose}>
+    <ModalWindow modalTitle={titleModalWindow} active={modalActive} closeModal={handleClose}>
       <form className={pagesStyle.form} onSubmit={onSubmit}>
         <MultiSelectGroup
           type="modal"
@@ -175,6 +194,10 @@ export const VotingEditModal = ({ modalActive, closeModal, studentId }: IEditMod
       />
     </ModalWindow>
   );
+};
+
+VotingEditModal.defaultProps = {
+  isRevote: false,
 };
 
 export default VotingEditModal;

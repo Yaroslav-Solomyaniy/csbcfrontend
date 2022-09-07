@@ -35,6 +35,7 @@ export interface IIsActiveModalState {
   edit: number;
   delete: number;
   result: number;
+  revote: number;
 }
 
 const allCloseModalWindow: IIsActiveModalState = {
@@ -42,6 +43,7 @@ const allCloseModalWindow: IIsActiveModalState = {
   edit: 0,
   delete: 0,
   result: 0,
+  revote: 0,
 };
 
 interface Filter {
@@ -65,6 +67,11 @@ const VotingAdmin = (): JSX.Element => {
 
   const closeModal = () => {
     setIsActiveModal(allCloseModalWindow);
+  };
+
+  const changeWindow = (value: number) => {
+    setIsActiveModal(allCloseModalWindow);
+    setIsActiveModal({ ...isActiveModal, revote: value });
   };
 
   useEffect(() => {
@@ -184,13 +191,33 @@ const VotingAdmin = (): JSX.Element => {
           pagination={params.pagination}
           onPaginationChange={(newPagination) => setParams({ ...params, pagination: newPagination })}
         />
-        <VotingCreateModal modalActive={isActiveModal.create} closeModal={closeModal} />
-        <VotingEditModal modalActive={!!isActiveModal.edit} studentId={isActiveModal.edit} closeModal={closeModal} />
-        <VotingDeleteModal modalActive={!!isActiveModal.delete} Id={isActiveModal.delete} closeModal={closeModal} />
+        <VotingCreateModal
+          modalActive={isActiveModal.create}
+          closeModal={closeModal}
+        />
+        <VotingEditModal
+          modalActive={!!isActiveModal.edit}
+          id={isActiveModal.edit}
+          closeModal={closeModal}
+          titleModalWindow="Редагування голосування"
+        />
+        <VotingDeleteModal
+          modalActive={!!isActiveModal.delete}
+          Id={isActiveModal.delete}
+          closeModal={closeModal}
+        />
         <VotingResultModal
           modalActive={!!isActiveModal.result}
           votingId={isActiveModal.result}
           closeModal={closeModal}
+          changeWindow={changeWindow}
+        />
+        <VotingEditModal
+          modalActive={!!isActiveModal.revote}
+          id={isActiveModal.result}
+          closeModal={closeModal}
+          titleModalWindow="Редагування переголосування"
+          isRevote
         />
       </div>
     </Layout>

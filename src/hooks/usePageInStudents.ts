@@ -67,3 +67,38 @@ export const useStudentVotingGet = (): IUseStudentVotingGet => {
 
   return { data, getVotingStudent };
 };
+
+export interface IVotingStudentPostParams {
+  courses: number[];
+}
+
+interface IVotingStudentPostData {
+ message:string;
+}
+
+export interface IUseStudentVotingCreate {
+  data: IVotingStudentPostData | null;
+  studentVotingCreate: (params: IVotingStudentPostParams) => void;
+}
+
+export const useStudentVotingCreate = (): IUseStudentVotingCreate => {
+  const { addErrors } = useMessagesContext();
+  const { user } = useAuthContext();
+  const [data, setData] = useState<IVotingStudentPostData | null>(null);
+
+  const studentVotingCreate = (params: IVotingStudentPostParams) => {
+    axios.post(`${process.env.REACT_APP_API_URL}/students/page/voting`, params, {
+      headers: {
+        Authorization: `Bearer ${user?.accessToken}`,
+      },
+    })
+      .then((response: AxiosResponse<IVotingStudentPostData>) => {
+        setData(response.data);
+      })
+      .catch((error) => {
+        addErrors(error.response.data.message);
+      });
+  };
+
+  return { data, studentVotingCreate };
+};

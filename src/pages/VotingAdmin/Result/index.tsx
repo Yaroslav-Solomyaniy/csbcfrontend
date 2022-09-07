@@ -9,6 +9,7 @@ import { IGetVotingResultDataById } from '../../../hooks/useVotingAdmin';
 import { useVotingAdminContext } from '../../../context/voting';
 import ResultCourses from './ResultCourses';
 import ResultStudents from './ResultStudents';
+import VotingEditModal from '../Edit';
 
 const formInitialData: IGetVotingResultDataById = {
   id: 0,
@@ -24,9 +25,10 @@ interface IResultModal {
   modalActive: boolean;
   closeModal: () => void;
   votingId: number;
+  changeWindow: (value: number) => void;
 }
 
-export const VotingResultModal = ({ modalActive, closeModal, votingId }: IResultModal): JSX.Element => {
+export const VotingResultModal = ({ modalActive, closeModal, votingId, changeWindow }: IResultModal): JSX.Element => {
   const [formData, setFormData] = useState(formInitialData);
   const [activeBlock, setActiveBlock] = useState<boolean>(false);
   const { votingResult } = useVotingAdminContext();
@@ -71,7 +73,20 @@ export const VotingResultModal = ({ modalActive, closeModal, votingId }: IResult
       active={modalActive}
       closeModal={handleClose}
     >
-      <h4 className={styles.statusVoting}>{formData.status}</h4>
+      <h4 className={styles.statusVoting}>
+        {formData.status}
+        {formData.status === 'Потребує переголосування'
+          && (
+          <Button
+            onClick={() => changeWindow(votingId)}
+            size="small"
+            nameClass="primary"
+            className={styles.revoteButton}
+          >
+            Створити переголосування
+          </Button>
+          )}
+      </h4>
 
       <div className={styles.blockControlButtons}>
         <Button

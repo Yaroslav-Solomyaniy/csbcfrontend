@@ -166,6 +166,7 @@ export interface IVotingEditParams {
   endDate: Date | string | null;
   requiredCourses: number[];
   notRequiredCourses: number[];
+  isRevote?:boolean;
 }
 
 export interface IUseVotingEdit {

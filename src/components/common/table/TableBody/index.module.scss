@@ -25,6 +25,10 @@
     color: rgba(0, 0, 0, 0.75);
     position: relative;
 
+    &:nth-child(n) {
+      border-bottom: solid #E8E8E8 1px;
+    }
+
     &__scroll {
       &:first-child {
         position: sticky;

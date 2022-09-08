@@ -9,8 +9,7 @@
 .body__row {
   display: grid;
   background: rgba(255, 255, 255, 1);
-/*  border-bottom: 1px solid #e8e8e8;*/
- &_noBorder{
+  &_noBorder{
    &:last-child {
      border-bottom: none;
    }
@@ -45,7 +44,6 @@
     }
 
     &__string {
-      display: inline-block;
       height: 22px;
       line-height: 22px;
       margin: 5px;

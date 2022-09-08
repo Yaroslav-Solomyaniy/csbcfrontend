@@ -20,6 +20,7 @@ export interface IGetGradesParams {
   search?: string;
   studentId?: number;
   courseId?: number;
+  groupId?: number;
   grade?: number;
   page?: number;
   limit?: number;

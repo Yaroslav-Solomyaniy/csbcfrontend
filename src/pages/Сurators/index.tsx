@@ -80,7 +80,7 @@ const Curators = (): JSX.Element => {
       setDataRow(getCurators?.data?.items.map((item: IGetCuratorData) => ({
         list: [
           { id: 1, label: `${item.lastName} ${item.firstName} ${item.patronymic}` },
-          { id: 2, label: item.groups.map((group) => (group.name)).join(',') },
+          { id: 2, label: item.groups.map((group) => (group.name)).join(', ') },
           { id: 3, label: item.email },
           {
             id: 4,

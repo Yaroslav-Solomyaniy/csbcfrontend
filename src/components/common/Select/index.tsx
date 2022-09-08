@@ -122,10 +122,12 @@ const Styles: any = {
       ...base,
       background: '#FEFEFE',
       overflow: 'hidden',
+      zIndex: 980,
     }),
     menuList: (base: any) => ({
       ...base,
       background: '#FEFEFE',
+      zIndex: 980,
     }),
     valueContainer: (provided: any) => ({
       ...provided,
@@ -185,10 +187,12 @@ const Styles: any = {
       ...base,
       background: '#FEFEFE',
       overflow: 'hidden',
+      zIndex: 980,
     }),
     menuList: (base: any) => ({
       ...base,
       background: '#FEFEFE',
+      zIndex: 980,
     }),
     valueContainer: (provided: any) => ({
       ...provided,

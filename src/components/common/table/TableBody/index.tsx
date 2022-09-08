@@ -27,13 +27,9 @@ const TableBody = ({ dataRow, gridColumns,
           className={clsx(isTableResult && styles.body__row_noBorder, styles.body__row, gridColumns)}
           key={key}
           style={isScroll ? {
-            gridTemplateColumns: `20% 10% repeat(${columScrollHorizontal}, ${
+            gridTemplateColumns: `15% 10% repeat(${columScrollHorizontal}, ${
               columScrollHorizontal
-                ? columScrollHorizontal > 6
-                  ? 10
-                  : 55 / columScrollHorizontal
-                : 55
-            }%) 15%`,
+                ? columScrollHorizontal > 6 ? 10 : 55 / columScrollHorizontal : 55}%) 7%`,
           } : {}}
         >
           {list.map(({ id, label }) => (

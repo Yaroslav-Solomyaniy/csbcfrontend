@@ -124,7 +124,7 @@ const Estimates = (): JSX.Element => {
   useEffect(() => {
     const query: IGetGradesParams = {};
 
-    // if (params.filter.group) query = params.filter.group;
+    if (params.filter.group) query.groupId = +params.filter.group;
     if (params.filter.studentId) query.studentId = +params.filter.studentId;
     if (params.pagination.currentPage) query.page = params.pagination.currentPage;
     if (params.pagination.itemsPerPage) query.limit = params.pagination.itemsPerPage;
@@ -232,7 +232,6 @@ const Estimates = (): JSX.Element => {
               <SelectStudent
                 type="filter"
                 placeholder="ПІБ"
-                required
                 isClearable
                 isSearchable
                 value={params.filter.studentId}
@@ -243,8 +242,8 @@ const Estimates = (): JSX.Element => {
               <SelectGroupById
                 type="filter"
                 placeholder="Група"
-                required
                 isClearable
+                isSearchable
                 value={params.filter.group}
                 onChange={(value) => setParams({
                   ...params, filter: { ...params.filter, group: value },

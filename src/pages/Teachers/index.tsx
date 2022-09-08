@@ -67,15 +67,13 @@ const Teachers = (): JSX.Element => {
       const arr: { subject: string[]; group: string[]; } = { subject: [], group: [] };
 
       item.courses.forEach((subject) => {
-        // if (!subject.isActive) {
         arr.subject.push(subject.name);
         let srt = '';
 
         subject.groups.forEach((group) => {
-          srt += ` ${group.name}`;
+          srt += `${group.name}`;
         });
         arr.group.push(srt);
-        // }
       });
 
       return {

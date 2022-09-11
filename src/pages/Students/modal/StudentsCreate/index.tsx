@@ -63,8 +63,8 @@ export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateMod
     e?.preventDefault?.();
     setIsSubmitted(true);
     if (formData.dateOfBirth
-      && `${formData.edeboId}`.length === 8
-      && formData.groupId.toString().length > 1
+      && formData.edeboId.toString().length === 8
+      && formData.groupId
       && `${formData.orderNumber}`.length >= 6
       && `${formData.orderNumber}`.length <= 20
       && formData.user.firstName

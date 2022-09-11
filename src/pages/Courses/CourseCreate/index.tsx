@@ -23,7 +23,7 @@ const formInitialData: ICoursesCreateParams = {
   isActive: false,
   isExam: false,
   lectureHours: null,
-  isCompulsory: '',
+  isCompulsory: 'true',
 };
 
 export const CourseCreateModal = ({ modalActive, closeModal }: ICreateModal): JSX.Element => {

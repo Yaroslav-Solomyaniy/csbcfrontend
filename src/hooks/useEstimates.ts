@@ -36,7 +36,7 @@ export interface IGetGradesData {
   };
   grades: {
     id: number;
-    grade: string;
+    grade: number;
     course: {
       id: number;
       name: string;
@@ -89,7 +89,7 @@ interface IGetGradesIdParams {
 
 export interface IUseGradesGetId {
   data: IGetGradesData | null;
-  getEstimatesId: (params: IGetGradesIdParams) => void;
+  getGradesId: (params: IGetGradesIdParams) => void;
 }
 
 export const useGradesGetId = (): IUseGradesGetId => {
@@ -97,7 +97,7 @@ export const useGradesGetId = (): IUseGradesGetId => {
   const { addErrors } = useMessagesContext();
   const [data, setData] = useState<IGetGradesData | null>(null);
 
-  const getEstimatesId = (params: IGetGradesIdParams) => {
+  const getGradesId = (params: IGetGradesIdParams) => {
     axios.get(`${process.env.REACT_APP_API_URL}/grades/student/${params.id}`, {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
@@ -111,32 +111,33 @@ export const useGradesGetId = (): IUseGradesGetId => {
       });
   };
 
-  return { data, getEstimatesId };
+  return { data, getGradesId };
 };
 
-export interface ICourseEditParams {
-  courseId: number;
-  grade: number;
+export interface IGradeEditParams {
+  courseId?: number;
+  grade?: number;
+  reasonForChange?: string;
 }
 
-export interface IUseEstimatesEdit {
+export interface IUseGradesEdit {
   data: FetchSuccess | null;
-  gradesEdit: (params: ICourseEditParams, id: number) => void;
+  gradesEdit: (params: IGradeEditParams, id: number) => void;
 }
 
-export const useGradesEdit = (): IUseEstimatesEdit => {
+export const useGradesEdit = (): IUseGradesEdit => {
   const { user } = useAuthContext();
   const { addErrors, addInfo } = useMessagesContext();
   const [data, setData] = useState<FetchSuccess | null>(null);
 
-  const gradesEdit = (params: ICourseEditParams, id: number) => {
+  const gradesEdit = (params: IGradeEditParams, id: number) => {
     axios.patch(`${process.env.REACT_APP_API_URL}/grades/student/${id}`, params, {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
     })
       .then((response: AxiosResponse<FetchSuccess | null>) => {
-        setData(response.data);
+        setData({ success: true });
         addInfo('Оцінку успішно відредаговано.');
       })
       .catch((error) => {
@@ -148,32 +149,30 @@ export const useGradesEdit = (): IUseEstimatesEdit => {
 };
 
 interface IGradesHistoryGetIdParams {
-  name?: string;
-  orderByColumn?: string;
-  orderBy?: string;
-  studentId?: number;
-  userId?: string;
   courseId?: number;
-  grade?: number;
-  reasonOfChange?: string;
-  page?: number;
-  limit?: number;
+  semester?: number;
 }
 
 export interface IGradesHistoryGetIdData {
   id: number;
-  student: {
+  user: {
     id: number;
-    user: {
-      id: number;
-      firstName: string;
-      lastName: string;
-      patronymic: string;
-    };
+    firstName: string;
+    lastName: string;
+    patronymic: string;
   };
+  group: {
+    id: number;
+    name: string;
+  };
+  gradesHistories: IGradesHistoryGetIdDataGradesHistories [];
+}
+
+export interface IGradesHistoryGetIdDataGradesHistories {
+  id: number;
   grade: number;
   course: {
-    id: number;
+    id: 1;
     name: string;
   };
   userChanged: {
@@ -187,23 +186,26 @@ export interface IGradesHistoryGetIdData {
 }
 
 export interface IUseGradesHistoryGetId {
-  data: IPaginateData<IGradesHistoryGetIdData> | null;
-  getGradesHistory: (params: IGradesHistoryGetIdParams) => void;
+  data: IGradesHistoryGetIdData | null;
+  getGradesHistory: (params: IGradesHistoryGetIdParams, id: number) => void;
 }
 
 export const useGradesHistoryGet = (): IUseGradesHistoryGetId => {
   const { user } = useAuthContext();
   const { addErrors } = useMessagesContext();
-  const [data, setData] = useState<IPaginateData<IGradesHistoryGetIdData> | null>(null);
+  const [data, setData] = useState<IGradesHistoryGetIdData | null>(null);
 
-  const getGradesHistory = (params: IGradesHistoryGetIdParams) => {
-    axios.get(`${process.env.REACT_APP_API_URL}/grades-history`, {
+  const getGradesHistory = (params: IGradesHistoryGetIdParams, id: number) => {
+    axios.get(`${process.env.REACT_APP_API_URL}/grades-history/student/${id}`, {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
-      params,
+      params: {
+        id,
+        ...params,
+      },
     })
-      .then((response: AxiosResponse<IPaginateData<IGradesHistoryGetIdData> | null>) => {
+      .then((response: AxiosResponse<IGradesHistoryGetIdData | null>) => {
         setData(response.data);
       })
       .catch((error) => {

@@ -3,6 +3,13 @@
   grid-template-columns: repeat(6, 17%);
 }
 
+.actions {
+  display: flex;
+  grid-template-columns: repeat(auto-fill, minmax(20px, 1fr));
+  justify-content: space-between;
+}
+
+
 .gradesCell {
   position: absolute;
   transition: all 0.6s;
@@ -22,7 +29,7 @@
     border: solid 2px #8c77ff;
   }
 
-  &__ative {
+  &__active {
     transition: all 0.3s;
     padding: 12px;
     border: solid 2px #8c77ff;
@@ -49,7 +56,7 @@
     height: auto;
     width: 20%;
     text-align: center;
-    background-color: #349aff;
+    background-color: #ffffff;
     border: 1px solid #0088ff;
     border-radius: 4px;
   }

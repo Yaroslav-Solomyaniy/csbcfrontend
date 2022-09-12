@@ -106,8 +106,6 @@ export const VotingResultModal = ({ modalActive, closeModal, votingId, changeWin
       {activeBlock && <ResultStudents formData={formData} />}
       <ModalControlButtons
         handleClose={handleClose}
-        onSubmit={(e) => e}
-        isOffSubmit
         cancelButtonText="Назад"
       />
     </ModalWindow>

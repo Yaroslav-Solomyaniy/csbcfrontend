@@ -4,7 +4,6 @@ import ModalWindow from '../../../components/common/ModalWindow';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
 import { IDeleteModal } from '../../../types';
 import { useMessagesContext } from '../../../context/useMessagesContext';
-import { useAdministratorsContext } from '../../../context/administators';
 import { useVotingAdminContext } from '../../../context/voting';
 
 const formInitialData = {

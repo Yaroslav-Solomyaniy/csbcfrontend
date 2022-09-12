@@ -68,8 +68,6 @@ export const TeacherRatingHistory = ({ modalActive, closeModal, studentId }: IEd
       </div>
       <ModalControlButtons
         handleClose={handleClose}
-        onSubmit={(e) => undefined}
-        isOffSubmit
         cancelButtonText="Назад"
       />
     </ModalWindow>

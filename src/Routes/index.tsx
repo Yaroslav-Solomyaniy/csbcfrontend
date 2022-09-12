@@ -27,6 +27,7 @@ import leftArrow from '../images/login/leftArrow.svg';
 import { useAuthContext } from '../context/useAuthContext';
 import VotingAdminProvider from '../context/voting';
 import StudentProvider from '../context/student';
+import TeacherPageProvider from '../context/pageTeacher';
 
 const AppRoutes = () => {
   const { user } = useAuthContext();
@@ -76,7 +77,7 @@ const AppRoutes = () => {
       </>
       )}
       {user?.role === 'teacher' && (
-        <Route index element={<TeacherPage />} />
+        <Route index element={<TeacherPageProvider><TeacherPage /></TeacherPageProvider>} />
       )}
       {user?.role === 'curator' && (
         <Route index element={<Curator />} />

@@ -11,6 +11,8 @@ export interface IEditModal {
   closeModal: () => void;
   studentId: number;
   courseId?: number;
+  gradeId?: number;
+  semester?: string;
 }
 
 export interface IDeleteModal {

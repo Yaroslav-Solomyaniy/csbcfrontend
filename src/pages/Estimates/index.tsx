@@ -25,7 +25,7 @@ interface IIsActiveGradesModal {
   gradeEdit: number;
   history: number;
   download: number;
-  semester: number;
+  semester: string;
 }
 
 const allCloseModalWindow: IIsActiveGradesModal = {
@@ -34,7 +34,7 @@ const allCloseModalWindow: IIsActiveGradesModal = {
   gradeEdit: 0,
   history: 0,
   download: 0,
-  semester: 0,
+  semester: '',
 };
 
 interface Filter {
@@ -58,7 +58,7 @@ const ActionsButton = ({
   onClickEdit: () => void;
   onClickHistory: () => void;
   onClickDownload: () => void;
-  close: (semester: number) => void;
+  close: (semester: string) => void;
   isActive: boolean;
 }): JSX.Element => {
   const [semester, setSemester] = useState(0);
@@ -91,13 +91,12 @@ const ActionsButton = ({
           styles.modalSemester,
           isActive && styles.modalSemester__open,
         )}
-        // onClick={() => close(0)}
       >
-        <Button onClick={() => close(1)} type="button">I</Button>
-        <Button onClick={() => close(2)} type="button">II</Button>
-        <Button onClick={() => close(3)} type="button">III</Button>
-        <Button onClick={() => close(4)} type="button">all</Button>
-        <Button onClick={() => close(0)} type="button">X</Button>
+        <Button onClick={() => close('1')} type="button">I</Button>
+        <Button onClick={() => close('2')} type="button">II</Button>
+        <Button onClick={() => close('3')} type="button">III</Button>
+        <Button onClick={() => close('4')} type="button">all</Button>
+        <Button onClick={() => close('')} type="button">X</Button>
       </div>
     </div>
   );
@@ -107,7 +106,7 @@ const Estimates = (): JSX.Element => {
   const [isActiveModal, setIsActiveModal] = useState<IIsActiveGradesModal>(allCloseModalWindow);
   const [dataHeader, setDataHeader] = useState<ITableHeader[]>([]);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
-  const { gradesGet } = useEstimatesContext();
+  const { gradesGet, gradesEdit } = useEstimatesContext();
   const dropCurses = useGetListCourses();
   const [params, setParams] = useState<Params>({
     filter: { studentId: '', group: '', semester: '' },
@@ -131,6 +130,7 @@ const Estimates = (): JSX.Element => {
 
     gradesGet?.getEstimateStudent(query);
   }, [
+    gradesEdit?.data,
     params.filter.group,
     params.filter.studentId,
     params.filter.semester,
@@ -139,32 +139,31 @@ const Estimates = (): JSX.Element => {
   ]);
 
   const tableRows = (arrTableRows: IGetGradesData[]) => {
-    let id = 2;
+    let id = 3;
 
     return (
       arrTableRows.length ? arrTableRows.map((student: IGetGradesData) => {
         const arrTableRowsGrade = dropCurses.optionCourses
           ? dropCurses.optionCourses.items.map((course) => {
-            const studentGrades = student.grades.filter(
+            const studentGrades = student.grades.find(
               (studentGrade) => studentGrade.course.id === course.id,
             );
 
             return ({
               id: ++id,
-              label: studentGrades.length
-                ? (
-                  <div
-                    className={clsx(
-                      styles.gradesCell,
-                      isActiveModal.gradeEdit === studentGrades[0].id && styles.gradesCell__ative,
-                    )}
-                    onClick={() => setIsActiveModal(
-                      { ...isActiveModal, gradeEdit: studentGrades[0].id },
-                    )}
-                  >
-                    {`${studentGrades[0].grade}`}
-                  </div>
-                )
+              label: studentGrades ? (
+                <div
+                  className={clsx(
+                    styles.gradesCell,
+                    isActiveModal.gradeEdit === studentGrades.id && styles.gradesCell__active,
+                  )}
+                  onClick={() => setIsActiveModal(
+                    { ...isActiveModal, gradeEdit: studentGrades.id },
+                  )}
+                >
+                  {`${studentGrades.grade}`}
+                </div>
+              )
                 : '',
             });
           })
@@ -174,6 +173,10 @@ const Estimates = (): JSX.Element => {
           list: [
             { id: 1, label: `${student.user.lastName} ${student.user.firstName} ${student.user.patronymic} ` },
             { id: 2, label: student.group.name },
+            {
+              id: 3,
+              label: student.grades.reduce((sum, elem) => sum + elem.grade, 0),
+            },
             ...arrTableRowsGrade,
             {
               id: ++id,
@@ -181,16 +184,16 @@ const Estimates = (): JSX.Element => {
                 <ActionsButton
                   onClickEdit={() => {
                     setIsActiveModal(
-                      { ...allCloseModalWindow, studentEdit: isActiveModal.gradeEdit ? student.id : 0 },
+                      { ...isActiveModal, studentEdit: isActiveModal.gradeEdit ? student.id : 0 },
                     );
                   }}
                   onClickHistory={() => {
-                    setIsActiveModal({ ...allCloseModalWindow, history: student.id, openHistory: true });
+                    setIsActiveModal({ ...isActiveModal, history: student.id, openHistory: true });
                   }}
                   onClickDownload={() => {
-                    setIsActiveModal({ ...allCloseModalWindow, download: student.id });
+                    setIsActiveModal({ ...isActiveModal, download: student.id });
                   }}
-                  close={(semester: number) => {
+                  close={(semester: string) => {
                     setIsActiveModal({ ...isActiveModal, openHistory: false, semester });
                   }}
                   isActive={(isActiveModal.history === student.id && isActiveModal.openHistory)}
@@ -205,11 +208,12 @@ const Estimates = (): JSX.Element => {
   };
 
   useEffect(() => {
-    let id = 2;
+    let id = 3;
 
     setDataHeader([
       { id: 1, label: 'ПІБ' },
       { id: 2, label: 'Група' },
+      { id: 3, label: 'Середній бал' },
       ...dropCurses.optionCourses ? dropCurses.optionCourses.items.map(
         (el) => ({ id: ++id, label: el.name }),
       ) : [],
@@ -273,12 +277,13 @@ const Estimates = (): JSX.Element => {
           modalActive={!!isActiveModal.studentEdit}
           closeModal={closeModal}
           studentId={isActiveModal.studentEdit}
-          courseId={isActiveModal.gradeEdit}
+          gradeId={isActiveModal.gradeEdit}
         />
         <EstimatesHistory
           modalActive={!!(isActiveModal.semester && isActiveModal.history)}
           closeModal={closeModal}
           studentId={isActiveModal.history}
+          semester={isActiveModal.semester}
         />
       </div>
     </Layout>

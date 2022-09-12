@@ -7,7 +7,7 @@ import Table from '../../../../components/common/table';
 import { ITableHeader } from '../../../../components/common/table/TableHeader';
 import { ITableRowItem } from '../../../../components/common/table/TableBody';
 import { useEstimatesContext } from '../../../../context/estimates';
-import { IGradesHistoryGetIdData } from '../../../../hooks/useEstimates';
+import { IGradesHistoryGetIdDataGradesHistories } from '../../../../hooks/useEstimates';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'Предмет' },
@@ -17,8 +17,8 @@ const dataHeader: ITableHeader[] = [
   { id: 5, label: 'Хто змінив' },
 ];
 
-export const EstimatesHistory = ({ modalActive, closeModal, studentId }: IEditModal): JSX.Element => {
-  const { gradeshistoryGet } = useEstimatesContext();
+export const EstimatesHistory = ({ modalActive, closeModal, studentId, semester }: IEditModal): JSX.Element => {
+  const { gradesHistoryGet } = useEstimatesContext();
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
 
   const handleClose = () => {
@@ -29,8 +29,8 @@ export const EstimatesHistory = ({ modalActive, closeModal, studentId }: IEditMo
     e?.preventDefault?.();
   };
 
-  const tableRows = (arrTableRows: IGradesHistoryGetIdData[]) => (
-    arrTableRows.length ? arrTableRows.map((course: IGradesHistoryGetIdData) => ({
+  const tableRows = (arrTableRows: IGradesHistoryGetIdDataGradesHistories[]) => (
+    arrTableRows.length ? arrTableRows.map((course: IGradesHistoryGetIdDataGradesHistories) => ({
       list: [
         { id: 1, label: course.course.name },
         { id: 2, label: course.createdAt },
@@ -47,17 +47,16 @@ export const EstimatesHistory = ({ modalActive, closeModal, studentId }: IEditMo
     })) : []);
 
   useEffect(() => {
-    if (gradeshistoryGet?.data) {
-      // setDataRow(tableRows(gradeshistoryGet?.data.items));
-      setDataRow(tableRows([]));
+    if (gradesHistoryGet?.data) {
+      setDataRow(tableRows(gradesHistoryGet.data.gradesHistories));
     }
-  }, [gradeshistoryGet?.data]);
+  }, [gradesHistoryGet?.data]);
 
   useEffect(() => {
-    if (studentId) {
-      gradeshistoryGet?.getGradesHistory({ studentId });
+    if (studentId && semester) {
+      gradesHistoryGet?.getGradesHistory({ courseId: 2, semester: +semester }, studentId);
     }
-  }, [studentId]);
+  }, [studentId, semester]);
 
   return (
     <ModalWindow modalTitle="Історія змін оцінки" active={modalActive} closeModal={handleClose}>

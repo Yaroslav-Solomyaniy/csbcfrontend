@@ -1,6 +1,6 @@
 import React, { createContext, useContext } from 'react';
 import {
-  IUseEstimatesEdit,
+  IUseGradesEdit,
   IUseGradesGet,
   IUseGradesGetId,
   IUseGradesHistoryGetId,
@@ -11,17 +11,17 @@ import {
 } from '../hooks/useEstimates';
 
 interface IEstimatesContext {
-  gradesEdit: IUseEstimatesEdit | null;
+  gradesEdit: IUseGradesEdit | null;
   gradesGet: IUseGradesGet | null;
   gradesGetId: IUseGradesGetId | null;
-  gradeshistoryGet: IUseGradesHistoryGetId | null;
+  gradesHistoryGet: IUseGradesHistoryGetId | null;
 }
 
 const defaultValue: IEstimatesContext = {
   gradesEdit: null,
   gradesGet: null,
   gradesGetId: null,
-  gradeshistoryGet: null,
+  gradesHistoryGet: null,
 };
 
 export const TeachersContext = createContext<IEstimatesContext>(defaultValue);
@@ -30,11 +30,11 @@ const EstimatesProvider = ({ children }: JSX.ElementChildrenAttribute): JSX.Elem
   const gradesEdit = useGradesEdit();
   const gradesGet = useGradesGet();
   const gradesGetId = useGradesGetId();
-  const gradeshistoryGet = useGradesHistoryGet();
+  const gradesHistoryGet = useGradesHistoryGet();
 
   return (
     <TeachersContext.Provider
-      value={{ gradesGet, gradesGetId, gradesEdit, gradeshistoryGet }}
+      value={{ gradesGet, gradesGetId, gradesEdit, gradesHistoryGet }}
     >
       {children}
     </TeachersContext.Provider>

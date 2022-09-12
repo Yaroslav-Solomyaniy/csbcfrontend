@@ -5,16 +5,26 @@ import ModalControlButtons from '../../../../components/common/ModalControlButto
 import { IEditModal } from '../../../../types';
 import { useEstimatesContext } from '../../../../context/estimates';
 import ModalInput from '../../../../components/common/ModalInput';
-import SelectReason from '../../../../components/common/Select/SelectReason';
+import SelectReasonStr from '../../../../components/common/Select/SelectReasonStr';
 
-const formInitialData = {
-  newEstimates: 0,
+interface IFormInitialData {
+  grade: number | undefined;
+  courseId: number | undefined;
+  courseName: string | undefined;
+  newGrade: number | undefined;
+  reasonChange: string;
+}
+
+const formInitialData: IFormInitialData = {
+  grade: 0,
+  courseId: 0,
+  courseName: '',
+  newGrade: 0,
   reasonChange: '',
 };
 
-export const EstimatesEdit = ({ modalActive, closeModal, studentId, courseId }: IEditModal): JSX.Element => {
+export const EstimatesEdit = ({ modalActive, closeModal, studentId, gradeId }: IEditModal): JSX.Element => {
   const { gradesEdit, gradesGetId } = useEstimatesContext();
-  // const { addInfo } = useMessagesContext();
   const [formData, setFormData] = useState(formInitialData);
   const [isSubmitted, setIsSubmited] = useState(false);
 
@@ -27,7 +37,29 @@ export const EstimatesEdit = ({ modalActive, closeModal, studentId, courseId }: 
   const onSubmit = (e: React.FormEvent | undefined) => {
     e?.preventDefault?.();
     setIsSubmited(true);
+
+    if (
+      formData.courseId
+      && formData.newGrade
+      && formData.reasonChange
+    ) {
+      gradesEdit?.gradesEdit({
+        courseId: formData.courseId,
+        grade: formData.newGrade,
+        reasonForChange: formData.reasonChange,
+      }, studentId);
+    }
   };
+
+  useEffect(() => {
+    setFormData({
+      ...formData,
+      courseId: gradesGetId?.data?.grades.find((element) => element.id === gradeId)?.course.id,
+      courseName: gradesGetId?.data?.grades.find((element) => element.id === gradeId)?.course.name,
+      grade: gradesGetId?.data?.grades.find((element) => element.id === gradeId)?.grade,
+      newGrade: gradesGetId?.data?.grades.find((element) => element.id === gradeId)?.grade,
+    });
+  }, [gradesGetId?.data]);
 
   useEffect(() => {
     handleClose();
@@ -35,7 +67,7 @@ export const EstimatesEdit = ({ modalActive, closeModal, studentId, courseId }: 
 
   useEffect(() => {
     if (studentId) {
-      gradesGetId?.getEstimatesId({ id: studentId });
+      gradesGetId?.getGradesId({ id: studentId });
     }
   }, [studentId]);
 
@@ -47,25 +79,19 @@ export const EstimatesEdit = ({ modalActive, closeModal, studentId, courseId }: 
         ${gradesGetId?.data?.user.patronymic}, ${gradesGetId?.data?.group.name}`}
         </p>
         <p>
-          {`${
-            // estimatesGetId?.data?.courses.filter((course) => course.id === courseId)[0].name
-            courseId
-          }, Поточна оцінка: ${
-            // estimatesGetId?.data?.courses[0].grades[0].grade
-            courseId
-          }`}
+          {`${formData.courseName}, Поточна оцінка: ${formData.grade}`}
         </p>
         <ModalInput
           onChange={(event) => {
-            setFormData({ ...formData, newEstimates: +event.target.value });
+            setFormData({ ...formData, newGrade: +event.target.value });
           }}
-          value={formData.newEstimates}
-          error={isSubmitted && !formData.newEstimates ? 'Номер групи не введено.' : ''}
+          value={formData.newGrade}
+          error={isSubmitted && !formData.newGrade ? 'Номер групи не введено.' : ''}
           placeholder="Введіть нову оцінку*"
           label="Введіть нову оцінку*"
           required
         />
-        <SelectReason
+        <SelectReasonStr
           type="modal"
           label="Причина зміни*"
           placeholder="Причина зміни"

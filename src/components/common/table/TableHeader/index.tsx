@@ -18,13 +18,9 @@ const TableHeader = ({ dataHeader, gridColumns, isScroll, columScrollHorizontal 
   <div
     className={clsx(styles.header, isScroll && styles.header__scroll, !isScroll && gridColumns)}
     style={isScroll ? {
-      gridTemplateColumns: `15% 10% repeat(${columScrollHorizontal}, ${
+      gridTemplateColumns: `16% 9% 9% repeat(${columScrollHorizontal}, ${
         columScrollHorizontal
-          ? columScrollHorizontal > 6
-            ? 10
-            : 55 / columScrollHorizontal
-          : 55
-      }%) 7%`,
+          ? columScrollHorizontal > 6 ? 10 : 55 / columScrollHorizontal : 55}%) 10%`,
     } : {}}
   >
     {dataHeader.map((item) => (

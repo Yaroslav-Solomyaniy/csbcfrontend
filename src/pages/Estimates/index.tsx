@@ -17,7 +17,6 @@ import SelectSemester from '../../components/common/Select/SelectSemester';
 import EstimatesEdit from './modal/EstimatesEdit/index';
 import EstimatesHistory from './modal/EstimatesHystory';
 import { Download, Edit, History } from '../../components/common/Icon';
-import pagesStyle from '../pagesStyle.module.scss';
 
 interface IIsActiveGradesModal {
   openHistory: boolean;
@@ -60,47 +59,43 @@ const ActionsButton = ({
   onClickDownload: () => void;
   close: (semester: string) => void;
   isActive: boolean;
-}): JSX.Element => {
-  const [semester, setSemester] = useState(0);
-
-  return (
-    <div className={pagesStyle.actions}>
-      <Button
-        isImg
-        type="button"
-        onClick={onClickEdit}
-      >
-        <Edit />
-      </Button>
-      <Button
-        isImg
-        type="button"
-        onClick={onClickHistory}
-      >
-        <History />
-      </Button>
-      <Button
-        isImg
-        type="button"
-        onClick={onClickDownload}
-      >
-        <Download />
-      </Button>
-      <div
-        className={clsx(
-          styles.modalSemester,
-          isActive && styles.modalSemester__open,
-        )}
-      >
-        <Button onClick={() => close('1')} type="button">I</Button>
-        <Button onClick={() => close('2')} type="button">II</Button>
-        <Button onClick={() => close('3')} type="button">III</Button>
-        <Button onClick={() => close('4')} type="button">all</Button>
-        <Button onClick={() => close('')} type="button">X</Button>
-      </div>
+}): JSX.Element => (
+  <div className={styles.actions}>
+    <Button
+      isImg
+      type="button"
+      onClick={onClickEdit}
+    >
+      <Edit />
+    </Button>
+    <Button
+      isImg
+      type="button"
+      onClick={onClickHistory}
+    >
+      <History />
+    </Button>
+    <Button
+      isImg
+      type="button"
+      onClick={onClickDownload}
+    >
+      <Download />
+    </Button>
+    <div
+      className={clsx(
+        styles.modalSemester,
+        isActive && styles.modalSemester__open,
+      )}
+    >
+      <Button onClick={() => close('1')} type="button">I</Button>
+      <Button onClick={() => close('2')} type="button">II</Button>
+      <Button onClick={() => close('3')} type="button">III</Button>
+      <Button onClick={() => close('4')} type="button">all</Button>
+      <Button onClick={() => close('')} type="button">X</Button>
     </div>
-  );
-};
+  </div>
+);
 
 const Estimates = (): JSX.Element => {
   const [isActiveModal, setIsActiveModal] = useState<IIsActiveGradesModal>(allCloseModalWindow);

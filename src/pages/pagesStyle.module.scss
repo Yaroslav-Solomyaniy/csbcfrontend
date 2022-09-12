@@ -13,7 +13,7 @@
 .actions {
   display: flex;
   grid-template-columns: repeat(auto-fill, minmax(20px, 1fr));
-  justify-content: space-between;
+  grid-column-gap: 13px;
 }
 
 .subtitle {

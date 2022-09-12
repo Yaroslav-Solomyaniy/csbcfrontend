@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import TitlePage from '../../components/TitlePage';
 import Button from '../../components/common/Button/index';
 import styles from './index.module.scss';
@@ -9,12 +9,19 @@ import { ITableRowItem } from '../../components/common/table/TableBody';
 import { initialPagination, Pagination } from '../../types';
 import { TeacherRatingEdit } from './RatingEdit';
 import TeacherRatingHistory from './RatingHistory';
+import pagesStyle from '../pagesStyle.module.scss';
+import SelectStudent from '../../components/common/Select/SelectStudent';
+import SelectCourse from '../../components/common/Select/SelectCourse';
+import { useTeacherPageContext } from '../../context/pageTeacher';
+import { IGetPageTeacherData, IGetPageTeacherParams } from '../../hooks/usePageTeacher';
+import SelectGroupById from '../../components/common/Select/SelectGroupById';
+import { History, Edit } from '../../components/common/Icon';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІБ' },
   { id: 2, label: 'Група' },
-  { id: 3, label: 'Оцінка' },
-  { id: 4, label: 'Предмет' },
+  { id: 3, label: 'Предмет' },
+  { id: 4, label: 'Оцінка' },
   { id: 5, label: 'Дії' },
 ];
 
@@ -40,6 +47,7 @@ interface Params {
 }
 
 const TeacherPage = (): JSX.Element => {
+  const { teacherDataGet } = useTeacherPageContext();
   const [params, setParams] = useState<Params>({
     filter: { student: '', group: '', course: '' },
     pagination: initialPagination,
@@ -51,32 +59,36 @@ const TeacherPage = (): JSX.Element => {
     setIsActiveModal(allCloseModalWindow);
   };
 
-  /*  useEffect(() => {
-    const query: IGetGroupParams = {};
+  useEffect(() => {
+    const query: IGetPageTeacherParams = {};
 
-    if (params.filter.student) query.curatorId = +params.filter.student;
-    if (params.filter.group) query.name = params.filter.group;
-    if (params.filter.course) query.curatorId = +params.filter.course;
+    if (params.filter.student) query.studentId = +params.filter.student;
+    if (params.filter.group) query.groupId = +params.filter.group;
+    if (params.filter.course) query.courseId = +params.filter.course;
 
     if (params.pagination.currentPage) query.page = params.pagination.currentPage;
     if (params.pagination.itemsPerPage) query.limit = params.pagination.itemsPerPage;
 
-    getGroups?.getGroups(query);
+    teacherDataGet?.pageTeacherGet(query);
   }, [params.filter.group,
     params.filter.course,
     params.filter.student,
     params.pagination.currentPage,
-    params.pagination.itemsPerPage]); */
+    params.pagination.itemsPerPage]);
 
-  /* useEffect(() => {
-    if (getGroups?.data) {
-      setParams({ ...params, pagination: getGroups.data.meta });
-      setDataRow(getGroups?.data?.items.map((item: IGroupData) => ({
+  useEffect(() => {
+    if (teacherDataGet?.data) {
+      setParams({ ...params, pagination: teacherDataGet.data.meta });
+      setDataRow(teacherDataGet?.data?.items.map((item: IGetPageTeacherData) => ({
         list: [
-          { id: 1, label: item.name },
-          { id: 2, label: `${item.curator.lastName} ${item.curator.firstName} ${item.curator.patronymic}` },
-          { id: 3, label: item.orderNumber },
-          { id: 4, label: `${item.students}` },
+          { id: 1,
+            label:
+              `${item.student.user.lastName}
+              ${item.student.user.firstName}
+              ${item.student.user.patronymic}` },
+          { id: 2, label: item.student.group.name },
+          { id: 3, label: item.course.name },
+          { id: 4, label: item.grade },
           {
             id: 5,
             label: (
@@ -85,13 +97,13 @@ const TeacherPage = (): JSX.Element => {
                   onClick={() => setIsActiveModal({ ...isActiveModal, edit: item.id })}
                   isImg
                 >
-                  <img src={edit} alt="edit" />
+                  <Edit />
                 </Button>
                 <Button
-                  onClick={() => setIsActiveModal({ ...isActiveModal, delete: item.id })}
+                  onClick={() => setIsActiveModal({ ...isActiveModal, history: item.id })}
                   isImg
                 >
-                  <img src={del} alt="delete" />
+                  <History />
                 </Button>
               </div>
             ),
@@ -100,73 +112,53 @@ const TeacherPage = (): JSX.Element => {
         key: item.id,
       })));
     }
-  }, [getGroups?.data]); */
+  }, [teacherDataGet?.data]);
 
   return (
     <Layout>
       <div>
-        <TitlePage
-          title="Студенти"
-          action={(
-            <>
-              <Button
-                nameClass="primary"
-                size="large"
-                onClick={() => setIsActiveModal({ ...isActiveModal, edit: 1 })}
-              >
-                Редагування
-              </Button>
-              <Button
-                nameClass="primary"
-                size="large"
-                onClick={() => setIsActiveModal({ ...isActiveModal, history: 1 })}
-              >
-                Історія змін оцінок
-              </Button>
-            </>
-          )}
-        />
+        <TitlePage title="Студенти" />
         <Table
-          /* filter={(
-             <>
-               <SelectStudent
-                 type="filter"
-                 placeholder="ПІБ"
-                 onChange={(value) => setParams({
-                   ...params,
-                   filter: { ...params.filter, student: value },
-                   pagination: initialPagination,
-                 })}
-                 value={+params.filter.student}
-                 isClearable
-                 isSearchable
-               />
-               <SelectGroupByName
-                 type="filter"
-                 placeholder="Група"
-                 onChange={(value) => setParams({
-                   ...params,
-                   filter: { ...params.filter, group: value },
-                   pagination: initialPagination,
-                 })}
-                 value={params.filter.group}
-                 isClearable
-                 isSearchable
-               />
-               <SelectCourse
-                 type="filter"
-                 placeholder="Предмет"
-                 onChange={(value) => setParams({
-                   ...params,
-                   filter: { ...params.filter, course: value },
-                   pagination: initialPagination,
-                 })}
-                 value={params.filter.course}
-                 isClearable
-                 isSearchable
-               />
-             </>
-           )} */
+          filter={(
+            <>
+              <SelectStudent
+                type="filter"
+                placeholder="ПІБ"
+                onChange={(value) => setParams({
+                  ...params,
+                  filter: { ...params.filter, student: value },
+                  pagination: initialPagination,
+                })}
+                value={+params.filter.student}
+                isClearable
+                isSearchable
+              />
+              <SelectGroupById
+                type="filter"
+                placeholder="Група"
+                onChange={(value) => setParams({
+                  ...params,
+                  filter: { ...params.filter, group: value },
+                  pagination: initialPagination,
+                })}
+                value={params.filter.group}
+                isClearable
+                isSearchable
+              />
+              <SelectCourse
+                type="filter"
+                placeholder="Предмет"
+                onChange={(value) => setParams({
+                  ...params,
+                  filter: { ...params.filter, course: value },
+                  pagination: initialPagination,
+                })}
+                value={params.filter.course}
+                isClearable
+                isSearchable
+              />
+            </>
+           )}
           dataHeader={dataHeader}
           dataRow={dataRow}
           gridColumns={styles.columns}

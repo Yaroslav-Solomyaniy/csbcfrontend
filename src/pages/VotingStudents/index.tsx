@@ -19,6 +19,7 @@ const dataHeader: ITableHeader[] = [
 ];
 
 const formInitialDataVotingCourses:IGetStudentVotingData = {
+  isRevote: false,
   requiredCourses: [],
   notRequiredCourses: [],
 };
@@ -36,6 +37,7 @@ const VotingStudents = (): JSX.Element => {
   useEffect(() => {
     if (getVoting?.data) {
       setVotingCourses(getVoting.data);
+      setIsDraw(true);
     }
   }, [getVoting?.data]);
 

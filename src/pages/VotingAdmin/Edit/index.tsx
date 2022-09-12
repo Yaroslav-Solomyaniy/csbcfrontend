@@ -3,7 +3,6 @@ import moment from 'moment';
 import ModalWindow from '../../../components/common/ModalWindow';
 import pagesStyle from '../../pagesStyle.module.scss';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
-import { IEditModal } from '../../../types';
 import 'react-datepicker/dist/react-datepicker.css';
 import MultiSelectGroup from '../../../components/common/MultiSelect/MultiSelectGroup';
 import { IVotingEditParams } from '../../../hooks/useVotingAdmin';

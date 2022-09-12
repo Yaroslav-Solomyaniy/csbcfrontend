@@ -5,6 +5,7 @@ import { useAuthContext } from '../context/useAuthContext';
 import { useMessagesContext } from '../context/useMessagesContext';
 
 export interface IGetStudentVotingData {
+  isRevote: boolean;
   requiredCourses: {
     id: number;
     name: string;

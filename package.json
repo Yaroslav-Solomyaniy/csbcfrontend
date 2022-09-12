@@ -15,7 +15,8 @@
     "deploy:dev": "firebase deploy --only hosting:development",
     "deploy:stage": "firebase deploy --only hosting:stage",
     "build-and-deploy:dev": "npm run lint && npm run build:dev && npm run deploy:dev",
-    "build-and-deploy:stage": "npm run lint && npm run build:stage && npm run deploy:stage"
+    "build-and-deploy:stage": "npm run lint && npm run build:stage && npm run deploy:stage",
+    "build-and-deploy:dev & stage": "npm run lint && npm run build:stage && npm run deploy:stage && npm run build:dev && npm run deploy:dev"
   },
   "dependencies": {
     "axios": "^0.27.2",

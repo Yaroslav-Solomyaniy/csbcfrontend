@@ -5,9 +5,8 @@ import styles from './index.module.scss';
 interface IModalButtons {
   cancelButtonText?: string;
   mainButtonText?: string;
-  isOffSubmit?: boolean;
   handleClose: () => void;
-  onSubmit: (e: React.FormEvent | undefined) => void;
+  onSubmit?: (e: React.FormEvent | undefined) => void;
 }
 
 const ModalControlButtons = ({
@@ -15,7 +14,6 @@ const ModalControlButtons = ({
   onSubmit,
   cancelButtonText,
   mainButtonText,
-  isOffSubmit,
 }: IModalButtons): JSX.Element => (
   <div className={styles.footer__modal}>
     <div className={styles.block_Buttons}>
@@ -27,7 +25,7 @@ const ModalControlButtons = ({
       >
         {cancelButtonText}
       </Button>
-      {!isOffSubmit ? (
+      {onSubmit && (
         <Button
           onClick={onSubmit}
           nameClass="primary"
@@ -36,7 +34,7 @@ const ModalControlButtons = ({
         >
           {mainButtonText}
         </Button>
-      ) : ''}
+      )}
     </div>
   </div>
 );
@@ -44,7 +42,7 @@ const ModalControlButtons = ({
 ModalControlButtons.defaultProps = {
   cancelButtonText: '',
   mainButtonText: '',
-  isOffSubmit: false,
+  onSubmit: () => undefined,
 };
 
 export default ModalControlButtons;

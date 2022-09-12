@@ -115,9 +115,9 @@ export const useGradesGetId = (): IUseGradesGetId => {
 };
 
 export interface IGradeEditParams {
-  courseId?: number;
-  grade?: number;
-  reasonForChange?: string;
+  courseId: number;
+  grade: number;
+  reasonForChange: string;
 }
 
 export interface IUseGradesEdit {

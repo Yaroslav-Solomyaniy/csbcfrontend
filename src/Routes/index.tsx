@@ -37,7 +37,7 @@ const AppRoutes = () => {
       {user?.role === 'admin' && (
         <>
           <Route
-            index
+            path="/"
             element={<GroupProvider><Group /></GroupProvider>}
           />
           <Route

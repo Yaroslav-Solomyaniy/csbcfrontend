@@ -3,6 +3,7 @@ import Select from '../index';
 import { Option, SelectType } from '../../../../types';
 import { useStudentsContext } from '../../../../context/students';
 import { useGetListStudents } from '../../../../hooks/useDropDown';
+import { useAuthContext } from '../../../../context/useAuthContext';
 
 interface SelectPIB {
   value: string | number | null;
@@ -18,6 +19,7 @@ interface SelectPIB {
   menuPos?: 'fixed' | 'absolute';
   menuPlace?: 'top' | 'auto' | 'bottom';
   isFilter?: boolean;
+  isTeacher?: boolean;
 }
 
 const SelectStudent = ({
@@ -34,13 +36,15 @@ const SelectStudent = ({
   menuPos,
   menuPlace,
   isFilter,
+  isTeacher,
 }: SelectPIB): JSX.Element => {
   const { getListStudents, listStudents } = useGetListStudents();
   const [options, setOptions] = useState<Option[]>([]);
   const { studentCreate, studentEdit, studentDelete } = useStudentsContext();
+  const { user } = useAuthContext();
 
   useEffect(() => {
-    getListStudents({});
+    getListStudents(isTeacher ? { teacherId: user?.id } : {});
   }, [studentCreate?.data, studentEdit?.data, studentDelete?.data]);
 
   useEffect(() => {
@@ -83,6 +87,7 @@ SelectStudent.defaultProps = {
   menuPlace: 'auto',
   isDisabled: false,
   isFilter: false,
+  isTeacher: false,
 };
 
 export default SelectStudent;

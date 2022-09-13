@@ -35,15 +35,15 @@ const SelectReason = ({
 }: ISelectReason): JSX.Element => {
   const [options, setOptions] = useState<Option[]>([
     {
-      value: 1,
+      value: 'Екзамен',
       label: 'Екзамен',
     },
     {
-      value: 2,
+      value: 'Перездача',
       label: 'Перездача',
     },
     {
-      value: 3,
+      value: 'Помилкове введення оцінки',
       label: 'Помилкове введення оцінки',
     }]);
 

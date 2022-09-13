@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import axios, { AxiosResponse } from 'axios';
+import { FetchSuccess, IPaginateData } from '../types';
 import { useAuthContext } from '../context/useAuthContext';
 import { useMessagesContext } from '../context/useMessagesContext';
-import { FetchSuccess, IPaginateData } from '../types';
 
 export interface IGradesCreateParams {
   studentId: number;

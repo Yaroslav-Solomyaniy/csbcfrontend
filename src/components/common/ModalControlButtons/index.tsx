@@ -42,7 +42,7 @@ const ModalControlButtons = ({
 ModalControlButtons.defaultProps = {
   cancelButtonText: '',
   mainButtonText: '',
-  onSubmit: () => undefined,
+  onSubmit: undefined,
 };
 
 export default ModalControlButtons;

@@ -5,7 +5,6 @@ import ModalControlButtons from '../../../../components/common/ModalControlButto
 import { IEditModal } from '../../../../types';
 import { useEstimatesContext } from '../../../../context/estimates';
 import ModalInput from '../../../../components/common/ModalInput';
-import SelectReasonStr from '../../../../components/common/Select/SelectReasonStr';
 import { OnlyNumbers } from '../../../../types/regExp';
 import SelectReason from '../../../../components/common/Select/SelectReason';
 
@@ -22,7 +21,7 @@ const formInitialData: IFormInitialData = {
   courseId: 0,
   courseName: '',
   newGrade: 0,
-  reasonChange: '',
+  reasonChange: 'Екзамен',
 };
 
 export const EstimatesEdit = ({ modalActive, closeModal, studentId, gradeId }: IEditModal): JSX.Element => {
@@ -58,8 +57,8 @@ export const EstimatesEdit = ({ modalActive, closeModal, studentId, gradeId }: I
       ...formData,
       courseId: gradesGetId?.data?.grades.find((element) => element.id === gradeId)?.course.id || '',
       courseName: gradesGetId?.data?.grades.find((element) => element.id === gradeId)?.course.name || '',
-      grade: gradesGetId?.data?.grades.find((element) => element.id === gradeId)?.grade || '',
-      newGrade: gradesGetId?.data?.grades.find((element) => element.id === gradeId)?.grade || '',
+      grade: gradesGetId?.data?.grades.find((element) => element.id === gradeId)?.grade || '0',
+      newGrade: gradesGetId?.data?.grades.find((element) => element.id === gradeId)?.grade || '0',
     });
   }, [gradesGetId?.data]);
 
@@ -94,15 +93,14 @@ export const EstimatesEdit = ({ modalActive, closeModal, studentId, gradeId }: I
             setFormData({ ...formData, newGrade: +event.target.value });
           }}
           value={formData.newGrade}
-          error={isSubmitted && !formData.newGrade
-            ? (formData.newGrade as number > 100 ? 'Оцінка не може бути більше 100' : 'Оцінку не введено')
-            : ''}
+          error={isSubmitted && !formData.newGrade ? 'Оцінку не введено'
+            : formData.newGrade > 100 ? 'Оцінка не може бути більше 100' : ''}
           placeholder="Нова оцінка"
           label="Введіть нову оцінку"
           required
           pattern={OnlyNumbers}
         />
-        <SelectReasonStr
+        <SelectReason
           type="modal"
           label="Причина зміни"
           placeholder="Причина зміни"

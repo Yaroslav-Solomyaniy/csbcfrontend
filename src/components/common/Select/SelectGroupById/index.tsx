@@ -3,6 +3,7 @@ import Select from '../index';
 import { Option, SelectType } from '../../../../types';
 import { useGroupContext } from '../../../../context/group';
 import { useGetListGroups } from '../../../../hooks/useDropDown';
+import { useAuthContext } from '../../../../context/useAuthContext';
 
 interface ISelectGroupById {
   value: string | number | undefined | null;
@@ -18,6 +19,7 @@ interface ISelectGroupById {
   menuPos?: 'fixed' | 'absolute';
   menuPlace?: 'top' | 'auto' | 'bottom';
   isFilter?: boolean;
+  isTeacher?: boolean;
 }
 
 const SelectGroupById = ({
@@ -34,14 +36,15 @@ const SelectGroupById = ({
   menuPos,
   menuPlace,
   isFilter,
-
+  isTeacher,
 }: ISelectGroupById): JSX.Element => {
   const { optionsGroups, getListGroups } = useGetListGroups();
   const [options, setOptions] = useState<Option[]>([]);
   const { groupCreate, groupEdit, groupDelete } = useGroupContext();
+  const { user } = useAuthContext();
 
   useEffect(() => {
-    getListGroups();
+    getListGroups(isTeacher ? { teacherId: user?.id } : {});
   }, [groupEdit?.data, groupCreate?.data, groupDelete?.data]);
 
   useEffect(() => {
@@ -81,6 +84,7 @@ SelectGroupById.defaultProps = {
   menuPlace: 'auto',
   isDisabled: false,
   isFilter: false,
+  isTeacher: false,
 };
 
 export default SelectGroupById;

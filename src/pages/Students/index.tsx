@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import styles from './index.module.scss';
 import pagesStyle from '../pagesStyle.module.scss';
 import Layout from '../../loyout/Layout';
@@ -62,6 +63,7 @@ const Students = (): JSX.Element => {
     filter: { studentId: null, group: '', isFullTime: undefined },
     pagination: initialPagination,
   });
+  const { page } = useParams();
 
   const closeModal = () => {
     setIsActiveModal(allCloseModalWindow);
@@ -71,7 +73,7 @@ const Students = (): JSX.Element => {
     const query: IGetParams = {};
 
     if (params.filter.studentId) query.id = params.filter.studentId;
-    if (params.filter.isFullTime !== null) query.isFullTime = params.filter.isFullTime;
+    if (params.filter.isFullTime) query.isFullTime = params.filter.isFullTime;
     if (params.filter.group) query.group = params.filter.group;
     if (params.pagination.currentPage) query.page = params.pagination.currentPage;
     if (params.pagination.itemsPerPage) query.limit = params.pagination.itemsPerPage;

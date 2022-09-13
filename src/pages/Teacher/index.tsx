@@ -16,6 +16,7 @@ import { useTeacherPageContext } from '../../context/pageTeacher';
 import { IGetPageTeacherData, IGetPageTeacherParams } from '../../hooks/usePageTeacher';
 import SelectGroupById from '../../components/common/Select/SelectGroupById';
 import { History, Edit } from '../../components/common/Icon';
+import { useEstimatesContext } from '../../context/estimates';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІБ' },
@@ -47,7 +48,8 @@ interface Params {
 }
 
 const TeacherPage = (): JSX.Element => {
-  const { teacherDataGet } = useTeacherPageContext();
+  const { teacherDataGet, teacherEditRating } = useTeacherPageContext();
+  const { gradesEdit } = useEstimatesContext();
   const [params, setParams] = useState<Params>({
     filter: { student: '', group: '', course: '' },
     pagination: initialPagination,
@@ -71,6 +73,8 @@ const TeacherPage = (): JSX.Element => {
 
     teacherDataGet?.pageTeacherGet(query);
   }, [params.filter.group,
+    teacherEditRating?.data,
+    gradesEdit?.data,
     params.filter.course,
     params.filter.student,
     params.pagination.currentPage,
@@ -132,6 +136,7 @@ const TeacherPage = (): JSX.Element => {
                 value={+params.filter.student}
                 isClearable
                 isSearchable
+                isTeacher
               />
               <SelectGroupById
                 type="filter"
@@ -144,6 +149,7 @@ const TeacherPage = (): JSX.Element => {
                 value={params.filter.group}
                 isClearable
                 isSearchable
+                isTeacher
               />
               <SelectCourse
                 type="filter"
@@ -156,6 +162,7 @@ const TeacherPage = (): JSX.Element => {
                 value={params.filter.course}
                 isClearable
                 isSearchable
+                isTeacher
               />
             </>
            )}
@@ -165,7 +172,11 @@ const TeacherPage = (): JSX.Element => {
           pagination={params.pagination}
           onPaginationChange={(newPagination) => setParams({ ...params, pagination: newPagination })}
         />
-        <TeacherRatingEdit modalActive={!!isActiveModal.edit} studentId={isActiveModal.edit} closeModal={closeModal} />
+        <TeacherRatingEdit
+          modalActive={!!isActiveModal.edit}
+          studentId={isActiveModal.edit}
+          closeModal={closeModal}
+        />
         <TeacherRatingHistory
           modalActive={!!isActiveModal.history}
           studentId={isActiveModal.history}

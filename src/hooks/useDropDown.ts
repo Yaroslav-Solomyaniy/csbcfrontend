@@ -10,6 +10,7 @@ interface IGetListGroupsParams {
   orderByColumn?: 'id' | 'Name' | 'curator_id' | 'order_number' | 'deleted_order_number' | 'created' | 'updated';
   orderBy?: OrderBy;
   curatorName?: string;
+  teacherId?: number;
   page?: number;
   limit?: number;
 }
@@ -108,6 +109,7 @@ interface IGetListCoursesParams{
   orderBy?: OrderBy;
   isCompulsory?: boolean;
   courseName?: string | number;
+  teacherId?: number;
   page?:number;
   limit?: number;
 }
@@ -230,6 +232,7 @@ interface IGetListStudentParams {
     | 'created';
   orderBy?: OrderBy;
   teacherName?: string;
+  teacherId?: number;
   page?: string;
   limit?: string;
 }

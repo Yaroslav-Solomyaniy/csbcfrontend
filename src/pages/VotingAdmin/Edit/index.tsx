@@ -71,9 +71,7 @@ export const VotingEditModal = (
   useEffect(() => {
     if (votingEdit?.data) {
       handleClose();
-      if (isRevote) {
-        addInfo(' Переголосування успішно відредаговане');
-      } else addInfo('Голосування успішно відредаговане');
+      addInfo('Голосування успішно відредаговане');
     }
   }, [votingEdit?.data]);
 

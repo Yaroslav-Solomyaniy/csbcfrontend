@@ -2,12 +2,10 @@ import React, { createContext, useContext } from 'react';
 import {
   IUseGradesEdit,
   IUseGradesGet,
-  IUseGradesGetId,
-  IUseGradesHistoryGetId,
+  IUseGradesGetId, IUseGradesHistoryGetId,
   useGradesEdit,
   useGradesGet,
-  useGradesGetId,
-  useGradesHistoryGet,
+  useGradesGetId, useGradesHistoryGet,
 } from '../hooks/useEstimates';
 
 interface IEstimatesContext {

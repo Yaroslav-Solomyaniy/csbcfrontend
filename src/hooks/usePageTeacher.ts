@@ -3,7 +3,7 @@ import axios, { AxiosResponse } from 'axios';
 import { useAuthContext } from '../context/useAuthContext';
 import { useMessagesContext } from '../context/useMessagesContext';
 import { IStudentData } from './useStudents';
-import { IPaginateData, OrderBy } from '../types';
+import { FetchSuccess, IPaginateData, OrderBy } from '../types';
 
 export interface IGetPageTeacherParams {
   orderByColumn?:
@@ -58,7 +58,7 @@ export const UsePageTeacherGet = (): IUsePageTeacherGet => {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
-      // params: { orderByColumn: 'created', orderBy: 'DESC', ...params },
+      params: { /* orderByColumn: 'created', */ orderBy: 'DESC', ...params },
     }).then((response: AxiosResponse<IPaginateData<IGetPageTeacherData>>) => {
       setData(response.data);
     }).catch((error) => {
@@ -67,4 +67,84 @@ export const UsePageTeacherGet = (): IUsePageTeacherGet => {
   };
 
   return { data, pageTeacherGet };
+};
+
+export interface IGetPageTeacherByIdData {
+  id: number;
+  student: {
+    id: number;
+    user: {
+      id: number;
+      firstName: string;
+      lastName: string;
+      patronymic: string;
+    };
+    group: {
+      id: number;
+      name: string;
+    };
+  };
+  course: {
+    id: number;
+    name: string;
+  };
+  grade: number;
+}
+
+export interface IUsePageTeacherGetById {
+  data:IGetPageTeacherByIdData | null;
+  pageTeacherGetById: (id:number) => void;
+}
+
+export const UsePageTeacherGetById = (): IUsePageTeacherGetById => {
+  const { user } = useAuthContext();
+  const [data, setData] = useState<IGetPageTeacherByIdData| null>(null);
+  const { addErrors } = useMessagesContext();
+
+  const pageTeacherGetById = (id:number): void => {
+    axios.get(`${process.env.REACT_APP_API_URL}/users/teacher/page/${id}`, {
+      headers: {
+        Authorization: `Bearer ${user?.accessToken}`,
+      },
+    }).then((response: AxiosResponse<IGetPageTeacherByIdData>) => {
+      setData(response.data);
+    }).catch((error) => {
+      addErrors(error.response.data.message);
+    });
+  };
+
+  return { data, pageTeacherGetById };
+};
+
+export interface IPageTeacherEditByIdParams {
+  courseId: number;
+  grade: number;
+  reasonForChange: string;
+}
+
+export interface IUseTeacherPageEditRating {
+  data: FetchSuccess | null;
+  teacherPageEditRating: (params: IPageTeacherEditByIdParams, id: number) => void;
+}
+
+export const useTeacherPageEditRating = (): IUseTeacherPageEditRating => {
+  const { user } = useAuthContext();
+  const { addErrors } = useMessagesContext();
+  const [data, setData] = useState<FetchSuccess | null>(null);
+
+  const teacherPageEditRating = (params: IPageTeacherEditByIdParams, id: number) => {
+    axios.patch(`${process.env.REACT_APP_API_URL}/users/teacher/page/student/${id}`, params, {
+      headers: {
+        Authorization: `Bearer ${user?.accessToken}`,
+      },
+    })
+      .then((response: AxiosResponse<FetchSuccess | null>) => {
+        setData(response.data);
+      })
+      .catch((error) => {
+        addErrors(error.response.data.message);
+      });
+  };
+
+  return { data, teacherPageEditRating };
 };

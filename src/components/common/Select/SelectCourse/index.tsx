@@ -3,6 +3,7 @@ import Select from '../index';
 import { Option, SelectType } from '../../../../types';
 import { useGetListCourses } from '../../../../hooks/useDropDown';
 import { useCourseContext } from '../../../../context/course';
+import { useAuthContext } from '../../../../context/useAuthContext';
 
 interface SelectCourse {
   value: string | number | null;
@@ -18,6 +19,7 @@ interface SelectCourse {
   menuPos?: 'fixed' | 'absolute';
   menuPlace?: 'top' | 'auto' | 'bottom';
   isFilter?: boolean;
+  isTeacher?: boolean;
 }
 
 const SelectCourse = ({
@@ -34,13 +36,15 @@ const SelectCourse = ({
   menuPos,
   menuPlace,
   isFilter,
+  isTeacher,
 }: SelectCourse): JSX.Element => {
   const [options, setOptions] = useState<Option[]>([]);
   const { courseCreate, courseEdit, courseDelete } = useCourseContext();
   const { optionCourses, getListCourses } = useGetListCourses();
+  const { user } = useAuthContext();
 
   useEffect(() => {
-    getListCourses();
+    getListCourses(isTeacher ? { teacherId: user?.id } : {});
   }, [courseCreate?.data, courseEdit?.data, courseDelete?.data]);
 
   useEffect(() => {
@@ -80,6 +84,7 @@ SelectCourse.defaultProps = {
   menuPlace: 'auto',
   isDisabled: false,
   isFilter: false,
+  isTeacher: false,
 };
 
 export default SelectCourse;

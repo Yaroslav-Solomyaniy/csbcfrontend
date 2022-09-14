@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 
-import { useGroupContext } from '../../../context/group';
+import { useGroupContext } from '../../../context/groups';
 import { IGroupCreateParams } from '../../../hooks/useGroups';
 import ModalWindow from '../../../components/common/ModalWindow';
 import styles from '../../pagesStyle.module.scss';
 import ModalInput from '../../../components/common/ModalInput';
 import SelectCurator from '../../../components/common/Select/SelectCurator';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
-import { useMessagesContext } from '../../../context/useMessagesContext';
+import { useMessagesContext } from '../../../context/messagesContext';
 import { ICreateModal } from '../../../types';
 import { LettersAndNumbersEnUa, NumbersAndLettersEn } from '../../../types/regExp';
 

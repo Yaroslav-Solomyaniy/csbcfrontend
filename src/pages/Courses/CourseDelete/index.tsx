@@ -4,8 +4,8 @@ import pagesStyle from '../../pagesStyle.module.scss';
 import ModalWindow from '../../../components/common/ModalWindow';
 import { IGroupDeleteParams } from '../../../hooks/useGroups';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
-import { useMessagesContext } from '../../../context/useMessagesContext';
-import { useCourseContext } from '../../../context/course';
+import { useMessagesContext } from '../../../context/messagesContext';
+import { useCourseContext } from '../../../context/courses';
 import { IDeleteModal } from '../../../types';
 
 const formInitialData = {

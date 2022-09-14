@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Select from '../index';
 import { Option, SelectType } from '../../../../types';
 import { useGetListCourses } from '../../../../hooks/useDropDown';
-import { useCourseContext } from '../../../../context/course';
+import { useCourseContext } from '../../../../context/courses';
 import { useAuthContext } from '../../../../context/useAuthContext';
 
 interface SelectCourse {

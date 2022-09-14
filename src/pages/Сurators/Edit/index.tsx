@@ -7,7 +7,7 @@ import { useCuratorContext } from '../../../context/curators';
 import ModalInput from '../../../components/common/ModalInput';
 import { Email, EmailValidation, LettersAndNumbersEnUa } from '../../../types/regExp';
 import { IUserEditParams } from '../../../hooks/useUser';
-import { useMessagesContext } from '../../../context/useMessagesContext';
+import { useMessagesContext } from '../../../context/messagesContext';
 
 const formInitialData: IUserEditParams = {
   firstName: '',

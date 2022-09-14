@@ -10,7 +10,7 @@ import ModalInput from '../../../../components/common/ModalInput';
 import SelectGroupById from '../../../../components/common/Select/SelectGroupById';
 import { Email, EmailValidation } from '../../../../types/regExp';
 import SelectIsFullTime from '../../../../components/common/Select/SelectIsFullTime';
-import { useMessagesContext } from '../../../../context/useMessagesContext';
+import { useMessagesContext } from '../../../../context/messagesContext';
 import MyDatePicker from '../../../../components/common/datePicker';
 import { IEditModal } from '../../../../types';
 

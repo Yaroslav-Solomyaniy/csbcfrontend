@@ -4,7 +4,7 @@ import ModalInput from '../../../../components/common/ModalInput';
 import ModalControlButtons from '../../../../components/common/ModalControlButtons';
 import { useStudentsContext } from '../../../../context/students';
 import stylesStud from '../../../pagesStyle.module.scss';
-import { useMessagesContext } from '../../../../context/useMessagesContext';
+import { useMessagesContext } from '../../../../context/messagesContext';
 
 interface IStudentsDeleteModal {
   modalActive: boolean;

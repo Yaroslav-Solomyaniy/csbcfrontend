@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Option, SelectType } from '../../../../types';
-import { useGroupContext } from '../../../../context/group';
+import { useGroupContext } from '../../../../context/groups';
 import { useGetListGroups } from '../../../../hooks/useDropDown';
 import MultiSelect from '../index';
 

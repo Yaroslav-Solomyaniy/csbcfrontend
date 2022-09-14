@@ -3,7 +3,7 @@ import ModalWindow from '../../../../components/common/ModalWindow';
 import ModalControlButtons from '../../../../components/common/ModalControlButtons';
 import pagesStyle from '../../../pagesStyle.module.scss';
 import { useTeachersContext } from '../../../../context/teachers';
-import { useMessagesContext } from '../../../../context/useMessagesContext';
+import { useMessagesContext } from '../../../../context/messagesContext';
 import { IDeleteModal } from '../../../../types';
 
 const formInitialData = {

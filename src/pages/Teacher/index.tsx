@@ -17,6 +17,11 @@ import { IGetPageTeacherData, IGetPageTeacherParams } from '../../hooks/usePageT
 import SelectGroupById from '../../components/common/Select/SelectGroupById';
 import { Edit, History } from '../../components/common/Icon';
 import { useEstimatesContext } from '../../context/estimates';
+import { useDeviceContext } from '../../context/TypeDevice';
+import PageFilter from './components/PageFilter';
+import TableFilter from '../../components/common/table/TableFilter';
+import { IGroupCreateParams } from '../../hooks/useGroups';
+import ControlButtons from './components/ControlButtons';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІБ' },
@@ -26,7 +31,7 @@ const dataHeader: ITableHeader[] = [
   { id: 5, label: 'Дії' },
 ];
 
-interface IIsActiveModalState {
+export interface IIsActiveModalState {
   edit: number;
   history: number;
 }
@@ -42,7 +47,7 @@ interface Filter {
   course: string;
 }
 
-interface Params {
+export interface IParams {
   filter: Filter;
   pagination: Pagination;
 }
@@ -50,12 +55,15 @@ interface Params {
 const TeacherPage = (): JSX.Element => {
   const { teacherDataGet, teacherEditRating } = useTeacherPageContext();
   const { gradesEdit } = useEstimatesContext();
-  const [params, setParams] = useState<Params>({
+  const { isDesktop, isNotebook } = useDeviceContext();
+
+  const [params, setParams] = useState<IParams>({
     filter: { student: '', group: '', course: '' },
     pagination: initialPagination,
   });
   const [isActiveModal, setIsActiveModal] = useState(allCloseModalWindow);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
+  const [formData, setFormData] = useState<IGetPageTeacherData[]>();
 
   const closeModal = () => {
     setIsActiveModal(allCloseModalWindow);
@@ -98,25 +106,13 @@ const TeacherPage = (): JSX.Element => {
           {
             id: 5,
             label: (
-              <div className={pagesStyle.actions}>
-                <Button
-                  onClick={() => setIsActiveModal({ ...isActiveModal, edit: item.id })}
-                  isImg
-                >
-                  <Edit />
-                </Button>
-                <Button
-                  onClick={() => setIsActiveModal({ ...isActiveModal, history: item.id })}
-                  isImg
-                >
-                  <History />
-                </Button>
-              </div>
+              <ControlButtons isActiveModal={isActiveModal} setIsActiveModal={setIsActiveModal} itemId={item.id} />
             ),
           },
         ],
         key: item.id,
       })));
+      setFormData(teacherDataGet.data.items);
     }
   }, [teacherDataGet?.data]);
 
@@ -124,56 +120,46 @@ const TeacherPage = (): JSX.Element => {
     <Layout>
       <div>
         <TitlePage title="Студенти" />
-        <Table
-          filter={(
-            <>
-              <SelectStudent
-                type="filter"
-                placeholder="ПІБ"
-                onChange={(value) => setParams({
-                  ...params,
-                  filter: { ...params.filter, student: value },
-                  pagination: initialPagination,
-                })}
-                value={params.filter.student}
-                isClearable
-                isSearchable
-                isTeacher
-              />
-              <SelectGroupById
-                type="filter"
-                placeholder="Група"
-                onChange={(value) => setParams({
-                  ...params,
-                  filter: { ...params.filter, group: value },
-                  pagination: initialPagination,
-                })}
-                value={params.filter.group}
-                isClearable
-                isSearchable
-                isTeacher
-              />
-              <SelectCourse
-                type="filter"
-                placeholder="Предмет"
-                onChange={(value) => setParams({
-                  ...params,
-                  filter: { ...params.filter, course: value },
-                  pagination: initialPagination,
-                })}
-                value={params.filter.course}
-                isClearable
-                isSearchable
-                isTeacher
-              />
-            </>
-          )}
-          dataHeader={dataHeader}
-          dataRow={dataRow}
-          gridColumns={styles.columns}
-          pagination={params.pagination}
-          onPaginationChange={(newPagination) => setParams({ ...params, pagination: newPagination })}
-        />
+        {isDesktop && (
+          <Table
+            filter={(
+              <PageFilter value={params} setParams={setParams} />
+            )}
+            dataHeader={dataHeader}
+            dataRow={dataRow}
+            gridColumns={styles.columns}
+            pagination={params.pagination}
+            onPaginationChange={(newPagination) => setParams({ ...params, pagination: newPagination })}
+          />
+        )}
+        {isNotebook && (
+          <>
+            <TableFilter filter={<PageFilter value={params} setParams={setParams} />} />
+            {formData?.map((item) => (
+              <div key={item.id} className={styles.notebookItem}>
+                <div className={styles.notebookItem_Content}>
+                  <h1 className={styles.notebookItem_Content__Title}>
+                    {`${item.student.user.lastName}
+                    ${item.student.user.firstName}
+                    ${item.student.user.patronymic},
+                    ${item.student.group.name}`}
+                  </h1>
+                  <h6 className={styles.notebookItem_Content__subTitle}>
+                    {`Предмет: ${item.course.name}`}
+                  </h6>
+                  <h6 className={styles.notebookItem_Content__subTitle}>
+                    {`Оцінка: ${item.grade}`}
+                  </h6>
+                </div>
+                <div className={styles.notebookItem_buttons}>
+                  <ControlButtons isActiveModal={isActiveModal} setIsActiveModal={setIsActiveModal} itemId={item.id} />
+                </div>
+              </div>
+            ))}
+
+          </>
+        )}
+
         <TeacherRatingEdit
           modalActive={!!isActiveModal.edit}
           studentId={isActiveModal.edit}

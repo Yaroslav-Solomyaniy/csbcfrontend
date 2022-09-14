@@ -4,7 +4,7 @@ import ModalWindow from '../../../components/common/ModalWindow';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
 import { IDeleteModal } from '../../../types';
 import { useCuratorContext } from '../../../context/curators';
-import { useMessagesContext } from '../../../context/useMessagesContext';
+import { useMessagesContext } from '../../../context/messagesContext';
 
 const formInitialData = {
   firstName: '',

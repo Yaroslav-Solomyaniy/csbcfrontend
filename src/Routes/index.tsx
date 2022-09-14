@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, Navigate, Route, Routes } from 'react-router-dom';
-import GroupProvider from '../context/group';
+import GroupProvider from '../context/groups';
 import Group from '../pages/Group';
 import StudentsProvider from '../context/students';
 import Students from '../pages/Students';
@@ -8,7 +8,7 @@ import CuratorsProvider from '../context/curators';
 import Curators from '../pages/Сurators';
 import TeachersProvider from '../context/teachers';
 import Teachers from '../pages/Teachers';
-import CourseProvider from '../context/course';
+import CourseProvider from '../context/courses';
 import Courses from '../pages/Courses';
 import EstimatesProvider from '../context/estimates';
 import Estimates from '../pages/Estimates';

@@ -2,6 +2,10 @@ export interface Option {
   value: string | number | boolean;
   label: string | number;
 }
+export interface Size {
+  width: number | undefined;
+  height: number | undefined;
+}
 
 export type SelectType = 'filter' | 'modal' | 'pagination' | 'multimodal';
 export type OrderBy = 'ASC' | 'DESC';

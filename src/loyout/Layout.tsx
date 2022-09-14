@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import Header from '../components/Header';
 import Navigation from '../components/Navigation';
 import styles from '../components/Navigation/index.module.scss';
-import { useMessagesContext } from '../context/useMessagesContext';
+import { useMessagesContext } from '../context/messagesContext';
 import stylesPortal from '../stylesPortal.module.scss';
 import { useAuthContext } from '../context/useAuthContext';
 import ModalMessage from '../components/common/ModalMessage';

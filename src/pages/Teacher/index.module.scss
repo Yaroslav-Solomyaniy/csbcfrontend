@@ -2,3 +2,29 @@
   grid-template-columns: repeat(5, 1fr);
 }
 
+.notebookItem{
+  box-sizing: border-box;
+  position: relative;
+  border: 1px solid #e8e8e8;
+  width: 100%;
+  border-radius: 12px;
+  padding: 8px 12px 8px 12px;
+  margin-bottom: 12px;
+  &_Content__Title{
+    font-weight: 700;
+    font-size: 20px;
+    color: rgba(0, 0, 0, 0.75);
+  }
+  &_Content__subTitle{
+    margin-top: 10px;
+    color: rgba(96, 113, 128, 1);
+    font-weight: 400;
+    font-size: 14px;
+  }
+  &_buttons{
+    position: absolute;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}

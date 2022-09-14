@@ -2,7 +2,7 @@ import { useState } from 'react';
 import axios, { AxiosResponse } from 'axios';
 import { IPaginateData, OrderBy } from '../types';
 import { useAuthContext } from '../context/useAuthContext';
-import { useMessagesContext } from '../context/useMessagesContext';
+import { useMessagesContext } from '../context/messagesContext';
 
 export interface IGetStudentVotingData {
   isRevote: boolean;

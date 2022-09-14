@@ -7,7 +7,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import MultiSelectGroup from '../../../components/common/MultiSelect/MultiSelectGroup';
 import { IVotingEditParams } from '../../../hooks/useVotingAdmin';
 import { useVotingAdminContext } from '../../../context/voting';
-import { useMessagesContext } from '../../../context/useMessagesContext';
+import { useMessagesContext } from '../../../context/messagesContext';
 import MyDatePicker from '../../../components/common/datePicker';
 import MultiSelectCoursesNoOptional from '../../../components/common/MultiSelect/MultiSelectCoursesNoOptional';
 

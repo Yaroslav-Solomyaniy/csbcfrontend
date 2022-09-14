@@ -8,7 +8,7 @@ import { ITableHeader } from '../../components/common/table/TableHeader';
 import Table from '../../components/common/table';
 import { ITableRowItem } from '../../components/common/table/TableBody';
 import { initialPagination, Pagination } from '../../types';
-import { useCourseContext } from '../../context/course';
+import { useCourseContext } from '../../context/courses';
 import { IGetCoursesData, IGetCoursesParams } from '../../hooks/useCourses';
 import SelectCourse from '../../components/common/Select/SelectCourse';
 import SelectTeacher from '../../components/common/Select/SelectTeacher';

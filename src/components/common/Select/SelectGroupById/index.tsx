@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Select from '../index';
 import { Option, SelectType } from '../../../../types';
-import { useGroupContext } from '../../../../context/group';
+import { useGroupContext } from '../../../../context/groups';
 import { useGetListGroups } from '../../../../hooks/useDropDown';
 import { useAuthContext } from '../../../../context/useAuthContext';
 

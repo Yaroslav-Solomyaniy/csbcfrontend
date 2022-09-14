@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import axios, { AxiosResponse } from 'axios';
 import { useAuthContext } from '../context/useAuthContext';
-import { useMessagesContext } from '../context/useMessagesContext';
+import { useMessagesContext } from '../context/messagesContext';
 import { FetchSuccess, IPaginateData, OrderBy } from '../types';
 
 export interface IGetUserParams {

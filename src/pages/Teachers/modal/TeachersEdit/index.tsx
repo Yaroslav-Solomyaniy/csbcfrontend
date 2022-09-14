@@ -7,7 +7,7 @@ import { useTeachersContext } from '../../../../context/teachers';
 import { Email, EmailValidation } from '../../../../types/regExp';
 import { IEditModal } from '../../../../types';
 import { IUserEditParams } from '../../../../hooks/useUser';
-import { useMessagesContext } from '../../../../context/useMessagesContext';
+import { useMessagesContext } from '../../../../context/messagesContext';
 
 const formInitialData: IUserEditParams = {
   firstName: '',

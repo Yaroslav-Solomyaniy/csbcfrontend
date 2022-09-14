@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import AuthProvider from './context/useAuthContext';
-import MessagesProvider from './context/useMessagesContext';
+import MessagesProvider from './context/messagesContext';
 
 ReactDOM.render(
   <MessagesProvider>

@@ -7,7 +7,7 @@ import { useCuratorContext } from '../../../context/curators';
 import { ICreateModal } from '../../../types';
 
 import { Email, EmailValidation, LettersAndNumbersEnUa } from '../../../types/regExp';
-import { useMessagesContext } from '../../../context/useMessagesContext';
+import { useMessagesContext } from '../../../context/messagesContext';
 import { IUserCreateParams } from '../../../hooks/useUser';
 
 const formInitialData: IUserCreateParams = {

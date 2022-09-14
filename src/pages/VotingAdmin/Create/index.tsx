@@ -8,7 +8,7 @@ import MultiSelectGroup from '../../../components/common/MultiSelect/MultiSelect
 import { ICreateVotingParams } from '../../../hooks/useVotingAdmin';
 import MyDatePicker from '../../../components/common/datePicker';
 import { useVotingAdminContext } from '../../../context/voting';
-import { useMessagesContext } from '../../../context/useMessagesContext';
+import { useMessagesContext } from '../../../context/messagesContext';
 import MultiSelectCoursesNoOptional from '../../../components/common/MultiSelect/MultiSelectCoursesNoOptional';
 
 const formInitialData: ICreateVotingParams = {

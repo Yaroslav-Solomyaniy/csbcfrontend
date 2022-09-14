@@ -9,7 +9,7 @@ import { ITableHeader } from '../../components/common/table/TableHeader';
 import Table from '../../components/common/table';
 import { IGetGroupParams, IGroupData } from '../../hooks/useGroups';
 import { ITableRowItem } from '../../components/common/table/TableBody';
-import { useGroupContext } from '../../context/group';
+import { useGroupContext } from '../../context/groups';
 import { initialPagination, Pagination } from '../../types';
 import GroupCreate from './GroupCreate';
 import GroupDelete from './GroupDelete';
@@ -56,9 +56,6 @@ const Group = (): JSX.Element => {
   });
   const [isActiveModal, setIsActiveModal] = useState(allCloseModalWindow);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
-  const paramas = useLocation();
-
-  console.log(paramas);
 
   const closeModal = () => {
     setIsActiveModal(allCloseModalWindow);

@@ -3,7 +3,7 @@ import styles from '../../pagesStyle.module.scss';
 import ModalWindow from '../../../components/common/ModalWindow';
 import ModalInput from '../../../components/common/ModalInput';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
-import { useMessagesContext } from '../../../context/useMessagesContext';
+import { useMessagesContext } from '../../../context/messagesContext';
 import { IEditModal } from '../../../types';
 import { OnlyNumbers } from '../../../types/regExp';
 import SelectReason from '../../../components/common/Select/SelectReason';

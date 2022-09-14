@@ -7,7 +7,7 @@ import { useTeachersContext } from '../../../../context/teachers';
 import { Email, EmailValidation } from '../../../../types/regExp';
 import { IUserCreateParams } from '../../../../hooks/useUser';
 import { ICreateModal } from '../../../../types';
-import { useMessagesContext } from '../../../../context/useMessagesContext';
+import { useMessagesContext } from '../../../../context/messagesContext';
 
 const formInitialData: IUserCreateParams = {
   firstName: '',

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Option, SelectType } from '../../../../types';
 import { useGetListCourses } from '../../../../hooks/useDropDown';
 import MultiSelect from '../index';
-import { useCourseContext } from '../../../../context/course';
+import { useCourseContext } from '../../../../context/courses';
 
 interface IMultiSelectCourses {
   label?: string;

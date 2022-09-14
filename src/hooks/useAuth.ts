@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useState } from 'react';
 import jwt_decode from 'jwt-decode';
-import { useMessagesContext } from '../context/useMessagesContext';
+import { useMessagesContext } from '../context/messagesContext';
 import { useAuthContext } from '../context/useAuthContext';
 
 export interface LoginParams {

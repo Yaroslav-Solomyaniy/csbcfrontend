@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from 'axios';
 import { useState } from 'react';
 import { useAuthContext } from '../context/useAuthContext';
 import { FetchSuccess, IPaginateData, OrderBy } from '../types';
-import { useMessagesContext } from '../context/useMessagesContext';
+import { useMessagesContext } from '../context/messagesContext';
 
 export interface IGetGroupParams {
   orderByColumn?:

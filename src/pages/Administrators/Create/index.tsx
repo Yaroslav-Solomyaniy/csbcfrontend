@@ -5,7 +5,7 @@ import ModalInput from '../../../components/common/ModalInput';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
 import { ICreateModal } from '../../../types';
 import { Email, EmailValidation, LettersAndNumbersEnUa } from '../../../types/regExp';
-import { useMessagesContext } from '../../../context/useMessagesContext';
+import { useMessagesContext } from '../../../context/messagesContext';
 import { IUserCreateParams } from '../../../hooks/useUser';
 import { useAdministratorsContext } from '../../../context/administators';
 

@@ -8,7 +8,7 @@ import SelectIsFullTime from '../../../../components/common/Select/SelectIsFullT
 import { IStudentCreateParams } from '../../../../hooks/useStudents';
 import { useStudentsContext } from '../../../../context/students';
 import { Email, EmailValidation } from '../../../../types/regExp';
-import { useMessagesContext } from '../../../../context/useMessagesContext';
+import { useMessagesContext } from '../../../../context/messagesContext';
 // styles
 import stylesStud from '../../../pagesStyle.module.scss';
 import MyDatePicker from '../../../../components/common/datePicker';

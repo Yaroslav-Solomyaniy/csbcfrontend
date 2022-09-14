@@ -10,21 +10,21 @@ import { ITableHeader } from '../../../components/common/table/TableHeader';
 import { ITableRowItem } from '../../../components/common/table/TableBody';
 import { useEstimatesContext } from '../../../context/estimates';
 import { useTeacherPageContext } from '../../../context/pageTeacher';
-import { IGetHistoryGradesData } from '../../../hooks/useGradesHistory';
+import { IGetHistoryGradesData, IGradesHistories } from '../../../hooks/useGradesHistory';
 import pagesStyle from '../../pagesStyle.module.scss';
 import Button from '../../../components/common/Button';
-import { Delete, Edit } from '../../../components/common/Icon';
+import { Delete, Edit, History } from '../../../components/common/Icon';
 import { IGetCuratorData } from '../../../hooks/useCurators';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'Предмет' },
   { id: 2, label: 'Дата' },
   { id: 3, label: 'Оцінка' },
-  { id: 2, label: 'Причина зміни' },
-  { id: 3, label: 'Хто змінив' },
+  { id: 4, label: 'Причина зміни' },
+  { id: 5, label: 'Хто змінив' },
 ];
 
-interface typeInfoRow{
+interface typeInfoStudent{
   firstName: string;
   lastName: string;
   patronymic: string;
@@ -32,7 +32,7 @@ interface typeInfoRow{
   courseId: number;
   studentId: number;
 }
-const infoRowInitialization: typeInfoRow = {
+const infoRowInitialization: typeInfoStudent = {
   firstName: '',
   lastName: '',
   patronymic: '',
@@ -41,40 +41,28 @@ const infoRowInitialization: typeInfoRow = {
   courseId: 0,
 };
 
-const formInitialData = {
-  gradesHistories: [],
-  // id: 0,
-  // grade: 0,
-  // course: {
-  //   id: 0,
-  //   name: '',
-  // },
-  // userChanged: {
-  //   id: 0,
-  //   firstName: '',
-  //   lastName: '',
-  //   patronymic: '',
-  // },
-  // createdAt: '',
-  // reasonOfChange: '',
-};
+interface ITeacherRatingHistory{
+  modalActive: boolean;
+  closeModal: () => void;
+  Id: number;
+}
+export const TeacherRatingHistory = ({ modalActive, closeModal, Id }: ITeacherRatingHistory): JSX.Element => {
+  const [infoRow, setInfoRow] = useState<typeInfoStudent>(infoRowInitialization);
+  const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
+  const [formData, setFormData] = useState<IGetHistoryGradesData[]>([]);
 
-export const TeacherRatingHistory = ({ modalActive, closeModal, studentId }: IEditModal): JSX.Element => {
   const { teacherDataGetById, getHistory } = useTeacherPageContext();
   const { addInfo } = useMessagesContext();
-  const [formData, setFormData] = useState(formInitialData);
-  const [infoRow, setInfoRow] = useState<typeInfoRow>(infoRowInitialization);
-  const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
 
   const handleClose = () => {
     closeModal();
   };
 
   useEffect(() => {
-    if (studentId) {
-      teacherDataGetById?.pageTeacherGetById(studentId);
+    if (Id) {
+      teacherDataGetById?.pageTeacherGetById(Id);
     }
-  }, [studentId]);
+  }, [Id]);
 
   useEffect(() => {
     setInfoRow({ firstName: teacherDataGetById?.data?.student.user.firstName || '',
@@ -84,9 +72,6 @@ export const TeacherRatingHistory = ({ modalActive, closeModal, studentId }: IEd
       groupName: teacherDataGetById?.data?.student.group.name || '',
       studentId: teacherDataGetById?.data?.student.id || 0,
     });
-    // setTimeout(() => {
-
-    // }, 250);
   }, [teacherDataGetById?.data]);
 
   useEffect(
@@ -98,27 +83,18 @@ export const TeacherRatingHistory = ({ modalActive, closeModal, studentId }: IEd
     [infoRow],
   );
 
-  useEffect(() => {
-    if (getHistory?.data) {
-      // setFormData({ ...formData, gradesHistories: ...getHistory.data.gradesHistories });
-    }
-  }, [getHistory?.data]);
-
-  // useEffect(()=>{
-  //     setDataRow(formData.gradesHistories.map((item) => ({
-  //       list: [
-  //         { id: 1, label: item.course.name },
-  //         { id: 2, label: moment(item.createdAt).format('DD.MM.yyyy') },
-  //         { id: 3, label: item.grade },
-  //         { id: 4, label: item.reasonOfChange },
-  //         { id: 5, label: `${item.userChanged.lastName}
-  //         ${item.userChanged.firstName}
-  //         ${item.userChanged.patronymic}` },
-  //       ],
-  //       key: item.id,
-  //     })));
-  //   }}
-  // },[formData])
+  // useEffect(() => {
+  //   const data:ITableRowItem[] = getHistory.data.reduce((ak, i):ITableRowItem[] => [...ak, ...i.gradesHistories.map((item):ITableRowItem => ({
+  //     list: [
+  //       { id: 1, label: 'hi' },
+  //       { id: 2, label: 'hi' },
+  //       { id: 3, label: 'hi' },
+  //       { id: 4, label: 'hi' },
+  //       { id: 5, label: 'hi' },
+  //     ],
+  //     key: item.id,
+  //   }))], []);
+  // }, [getHistory?.data]);
 
   return (
     <ModalWindow modalTitle="Історія змін оцінок" active={modalActive} closeModal={handleClose}>

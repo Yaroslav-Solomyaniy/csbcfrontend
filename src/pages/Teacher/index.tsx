@@ -133,7 +133,7 @@ const TeacherPage = (): JSX.Element => {
                   filter: { ...params.filter, student: value },
                   pagination: initialPagination,
                 })}
-                value={+params.filter.student}
+                value={params.filter.student}
                 isClearable
                 isSearchable
                 isTeacher
@@ -179,7 +179,7 @@ const TeacherPage = (): JSX.Element => {
         />
         <TeacherRatingHistory
           modalActive={!!isActiveModal.history}
-          studentId={isActiveModal.history}
+          Id={isActiveModal.history}
           closeModal={closeModal}
         />
       </div>

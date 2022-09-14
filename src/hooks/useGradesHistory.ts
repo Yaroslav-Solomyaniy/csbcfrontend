@@ -27,24 +27,25 @@ export interface IGetHistoryGradesData {
         id: number;
         name: string;
       };
-      gradesHistories:
-        {
-          id: number;
-          grade: number;
-          course: {
-            id:number;
-            name:string;
-          };
-          userChanged: {
-            id: number;
-            firstName: string;
-            lastName:string;
-            patronymic:string;
-          };
-          createdAt: string;
-          reasonOfChange: string;
-        }[];
+  gradesHistories: IGradesHistories[];
 }
+export interface IGradesHistories{
+  id: number;
+  grade: number;
+  course: {
+    id:number;
+    name:string;
+  };
+  userChanged: {
+    id: number;
+    firstName: string;
+    lastName:string;
+    patronymic:string;
+  };
+  createdAt: string;
+  reasonOfChange: string;
+}
+
 export interface IUseGetHistoryGrades{
   data: IGetHistoryGradesData | null;
   getHistoryGrades: (params?: IGetHistoryGradesParams) => void;

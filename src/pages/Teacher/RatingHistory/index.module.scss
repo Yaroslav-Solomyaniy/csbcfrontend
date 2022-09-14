@@ -1,5 +1,5 @@
 .columns {
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: 20% 20% repeat(2, 1fr);
 }
 .infoBlock{
   margin-top: 10px;

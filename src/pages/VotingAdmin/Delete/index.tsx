@@ -52,10 +52,9 @@ export const VotingDeleteModal = ({ modalActive, closeModal, Id }: IDeleteModal)
     <ModalWindow modalTitle="Видалення голосування" active={modalActive} closeModal={handleClose}>
       <form className={pagesStyle.form} onSubmit={onSubmit}>
         <h3 className={pagesStyle.subtitle}>
-          Ви дійсно бажаєте видалити голосування для груп:
-          "
-          {formData.groups.map((group) => group).join(',')}
-          "  ?
+          {`Ви дійсно бажаєте видалити голосування для груп: "${
+            formData.groups.map((group) => group).join(',')
+          }" ?`}
         </h3>
       </form>
       <ModalControlButtons

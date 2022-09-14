@@ -15,7 +15,7 @@ import SelectCourse from '../../components/common/Select/SelectCourse';
 import { useTeacherPageContext } from '../../context/pageTeacher';
 import { IGetPageTeacherData, IGetPageTeacherParams } from '../../hooks/usePageTeacher';
 import SelectGroupById from '../../components/common/Select/SelectGroupById';
-import { History, Edit } from '../../components/common/Icon';
+import { Edit, History } from '../../components/common/Icon';
 import { useEstimatesContext } from '../../context/estimates';
 
 const dataHeader: ITableHeader[] = [
@@ -85,11 +85,13 @@ const TeacherPage = (): JSX.Element => {
       setParams({ ...params, pagination: teacherDataGet.data.meta });
       setDataRow(teacherDataGet?.data?.items.map((item: IGetPageTeacherData) => ({
         list: [
-          { id: 1,
+          {
+            id: 1,
             label:
               `${item.student.user.lastName}
               ${item.student.user.firstName}
-              ${item.student.user.patronymic}` },
+              ${item.student.user.patronymic}`,
+          },
           { id: 2, label: item.student.group.name },
           { id: 3, label: item.course.name },
           { id: 4, label: item.grade },
@@ -165,7 +167,7 @@ const TeacherPage = (): JSX.Element => {
                 isTeacher
               />
             </>
-           )}
+          )}
           dataHeader={dataHeader}
           dataRow={dataRow}
           gridColumns={styles.columns}
@@ -177,11 +179,13 @@ const TeacherPage = (): JSX.Element => {
           studentId={isActiveModal.edit}
           closeModal={closeModal}
         />
-        <TeacherRatingHistory
-          modalActive={!!isActiveModal.history}
-          Id={isActiveModal.history}
-          closeModal={closeModal}
-        />
+        {!!isActiveModal.history && (
+          <TeacherRatingHistory
+            modalActive
+            Id={isActiveModal.history}
+            closeModal={closeModal}
+          />
+        )}
       </div>
     </Layout>
   );

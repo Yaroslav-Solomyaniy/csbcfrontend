@@ -12,15 +12,15 @@ interface IMyDatePicker {
   label?: string;
   error?: string;
   required?: boolean;
-  showMonthDropdown?:boolean;
-  dateFormat?:string;
+  showMonthDropdown?: boolean;
+  dateFormat?: string;
   minDate?: Date | null | undefined;
   maxDate?: Date | null | undefined;
-  showDisabledMonthNavigation?:boolean;
-  showTimeInput?:boolean;
-  timeFormat?:string;
-  timeInputLabel?:string;
-  showTimeSelect?:boolean;
+  showDisabledMonthNavigation?: boolean;
+  showTimeInput?: boolean;
+  timeFormat?: string;
+  timeInputLabel?: string;
+  showTimeSelect?: boolean;
   selected?: Date;
 }
 
@@ -40,7 +40,7 @@ const MyDatePicker = ({
   showDisabledMonthNavigation,
   showTimeInput,
   timeInputLabel,
-}: IMyDatePicker):JSX.Element => (
+}: IMyDatePicker): JSX.Element => (
   <div className={styles.wrap}>
     {label && (
       <label className={clsx(styles.label, error && styles.error_label)}>
@@ -49,6 +49,7 @@ const MyDatePicker = ({
       </label>
     )}
     <div className={styles.selectWrap}>
+      {/* @ts-ignore as JSX.Element */}
       <DatePicker
         placeholderText={placeholder}
         locale={uk}

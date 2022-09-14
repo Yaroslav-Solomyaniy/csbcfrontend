@@ -12,7 +12,6 @@ import { useMessagesContext } from '../../../../context/useMessagesContext';
 // styles
 import stylesStud from '../../../pagesStyle.module.scss';
 import MyDatePicker from '../../../../components/common/datePicker';
-import Input from '../../../../components/common/Input';
 
 interface IGroupCreateModal {
   closeModal: () => void;
@@ -121,7 +120,7 @@ export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateMod
         <MyDatePicker
           label="Дата народження"
           placeholder="Дата народження"
-          onChange={(date:Date | null) => setFormData({ ...formData, dateOfBirth: date || null })}
+          onChange={(date: Date | null) => setFormData({ ...formData, dateOfBirth: date || null })}
           selected={formData.dateOfBirth !== null ? new Date(formData.dateOfBirth) : undefined}
           showMonthDropdown
           showDisabledMonthNavigation

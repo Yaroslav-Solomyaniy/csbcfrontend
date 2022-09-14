@@ -9,7 +9,6 @@ import { IGetVotingResultDataById } from '../../../hooks/useVotingAdmin';
 import { useVotingAdminContext } from '../../../context/voting';
 import ResultCourses from './ResultCourses';
 import ResultStudents from './ResultStudents';
-import VotingEditModal from '../Edit';
 
 const formInitialData: IGetVotingResultDataById = {
   id: 0,
@@ -77,14 +76,14 @@ export const VotingResultModal = ({ modalActive, closeModal, votingId, changeWin
         {formData.status}
         {formData.status === 'Потребує переголосування'
           && (
-          <Button
-            onClick={() => changeWindow(votingId)}
-            size="small"
-            nameClass="primary"
-            className={styles.revoteButton}
-          >
-            Створити переголосування
-          </Button>
+            <Button
+              onClick={() => changeWindow(votingId)}
+              size="small"
+              nameClass="primary"
+              className={styles.revoteButton}
+            >
+              Створити переголосування
+            </Button>
           )}
       </h4>
 

@@ -1,8 +1,8 @@
-import React, { useRef } from 'react';
-import ReactSelect, { SingleValue } from 'react-select';
-import clsx from 'clsx';
+import React from 'react';
 import { Option, SelectType } from '../../../types';
-import styles from './index.module.scss';
+import { useDeviceContext } from '../../../context/TypeDevice';
+import DesktopSelect from './typeDisplay/Desktop/DesktopSelect';
+import NotebookSelect from './typeDisplay/Notebook/NotebookSelect';
 
 interface ISelect {
   options: Option[];
@@ -22,283 +22,6 @@ interface ISelect {
   isSemesterInMultiSelect?: boolean;
 }
 
-const Styles: any = {
-  pagination: {
-    control: (provided: any) => ({
-      ...provided,
-      background: '#fff',
-      border: '1px solid rgba(0, 0, 0, 0.1)',
-      maxWidth: 75,
-      minHeight: '100%',
-      height: '32px',
-      borderRadius: '8px',
-      fontWeight: 400,
-      color: 'rgba(0, 0, 0, 0.75)',
-      boxShadow: 'none',
-      '&:hover': {
-        border: '1px solid rgba(39, 111, 173, 1)',
-      },
-      '&:focus': {
-        border: '1px solid rgba(39, 111, 173, 1)',
-      },
-      '&:active': {
-        border: '1px solid rgba(39, 111, 173, 1)',
-      },
-    }),
-    indicatorSeparator: (provided: any) => ({
-      ...provided,
-      display: 'none',
-    }),
-    indicatorsContainer: (provided: any) => ({
-      ...provided,
-      height: '32px',
-    }),
-    option: (base: any, state: any) => ({
-      ...base,
-      background: state.isSelected ? '#428BCA' : '#FEFEFE',
-      '&:hover': {
-        cursor: 'pointer',
-        background: state.isSelected ? '#428BCA' : '#D7E7F4',
-      },
-    }),
-    menu: (base: any) => ({
-      ...base,
-      background: '#FEFEFE',
-      overflow: 'hidden',
-    }),
-    menuList: (base: any) => ({
-      ...base,
-      background: '#FEFEFE',
-    }),
-    clearIndicator: (provided: any) => ({
-      ...provided,
-      '&:hover': {
-        backgroundColor: 'transparent',
-        color: 'rgba(45, 112, 169, 1)',
-      },
-    }),
-    dropdownIndicator: (provided: any) => ({
-      ...provided,
-      '&:hover': {
-        backgroundColor: 'transparent',
-        color: 'rgba(45, 112, 169, 1)',
-      },
-    }),
-  },
-  filter: {
-    control: (provided: any) => ({
-      ...provided,
-      background: '#fff',
-      border: '1px solid rgba(0, 0, 0, 0.1)',
-      height: '42px',
-      width: '280px',
-      borderRadius: '8px',
-      boxShadow: 'none',
-      fontWeight: 400,
-      color: 'rgba(0, 0, 0, 0.75)',
-      '&:hover': {
-        border: '1px solid rgba(39, 111, 173, 1)',
-      },
-      '&:focus': {
-        border: '1px solid rgba(39, 111, 173, 1)',
-      },
-      '&:active': {
-        border: '1px solid rgba(39, 111, 173, 1)',
-      },
-    }),
-    indicatorSeparator: (provided: any) => ({
-      ...provided,
-      display: 'none',
-    }),
-    option: (base: any, state: any) => ({
-      ...base,
-      background: state.isSelected ? '#428BCA' : '#FEFEFE',
-      '&:hover': {
-        cursor: 'pointer',
-        background: state.isSelected ? '#428BCA' : '#D7E7F4',
-      },
-    }),
-    menu: (base: any) => ({
-      ...base,
-      background: '#FEFEFE',
-      overflow: 'hidden',
-      zIndex: 980,
-    }),
-    menuList: (base: any) => ({
-      ...base,
-      background: '#FEFEFE',
-      zIndex: 980,
-    }),
-    valueContainer: (provided: any) => ({
-      ...provided,
-      padding: '9px 16px',
-      fontSize: '14px',
-    }),
-    clearIndicator: (provided: any) => ({
-      ...provided,
-      '&:hover': {
-        backgroundColor: 'transparent',
-        color: 'rgba(45, 112, 169, 1)',
-      },
-    }),
-    dropdownIndicator: (provided: any) => ({
-      ...provided,
-      '&:hover': {
-        backgroundColor: 'transparent',
-        color: 'rgba(45, 112, 169, 1)',
-      },
-    }),
-  },
-  modal: {
-    control: (provided: any) => ({
-      ...provided,
-      background: '#fff',
-      border: '1px solid rgba(0, 0, 0, 0.1)',
-      minHeight: '32px',
-      height: '32px',
-      borderRadius: '8px',
-      marginTop: 16,
-      boxShadow: 'none',
-      fontWeight: 400,
-      color: 'rgba(0, 0, 0, 0.75)',
-      '&:hover': {
-        border: '1px solid rgba(39, 111, 173, 1)',
-      },
-      '&:focus': {
-        border: '1px solid rgba(39, 111, 173, 1)',
-      },
-      '&:active': {
-        border: '1px solid rgba(39, 111, 173, 1)',
-      },
-    }),
-    indicatorSeparator: (provided: any) => ({
-      ...provided,
-      display: 'none',
-    }),
-    option: (base: any, state: any) => ({
-      ...base,
-      background: state.isSelected ? '#428BCA' : '#FEFEFE',
-      '&:hover': {
-        cursor: 'pointer',
-        background: state.isSelected ? '#428BCA' : '#D7E7F4',
-      },
-    }),
-    menu: (base: any) => ({
-      ...base,
-      background: '#FEFEFE',
-      overflow: 'hidden',
-      zIndex: 980,
-    }),
-    menuList: (base: any) => ({
-      ...base,
-      background: '#FEFEFE',
-      zIndex: 980,
-    }),
-    valueContainer: (provided: any) => ({
-      ...provided,
-      padding: '8px 16px',
-      fontSize: '14px',
-      height: '32px',
-    }),
-    input: (provided: any) => ({
-      ...provided,
-      margin: '0px',
-      padding: '0',
-    }),
-    indicatorsContainer: (provided: any) => ({
-      ...provided,
-      height: '32px',
-    }),
-    clearIndicator: (provided: any) => ({
-      ...provided,
-      '&:hover': {
-        backgroundColor: 'transparent',
-        color: 'rgba(45, 112, 169, 1)',
-      },
-    }),
-    dropdownIndicator: (provided: any) => ({
-      ...provided,
-      '&:hover': {
-        backgroundColor: 'transparent',
-        color: 'rgba(45, 112, 169, 1)',
-      },
-    }),
-  },
-  multimodal: {
-    control: (provided: any) => ({
-      ...provided,
-      background: '#fff',
-      fontWeight: 400,
-      color: 'rgba(0, 0, 0, 0.75)',
-      border: '1px solid rgba(0, 0, 0, 0.1)',
-      minHeight: '32px',
-      height: '32px',
-      borderRadius: '8px',
-      marginTop: 16,
-      boxShadow: 'none',
-      '&:hover': {
-        border: '1px solid rgba(39, 111, 173, 1)',
-      },
-      '&:focus': {
-        border: '1px solid rgba(39, 111, 173, 1)',
-      },
-      '&:active': {
-        border: '1px solid rgba(39, 111, 173, 1)',
-      },
-    }),
-    indicatorSeparator: (provided: any) => ({
-      ...provided,
-      display: 'none',
-    }),
-    option: (base: any, state: any) => ({
-      ...base,
-      background: state.isSelected ? '#428BCA' : '#FEFEFE',
-      '&:hover': {
-        cursor: 'pointer',
-        background: state.isSelected ? '#428BCA' : '#D7E7F4',
-      },
-    }),
-    menu: (base: any) => ({
-      ...base,
-      background: '#FEFEFE',
-      overflow: 'hidden',
-    }),
-    menuList: (base: any) => ({
-      ...base,
-      background: '#FEFEFE',
-      height: '170px',
-    }),
-    valueContainer: (provided: any) => ({
-      ...provided,
-      height: '32px',
-      padding: '0 16px',
-    }),
-    input: (provided: any) => ({
-      ...provided,
-      margin: '0px',
-      padding: '0',
-    }),
-    indicatorsContainer: (provided: any) => ({
-      ...provided,
-      height: '32px',
-    }),
-    clearIndicator: (provided: any) => ({
-      ...provided,
-      '&:hover': {
-        backgroundColor: 'transparent',
-        color: 'rgba(45, 112, 169, 1)',
-      },
-    }),
-    dropdownIndicator: (provided: any) => ({
-      ...provided,
-      '&:hover': {
-        backgroundColor: 'transparent',
-        color: 'rgba(45, 112, 169, 1)',
-      },
-    }),
-  },
-};
-
 const Select = ({
   label,
   options,
@@ -308,7 +31,6 @@ const Select = ({
   error,
   placeholder,
   isSearchable,
-  isSemesterInMultiSelect,
   isClearable,
   type,
   isDisabled,
@@ -316,62 +38,47 @@ const Select = ({
   menuPlace,
   isFilter,
 }: ISelect): JSX.Element => {
-  const focusIndexRef = useRef(-1);
+  const { isDesktop, isNotebook } = useDeviceContext();
 
   return (
-    <div className={clsx(isFilter ? styles.filterSelect : styles.wrap)}>
-      {label && (
-        <label
-          className={clsx(type === 'multimodal' ? styles.multiModalLabel : styles.label, error && styles.error_label)}
-        >
-          {label}
-          {required && <span className={styles.required}>*</span>}
-        </label>
-      )}
-      <div className={clsx(
-        isSemesterInMultiSelect && styles.selectWrapSemester,
-        type === 'multimodal' ? styles.multiSelectWrap : isFilter ? '' : styles.selectWrap,
-      )}
-      >
-        <ReactSelect<Option>
-          isDisabled={isDisabled}
-          menuPosition={menuPos}
-          menuPlacement={menuPlace}
-          styles={Styles[type]}
-          isSearchable={isSearchable}
-          className={styles.select}
+    <>
+      {isDesktop && (
+        <DesktopSelect
           options={options}
-          placeholder={placeholder}
-          isClearable={isClearable}
-          noOptionsMessage={() => 'Нічого не знайдено'}
-          value={options.find((option) => option?.value?.toString() === value?.toString()) || null}
-          onChange={(option: SingleValue<Option>) => onChange(option?.value ? `${option.value}` : '')}
-          ariaLiveMessages={{
-            onFocus: (e) => {
-              focusIndexRef.current = e.options.indexOf(e.focused);
-
-              return '';
-            },
-          }}
-          onKeyDown={(e) => {
-            if (
-              e.key === 'ArrowDown'
-              && focusIndexRef.current === options.length - 1
-            ) {
-              e.preventDefault();
-            }
-            if (e.key === 'ArrowUp' && focusIndexRef.current === 0) {
-              e.preventDefault();
-            }
-          }}
+          value={value}
+          onChange={onChange}
+          type={type}
+          label={label || ''}
+          required={required || false}
+          error={error || ''}
+          placeholder={placeholder || ''}
+          isSearchable={isSearchable || false}
+          isClearable={isClearable || false}
+          isDisabled={isDisabled || false}
+          menuPos={menuPos || 'fixed'}
+          menuPlace={menuPlace || 'auto'}
+          isFilter={isFilter || false}
         />
-        {error && (
-          <div className={styles.error}>
-            <div className={styles.textError}>{error}</div>
-          </div>
-        )}
-      </div>
-    </div>
+      )}
+      {isNotebook && (
+        <NotebookSelect
+          options={options}
+          value={value}
+          onChange={onChange}
+          type={type}
+          label={label || ''}
+          required={required || false}
+          error={error || ''}
+          placeholder={placeholder || ''}
+          isSearchable={isSearchable || false}
+          isClearable={isClearable || false}
+          isDisabled={isDisabled || false}
+          menuPos={menuPos || 'fixed'}
+          menuPlace={menuPlace || 'auto'}
+          isFilter={isFilter || false}
+        />
+      )}
+    </>
   );
 };
 

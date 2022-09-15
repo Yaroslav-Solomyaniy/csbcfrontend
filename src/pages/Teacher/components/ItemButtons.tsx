@@ -4,12 +4,12 @@ import Button from '../../../components/common/Button';
 import { Edit, History } from '../../../components/common/Icon';
 import { IIsActiveModalState } from '../index';
 
-interface IControlButtons{
+interface IItemButtons{
   isActiveModal: IIsActiveModalState;
   setIsActiveModal: (value: IIsActiveModalState)=> void;
   itemId: number;
 }
-const ControlButtons = ({ isActiveModal, setIsActiveModal, itemId }:IControlButtons) => (
+const ItemButtons = ({ isActiveModal, setIsActiveModal, itemId }:IItemButtons) => (
   <div className={pagesStyle.actions}>
     <Button
       onClick={() => setIsActiveModal({ ...isActiveModal, edit: itemId })}
@@ -26,4 +26,4 @@ const ControlButtons = ({ isActiveModal, setIsActiveModal, itemId }:IControlButt
   </div>
 );
 
-export default ControlButtons;
+export default ItemButtons;

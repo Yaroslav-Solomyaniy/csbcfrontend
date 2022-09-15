@@ -11,35 +11,19 @@ interface ImodalWindow {
   overflowY?: boolean;
 }
 
-const ModalWindow = ({ modalTitle, active, children, closeModal, overflowY }: ImodalWindow): JSX.Element => {
-  const { isDesktop, isNotebook } = useDeviceContext();
-
-  return (
+const ModalWindow = ({ modalTitle, active, children, closeModal, overflowY }: ImodalWindow): JSX.Element => (
+  <div className={clsx(styles.modal, active && styles.active)} onClick={closeModal}>
     <div
-      className={clsx(
-        isDesktop && styles.modal,
-        isNotebook && styles.modal_notebook,
-        active && styles.active,
-      )}
-      onClick={closeModal}
+      className={clsx(styles.modal__content, active && styles.active, overflowY && styles.modal__overflow)}
+      onClick={(e) => e.stopPropagation()}
     >
-      <div
-        className={clsx(
-          isDesktop && styles.modal__content,
-          isNotebook && styles.modal__content_notebook,
-          active && styles.active,
-          overflowY && styles.modal__overflow,
-        )}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className={styles.modal__container}>
-          <div className={styles.modal__title}>{modalTitle}</div>
-          {children}
-        </div>
+      <div className={styles.modal__container}>
+        <div className={styles.modal__title}>{modalTitle}</div>
+        {children}
       </div>
     </div>
-  );
-};
+  </div>
+);
 
 ModalWindow.defaultProps = {
   overflowY: false,

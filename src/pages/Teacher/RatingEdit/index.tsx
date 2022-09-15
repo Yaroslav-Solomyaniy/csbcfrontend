@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import styles from '../../pagesStyle.module.scss';
 import ModalWindow from '../../../components/common/ModalWindow';
 import ModalInput from '../../../components/common/ModalInput';
@@ -44,8 +45,8 @@ const infoRowInitialization: typeInfoRow = {
 
 export const TeacherRatingEdit = ({ modalActive, closeModal, studentId }: IEditModal): JSX.Element => {
   const { teacherDataGetById, teacherEditRating } = useTeacherPageContext();
-  const { isDesktop, isNotebook } = useDeviceContext();
   const { addInfo } = useMessagesContext();
+  const { isDesktop, isNotebook } = useDeviceContext();
 
   const [formData, setFormData] = useState<typeFormData>(formInitialData);
   const [isSubmitted, setIsSubmited] = useState(false);
@@ -66,8 +67,8 @@ export const TeacherRatingEdit = ({ modalActive, closeModal, studentId }: IEditM
   };
 
   useEffect(() => {
-    handleClose();
     if (teacherEditRating?.data) {
+      handleClose();
       addInfo('Оцінку успішно змінено');
     }
   }, [teacherEditRating?.data]);
@@ -93,29 +94,32 @@ export const TeacherRatingEdit = ({ modalActive, closeModal, studentId }: IEditM
   }, [studentId]);
 
   return (
-    // eslint-disable-next-line react/jsx-no-useless-fragment
     <>
       {isDesktop && (
-        <RatingEditForm
-          closeModal={() => closeModal}
-          onSubmit={() => onSubmit}
-          isSubmitted={isSubmitted}
-          modalActive={modalActive}
-          formData={formData}
-          infoRow={infoRow}
-          setFormData={() => setFormData}
-        />
-      )}
-      {isNotebook && (
+      <ModalWindow modalTitle="Редагування оцінки" active={modalActive} closeModal={closeModal}>
         <RatingEditForm
           closeModal={handleClose}
           onSubmit={onSubmit}
           isSubmitted={isSubmitted}
-          modalActive={modalActive}
           formData={formData}
           infoRow={infoRow}
           setFormData={setFormData}
         />
+      </ModalWindow>
+      )}
+      {isNotebook && (
+        <div className={styles.newModal}>
+          { modalActive ? disableBodyScroll(document.body) : enableBodyScroll(document.body) }
+          <RatingEditForm
+            modalTitle="Редагування оцінки"
+            closeModal={handleClose}
+            onSubmit={onSubmit}
+            isSubmitted={isSubmitted}
+            formData={formData}
+            infoRow={infoRow}
+            setFormData={setFormData}
+          />
+        </div>
       )}
     </>
   );

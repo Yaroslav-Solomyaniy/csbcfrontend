@@ -26,6 +26,7 @@ const PageFilter = ({ value, setParams }:IPageFilter):JSX.Element => (
       isClearable
       isSearchable
       isTeacher
+      isFilter
     />
     <SelectGroupById
       type="filter"
@@ -40,6 +41,7 @@ const PageFilter = ({ value, setParams }:IPageFilter):JSX.Element => (
       isClearable
       isSearchable
       isTeacher
+      isFilter
     />
     <SelectCourse
       type="filter"
@@ -54,6 +56,7 @@ const PageFilter = ({ value, setParams }:IPageFilter):JSX.Element => (
       isClearable
       isSearchable
       isTeacher
+      isFilter
     />
   </>
 );

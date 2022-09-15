@@ -1,28 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import clsx from 'clsx';
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import TitlePage from '../../components/TitlePage';
-import Button from '../../components/common/Button/index';
 import styles from './index.module.scss';
 import Layout from '../../loyout/Layout';
 import { ITableHeader } from '../../components/common/table/TableHeader';
-import Table from '../../components/common/table';
 import { ITableRowItem } from '../../components/common/table/TableBody';
 import { initialPagination, Pagination } from '../../types';
 import { TeacherRatingEdit } from './RatingEdit';
 import TeacherRatingHistory from './RatingHistory';
-import pagesStyle from '../pagesStyle.module.scss';
-import SelectStudent from '../../components/common/Select/SelectStudent';
-import SelectCourse from '../../components/common/Select/SelectCourse';
 import { useTeacherPageContext } from '../../context/pageTeacher';
 import { IGetPageTeacherData, IGetPageTeacherParams } from '../../hooks/usePageTeacher';
-import SelectGroupById from '../../components/common/Select/SelectGroupById';
-import { Edit, History } from '../../components/common/Icon';
 import { useEstimatesContext } from '../../context/estimates';
 import { useDeviceContext } from '../../context/TypeDevice';
-import PageFilter from './components/PageFilter';
-import TableFilter from '../../components/common/table/TableFilter';
-import { IGroupCreateParams } from '../../hooks/useGroups';
-import ControlButtons from './components/ControlButtons';
+import ItemButtons from './components/ItemButtons';
+import DesktopTable from './components/DesktopTable';
+import NoteBookTable from './components/NoteBookTable';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІБ' },
@@ -107,7 +99,7 @@ const TeacherPage = (): JSX.Element => {
           {
             id: 5,
             label: (
-              <ControlButtons isActiveModal={isActiveModal} setIsActiveModal={setIsActiveModal} itemId={item.id} />
+              <ItemButtons isActiveModal={isActiveModal} setIsActiveModal={setIsActiveModal} itemId={item.id} />
             ),
           },
         ],
@@ -119,75 +111,45 @@ const TeacherPage = (): JSX.Element => {
 
   return (
     <Layout>
-      <div className={clsx(
-        isDesktop || isNotebook && (!!isActiveModal.edit || !!isActiveModal.history)
-          ? styles.noContent
-          : (isDesktop || isNotebook) && styles.content,
-      )}
-      >
-        {/* {isDesktop || isNotebook <TitlePage title="Студенти" /> : } */}
+      <div>
         {isDesktop && (
-          <Table
-            filter={(
-              <PageFilter value={params} setParams={setParams} />
-            )}
-            dataHeader={dataHeader}
-            dataRow={dataRow}
-            gridColumns={styles.columns}
-            pagination={params.pagination}
-            onPaginationChange={(newPagination) => setParams({ ...params, pagination: newPagination })}
-          />
+          <>
+            <TitlePage title="Студенти" />
+            <DesktopTable
+              params={params}
+              setParams={setParams}
+              dataHeader={dataHeader}
+              dataRow={dataRow}
+            />
+          </>
         )}
         {isNotebook && (
-          !!isActiveModal.edit || !!isActiveModal.history
-            ? (
-              <>
-
-              </>
-            )
-            : (
-              <>
-                <TableFilter filter={<PageFilter value={params} setParams={setParams} />} />
-                {formData?.map((item) => (
-                  <div key={item.id} className={styles.notebookItem}>
-                    <div className={styles.notebookItem_Content}>
-                      <h1 className={styles.notebookItem_Content__Title}>
-                        {`${item.student.user.lastName}
-                       ${item.student.user.firstName}
-                       ${item.student.user.patronymic},
-                       ${item.student.group.name}`}
-                      </h1>
-                      <h6 className={styles.notebookItem_Content__subTitle}>
-                        Предмет:
-                        {item.course.name}
-                      </h6>
-                      <h6 className={styles.notebookItem_Content__subTitle}>
-                        Оцінка:
-                        {item.grade}
-                      </h6>
-                    </div>
-                    <div className={styles.notebookItem_buttons}>
-                      <ControlButtons
-                        isActiveModal={isActiveModal}
-                        setIsActiveModal={setIsActiveModal}
-                        itemId={item.id}
-                      />
-                    </div>
-                  </div>
-                ))}
-              </>
-            ))}
+          <>
+            <TitlePage title="Студенти" />
+            <NoteBookTable
+              params={params}
+              setParams={setParams}
+              formData={formData || []}
+              isActiveModal={isActiveModal}
+              setIsActiveModal={setIsActiveModal}
+            />
+          </>
+        )}
       </div>
+      {!!isActiveModal.edit && (
       <TeacherRatingEdit
-        modalActive={!!isActiveModal.edit}
+        modalActive
         studentId={isActiveModal.edit}
         closeModal={closeModal}
       />
+      )}
+      {!!isActiveModal.history && (
       <TeacherRatingHistory
-        modalActive={!!isActiveModal.history}
+        modalActive
         Id={isActiveModal.history}
         closeModal={closeModal}
       />
+      )}
     </Layout>
   );
 };

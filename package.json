@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "axios": "^0.27.2",
+    "body-scroll-lock": "^4.0.0-beta.0",
     "caniuse-lite": "^1.0.30001270",
     "clsx": "^1.1.1",
     "date-fns": "^2.29.1",
@@ -49,6 +50,7 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
+    "@types/body-scroll-lock": "^3.1.0",
     "@types/jest": "^26.0.24",
     "@types/node": "^14.17.27",
     "@types/react": "^17.0.34",

@@ -2,7 +2,7 @@ import React from 'react';
 import DatePicker from 'react-datepicker';
 import clsx from 'clsx';
 import uk from 'date-fns/locale/uk';
-import styles from '../Select/index.module.scss';
+import styles from '../Select/typeDisplay/Desktop/DesktopSelect.module.scss';
 import 'react-datepicker/dist/react-datepicker.css';
 import './datePicker.css';
 

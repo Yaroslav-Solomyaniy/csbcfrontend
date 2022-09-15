@@ -1,6 +1,8 @@
 import React from 'react';
+import clsx from 'clsx';
 import Button from '../Button';
 import styles from './index.module.scss';
+import { useDeviceContext } from '../../../context/TypeDevice';
 
 interface IModalButtons {
   cancelButtonText?: string;
@@ -14,9 +16,11 @@ const ModalControlButtons = ({
   onSubmit,
   cancelButtonText,
   mainButtonText,
-}: IModalButtons): JSX.Element => (
-  <div className={styles.footer__modal}>
-    <div className={styles.block_Buttons}>
+}: IModalButtons): JSX.Element => {
+  const { isDesktop, isNotebook } = useDeviceContext();
+
+  return (
+    <div className={clsx(isDesktop && styles.block_Buttons, isNotebook && styles.notebookButtonsModal)}>
       <Button
         onClick={handleClose}
         nameClass="secondary"
@@ -26,18 +30,18 @@ const ModalControlButtons = ({
         {cancelButtonText}
       </Button>
       {onSubmit && (
-        <Button
-          onClick={onSubmit}
-          nameClass="primary"
-          size="small"
-          className={styles.submitButton}
-        >
-          {mainButtonText}
-        </Button>
+      <Button
+        onClick={onSubmit}
+        nameClass="primary"
+        size="small"
+        className={styles.submitButton}
+      >
+        {mainButtonText}
+      </Button>
       )}
     </div>
-  </div>
-);
+  );
+};
 
 ModalControlButtons.defaultProps = {
   cancelButtonText: '',

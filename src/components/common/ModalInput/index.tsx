@@ -1,6 +1,7 @@
 import React, { ChangeEvent } from 'react';
-import clsx from 'clsx';
-import styles from './index.module.scss';
+import { useDeviceContext } from '../../../context/TypeDevice';
+import InputDesktop from './type/InputDesktop';
+import InputNotebook from './type/InputNotebook';
 
 interface IModalInput {
   inputType?: string;
@@ -24,41 +25,44 @@ const ModalInput = ({
   placeholder,
   pattern,
   inputType,
-}: IModalInput): JSX.Element => (
-  <div className={styles.wrap}>
-    {label && (
-    <label className={clsx(styles.label, error && styles.error_label)}>
-      {label}
-      {required && <span className={styles.required}>*</span>}
-    </label>
-    )}
-    <div className={styles.InputWrap}>
-      <input
-        type={inputType}
-        className={clsx(styles.input, className)}
-        placeholder={placeholder}
+}: IModalInput): JSX.Element => {
+  const { isDesktop, isNotebook } = useDeviceContext();
+
+  return (
+    <>
+      {isDesktop && (
+      <InputDesktop
+        inputType={inputType || ''}
+        label={label || ''}
         value={value}
-        onChange={(e) => {
-          if (pattern) {
-            if (pattern.test(e.target.value) || !e.target.value) {
-              onChange(e);
-            }
-          } else {
-            onChange(e);
-          }
-        }}
+        onChange={onChange}
+        required={required || false}
+        error={error || ''}
+        placeholder={placeholder || ''}
+        pattern={pattern}
+        className={className || ''}
       />
-      {error && (
-      <div className={styles.error}>
-        <div className={styles.textError}>{error}</div>
-      </div>
       )}
-    </div>
-  </div>
-);
+      {isNotebook && (
+      <InputNotebook
+        inputType={inputType || ''}
+        label={label || ''}
+        value={value}
+        onChange={onChange}
+        required={required || false}
+        error={error || ''}
+        placeholder={placeholder || ''}
+        pattern={pattern}
+        className={className || ''}
+      />
+      )}
+
+    </>
+  );
+};
 
 ModalInput.defaultProps = {
-  inputType: 'value',
+  inputType: 'text',
   label: '',
   required: false,
   placeholder: '',

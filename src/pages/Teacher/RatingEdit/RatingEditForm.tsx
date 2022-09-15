@@ -1,6 +1,5 @@
 import React from 'react';
 import { typeFormData, typeInfoRow } from './index';
-import ModalWindow from '../../../components/common/ModalWindow';
 import styles from '../../pagesStyle.module.scss';
 import ModalInput from '../../../components/common/ModalInput';
 import { OnlyNumbers } from '../../../types/regExp';
@@ -8,24 +7,25 @@ import SelectReason from '../../../components/common/Select/SelectReason';
 import ModalControlButtons from '../../../components/common/ModalControlButtons';
 
 interface IRatingEditModal{
-  modalActive: boolean;
   closeModal:() => void;
-  onSubmit: (e: React.FormEvent | undefined) => void;
+  onSubmit: (e: any) => void;
   isSubmitted: boolean;
   infoRow: typeInfoRow;
   formData: typeFormData;
   setFormData: (value: typeFormData) => void;
-  // typeDevice: 'Desktop' | 'Notebook'| 'Tablet' | 'phone';
+  modalTitle?: string;
 }
 const RatingEditForm = ({
-  modalActive,
   closeModal,
   onSubmit,
   isSubmitted,
   infoRow,
   formData,
-  setFormData }:IRatingEditModal) => (
-    <ModalWindow modalTitle="Редагування оцінки" active={modalActive} closeModal={closeModal}>
+  modalTitle,
+  setFormData }:IRatingEditModal):JSX.Element => ((
+    <>
+
+      {modalTitle && (<div className={styles.modal__title}>{modalTitle}</div>)}
       <form className={styles.form} onSubmit={onSubmit}>
         <div className={styles.subtitle}>
           {`${infoRow.lastName} ${infoRow.firstName} ${infoRow.patronymic}, ${infoRow.groupName}`}
@@ -71,7 +71,12 @@ const RatingEditForm = ({
         cancelButtonText="Відміна"
         mainButtonText="Зберегти"
       />
-    </ModalWindow>
-);
+    </>
+  )
+) as JSX.Element;
+
+RatingEditForm.defaultProps = {
+  modalTitle: '',
+};
 
 export default RatingEditForm;

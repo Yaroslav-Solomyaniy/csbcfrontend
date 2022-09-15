@@ -1,3 +1,16 @@
+.modal_notebook{
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  transition: all 0.5s;
+}
+.modal__content_notebook{
+  background: #F3F3F3;
+  transition: all .5s;
+  padding: 15px 25px;
+  height: 100vh;
+}
+
 .modal {
   z-index: 149;
   width: 100vw;
@@ -19,7 +32,8 @@
   }
 
   &__content {
-    max-height: 800px;
+    max-height: 100vh;
+    max-width: 100vw;
     width: 700px;
     background: #F3F3F3;
     border-radius: 8px;

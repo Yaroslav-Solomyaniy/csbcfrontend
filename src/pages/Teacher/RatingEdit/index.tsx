@@ -8,8 +8,10 @@ import { IEditModal } from '../../../types';
 import { OnlyNumbers } from '../../../types/regExp';
 import SelectReason from '../../../components/common/Select/SelectReason';
 import { useTeacherPageContext } from '../../../context/pageTeacher';
+import { useDeviceContext } from '../../../context/TypeDevice';
+import RatingEditForm from './RatingEditForm';
 
-interface typeFormData {
+export interface typeFormData {
   courseId: number;
   grade: number;
   reasonForChange: string;
@@ -21,7 +23,7 @@ const formInitialData: typeFormData = {
   reasonForChange: 'Екзамен',
 };
 
-interface typeInfoRow{
+export interface typeInfoRow{
   firstName: string;
   lastName: string;
   userId: number;
@@ -42,12 +44,13 @@ const infoRowInitialization: typeInfoRow = {
 
 export const TeacherRatingEdit = ({ modalActive, closeModal, studentId }: IEditModal): JSX.Element => {
   const { teacherDataGetById, teacherEditRating } = useTeacherPageContext();
+  const { isDesktop, isNotebook } = useDeviceContext();
+  const { addInfo } = useMessagesContext();
 
   const [formData, setFormData] = useState<typeFormData>(formInitialData);
   const [isSubmitted, setIsSubmited] = useState(false);
   const [infoRow, setInfoRow] = useState<typeInfoRow>(infoRowInitialization);
 
-  const { addInfo } = useMessagesContext();
   const handleClose = () => {
     setIsSubmited(false);
     setFormData(formInitialData);
@@ -90,60 +93,31 @@ export const TeacherRatingEdit = ({ modalActive, closeModal, studentId }: IEditM
   }, [studentId]);
 
   return (
-    <ModalWindow modalTitle="Редагування оцінки" active={modalActive} closeModal={handleClose}>
-      <form className={styles.form} onSubmit={onSubmit}>
-        <div className={styles.subtitle}>
-          {infoRow.lastName}
-          {' '}
-          {infoRow.firstName}
-          {' '}
-          {infoRow.patronymic}
-          ,
-          {' '}
-          {infoRow.groupName}
-        </div>
-        <div className={styles.subtitle}>
-          Предмет:
-          {infoRow.courseName}
-        </div>
-        <div className={styles.subtitle}>
-          Поточна оцінка:
-          {infoRow.grade}
-        </div>
-        <ModalInput
-          onChange={(event) => {
-            setFormData({ ...formData, grade: +event.target.value });
-          }}
-          value={formData.grade || ''}
-          error={isSubmitted && !formData.grade
-            ? 'Оцінку не введено'
-            : (formData.grade !== null && formData.grade > 100)
-              ? 'Оцінка не може бути більше 100' : ''}
-          placeholder="Нова оцінка"
-          label="Введіть нову оцінку"
-          required
-          pattern={OnlyNumbers}
+    // eslint-disable-next-line react/jsx-no-useless-fragment
+    <>
+      {isDesktop && (
+        <RatingEditForm
+          closeModal={() => closeModal}
+          onSubmit={() => onSubmit}
+          isSubmitted={isSubmitted}
+          modalActive={modalActive}
+          formData={formData}
+          infoRow={infoRow}
+          setFormData={() => setFormData}
         />
-        <SelectReason
-          type="modal"
-          label="Причина зміни"
-          placeholder="Причина зміни"
-          required
-          isSearchable
-          onChange={(value) => {
-            setFormData({ ...formData, reasonForChange: value });
-          }}
-          value={formData.reasonForChange}
-          error={isSubmitted && !formData.reasonForChange ? 'Причину зміни не обрано.' : ''}
+      )}
+      {isNotebook && (
+        <RatingEditForm
+          closeModal={handleClose}
+          onSubmit={onSubmit}
+          isSubmitted={isSubmitted}
+          modalActive={modalActive}
+          formData={formData}
+          infoRow={infoRow}
+          setFormData={setFormData}
         />
-      </form>
-      <ModalControlButtons
-        handleClose={handleClose}
-        onSubmit={onSubmit}
-        cancelButtonText="Відміна"
-        mainButtonText="Зберегти"
-      />
-    </ModalWindow>
+      )}
+    </>
   );
 };
 

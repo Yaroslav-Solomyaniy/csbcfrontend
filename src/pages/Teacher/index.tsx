@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import clsx from 'clsx';
 import TitlePage from '../../components/TitlePage';
 import Button from '../../components/common/Button/index';
 import styles from './index.module.scss';
@@ -118,8 +119,13 @@ const TeacherPage = (): JSX.Element => {
 
   return (
     <Layout>
-      <div>
-        <TitlePage title="Студенти" />
+      <div className={clsx(
+        isDesktop || isNotebook && (!!isActiveModal.edit || !!isActiveModal.history)
+          ? styles.noContent
+          : (isDesktop || isNotebook) && styles.content,
+      )}
+      >
+        {/* {isDesktop || isNotebook <TitlePage title="Студенти" /> : } */}
         {isDesktop && (
           <Table
             filter={(
@@ -133,46 +139,55 @@ const TeacherPage = (): JSX.Element => {
           />
         )}
         {isNotebook && (
-          <>
-            <TableFilter filter={<PageFilter value={params} setParams={setParams} />} />
-            {formData?.map((item) => (
-              <div key={item.id} className={styles.notebookItem}>
-                <div className={styles.notebookItem_Content}>
-                  <h1 className={styles.notebookItem_Content__Title}>
-                    {`${item.student.user.lastName}
-                    ${item.student.user.firstName}
-                    ${item.student.user.patronymic},
-                    ${item.student.group.name}`}
-                  </h1>
-                  <h6 className={styles.notebookItem_Content__subTitle}>
-                    {`Предмет: ${item.course.name}`}
-                  </h6>
-                  <h6 className={styles.notebookItem_Content__subTitle}>
-                    {`Оцінка: ${item.grade}`}
-                  </h6>
-                </div>
-                <div className={styles.notebookItem_buttons}>
-                  <ControlButtons isActiveModal={isActiveModal} setIsActiveModal={setIsActiveModal} itemId={item.id} />
-                </div>
-              </div>
+          !!isActiveModal.edit || !!isActiveModal.history
+            ? (
+              <>
+
+              </>
+            )
+            : (
+              <>
+                <TableFilter filter={<PageFilter value={params} setParams={setParams} />} />
+                {formData?.map((item) => (
+                  <div key={item.id} className={styles.notebookItem}>
+                    <div className={styles.notebookItem_Content}>
+                      <h1 className={styles.notebookItem_Content__Title}>
+                        {`${item.student.user.lastName}
+                       ${item.student.user.firstName}
+                       ${item.student.user.patronymic},
+                       ${item.student.group.name}`}
+                      </h1>
+                      <h6 className={styles.notebookItem_Content__subTitle}>
+                        Предмет:
+                        {item.course.name}
+                      </h6>
+                      <h6 className={styles.notebookItem_Content__subTitle}>
+                        Оцінка:
+                        {item.grade}
+                      </h6>
+                    </div>
+                    <div className={styles.notebookItem_buttons}>
+                      <ControlButtons
+                        isActiveModal={isActiveModal}
+                        setIsActiveModal={setIsActiveModal}
+                        itemId={item.id}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </>
             ))}
-
-          </>
-        )}
-
-        <TeacherRatingEdit
-          modalActive={!!isActiveModal.edit}
-          studentId={isActiveModal.edit}
-          closeModal={closeModal}
-        />
-        {!!isActiveModal.history && (
-          <TeacherRatingHistory
-            modalActive
-            Id={isActiveModal.history}
-            closeModal={closeModal}
-          />
-        )}
       </div>
+      <TeacherRatingEdit
+        modalActive={!!isActiveModal.edit}
+        studentId={isActiveModal.edit}
+        closeModal={closeModal}
+      />
+      <TeacherRatingHistory
+        modalActive={!!isActiveModal.history}
+        Id={isActiveModal.history}
+        closeModal={closeModal}
+      />
     </Layout>
   );
 };

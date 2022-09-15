@@ -1,22 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import styles from './index.module.scss';
 import ModalWindow from '../../../components/common/ModalWindow';
-import ModalControlButtons from '../../../components/common/ModalControlButtons';
-import Table from '../../../components/common/table';
+import pageStyles from '../../pagesStyle.module.scss';
 import { ITableHeader } from '../../../components/common/table/TableHeader';
 import { ITableRowItem } from '../../../components/common/table/TableBody';
 import { useTeacherPageContext } from '../../../context/pageTeacher';
+import RatingHistoryInfo from './RatingHistoryMobile';
+import { useDeviceContext } from '../../../context/TypeDevice';
 
 const dataHeader: ITableHeader[] = [
-  // { id: 1, label: 'Предмет' },
   { id: 1, label: 'Дата' },
   { id: 2, label: 'Оцінка' },
   { id: 3, label: 'Причина зміни' },
   { id: 4, label: 'Хто змінив' },
 ];
 
-interface typeInfoStudent {
+export interface typeInfoStudent {
   firstName: string;
   lastName: string;
   patronymic: string;
@@ -45,11 +46,13 @@ interface ITeacherRatingHistory {
 export const TeacherRatingHistory = ({ modalActive, closeModal, Id }: ITeacherRatingHistory): JSX.Element => {
   const [infoRow, setInfoRow] = useState<typeInfoStudent>(infoRowInitialization);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
+  const { isDesktop, isNotebook } = useDeviceContext();
 
   const { teacherDataGetById, getHistory } = useTeacherPageContext();
 
   const handleClose = () => {
     closeModal();
+    setInfoRow(infoRowInitialization);
   };
 
   useEffect(() => {
@@ -103,26 +106,30 @@ export const TeacherRatingHistory = ({ modalActive, closeModal, Id }: ITeacherRa
   }, [getHistory?.data]);
 
   return (
-    <ModalWindow modalTitle="Історія змін оцінки" active={modalActive} closeModal={handleClose}>
-      <div className={styles.infoBlock}>
-        <div className={styles.subtitle}>
-          {`${infoRow.lastName} ${infoRow.firstName} ${infoRow.patronymic}, ${infoRow.groupName}`}
-        </div>
-        <div className={styles.subtitle}>
-          {`Предмет: ${infoRow.courseName}`}
-        </div>
-        <Table
+    <>
+      {isDesktop && (
+        <ModalWindow modalTitle="Історія змін оцінки" active={modalActive} closeModal={handleClose}>
+          <RatingHistoryInfo
+            infoRow={infoRow}
+            dataHeader={dataHeader}
+            dataRow={dataRow}
+            closeModal={handleClose}
+          />
+        </ModalWindow>
+      )}
+      {isNotebook && (
+      <div className={pageStyles.newModal}>
+        { modalActive ? disableBodyScroll(document.body) : enableBodyScroll(document.body) }
+        <RatingHistoryInfo
+          modalTitle="Історія змін оцінки"
+          infoRow={infoRow}
           dataHeader={dataHeader}
           dataRow={dataRow}
-          gridColumns={styles.columns}
-          isTableResult
+          closeModal={handleClose}
         />
       </div>
-      <ModalControlButtons
-        handleClose={handleClose}
-        cancelButtonText="Назад"
-      />
-    </ModalWindow>
+      )}
+    </>
   );
 };
 

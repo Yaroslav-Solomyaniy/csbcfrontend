@@ -46,7 +46,7 @@ interface ITeacherRatingHistory {
 export const TeacherRatingHistory = ({ modalActive, closeModal, Id }: ITeacherRatingHistory): JSX.Element => {
   const [infoRow, setInfoRow] = useState<typeInfoStudent>(infoRowInitialization);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
-  const { isDesktop, isNotebook } = useDeviceContext();
+  const { isDesktop, isTablet } = useDeviceContext();
 
   const { teacherDataGetById, getHistory } = useTeacherPageContext();
 
@@ -117,7 +117,7 @@ export const TeacherRatingHistory = ({ modalActive, closeModal, Id }: ITeacherRa
           />
         </ModalWindow>
       )}
-      {isNotebook && (
+      {isTablet && (
       <div className={pageStyles.newModal}>
         { modalActive ? disableBodyScroll(document.body) : enableBodyScroll(document.body) }
         <RatingHistoryInfo

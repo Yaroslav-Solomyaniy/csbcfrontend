@@ -26,7 +26,7 @@ const ModalInput = ({
   pattern,
   inputType,
 }: IModalInput): JSX.Element => {
-  const { isDesktop, isNotebook } = useDeviceContext();
+  const { isDesktop, isTablet } = useDeviceContext();
 
   return (
     <>
@@ -43,7 +43,7 @@ const ModalInput = ({
         className={className || ''}
       />
       )}
-      {isNotebook && (
+      {isTablet && (
       <InputNotebook
         inputType={inputType || ''}
         label={label || ''}

@@ -1,9 +1,14 @@
-.Row{
+.TabletRow{
   width: 408px;
   display: flex;
   flex-direction: column;
   margin: 10px auto 0 auto;
 }
+.filterSelect{
+  width: 280px;
+}
+
+
 .label{
   width: 100%;
   text-align: left;
@@ -39,6 +44,4 @@
   font-weight: 400;
   color: red;
 }
-.filterSelect{
-  width: 280px;
-}
+

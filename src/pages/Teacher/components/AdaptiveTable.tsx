@@ -13,7 +13,7 @@ interface INoteBookTable{
   isActiveModal: IIsActiveModalState;
   setIsActiveModal: (value:IIsActiveModalState) => void;
 }
-const NoteBookTable = ({ params, setParams, formData, isActiveModal, setIsActiveModal }:INoteBookTable) => (
+const AdaptiveTable = ({ params, setParams, formData, isActiveModal, setIsActiveModal }:INoteBookTable) => (
   <>
     <TableFilter filter={<PageFilter value={params} setParams={setParams} />} />
     {formData?.map((item) => (
@@ -34,4 +34,4 @@ const NoteBookTable = ({ params, setParams, formData, isActiveModal, setIsActive
   </>
 );
 
-export default NoteBookTable;
+export default AdaptiveTable;

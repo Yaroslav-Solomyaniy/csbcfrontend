@@ -1,27 +1,4 @@
-import React, { useRef } from 'react';
-import clsx from 'clsx';
-import ReactSelect, { SingleValue } from 'react-select';
-import { Option, SelectType } from '../../../../../types';
-import styles from './NotebookSelect.module.scss';
-
-interface INotebookSelect{
-  options: Option[];
-  value: string | number | boolean | null | undefined;
-  onChange: (value: string) => void;
-  label: string;
-  required: boolean;
-  error: string;
-  type: SelectType;
-  placeholder: string;
-  isSearchable: boolean;
-  isClearable: boolean;
-  isDisabled: boolean;
-  menuPos: 'fixed' | 'absolute';
-  menuPlace: 'top' | 'auto' | 'bottom';
-  isFilter: boolean;
-}
-
-const Style: any = {
+export const SelectStylesDesktop:any = {
   pagination: {
     control: (provided: any) => ({
       ...provided,
@@ -153,19 +130,24 @@ const Style: any = {
       ...provided,
       background: '#fff',
       border: '1px solid rgba(0, 0, 0, 0.1)',
+      minHeight: '32px',
+      height: '32px',
       borderRadius: '8px',
+      marginTop: 16,
       boxShadow: 'none',
-      height: 42,
       fontWeight: 400,
       color: 'rgba(0, 0, 0, 0.75)',
       '&:hover': {
-        border: '1px solid rgba(39, 111, 173, 1)',
+        borderWidth: '1px',
+        borderColor: 'rgba(39, 111, 173, 1)',
       },
       '&:focus': {
-        border: '1px solid rgba(39, 111, 173, 1)',
+        borderWidth: '1px',
+        borderColor: 'rgba(39, 111, 173, 1)',
       },
       '&:active': {
-        border: '1px solid rgba(39, 111, 173, 1)',
+        borderWidth: '1px',
+        borderColor: 'rgba(39, 111, 173, 1)',
       },
     }),
     indicatorSeparator: (provided: any) => ({
@@ -195,7 +177,7 @@ const Style: any = {
       ...provided,
       padding: '8px 16px',
       fontSize: '14px',
-      height: 42,
+      height: '32px',
     }),
     input: (provided: any) => ({
       ...provided,
@@ -204,7 +186,7 @@ const Style: any = {
     }),
     indicatorsContainer: (provided: any) => ({
       ...provided,
-      height: '42px',
+      height: '32px',
     }),
     clearIndicator: (provided: any) => ({
       ...provided,
@@ -222,74 +204,44 @@ const Style: any = {
     }),
   },
 };
-
-const NotebookSelect = ({ label,
-  options,
-  value,
-  onChange,
-  required,
-  error,
-  placeholder,
-  isSearchable,
-  isClearable,
-  type,
-  isDisabled,
-  menuPos,
-  menuPlace,
-  isFilter }:INotebookSelect) => {
-  const focusIndexRef = useRef(-1);
-
-  return (
-    <div className={clsx(isFilter ? styles.filterSelect : styles.Row)}>
-      {label && (
-        <label
-          className={clsx(styles.label)}
-        >
-          {label}
-          {required && <span className={styles.required}>*</span>}
-        </label>
-      )}
-      <div className={clsx(isFilter ? '' : styles.Select)}>
-        <ReactSelect<Option>
-          isDisabled={isDisabled}
-          menuPosition={menuPos}
-          menuPlacement={menuPlace}
-          styles={Style[type]}
-          isSearchable={isSearchable}
-          className={styles.select}
-          options={options}
-          placeholder={placeholder}
-          isClearable={isClearable}
-          noOptionsMessage={() => 'Нічого не знайдено'}
-          value={options.find((option) => option?.value?.toString() === value?.toString()) || null}
-          onChange={(option: SingleValue<Option>) => onChange(option?.value ? `${option.value}` : '')}
-          ariaLiveMessages={{
-            onFocus: (e) => {
-              focusIndexRef.current = e.options.indexOf(e.focused);
-
-              return '';
-            },
-          }}
-          onKeyDown={(e) => {
-            if (
-              e.key === 'ArrowDown'
-              && focusIndexRef.current === options.length - 1
-            ) {
-              e.preventDefault();
-            }
-            if (e.key === 'ArrowUp' && focusIndexRef.current === 0) {
-              e.preventDefault();
-            }
-          }}
-        />
-        {error && (
-          <div className={styles.error}>
-            <div className={styles.textError}>{error}</div>
-          </div>
-        )}
-      </div>
-    </div>
-  );
+export const SelectStylesTablet:any = {
+  pagination: {
+    ...SelectStylesDesktop.pagination,
+  },
+  filter: {
+    ...SelectStylesDesktop.filter,
+  },
+  modal: {
+    ...SelectStylesDesktop.modal,
+    control: (provided: any) => ({
+      ...provided,
+      height: '42px',
+      border: '1px solid rgba(0, 0, 0, 0.1)',
+      borderRadius: '8px',
+      boxShadow: 'none',
+      fontWeight: 400,
+      color: 'rgba(0, 0, 0, 0.75)',
+      '&:hover': {
+        borderWidth: '1px',
+        borderColor: 'rgba(39, 111, 173, 1)',
+      },
+      '&:focus': {
+        borderWidth: '1px',
+        borderColor: 'rgba(39, 111, 173, 1)',
+      },
+      '&:active': {
+        borderWidth: '1px',
+        borderColor: 'rgba(39, 111, 173, 1)',
+      },
+    }),
+    valueContainer: (provided: any) => ({
+      ...provided,
+      height: '42px',
+      padding: '5px 16px',
+    }),
+    indicatorsContainer: (provided: any) => ({
+      ...provided,
+      height: '42px',
+    }),
+  },
 };
-
-export default NotebookSelect;

@@ -2,12 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import styles from '../../pagesStyle.module.scss';
 import ModalWindow from '../../../components/common/ModalWindow';
-import ModalInput from '../../../components/common/ModalInput';
-import ModalControlButtons from '../../../components/common/ModalControlButtons';
 import { useMessagesContext } from '../../../context/messagesContext';
 import { IEditModal } from '../../../types';
-import { OnlyNumbers } from '../../../types/regExp';
-import SelectReason from '../../../components/common/Select/SelectReason';
 import { useTeacherPageContext } from '../../../context/pageTeacher';
 import { useDeviceContext } from '../../../context/TypeDevice';
 import RatingEditForm from './RatingEditForm';
@@ -46,7 +42,7 @@ const infoRowInitialization: typeInfoRow = {
 export const TeacherRatingEdit = ({ modalActive, closeModal, studentId }: IEditModal): JSX.Element => {
   const { teacherDataGetById, teacherEditRating } = useTeacherPageContext();
   const { addInfo } = useMessagesContext();
-  const { isDesktop, isNotebook } = useDeviceContext();
+  const { isDesktop, isTablet } = useDeviceContext();
 
   const [formData, setFormData] = useState<typeFormData>(formInitialData);
   const [isSubmitted, setIsSubmited] = useState(false);
@@ -107,7 +103,7 @@ export const TeacherRatingEdit = ({ modalActive, closeModal, studentId }: IEditM
         />
       </ModalWindow>
       )}
-      {isNotebook && (
+      {isTablet && (
         <div className={styles.newModal}>
           { modalActive ? disableBodyScroll(document.body) : enableBodyScroll(document.body) }
           <RatingEditForm

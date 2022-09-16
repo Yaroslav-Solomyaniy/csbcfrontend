@@ -14,7 +14,7 @@ import { useEstimatesContext } from '../../context/estimates';
 import { useDeviceContext } from '../../context/TypeDevice';
 import ItemButtons from './components/ItemButtons';
 import DesktopTable from './components/DesktopTable';
-import NoteBookTable from './components/NoteBookTable';
+import AdaptiveTable from './components/AdaptiveTable';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІБ' },
@@ -48,7 +48,7 @@ export interface IParams {
 const TeacherPage = (): JSX.Element => {
   const { teacherDataGet, teacherEditRating } = useTeacherPageContext();
   const { gradesEdit } = useEstimatesContext();
-  const { isDesktop, isNotebook } = useDeviceContext();
+  const { isDesktop, isTablet, isPhone } = useDeviceContext();
 
   const [params, setParams] = useState<IParams>({
     filter: { student: '', group: '', course: '' },
@@ -123,10 +123,10 @@ const TeacherPage = (): JSX.Element => {
             />
           </>
         )}
-        {isNotebook && (
+        {(isTablet || isPhone) && (
           <>
             <TitlePage title="Студенти" />
-            <NoteBookTable
+            <AdaptiveTable
               params={params}
               setParams={setParams}
               formData={formData || []}

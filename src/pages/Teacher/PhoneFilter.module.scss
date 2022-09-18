@@ -1,0 +1,18 @@
+.filterRow{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+.Button{
+  display: block;
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 272px;
+}
+.Title{
+  color: rgba(0, 0, 0, 0.85);
+  font-weight: 700;
+  font-size: 20px;
+}

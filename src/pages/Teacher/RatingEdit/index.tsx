@@ -42,7 +42,7 @@ const infoRowInitialization: typeInfoRow = {
 export const TeacherRatingEdit = ({ modalActive, closeModal, studentId }: IEditModal): JSX.Element => {
   const { teacherDataGetById, teacherEditRating } = useTeacherPageContext();
   const { addInfo } = useMessagesContext();
-  const { isDesktop, isTablet } = useDeviceContext();
+  const { isDesktop, isTablet, isPhone } = useDeviceContext();
 
   const [formData, setFormData] = useState<typeFormData>(formInitialData);
   const [isSubmitted, setIsSubmited] = useState(false);
@@ -103,7 +103,7 @@ export const TeacherRatingEdit = ({ modalActive, closeModal, studentId }: IEditM
         />
       </ModalWindow>
       )}
-      {isTablet && (
+      {(isTablet || isPhone) && (
         <div className={styles.newModal}>
           { modalActive ? disableBodyScroll(document.body) : enableBodyScroll(document.body) }
           <RatingEditForm

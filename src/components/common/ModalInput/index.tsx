@@ -26,7 +26,7 @@ const ModalInput = ({
   pattern,
   inputType,
 }: IModalInput): JSX.Element => {
-  const { isDesktop, isTablet } = useDeviceContext();
+  const { isDesktop, isTablet, isPhone } = useDeviceContext();
 
   return (
     <>

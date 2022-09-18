@@ -4,9 +4,21 @@
   flex-direction: column;
   margin: 10px auto 0 auto;
 }
-.filterSelect{
-  width: 280px;
+.TabletFilterSelect{
+  width: 200px;
 }
+
+.PhoneRow{
+  width: 288px;
+  display: flex;
+  flex-direction: column;
+  margin: 10px auto 0 auto;
+}
+.PhoneFilterSelect{
+  width: 288px;
+  margin: 16px auto 0 auto;
+}
+
 
 
 .label{

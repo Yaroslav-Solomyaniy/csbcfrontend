@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
+import { bool } from 'yup';
 import TitlePage from '../../components/TitlePage';
 import styles from './index.module.scss';
 import Layout from '../../loyout/Layout';
@@ -15,6 +16,10 @@ import { useDeviceContext } from '../../context/TypeDevice';
 import ItemButtons from './components/ItemButtons';
 import DesktopTable from './components/DesktopTable';
 import AdaptiveTable from './components/AdaptiveTable';
+import PageFilter from './components/PageFilter';
+import TableFilter from '../../components/common/table/TableFilter';
+import Button from '../../components/common/Button';
+import PhoneFilter from './PhoneFilter';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІБ' },
@@ -27,11 +32,13 @@ const dataHeader: ITableHeader[] = [
 export interface IIsActiveModalState {
   edit: number;
   history: number;
+  filter: boolean;
 }
 
 const allCloseModalWindow: IIsActiveModalState = {
   edit: 0,
   history: 0,
+  filter: false,
 };
 
 interface Filter {
@@ -123,12 +130,22 @@ const TeacherPage = (): JSX.Element => {
             />
           </>
         )}
-        {(isTablet || isPhone) && (
+        {isTablet && (
           <>
             <TitlePage title="Студенти" />
+            <TableFilter filter={<PageFilter value={params} setParams={setParams} />} />
             <AdaptiveTable
-              params={params}
-              setParams={setParams}
+              formData={formData || []}
+              isActiveModal={isActiveModal}
+              setIsActiveModal={setIsActiveModal}
+            />
+          </>
+        )}
+        {isPhone && (
+          <>
+            <TitlePage title="Студенти" setIsActiveModal={setIsActiveModal} isActiveModal={isActiveModal} />
+
+            <AdaptiveTable
               formData={formData || []}
               isActiveModal={isActiveModal}
               setIsActiveModal={setIsActiveModal}
@@ -136,6 +153,10 @@ const TeacherPage = (): JSX.Element => {
           </>
         )}
       </div>
+      {isActiveModal.filter && (
+        <PhoneFilter params={params} title="Фільтр" setParams={setParams} closeModal={closeModal} />
+      )}
+
       {!!isActiveModal.edit && (
       <TeacherRatingEdit
         modalActive

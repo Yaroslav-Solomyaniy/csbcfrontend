@@ -12,13 +12,16 @@ export const SelectStylesDesktop:any = {
       color: 'rgba(0, 0, 0, 0.75)',
       boxShadow: 'none',
       '&:hover': {
-        border: '1px solid rgba(39, 111, 173, 1)',
+        borderWidth: '1px',
+        borderColor: 'rgba(39, 111, 173, 1)',
       },
       '&:focus': {
-        border: '1px solid rgba(39, 111, 173, 1)',
+        borderWidth: '1px',
+        borderColor: 'rgba(39, 111, 173, 1)',
       },
       '&:active': {
-        border: '1px solid rgba(39, 111, 173, 1)',
+        borderWidth: '1px',
+        borderColor: 'rgba(39, 111, 173, 1)',
       },
     }),
     indicatorSeparator: (provided: any) => ({
@@ -73,13 +76,16 @@ export const SelectStylesDesktop:any = {
       fontWeight: 400,
       color: 'rgba(0, 0, 0, 0.75)',
       '&:hover': {
-        border: '1px solid rgba(39, 111, 173, 1)',
+        borderWidth: '1px',
+        borderColor: 'rgba(39, 111, 173, 1)',
       },
       '&:focus': {
-        border: '1px solid rgba(39, 111, 173, 1)',
+        borderWidth: '1px',
+        borderColor: 'rgba(39, 111, 173, 1)',
       },
       '&:active': {
-        border: '1px solid rgba(39, 111, 173, 1)',
+        borderWidth: '1px',
+        borderColor: 'rgba(39, 111, 173, 1)',
       },
     }),
     indicatorSeparator: (provided: any) => ({
@@ -210,9 +216,96 @@ export const SelectStylesTablet:any = {
   },
   filter: {
     ...SelectStylesDesktop.filter,
+    control: (provided: any) => ({
+      ...provided,
+      background: '#fff',
+      border: '1px solid rgba(0, 0, 0, 0.1)',
+      height: '42px',
+      width: '200px',
+      borderRadius: '8px',
+      boxShadow: 'none',
+      fontWeight: 400,
+      color: 'rgba(0, 0, 0, 0.75)',
+      '&:hover': {
+        borderWidth: '1px',
+        borderColor: 'rgba(39, 111, 173, 1)',
+      },
+      '&:focus': {
+        borderWidth: '1px',
+        borderColor: 'rgba(39, 111, 173, 1)',
+      },
+      '&:active': {
+        borderWidth: '1px',
+        borderColor: 'rgba(39, 111, 173, 1)',
+      },
+    }),
   },
   modal: {
     ...SelectStylesDesktop.modal,
+    control: (provided: any) => ({
+      ...provided,
+      height: '42px',
+      border: '1px solid rgba(0, 0, 0, 0.1)',
+      borderRadius: '8px',
+      boxShadow: 'none',
+      fontWeight: 400,
+      color: 'rgba(0, 0, 0, 0.75)',
+      '&:hover': {
+        borderWidth: '1px',
+        borderColor: 'rgba(39, 111, 173, 1)',
+      },
+      '&:focus': {
+        borderWidth: '1px',
+        borderColor: 'rgba(39, 111, 173, 1)',
+      },
+      '&:active': {
+        borderWidth: '1px',
+        borderColor: 'rgba(39, 111, 173, 1)',
+      },
+    }),
+    valueContainer: (provided: any) => ({
+      ...provided,
+      height: '42px',
+      padding: '5px 16px',
+    }),
+    indicatorsContainer: (provided: any) => ({
+      ...provided,
+      height: '42px',
+    }),
+  },
+};
+export const SelectStylesPhone:any = {
+  pagination: {
+    ...SelectStylesTablet.pagination,
+  },
+  filter: {
+    ...SelectStylesTablet.filter,
+    control: (provided: any) => ({
+      ...provided,
+      background: '#fff',
+      border: '1px solid rgba(0, 0, 0, 0.1)',
+      height: '42px',
+      width: '288px',
+      borderRadius: '8px',
+      boxShadow: 'none',
+      fontWeight: 400,
+      color: 'rgba(0, 0, 0, 0.75)',
+      '&:hover': {
+        borderWidth: '1px',
+        borderColor: 'rgba(39, 111, 173, 1)',
+      },
+      '&:focus': {
+        borderWidth: '1px',
+        borderColor: 'rgba(39, 111, 173, 1)',
+      },
+      '&:active': {
+        borderWidth: '1px',
+        borderColor: 'rgba(39, 111, 173, 1)',
+      },
+    }),
+  },
+  modal: {
+    ...SelectStylesTablet.modal,
     control: (provided: any) => ({
       ...provided,
       height: '42px',

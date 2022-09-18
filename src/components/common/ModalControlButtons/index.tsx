@@ -17,10 +17,10 @@ const ModalControlButtons = ({
   cancelButtonText,
   mainButtonText,
 }: IModalButtons): JSX.Element => {
-  const { isDesktop, isTablet } = useDeviceContext();
+  const { isDesktop, isTablet, isPhone } = useDeviceContext();
 
   return (
-    <div className={clsx(isDesktop && styles.block_Buttons, isTablet && styles.notebookButtonsModal)}>
+    <div className={clsx(isDesktop && styles.block_Buttons, (isTablet || isPhone) && styles.notebookButtonsModal)}>
       <Button
         onClick={handleClose}
         nameClass="secondary"

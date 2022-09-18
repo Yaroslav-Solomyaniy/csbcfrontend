@@ -2,7 +2,7 @@ import React from 'react';
 import { Option, SelectType } from '../../../types';
 import { useDeviceContext } from '../../../context/TypeDevice';
 import DesktopSelect from './typeDisplay/Desktop/DesktopSelect';
-import AdaptiveSelect from './typeDisplay/Tablet & Phone/AdaptiveSelect';
+import AdaptiveSelect from './typeDisplay/Adaptive/AdaptiveSelect';
 
 interface ISelect {
   options: Option[];
@@ -38,7 +38,7 @@ const Select = ({
   menuPlace,
   isFilter,
 }: ISelect): JSX.Element => {
-  const { isDesktop, isTablet } = useDeviceContext();
+  const { isDesktop, isTablet, isPhone } = useDeviceContext();
 
   return (
     <>
@@ -60,7 +60,7 @@ const Select = ({
           isFilter={isFilter || false}
         />
       )}
-      {isTablet && (
+      {isTablet || isPhone && (
         <AdaptiveSelect
           options={options}
           value={value}

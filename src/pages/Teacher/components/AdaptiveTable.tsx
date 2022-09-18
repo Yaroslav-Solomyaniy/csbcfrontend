@@ -7,15 +7,13 @@ import { IIsActiveModalState, IParams } from '../index';
 import { IGetPageTeacherData } from '../../../hooks/usePageTeacher';
 
 interface INoteBookTable{
-  params: IParams;
-  setParams: (value:IParams) => void;
   formData: IGetPageTeacherData[];
   isActiveModal: IIsActiveModalState;
   setIsActiveModal: (value:IIsActiveModalState) => void;
 }
-const AdaptiveTable = ({ params, setParams, formData, isActiveModal, setIsActiveModal }:INoteBookTable) => (
+const AdaptiveTable = ({ formData, isActiveModal, setIsActiveModal }:INoteBookTable) => (
+  // eslint-disable-next-line react/jsx-no-useless-fragment
   <>
-    <TableFilter filter={<PageFilter value={params} setParams={setParams} />} />
     {formData?.map((item) => (
       <div key={item.id} className={styles.notebookItem}>
         <div className={styles.notebookItem_Content}>

@@ -1,11 +1,13 @@
+
 .filterRow{
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
+  margin-top: 20px;
 }
 .Button{
   display: block;
-  position: fixed;
+  position: absolute;
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
@@ -15,4 +17,12 @@
   color: rgba(0, 0, 0, 0.85);
   font-weight: 700;
   font-size: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+}
+.Text{
+  margin-left: 5px;
+  cursor: pointer;
 }

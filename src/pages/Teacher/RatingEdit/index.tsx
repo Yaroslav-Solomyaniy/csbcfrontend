@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
+import clsx from 'clsx';
 import styles from '../../pagesStyle.module.scss';
 import ModalWindow from '../../../components/common/ModalWindow';
 import { useMessagesContext } from '../../../context/messagesContext';
@@ -104,7 +105,7 @@ export const TeacherRatingEdit = ({ modalActive, closeModal, studentId }: IEditM
       </ModalWindow>
       )}
       {(isTablet || isPhone) && (
-        <div className={styles.newModal}>
+        <div className={clsx(styles.newModal, modalActive && styles.newModal_active)}>
           { modalActive ? disableBodyScroll(document.body) : enableBodyScroll(document.body) }
           <RatingEditForm
             modalTitle="Редагування оцінки"

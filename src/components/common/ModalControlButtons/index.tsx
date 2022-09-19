@@ -20,7 +20,7 @@ const ModalControlButtons = ({
   const { isDesktop, isTablet, isPhone } = useDeviceContext();
 
   return (
-    <div className={clsx(isDesktop && styles.block_Buttons, (isTablet || isPhone) && styles.notebookButtonsModal)}>
+    <div className={clsx(isDesktop && styles.block_Buttons, (isTablet || isPhone) && styles.AdaptiveButtonsModal)}>
       <Button
         onClick={handleClose}
         nameClass="secondary"

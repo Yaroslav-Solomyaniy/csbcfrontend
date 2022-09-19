@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { LegacyRef } from 'react';
 import clsx from 'clsx';
 import styles from './index.module.scss';
 
@@ -10,6 +10,7 @@ interface IButton {
   size?: string;
   disabled?: boolean;
   isImg?: boolean;
+  myRef?: React.RefObject<HTMLButtonElement>;
 }
 
 const Button = ({
@@ -20,6 +21,7 @@ const Button = ({
   size,
   disabled,
   isImg,
+  myRef,
 }: IButton): JSX.Element => (
   <button
     className={clsx(
@@ -34,6 +36,7 @@ const Button = ({
     type="button"
     onClick={onClick}
     disabled={disabled}
+    ref={myRef}
   >
     {children}
   </button>
@@ -46,6 +49,7 @@ Button.defaultProps = {
   size: '',
   disabled: false,
   isImg: false,
+  myRef: undefined,
 };
 
 export default Button;

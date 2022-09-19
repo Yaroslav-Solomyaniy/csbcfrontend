@@ -60,7 +60,7 @@ const Select = ({
           isFilter={isFilter || false}
         />
       )}
-      {isTablet || isPhone && (
+      {(isTablet || isPhone) && (
         <AdaptiveSelect
           options={options}
           value={value}

@@ -1,7 +1,8 @@
-.notebookButtonsModal{
+.AdaptiveButtonsModal{
   position: absolute;
   bottom: 28px;
   left: 50%;
+  display: flex;
   transform: translateX(-50%);
   :nth-child(n) {
     margin-left: 16px;

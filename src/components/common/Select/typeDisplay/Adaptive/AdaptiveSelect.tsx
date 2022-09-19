@@ -42,8 +42,8 @@ const AdaptiveSelect = ({ label,
 
   return (
     <div className={clsx(isFilter
-      ? (isTablet ? styles.TabletFilterSelect : isPhone && styles.PhoneFilterSelect)
-      : isTablet ? styles.TabletRow : isPhone && styles.PhoneRow)}
+      ? (isTablet ? styles.TabletFilterSelect : styles.PhoneFilterSelect)
+      : (isTablet ? styles.TabletRow : isPhone && styles.PhoneRow))}
     >
       {label && (
         <label

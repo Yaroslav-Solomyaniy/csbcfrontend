@@ -8,7 +8,7 @@ import { Filter } from '../common/Icon';
 interface ITitlePage {
   title: string;
   action?: JSX.Element;
-  isActiveModal?: IIsActiveModalState;
+  isActiveModal?: boolean;
   setIsActiveModal?: (value: any) => void;
 }
 
@@ -17,7 +17,13 @@ const TitlePage = ({ title, action, isActiveModal, setIsActiveModal }: ITitlePag
 
   return (
     <>
-      {(isDesktop || isTablet) && (
+      {isDesktop && (
+        <div className={styles.top_row}>
+          <h1 className={styles.title}>{title}</h1>
+          {action}
+        </div>
+      )}
+      {isTablet && (
         <div className={styles.top_row}>
           <h1 className={styles.title}>{title}</h1>
           {action}
@@ -25,13 +31,12 @@ const TitlePage = ({ title, action, isActiveModal, setIsActiveModal }: ITitlePag
       )}
       {isPhone && (
         <div className={styles.top_row}>
-
+          {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
           <h1
             className={styles.title}
-            onClick={() => setIsActiveModal ? setIsActiveModal({ ...isActiveModal, filter: true }) : undefined}
+            onClick={() => setIsActiveModal ? setIsActiveModal({ filter: true }) : undefined}
           >
             <Filter />
-
             {title}
           </h1>
           {action}

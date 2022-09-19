@@ -1,27 +1,28 @@
 import React from 'react';
-import { IParams } from '../index';
-import { ITableHeader } from '../../../components/common/table/TableHeader';
-import { ITableRowItem } from '../../../components/common/table/TableBody';
-import Table from '../../../components/common/table';
-import PageFilter from './PageFilter';
-import styles from '../index.module.scss';
+import { IParams } from '../../../pages/Teacher';
+import { ITableHeader } from './TableHeader';
+import { ITableRowItem } from './TableBody';
+import Table from './index';
+import PageFilter from '../../../pages/Teacher/components/PageFilter';
+import styles from '../../../pages/Teacher/index.module.scss';
 
 interface IDesktopTable{
 params: IParams;
 setParams: (value:IParams) => void;
 dataHeader: ITableHeader[];
 dataRow: ITableRowItem[];
+className: string;
 
 }
 
-const DesktopTable = ({ params, setParams, dataHeader, dataRow }:IDesktopTable) => (
+const DesktopTable = ({ params, setParams, dataHeader, dataRow, className }:IDesktopTable) => (
   <Table
     filter={(
       <PageFilter value={params} setParams={setParams} />
     )}
     dataHeader={dataHeader}
     dataRow={dataRow}
-    gridColumns={styles.columns}
+    gridColumns={className}
     pagination={params.pagination}
     onPaginationChange={(newPagination) => setParams({ ...params, pagination: newPagination })}
   />

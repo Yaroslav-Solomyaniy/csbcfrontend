@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
-import { bool } from 'yup';
 import TitlePage from '../../components/TitlePage';
 import styles from './index.module.scss';
 import Layout from '../../loyout/Layout';
@@ -18,7 +16,6 @@ import DesktopTable from '../../components/common/table/DesktopTable';
 import ListElementInTeacherPage from './components/ListElementInTeacherPage';
 import PageFilter from './components/PageFilter';
 import TableFilter from '../../components/common/table/TableFilter';
-import Button from '../../components/common/Button';
 import PhoneFilter from './PhoneFilter';
 
 const dataHeader: ITableHeader[] = [
@@ -151,32 +148,33 @@ const TeacherPage = (): JSX.Element => {
               isActiveModal={isActiveModal}
               setIsActiveModal={setIsActiveModal}
             />
+            <PhoneFilter
+              isActive={isActiveModal.filter}
+              params={params}
+              title="Фільтр"
+              setParams={setParams}
+              closeModal={closeModal}
+            />
           </>
         )}
       </div>
-      {isActiveModal.filter && (
-        <PhoneFilter
-          isActive={isActiveModal.filter}
-          params={params}
-          title="Фільтр"
-          setParams={setParams}
+      {/* {isActiveModal.filter && ( */}
+      {/* */}
+      {/* )} */}
+
+      {!!isActiveModal.edit && (
+        <TeacherRatingEdit
+          modalActive
+          studentId={isActiveModal.edit}
           closeModal={closeModal}
         />
       )}
-
-      {!!isActiveModal.edit && (
-      <TeacherRatingEdit
-        modalActive
-        studentId={isActiveModal.edit}
-        closeModal={closeModal}
-      />
-      )}
       {!!isActiveModal.history && (
-      <TeacherRatingHistory
-        modalActive
-        Id={isActiveModal.history}
-        closeModal={closeModal}
-      />
+        <TeacherRatingHistory
+          modalActive
+          Id={isActiveModal.history}
+          closeModal={closeModal}
+        />
       )}
     </Layout>
   );

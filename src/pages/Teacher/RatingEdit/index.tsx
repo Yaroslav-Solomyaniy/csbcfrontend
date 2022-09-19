@@ -21,7 +21,7 @@ const formInitialData: typeFormData = {
   reasonForChange: 'Екзамен',
 };
 
-export interface typeInfoRow{
+export interface typeInfoRow {
   firstName: string;
   lastName: string;
   userId: number;
@@ -30,6 +30,7 @@ export interface typeInfoRow{
   groupName: string;
   grade: number;
 }
+
 const infoRowInitialization: typeInfoRow = {
   firstName: '',
   userId: 0,
@@ -71,7 +72,8 @@ export const TeacherRatingEdit = ({ modalActive, closeModal, studentId }: IEditM
   }, [teacherEditRating?.data]);
 
   useEffect(() => {
-    setInfoRow({ firstName: teacherDataGetById?.data?.student.user.firstName || '',
+    setInfoRow({
+      firstName: teacherDataGetById?.data?.student.user.firstName || '',
       patronymic: teacherDataGetById?.data?.student.user.patronymic || '',
       lastName: teacherDataGetById?.data?.student.user.lastName || '',
       courseName: teacherDataGetById?.data?.course.name || '',
@@ -93,20 +95,20 @@ export const TeacherRatingEdit = ({ modalActive, closeModal, studentId }: IEditM
   return (
     <>
       {isDesktop && (
-      <ModalWindow modalTitle="Редагування оцінки" active={modalActive} closeModal={closeModal}>
-        <RatingEditForm
-          closeModal={handleClose}
-          onSubmit={onSubmit}
-          isSubmitted={isSubmitted}
-          formData={formData}
-          infoRow={infoRow}
-          setFormData={setFormData}
-        />
-      </ModalWindow>
+        <ModalWindow modalTitle="Редагування оцінки" active={modalActive} closeModal={closeModal}>
+          <RatingEditForm
+            closeModal={handleClose}
+            onSubmit={onSubmit}
+            isSubmitted={isSubmitted}
+            formData={formData}
+            infoRow={infoRow}
+            setFormData={setFormData}
+          />
+        </ModalWindow>
       )}
       {(isTablet || isPhone) && (
         <div className={clsx(styles.newModal, modalActive && styles.newModal_active)}>
-          { modalActive ? disableBodyScroll(document.body) : enableBodyScroll(document.body) }
+          {modalActive ? disableBodyScroll(document.body) : enableBodyScroll(document.body)}
           <RatingEditForm
             modalTitle="Редагування оцінки"
             closeModal={handleClose}

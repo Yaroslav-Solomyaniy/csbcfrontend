@@ -63,7 +63,7 @@ export const useGetHistoryGrades = (): IUseGetHistoryGrades => {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
-      params: { /* orderByColumn: 'created', */ ...params },
+      params: { orderByColumn: 'GradeHistory.createdAt', ...params },
     })
       .then((response: AxiosResponse<IGetHistoryGradesData[]>) => setData(response.data))
       .catch((error) => addErrors(error.response.data.message));

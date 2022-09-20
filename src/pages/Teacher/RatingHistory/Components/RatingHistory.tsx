@@ -8,6 +8,7 @@ import Table from '../../../../components/common/table';
 import ModalControlButtons from '../../../../components/common/ModalControlButtons';
 import { useDeviceContext } from '../../../../context/TypeDevice';
 import MobileListElementRatingHistory from '../Mobile/MobileListElementRatingHistory';
+import { IGradesHistories } from '../../../../hooks/useGradesHistory';
 
 interface IRatingHistory{
   infoRow: typeInfoStudent;
@@ -15,9 +16,10 @@ interface IRatingHistory{
   dataRow: ITableRowItem[];
   closeModal: ()=>void;
   modalTitle?: string;
+  data?: IGradesHistories[];
 }
 
-const RatingHistory = ({ infoRow, dataHeader, dataRow, closeModal, modalTitle }:IRatingHistory) => {
+const RatingHistory = ({ infoRow, dataHeader, dataRow, closeModal, modalTitle, data }:IRatingHistory) => {
   const { isDesktop, isTablet, isPhone } = useDeviceContext();
 
   return (
@@ -31,18 +33,19 @@ const RatingHistory = ({ infoRow, dataHeader, dataRow, closeModal, modalTitle }:
           {`Предмет: ${infoRow.courseName}`}
         </div>
         {(isDesktop || isTablet) && (
-          <Table
-            dataHeader={dataHeader}
-            dataRow={dataRow}
-            gridColumns={styles.columns}
-            isHistoryTable
-          />
+        <Table
+          dataHeader={dataHeader}
+          dataRow={dataRow}
+          gridColumns={styles.columns}
+          isHistoryTable
+        />
         )}
-        {/* {isPhone && ( */}
-        {/* <MobileListElementRatingHistory dataRow={dataRow} /> */}
-        {/* )} */}
+        {isPhone && (
+        <MobileListElementRatingHistory data={data} />
+        )}
 
       </div>
+
       <ModalControlButtons
         handleClose={closeModal}
         cancelButtonText="Назад"
@@ -53,6 +56,7 @@ const RatingHistory = ({ infoRow, dataHeader, dataRow, closeModal, modalTitle }:
 
 RatingHistory.defaultProps = {
   modalTitle: '',
+  data: undefined,
 };
 
 export default RatingHistory;

@@ -62,7 +62,6 @@ export const TeacherRatingHistory = ({ modalActive, closeModal, Id }: ITeacherRa
       teacherDataGetById?.pageTeacherGetById(Id);
     }
   }, [Id]);
-
   useEffect(() => {
     setInfoRow({
       firstName: teacherDataGetById?.data?.student.user.firstName || '',
@@ -86,6 +85,7 @@ export const TeacherRatingHistory = ({ modalActive, closeModal, Id }: ITeacherRa
 
   useEffect(() => {
     if (getHistory?.data) {
+      setData(getHistory.data.map((item) => item.gradesHistories).flat());
       setDataRow(getHistory.data.reduce((acc: ITableRowItem[], historyGrades) => {
         const items: ITableRowItem[] = historyGrades.gradesHistories.map((history): ITableRowItem => ({
 
@@ -128,6 +128,7 @@ export const TeacherRatingHistory = ({ modalActive, closeModal, Id }: ITeacherRa
           dataHeader={dataHeader}
           dataRow={dataRow}
           closeModal={handleClose}
+          data={data}
         />
       </MobileModalWindow>
       )}

@@ -8,8 +8,8 @@ import { Pagination } from '../../../types';
 import TableFooter from './TableFooter';
 
 interface ITable {
-  dataHeader: ITableHeader[];
-  dataRow: ITableRowItem[];
+  dataHeader: ITableHeader[] | [];
+  dataRow: ITableRowItem[] | [];
   gridColumns: string;
   filter?: JSX.Element;
   pagination?: Pagination;

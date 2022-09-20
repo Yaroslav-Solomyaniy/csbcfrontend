@@ -1,5 +1,5 @@
 import React from 'react';
-import PageFilter from '../../../pages/Teacher/components/PageFilter';
+import FilterTeacherPage from '../../../pages/Teacher/components/FilterTeacherPage';
 import style from './index.module.scss';
 import Button from '../Button';
 import { ArrowLeft } from '../Icon';
@@ -20,7 +20,7 @@ const PhoneFilter = ({ params, setParams, closeModal, isActive }: IPhoneFilter) 
     </div>
 
     <div className={style.filterRow}>
-      <PageFilter value={params} setParams={setParams} />
+      <FilterTeacherPage value={params} setParams={setParams} />
     </div>
     <Button onClick={closeModal} nameClass="primary" size="large" className={style.Button}>Застосувати</Button>
   </MobileModalWindow>

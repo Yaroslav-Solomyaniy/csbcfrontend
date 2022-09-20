@@ -3,7 +3,7 @@ import React from 'react';
 import styles from './index.module.scss';
 import { useDeviceContext } from '../../../context/TypeDevice';
 
-interface ImodalWindow {
+interface IModalWindow {
   modalTitle: string;
   active: boolean;
   children: React.ReactNode | React.ReactChild;
@@ -11,7 +11,7 @@ interface ImodalWindow {
   overflowY?: boolean;
 }
 
-const ModalWindow = ({ modalTitle, active, children, closeModal, overflowY }: ImodalWindow): JSX.Element => (
+const ModalWindow = ({ modalTitle, active, children, closeModal, overflowY }: IModalWindow): JSX.Element => (
   <div className={clsx(styles.modal, active && styles.active)} onClick={closeModal}>
     <div
       className={clsx(styles.modal__content, active && styles.active, overflowY && styles.modal__overflow)}

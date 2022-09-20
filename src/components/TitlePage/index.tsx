@@ -1,18 +1,15 @@
 import React from 'react';
 import styles from './index.module.scss';
 import { useDeviceContext } from '../../context/TypeDevice';
-import Button from '../common/Button';
-import { IIsActiveModalState } from '../../pages/Teacher';
 import { Filter } from '../common/Icon';
 
 interface ITitlePage {
   title: string;
   action?: JSX.Element;
-  isActiveModal?: boolean;
-  setIsActiveModal?: (value: any) => void;
+  setIsActiveModal?: (value: Record<string, number | boolean>) => void;
 }
 
-const TitlePage = ({ title, action, isActiveModal, setIsActiveModal }: ITitlePage):JSX.Element => {
+const TitlePage = ({ title, action, setIsActiveModal }: ITitlePage):JSX.Element => {
   const { isDesktop, isTablet, isPhone } = useDeviceContext();
 
   return (
@@ -29,6 +26,7 @@ const TitlePage = ({ title, action, isActiveModal, setIsActiveModal }: ITitlePag
           {action}
         </div>
       )}
+
       {isPhone && (
         <div className={styles.top_row}>
           {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}

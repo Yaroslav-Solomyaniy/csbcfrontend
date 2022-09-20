@@ -14,3 +14,19 @@
   font-size: 16px;
   color: rgba(0, 0, 0, 0.75);
 }
+.content{
+  height: 50vh;
+  overflow-y: scroll;
+}
+
+.Phone__title{
+  font-weight: 700;
+  font-size: 18px;
+  color: rgba(0, 0, 0, 0.75);
+}
+.Phone__subtitle{
+  margin-top: 10px;
+  color: rgba(96, 113, 128, 1);
+  font-weight: 400;
+  font-size: 13px;
+}

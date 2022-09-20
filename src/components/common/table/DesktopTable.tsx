@@ -3,8 +3,7 @@ import { IParams } from '../../../pages/Teacher';
 import { ITableHeader } from './TableHeader';
 import { ITableRowItem } from './TableBody';
 import Table from './index';
-import PageFilter from '../../../pages/Teacher/components/PageFilter';
-import styles from '../../../pages/Teacher/index.module.scss';
+import FilterTeacherPage from '../../../pages/Teacher/components/FilterTeacherPage';
 
 interface IDesktopTable{
 params: IParams;
@@ -18,7 +17,7 @@ className: string;
 const DesktopTable = ({ params, setParams, dataHeader, dataRow, className }:IDesktopTable) => (
   <Table
     filter={(
-      <PageFilter value={params} setParams={setParams} />
+      <FilterTeacherPage value={params} setParams={setParams} />
     )}
     dataHeader={dataHeader}
     dataRow={dataRow}

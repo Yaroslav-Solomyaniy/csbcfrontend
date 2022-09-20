@@ -17,13 +17,15 @@ interface ITableBody {
   isScroll?: boolean;
   columScrollHorizontal?: number;
   isTableResult?: boolean;
+  isHistoryTable?: boolean;
 }
 
 const TableBody = ({
   dataRow, gridColumns,
   isScroll, columScrollHorizontal, isTableResult,
+  isHistoryTable,
 }: ITableBody): JSX.Element => (
-  <div className={clsx(isTableResult && styles.tableResult, styles.content)}>
+  <div className={clsx(isTableResult && styles.tableResult, isHistoryTable && styles.historyTable, styles.content)}>
     {dataRow.map(({ key, list }) => (
       <div
         className={clsx(isTableResult && styles.body__row_noBorder, styles.body__row, gridColumns)}
@@ -60,6 +62,7 @@ TableBody.defaultProps = {
   isScroll: false,
   columScrollHorizontal: 0,
   isTableResult: false,
+  isHistoryTable: false,
 };
 
 export default TableBody;

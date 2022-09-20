@@ -17,6 +17,7 @@ interface ITable {
   columScrollHorizontal?: number;
   isScroll?: boolean;
   isTableResult?: boolean;
+  isHistoryTable?: boolean;
 }
 
 const Table = ({
@@ -26,6 +27,7 @@ const Table = ({
   isTableResult,
   filter,
   pagination,
+  isHistoryTable,
   onPaginationChange,
   columScrollHorizontal,
   isScroll,
@@ -48,6 +50,7 @@ const Table = ({
               dataRow={dataRow}
               gridColumns={gridColumns}
               isTableResult={isTableResult}
+              isHistoryTable={isHistoryTable}
             />
           )
           : <div className={styles.table__not_found}>Нічого не знайдено</div>}
@@ -66,6 +69,7 @@ Table.defaultProps = {
   isScroll: false,
   columScrollHorizontal: 0,
   isTableResult: false,
+  isHistoryTable: false,
 };
 
 export default Table;

@@ -11,12 +11,12 @@ import { useTeacherPageContext } from '../../context/pageTeacher';
 import { IGetPageTeacherData, IGetPageTeacherParams } from '../../hooks/usePageTeacher';
 import { useEstimatesContext } from '../../context/estimates';
 import { useDeviceContext } from '../../context/TypeDevice';
-import ItemButtons from './components/ItemButtons';
 import DesktopTable from '../../components/common/table/DesktopTable';
-import ListElementInTeacher from './components/ListElementInTeacher';
-import PageFilter from './components/PageFilter';
+import MobileElementListTeacherPage from './components/MobileElementListTeacherPage';
+import FilterTeacherPage from './components/FilterTeacherPage';
 import TableFilter from '../../components/common/table/TableFilter';
-import PhoneFilter from '../../components/common/PhoneFilterModal';
+import PhoneFilter from '../../components/common/PhoneFilter';
+import { EditAndHistory } from '../../components/common/GroupButtons';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІБ' },
@@ -26,13 +26,7 @@ const dataHeader: ITableHeader[] = [
   { id: 5, label: 'Дії' },
 ];
 
-export interface IIsActiveModalState {
-  edit: number;
-  history: number;
-  filter: boolean;
-}
-
-const allCloseModalWindow: IIsActiveModalState = {
+const TeacherPageModalState: Record<string, number | boolean> = {
   edit: 0,
   history: 0,
   filter: false,
@@ -58,12 +52,12 @@ const TeacherPage = (): JSX.Element => {
     filter: { student: '', group: '', course: '' },
     pagination: initialPagination,
   });
-  const [isActiveModal, setIsActiveModal] = useState(allCloseModalWindow);
+  const [isActiveModal, setIsActiveModal] = useState(TeacherPageModalState);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
   const [formData, setFormData] = useState<IGetPageTeacherData[]>();
 
   const closeModal = () => {
-    setIsActiveModal(allCloseModalWindow);
+    setIsActiveModal(TeacherPageModalState);
   };
 
   useEffect(() => {
@@ -103,7 +97,7 @@ const TeacherPage = (): JSX.Element => {
           {
             id: 5,
             label: (
-              <ItemButtons isActiveModal={isActiveModal} setIsActiveModal={setIsActiveModal} itemId={item.id} />
+              <EditAndHistory isActiveModal={isActiveModal} setIsActiveModal={setIsActiveModal} itemId={item.id} />
             ),
           },
         ],
@@ -131,8 +125,8 @@ const TeacherPage = (): JSX.Element => {
         {isTablet && (
           <>
             <TitlePage title="Студенти" />
-            <TableFilter filter={<PageFilter value={params} setParams={setParams} />} />
-            <ListElementInTeacher
+            <TableFilter filter={<FilterTeacherPage value={params} setParams={setParams} />} />
+            <MobileElementListTeacherPage
               formData={formData}
               isActiveModal={isActiveModal}
               setIsActiveModal={setIsActiveModal}
@@ -141,8 +135,12 @@ const TeacherPage = (): JSX.Element => {
         )}
         {isPhone && (
           <>
-            <TitlePage title="Студенти" setIsActiveModal={setIsActiveModal} isActiveModal={isActiveModal.filter} />
-            <ListElementInTeacher
+            <TitlePage
+              title="Студенти"
+              setIsActiveModal={setIsActiveModal}
+              isActiveModal={!!isActiveModal.filter}
+            />
+            <MobileElementListTeacherPage
               formData={formData}
               isActiveModal={isActiveModal}
               setIsActiveModal={setIsActiveModal}
@@ -150,22 +148,25 @@ const TeacherPage = (): JSX.Element => {
           </>
         )}
       </div>
+
+      {/* Block Modals */}
       <PhoneFilter
-        isActive={isActiveModal.filter}
+        isActive={!!isActiveModal.filter}
         params={params}
         setParams={setParams}
         closeModal={closeModal}
       />
       <TeacherRatingEdit
         modalActive={!!isActiveModal.edit}
-        studentId={isActiveModal.edit}
+        studentId={isActiveModal.edit as number}
         closeModal={closeModal}
       />
       <TeacherRatingHistory
         modalActive={!!isActiveModal.history}
-        Id={isActiveModal.history}
+        Id={isActiveModal.history as number}
         closeModal={closeModal}
       />
+      {/* Close Block Modals */}
     </Layout>
   );
 };

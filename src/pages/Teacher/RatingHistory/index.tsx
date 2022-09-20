@@ -7,8 +7,10 @@ import pageStyles from '../../pagesStyle.module.scss';
 import { ITableHeader } from '../../../components/common/table/TableHeader';
 import { ITableRowItem } from '../../../components/common/table/TableBody';
 import { useTeacherPageContext } from '../../../context/pageTeacher';
-import RatingHistoryInfo from './RatingHistoryMobile';
+import RatingHistory from './Components/RatingHistory';
 import { useDeviceContext } from '../../../context/TypeDevice';
+import MobileModalWindow from '../../../components/common/MobileModalWindow';
+import { IGetHistoryGradesData, IGradesHistories, IUseGetHistoryGrades } from '../../../hooks/useGradesHistory';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'Дата' },
@@ -46,8 +48,8 @@ interface ITeacherRatingHistory {
 export const TeacherRatingHistory = ({ modalActive, closeModal, Id }: ITeacherRatingHistory): JSX.Element => {
   const [infoRow, setInfoRow] = useState<typeInfoStudent>(infoRowInitialization);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
-  const { isDesktop, isTablet } = useDeviceContext();
-
+  const [data, setData] = useState<IGradesHistories[]>([]);
+  const { isDesktop, isTablet, isPhone } = useDeviceContext();
   const { teacherDataGetById, getHistory } = useTeacherPageContext();
 
   const handleClose = () => {
@@ -109,7 +111,7 @@ export const TeacherRatingHistory = ({ modalActive, closeModal, Id }: ITeacherRa
     <>
       {isDesktop && (
         <ModalWindow modalTitle="Історія змін оцінки" active={modalActive} closeModal={handleClose}>
-          <RatingHistoryInfo
+          <RatingHistory
             infoRow={infoRow}
             dataHeader={dataHeader}
             dataRow={dataRow}
@@ -117,17 +119,17 @@ export const TeacherRatingHistory = ({ modalActive, closeModal, Id }: ITeacherRa
           />
         </ModalWindow>
       )}
-      {isTablet && (
-      <div className={pageStyles.newModal}>
+      {(isTablet || isPhone) && (
+      <MobileModalWindow isActive={modalActive}>
         { modalActive ? disableBodyScroll(document.body) : enableBodyScroll(document.body) }
-        <RatingHistoryInfo
+        <RatingHistory
           modalTitle="Історія змін оцінки"
           infoRow={infoRow}
           dataHeader={dataHeader}
           dataRow={dataRow}
           closeModal={handleClose}
         />
-      </div>
+      </MobileModalWindow>
       )}
     </>
   );

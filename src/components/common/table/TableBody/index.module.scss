@@ -2,7 +2,11 @@
   width: 100%;
 }
 .tableResult{
-  max-height: 165px;
+  max-height: 170px;
+  overflow-y: auto;
+}
+.historyTable{
+  max-height: 50vh;
   overflow-y: auto;
 }
 

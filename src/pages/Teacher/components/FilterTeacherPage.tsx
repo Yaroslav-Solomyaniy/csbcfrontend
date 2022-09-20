@@ -6,12 +6,12 @@ import SelectGroupById from '../../../components/common/Select/SelectGroupById';
 import SelectCourse from '../../../components/common/Select/SelectCourse';
 import { IParams } from '../index';
 
-interface IPageFilter{
+interface IFilterTeacherPage{
 value: IParams;
 setParams:(newValue:IParams) => void;
 }
 
-const PageFilter = ({ value, setParams }:IPageFilter):JSX.Element => (
+const FilterTeacherPage = ({ value, setParams }:IFilterTeacherPage):JSX.Element => (
   <>
     <SelectStudent
       type="filter"
@@ -61,4 +61,4 @@ const PageFilter = ({ value, setParams }:IPageFilter):JSX.Element => (
   </>
 );
 
-export default PageFilter;
+export default FilterTeacherPage;

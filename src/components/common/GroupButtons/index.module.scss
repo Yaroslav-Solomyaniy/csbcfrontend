@@ -1,0 +1,5 @@
+.actions {
+  display: flex;
+  grid-template-columns: repeat(auto-fill, minmax(20px, 1fr));
+  grid-column-gap: 13px;
+}

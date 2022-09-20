@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from 'react';
 import { useDeviceContext } from '../../../context/TypeDevice';
-import InputDesktop from './type/InputDesktop';
-import InputNotebook from './type/InputNotebook';
+import InputDesktop from './type/Desktop/InputDesktop';
+import InputMobile from './type/Mobile/InputMobile';
 
 interface IModalInput {
   inputType?: string;
@@ -43,8 +43,9 @@ const ModalInput = ({
         className={className || ''}
       />
       )}
-      {isTablet && (
-      <InputNotebook
+
+      {(isTablet || isPhone) && (
+      <InputMobile
         inputType={inputType || ''}
         label={label || ''}
         value={value}

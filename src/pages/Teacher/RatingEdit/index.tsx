@@ -8,6 +8,7 @@ import { IEditModal } from '../../../types';
 import { useTeacherPageContext } from '../../../context/pageTeacher';
 import { useDeviceContext } from '../../../context/TypeDevice';
 import RatingEditForm from './RatingEditForm';
+import MobileModalWindow from '../../../components/common/MobileModalWindow';
 
 export interface typeFormData {
   courseId: number;
@@ -107,7 +108,7 @@ export const TeacherRatingEdit = ({ modalActive, closeModal, studentId }: IEditM
         </ModalWindow>
       )}
       {(isTablet || isPhone) && (
-        <div className={clsx(styles.newModal, modalActive && styles.newModal_active)}>
+        <MobileModalWindow isActive={modalActive}>
           {modalActive ? disableBodyScroll(document.body) : enableBodyScroll(document.body)}
           <RatingEditForm
             modalTitle="Редагування оцінки"
@@ -118,7 +119,7 @@ export const TeacherRatingEdit = ({ modalActive, closeModal, studentId }: IEditM
             infoRow={infoRow}
             setFormData={setFormData}
           />
-        </div>
+        </MobileModalWindow>
       )}
     </>
   );

@@ -8,7 +8,7 @@ import { useDeviceContext } from '../../../context/TypeDevice';
 import { IIsActiveModalState } from '../index';
 import useOnClickOutside from '../../../hooks/UseClickOutsideElement';
 
-interface IAdaptiveElementInTeacherPage{
+interface IDisplayElementInTeacher{
   id: number;
   lastName: string;
   firstName: string;
@@ -19,13 +19,13 @@ interface IAdaptiveElementInTeacherPage{
   isActiveModal: IIsActiveModalState;
   setIsActiveModal: (value: IIsActiveModalState) => void;
 }
-const AdaptiveElementInTeacherPage = ({ id,
+const DisplayElementInTeacher = ({ id,
   courseName,
   groupName,
   lastName,
   firstName,
   grade,
-  patronymic, isActiveModal, setIsActiveModal }:IAdaptiveElementInTeacherPage):JSX.Element => {
+  patronymic, isActiveModal, setIsActiveModal }:IDisplayElementInTeacher):JSX.Element => {
   const [activeControl, setActiveControl] = useState<boolean>(false);
   const { isTablet, isPhone } = useDeviceContext();
 
@@ -80,4 +80,4 @@ const AdaptiveElementInTeacherPage = ({ id,
   );
 };
 
-export default AdaptiveElementInTeacherPage;
+export default DisplayElementInTeacher;

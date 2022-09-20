@@ -1,8 +1,9 @@
 import React, { ChangeEvent } from 'react';
 import clsx from 'clsx';
-import styles from './InputNoteBook.module.scss';
+import styles from './InputMobile.module.scss';
+import { useDeviceContext } from '../../../../../context/TypeDevice';
 
-interface IInputNotebook{
+interface IInputMobile{
   inputType: string;
   label: string;
   value: string | number | undefined;
@@ -14,7 +15,7 @@ interface IInputNotebook{
   className: string;
 }
 
-const InputNotebook = ({ label,
+const InputMobile = ({ label,
   value,
   onChange,
   required,
@@ -22,8 +23,11 @@ const InputNotebook = ({ label,
   placeholder,
   pattern,
   className,
-  inputType }:IInputNotebook):JSX.Element => (
-    <div className={styles.Row}>
+  inputType }:IInputMobile):JSX.Element => {
+  const { isTablet, isPhone } = useDeviceContext();
+
+  return (
+    <div className={clsx(isTablet ? styles.Row : styles.Row_phone)}>
       {label && (
       <label className={styles.label}>
         {label}
@@ -53,10 +57,11 @@ const InputNotebook = ({ label,
         )}
       </div>
     </div>
-);
+  );
+};
 
-InputNotebook.defaultProps = {
+InputMobile.defaultProps = {
   pattern: '',
 };
 
-export default InputNotebook;
+export default InputMobile;

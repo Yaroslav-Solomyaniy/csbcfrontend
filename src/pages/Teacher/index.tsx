@@ -13,10 +13,10 @@ import { useEstimatesContext } from '../../context/estimates';
 import { useDeviceContext } from '../../context/TypeDevice';
 import ItemButtons from './components/ItemButtons';
 import DesktopTable from '../../components/common/table/DesktopTable';
-import ListElementInTeacherPage from './components/ListElementInTeacherPage';
+import ListElementInTeacher from './components/ListElementInTeacher';
 import PageFilter from './components/PageFilter';
 import TableFilter from '../../components/common/table/TableFilter';
-import PhoneFilter from './PhoneFilter';
+import PhoneFilter from '../../components/common/PhoneFilterModal';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІБ' },
@@ -132,7 +132,7 @@ const TeacherPage = (): JSX.Element => {
           <>
             <TitlePage title="Студенти" />
             <TableFilter filter={<PageFilter value={params} setParams={setParams} />} />
-            <ListElementInTeacherPage
+            <ListElementInTeacher
               formData={formData}
               isActiveModal={isActiveModal}
               setIsActiveModal={setIsActiveModal}
@@ -142,40 +142,30 @@ const TeacherPage = (): JSX.Element => {
         {isPhone && (
           <>
             <TitlePage title="Студенти" setIsActiveModal={setIsActiveModal} isActiveModal={isActiveModal.filter} />
-
-            <ListElementInTeacherPage
+            <ListElementInTeacher
               formData={formData}
               isActiveModal={isActiveModal}
               setIsActiveModal={setIsActiveModal}
             />
-            <PhoneFilter
-              isActive={isActiveModal.filter}
-              params={params}
-              title="Фільтр"
-              setParams={setParams}
-              closeModal={closeModal}
-            />
           </>
         )}
       </div>
-      {/* {isActiveModal.filter && ( */}
-      {/* */}
-      {/* )} */}
-
-      {!!isActiveModal.edit && (
-        <TeacherRatingEdit
-          modalActive
-          studentId={isActiveModal.edit}
-          closeModal={closeModal}
-        />
-      )}
-      {!!isActiveModal.history && (
-        <TeacherRatingHistory
-          modalActive
-          Id={isActiveModal.history}
-          closeModal={closeModal}
-        />
-      )}
+      <PhoneFilter
+        isActive={isActiveModal.filter}
+        params={params}
+        setParams={setParams}
+        closeModal={closeModal}
+      />
+      <TeacherRatingEdit
+        modalActive={!!isActiveModal.edit}
+        studentId={isActiveModal.edit}
+        closeModal={closeModal}
+      />
+      <TeacherRatingHistory
+        modalActive={!!isActiveModal.history}
+        Id={isActiveModal.history}
+        closeModal={closeModal}
+      />
     </Layout>
   );
 };

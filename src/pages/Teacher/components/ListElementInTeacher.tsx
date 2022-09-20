@@ -1,21 +1,21 @@
-import React, { useState } from 'react';
-import { IIsActiveModalState, IParams } from '../index';
+import React from 'react';
+import { IIsActiveModalState } from '../index';
 import { IGetPageTeacherData } from '../../../hooks/usePageTeacher';
-import AdaptiveElementInTeacherPage from './AdaptiveElementInTeacherPage';
+import DisplayElementInTeacher from './DisplayElementInTeacher';
 
-interface IListElementInTeacherPage{
+interface IListElementInTeacher{
   formData: IGetPageTeacherData[] | undefined;
   isActiveModal: IIsActiveModalState;
   setIsActiveModal: (value:IIsActiveModalState) => void;
 }
-const ListElementInTeacherPage = ({ formData,
+const ListElementInTeacher = ({ formData,
   isActiveModal,
   setIsActiveModal,
-}:IListElementInTeacherPage):JSX.Element => (
+}:IListElementInTeacher):JSX.Element => (
   // eslint-disable-next-line react/jsx-no-useless-fragment
   <>
     {formData?.map((item: IGetPageTeacherData) => (
-      <AdaptiveElementInTeacherPage
+      <DisplayElementInTeacher
         key={item.id}
         id={item.id}
         lastName={item.student.user.lastName}
@@ -31,4 +31,4 @@ const ListElementInTeacherPage = ({ formData,
   </>
 );
 
-export default ListElementInTeacherPage;
+export default ListElementInTeacher;

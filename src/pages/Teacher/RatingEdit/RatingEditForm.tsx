@@ -24,7 +24,6 @@ const RatingEditForm = ({
   modalTitle,
   setFormData }:IRatingEditModal):JSX.Element => ((
     <>
-
       {modalTitle && (<div className={styles.modal__title}>{modalTitle}</div>)}
       <form className={styles.form} onSubmit={onSubmit}>
         <div className={styles.subtitle}>

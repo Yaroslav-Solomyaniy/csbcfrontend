@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import FilterTeacherPage from '../../../pages/Teacher/components/FilterTeacherPage';
 import style from './index.module.scss';
 import Button from '../Button';

@@ -109,7 +109,6 @@ export const TeacherRatingEdit = ({ modalActive, closeModal, studentId }: IEditM
       )}
       {(isTablet || isPhone) && (
         <MobileModalWindow isActive={modalActive}>
-          {modalActive ? disableBodyScroll(document.body) : enableBodyScroll(document.body)}
           <RatingEditForm
             modalTitle="Редагування оцінки"
             closeModal={handleClose}

@@ -58,6 +58,16 @@ export const TeacherRatingHistory = ({ modalActive, closeModal, Id }: ITeacherRa
   };
 
   useEffect(() => {
+    if (modalActive) {
+      disableBodyScroll(document.body);
+    } else {
+      (
+        enableBodyScroll(document.body)
+      );
+    }
+  }, [modalActive]);
+
+  useEffect(() => {
     if (Id) {
       teacherDataGetById?.pageTeacherGetById(Id);
     }

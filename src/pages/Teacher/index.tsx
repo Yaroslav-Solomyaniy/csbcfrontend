@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import TitlePage from '../../components/TitlePage';
 import styles from './index.module.scss';
 import Layout from '../../loyout/Layout';
@@ -52,7 +53,7 @@ const TeacherPage = (): JSX.Element => {
     filter: { student: '', group: '', course: '' },
     pagination: initialPagination,
   });
-  const [isActiveModal, setIsActiveModal] = useState(TeacherPageModalState);
+  const [isActiveModal, setIsActiveModal] = useState<Record<string, number | boolean>>(TeacherPageModalState);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
   const [formData, setFormData] = useState<IGetPageTeacherData[]>();
 

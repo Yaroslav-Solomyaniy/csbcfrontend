@@ -7,7 +7,7 @@ import { useMessagesContext } from '../context/messagesContext';
 export interface IGetHistoryGradesParams {
   semester?: number;
   orderBy?: OrderBy;
-  orderByColumn?: 'created';
+  orderByColumn?: 'GradeHistory_Student.createdAt';
   studentId?: number;
   userId?: number;
   courseId?: number;
@@ -63,7 +63,7 @@ export const useGetHistoryGrades = (): IUseGetHistoryGrades => {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
-      params: { orderByColumn: 'GradeHistory.createdAt', ...params },
+      params: { orderByColumn: 'GradeHistory_Student.createdAt', orderBy: 'DESC', ...params },
     })
       .then((response: AxiosResponse<IGetHistoryGradesData[]>) => setData(response.data))
       .catch((error) => addErrors(error.response.data.message));

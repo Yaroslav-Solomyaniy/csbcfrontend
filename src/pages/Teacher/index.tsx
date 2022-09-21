@@ -150,7 +150,6 @@ const TeacherPage = (): JSX.Element => {
         )}
       </div>
 
-      {/* Block Modals */}
       <PhoneFilter
         isActive={!!isActiveModal.filter}
         params={params}
@@ -167,7 +166,6 @@ const TeacherPage = (): JSX.Element => {
         Id={isActiveModal.history as number}
         closeModal={closeModal}
       />
-      {/* Close Block Modals */}
     </Layout>
   );
 };

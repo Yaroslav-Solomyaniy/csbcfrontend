@@ -285,7 +285,7 @@ export const SelectStylesPhone:any = {
       background: '#fff',
       border: '1px solid rgba(0, 0, 0, 0.1)',
       height: '42px',
-      width: '288px',
+      width: '100%',
       borderRadius: '8px',
       boxShadow: 'none',
       fontWeight: 400,

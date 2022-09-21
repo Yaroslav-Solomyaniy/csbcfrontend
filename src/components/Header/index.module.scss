@@ -18,10 +18,13 @@
   margin: 0;
   background-color: #003366;
   padding: 0 24px 0 4px;
+  box-sizing: border-box;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   min-height: 56px;
-  position: sticky;
+  position: fixed;
+  overflow: hidden;
   z-index: 9999;
   top: 0;
   left: 0;

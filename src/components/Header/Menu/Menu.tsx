@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import clsx from 'clsx';
 import styles from './Menu.module.scss';
 import { useDeviceContext } from '../../../context/TypeDevice';
@@ -13,6 +13,16 @@ const Menu = ({ children,
 }:IMenu):JSX.Element => {
   const { isDesktop, isTablet, isPhone } = useDeviceContext();
   const { user } = useAuthContext();
+
+  useEffect(() => {
+    const bodyStyle = document.body.style;
+
+    if (stateDropMenu) {
+      bodyStyle.overflowY = 'hidden';
+    } else {
+      bodyStyle.overflowY = 'auto';
+    }
+  }, [stateDropMenu]);
 
   return (
     <div className={clsx(styles.overlay, stateDropMenu && styles.overlay_active)}>

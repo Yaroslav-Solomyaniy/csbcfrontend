@@ -13,7 +13,7 @@ const Layout = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
   const [isOpen, setIsOpen] = useState(true);
   const { messages, closeError, closeWarning, closeInfo } = useMessagesContext();
   const { user } = useAuthContext();
-  const { isDesktop } = useDeviceContext();
+  const { isDesktop, isTablet, isPhone } = useDeviceContext();
 
   const setOpen = (): void => {
     setIsOpen(!isOpen);
@@ -27,7 +27,7 @@ const Layout = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
         <Navigation isOpen={isOpen} role={user.role} />
         )}
 
-        <div className={styles.content}>
+        <div className={clsx(isDesktop && styles.content, (isTablet || isPhone) && styles.content_mobile)}>
           <div className={clsx(stylesPortal.portal__unauthorized, user && stylesPortal.portal__authorized)}>
             {messages.error.map((error) => (
               <ModalMessage

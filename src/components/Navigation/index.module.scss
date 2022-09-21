@@ -1,5 +1,4 @@
 .nav_and_content {
-
   display: flex;
   flex-grow: 1;
 }
@@ -41,5 +40,12 @@
   overflow: hidden;
   width: 100vw;
   position: relative;
+  padding: 24px 24px 40px 24px;
+}
+.content_mobile{
+  overflow: hidden;
+  width: 100vw;
+  position: relative;
+  top: 56px;
   padding: 24px 24px 40px 24px;
 }

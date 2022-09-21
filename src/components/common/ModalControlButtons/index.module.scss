@@ -1,12 +1,9 @@
 .AdaptiveButtonsModal{
-  position: absolute;
-  bottom: 30px;
-  left: 50%;
   display: flex;
-  transform: translateX(-50%);
-  &:nth-child(n) {
-    margin-left: 16px;
-  }
+  position: sticky;
+  top: calc(100% - 56px);
+  justify-content: center;
+  margin: 10px;
 }
 .block_Buttons {
   display: flex;
@@ -20,6 +17,7 @@
 .cancelButton{
   min-width: 81px;
   min-height: 32px;
+  margin-right: 16px;
 }
 
 .submitButton{

@@ -40,51 +40,6 @@
   }
 }
 
-.avatarka__modal {
-  z-index: 106;
-  background: rgba(254, 254, 254, 1);
-  border-radius: 8px;
-  line-height: 22px;
-  box-shadow: 0 10px 13px rgba(0, 0, 0, 0.1);
-
-  width: 180px;
-  position: fixed;
-  top: 56px;
-  right: 22px;
-
-  transition: all .5s linear;
-  overflow: hidden;
-  height: 0;
-  padding: 0;
-
-  &__open {
-    transition: all .5s;
-    height: 86px;
-    padding: 4px 0;
-  }
-
-  &__item {
-    background: rgba(254, 254, 254, 1);
-    color: rgba(0, 0, 0, 0.75);
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 22px;
-    text-decoration: none;
-    text-align: left;
-    display: block;
-    width: 100%;
-    padding: 10px 14px 10px 16px;
-
-    &:hover {
-      background: rgba(215, 231, 244, 1);
-    }
-
-    &__span {
-      margin: 0;
-    }
-  }
-}
 
 .logo {
   height: 30px;

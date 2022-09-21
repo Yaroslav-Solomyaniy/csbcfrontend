@@ -1,5 +1,4 @@
-import React, { SetStateAction } from 'react';
-import { Params } from 'react-router-dom';
+import React from 'react';
 import SelectStudent from '../../../components/common/Select/SelectStudent';
 import { initialPagination } from '../../../types';
 import SelectGroupById from '../../../components/common/Select/SelectGroupById';

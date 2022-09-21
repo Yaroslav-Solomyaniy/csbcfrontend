@@ -10,8 +10,10 @@ import {
   Teachers,
   Voting,
 } from '../common/Icon';
-import NavigationItem from './NavigationItem';
+import NavigationItemDesktop from './NavigationItemDesktop';
 import styles from './index.module.scss';
+import { useDeviceContext } from '../../context/TypeDevice';
+import MobileNavigationList from './NavigationList/Mobile';
 
 export interface IRoute {
   title: string;
@@ -84,18 +86,34 @@ const routes: IRoute[] = [
 ];
 
 interface INavigation {
-  isOpen: boolean;
- role: 'student' | 'admin';
+  isOpen?: boolean;
+  role: 'student' | 'admin';
 }
 
-const Navigation = ({ isOpen, role }: INavigation): JSX.Element => (
-  <div className={styles.nav__menu}>
-    <div className={styles.nav__menu__links}>
-      {routes.filter((route) => route.role.includes(role)).map((rout) => (
-        <NavigationItem key={rout.to} {...rout} isOpen={isOpen} />
-      ))}
-    </div>
-  </div>
-);
+const Navigation = ({ isOpen, role }: INavigation): JSX.Element => {
+  const { isDesktop, isTablet, isPhone } = useDeviceContext();
+
+  return (
+    <>
+      {isDesktop && (
+      <div className={styles.nav__menu}>
+        <div className={styles.nav__menu__links}>
+          {routes.filter((route) => route.role.includes(role)).map((rout) => (
+            <NavigationItemDesktop key={rout.to} {...rout} isOpen={isOpen || false} />
+          ))}
+        </div>
+      </div>
+      )}
+      {(isPhone || isTablet) && (
+      <MobileNavigationList routes={routes} role={role} />
+      )}
+
+    </>
+  );
+};
+
+Navigation.defaultProps = {
+  isOpen: false,
+};
 
 export default Navigation;

@@ -7,11 +7,14 @@ import { useMessagesContext } from '../context/messagesContext';
 import stylesPortal from '../stylesPortal.module.scss';
 import { useAuthContext } from '../context/useAuthContext';
 import ModalMessage from '../components/common/ModalMessage';
+import { useDeviceContext } from '../context/TypeDevice';
 
 const Layout = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
   const [isOpen, setIsOpen] = useState(true);
   const { messages, closeError, closeWarning, closeInfo } = useMessagesContext();
   const { user } = useAuthContext();
+  const { isDesktop } = useDeviceContext();
+
   const setOpen = (): void => {
     setIsOpen(!isOpen);
   };
@@ -20,8 +23,8 @@ const Layout = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
     <>
       <Header setOpen={setOpen} />
       <div className={styles.nav_and_content}>
-        {(user?.role === 'admin' || user?.role === 'student') && (
-          <Navigation isOpen={isOpen} role={user.role} />
+        {(user?.role === 'admin' || user?.role === 'student') && isDesktop && (
+        <Navigation isOpen={isOpen} role={user.role} />
         )}
 
         <div className={styles.content}>

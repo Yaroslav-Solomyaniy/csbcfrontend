@@ -1,5 +1,5 @@
 import React from 'react';
-// import styles from './index.module.scss';
+// import styles from './MenuLink.module.scss';
 import Layout from '../../loyout/Layout';
 
 const Curator = ():JSX.Element => (

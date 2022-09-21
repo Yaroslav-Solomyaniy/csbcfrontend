@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import TitlePage from '../../components/TitlePage';
 import styles from './index.module.scss';
 import Layout from '../../loyout/Layout';

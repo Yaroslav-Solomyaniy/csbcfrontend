@@ -4,15 +4,15 @@
   left: 50%;
   display: flex;
   transform: translateX(-50%);
-  :nth-child(n) {
+  &:nth-child(n) {
     margin-left: 16px;
   }
 }
 .block_Buttons {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
 
-  :nth-child(n) {
+  &:nth-child(n) {
     margin-left: 16px;
   }
 }

@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
-import styles from './index.module.scss';
 import ModalWindow from '../../../components/common/ModalWindow';
-import pageStyles from '../../pagesStyle.module.scss';
 import { ITableHeader } from '../../../components/common/table/TableHeader';
 import { ITableRowItem } from '../../../components/common/table/TableBody';
 import { useTeacherPageContext } from '../../../context/pageTeacher';
 import RatingHistory from './Components/RatingHistory';
 import { useDeviceContext } from '../../../context/TypeDevice';
 import MobileModalWindow from '../../../components/common/MobileModalWindow';
-import { IGetHistoryGradesData, IGradesHistories, IUseGetHistoryGrades } from '../../../hooks/useGradesHistory';
+import { IGradesHistories } from '../../../hooks/useGradesHistory';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'Дата' },

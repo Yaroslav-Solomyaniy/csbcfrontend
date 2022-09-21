@@ -55,7 +55,6 @@ const Group = (): JSX.Element => {
   });
   const [isActiveModal, setIsActiveModal] = useState(allCloseModalWindow);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
-
   const closeModal = () => {
     setIsActiveModal(allCloseModalWindow);
   };

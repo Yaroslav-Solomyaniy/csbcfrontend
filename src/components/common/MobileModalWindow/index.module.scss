@@ -16,15 +16,15 @@
 }
 
 .modal {
-  position: absolute;
-  top: 0;
+  position: fixed;
+  top: 56px;
   right: -250%;
   width: 100vw;
-  height: calc(100vh - 56px);
+  height: calc(100% - 56px);
   background: white;
   box-sizing: border-box;
   transition: all 0.5s ease-in-out;
-  padding: 25px;
+  padding: 25px 25px 0 25px;
   overflow: hidden;
   &_active{
     right: 0;

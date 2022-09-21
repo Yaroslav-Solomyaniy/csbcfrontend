@@ -13,6 +13,19 @@
     background-color: inherit;
   }
 }
+.header_sticky{
+  color: #FFFFFF;
+  margin: 0;
+  background-color: #003366;
+  padding: 0 24px 0 4px;
+  display: flex;
+  justify-content: space-between;
+  min-height: 56px;
+  position: sticky;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+}
 
 .navigation__button {
   float: left;

@@ -26,7 +26,7 @@ const Header = ({ setOpen, isRenderButtonMenu = true }: IHeader): JSX.Element =>
   useOnClickOutside(btnRef, () => setDropMenuOpen(false));
 
   return (
-    <header className={styles.header}>
+    <header className={clsx(isDesktop && styles.header, (isTablet || isPhone) && styles.header_sticky)}>
       <div className={styles.header__item}>
         {isDesktop && (
           // eslint-disable-next-line react/jsx-no-useless-fragment

@@ -1,14 +1,14 @@
-import React, { useEffect } from 'react';
-import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
+import React from 'react';
 import FilterTeacherPage from '../../../pages/Teacher/components/FilterTeacherPage';
 import style from './index.module.scss';
 import Button from '../Button';
 import { ArrowLeft } from '../Icon';
 import MobileModalWindow from '../MobileModalWindow';
+import { IParams } from '../../../pages/Teacher';
 
 interface IPhoneFilter {
-  params: any;
-  setParams: (value: any) => void;
+  params: IParams;
+  setParams: (value: IParams) => void;
   closeModal: () => void;
   isActive: boolean;
 }

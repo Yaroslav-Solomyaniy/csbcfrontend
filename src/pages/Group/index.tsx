@@ -56,7 +56,6 @@ const Group = (): JSX.Element => {
   });
   const [isActiveModal, setIsActiveModal] = useState(allCloseModalWindow);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
-  const [searchParams, setSearchParams] = useSearchParams();
   const closeModal = () => {
     setIsActiveModal(allCloseModalWindow);
   };
@@ -65,24 +64,18 @@ const Group = (): JSX.Element => {
     getGroups?.getGroups();
   }, [groupCreate?.data, groupEdit?.data, groupDelete?.data]);
 
-  const curator = searchParams.get('curator') || '';
-
   useEffect(() => {
     const query: IGetGroupParams = {};
 
     if (params.filter.curator) {
       query.curatorId = +params.filter.curator;
-      searchParams.set('curator', params.filter.curator);
     }
     if (params.filter.group) {
       query.name = params.filter.group;
-      searchParams.set('group', params.filter.group);
     }
     if (params.pagination.currentPage) query.page = params.pagination.currentPage;
     if (params.pagination.itemsPerPage) query.limit = params.pagination.itemsPerPage;
-
     getGroups?.getGroups(query);
-    setSearchParams(searchParams);
   }, [params.filter.group, params.filter.curator, params.pagination.currentPage, params.pagination.itemsPerPage]);
 
   useEffect(() => {
@@ -145,7 +138,7 @@ const Group = (): JSX.Element => {
                   filter: { ...params.filter, curator: value },
                   pagination: initialPagination,
                 })}
-                value={curator}
+                value={params.filter.curator}
                 isClearable
                 isSearchable
                 isFilter

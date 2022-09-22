@@ -56,9 +56,12 @@ const Group = (): JSX.Element => {
   });
   const [isActiveModal, setIsActiveModal] = useState(allCloseModalWindow);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
+  const [searchParams, setSearchParams] = useSearchParams();
   const closeModal = () => {
     setIsActiveModal(allCloseModalWindow);
   };
+
+  setSearchParams(searchParams);
 
   useEffect(() => {
     getGroups?.getGroups();
@@ -133,12 +136,12 @@ const Group = (): JSX.Element => {
               <SelectCurator
                 type="filter"
                 placeholder="Куратор"
-                onChange={(value) => setParams({
-                  ...params,
-                  filter: { ...params.filter, curator: value },
-                  pagination: initialPagination,
-                })}
-                value={params.filter.curator}
+                onChange={(value) => (
+                  value
+                    ? setSearchParams({ ...searchParams, curator: value }, { replace: true })
+                    : setSearchParams({ ...searchParams })
+                )}
+                value={searchParams.get('curator') || ''}
                 isClearable
                 isSearchable
                 isFilter
@@ -146,12 +149,11 @@ const Group = (): JSX.Element => {
               <SelectGroupByName
                 type="filter"
                 placeholder="Група"
-                onChange={(value) => setParams({
-                  ...params,
-                  filter: { ...params.filter, group: value },
-                  pagination: initialPagination,
-                })}
-                value={params.filter.group}
+                onChange={(value) => (
+                  value
+                    ? setSearchParams({ ...searchParams, group: value }, { replace: true })
+                    : setSearchParams({ ...searchParams }))}
+                value={searchParams.get('group') || ''}
                 isClearable
                 isSearchable
                 isFilter

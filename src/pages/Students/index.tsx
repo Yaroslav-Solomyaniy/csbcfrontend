@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import styles from './index.module.scss';
 import pagesStyle from '../pagesStyle.module.scss';
 import Layout from '../../loyout/Layout';
@@ -63,7 +62,6 @@ const Students = (): JSX.Element => {
     filter: { studentId: null, group: '', isFullTime: undefined },
     pagination: initialPagination,
   });
-  const { page } = useParams();
 
   const closeModal = () => {
     setIsActiveModal(allCloseModalWindow);

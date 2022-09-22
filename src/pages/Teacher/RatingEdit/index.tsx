@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
-import clsx from 'clsx';
-import styles from '../../pagesStyle.module.scss';
 import ModalWindow from '../../../components/common/ModalWindow';
 import { useMessagesContext } from '../../../context/messagesContext';
 import { IEditModal } from '../../../types';

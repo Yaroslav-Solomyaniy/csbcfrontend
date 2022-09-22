@@ -10,7 +10,6 @@ import stylesPortal from '../../stylesPortal.module.scss';
 import ModalMessage from '../../components/common/ModalMessage';
 import { useMessagesContext } from '../../context/messagesContext';
 import Input from '../../components/common/Input';
-import { Email } from '../../types/regExp';
 import Button from '../../components/common/Button';
 
 interface IChangePassword{

@@ -1,4 +1,4 @@
-import React, { LegacyRef } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import styles from './index.module.scss';
 

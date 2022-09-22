@@ -1,8 +1,6 @@
 import React from 'react';
 import moment from 'moment';
 import MobileElementRatingHistory from './MobileElementRatingHistory';
-import { ITableRowItem } from '../../../../components/common/table/TableBody';
-import { IGetGradesData } from '../../../../hooks/useEstimates';
 import { IGradesHistories } from '../../../../hooks/useGradesHistory';
 import styles from '../index.module.scss';
 

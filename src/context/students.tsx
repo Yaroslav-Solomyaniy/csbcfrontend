@@ -11,7 +11,6 @@ import {
   useStudentEdit,
   useGetStudents,
 } from '../hooks/useStudents';
-import { IUseGetListGroups, useGetListGroups } from '../hooks/useDropDown';
 
 interface IStudentsContext {
   getStudents: IUseGetStudents | null;

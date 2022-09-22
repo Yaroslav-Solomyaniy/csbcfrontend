@@ -2,7 +2,6 @@ import { useState } from 'react';
 import axios, { AxiosResponse } from 'axios';
 import { useAuthContext } from '../context/useAuthContext';
 import { useMessagesContext } from '../context/messagesContext';
-import { IStudentData } from './useStudents';
 import { FetchSuccess, IPaginateData, OrderBy } from '../types';
 
 export interface IGetPageTeacherParams {

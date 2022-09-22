@@ -24,7 +24,7 @@ const InputMobile = ({ label,
   pattern,
   className,
   inputType }:IInputMobile):JSX.Element => {
-  const { isTablet, isPhone } = useDeviceContext();
+  const { isTablet } = useDeviceContext();
 
   return (
     <div className={clsx(isTablet ? styles.Row : styles.Row_phone)}>

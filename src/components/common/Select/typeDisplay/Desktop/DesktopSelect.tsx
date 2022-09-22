@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import ReactSelect, { SingleValue } from 'react-select';
 import { Option, SelectType } from '../../../../../types';
 import styles from './DesktopSelect.module.scss';
-import { SelectStylesDesktop, SelectStylesTablet } from '../SelectStyle';
+import { SelectStylesDesktop } from '../SelectStyle';
 
 interface IDesktopSelect{
   options: Option[];

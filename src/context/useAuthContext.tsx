@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
 import { LoginData, LoginParams, useLogin } from '../hooks/useAuth';
 
 interface AuthContext {

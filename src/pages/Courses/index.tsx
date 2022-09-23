@@ -212,7 +212,6 @@ const Courses = (): JSX.Element => {
           dataRow={dataRow}
           gridColumns={styles.columns}
           pagination={params.pagination}
-          onPaginationChange={(newPagination) => setParams({ ...params, pagination: newPagination })}
         />
         <CourseCreateModal
           modalActive={isActiveModal.create}

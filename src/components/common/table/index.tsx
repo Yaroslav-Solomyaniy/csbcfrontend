@@ -12,23 +12,21 @@ interface ITable {
   dataRow: ITableRowItem[] | [];
   gridColumns: string;
   filter?: JSX.Element;
-  pagination?: Pagination;
-  onPaginationChange?: (pagination: Pagination) => void;
   columScrollHorizontal?: number;
   isScroll?: boolean;
   isTableResult?: boolean;
   isHistoryTable?: boolean;
+  pagination?: Pagination;
 }
 
 const Table = ({
+  pagination,
   dataHeader,
   dataRow,
   gridColumns,
   isTableResult,
   filter,
-  pagination,
   isHistoryTable,
-  onPaginationChange,
   columScrollHorizontal,
   isScroll,
 }: ITable): JSX.Element => (
@@ -55,8 +53,8 @@ const Table = ({
           )
           : <div className={styles.table__not_found}>Нічого не знайдено</div>}
       </div>
-      {!!dataRow.length && pagination && onPaginationChange
-        ? <TableFooter pagination={pagination} onPaginationChange={onPaginationChange} />
+      {!!dataRow.length && pagination
+        ? <TableFooter totalItems={pagination.totalItems} />
         : ''}
     </div>
   </>
@@ -64,12 +62,12 @@ const Table = ({
 
 Table.defaultProps = {
   pagination: null,
-  onPaginationChange: undefined,
   filter: <div />,
   isScroll: false,
   columScrollHorizontal: 0,
   isTableResult: false,
   isHistoryTable: false,
+  totalItems: 0,
 };
 
 export default Table;

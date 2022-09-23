@@ -52,7 +52,6 @@ const StudentsReview = ({ modalActive, closeModal, id }: IStudentsReviewModal) =
             gridColumns={styles.content__columns}
             dataRow={[]}
             pagination={initialPagination}
-            onPaginationChange={() => undefined}
           />
           <div className={styles.content__subtitle}>
             <h1 className={styles.content__subtitle__h1}>Вибіркові предмети</h1>
@@ -72,7 +71,6 @@ const StudentsReview = ({ modalActive, closeModal, id }: IStudentsReviewModal) =
               gridColumns={styles.content__columns}
               dataRow={[]}
               pagination={initialPagination}
-              onPaginationChange={() => undefined}
             />
           </div>
 

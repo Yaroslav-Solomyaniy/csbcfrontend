@@ -266,7 +266,6 @@ const Estimates = (): JSX.Element => {
           gridColumns={styles.columns}
           dataRow={dataRow}
           pagination={initialPagination}
-          onPaginationChange={(newPagination) => setParams({ ...params, pagination: newPagination })}
         />
         <EstimatesEdit
           modalActive={!!isActiveModal.studentEdit}

@@ -11,7 +11,6 @@ setParams: (value:IParams) => void;
 dataHeader: ITableHeader[];
 dataRow: ITableRowItem[];
 className: string;
-
 }
 
 const DesktopTable = ({ params, setParams, dataHeader, dataRow, className }:IDesktopTable) => (
@@ -22,8 +21,6 @@ const DesktopTable = ({ params, setParams, dataHeader, dataRow, className }:IDes
     dataHeader={dataHeader}
     dataRow={dataRow}
     gridColumns={className}
-    pagination={params.pagination}
-    onPaginationChange={(newPagination) => setParams({ ...params, pagination: newPagination })}
   />
 );
 

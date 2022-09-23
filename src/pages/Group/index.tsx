@@ -1,6 +1,5 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { log } from 'util';
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import TitlePage from '../../components/TitlePage';
 import Button from '../../components/common/Button/index';
 import styles from './index.module.scss';
@@ -18,6 +17,8 @@ import GroupEdit from './GroupEdit';
 import SelectGroupByName from '../../components/common/Select/SelectGroupByName';
 import SelectCurator from '../../components/common/Select/SelectCurator';
 import { Delete, Edit } from '../../components/common/Icon';
+import { useQueryParam } from '../../hooks/useUrlParams';
+import { getListLocationParams } from '../../utils/Loc';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'Номер групи' },
@@ -27,75 +28,36 @@ const dataHeader: ITableHeader[] = [
   { id: 5, label: 'Дії' },
 ];
 
-interface IIsActiveModalState {
-  create: boolean;
-  edit: number;
-  delete: number;
-}
-
-const allCloseModalWindow: IIsActiveModalState = {
+const allCloseModalWindow: Record<string, number | boolean> = {
   create: false,
   edit: 0,
   delete: 0,
 };
 
-interface Filter {
-  curator: string;
-  group: string;
-}
-
-interface Params {
-  filter: Filter;
-  pagination: Pagination;
-}
-
-const groupParamsByKey = (params:Record<string, any>) => [...params.entries()].reduce(
-  (acc, tuple) => {
-    const [key, val] = tuple;
-
-    acc[key] = [val];
-
-    return acc;
-  },
-  {},
-);
-
-const useQueryParam = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const freshSearchParams = useMemo(() => groupParamsByKey(searchParams), [
-    searchParams,
-  ]);
-
-  const get = useCallback((key) => freshSearchParams[key], [freshSearchParams]);
-
-  const post = useCallback(
-    (key, value) => {
-      setSearchParams({ ...freshSearchParams, [key]: value });
-      if (!value) {
-        searchParams.delete(key);
-        setSearchParams(searchParams);
-      }
-    },
-    [freshSearchParams, setSearchParams],
-  );
-
-  return { get, post };
-};
-
 const Group = (): JSX.Element => {
-  const { getGroups, groupCreate, groupEdit, groupDelete } = useGroupContext();
+  const [pagination, setPagination] = useState<Pagination>({ ...initialPagination });
+  const [isActiveModal, setIsActiveModal] = useState(allCloseModalWindow);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
   const { get, post } = useQueryParam();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const { getGroups, groupCreate, groupEdit, groupDelete } = useGroupContext();
 
-  const curator:string = get('curatorId');
-  const group:string = get('group');
-  const currentPage:string = get('currentPage');
-  const itemsPerPage:string = get('itemsPerPage');
-  // useEffect(() => {
-  //   setSearchParams(searchParams);
-  // }, [searchParams]);
+  // const location = useLocation();
+  // const locationParams = getListLocationParams(location);
+  // const closePin = () => history.replace(location.pathname + createLocationSearch({
+  //   ...locationParams,
+  //   pin: '',
+  // }));
+
+  const curator = get('curatorId');
+  const group = get('group');
+  const currentPage = Number(get('currentPage')) || 1;
+  const itemsPerPage = Number(get('itemsPerPage')) || 10;
+
+  console.log({ currentPage, itemsPerPage, group, curator });
+
+  const closeModal = () => {
+    setIsActiveModal(allCloseModalWindow);
+  };
 
   useEffect(() => {
     const query: IGetGroupParams = {};
@@ -106,12 +68,19 @@ const Group = (): JSX.Element => {
     if (group) {
       query.name = String(group);
     }
+    if (currentPage) {
+      query.page = +currentPage;
+    }
+    if (itemsPerPage) {
+      query.limit = +itemsPerPage;
+    }
 
     getGroups?.getGroups(query);
-  }, [searchParams, groupCreate?.data, groupEdit?.data, groupDelete?.data]);
+  }, [currentPage, itemsPerPage, curator, group, groupCreate?.data, groupEdit?.data, groupDelete?.data]);
 
   useEffect(() => {
     if (getGroups?.data) {
+      setPagination(getGroups.data.meta);
       setDataRow(getGroups?.data?.items.map((item: IGroupData) => ({
         list: [
           { id: 1, label: item.name },
@@ -123,13 +92,13 @@ const Group = (): JSX.Element => {
             label: (
               <div className={pagesStyle.actions}>
                 <Button
-                  onClick={() => console.log('1')}
+                  onClick={() => setIsActiveModal({ ...isActiveModal, edit: item.id })}
                   isImg
                 >
                   <Edit />
                 </Button>
                 <Button
-                  onClick={() => console.log('1')}
+                  onClick={() => setIsActiveModal({ ...isActiveModal, delete: item.id })}
                   isImg
                 >
                   <Delete />
@@ -146,13 +115,26 @@ const Group = (): JSX.Element => {
   return (
     <Layout>
       <div className={styles.group}>
+        <TitlePage
+          title="Групи"
+          action={(
+            <Button
+              nameClass="primary"
+              className={pagesStyle.buttonsCreate}
+              size="large"
+              onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
+            >
+              Створити
+            </Button>
+          )}
+        />
         <Table
           filter={(
             <>
               <SelectCurator
                 type="filter"
                 placeholder="Куратор"
-                onChange={(value) => post('curatorId', value)}
+                onChange={(value) => post({ curatorId: value, currentPage: 1 })}
                 value={curator}
                 isClearable
                 isSearchable
@@ -161,7 +143,7 @@ const Group = (): JSX.Element => {
               <SelectGroupByName
                 type="filter"
                 placeholder="Група"
-                onChange={(value) => post('group', value)}
+                onChange={(value) => post({ group: value, currentPage: 1 })}
                 value={group}
                 isClearable
                 isSearchable
@@ -172,9 +154,11 @@ const Group = (): JSX.Element => {
           dataHeader={dataHeader}
           dataRow={dataRow}
           gridColumns={styles.columns}
-          // pagination={}
-          // onPaginationChange={}
+          pagination={pagination}
         />
+        <GroupCreate modalActive={!!isActiveModal.create} closeModal={closeModal} />
+        <GroupEdit modalActive={!!isActiveModal.edit} studentId={+isActiveModal.edit} closeModal={closeModal} />
+        <GroupDelete modalActive={!!isActiveModal.delete} Id={+isActiveModal.delete} closeModal={closeModal} />
       </div>
     </Layout>
   );

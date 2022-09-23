@@ -1,80 +1,96 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './index.module.scss';
-import { Pagination } from '../../../../types';
+import { Option, Pagination } from '../../../../types';
 import Button from '../../Button';
 import Select from '../../Select';
 import { First, Last, Next, Prev } from '../../Icon';
+import { useQueryParam } from '../../../../hooks/useUrlParams';
 
 interface TableFooter {
-  pagination: Pagination;
-  onPaginationChange: (pagination: Pagination) => void;
+  totalItems: number;
 }
 
-const TableFooter = ({ pagination, onPaginationChange }: TableFooter): JSX.Element => (
-  <div className={styles.footer}>
-    <label className={styles.footer__lable}>Рядків на сторінці</label>
-    <Select
-      isDisabled={!(pagination.totalItems > 10)}
-      type="pagination"
-      options={[
-        { label: 10, value: 10 },
-        { label: 15, value: 15 },
-        { label: 30, value: 30 },
-      ]}
-      onChange={(value) => onPaginationChange({ ...pagination, itemsPerPage: +value, currentPage: 1 })}
-      value={pagination.itemsPerPage}
-    />
-    <div className={styles.footer__info}>
-      {pagination.currentPage * pagination.itemsPerPage - pagination.itemsPerPage + 1}
-      {' - '}
-      {pagination.currentPage * pagination.itemsPerPage > pagination.totalItems ? (
-        pagination.totalItems
-      ) : (
-        pagination.currentPage * pagination.itemsPerPage
-      )}
-      {' '}
-      з
-      {' '}
-      {pagination.totalItems}
-    </div>
-    {pagination.totalItems > 10 && (
-      <div className={styles.footer__buttons}>
-        <Button
-          isImg
-          className={styles.footer__buttons_first}
-          disabled={pagination.currentPage === 1}
-          onClick={() => onPaginationChange({ ...pagination, currentPage: 1 })}
-        >
-          <First />
-        </Button>
-        <Button
-          isImg
-          className={styles.footer__buttons_prev}
-          disabled={pagination.currentPage === 1}
-          onClick={() => onPaginationChange({ ...pagination, currentPage: pagination.currentPage - 1 })}
-        >
-          <Prev />
-        </Button>
-        <Button
-          isImg
-          className={styles.footer__buttons_next}
-          disabled={pagination.totalPages < pagination.currentPage + 1}
-          onClick={() => onPaginationChange({ ...pagination, currentPage: pagination.currentPage + 1 })}
-        >
-          <Next />
-        </Button>
-        <Button
-          isImg
-          className={styles.footer__buttons_last}
-          disabled={pagination.totalPages === pagination.currentPage}
-          onClick={() => onPaginationChange({ ...pagination, currentPage: pagination.totalPages })}
-        >
-          <Last />
-        </Button>
-      </div>
-    )}
+const TableFooter = ({ totalItems }: TableFooter): JSX.Element => {
+  const { get, post } = useQueryParam();
+  const currentPage = Number(get('currentPage')) || 1;
+  const itemsPerPage = Number(get('itemsPerPage')) || 10;
+  const totalPages = Math.ceil(+totalItems / +itemsPerPage);
+  const [options] = useState<Option[]>([
+    { label: 10, value: 10 },
+    { label: 15, value: 15 },
+    { label: 30, value: 30 },
+  ]);
 
-  </div>
-);
+  console.log({ currentPage, itemsPerPage, totalPages });
+  useEffect(() => {
+    if (options.every((option) => option.value !== +itemsPerPage)) {
+      post({ itemPerPage: 15 });
+    }
+  }, [itemsPerPage]);
+
+  return (
+    <div className={styles.footer}>
+      <label className={styles.footer__lable}>Рядків на сторінці</label>
+      <Select
+        isDisabled={!(totalItems > 10)}
+        type="pagination"
+        options={options}
+        onChange={(value) => post({ itemPerPage: value })}
+        value={+itemsPerPage}
+      />
+      <div className={styles.footer__info}>
+        {+currentPage * +itemsPerPage - +itemsPerPage + 1}
+        {' - '}
+        {+currentPage * +itemsPerPage > totalItems ? (
+          totalItems
+        ) : (
+          +currentPage * +itemsPerPage
+        )}
+        {' '}
+        з
+        {' '}
+        {totalItems}
+      </div>
+      {totalItems > 10 && (
+
+        <div className={styles.footer__buttons}>
+          <Button
+            isImg
+            className={styles.footer__buttons_first}
+            disabled={+currentPage === 1}
+            onClick={() => post({ currentPage: 1 })}
+          >
+            <First />
+          </Button>
+          <Button
+            isImg
+            className={styles.footer__buttons_prev}
+            disabled={+currentPage === 1}
+            onClick={() => post({ currentPage: +currentPage - 1 })}
+          >
+            <Prev />
+          </Button>
+          <Button
+            isImg
+            className={styles.footer__buttons_next}
+            disabled={totalPages < +currentPage + 1}
+            onClick={() => post({ currentPage: +currentPage + 1 })}
+          >
+            <Next />
+          </Button>
+          <Button
+            isImg
+            className={styles.footer__buttons_last}
+            disabled={totalPages === +currentPage}
+            onClick={() => post({ currentPage: +totalPages })}
+          >
+            <Last />
+          </Button>
+        </div>
+      )}
+
+    </div>
+  );
+};
 
 export default TableFooter;

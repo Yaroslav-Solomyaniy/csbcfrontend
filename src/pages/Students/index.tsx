@@ -198,7 +198,6 @@ const Students = (): JSX.Element => {
           gridColumns={styles.columns}
           dataRow={dataRow}
           pagination={params.pagination}
-          onPaginationChange={(newPagination) => setParams({ ...params, pagination: newPagination })}
         />
         <StudentsCreateModal modalActive={isActiveModal.create} closeModal={closeModal} />
         <StudentsEditModal modalActive={!!isActiveModal.edit} closeModal={closeModal} studentId={isActiveModal.edit} />

@@ -189,7 +189,6 @@ const VotingAdmin = (): JSX.Element => {
           dataRow={dataRow}
           gridColumns={styles.columns}
           pagination={params.pagination}
-          onPaginationChange={(newPagination) => setParams({ ...params, pagination: newPagination })}
         />
         <VotingCreateModal
           modalActive={isActiveModal.create}

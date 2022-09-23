@@ -1,55 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import ModalWindow from '../../../components/common/ModalWindow';
-import pagesStyle from '../../pagesStyle.module.scss';
-import ModalInput from '../../../components/common/ModalInput';
-import ModalControlButtons from '../../../components/common/ModalControlButtons';
-import { ICreateModal } from '../../../types';
-import { Email, EmailValidation, LettersAndNumbersEnUa } from '../../../types/regExp';
-import { useMessagesContext } from '../../../context/messagesContext';
-import { IUserCreateParams } from '../../../hooks/useUser';
-import { useAdministratorsContext } from '../../../context/administators';
+import React from 'react';
+import { IUserCreateParams } from '../../../../../hooks/useUser';
+import styles from '../../../../pagesStyle.module.scss';
+import ModalInput from '../../../../../components/common/ModalInput';
+import { Email, EmailValidation, LettersAndNumbersEnUa } from '../../../../../types/regExp';
+import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
 
-const formInitialData: IUserCreateParams = {
-  firstName: '',
-  lastName: '',
-  patronymic: '',
-  email: '',
-  role: 'admin',
-};
+interface IAdministratorsForm{
+  formData: IUserCreateParams;
+  setFormData: (value:IUserCreateParams) => void;
+  handleClose:() => void;
+  onSubmit: (e: React.FormEvent | undefined) => void;
+  isSubmitted: boolean;
+  modalTitle?: string;
+}
 
-export const AdministratorCreateModal = ({ modalActive, closeModal }: ICreateModal): JSX.Element => {
-  const { administratorsCreate } = useAdministratorsContext();
-  const { addInfo } = useMessagesContext();
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [formData, setFormData] = useState<IUserCreateParams>(formInitialData);
-
-  const handleClose = () => {
-    setIsSubmitted(false);
-    closeModal();
-    setTimeout(() => {
-      setFormData(formInitialData);
-    }, 200);
-  };
-
-  const onSubmit = (e: React.FormEvent | undefined) => {
-    e?.preventDefault?.();
-    setIsSubmitted(true);
-    if (formData.firstName && formData.lastName && formData.patronymic && Email.test(formData.email)) {
-      administratorsCreate?.createUser(formData);
-    }
-  };
-
-  useEffect(() => {
-    handleClose();
-    if (administratorsCreate?.data) {
-      addInfo(`${formData.lastName} ${formData.firstName} ${formData.patronymic}
-      успішно доданий`);
-    }
-  }, [administratorsCreate?.data]);
-
-  return (
-    <ModalWindow modalTitle="Створення адміністратора" active={modalActive} closeModal={handleClose}>
-      <form className={pagesStyle.form} onSubmit={onSubmit}>
+const AdministratorsForm = ({ formData,
+  setFormData,
+  isSubmitted,
+  onSubmit,
+  handleClose,
+  modalTitle }:IAdministratorsForm) => (
+    <>
+      {modalTitle && (<div className={styles.modal__title}>{modalTitle}</div>)}
+      <form className={styles.form} onSubmit={onSubmit}>
         <ModalInput
           onChange={(event) => {
             setFormData({ ...formData, lastName: event.target.value.slice(0, 15) });
@@ -102,8 +75,10 @@ export const AdministratorCreateModal = ({ modalActive, closeModal }: ICreateMod
         cancelButtonText="Відміна"
         mainButtonText="Створити"
       />
-    </ModalWindow>
-  );
-};
+    </>
+);
 
-export default AdministratorCreateModal;
+AdministratorsForm.defaultProps = {
+  modalTitle: '',
+};
+export default AdministratorsForm;

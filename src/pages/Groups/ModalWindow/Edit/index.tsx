@@ -1,14 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import styles from '../../../pagesStyle.module.scss';
 import ModalWindow from '../../../../components/common/ModalWindow';
 import { IGroupEditParams } from '../../../../hooks/useGroups';
 import { useGroupContext } from '../../../../context/groups';
-import ModalInput from '../../../../components/common/ModalInput';
-import SelectCurator from '../../../../components/common/Select/SelectCurator';
-import ModalControlButtons from '../../../../components/common/ModalControlButtons';
 import { useMessagesContext } from '../../../../context/messagesContext';
 import { IEditModal } from '../../../../types';
-import { LettersAndNumbersEnUa, NumbersAndLettersEn } from '../../../../types/regExp';
 import GroupPageModalForm from '../form/Create&Edit/modalForm';
 import MobileModalWindow from '../../../../components/common/MobileModalWindow';
 import { useDeviceContext } from '../../../../context/TypeDevice';

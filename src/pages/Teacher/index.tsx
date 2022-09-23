@@ -15,7 +15,6 @@ import DesktopTable from '../../components/common/table/DesktopTable';
 import MobileElementListTeacherPage from './components/MobileElementListTeacherPage';
 import FilterTeacherPage from './components/FilterTeacherPage';
 import TableFilter from '../../components/common/table/TableFilter';
-import PhoneFilter from '../../components/common/PhoneFilter';
 import { EditAndHistory } from '../../components/common/GroupButtons';
 
 const dataHeader: ITableHeader[] = [

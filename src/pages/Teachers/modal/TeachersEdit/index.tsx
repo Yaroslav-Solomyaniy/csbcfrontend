@@ -14,6 +14,7 @@ const formInitialData: IUserEditParams = {
   lastName: '',
   patronymic: '',
   email: '',
+  role: 'teacher',
 };
 
 export const TeacherEditModal = ({ modalActive, closeModal, studentId }: IEditModal): JSX.Element => {
@@ -63,6 +64,7 @@ export const TeacherEditModal = ({ modalActive, closeModal, studentId }: IEditMo
         lastName: getTeacherById.data.lastName,
         patronymic: getTeacherById.data.patronymic,
         email: getTeacherById.data.email,
+        role: getTeacherById.data.role,
       });
     }
   }, [getTeacherById?.data]);

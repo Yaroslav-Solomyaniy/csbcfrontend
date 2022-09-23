@@ -141,7 +141,7 @@ export interface IUserEditParams {
   lastName: string;
   patronymic: string;
   email: string;
-  role?: string;
+  role: string;
 }
 
 export interface IUseUserEdit {

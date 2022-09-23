@@ -5,16 +5,21 @@ import styles from './index.module.scss';
 import pagesStyle from '../pagesStyle.module.scss';
 import Layout from '../../loyout/Layout';
 import { ITableHeader } from '../../components/common/table/TableHeader';
-import Table from '../../components/common/table';
 import { ITableRowItem } from '../../components/common/table/TableBody';
 import { initialPagination, Pagination } from '../../types';
-import { AdministratorCreateModal } from './Create';
-import { AdministratorEditModal } from './Edit';
-import { AdministratorDeleteModal } from './Delete';
+import { AdministratorCreateModal } from './ModalWindow/Create';
+import { AdministratorEditModal } from './ModalWindow/Edit';
+import { AdministratorDeleteModal } from './ModalWindow/Delete';
 import { useAdministratorsContext } from '../../context/administators';
 import { IGetUserData, IGetUserParams } from '../../hooks/useUser';
-import SelectAdministrator from '../../components/common/Select/SelectAdministrator';
 import { Delete, Edit } from '../../components/common/Icon';
+import DesktopTable from '../../components/common/table/DesktopTable';
+import TableFilter from '../../components/common/table/TableFilter';
+import { useQueryParam } from '../../hooks/useUrlParams';
+import { useDeviceContext } from '../../context/TypeDevice';
+import MobileElementListAdministrators from './Components/MobileElementListAdministrators';
+import PhoneFilter from '../../components/common/PhoneFilter';
+import AdministratorsFilters from './Components/AdministratorsFilters';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІБ' },
@@ -22,40 +27,30 @@ const dataHeader: ITableHeader[] = [
   { id: 3, label: 'Дії' },
 ];
 
-export interface IIsActiveModalState {
-  create: boolean;
-  edit: number;
-  delete: number;
-}
-
-const allCloseModalWindow: IIsActiveModalState = {
+const allCloseModalWindow:Record<string, number | boolean> = {
   create: false,
+  filter: false,
   edit: 0,
   delete: 0,
 };
 
-interface Filter {
-  administrator: string;
-}
-
-interface Params {
-  filter: Filter;
-  pagination: Pagination;
-}
-
 const Administrators = (): JSX.Element => {
-  const {
-    getAdministrators,
+  const [isActiveModal, setIsActiveModal] = useState(allCloseModalWindow);
+  const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
+  const [pagination, setPagination] = useState<Pagination>({ ...initialPagination });
+  const [data, setData] = useState<IGetUserData[]>();
+
+  const { isDesktop, isPhone, isTablet } = useDeviceContext();
+  const { get } = useQueryParam();
+  const { getAdministrators,
     administratorsCreate,
     administratorsDelete,
     administratorsEdit,
   } = useAdministratorsContext();
-  const [params, setParams] = useState<Params>({
-    filter: { administrator: '' },
-    pagination: initialPagination,
-  });
-  const [isActiveModal, setIsActiveModal] = useState(allCloseModalWindow);
-  const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
+
+  const adminId = Number(get('adminId'));
+  const currentPage = Number(get('currentPage')) || 1;
+  const itemsPerPage = Number(get('itemsPerPage')) || 10;
 
   const closeModal = () => {
     setIsActiveModal(allCloseModalWindow);
@@ -64,15 +59,15 @@ const Administrators = (): JSX.Element => {
   useEffect(() => {
     const query: IGetUserParams = { role: 'admin' };
 
-    if (params.filter.administrator) query.id = +params.filter.administrator;
-    if (params.pagination.currentPage) query.page = params.pagination.currentPage;
-    if (params.pagination.itemsPerPage) query.limit = params.pagination.itemsPerPage;
+    if (adminId) query.id = adminId;
+    if (currentPage) query.page = currentPage;
+    if (itemsPerPage) query.limit = itemsPerPage;
 
     getAdministrators?.getUser(query);
   }, [
-    params.filter.administrator,
-    params.pagination.currentPage,
-    params.pagination.itemsPerPage,
+    adminId,
+    currentPage,
+    itemsPerPage,
     administratorsCreate?.data,
     administratorsEdit?.data,
     administratorsDelete?.data,
@@ -80,7 +75,7 @@ const Administrators = (): JSX.Element => {
 
   useEffect(() => {
     if (getAdministrators?.data) {
-      setParams({ ...params, pagination: getAdministrators.data.meta });
+      setPagination(getAdministrators.data.meta);
       setDataRow(getAdministrators?.data?.items.map((item: IGetUserData) => ({
         list: [
           { id: 1, label: `${item.lastName} ${item.firstName} ${item.patronymic}` },
@@ -107,56 +102,74 @@ const Administrators = (): JSX.Element => {
         ],
         key: item.id,
       })));
+      setData(getAdministrators.data.items);
     }
   }, [getAdministrators?.data]);
 
   return (
     <Layout>
       <div>
-        <TitlePage
-          title="Адміністратори"
-          action={(
-            <Button
-              nameClass="primary"
-              size="large"
-              className={pagesStyle.buttonsCreate}
-              onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
-            >
-              Створити
-            </Button>
-          )}
-        />
-
-        <Table
-          filter={(
-            <SelectAdministrator
-              type="filter"
-              placeholder="ПІБ"
-              onChange={(value) => setParams({
-                ...params,
-                filter: { ...params.filter, administrator: value },
-                pagination: initialPagination,
-              })}
-              value={params.filter.administrator}
-              isClearable
-              isSearchable
-              isFilter
+        {isDesktop && (
+          <>
+            <TitlePage
+              title="Адміністратори"
+              action={(
+                <Button
+                  nameClass="primary"
+                  className={pagesStyle.buttonsCreate}
+                  size="large"
+                  onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
+                >
+                  Створити
+                </Button>
+              )}
             />
-          )}
-          dataHeader={dataHeader}
-          dataRow={dataRow}
-          gridColumns={styles.columns}
-          pagination={params.pagination}
-        />
-        <AdministratorCreateModal modalActive={isActiveModal.create} closeModal={closeModal} />
+            <DesktopTable
+              filter={(<AdministratorsFilters adminId={adminId} />)}
+              dataHeader={dataHeader}
+              dataRow={dataRow}
+              className={styles.columns}
+              totalItems={pagination.totalItems}
+            />
+          </>
+        )}
+        {(isTablet || isPhone) && (
+          <>
+            <TitlePage
+              title="Адміністратори"
+              {...isPhone && ({ setIsActiveModal })}
+              {...isPhone && ({ isActiveModal: !!isActiveModal.filter })}
+              action={(
+                <Button
+                  nameClass="primary"
+                  className={pagesStyle.buttonsCreate}
+                  size="large"
+                  onClick={() => setIsActiveModal({ create: true })}
+                >
+                  Створити
+                </Button>
+              )}
+            />
+            {isTablet && (<TableFilter filter={<AdministratorsFilters adminId={adminId} />} />)}
+            <MobileElementListAdministrators
+              data={data}
+              isActiveModal={isActiveModal}
+              setIsActiveModal={setIsActiveModal}
+            />
+          </>
+        )}
+        <PhoneFilter isActive={!!isActiveModal.filter} closeModal={closeModal}>
+          <AdministratorsFilters adminId={adminId} />
+        </PhoneFilter>
+        <AdministratorCreateModal modalActive={!!isActiveModal.create} closeModal={closeModal} />
         <AdministratorEditModal
           modalActive={!!isActiveModal.edit}
-          studentId={isActiveModal.edit}
+          studentId={+isActiveModal.edit}
           closeModal={closeModal}
         />
         <AdministratorDeleteModal
           modalActive={!!isActiveModal.delete}
-          Id={isActiveModal.delete}
+          Id={+isActiveModal.delete}
           closeModal={closeModal}
         />
       </div>

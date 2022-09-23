@@ -7,13 +7,12 @@ import MobileModalWindow from '../MobileModalWindow';
 import { IParams } from '../../../pages/Teacher';
 
 interface IPhoneFilter {
-  params: IParams;
-  setParams: (value: IParams) => void;
   closeModal: () => void;
   isActive: boolean;
+  children: React.ReactChild | React.ReactNode;
 }
 
-const PhoneFilter = ({ params, setParams, closeModal, isActive }: IPhoneFilter) => (
+const PhoneFilter = ({ children, closeModal, isActive }: IPhoneFilter) => (
   <MobileModalWindow isActive={isActive}>
     <div className={style.Title} onClick={closeModal}>
       <ArrowLeft />
@@ -21,7 +20,7 @@ const PhoneFilter = ({ params, setParams, closeModal, isActive }: IPhoneFilter) 
     </div>
 
     <div className={style.filterRow}>
-      <FilterTeacherPage value={params} setParams={setParams} />
+      {children}
     </div>
     <Button onClick={closeModal} nameClass="primary" size="large" className={style.Button}>Застосувати</Button>
   </MobileModalWindow>

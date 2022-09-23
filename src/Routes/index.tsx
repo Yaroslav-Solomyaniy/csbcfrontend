@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, Navigate, Route, Routes } from 'react-router-dom';
 import GroupProvider from '../context/groups';
-import Group from '../pages/Group';
+import Group from '../pages/Groups';
 import StudentsProvider from '../context/students';
 import Students from '../pages/Students';
 import CuratorsProvider from '../context/curators';

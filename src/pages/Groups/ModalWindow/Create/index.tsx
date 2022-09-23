@@ -1,19 +1,12 @@
 import React, { useEffect, useState } from 'react';
-
 import { useGroupContext } from '../../../../context/groups';
 import { IGroupCreateParams } from '../../../../hooks/useGroups';
 import ModalWindow from '../../../../components/common/ModalWindow';
-import styles from '../../../pagesStyle.module.scss';
-import ModalInput from '../../../../components/common/ModalInput';
-import SelectCurator from '../../../../components/common/Select/SelectCurator';
-import ModalControlButtons from '../../../../components/common/ModalControlButtons';
 import { useMessagesContext } from '../../../../context/messagesContext';
 import { ICreateModal } from '../../../../types';
-import { LettersAndNumbersEnUa, NumbersAndLettersEn } from '../../../../types/regExp';
 import GroupPageModalForm from '../form/Create&Edit/modalForm';
 import { useDeviceContext } from '../../../../context/TypeDevice';
 import MobileModalWindow from '../../../../components/common/MobileModalWindow';
-import RatingEditForm from '../../../Teacher/RatingEdit/RatingEditForm';
 
 const formInitialData = {
   name: '',

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './index.module.scss';
-import { Option, Pagination } from '../../../../types';
+import { Option } from '../../../../types';
 import Button from '../../Button';
 import Select from '../../Select';
 import { First, Last, Next, Prev } from '../../Icon';

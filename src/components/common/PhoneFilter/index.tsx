@@ -1,10 +1,8 @@
 import React from 'react';
-import FilterTeacherPage from '../../../pages/Teacher/components/FilterTeacherPage';
 import style from './index.module.scss';
 import Button from '../Button';
 import { ArrowLeft } from '../Icon';
 import MobileModalWindow from '../MobileModalWindow';
-import { IParams } from '../../../pages/Teacher';
 
 interface IPhoneFilter {
   closeModal: () => void;

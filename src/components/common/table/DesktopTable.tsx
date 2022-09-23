@@ -1,9 +1,7 @@
 import React from 'react';
-import { IParams } from '../../../pages/Teacher';
 import { ITableHeader } from './TableHeader';
 import { ITableRowItem } from './TableBody';
 import Table from './index';
-import FilterTeacherPage from '../../../pages/Teacher/components/FilterTeacherPage';
 
 interface IDesktopTable{
 dataHeader: ITableHeader[];

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import TitlePage from '../../components/TitlePage';
 import Button from '../../components/common/Button/index';
 import styles from './index.module.scss';
@@ -18,7 +17,6 @@ import SelectGroupByName from '../../components/common/Select/SelectGroupByName'
 import SelectCurator from '../../components/common/Select/SelectCurator';
 import { Delete, Edit } from '../../components/common/Icon';
 import { useQueryParam } from '../../hooks/useUrlParams';
-import { getListLocationParams } from '../../utils/Loc';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'Номер групи' },
@@ -41,19 +39,10 @@ const Group = (): JSX.Element => {
   const { get, post } = useQueryParam();
   const { getGroups, groupCreate, groupEdit, groupDelete } = useGroupContext();
 
-  // const location = useLocation();
-  // const locationParams = getListLocationParams(location);
-  // const closePin = () => history.replace(location.pathname + createLocationSearch({
-  //   ...locationParams,
-  //   pin: '',
-  // }));
-
   const curator = get('curatorId');
   const group = get('group');
   const currentPage = Number(get('currentPage')) || 1;
   const itemsPerPage = Number(get('itemsPerPage')) || 10;
-
-  console.log({ currentPage, itemsPerPage, group, curator });
 
   const closeModal = () => {
     setIsActiveModal(allCloseModalWindow);

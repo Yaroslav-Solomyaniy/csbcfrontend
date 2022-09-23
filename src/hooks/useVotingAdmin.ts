@@ -47,7 +47,7 @@ export const useVotingCreate = (): IUseVotingAdmCreate => {
 
 export interface IGetVotingAdminParams {
   orderByColumn?: 'id'
-    | ' groups'
+    | ' Groups'
     | 'startDate'
     | 'endDate'
     | 'requiredCourses'

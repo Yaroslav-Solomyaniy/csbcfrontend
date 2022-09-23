@@ -11,21 +11,22 @@ interface ITable {
   dataHeader: ITableHeader[] | [];
   dataRow: ITableRowItem[] | [];
   gridColumns: string;
-  filter?: JSX.Element;
+  filter?: JSX.Element | undefined;
   columScrollHorizontal?: number;
   isScroll?: boolean;
   isTableResult?: boolean;
   isHistoryTable?: boolean;
   pagination?: Pagination;
+  totalItems?: number;
 }
 
 const Table = ({
-  pagination,
   dataHeader,
   dataRow,
   gridColumns,
   isTableResult,
   filter,
+  totalItems,
   isHistoryTable,
   columScrollHorizontal,
   isScroll,
@@ -53,9 +54,7 @@ const Table = ({
           )
           : <div className={styles.table__not_found}>Нічого не знайдено</div>}
       </div>
-      {!!dataRow.length && pagination
-        ? <TableFooter totalItems={pagination.totalItems} />
-        : ''}
+      {!!dataRow.length && totalItems ? <TableFooter totalItems={totalItems} /> : ''}
     </div>
   </>
 );

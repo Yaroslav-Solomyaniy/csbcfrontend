@@ -6,22 +6,26 @@ import Table from './index';
 import FilterTeacherPage from '../../../pages/Teacher/components/FilterTeacherPage';
 
 interface IDesktopTable{
-params: IParams;
-setParams: (value:IParams) => void;
 dataHeader: ITableHeader[];
 dataRow: ITableRowItem[];
 className: string;
+filter?: JSX.Element;
+totalItems?: number;
 }
 
-const DesktopTable = ({ params, setParams, dataHeader, dataRow, className }:IDesktopTable) => (
+const DesktopTable = ({ totalItems, filter, dataHeader, dataRow, className }:IDesktopTable) => (
   <Table
-    filter={(
-      <FilterTeacherPage value={params} setParams={setParams} />
-    )}
     dataHeader={dataHeader}
     dataRow={dataRow}
     gridColumns={className}
+    filter={filter}
+    totalItems={totalItems}
   />
 );
+
+DesktopTable.defaultProps = {
+  filter: undefined,
+  totalItems: 0,
+};
 
 export default DesktopTable;

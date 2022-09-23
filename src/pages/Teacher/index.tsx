@@ -114,8 +114,6 @@ const TeacherPage = (): JSX.Element => {
           <>
             <TitlePage title="Студенти" />
             <DesktopTable
-              params={params}
-              setParams={setParams}
               dataHeader={dataHeader}
               dataRow={dataRow}
               className={styles.columns}
@@ -149,12 +147,12 @@ const TeacherPage = (): JSX.Element => {
         )}
       </div>
 
-      <PhoneFilter
-        isActive={!!isActiveModal.filter}
-        params={params}
-        setParams={setParams}
-        closeModal={closeModal}
-      />
+      {/* <PhoneFilter */}
+      {/*  isActive={!!isActiveModal.filter} */}
+      {/*  params={params} */}
+      {/*  setParams={setParams} */}
+      {/*  closeModal={closeModal} */}
+      {/* /> */}
       <TeacherRatingEdit
         modalActive={!!isActiveModal.edit}
         studentId={isActiveModal.edit as number}

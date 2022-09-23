@@ -21,10 +21,9 @@ const TableFooter = ({ totalItems }: TableFooter): JSX.Element => {
     { label: 30, value: 30 },
   ]);
 
-  console.log({ currentPage, itemsPerPage, totalPages });
   useEffect(() => {
     if (options.every((option) => option.value !== +itemsPerPage)) {
-      post({ itemPerPage: 15 });
+      post({ itemsPerPage: 15 });
     }
   }, [itemsPerPage]);
 
@@ -35,7 +34,7 @@ const TableFooter = ({ totalItems }: TableFooter): JSX.Element => {
         isDisabled={!(totalItems > 10)}
         type="pagination"
         options={options}
-        onChange={(value) => post({ itemPerPage: value })}
+        onChange={(value) => post({ itemsPerPage: value, currentPage: 1 })}
         value={+itemsPerPage}
       />
       <div className={styles.footer__info}>

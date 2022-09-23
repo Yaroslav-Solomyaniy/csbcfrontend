@@ -3,7 +3,7 @@ import { useDeviceContext } from '../../../context/TypeDevice';
 import { EditAndHistory } from '../../../components/common/GroupButtons';
 import PhoneElementBlock from '../../../components/common/PhoneElementBlock';
 import TableMenuControl from '../../../components/common/TableMenuControl';
-import styles from './MobileElementTeacherPage.module.scss';
+import styles from '../../MobileElement.module.scss';
 
 interface IMobileElementTeacherPage{
   id: number;

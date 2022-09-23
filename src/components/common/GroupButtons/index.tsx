@@ -44,7 +44,7 @@ export const EditAndDelete = ({ isActiveModal, setIsActiveModal, itemId }:IGroup
       <Edit />
     </Button>
     <Button
-      onClick={() => setIsActiveModal({ ...isActiveModal, history: itemId })}
+      onClick={() => setIsActiveModal({ ...isActiveModal, delete: itemId })}
       isImg
     >
       <Delete />

@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { log } from 'util';
 import TitlePage from '../../components/TitlePage';
 import Button from '../../components/common/Button/index';
 import styles from './index.module.scss';
@@ -48,38 +49,66 @@ interface Params {
   pagination: Pagination;
 }
 
+const groupParamsByKey = (params:Record<string, any>) => [...params.entries()].reduce(
+  (acc, tuple) => {
+    const [key, val] = tuple;
+
+    acc[key] = [val];
+
+    return acc;
+  },
+  {},
+);
+
+const useQueryParam = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const freshSearchParams = useMemo(() => groupParamsByKey(searchParams), [
+    searchParams,
+  ]);
+
+  const get = useCallback((key) => freshSearchParams[key], [freshSearchParams]);
+
+  const post = useCallback(
+    (key, value) => {
+      setSearchParams({ ...freshSearchParams, [key]: value });
+      if (!value) {
+        searchParams.delete(key);
+        setSearchParams(searchParams);
+      }
+    },
+    [freshSearchParams, setSearchParams],
+  );
+
+  return { get, post };
+};
+
 const Group = (): JSX.Element => {
   const { getGroups, groupCreate, groupEdit, groupDelete } = useGroupContext();
-  const [params, setParams] = useState<Params>({
-    filter: { curator: '', group: '' },
-    pagination: initialPagination,
-  });
-  const [isActiveModal, setIsActiveModal] = useState(allCloseModalWindow);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
+  const { get, post } = useQueryParam();
   const [searchParams, setSearchParams] = useSearchParams();
-  const closeModal = () => {
-    setIsActiveModal(allCloseModalWindow);
-  };
 
-  setSearchParams(searchParams);
-
-  useEffect(() => {
-    getGroups?.getGroups();
-  }, [groupCreate?.data, groupEdit?.data, groupDelete?.data]);
+  const curator:string = get('curatorId');
+  const group:string = get('group');
+  const currentPage:string = get('currentPage');
+  const itemsPerPage:string = get('itemsPerPage');
+  // useEffect(() => {
+  //   setSearchParams(searchParams);
+  // }, [searchParams]);
 
   useEffect(() => {
     const query: IGetGroupParams = {};
 
-    if (params.filter.curator) {
-      query.curatorId = +params.filter.curator;
+    if (curator) {
+      query.curatorId = +curator;
     }
-    if (params.filter.group) {
-      query.name = params.filter.group;
+    if (group) {
+      query.name = String(group);
     }
-    if (params.pagination.currentPage) query.page = params.pagination.currentPage;
-    if (params.pagination.itemsPerPage) query.limit = params.pagination.itemsPerPage;
+
     getGroups?.getGroups(query);
-  }, [params.filter.group, params.filter.curator, params.pagination.currentPage, params.pagination.itemsPerPage]);
+  }, [searchParams, groupCreate?.data, groupEdit?.data, groupDelete?.data]);
 
   useEffect(() => {
     if (getGroups?.data) {
@@ -94,13 +123,13 @@ const Group = (): JSX.Element => {
             label: (
               <div className={pagesStyle.actions}>
                 <Button
-                  onClick={() => setIsActiveModal({ ...isActiveModal, edit: item.id })}
+                  onClick={() => console.log('1')}
                   isImg
                 >
                   <Edit />
                 </Button>
                 <Button
-                  onClick={() => setIsActiveModal({ ...isActiveModal, delete: item.id })}
+                  onClick={() => console.log('1')}
                   isImg
                 >
                   <Delete />
@@ -117,31 +146,14 @@ const Group = (): JSX.Element => {
   return (
     <Layout>
       <div className={styles.group}>
-        <TitlePage
-          title="Групи"
-          action={(
-            <Button
-              nameClass="primary"
-              className={pagesStyle.buttonsCreate}
-              size="large"
-              onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
-            >
-              Створити
-            </Button>
-          )}
-        />
         <Table
           filter={(
             <>
               <SelectCurator
                 type="filter"
                 placeholder="Куратор"
-                onChange={(value) => (
-                  value
-                    ? setSearchParams({ ...searchParams, curator: value }, { replace: true })
-                    : setSearchParams({ ...searchParams })
-                )}
-                value={searchParams.get('curator') || ''}
+                onChange={(value) => post('curatorId', value)}
+                value={curator}
                 isClearable
                 isSearchable
                 isFilter
@@ -149,11 +161,8 @@ const Group = (): JSX.Element => {
               <SelectGroupByName
                 type="filter"
                 placeholder="Група"
-                onChange={(value) => (
-                  value
-                    ? setSearchParams({ ...searchParams, group: value }, { replace: true })
-                    : setSearchParams({ ...searchParams }))}
-                value={searchParams.get('group') || ''}
+                onChange={(value) => post('group', value)}
+                value={group}
                 isClearable
                 isSearchable
                 isFilter
@@ -163,12 +172,9 @@ const Group = (): JSX.Element => {
           dataHeader={dataHeader}
           dataRow={dataRow}
           gridColumns={styles.columns}
-          pagination={params.pagination}
-          onPaginationChange={(newPagination) => setParams({ ...params, pagination: newPagination })}
+          // pagination={}
+          // onPaginationChange={}
         />
-        <GroupCreate modalActive={isActiveModal.create} closeModal={closeModal} />
-        <GroupEdit modalActive={!!isActiveModal.edit} studentId={isActiveModal.edit} closeModal={closeModal} />
-        <GroupDelete modalActive={!!isActiveModal.delete} Id={isActiveModal.delete} closeModal={closeModal} />
       </div>
     </Layout>
   );

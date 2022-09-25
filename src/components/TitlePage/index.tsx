@@ -1,4 +1,5 @@
 import React from 'react';
+import clsx from 'clsx';
 import styles from './index.module.scss';
 import { useDeviceContext } from '../../context/TypeDevice';
 import { Filter } from '../common/Icon';
@@ -28,7 +29,7 @@ const TitlePage = ({ title, action, setIsActiveModal }: ITitlePage):JSX.Element 
       )}
 
       {isPhone && (
-        <div className={styles.top_row}>
+        <div className={clsx(action ? styles.top_row_mobile : styles.top_row)}>
           {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
           <h1
             className={styles.title}
@@ -37,7 +38,7 @@ const TitlePage = ({ title, action, setIsActiveModal }: ITitlePage):JSX.Element 
             <Filter />
             {title}
           </h1>
-          {action}
+          {action ? <div className={styles.isAction}>{action}</div> : { action }}
         </div>
       )}
     </>

@@ -5,9 +5,22 @@
     height: 42px;
     margin-bottom: 24px;
 }
-.title{
-  cursor: pointer;
+.top_row_mobile{
   display: flex;
+  justify-content: space-between;
+  text-align: center;
+  align-items: center;
+  margin-bottom: 24px;
+  height: auto;
+  flex-direction: column;
+  padding: 10px;
+}
+.isAction{
+  padding: 10px;
+}
+.title{
+    cursor: pointer;
+    display: flex;
     align-items: center;
     font-size: 24px;
     font-weight: 700;

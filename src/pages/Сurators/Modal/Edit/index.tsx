@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import pagesStyle from '../../pagesStyle.module.scss';
-import ModalWindow from '../../../components/common/ModalWindow';
-import ModalControlButtons from '../../../components/common/ModalControlButtons';
-import { IEditModal } from '../../../types';
-import { useCuratorContext } from '../../../context/curators';
-import ModalInput from '../../../components/common/ModalInput';
-import { Email, EmailValidation, LettersAndNumbersEnUa } from '../../../types/regExp';
-import { IUserEditParams } from '../../../hooks/useUser';
-import { useMessagesContext } from '../../../context/messagesContext';
+import pagesStyle from '../../../pagesStyle.module.scss';
+import ModalWindow from '../../../../components/common/ModalWindow';
+import ModalControlButtons from '../../../../components/common/ModalControlButtons';
+import { IEditModal } from '../../../../types';
+import { useCuratorContext } from '../../../../context/curators';
+import ModalInput from '../../../../components/common/ModalInput';
+import { Email, EmailValidation, LettersAndNumbersEnUa } from '../../../../types/regExp';
+import { IUserEditParams } from '../../../../hooks/useUser';
+import { useMessagesContext } from '../../../../context/messagesContext';
 
 const formInitialData: IUserEditParams = {
   firstName: '',

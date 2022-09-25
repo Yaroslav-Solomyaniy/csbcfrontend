@@ -29,10 +29,10 @@ const TitlePage = ({ title, action, setIsActiveModal }: ITitlePage):JSX.Element 
       )}
 
       {isPhone && (
-        <div className={clsx(action ? styles.top_row_mobile : styles.top_row)}>
+        <div className={clsx(styles.top_row_mobile)}>
           {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
           <h1
-            className={styles.title}
+            className={styles.title_mobile}
             onClick={() => setIsActiveModal ? setIsActiveModal({ filter: true }) : undefined}
           >
             <Filter />

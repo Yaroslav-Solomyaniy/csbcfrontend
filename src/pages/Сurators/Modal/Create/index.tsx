@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import ModalWindow from '../../../components/common/ModalWindow';
-import pagesStyle from '../../pagesStyle.module.scss';
-import ModalInput from '../../../components/common/ModalInput';
-import ModalControlButtons from '../../../components/common/ModalControlButtons';
-import { useCuratorContext } from '../../../context/curators';
-import { ICreateModal } from '../../../types';
+import ModalWindow from '../../../../components/common/ModalWindow';
+import pagesStyle from '../../../pagesStyle.module.scss';
+import ModalInput from '../../../../components/common/ModalInput';
+import ModalControlButtons from '../../../../components/common/ModalControlButtons';
+import { useCuratorContext } from '../../../../context/curators';
+import { ICreateModal } from '../../../../types';
 
-import { Email, EmailValidation, LettersAndNumbersEnUa } from '../../../types/regExp';
-import { useMessagesContext } from '../../../context/messagesContext';
-import { IUserCreateParams } from '../../../hooks/useUser';
+import { Email, EmailValidation, LettersAndNumbersEnUa } from '../../../../types/regExp';
+import { useMessagesContext } from '../../../../context/messagesContext';
+import { IUserCreateParams } from '../../../../hooks/useUser';
 
 const formInitialData: IUserCreateParams = {
   firstName: '',

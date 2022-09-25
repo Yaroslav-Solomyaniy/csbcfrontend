@@ -21,6 +21,7 @@ import { useDeviceContext } from '../../context/TypeDevice';
 import DesktopTable from '../../components/common/table/DesktopTable';
 import TableFilter from '../../components/common/table/TableFilter';
 import MobileElementListGroupPageAdmin from './components/MobileElementListGroupPageAdmin';
+import { EditAndDelete } from '../../components/common/GroupButtons';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'Номер групи' },
@@ -89,22 +90,7 @@ const Group = (): JSX.Element => {
           { id: 4, label: `${item.students}` },
           {
             id: 5,
-            label: (
-              <div className={pagesStyle.actions}>
-                <Button
-                  onClick={() => setIsActiveModal({ ...isActiveModal, edit: item.id })}
-                  isImg
-                >
-                  <Edit />
-                </Button>
-                <Button
-                  onClick={() => setIsActiveModal({ ...isActiveModal, delete: item.id })}
-                  isImg
-                >
-                  <Delete />
-                </Button>
-              </div>
-            ),
+            label: <EditAndDelete isActiveModal={isActiveModal} setIsActiveModal={setIsActiveModal} itemId={item.id} />,
           },
         ],
         key: item.id,

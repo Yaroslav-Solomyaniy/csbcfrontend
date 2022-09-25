@@ -20,6 +20,7 @@ import { useDeviceContext } from '../../context/TypeDevice';
 import MobileElementListAdministrators from './Components/MobileElementListAdministrators';
 import PhoneFilter from '../../components/common/PhoneFilter';
 import AdministratorsFilters from './Components/AdministratorsFilters';
+import { EditAndDelete } from '../../components/common/GroupButtons';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІБ' },
@@ -82,23 +83,11 @@ const Administrators = (): JSX.Element => {
           { id: 2, label: item.email },
           {
             id: 3,
-            label: (
-              <div className={pagesStyle.actions}>
-                <Button
-                  onClick={() => setIsActiveModal({ ...isActiveModal, edit: item.id })}
-                  isImg
-                >
-                  <Edit />
-                </Button>
-                <Button
-                  onClick={() => setIsActiveModal({ ...isActiveModal, delete: item.id })}
-                  isImg
-                >
-                  <Delete />
-                </Button>
-              </div>
-            ),
-          },
+            label: <EditAndDelete
+              isActiveModal={isActiveModal}
+              setIsActiveModal={setIsActiveModal}
+              itemId={item.id}
+            /> },
         ],
         key: item.id,
       })));

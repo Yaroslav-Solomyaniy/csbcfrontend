@@ -5,17 +5,21 @@ import styles from './index.module.scss';
 import pagesStyle from '../pagesStyle.module.scss';
 import Layout from '../../loyout/Layout';
 import { ITableHeader } from '../../components/common/table/TableHeader';
-import Table from '../../components/common/table';
-import SelectCurator from '../../components/common/Select/SelectCurator';
 import { ITableRowItem } from '../../components/common/table/TableBody';
 import { initialPagination, Pagination } from '../../types';
-import CuratorCreateModal from './Create';
+import CuratorCreateModal from './Modal/Create/index';
 import { useCuratorContext } from '../../context/curators';
 import { IGetCuratorData, IGetCuratorParams } from '../../hooks/useCurators';
-import CuratorEditModal from './Edit';
-import CuratorDeleteModal from './Delete';
-import SelectGroupByName from '../../components/common/Select/SelectGroupByName';
-import { Delete, Edit } from '../../components/common/Icon';
+import CuratorEditModal from './Modal/Edit/index';
+import CuratorDeleteModal from './Modal/Delete/index';
+import { useDeviceContext } from '../../context/TypeDevice';
+import { useQueryParam } from '../../hooks/useUrlParams';
+import { EditAndDelete } from '../../components/common/GroupButtons';
+import DesktopTable from '../../components/common/table/DesktopTable';
+import TableFilter from '../../components/common/table/TableFilter';
+import CuratorsFilters from './Components/CuratorsFilters';
+import PhoneFilter from '../../components/common/PhoneFilter';
+import MobileElementListCurators from './Components/MobileElementListCurators';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІБ' },
@@ -24,59 +28,47 @@ const dataHeader: ITableHeader[] = [
   { id: 4, label: 'Дії' },
 ];
 
-export interface IIsActiveModalState {
-  create: boolean;
-  edit: number;
-  delete: number;
-}
-
-const allCloseModalWindow: IIsActiveModalState = {
+const allCloseModalWindow: Record<string, number | boolean> = {
   create: false,
+  filter: false,
   edit: 0,
   delete: 0,
 };
 
-interface Filter {
-  curator: string;
-  groupName: string;
-}
-
-interface Params {
-  filter: Filter;
-  pagination: Pagination;
-}
-
 const Curators = (): JSX.Element => {
-  const { getCurators, curatorCreate, curatorDelete, curatorEdit } = useCuratorContext();
-  const [params, setParams] = useState<Params>({
-    filter: { curator: '', groupName: '' },
-    pagination: initialPagination,
-  });
   const [isActiveModal, setIsActiveModal] = useState(allCloseModalWindow);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
+  const [data, setData] = useState<IGetCuratorData[]>();
+  const [pagination, setPagination] = useState<Pagination>({ ...initialPagination });
+
+  const { getCurators, curatorCreate, curatorDelete, curatorEdit } = useCuratorContext();
+  const { isDesktop, isPhone, isTablet } = useDeviceContext();
+  const { get } = useQueryParam();
+
+  const groupName = get('groupName');
+  const curatorId = Number(get('curatorId')) || 0;
+  const currentPage = Number(get('currentPage')) || 1;
+  const itemsPerPage = Number(get('itemsPerPage')) || 10;
 
   const closeModal = () => {
     setIsActiveModal(allCloseModalWindow);
   };
 
   useEffect(() => {
-    getCurators?.getCurators();
-  }, [curatorCreate?.data, curatorEdit?.data, curatorDelete?.data]);
-
-  useEffect(() => {
     const query: IGetCuratorParams = {};
 
-    if (params.filter.curator) query.curatorId = +params.filter.curator;
-    if (params.filter.groupName) query.groupName = params.filter.groupName;
-    if (params.pagination.currentPage) query.page = params.pagination.currentPage;
-    if (params.pagination.itemsPerPage) query.limit = params.pagination.itemsPerPage;
+    if (curatorId) query.curatorId = curatorId;
+    if (groupName) query.groupName = groupName;
+    if (currentPage) query.page = currentPage;
+    if (itemsPerPage) query.limit = itemsPerPage;
 
     getCurators?.getCurators(query);
-  }, [params.filter.curator, params.filter.groupName, params.pagination.currentPage, params.pagination.itemsPerPage]);
+  }, [groupName, curatorId, currentPage, itemsPerPage, curatorCreate?.data, curatorEdit?.data, curatorDelete?.data]);
 
   useEffect(() => {
     if (getCurators?.data) {
-      setParams({ ...params, pagination: getCurators.data.meta });
+      setPagination(getCurators.data.meta);
+      setData(getCurators.data.items);
       setDataRow(getCurators?.data?.items.map((item: IGetCuratorData) => ({
         list: [
           { id: 1, label: `${item.lastName} ${item.firstName} ${item.patronymic}` },
@@ -84,22 +76,7 @@ const Curators = (): JSX.Element => {
           { id: 3, label: item.email },
           {
             id: 4,
-            label: (
-              <div className={pagesStyle.actions}>
-                <Button
-                  onClick={() => setIsActiveModal({ ...isActiveModal, edit: item.id })}
-                  isImg
-                >
-                  <Edit />
-                </Button>
-                <Button
-                  onClick={() => setIsActiveModal({ ...isActiveModal, delete: item.id })}
-                  isImg
-                >
-                  <Delete />
-                </Button>
-              </div>
-            ),
+            label: <EditAndDelete isActiveModal={isActiveModal} setIsActiveModal={setIsActiveModal} itemId={item.id} />,
           },
         ],
         key: item.id,
@@ -110,68 +87,72 @@ const Curators = (): JSX.Element => {
   return (
     <Layout>
       <div>
-        <TitlePage
-          title="Куратори"
-          action={(
-            <Button
-              nameClass="primary"
-              size="large"
-              className={pagesStyle.buttonsCreate}
-              onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
-            >
-              Створити
-            </Button>
-          )}
-        />
+        {isDesktop && (
+          <>
+            <TitlePage
+              title="Куратори"
+              action={(
+                <Button
+                  nameClass="primary"
+                  className={pagesStyle.buttonsCreate}
+                  size="large"
+                  onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
+                >
+                  Створити
+                </Button>
+              )}
+            />
+            <DesktopTable
+              filter={(<CuratorsFilters curatorId={curatorId} groupName={groupName} />)}
+              dataHeader={dataHeader}
+              dataRow={dataRow}
+              className={styles.columns}
+              totalItems={pagination.totalItems}
+            />
+          </>
+        )}
+        {(isTablet || isPhone) && (
+          <>
+            <TitlePage
+              title="Куратори"
+              {...isPhone && ({ setIsActiveModal })}
+              {...isPhone && ({ isActiveModal: !!isActiveModal.filter })}
+              action={(
+                <Button
+                  nameClass="primary"
+                  className={pagesStyle.buttonsCreate}
+                  size="large"
+                  onClick={() => setIsActiveModal({ create: true })}
+                >
+                  Створити
+                </Button>
+              )}
+            />
+            {isTablet && (<TableFilter filter={<CuratorsFilters curatorId={curatorId} groupName={groupName} />} />)}
+            <MobileElementListCurators
+              data={data}
+              isActiveModal={isActiveModal}
+              setIsActiveModal={setIsActiveModal}
+            />
+          </>
+        )}
 
-        <Table
-          filter={(
-            <>
-              <SelectGroupByName
-                type="filter"
-                placeholder="Група"
-                onChange={(value) => setParams({
-                  ...params,
-                  filter: { ...params.filter, groupName: value },
-                  pagination: initialPagination,
-                })}
-                value={params.filter.groupName}
-                isClearable
-                isSearchable
-                isFilter
-              />
-              <SelectCurator
-                type="filter"
-                placeholder="ПІБ"
-                onChange={(value) => setParams({
-                  ...params,
-                  filter: { ...params.filter, curator: value },
-                  pagination: initialPagination,
-                })}
-                value={params.filter.curator}
-                isClearable
-                isSearchable
-                isFilter
-              />
-            </>
-          )}
-          dataHeader={dataHeader}
-          dataRow={dataRow}
-          gridColumns={styles.columns}
-          pagination={params.pagination}
-        />
+        <PhoneFilter closeModal={closeModal} isActive={!!isActiveModal.filter}>
+          <CuratorsFilters groupName={groupName} curatorId={curatorId} />
+        </PhoneFilter>
+
         <CuratorCreateModal
-          modalActive={isActiveModal.create}
+          modalActive={!!isActiveModal.create}
           closeModal={closeModal}
         />
         <CuratorEditModal
           modalActive={!!isActiveModal.edit}
-          studentId={isActiveModal.edit}
+          studentId={isActiveModal.edit as number}
           closeModal={closeModal}
         />
         <CuratorDeleteModal
           modalActive={!!isActiveModal.delete}
-          Id={isActiveModal.delete}
+          Id={isActiveModal.delete as number}
           closeModal={closeModal}
         />
       </div>

@@ -5,6 +5,10 @@ import ModalControlButtons from '../../../../components/common/ModalControlButto
 import { IDeleteModal } from '../../../../types';
 import { useCuratorContext } from '../../../../context/curators';
 import { useMessagesContext } from '../../../../context/messagesContext';
+import AdministratorsDeleteForm from '../../../Administrators/ModalWindow/form/Delete';
+import MobileModalWindow from '../../../../components/common/MobileModalWindow';
+import { useDeviceContext } from '../../../../context/TypeDevice';
+import CuratorsDeleteForm from '../form/delete';
 
 const formInitialData = {
   firstName: '',
@@ -13,9 +17,11 @@ const formInitialData = {
 };
 
 export const CuratorDeleteModal = ({ modalActive, closeModal, Id }: IDeleteModal): JSX.Element => {
-  const { curatorDelete, getCuratorId } = useCuratorContext();
   const [formData, setFormData] = useState(formInitialData);
+
+  const { isTablet, isPhone, isDesktop } = useDeviceContext();
   const { addInfo } = useMessagesContext();
+  const { curatorDelete, getCuratorId } = useCuratorContext();
 
   const handleClose = () => {
     closeModal();
@@ -42,7 +48,7 @@ export const CuratorDeleteModal = ({ modalActive, closeModal, Id }: IDeleteModal
 
   useEffect(() => {
     if (curatorDelete?.data) {
-      closeModal();
+      handleClose();
       addInfo(`Куратор "${formData.lastName} ${formData.firstName} ${formData.patronymic}" видалений`);
     }
   }, [curatorDelete?.data]);
@@ -53,28 +59,27 @@ export const CuratorDeleteModal = ({ modalActive, closeModal, Id }: IDeleteModal
   };
 
   return (
-    <ModalWindow modalTitle="Видалення куратора" active={modalActive} closeModal={handleClose}>
-      <form className={pagesStyle.form} onSubmit={onSubmit}>
-        <h3 className={pagesStyle.subtitle}>
-          {' '}
-          Ви дійсно бажаєте видалити куратора
-          `
-          {formData.lastName}
-          {' '}
-          {formData.firstName}
-          {' '}
-          {formData.patronymic}
-          `?
-          {' '}
-        </h3>
-      </form>
-      <ModalControlButtons
-        handleClose={handleClose}
-        onSubmit={onSubmit}
-        cancelButtonText="Відміна"
-        mainButtonText="Видалити"
-      />
-    </ModalWindow>
+    <>
+      {isDesktop && (
+        <ModalWindow modalTitle="Видалення куратора" active={modalActive} closeModal={handleClose}>
+          <CuratorsDeleteForm
+            handleClose={handleClose}
+            formData={formData}
+            onSubmit={onSubmit}
+          />
+        </ModalWindow>
+      )}
+      {(isTablet || isPhone) && (
+        <MobileModalWindow isActive={modalActive}>
+          <CuratorsDeleteForm
+            modalTitle="Видалення куратора"
+            handleClose={handleClose}
+            formData={formData}
+            onSubmit={onSubmit}
+          />
+        </MobileModalWindow>
+      )}
+    </>
   );
 };
 

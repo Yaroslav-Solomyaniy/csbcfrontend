@@ -9,6 +9,10 @@ import { ICreateModal } from '../../../../types';
 import { Email, EmailValidation, LettersAndNumbersEnUa } from '../../../../types/regExp';
 import { useMessagesContext } from '../../../../context/messagesContext';
 import { IUserCreateParams } from '../../../../hooks/useUser';
+import AdministratorsForm from '../../../Administrators/ModalWindow/form/Create&Edit';
+import MobileModalWindow from '../../../../components/common/MobileModalWindow';
+import { useDeviceContext } from '../../../../context/TypeDevice';
+import CuratorsForm from '../form/create&edit';
 
 const formInitialData: IUserCreateParams = {
   firstName: '',
@@ -19,10 +23,12 @@ const formInitialData: IUserCreateParams = {
 };
 
 export const CuratorCreateModal = ({ modalActive, closeModal }: ICreateModal): JSX.Element => {
-  const { curatorCreate } = useCuratorContext();
-  const { addInfo } = useMessagesContext();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState<IUserCreateParams>(formInitialData);
+
+  const { curatorCreate } = useCuratorContext();
+  const { addInfo } = useMessagesContext();
+  const { isPhone, isDesktop, isTablet } = useDeviceContext();
 
   const handleClose = () => {
     setIsSubmitted(false);
@@ -41,68 +47,38 @@ export const CuratorCreateModal = ({ modalActive, closeModal }: ICreateModal): J
   };
 
   useEffect(() => {
-    handleClose();
     if (curatorCreate?.data) {
+      handleClose();
       addInfo(`${formData.lastName} ${formData.firstName} ${formData.patronymic} доданий у список`);
     }
   }, [curatorCreate?.data]);
 
   return (
-    <ModalWindow modalTitle="Створення куратора" active={modalActive} closeModal={handleClose}>
-      <form className={pagesStyle.form} onSubmit={onSubmit}>
-        <ModalInput
-          onChange={(event) => {
-            setFormData({ ...formData, lastName: event.target.value.slice(0, 20) });
-          }}
-          value={formData.lastName}
-          placeholder="Прізвище"
-          label="Прізвище"
-          required
-          error={isSubmitted && !formData.lastName ? 'Прізвище не введено' : ''}
-          pattern={LettersAndNumbersEnUa}
-        />
-        <ModalInput
-          onChange={(event) => {
-            setFormData({ ...formData, firstName: event.target.value.slice(0, 15) });
-          }}
-          value={formData.firstName}
-          placeholder="Ім'я"
-          label="Ім'я"
-          required
-          error={isSubmitted && !formData.firstName ? "Ім'я не введено" : ''}
-          pattern={LettersAndNumbersEnUa}
-        />
-        <ModalInput
-          onChange={(event) => {
-            setFormData({ ...formData, patronymic: event.target.value.slice(0, 20) });
-          }}
-          value={formData.patronymic}
-          placeholder="По батькові"
-          label="По батькові"
-          required
-          error={isSubmitted && !formData.patronymic ? 'По батькові не введено' : ''}
-          pattern={LettersAndNumbersEnUa}
-        />
-        <ModalInput
-          onChange={(event) => {
-            setFormData({ ...formData, email: event.target.value.slice(0, 40) });
-          }}
-          value={formData.email}
-          placeholder="Електронна пошта"
-          label="Електронна пошта"
-          required
-          error={isSubmitted && !Email.test(formData.email)
-            ? (formData.email.length < 1 ? 'Електронну пошту не введено' : 'Електронна пошта введено не вірно') : ''}
-          pattern={EmailValidation}
-        />
-      </form>
-      <ModalControlButtons
-        handleClose={handleClose}
-        onSubmit={onSubmit}
-        cancelButtonText="Відміна"
-        mainButtonText="Створити"
-      />
-    </ModalWindow>
+    <>
+      {isDesktop && (
+        <ModalWindow modalTitle="Створення куратора" active={modalActive} closeModal={handleClose}>
+          <CuratorsForm
+            handleClose={handleClose}
+            isSubmitted={isSubmitted}
+            setFormData={setFormData}
+            formData={formData}
+            onSubmit={onSubmit}
+          />
+        </ModalWindow>
+      )}
+      {(isTablet || isPhone) && (
+        <MobileModalWindow isActive={modalActive}>
+          <CuratorsForm
+            modalTitle="Створення куратора"
+            handleClose={handleClose}
+            isSubmitted={isSubmitted}
+            setFormData={setFormData}
+            formData={formData}
+            onSubmit={onSubmit}
+          />
+        </MobileModalWindow>
+      )}
+    </>
   );
 };
 

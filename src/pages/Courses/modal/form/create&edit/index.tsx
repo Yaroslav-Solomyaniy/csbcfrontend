@@ -1,89 +1,33 @@
-import React, { useEffect, useState } from 'react';
-import pagesStyle from '../../pagesStyle.module.scss';
-import ModalWindow from '../../../components/common/ModalWindow';
-import ModalControlButtons from '../../../components/common/ModalControlButtons';
-import { useMessagesContext } from '../../../context/messagesContext';
-import { IEditModal } from '../../../types';
-import { ICourseEditParams } from '../../../hooks/useCourses';
-import ModalInput from '../../../components/common/ModalInput';
-import MultiSelectGroup from '../../../components/common/MultiSelect/MultiSelectGroup';
-import SelectTeacher from '../../../components/common/Select/SelectTeacher';
-import SelectSemester from '../../../components/common/Select/SelectSemester';
-import { useCourseContext } from '../../../context/courses';
-import SelectCompulsory from '../../../components/common/Select/SelectCompulsory';
-import SelectExam from '../../../components/common/Select/SelectIsExam';
-import { FiveSymbolOnlyNumbers, LettersAndNumbersEnUa } from '../../../types/regExp';
+import React from 'react';
+import ModalInput from '../../../../../components/common/ModalInput';
+import { FiveSymbolOnlyNumbers, LettersAndNumbersEnUa } from '../../../../../types/regExp';
+import MultiSelectGroup from '../../../../../components/common/MultiSelect/MultiSelectGroup';
+import SelectTeacher from '../../../../../components/common/Select/SelectTeacher';
+import SelectSemester from '../../../../../components/common/Select/SelectSemester';
+import SelectExam from '../../../../../components/common/Select/SelectIsExam';
+import SelectCompulsory from '../../../../../components/common/Select/SelectCompulsory';
+import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
+import { ICourseEditParams, ICoursesCreateParams } from '../../../../../hooks/useCourses';
+import styles from '../../../../pagesStyle.module.scss';
 
-const formInitialData: ICourseEditParams = {
-  name: '',
-  groups: [],
-  teacher: 0,
-  credits: null,
-  semester: 1,
-  isExam: false,
-  lectureHours: null,
-  isCompulsory: '',
-};
+interface ICoursesInputForm{
+  formData: ICourseEditParams | ICoursesCreateParams;
+  setFormData: (value:any) => void;
+  isSubmitted: boolean;
+  handleClose:() => void;
+  onSubmit: (e: React.FormEvent | undefined) => void;
+  modalTitle?: string;
+}
 
-export const CourseEdit = ({ modalActive, closeModal, studentId }: IEditModal): JSX.Element => {
-  const { addInfo } = useMessagesContext();
-  const [formData, setFormData] = useState<ICourseEditParams>(formInitialData);
-  const [isSubmitted, setIsSubmited] = useState(false);
-  const { courseEdit, getCourseId } = useCourseContext();
-
-  const handleClose = () => {
-    setIsSubmited(false);
-    closeModal();
-    setTimeout(() => {
-      setFormData(formInitialData);
-    }, 200);
-  };
-
-  const onSubmit = (e: React.FormEvent | undefined) => {
-    e?.preventDefault?.();
-    setIsSubmited(true);
-    if (formData.name && formData.credits
-      && formData.teacher && formData.semester
-      && formData.lectureHours && formData.groups.toString().length >= 1
-      && (formData.isCompulsory === 'true' || formData.isCompulsory === 'false')) {
-      courseEdit?.courseEdit({ ...formData, isCompulsory: formData.isCompulsory === 'true' }, studentId);
-    }
-  };
-
-  useEffect(() => {
-    if (studentId) {
-      getCourseId?.getCourseId({ id: `${studentId}` });
-    }
-  }, [studentId]);
-
-  useEffect(() => {
-    if (getCourseId?.data) {
-      const data = {
-        name: getCourseId?.data.name,
-        groups: getCourseId.data.groups.map((item) => item.id),
-        teacher: getCourseId?.data?.teacher?.id || null,
-        credits: getCourseId.data.credits ? +getCourseId.data.credits : null,
-        semester: getCourseId.data.semester,
-        isActive: getCourseId.data.isActive,
-        isExam: !!getCourseId.data.isExam,
-        lectureHours: getCourseId.data.lectureHours ? +getCourseId.data.lectureHours : null,
-        isCompulsory: `${getCourseId.data.isCompulsory}`,
-      };
-
-      setFormData(data);
-    }
-  }, [getCourseId?.data]);
-
-  useEffect(() => {
-    handleClose();
-    if (courseEdit?.data) {
-      addInfo(`Предмет "${formData.name}" успішно відредаговано`);
-    }
-  }, [courseEdit?.data]);
-
-  return (
-    <ModalWindow modalTitle="Редагування предмету" active={modalActive} closeModal={handleClose}>
-      <form className={pagesStyle.form} onSubmit={onSubmit}>
+const CoursesInputForm = ({ formData,
+  setFormData,
+  isSubmitted,
+  onSubmit,
+  handleClose,
+  modalTitle }:ICoursesInputForm) => (
+    <>
+      {modalTitle && (<div className={styles.modal__title}>{modalTitle}</div>)}
+      <form className={styles.form} onSubmit={onSubmit}>
         <ModalInput
           onChange={(event) => {
             setFormData({ ...formData, name: event.target.value.slice(0, 50) });
@@ -158,8 +102,8 @@ export const CourseEdit = ({ modalActive, closeModal, studentId }: IEditModal): 
             setFormData({ ...formData, isExam: !!value });
           }}
           value={formData.isExam}
-          error={(isSubmitted && !(formData.isExam === true
-            || formData.isExam === false)) ? 'Вид контролю не обрано.' : ''}
+          error={(isSubmitted
+            && !(formData.isExam === true || formData.isExam === false)) ? 'Вид контролю не обрано.' : ''}
         />
         <ModalInput
           onChange={(event) => {
@@ -182,16 +126,22 @@ export const CourseEdit = ({ modalActive, closeModal, studentId }: IEditModal): 
             setFormData({ ...formData, isCompulsory: value });
           }}
           value={formData.isCompulsory}
+          error={(isSubmitted && !(formData.isCompulsory === 'true'
+            || formData.isCompulsory === 'false')) ? 'Вид проведення не обрано.' : ''}
         />
       </form>
       <ModalControlButtons
         handleClose={handleClose}
         onSubmit={onSubmit}
         cancelButtonText="Відміна"
-        mainButtonText="Зберегти"
+        mainButtonText="Створити"
       />
-    </ModalWindow>
-  );
+    </>
+
+);
+
+CoursesInputForm.defaultProps = {
+  modalTitle: '',
 };
 
-export default CourseEdit;
+export default CoursesInputForm;

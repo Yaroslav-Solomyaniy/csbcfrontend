@@ -12,12 +12,21 @@ import { useCourseContext } from '../../context/courses';
 import { IGetCoursesData, IGetCoursesParams } from '../../hooks/useCourses';
 import SelectCourse from '../../components/common/Select/SelectCourse';
 import SelectTeacher from '../../components/common/Select/SelectTeacher';
-import CourseCreateModal from './CourseCreate';
-import CourseEditModal from './CourseEdit';
-import CourseDeleteModal from './CourseDelete';
+import CourseCreateModal from './modal/CourseCreate';
+import CourseEditModal from './modal/CourseEdit';
+import CourseDeleteModal from './modal/CourseDelete';
 import SelectCompulsory from '../../components/common/Select/SelectCompulsory';
 import SelectGroupById from '../../components/common/Select/SelectGroupById';
-import { Delete, Edit } from '../../components/common/Icon';
+import { useDeviceContext } from '../../context/TypeDevice';
+import { useQueryParam } from '../../hooks/useUrlParams';
+import { EditAndDelete } from '../../components/common/GroupButtons';
+import CoursesFilters from './components/CoursesFilters';
+import DesktopTable from '../../components/common/table/DesktopTable';
+import AdministratorsFilters from '../Administrators/Components/AdministratorsFilters';
+import TableFilter from '../../components/common/table/TableFilter';
+import MobileElementListAdministrators from '../Administrators/Components/MobileElementListAdministrators';
+import PhoneFilter from '../../components/common/PhoneFilter';
+import MobileElementListCourses from './components/MobileElementListCourses';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'Назва' },
@@ -31,69 +40,52 @@ const dataHeader: ITableHeader[] = [
   { id: 9, label: 'Дії' },
 ];
 
-export interface IIsActiveModalState {
-  create: boolean;
-  edit: number;
-  delete: number;
-}
-
-const allCloseModalWindow: IIsActiveModalState = {
+const allCloseModalWindow: Record<string, number | boolean> = {
   create: false,
+  filter: false,
   edit: 0,
   delete: 0,
 };
 
-interface Filter {
-  course: string;
-  teacher: string;
-  group: string;
-  isCompulsory: boolean | string;
-}
-
-interface Params {
-  filter: Filter;
-  pagination: Pagination;
-}
-
 const Courses = (): JSX.Element => {
-  const { getCourses, courseDelete, courseEdit, courseCreate } = useCourseContext();
-  const [params, setParams] = useState<Params>({
-    filter: { course: '', teacher: '', group: '', isCompulsory: '' },
-    pagination: initialPagination,
-  });
   const [isActiveModal, setIsActiveModal] = useState(allCloseModalWindow);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
+  const [pagination, setPagination] = useState<Pagination>({ ...initialPagination });
+  const [data, setData] = useState<IGetCoursesData[]>();
+
+  const { getCourses, courseDelete, courseEdit, courseCreate } = useCourseContext();
+  const { isPhone, isDesktop, isTablet } = useDeviceContext();
+  const { get } = useQueryParam();
+
+  const courseId = Number(get('courseId'));
+  const groupId = Number(get('groupId'));
+  const teacherId = Number(get('teacherId'));
+  const isCompulsory = String(get('isCompulsory'));
+  const currentPage = Number(get('currentPage')) || 1;
+  const itemsPerPage = Number(get('itemsPerPage')) || 10;
 
   const closeModal = () => {
     setIsActiveModal(allCloseModalWindow);
   };
 
   useEffect(() => {
-    getCourses?.getCourses();
-  }, [courseCreate?.data, courseEdit?.data, courseDelete?.data]);
-
-  useEffect(() => {
     const query: IGetCoursesParams = {};
 
-    if (params.filter.course) query.id = +params.filter.course;
-    if (params.filter.teacher) query.teacher = +params.filter.teacher;
-    if (params.filter.group) query.groups = +params.filter.group;
-    if (params.filter.isCompulsory === 'true' || params.filter.isCompulsory === 'false') {
-      query.isCompulsory = params.filter.isCompulsory === 'true';
-    }
-    if (params.pagination.currentPage) query.page = params.pagination.currentPage;
-    if (params.pagination.itemsPerPage) query.limit = params.pagination.itemsPerPage;
+    if (courseId) query.id = courseId;
+    if (groupId) query.groups = groupId;
+    if (teacherId) query.teacher = teacherId;
+    if (isCompulsory === 'true' || isCompulsory === 'false') query.isCompulsory = isCompulsory === 'true';
+    if (currentPage) query.page = currentPage;
+    if (itemsPerPage) query.limit = itemsPerPage;
 
     getCourses?.getCourses(query);
-  }, [params.filter.course,
-    params.filter.teacher,
-    params.filter.group,
-    params.filter.isCompulsory,
-    params.pagination.currentPage,
-    params.pagination.itemsPerPage]);
+  }, [courseId, groupId, teacherId, isCompulsory, currentPage,
+    itemsPerPage, courseCreate?.data, courseEdit?.data, courseDelete?.data]);
+
   useEffect(() => {
     if (getCourses?.data) {
-      setParams({ ...params, pagination: getCourses.data.meta });
+      setPagination(getCourses.data.meta);
+      setData(getCourses.data.items);
       setDataRow(getCourses?.data?.items.map((item: IGetCoursesData) => ({
         list: [
           { id: 1, label: item.name },
@@ -111,22 +103,7 @@ const Courses = (): JSX.Element => {
           { id: 8, label: item.isCompulsory ? "Обов'язковий" : "Не обов'язковий" },
           {
             id: 9,
-            label: (
-              <div className={pagesStyle.actions}>
-                <Button
-                  onClick={() => setIsActiveModal({ ...isActiveModal, edit: item.id })}
-                  isImg
-                >
-                  <Edit />
-                </Button>
-                <Button
-                  onClick={() => setIsActiveModal({ ...isActiveModal, delete: item.id })}
-                  isImg
-                >
-                  <Delete />
-                </Button>
-              </div>
-            ),
+            label: <EditAndDelete isActiveModal={isActiveModal} setIsActiveModal={setIsActiveModal} itemId={item.id} />,
           },
         ],
         key: item.id,
@@ -137,94 +114,89 @@ const Courses = (): JSX.Element => {
   return (
     <Layout>
       <div>
-        <TitlePage
-          title="Предмети"
-          action={(
-            <Button
-              nameClass="primary"
-              size="large"
-              className={pagesStyle.buttonsCreate}
-              onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
-            >
-              Створити
-            </Button>
-          )}
-        />
+        {isDesktop && (
+          <>
+            <TitlePage
+              title="Предмети"
+              action={(
+                <Button
+                  nameClass="primary"
+                  className={pagesStyle.buttonsCreate}
+                  size="large"
+                  onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
+                >
+                  Створити
+                </Button>
+              )}
+            />
+            <DesktopTable
+              filter={(
+                <CoursesFilters
+                  courseId={courseId}
+                  groupId={groupId}
+                  teacherId={teacherId}
+                  isCompulsory={isCompulsory}
+                />
+)}
+              dataHeader={dataHeader}
+              dataRow={dataRow}
+              className={styles.columns}
+              totalItems={pagination.totalItems}
+            />
+          </>
+        )}
+        {(isTablet || isPhone) && (
+          <>
+            <TitlePage
+              title="Предмети"
+              {...isPhone && ({ setIsActiveModal })}
+              {...isPhone && ({ isActiveModal: !!isActiveModal.filter })}
+              action={(
+                <Button
+                  nameClass="primary"
+                  className={pagesStyle.buttonsCreate}
+                  size="large"
+                  onClick={() => setIsActiveModal({ create: true })}
+                >
+                  Створити
+                </Button>
+              )}
+            />
+            {isTablet && (
+              <TableFilter filter={(
+                <CoursesFilters
+                  courseId={courseId}
+                  groupId={groupId}
+                  teacherId={teacherId}
+                  isCompulsory={isCompulsory}
+                />
+                )}
+              />
+            )}
+            <MobileElementListCourses
+              data={data}
+              isActiveModal={isActiveModal}
+              setIsActiveModal={setIsActiveModal}
+            />
+          </>
+        )}
 
-        <Table
-          filter={(
-            <>
-              <SelectCourse
-                type="filter"
-                placeholder="Предмет"
-                onChange={(value) => setParams({
-                  ...params,
-                  filter: { ...params.filter, course: value },
-                  pagination: initialPagination,
-                })}
-                value={params.filter.course}
-                isClearable
-                isSearchable
-                isFilter
-              />
-              <SelectTeacher
-                type="filter"
-                placeholder="Викладач"
-                onChange={(value) => setParams({
-                  ...params,
-                  filter: { ...params.filter, teacher: value },
-                  pagination: initialPagination,
-                })}
-                value={params.filter.teacher}
-                isClearable
-                isSearchable
-                isFilter
-              />
-              <SelectGroupById
-                type="filter"
-                placeholder="Групи"
-                onChange={(value) => setParams({
-                  ...params,
-                  filter: { ...params.filter, group: value },
-                  pagination: initialPagination,
-                })}
-                value={params.filter.group}
-                isClearable
-                isSearchable
-                isFilter
-              />
-              <SelectCompulsory
-                type="filter"
-                placeholder="Вид проведення"
-                onChange={(value) => setParams({
-                  ...params,
-                  filter: { ...params.filter, isCompulsory: value },
-                  pagination: initialPagination,
-                })}
-                value={params.filter.isCompulsory}
-                isClearable
-                isSearchable
-                isFilter
-              />
-            </>
-          )}
-          dataHeader={dataHeader}
-          dataRow={dataRow}
-          gridColumns={styles.columns}
-          pagination={params.pagination}
-        />
+        <PhoneFilter isActive={!!isActiveModal.filter} closeModal={closeModal}>
+          <CoursesFilters courseId={courseId} groupId={groupId} teacherId={teacherId} isCompulsory={isCompulsory} />
+        </PhoneFilter>
+
         <CourseCreateModal
-          modalActive={isActiveModal.create}
+          modalActive={!!isActiveModal.create}
           closeModal={closeModal}
         />
         <CourseEditModal
           modalActive={!!isActiveModal.edit}
-          studentId={isActiveModal.edit}
+          studentId={+isActiveModal.edit}
           closeModal={closeModal}
         />
         <CourseDeleteModal
           modalActive={!!isActiveModal.delete}
-          Id={isActiveModal.delete}
+          Id={+isActiveModal.delete}
           closeModal={closeModal}
         />
       </div>

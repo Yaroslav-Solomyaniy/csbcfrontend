@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import ModalWindow from '../../../../components/common/ModalWindow';
-import pagesStyle from '../../../pagesStyle.module.scss';
-import ModalInput from '../../../../components/common/ModalInput';
-import ModalControlButtons from '../../../../components/common/ModalControlButtons';
 import { useCuratorContext } from '../../../../context/curators';
 import { ICreateModal } from '../../../../types';
 
-import { Email, EmailValidation, LettersAndNumbersEnUa } from '../../../../types/regExp';
+import { Email } from '../../../../types/regExp';
 import { useMessagesContext } from '../../../../context/messagesContext';
 import { IUserCreateParams } from '../../../../hooks/useUser';
-import AdministratorsForm from '../../../Administrators/ModalWindow/form/Create&Edit';
 import MobileModalWindow from '../../../../components/common/MobileModalWindow';
 import { useDeviceContext } from '../../../../context/TypeDevice';
 import CuratorsForm from '../form/create&edit';

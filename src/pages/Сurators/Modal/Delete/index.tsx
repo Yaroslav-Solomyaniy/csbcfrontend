@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import pagesStyle from '../../../pagesStyle.module.scss';
 import ModalWindow from '../../../../components/common/ModalWindow';
-import ModalControlButtons from '../../../../components/common/ModalControlButtons';
 import { IDeleteModal } from '../../../../types';
 import { useCuratorContext } from '../../../../context/curators';
 import { useMessagesContext } from '../../../../context/messagesContext';
-import AdministratorsDeleteForm from '../../../Administrators/ModalWindow/form/Delete';
 import MobileModalWindow from '../../../../components/common/MobileModalWindow';
 import { useDeviceContext } from '../../../../context/TypeDevice';
 import CuratorsDeleteForm from '../form/delete';

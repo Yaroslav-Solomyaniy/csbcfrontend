@@ -38,7 +38,7 @@ const TitlePage = ({ title, action, setIsActiveModal }: ITitlePage):JSX.Element 
             <Filter />
             {title}
           </h1>
-          {action ? <div className={styles.isAction}>{action}</div> : { action }}
+          {action && <div className={styles.isAction}>{action}</div> }
         </div>
       )}
     </>

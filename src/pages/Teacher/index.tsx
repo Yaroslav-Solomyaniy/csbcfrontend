@@ -16,6 +16,12 @@ import MobileElementListTeacherPage from './components/MobileElementListTeacherP
 import FilterTeacherPage from './components/FilterTeacherPage';
 import TableFilter from '../../components/common/table/TableFilter';
 import { EditAndHistory } from '../../components/common/GroupButtons';
+import Button from '../../components/common/Button';
+import pagesStyle from '../pagesStyle.module.scss';
+import AdministratorsFilters from '../Administrators/Components/AdministratorsFilters';
+import MobileElementListAdministrators from '../Administrators/Components/MobileElementListAdministrators';
+import PhoneFilter from '../../components/common/PhoneFilter';
+import { useQueryParam } from '../../hooks/useUrlParams';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІБ' },
@@ -31,29 +37,23 @@ const TeacherPageModalState: Record<string, number | boolean> = {
   filter: false,
 };
 
-interface Filter {
-  student: string;
-  group: string;
-  course: string;
-}
-
-export interface IParams {
-  filter: Filter;
-  pagination: Pagination;
-}
-
 const TeacherPage = (): JSX.Element => {
-  const { teacherDataGet, teacherEditRating } = useTeacherPageContext();
-  const { gradesEdit } = useEstimatesContext();
-  const { isDesktop, isTablet, isPhone } = useDeviceContext();
-
-  const [params, setParams] = useState<IParams>({
-    filter: { student: '', group: '', course: '' },
-    pagination: initialPagination,
-  });
   const [isActiveModal, setIsActiveModal] = useState<Record<string, number | boolean>>(TeacherPageModalState);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
   const [formData, setFormData] = useState<IGetPageTeacherData[]>();
+  const [pagination, setPagination] = useState<Pagination>({ ...initialPagination });
+  const [data, setData] = useState<IGetPageTeacherData[]>();
+
+  const { teacherDataGet, teacherEditRating } = useTeacherPageContext();
+  const { gradesEdit } = useEstimatesContext();
+  const { isDesktop, isTablet, isPhone } = useDeviceContext();
+  const { get } = useQueryParam();
+
+  const groupId = Number(get('groupId'));
+  const studentId = Number(get('studentId'));
+  const courseId = Number(get('courseId'));
+  const currentPage = Number(get('currentPage')) || 1;
+  const itemsPerPage = Number(get('itemsPerPage')) || 10;
 
   const closeModal = () => {
     setIsActiveModal(TeacherPageModalState);
@@ -62,25 +62,26 @@ const TeacherPage = (): JSX.Element => {
   useEffect(() => {
     const query: IGetPageTeacherParams = {};
 
-    if (params.filter.student) query.studentId = +params.filter.student;
-    if (params.filter.group) query.groupId = +params.filter.group;
-    if (params.filter.course) query.courseId = +params.filter.course;
+    if (studentId) query.studentId = studentId;
+    if (groupId) query.groupId = groupId;
+    if (courseId) query.courseId = courseId;
 
-    if (params.pagination.currentPage) query.page = params.pagination.currentPage;
-    if (params.pagination.itemsPerPage) query.limit = params.pagination.itemsPerPage;
+    if (currentPage) query.page = currentPage;
+    if (itemsPerPage) query.limit = itemsPerPage;
 
     teacherDataGet?.pageTeacherGet(query);
-  }, [params.filter.group,
-    teacherEditRating?.data,
-    gradesEdit?.data,
-    params.filter.course,
-    params.filter.student,
-    params.pagination.currentPage,
-    params.pagination.itemsPerPage]);
+  }, [teacherEditRating?.data,
+    gradesEdit?.data, groupId,
+    studentId,
+    courseId,
+    currentPage,
+    itemsPerPage,
+  ]);
 
   useEffect(() => {
     if (teacherDataGet?.data) {
-      setParams({ ...params, pagination: teacherDataGet.data.meta });
+      setPagination(teacherDataGet.data.meta);
+      setData(teacherDataGet.data.items);
       setDataRow(teacherDataGet?.data?.items.map((item: IGetPageTeacherData) => ({
         list: [
           {
@@ -111,57 +112,55 @@ const TeacherPage = (): JSX.Element => {
       <div>
         {isDesktop && (
           <>
-            <TitlePage title="Студенти" />
+            <TitlePage title="Студенти" action={undefined} />
             <DesktopTable
+              filter={(<FilterTeacherPage studentId={studentId} groupId={groupId} courseId={courseId} />)}
               dataHeader={dataHeader}
               dataRow={dataRow}
               className={styles.columns}
+              totalItems={pagination.totalItems}
             />
           </>
         )}
-        {isTablet && (
-          <>
-            <TitlePage title="Студенти" />
-            <TableFilter filter={<FilterTeacherPage value={params} setParams={setParams} />} />
-            <MobileElementListTeacherPage
-              formData={formData}
-              isActiveModal={isActiveModal}
-              setIsActiveModal={setIsActiveModal}
-            />
-          </>
-        )}
-        {isPhone && (
+        {(isTablet || isPhone) && (
           <>
             <TitlePage
               title="Студенти"
-              setIsActiveModal={setIsActiveModal}
-              isActiveModal={!!isActiveModal.filter}
+              {...isPhone && ({ setIsActiveModal })}
+              {...isPhone && ({ isActiveModal: !!isActiveModal.filter })}
+              action={undefined}
             />
+            {isTablet && (
+            <TableFilter filter={(
+              <FilterTeacherPage
+                studentId={studentId}
+                groupId={groupId}
+                courseId={courseId}
+              />
+)}
+            />
+            )}
             <MobileElementListTeacherPage
-              formData={formData}
+              data={data}
               isActiveModal={isActiveModal}
               setIsActiveModal={setIsActiveModal}
             />
           </>
         )}
+        <PhoneFilter isActive={!!isActiveModal.filter} closeModal={closeModal}>
+          <FilterTeacherPage studentId={studentId} groupId={groupId} courseId={courseId} />
+        </PhoneFilter>
+        <TeacherRatingEdit
+          modalActive={!!isActiveModal.edit}
+          studentId={isActiveModal.edit as number}
+          closeModal={closeModal}
+        />
+        <TeacherRatingHistory
+          modalActive={!!isActiveModal.history}
+          Id={isActiveModal.history as number}
+          closeModal={closeModal}
+        />
       </div>
-
-      {/* <PhoneFilter */}
-      {/*  isActive={!!isActiveModal.filter} */}
-      {/*  params={params} */}
-      {/*  setParams={setParams} */}
-      {/*  closeModal={closeModal} */}
-      {/* /> */}
-      <TeacherRatingEdit
-        modalActive={!!isActiveModal.edit}
-        studentId={isActiveModal.edit as number}
-        closeModal={closeModal}
-      />
-      <TeacherRatingHistory
-        modalActive={!!isActiveModal.history}
-        Id={isActiveModal.history as number}
-        closeModal={closeModal}
-      />
     </Layout>
   );
 };

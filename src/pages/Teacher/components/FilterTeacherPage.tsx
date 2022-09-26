@@ -1,63 +1,52 @@
 import React from 'react';
 import SelectStudent from '../../../components/common/Select/SelectStudent';
-import { initialPagination } from '../../../types';
 import SelectGroupById from '../../../components/common/Select/SelectGroupById';
 import SelectCourse from '../../../components/common/Select/SelectCourse';
-import { IParams } from '../index';
+import { useQueryParam } from '../../../hooks/useUrlParams';
 
 interface IFilterTeacherPage{
-value: IParams;
-setParams:(newValue:IParams) => void;
+studentId: number;
+groupId: number;
+courseId: number;
 }
 
-const FilterTeacherPage = ({ value, setParams }:IFilterTeacherPage):JSX.Element => (
-  <>
-    <SelectStudent
-      type="filter"
-      placeholder="ПІБ"
-      onChange={(newValue) => setParams(
-        { ...value,
-          filter: { ...value.filter, student: newValue },
-          pagination: initialPagination,
-        },
-      )}
-      value={value.filter.student}
-      isClearable
-      isSearchable
-      isTeacher
-      isFilter
-    />
-    <SelectGroupById
-      type="filter"
-      placeholder="Група"
-      onChange={(newValue) => setParams(
-        { ...value,
-          filter: { ...value.filter, group: newValue },
-          pagination: initialPagination,
-        },
-      )}
-      value={value.filter.group}
-      isClearable
-      isSearchable
-      isTeacher
-      isFilter
-    />
-    <SelectCourse
-      type="filter"
-      placeholder="Предмет"
-      onChange={(newValue) => setParams(
-        { ...value,
-          filter: { ...value.filter, course: newValue },
-          pagination: initialPagination,
-        },
-      )}
-      value={value.filter.course}
-      isClearable
-      isSearchable
-      isTeacher
-      isFilter
-    />
-  </>
-);
+const FilterTeacherPage = ({ studentId, groupId, courseId }:IFilterTeacherPage):JSX.Element => {
+  const { post } = useQueryParam();
+
+  return (
+    <>
+      <SelectStudent
+        type="filter"
+        placeholder="ПІБ"
+        onChange={(value) => post({ studentId: value, currentPage: 1 })}
+        value={studentId}
+        isClearable
+        isSearchable
+        isTeacher
+        isFilter
+      />
+      <SelectGroupById
+        type="filter"
+        placeholder="Група"
+        onChange={(value) => post({ groupId: value, currentPage: 1 })}
+        value={groupId}
+        isClearable
+        isSearchable
+        isTeacher
+        isFilter
+      />
+      <SelectCourse
+        type="filter"
+        placeholder="Предмет"
+        onChange={(value) => post({ courseId: value, currentPage: 1 })}
+        value={courseId}
+        isClearable
+        isSearchable
+        isTeacher
+        isFilter
+      />
+    </>
+  );
+};
 
 export default FilterTeacherPage;

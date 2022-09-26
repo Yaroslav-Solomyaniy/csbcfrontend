@@ -3,17 +3,17 @@ import { IGetPageTeacherData } from '../../../hooks/usePageTeacher';
 import MobileElementTeacherPage from './MobileElementTeacherPage';
 
 interface IMobileElementListTeacherPage{
-  formData: IGetPageTeacherData[] | undefined;
+  data: IGetPageTeacherData[] | undefined;
   isActiveModal: Record<string, number | boolean>;
   setIsActiveModal: (value: Record<string, number | boolean>) => void;
 }
-const MobileElementListTeacherPage = ({ formData,
+const MobileElementListTeacherPage = ({ data,
   isActiveModal,
   setIsActiveModal,
 }:IMobileElementListTeacherPage):JSX.Element => (
   // eslint-disable-next-line react/jsx-no-useless-fragment
   <>
-    {formData?.map((item: IGetPageTeacherData) => (
+    {data?.map((item: IGetPageTeacherData) => (
       <MobileElementTeacherPage
         key={item.id}
         id={item.id}

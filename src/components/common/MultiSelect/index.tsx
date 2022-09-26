@@ -1,9 +1,8 @@
 import React from 'react';
-import ReactSelect from 'react-select';
-
-import clsx from 'clsx';
 import { Option, SelectType } from '../../../types';
-import styles from './index.module.scss';
+import { useDeviceContext } from '../../../context/TypeDevice';
+import DesktopMultiSelect from './typeDisplay/Desktop';
+import AdaptiveMultiSelect from './typeDisplay/Adaptive';
 
 interface MultiSelect {
   options: Option[];
@@ -18,99 +17,6 @@ interface MultiSelect {
   isClearable?: boolean;
 }
 
-const Styles: any = {
-  modal: {
-    control: (provided: any) => ({
-      ...provided,
-      background: '#fff',
-      border: '1px solid rgba(0, 0, 0, 0.1)',
-      minHeight: 25,
-      boxSizing: 'border-box',
-      borderRadius: '8px',
-      marginTop: 16,
-      color: 'rgba(0, 0, 0, 0.75)',
-      boxShadow: 'none',
-      '&:hover': {
-        border: '1px solid rgba(39, 111, 173, 1)',
-      },
-      '&:focus': {
-        border: '1px solid rgba(39, 111, 173, 1)',
-      },
-      '&:active': {
-        border: '1px solid rgba(39, 111, 173, 1)',
-      },
-    }),
-    multiValue: (base: any) => ({
-      ...base,
-      backgroundColor: 'white',
-      fontSize: '14px',
-      border: '1px solid rgba(66, 139, 202, 1)',
-      overflow: 'hidden',
-      borderRadius: 4,
-      margin: '2px 2px',
-      minWidth: '45%',
-      width: 'auto',
-      display: 'flex',
-      justifyContent: 'space-Between',
-    }),
-    multiValueLabel: (base: any) => ({
-      ...base,
-      /* padding: '2px 5px', */
-      backgroundColor: 'white',
-
-    }),
-    multiValueRemove: (base: any) => ({
-      ...base,
-      color: 'rgba(0, 0, 0, 0.75)',
-      '&:hover': {
-        color: 'rgba(39, 111, 173, 1)',
-      },
-    }),
-    menu: (base: any) => ({
-      ...base,
-      background: '#FEFEFE',
-      overflow: 'hidden',
-    }),
-    menuList: (base: any) => ({
-      ...base,
-      background: '#FEFEFE',
-    }),
-
-    valueContainer: (provided: any) => ({
-      ...provided,
-      padding: '0 15px',
-    }),
-    indicatorSeparator: (provided: any) => ({
-      ...provided,
-      display: 'none',
-    }),
-    indicatorsContainer: (provided: any) => ({
-      ...provided,
-      minHeight: 30,
-      maxHeight: 30,
-    }),
-    input: (provided: any) => ({
-      ...provided,
-      margin: '0px',
-      padding: '0',
-    }),
-    clearIndicator: (provided: any) => ({
-      ...provided,
-      '&:hover': {
-        backgroundColor: 'transparent',
-        color: 'rgba(45, 112, 169, 1)',
-      },
-    }),
-    dropdownIndicator: (provided: any) => ({
-      ...provided,
-      '&:hover': {
-        backgroundColor: 'transparent',
-        color: 'rgba(45, 112, 169, 1)',
-      },
-    }),
-  },
-};
-
 const MultiSelect = ({
   label,
   options,
@@ -122,36 +28,42 @@ const MultiSelect = ({
   isSearchable,
   isClearable,
   type,
-}: MultiSelect): JSX.Element => (
+}: MultiSelect): JSX.Element => {
+  const { isDesktop, isTablet, isPhone } = useDeviceContext();
 
-  <div className={styles.wrap}>
-    {label && (
-    <label className={clsx(styles.label, error && styles.error_label)}>
-      {label}
-      {required && <span className={styles.required}>*</span>}
-    </label>
-    )}
-    <div className={styles.selectWrap}>
-      <ReactSelect
-        styles={Styles[type]}
-        isSearchable={isSearchable}
-        className={styles.select}
-        options={options}
-        placeholder={placeholder}
-        isClearable={isClearable}
-        noOptionsMessage={() => 'Нічого не знайдено'}
-        value={options.filter((option) => value.includes(`${option.value}`))}
-        onChange={(newValue) => onChange(newValue ? newValue as Option[] : [])}
-        isMulti
-      />
-      {error && (
-      <div className={styles.error}>
-        <div className={styles.textError}>{error}</div>
-      </div>
+  return (
+    <>
+      {isDesktop && (
+        <DesktopMultiSelect
+          label={label}
+          required={required}
+          error={error}
+          type={type}
+          isSearchable={isSearchable}
+          options={options}
+          placeholder={placeholder}
+          isClearable={isClearable}
+          value={value}
+          onChange={onChange}
+        />
       )}
-    </div>
-  </div>
-);
+      {(isTablet || isPhone) && (
+        <AdaptiveMultiSelect
+          label={label}
+          required={required}
+          error={error}
+          type={type}
+          isSearchable={isSearchable}
+          options={options}
+          placeholder={placeholder}
+          isClearable={isClearable}
+          value={value}
+          onChange={onChange}
+        />
+      )}
+    </>
+  );
+};
 
 MultiSelect.defaultProps = {
   label: '',

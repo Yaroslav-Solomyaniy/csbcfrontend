@@ -16,10 +16,6 @@ import MobileElementListTeacherPage from './components/MobileElementListTeacherP
 import FilterTeacherPage from './components/FilterTeacherPage';
 import TableFilter from '../../components/common/table/TableFilter';
 import { EditAndHistory } from '../../components/common/GroupButtons';
-import Button from '../../components/common/Button';
-import pagesStyle from '../pagesStyle.module.scss';
-import AdministratorsFilters from '../Administrators/Components/AdministratorsFilters';
-import MobileElementListAdministrators from '../Administrators/Components/MobileElementListAdministrators';
 import PhoneFilter from '../../components/common/PhoneFilter';
 import { useQueryParam } from '../../hooks/useUrlParams';
 
@@ -131,14 +127,14 @@ const TeacherPage = (): JSX.Element => {
               action={undefined}
             />
             {isTablet && (
-            <TableFilter filter={(
-              <FilterTeacherPage
-                studentId={studentId}
-                groupId={groupId}
-                courseId={courseId}
+              <TableFilter filter={(
+                <FilterTeacherPage
+                  studentId={studentId}
+                  groupId={groupId}
+                  courseId={courseId}
+                />
+              )}
               />
-)}
-            />
             )}
             <MobileElementListTeacherPage
               data={data}

@@ -71,9 +71,9 @@ const Teachers = (): JSX.Element => {
         let srt = '';
 
         subject.groups.forEach((group) => {
-          srt += `${group.name}`;
+          srt += `${group.name}, `;
         });
-        arr.group.push(srt);
+        arr.group.push(srt.slice(0, -2));
       });
 
       return {

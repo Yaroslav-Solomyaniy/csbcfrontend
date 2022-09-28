@@ -15,8 +15,8 @@ import { useEstimatesContext } from '../../context/estimates';
 import { IGetGradesData, IGetGradesParams } from '../../hooks/useEstimates';
 import SelectSemester from '../../components/common/Select/SelectSemester';
 import EstimatesEdit from './modal/EstimatesEdit/index';
-import EstimatesHistory from './modal/EstimatesHystory';
 import { Download, Edit, History } from '../../components/common/Icon';
+import EstimatesHistory from './modal/EstimatesHystory';
 
 interface IIsActiveGradesModal {
   openHistory: boolean;

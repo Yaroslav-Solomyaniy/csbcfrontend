@@ -38,12 +38,13 @@ const infoRowInitialization: typeInfoStudent = {
 };
 
 interface ITeacherRatingHistory {
+  semester?: string;
   modalActive: boolean;
   closeModal: () => void;
   Id: number;
 }
 
-export const TeacherRatingHistory = ({ modalActive, closeModal, Id }: ITeacherRatingHistory): JSX.Element => {
+export const TeacherRatingHistory = ({ modalActive, closeModal, Id, semester }: ITeacherRatingHistory): JSX.Element => {
   const [infoRow, setInfoRow] = useState<typeInfoStudent>(infoRowInitialization);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
   const [data, setData] = useState<IGradesHistories[]>([]);
@@ -85,7 +86,11 @@ export const TeacherRatingHistory = ({ modalActive, closeModal, Id }: ITeacherRa
   useEffect(
     () => {
       if (infoRow.studentId !== 0 && infoRow.courseId !== 0) {
-        getHistory?.getHistoryGrades({ studentId: infoRow.studentId, courseId: infoRow.courseId });
+        getHistory?.getHistoryGrades({
+          studentId: infoRow.studentId,
+          courseId: infoRow.courseId,
+          semester: semester ? +semester : undefined,
+        });
       }
     },
     [infoRow],
@@ -102,10 +107,12 @@ export const TeacherRatingHistory = ({ modalActive, closeModal, Id }: ITeacherRa
             { id: 1, label: moment(history.createdAt).format('DD.MM.yyyy') },
             { id: 2, label: history.grade },
             { id: 3, label: history.reasonOfChange },
-            { id: 4,
+            {
+              id: 4,
               label: `${history.userChanged.lastName}
              ${history.userChanged.firstName[0]}.
-             ${history.userChanged.patronymic[0]}.` },
+             ${history.userChanged.patronymic[0]}.`,
+            },
           ],
 
         }));
@@ -128,20 +135,24 @@ export const TeacherRatingHistory = ({ modalActive, closeModal, Id }: ITeacherRa
         </ModalWindow>
       )}
       {(isTablet || isPhone) && (
-      <MobileModalWindow isActive={modalActive}>
-        { modalActive ? disableBodyScroll(document.body) : enableBodyScroll(document.body) }
-        <RatingHistory
-          modalTitle="Історія змін оцінки"
-          infoRow={infoRow}
-          dataHeader={dataHeader}
-          dataRow={dataRow}
-          closeModal={handleClose}
-          data={data}
-        />
-      </MobileModalWindow>
+        <MobileModalWindow isActive={modalActive}>
+          {modalActive ? disableBodyScroll(document.body) : enableBodyScroll(document.body)}
+          <RatingHistory
+            modalTitle="Історія змін оцінки"
+            infoRow={infoRow}
+            dataHeader={dataHeader}
+            dataRow={dataRow}
+            closeModal={handleClose}
+            data={data}
+          />
+        </MobileModalWindow>
       )}
     </>
   );
+};
+
+TeacherRatingHistory.defaultProps = {
+  semester: undefined,
 };
 
 export default TeacherRatingHistory;

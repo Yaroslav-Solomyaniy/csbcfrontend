@@ -54,14 +54,19 @@ export const EstimatesHistory = ({ modalActive, closeModal, studentId, semester 
 
   useEffect(() => {
     if (studentId && semester) {
-      gradesHistoryGet?.getGradesHistory({ courseId: 2, semester: +semester }, studentId);
+      gradesHistoryGet?.getGradesHistory({ semester: +semester }, studentId);
     }
   }, [studentId, semester]);
 
   return (
     <ModalWindow modalTitle="Історія змін оцінки" active={modalActive} closeModal={handleClose}>
 
-      <h3 className={styles.subtitle}>!!!</h3>
+      <p className={styles.text}>
+        {`${gradesHistoryGet?.data?.user.lastName}
+      ${gradesHistoryGet?.data?.user.firstName}
+      ${gradesHistoryGet?.data?.user.patronymic}
+      , ${gradesHistoryGet?.data?.group.name}, ${semester} семестр`}
+      </p>
 
       <Table
         gridColumns={styles.columns}

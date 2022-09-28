@@ -28,7 +28,7 @@ const TableBody = ({
   <div className={clsx(isTableResult && styles.tableResult, isHistoryTable && styles.historyTable, styles.content)}>
     {dataRow.map(({ key, list }) => (
       <div
-        className={clsx(isTableResult && styles.body__row_noBorder, styles.body__row, gridColumns)}
+        className={clsx(styles.body__row, gridColumns)}
         key={key}
         style={isScroll ? {
           gridTemplateColumns: `16% 9% 9% repeat(${columScrollHorizontal}, ${
@@ -37,7 +37,14 @@ const TableBody = ({
         } : {}}
       >
         {list.map(({ id, label }) => (
-          <div className={clsx(styles.body__row__item, 'clip', isScroll && styles.body__row__item__scroll)} key={id}>
+          <div
+            className={clsx(
+              styles.body__row__item,
+              'clip',
+              isScroll && styles.body__row__item__scroll,
+            )}
+            key={id}
+          >
             {Array.isArray(label) ? (
               label.map((el) => (
                 <div className={clsx(styles.body__row__item__string, 'clip')} key={`${id}${el}`}>

@@ -62,7 +62,7 @@ export interface IGetParams {
   patronymic?: string;
   orderBy?: OrderBy;
   search?: string;
-  group?: string;
+  group?: number;
   orderNumber?: string;
   edeboId?: string;
   isFullTime?: boolean | null;
@@ -106,7 +106,7 @@ export interface IStudentCreateParams {
   user: IStudentCreateUser;
   orderNumber: string;
   edeboId: string;
-  isFullTime: boolean | undefined;
+  isFullTime: boolean | string | undefined;
 }
 
 interface IStudentCreateUser {

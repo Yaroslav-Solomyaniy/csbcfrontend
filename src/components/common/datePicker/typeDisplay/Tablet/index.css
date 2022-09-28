@@ -1,0 +1,49 @@
+.react-datepicker__input-container > input {
+  max-width: calc(406px - 32px);
+  width: 100%;
+  max-height: 42px;
+  height: 34px;
+  color: rgba(0, 0, 0, 0.75);
+  font-size: 14px;
+  padding: 4px 16px;
+  margin-top: 4px;
+  border-radius: 8px;
+}
+
+.react-datepicker__close-icon {
+  max-height: 42px;
+  height: 42px;
+  margin-top: 16px;
+  background: transparent;
+  color: black;
+}
+
+.react-datepicker__close-icon::after {
+  width: 0;
+  height: 42px;
+  color: black;
+  background: transparent;
+  padding: 0;
+  font-size: 25px;
+}
+.react-datepicker__day-name{
+  padding: 2px 3px;
+}
+.react-datepicker__day{
+  padding: 2px 3px;
+  border-radius: 8px;
+}
+.react-datepicker__day--selected{
+  background: rgba(66, 139, 202, 1);
+}
+
+.react-datepicker__month-select{
+  background: transparent;
+}
+.react-datepicker__year-select{
+  margin: 10px 20px;
+  background: transparent;
+}
+.react-datepicker__year-option:hover{
+  background: rgba(215, 231, 244, 1);
+}

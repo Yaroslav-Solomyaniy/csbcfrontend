@@ -37,14 +37,6 @@ const StudentsProvider = ({ children }: JSX.ElementChildrenAttribute): JSX.Eleme
   const studentEdit = useStudentEdit();
   const studentDelete = useStudentDelete();
 
-  useEffect(() => {
-    getStudents?.getStudents({});
-  }, [studentCreate?.data, studentEdit?.data, studentDelete?.data]);
-
-  useEffect(() => {
-    getStudents.getStudents({});
-  }, []);
-
   return (
     <StudentsContext.Provider value={{
       getStudents,

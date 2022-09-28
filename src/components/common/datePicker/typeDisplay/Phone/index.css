@@ -1,20 +1,18 @@
 .react-datepicker__input-container > input {
-  max-width: 248px;
+  max-width: calc(286px - 32px);
   width: 100%;
-  min-height: 22px;
-  height: 22px;
-  font-family: 'Helvetica'!important;
+  max-height: 42px;
+  height: 34px;
   color: rgba(0, 0, 0, 0.75);
-  max-height: 22px;
   font-size: 14px;
   padding: 4px 16px;
-  margin-top: 16px;
+  margin-top: 4px;
   border-radius: 8px;
 }
 
 .react-datepicker__close-icon {
-  max-height: 30px;
-  height: 30px;
+  max-height: 42px;
+  height: 42px;
   margin-top: 16px;
   background: transparent;
   color: black;
@@ -22,7 +20,7 @@
 
 .react-datepicker__close-icon::after {
   width: 0;
-  height: 30px;
+  height: 42px;
   color: black;
   background: transparent;
   padding: 0;

@@ -4,6 +4,7 @@
 .tableResult{
   max-height: 170px;
   overflow-y: auto;
+
 }
 .historyTable{
   max-height: 50vh;
@@ -13,11 +14,6 @@
 .body__row {
   display: grid;
   background: rgba(255, 255, 255, 1);
-  &_noBorder{
-   &:last-child {
-     border-bottom: none;
-   }
- }
 
   &:hover {
     background: rgba(215, 231, 244, 1);

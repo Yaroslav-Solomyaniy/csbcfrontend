@@ -1,10 +1,8 @@
 import React from 'react';
-import DatePicker from 'react-datepicker';
-import clsx from 'clsx';
-import uk from 'date-fns/locale/uk';
-import styles from '../Select/typeDisplay/Desktop/DesktopSelect.module.scss';
-import 'react-datepicker/dist/react-datepicker.css';
-import './datePicker.css';
+import { useDeviceContext } from '../../../context/TypeDevice';
+import DesktopDatePicker from './typeDisplay/Desktop';
+import TabletDatePicker from './typeDisplay/Tablet';
+import PhoneDatePicker from './typeDisplay/Phone';
 
 interface IMyDatePicker {
   onChange: (date: Date | null) => void;
@@ -40,43 +38,72 @@ const MyDatePicker = ({
   showDisabledMonthNavigation,
   showTimeInput,
   timeInputLabel,
-}: IMyDatePicker): JSX.Element => (
-  <div className={styles.wrap}>
-    {label && (
-      <label className={clsx(styles.label, error && styles.error_label)}>
-        {label}
-        {required && <span className={styles.required}>*</span>}
-      </label>
-    )}
-    <div className={styles.selectWrap}>
-      {/* @ts-ignore as JSX.Element */}
-      <DatePicker
-        placeholderText={placeholder}
-        locale={uk}
-        selected={selected}
-        onChange={onChange}
-        showMonthDropdown={showMonthDropdown}
-        dateFormat={dateFormat}
-        showTimeSelect={showTimeSelect}
-        minDate={minDate}
-        timeIntervals={15}
-        maxDate={maxDate}
-        shouldCloseOnSelect={false}
-        showYearDropdown
-        dropdownMode="select"
-        showDisabledMonthNavigation={showDisabledMonthNavigation}
-        showTimeInput={showTimeInput}
-        timeFormat={timeFormat}
-        timeInputLabel={timeInputLabel}
-      />
-      {error && (
-        <div className={styles.error}>
-          <div className={styles.textError}>{error}</div>
-        </div>
+}: IMyDatePicker): JSX.Element => {
+  const { isPhone, isDesktop, isTablet } = useDeviceContext();
+
+  return (
+    <>
+      {isDesktop && (
+        <DesktopDatePicker
+          placeholder={placeholder}
+          label={label}
+          error={error}
+          required={required}
+          selected={selected}
+          onChange={onChange}
+          showMonthDropdown={showMonthDropdown}
+          dateFormat={dateFormat}
+          showTimeSelect={showTimeSelect}
+          minDate={minDate}
+          maxDate={maxDate}
+          showDisabledMonthNavigation={showDisabledMonthNavigation}
+          showTimeInput={showTimeInput}
+          timeFormat={timeFormat}
+          timeInputLabel={timeInputLabel}
+        />
       )}
-    </div>
-  </div>
-);
+      {isTablet && (
+        <TabletDatePicker
+          placeholder={placeholder}
+          label={label}
+          error={error}
+          required={required}
+          selected={selected}
+          onChange={onChange}
+          showMonthDropdown={showMonthDropdown}
+          dateFormat={dateFormat}
+          showTimeSelect={showTimeSelect}
+          minDate={minDate}
+          maxDate={maxDate}
+          showDisabledMonthNavigation={showDisabledMonthNavigation}
+          showTimeInput={showTimeInput}
+          timeFormat={timeFormat}
+          timeInputLabel={timeInputLabel}
+        />
+      )}
+      {isPhone && (
+        <PhoneDatePicker
+          placeholder={placeholder}
+          label={label}
+          error={error}
+          required={required}
+          selected={selected}
+          onChange={onChange}
+          showMonthDropdown={showMonthDropdown}
+          dateFormat={dateFormat}
+          showTimeSelect={showTimeSelect}
+          minDate={minDate}
+          maxDate={maxDate}
+          showDisabledMonthNavigation={showDisabledMonthNavigation}
+          showTimeInput={showTimeInput}
+          timeFormat={timeFormat}
+          timeInputLabel={timeInputLabel}
+        />
+      )}
+    </>
+
+  );
+};
 
 MyDatePicker.defaultProps = {
   placeholder: '',

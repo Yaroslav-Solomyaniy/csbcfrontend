@@ -29,14 +29,8 @@ const RatingEditForm = ({
         <div className={styles.subtitle}>
           {`${infoRow.lastName} ${infoRow.firstName} ${infoRow.patronymic}, ${infoRow.groupName}`}
         </div>
-        <div className={styles.subtitle}>
-          Предмет:
-          {infoRow.courseName}
-        </div>
-        <div className={styles.subtitle}>
-          Поточна оцінка:
-          {infoRow.grade}
-        </div>
+        <div className={styles.subtitle}>{`Предмет: ${infoRow.courseName}`}</div>
+        <div className={styles.subtitle}>{`Поточна оцінка: ${infoRow.grade}`}</div>
         <ModalInput
           onChange={(event) => {
             setFormData({ ...formData, grade: +event.target.value });

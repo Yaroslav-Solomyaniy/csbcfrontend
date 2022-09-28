@@ -10,7 +10,7 @@ import Button from '../../../../components/common/Button';
 import StudentsReviewEdit from '../StudentsReviewEdit';
 
 const dataHeader: ITableHeader[] = [
-  { id: 1, label: 'Нізва дисципліни' },
+  { id: 1, label: 'Назва дисципліни' },
   { id: 2, label: 'Викладач' },
   { id: 3, label: 'Кількість студентів' },
   { id: 4, label: 'Кількість аудиторних годин' },

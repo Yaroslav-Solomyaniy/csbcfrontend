@@ -2,7 +2,7 @@ import Select from '../index';
 import { SelectType } from '../../../../types';
 
 interface ISelectIsFullTime {
-  value: boolean | undefined;
+  value: string | boolean | undefined;
   onChange: (value: string) => void;
   type: SelectType;
   label?: string;
@@ -33,8 +33,8 @@ const SelectIsFullTime = ({
   isFilter,
 }: ISelectIsFullTime): JSX.Element => {
   const options = [
-    { value: 'Денна', label: 'Денна' },
-    { value: 'Заочна', label: 'Заочна' },
+    { value: 'true', label: 'Денна' },
+    { value: 'false', label: 'Заочна' },
   ];
 
   return (
@@ -42,7 +42,7 @@ const SelectIsFullTime = ({
       label={label}
       type={type}
       onChange={onChange}
-      value={value ? 'Денна' : value === undefined ? '' : 'Заочна'}
+      value={value}
       options={options}
       placeholder={placeholder}
       isSearchable={isSearchable}

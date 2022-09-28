@@ -33,7 +33,7 @@ const SelectCompulsory = ({
   menuPlace,
   isFilter,
 }: ISelectCompulsory): JSX.Element => {
-  const [options, setOptions] = useState<Option[]>([
+  const [options] = useState<Option[]>([
     {
       value: 'true',
       label: "Обов'язковий",

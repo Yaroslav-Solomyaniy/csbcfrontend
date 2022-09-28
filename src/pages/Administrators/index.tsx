@@ -36,7 +36,7 @@ const allCloseModalWindow:Record<string, number | boolean> = {
 };
 
 const Administrators = (): JSX.Element => {
-  const [isActiveModal, setIsActiveModal] = useState(allCloseModalWindow);
+  const [isActiveModal, setIsActiveModal] = useState<Record<string, number | boolean>>(allCloseModalWindow);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
   const [pagination, setPagination] = useState<Pagination>({ ...initialPagination });
   const [data, setData] = useState<IGetUserData[]>();

@@ -47,7 +47,7 @@ const RatingHistory = ({ infoRow, dataHeader, dataRow, closeModal, modalTitle, d
       </div>
       <ModalControlButtons
         handleClose={closeModal}
-        cancelButtonText="Назад"
+        cancelButtonText="Закрити"
       />
     </>
   );

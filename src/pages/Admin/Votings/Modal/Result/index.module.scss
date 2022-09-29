@@ -1,0 +1,33 @@
+
+.BlockCourses {
+  margin-bottom: 30px;
+}
+.BlockCoursesNoResult{
+  padding: 100px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.BlockStudents{
+  overflow-y: auto;
+  max-height: 500px;
+  margin-bottom: 30px;
+}
+.Title {
+  margin-top: 16px;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 28px;
+}
+
+
+.columns {
+  grid-template-columns: repeat(3, 1fr);
+}
+.columnsStudents{
+  grid-template-columns: repeat(2, 1fr);
+}
+.columnsStudents{
+  grid-template-columns: repeat(2, 1fr);
+}

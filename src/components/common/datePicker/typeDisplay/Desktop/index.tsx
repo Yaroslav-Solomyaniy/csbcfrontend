@@ -5,6 +5,7 @@ import uk from 'date-fns/locale/uk';
 import styles from '../../../Select/typeDisplay/Desktop/DesktopSelect.module.scss';
 import 'react-datepicker/dist/react-datepicker.css';
 import './index.css';
+import '../datePickerComponentsStyles.css';
 
 interface IDesktopDatePicker {
   onChange: (date: Date | null) => void;
@@ -54,6 +55,7 @@ const DesktopDatePicker = ({
         locale={uk}
         selected={selected}
         onChange={onChange}
+        wrapperClassName="MyDatePickerDesktop"
         showMonthDropdown={showMonthDropdown}
         dateFormat={dateFormat}
         showTimeSelect={showTimeSelect}

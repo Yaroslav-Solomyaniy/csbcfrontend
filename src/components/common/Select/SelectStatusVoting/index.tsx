@@ -33,7 +33,7 @@ const SelectStatusVoting = ({
   menuPlace,
   isFilter,
 }: ISelectStatusVoting): JSX.Element => {
-  const [options, setOptions] = useState<Option[]>([
+  const [options] = useState<Option[]>([
     {
       value: 'Нове',
       label: 'Нове',
@@ -43,9 +43,18 @@ const SelectStatusVoting = ({
       label: 'У прогресі',
     },
     {
-      value: 'Закінчене',
-      label: 'Закінчене',
-    }]);
+      value: 'Потребує перегляду',
+      label: 'Потребує перегляду',
+    },
+    {
+      value: 'Переголосування у прогресі',
+      label: 'Переголосування у прогресі',
+    },
+    {
+      value: 'Переголосування закінчене',
+      label: 'Переголосування закінчене',
+    },
+  ]);
 
   return (
     <Select

@@ -5,6 +5,7 @@ import uk from 'date-fns/locale/uk';
 import styles from '../../../Select/typeDisplay/Adaptive/AdaptiveSelect.module.scss';
 import 'react-datepicker/dist/react-datepicker.css';
 import './index.css';
+import '../datePickerComponentsStyles.css';
 
 interface ITabletDatePicker {
   onChange: (date: Date | null) => void;
@@ -55,6 +56,7 @@ const TabletDatePicker = ({
         selected={selected}
         onChange={onChange}
         showMonthDropdown={showMonthDropdown}
+        wrapperClassName="MyDatePickerTablet"
         dateFormat={dateFormat}
         showTimeSelect={showTimeSelect}
         minDate={minDate}

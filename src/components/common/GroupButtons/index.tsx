@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './index.module.scss';
 import Button from '../Button';
-import { Delete, Edit, History, Review } from '../Icon';
+import { Approve, Delete, Edit, History, Review } from '../Icon';
 
 interface ITablesActions{
   children: React.ReactChild | React.ReactNode;
@@ -18,6 +18,36 @@ interface IGroupButton{
   setIsActiveModal:(value: Record<string, number | boolean>) => void;
   itemId: number;
 }
+
+export const EditDeleteReviewApprove = ({ isActiveModal, setIsActiveModal, itemId }:IGroupButton):JSX.Element => (
+  <TablesActions>
+    <Button
+      onClick={() => setIsActiveModal({ ...isActiveModal, edit: itemId })}
+      isImg
+    >
+      <Edit />
+    </Button>
+    <Button
+      onClick={() => setIsActiveModal({ ...isActiveModal, delete: itemId })}
+      isImg
+    >
+      <Delete />
+    </Button>
+    <Button
+      onClick={() => setIsActiveModal({ ...isActiveModal, result: itemId })}
+      isImg
+    >
+      <Review />
+    </Button>
+    <Button
+      onClick={() => setIsActiveModal({ ...isActiveModal, approve: itemId })}
+      isImg
+    >
+      <Approve />
+    </Button>
+  </TablesActions>
+);
+
 export const EditReviewDelete = ({ isActiveModal, setIsActiveModal, itemId }:IGroupButton):JSX.Element => (
   <TablesActions>
     <Button

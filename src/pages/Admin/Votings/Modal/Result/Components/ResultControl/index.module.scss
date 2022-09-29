@@ -1,0 +1,28 @@
+.statusVoting {
+  text-align: center;
+  margin: 15px 0;
+  font-size: 14px;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.75);
+}
+
+.blockControlButtons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 10px;
+  border-radius: 8px;
+}
+
+
+.revoteButton{
+  margin-left: 30px;
+}
+
+.leftButton{
+  border-radius: 8px 0 0 8px;
+}
+
+.rightButton{
+  border-radius: 0 8px 8px 0;
+}

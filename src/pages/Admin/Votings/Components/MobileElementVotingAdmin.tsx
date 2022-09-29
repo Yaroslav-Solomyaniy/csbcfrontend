@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useDeviceContext } from '../../../../context/TypeDevice';
-import PhoneElementBlock from '../../../../components/common/PhoneElementBlock';
+
 import styles from '../../../MobileElement.module.scss';
 import { EditDeleteReviewApprove } from '../../../../components/common/GroupButtons';
-import TableMenuControl from '../../../../components/common/TableMenuControl';
+import TableMenuControl from '../../../../components/common/AdaptiveTableModalButtons';
 import { IGetVotingAdminData } from '../../../../hooks/useVotingAdmin';
 
 interface IMobileElementVotingAdmin{
@@ -19,7 +19,7 @@ const MobileElementVotingAdmin = ({ obj,
   const [activeControl, setActiveControl] = useState<boolean>(false);
 
   return (
-    <PhoneElementBlock key={obj.id}>
+    <div key={obj.id}>
       <div className={styles.content}>
         <h1 className={styles.Tablet__title}>{obj.groups.map((group) => group.name).join(', ')}</h1>
         <h6 className={styles.Tablet__subtitle}>{`Дата початку: ${new Date(obj.startDate).toLocaleString()}`}</h6>
@@ -34,15 +34,11 @@ const MobileElementVotingAdmin = ({ obj,
         </div>
       )}
       {isPhone && (
-        <TableMenuControl
-          activeControl={activeControl}
-          setActiveControl={setActiveControl}
-          isActiveModal={isActiveModal}
-        >
+        <TableMenuControl>
           <EditDeleteReviewApprove isActiveModal={isActiveModal} setIsActiveModal={setIsActiveModal} itemId={obj.id} />
         </TableMenuControl>
       )}
-    </PhoneElementBlock>
+    </div>
   );
 };
 

@@ -40,30 +40,30 @@ const AppRoutes = () => {
             path="/"
             element={<GroupProvider><Group /></GroupProvider>}
           />
-          <Route
-            path="/students"
-            element={<StudentsProvider><Students /></StudentsProvider>}
-          />
-          <Route
-            path="/curators"
-            element={<CuratorsProvider><Curators /></CuratorsProvider>}
-          />
-          <Route
-            path="/teachers"
-            element={<TeachersProvider><Teachers /></TeachersProvider>}
-          />
-          <Route
-            path="/courses"
-            element={<CourseProvider><Courses /></CourseProvider>}
-          />
-          <Route
-            path="/estimates"
-            element={(<EstimatesProvider><Estimates /></EstimatesProvider>)}
-          />
-          <Route
-            path="/voting-admin"
-            element={<VotingAdminProvider><VotingAdmin /></VotingAdminProvider>}
-          />
+          {/* <Route */}
+          {/*  path="/students" */}
+          {/*  element={<StudentsProvider><Students /></StudentsProvider>} */}
+          {/* /> */}
+          {/* <Route */}
+          {/*  path="/curators" */}
+          {/*  element={<CuratorsProvider><Curators /></CuratorsProvider>} */}
+          {/* /> */}
+          {/* <Route */}
+          {/*  path="/teachers" */}
+          {/*  element={<TeachersProvider><Teachers /></TeachersProvider>} */}
+          {/* /> */}
+          {/* <Route */}
+          {/*  path="/courses" */}
+          {/*  element={<CourseProvider><Courses /></CourseProvider>} */}
+          {/* /> */}
+          {/* <Route */}
+          {/*  path="/estimates" */}
+          {/*  element={(<EstimatesProvider><Estimates /></EstimatesProvider>)} */}
+          {/* /> */}
+          {/* <Route */}
+          {/*  path="/voting-admin" */}
+          {/*  element={<VotingAdminProvider><VotingAdmin /></VotingAdminProvider>} */}
+          {/* /> */}
           <Route
             path="/administrators"
             element={<AdministratorsProvider><Administrators /></AdministratorsProvider>}
@@ -76,9 +76,9 @@ const AppRoutes = () => {
         <Route path="/voting-students" element={<StudentProvider><VotingStudents /></StudentProvider>} />
       </>
       )}
-      {user?.role === 'teacher' && (
-        <Route index element={<TeacherPageProvider><TeacherPage /></TeacherPageProvider>} />
-      )}
+      {/* {user?.role === 'teacher' && ( */}
+      {/*  <Route index element={<TeacherPageProvider><TeacherPage /></TeacherPageProvider>} /> */}
+      {/* )} */}
       {user?.role === 'curator' && (
         <Route index element={<Curator />} />
       )}

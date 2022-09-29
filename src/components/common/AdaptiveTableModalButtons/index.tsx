@@ -1,23 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
 import Button from '../Button';
 import styles from './styles.module.scss';
 import { Dots } from '../Icon';
 import useOnClickOutside from '../../../hooks/UseClickOutsideElement';
 
-interface IMobileElementMenuControl{
+interface IAdaptiveTableModalButtons{
 children: React.ReactNode | React.ReactChild;
-activeControl: boolean;
-setActiveControl: (value: boolean) => void;
-isActiveModal: Record<string, number | boolean>;
 }
 
-const MobileElementMenuControl = ({
-  children, activeControl, setActiveControl, isActiveModal }:IMobileElementMenuControl) => {
-  useEffect(() => {
-    setActiveControl(false);
-  }, [isActiveModal]);
-
+const AdaptiveTableModalButtons = ({ children }:IAdaptiveTableModalButtons) => {
+  const [activeControl, setActiveControl] = useState<boolean>(false);
   const control = React.useRef() as React.MutableRefObject<HTMLDivElement>;
 
   useOnClickOutside(control, () => setActiveControl(false));
@@ -37,4 +30,4 @@ const MobileElementMenuControl = ({
   );
 };
 
-export default MobileElementMenuControl;
+export default AdaptiveTableModalButtons;

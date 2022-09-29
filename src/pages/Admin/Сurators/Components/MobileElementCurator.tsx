@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useDeviceContext } from '../../../../context/TypeDevice';
-import PhoneElementBlock from '../../../../components/common/PhoneElementBlock';
+
 import styles from '../../../MobileElement.module.scss';
 import { EditAndDelete } from '../../../../components/common/GroupButtons';
-import TableMenuControl from '../../../../components/common/TableMenuControl';
+import TableMenuControl from '../../../../components/common/AdaptiveTableModalButtons';
 
 interface IMobileElementCurator{
   id: number;
@@ -28,7 +28,7 @@ const MobileElementCurator = ({ id,
   const [activeControl, setActiveControl] = useState<boolean>(false);
 
   return (
-    <PhoneElementBlock key={id}>
+    <div key={id}>
       <div className={styles.content}>
         <h1 className={styles.Tablet__title}>
           {`${lastName} ${firstName} ${patronymic}`}
@@ -46,15 +46,11 @@ const MobileElementCurator = ({ id,
         </div>
       )}
       {isPhone && (
-        <TableMenuControl
-          activeControl={activeControl}
-          setActiveControl={setActiveControl}
-          isActiveModal={isActiveModal}
-        >
+        <TableMenuControl>
           <EditAndDelete isActiveModal={isActiveModal} setIsActiveModal={setIsActiveModal} itemId={id} />
         </TableMenuControl>
       )}
-    </PhoneElementBlock>
+    </div>
   );
 };
 

@@ -1,19 +1,19 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import { Size } from '../types';
 import { useWindowSize } from '../hooks/useWindowSize';
 
 interface IDeviceContext {
   deviceSize: Size | null;
-  isDesktop: boolean | undefined;
-  isTablet: boolean | undefined;
-  isPhone: boolean | undefined;
+  isDesktop: boolean | null;
+  isTablet: boolean | null;
+  isPhone: boolean | null;
 }
 
 const defaultValue: IDeviceContext = {
   deviceSize: null,
-  isDesktop: undefined,
-  isTablet: undefined,
-  isPhone: undefined,
+  isDesktop: null,
+  isTablet: null,
+  isPhone: null,
 };
 
 export const DeviceContext = createContext<IDeviceContext>(defaultValue);
@@ -23,9 +23,9 @@ const DeviceSizeProvider: React.FC = ({ children }): JSX.Element => {
 
   return (
     <DeviceContext.Provider value={{ deviceSize,
-      isDesktop: deviceSize.width ? deviceSize.width >= 1200 : undefined,
-      isTablet: deviceSize.width ? deviceSize.width >= 768 && deviceSize.width < 1199 : undefined,
-      isPhone: deviceSize.width ? deviceSize.width < 768 : undefined }}
+      isDesktop: deviceSize.width ? deviceSize.width >= 1200 : null,
+      isTablet: deviceSize.width ? deviceSize.width >= 768 && deviceSize.width < 1199 : null,
+      isPhone: deviceSize.width ? deviceSize.width < 768 : null }}
     >
       {children}
     </DeviceContext.Provider>

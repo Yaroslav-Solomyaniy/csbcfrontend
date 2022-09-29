@@ -265,7 +265,6 @@ const Estimates = (): JSX.Element => {
           dataHeader={dataHeader}
           gridColumns={styles.columns}
           dataRow={dataRow}
-          pagination={initialPagination}
         />
         <EstimatesEdit
           modalActive={!!isActiveModal.studentEdit}

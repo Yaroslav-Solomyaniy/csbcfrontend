@@ -213,7 +213,7 @@ const Teachers = (): JSX.Element => {
           dataHeader={dataHeader}
           gridColumns={styles.columns}
           dataRow={dataRow}
-          pagination={params.pagination}
+
         />
         <TeacherCreateModal modalActive={isActiveModal.create} closeModal={closeModal} />
         <TeacherEditModal modalActive={!!isActiveModal.edit} closeModal={closeModal} studentId={isActiveModal.edit} />

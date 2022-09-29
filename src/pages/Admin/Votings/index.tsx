@@ -17,7 +17,7 @@ import VotingFilters from './Components/VotingFilters';
 import { useDeviceContext } from '../../../context/TypeDevice';
 import { useQueryParam } from '../../../hooks/useUrlParams';
 import { EditDeleteReviewApprove } from '../../../components/common/GroupButtons';
-import DesktopTable from '../../../components/common/table/DesktopTable';
+import ABC from '../../../components/common/table/ABC';
 import PhoneFilter from '../../../components/common/PhoneFilter';
 import MobileElementListVotingAdmin from './Components/MobileElementListVotingAdmin';
 import TableFilter from '../../../components/common/table/TableFilter';
@@ -127,7 +127,7 @@ const VotingAdmin = (): JSX.Element => {
                 </Button>
               )}
             />
-            <DesktopTable
+            <ABC
               filter={(<VotingFilters groupId={groupId} statusMessage={statusMessage} />)}
               dataHeader={dataHeader}
               dataRow={dataRow}

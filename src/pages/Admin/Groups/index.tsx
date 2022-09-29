@@ -18,7 +18,7 @@ import { useQueryParam } from '../../../hooks/useUrlParams';
 import PhoneFilter from '../../../components/common/PhoneFilter';
 import FilterPageGroup from './components/FilterPageGroup';
 import { useDeviceContext } from '../../../context/TypeDevice';
-import DesktopTable from '../../../components/common/table/DesktopTable';
+import ABC from '../../../components/common/table/ABC';
 import TableFilter from '../../../components/common/table/TableFilter';
 import MobileElementListGroupPageAdmin from './components/MobileElementListGroupPageAdmin';
 import { EditAndDelete } from '../../../components/common/GroupButtons';
@@ -117,7 +117,7 @@ const Group = (): JSX.Element => {
                 </Button>
             )}
             />
-            <DesktopTable
+            <ABC
               filter={(<FilterPageGroup group={group} curator={curator} />)}
               dataHeader={dataHeader}
               dataRow={dataRow}

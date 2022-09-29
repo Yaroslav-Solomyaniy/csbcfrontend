@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useDeviceContext } from '../../../../context/TypeDevice';
-import PhoneElementBlock from '../../../../components/common/PhoneElementBlock';
+
 import styles from '../../../MobileElement.module.scss';
 import { EditReviewDelete } from '../../../../components/common/GroupButtons';
-import TableMenuControl from '../../../../components/common/TableMenuControl';
+import TableMenuControl from '../../../../components/common/AdaptiveTableModalButtons';
 import { IStudentData } from '../../../../hooks/useStudents';
 
 interface IMobileElementStudents{
@@ -19,7 +19,7 @@ const MobileElementStudents = ({ obj,
   const [activeControl, setActiveControl] = useState<boolean>(false);
 
   return (
-    <PhoneElementBlock key={obj.id}>
+    <div key={obj.id}>
       <div className={styles.content}>
         <h1 className={styles.Tablet__title}>
           {`${obj.user.lastName} ${obj.user.firstName} ${obj.user.patronymic}`}
@@ -38,15 +38,11 @@ const MobileElementStudents = ({ obj,
         </div>
       )}
       {isPhone && (
-        <TableMenuControl
-          activeControl={activeControl}
-          setActiveControl={setActiveControl}
-          isActiveModal={isActiveModal}
-        >
+        <TableMenuControl>
           <EditReviewDelete isActiveModal={isActiveModal} setIsActiveModal={setIsActiveModal} itemId={obj.id} />
         </TableMenuControl>
       )}
-    </PhoneElementBlock>
+    </div>
   );
 };
 

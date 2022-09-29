@@ -15,7 +15,7 @@ import CuratorDeleteModal from './Modal/Delete';
 import { useDeviceContext } from '../../../context/TypeDevice';
 import { useQueryParam } from '../../../hooks/useUrlParams';
 import { EditAndDelete } from '../../../components/common/GroupButtons';
-import DesktopTable from '../../../components/common/table/DesktopTable';
+import ABC from '../../../components/common/table/ABC';
 import TableFilter from '../../../components/common/table/TableFilter';
 import CuratorsFilters from './Components/CuratorsFilters';
 import PhoneFilter from '../../../components/common/PhoneFilter';
@@ -102,7 +102,7 @@ const Curators = (): JSX.Element => {
                 </Button>
               )}
             />
-            <DesktopTable
+            <ABC
               filter={(<CuratorsFilters curatorId={curatorId} groupName={groupName} />)}
               dataHeader={dataHeader}
               dataRow={dataRow}

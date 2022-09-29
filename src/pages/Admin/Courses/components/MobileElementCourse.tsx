@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { IGetCoursesData } from '../../../../hooks/useCourses';
 import { useDeviceContext } from '../../../../context/TypeDevice';
-import PhoneElementBlock from '../../../../components/common/PhoneElementBlock';
+
 import styles from '../../../MobileElement.module.scss';
 import { EditAndDelete } from '../../../../components/common/GroupButtons';
-import TableMenuControl from '../../../../components/common/TableMenuControl';
+import TableMenuControl from '../../../../components/common/AdaptiveTableModalButtons';
 
 interface IMobileElementCourse{
   obj: IGetCoursesData;
@@ -17,7 +17,7 @@ const MobileElementCourse = ({ obj, isActiveModal, setIsActiveModal }:IMobileEle
   const [activeControl, setActiveControl] = useState<boolean>(false);
 
   return (
-    <PhoneElementBlock key={obj.id}>
+    <div key={obj.id}>
       <div className={styles.content}>
         <h1 className={styles.Tablet__title}>{obj.name}</h1>
         <h6 className={styles.Tablet__subtitle}>
@@ -44,15 +44,11 @@ const MobileElementCourse = ({ obj, isActiveModal, setIsActiveModal }:IMobileEle
         </div>
       )}
       {isPhone && (
-        <TableMenuControl
-          activeControl={activeControl}
-          setActiveControl={setActiveControl}
-          isActiveModal={isActiveModal}
-        >
+        <TableMenuControl>
           <EditAndDelete isActiveModal={isActiveModal} setIsActiveModal={setIsActiveModal} itemId={obj.id} />
         </TableMenuControl>
       )}
-    </PhoneElementBlock>
+    </div>
   );
 };
 

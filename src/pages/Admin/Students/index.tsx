@@ -16,7 +16,7 @@ import StudentsReview from './modal/StudentsReview';
 import { useQueryParam } from '../../../hooks/useUrlParams';
 import { useDeviceContext } from '../../../context/TypeDevice';
 import { EditReviewDelete } from '../../../components/common/GroupButtons';
-import DesktopTable from '../../../components/common/table/DesktopTable';
+import ABC from '../../../components/common/table/ABC';
 import TableFilter from '../../../components/common/table/TableFilter';
 import PhoneFilter from '../../../components/common/PhoneFilter';
 import StudentsFilters from './Components/StudentsFilters';
@@ -123,7 +123,7 @@ const Students = (): JSX.Element => {
                 </Button>
               )}
             />
-            <DesktopTable
+            <ABC
               filter={(<StudentsFilters studentId={studentId} groupId={groupId} isFullTime={isFullTime} />)}
               dataHeader={dataHeader}
               dataRow={dataRow}

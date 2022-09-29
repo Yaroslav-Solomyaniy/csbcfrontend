@@ -51,7 +51,6 @@ const StudentsReview = ({ modalActive, closeModal, id }: IStudentsReviewModal) =
             dataHeader={dataHeader}
             gridColumns={styles.content__columns}
             dataRow={[]}
-            pagination={initialPagination}
           />
           <div className={styles.content__subtitle}>
             <h1 className={styles.content__subtitle__h1}>Вибіркові предмети</h1>
@@ -70,7 +69,6 @@ const StudentsReview = ({ modalActive, closeModal, id }: IStudentsReviewModal) =
               dataHeader={dataHeader}
               gridColumns={styles.content__columns}
               dataRow={[]}
-              pagination={initialPagination}
             />
           </div>
 

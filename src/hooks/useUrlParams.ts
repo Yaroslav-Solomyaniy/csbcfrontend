@@ -20,7 +20,7 @@ export const useQueryParam = () => {
     [searchParams],
   );
 
-  const get = useCallback((key) => freshSearchParams[key], [freshSearchParams]);
+  const get = useCallback((key) => freshSearchParams[key], []);
 
   console.log(searchParams);
 

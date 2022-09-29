@@ -21,7 +21,7 @@ import { useDeviceContext } from '../../../context/TypeDevice';
 import { useQueryParam } from '../../../hooks/useUrlParams';
 import { EditAndDelete } from '../../../components/common/GroupButtons';
 import CoursesFilters from './components/CoursesFilters';
-import DesktopTable from '../../../components/common/table/DesktopTable';
+import ABC from '../../../components/common/table/ABC';
 import AdministratorsFilters from '../Admins/Components/AdministratorsFilters';
 import TableFilter from '../../../components/common/table/TableFilter';
 import MobileElementListAdministrators from '../Admins/Components/MobileElementListAdministrators';
@@ -129,7 +129,7 @@ const Courses = (): JSX.Element => {
                 </Button>
               )}
             />
-            <DesktopTable
+            <ABC
               filter={(
                 <CoursesFilters
                   courseId={courseId}

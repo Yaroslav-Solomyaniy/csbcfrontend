@@ -11,7 +11,7 @@ filter?: JSX.Element;
 totalItems?: number;
 }
 
-const DesktopTable = ({ totalItems, filter, dataHeader, dataRow, className }:IDesktopTable) => (
+const ABC = ({ totalItems, filter, dataHeader, dataRow, className }:IDesktopTable) => (
   <Table
     dataHeader={dataHeader}
     dataRow={dataRow}
@@ -21,9 +21,9 @@ const DesktopTable = ({ totalItems, filter, dataHeader, dataRow, className }:IDe
   />
 );
 
-DesktopTable.defaultProps = {
+ABC.defaultProps = {
   filter: undefined,
   totalItems: 0,
 };
 
-export default DesktopTable;
+export default ABC;

@@ -1,9 +1,6 @@
 .Dots {
   cursor: pointer;
-  position: absolute;
-  right: 30px;
-  top: 50%;
-  transform: translateY(-50%);
+  position: relative;
   background: transparent;
   font-size: 19px;
   transition: all 1s ease-in;
@@ -26,7 +23,6 @@
 }
 .ModalControlActive{
   right: 20px;
-  z-index: 300;
   transition: all .7s linear;
 
 }

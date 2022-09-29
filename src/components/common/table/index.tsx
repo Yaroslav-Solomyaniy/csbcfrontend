@@ -1,11 +1,9 @@
 import React from 'react';
-import clsx from 'clsx';
-import styles from './index.module.scss';
-import TableBody, { ITableRowItem } from './TableBody';
+import { ITableRowItem } from './TableBody';
 import TableFilter from './TableFilter';
-import TableHeader, { ITableHeader } from './TableHeader';
-import { Pagination } from '../../../types';
-import TableFooter from './TableFooter';
+import { ITableHeader } from './TableHeader';
+import { useDeviceContext } from '../../../context/TypeDevice';
+import DesktopTable from './typeDisplay/DesktopTable';
 
 interface ITable {
   dataHeader: ITableHeader[] | [];
@@ -16,7 +14,6 @@ interface ITable {
   isScroll?: boolean;
   isTableResult?: boolean;
   isHistoryTable?: boolean;
-  pagination?: Pagination;
   totalItems?: number;
 }
 
@@ -30,34 +27,27 @@ const Table = ({
   isHistoryTable,
   columScrollHorizontal,
   isScroll,
-}: ITable): JSX.Element => (
-  <>
-    <TableFilter filter={filter} />
-    <div className={styles.table}>
-      <div className={clsx(isScroll && styles.table__scroll)}>
-        <TableHeader
+}: ITable): JSX.Element => {
+  const { isPhone, isTablet, isDesktop } = useDeviceContext();
+
+  return (
+    <>
+      {(isDesktop || isTablet) && (<TableFilter filter={filter} />)}
+      {isDesktop && (
+        <DesktopTable
+          dataRow={dataRow}
           dataHeader={dataHeader}
           gridColumns={gridColumns}
           isScroll={isScroll}
+          isHistoryTable={isHistoryTable}
+          isTableResult={isTableResult}
           columScrollHorizontal={columScrollHorizontal}
+          totalItems={totalItems}
         />
-        {dataRow.length
-          ? (
-            <TableBody
-              columScrollHorizontal={columScrollHorizontal}
-              isScroll={isScroll}
-              dataRow={dataRow}
-              gridColumns={gridColumns}
-              isTableResult={isTableResult}
-              isHistoryTable={isHistoryTable}
-            />
-          )
-          : <div className={styles.table__not_found}>Нічого не знайдено</div>}
-      </div>
-      {!!dataRow.length && totalItems ? <TableFooter totalItems={totalItems} /> : ''}
-    </div>
-  </>
-);
+      )}
+    </>
+  );
+};
 
 Table.defaultProps = {
   pagination: null,

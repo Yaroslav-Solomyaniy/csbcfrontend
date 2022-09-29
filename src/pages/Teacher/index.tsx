@@ -11,7 +11,7 @@ import { useTeacherPageContext } from '../../context/pageTeacher';
 import { IGetPageTeacherData, IGetPageTeacherParams } from '../../hooks/usePageTeacher';
 import { useEstimatesContext } from '../../context/estimates';
 import { useDeviceContext } from '../../context/TypeDevice';
-import DesktopTable from '../../components/common/table/DesktopTable';
+import ABC from '../../components/common/table/ABC';
 import MobileElementListTeacherPage from './components/MobileElementListTeacherPage';
 import FilterTeacherPage from './components/FilterTeacherPage';
 import TableFilter from '../../components/common/table/TableFilter';
@@ -109,7 +109,7 @@ const TeacherPage = (): JSX.Element => {
         {isDesktop && (
           <>
             <TitlePage title="Студенти" action={undefined} />
-            <DesktopTable
+            <ABC
               filter={(<FilterTeacherPage studentId={studentId} groupId={groupId} courseId={courseId} />)}
               dataHeader={dataHeader}
               dataRow={dataRow}

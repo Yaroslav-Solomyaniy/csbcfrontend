@@ -3,12 +3,13 @@ import clsx from 'clsx';
 import logo from '../../images/logo.svg';
 import styles from './index.module.scss';
 import buttonNav from '../../images/buttonNav.svg';
-import { useAuthContext } from '../../context/useAuthContext';
-import useOnClickOutside from '../../hooks/UseClickOutsideElement';
-import { useDeviceContext } from '../../context/TypeDevice';
+import { AuthContext } from '../../context/All/AuthContext';
+import useOnClickOutside from '../../hooks/All/UseClickOutsideElement';
+import { DeviceContext } from '../../context/All/DeviceType';
 import Menu from './Menu/Menu';
 import DefaultMenuLink from '../Navigation/MenuNavigation/DefaultMenuLink';
 import Navigation from '../Navigation';
+import Button from '../common/Button';
 
 interface IHeader {
   setOpen: () => void;
@@ -18,8 +19,8 @@ interface IHeader {
 const Header = ({ setOpen, isRenderButtonMenu = true }: IHeader): JSX.Element => {
   const [navOpen, setNavOpen] = useState(true);
   const [dropMenuOpen, setDropMenuOpen] = useState(false);
-  const { logout, user } = useAuthContext();
-  const { isDesktop, isPhone, isTablet } = useDeviceContext();
+  const { logout, user } = AuthContext();
+  const { isDesktop, isPhone, isTablet } = DeviceContext();
 
   const btnRef = React.useRef() as React.MutableRefObject<HTMLButtonElement>;
 
@@ -32,16 +33,16 @@ const Header = ({ setOpen, isRenderButtonMenu = true }: IHeader): JSX.Element =>
           // eslint-disable-next-line react/jsx-no-useless-fragment
           <>
             {isRenderButtonMenu && (user?.role === 'admin' || user?.role === 'student') && (
-            <button
+            <Button
               className={clsx(styles.navigation__button, navOpen && styles.navigation__button__revert)}
-              type="button"
+              isImg
               onClick={() => {
                 setOpen();
                 setNavOpen(!navOpen);
               }}
             >
               <img src={buttonNav} alt="menu" />
-            </button>
+            </Button>
             )}
           </>
         )}

@@ -1,7 +1,7 @@
 import React from 'react';
-import { IGroupDeleteParams } from '../../../../../../hooks/useGroups';
+import { IGroupDeleteParams } from '../../../../../../hooks/PagesInAdmin/useGroups';
 import styles from '../../../../../pagesStyle.module.scss';
-import ModalInput from '../../../../../../components/common/ModalInput';
+import ModalInput from '../../../../../../components/common/MyInput';
 import { NumbersAndLettersEn } from '../../../../../../types/regExp';
 import ModalControlButtons from '../../../../../../components/common/ModalControlButtons';
 
@@ -38,7 +38,6 @@ const GroupPageModalDeleteForm = ({
           : (isSubmitted && (`${formData.deletedOrderNumber}`.length < 6 || `${formData.deletedOrderNumber}`.length > 20
             ? 'Номер наказу повинен містити не менше 6-ти символів' : ''))}
         placeholder="Номер наказу"
-        label="Номер наказу"
         required
         pattern={NumbersAndLettersEn}
       />

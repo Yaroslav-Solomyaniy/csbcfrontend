@@ -3,11 +3,11 @@ import styles from '../../../../pagesStyle.module.scss';
 import ModalWindow from '../../../../../components/common/ModalWindow';
 import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
 import { IEditModal } from '../../../../../types';
-import Table from '../../../../../components/common/table';
-import { ITableHeader } from '../../../../../components/common/table/TableHeader';
-import { ITableRowItem } from '../../../../../components/common/table/TableBody';
-import { useEstimatesContext } from '../../../../../context/estimates';
-import { IGradesHistoryGetIdDataGradesHistories } from '../../../../../hooks/useEstimates';
+import Table from '../../../../../components/common/Table';
+import { ITableHeader } from '../../../../../components/common/Table/TypeDisplay/Desktop/TableHeader';
+import { ITableRowItem } from '../../../../../components/common/Table/TypeDisplay/Desktop/TableBody';
+import { EstimatesContext } from '../../../../../context/PagesInAdmin/Estimates';
+import { IGradesHistoryGetIdDataGradesHistories } from '../../../../../hooks/PagesInAdmin/useEstimates';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'Предмет' },
@@ -18,7 +18,7 @@ const dataHeader: ITableHeader[] = [
 ];
 
 export const EstimatesHistory = ({ modalActive, closeModal, studentId, semester }: IEditModal): JSX.Element => {
-  const { gradesHistoryGet } = useEstimatesContext();
+  const { gradesHistoryGet } = EstimatesContext();
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
 
   const handleClose = () => {

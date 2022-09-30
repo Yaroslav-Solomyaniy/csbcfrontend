@@ -2,25 +2,23 @@ import React, { useEffect, useState } from 'react';
 import styles from './index.module.scss';
 import pagesStyle from '../../pagesStyle.module.scss';
 import Layout from '../../../loyout/Layout';
-import TitlePage from '../../../components/TitlePage';
+import TitlePage from '../../../components/common/TitlePage';
 import Button from '../../../components/common/Button';
-import { ITableHeader } from '../../../components/common/table/TableHeader';
+import { ITableHeader } from '../../../components/common/Table/TypeDisplay/Desktop/TableHeader';
 import StudentsCreateModal from './modal/StudentsCreate';
-import { useStudentsContext } from '../../../context/students';
+import { StudentsContext } from '../../../context/PagesInAdmin/Students';
 import { initialPagination, Pagination } from '../../../types';
 import StudentsEditModal from './modal/StudentsEdit';
-import { ITableRowItem } from '../../../components/common/table/TableBody';
-import { IGetParams, IStudentData } from '../../../hooks/useStudents';
+import { ITableRowItem } from '../../../components/common/Table/TypeDisplay/Desktop/TableBody';
+import { IGetParams, IStudentData } from '../../../hooks/PagesInAdmin/useStudents';
 import StudentsDelete from './modal/StudentsDelete';
 import StudentsReview from './modal/StudentsReview';
-import { useQueryParam } from '../../../hooks/useUrlParams';
-import { useDeviceContext } from '../../../context/TypeDevice';
-import { EditReviewDelete } from '../../../components/common/GroupButtons';
-import ABC from '../../../components/common/table/ABC';
-import TableFilter from '../../../components/common/table/TableFilter';
+import { useQueryParam } from '../../../hooks/All/useQueryParams';
+import { DeviceContext } from '../../../context/All/DeviceType';
+import { EditReviewDelete } from '../../../components/common/CollectionMiniButtons';
 import PhoneFilter from '../../../components/common/PhoneFilter';
-import StudentsFilters from './Components/StudentsFilters';
-import MobileElementListStudents from './Components/MobileElementListStudents';
+import StudentsFilters from './Filters';
+import Table from '../../../components/common/Table';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІБ студента' },
@@ -43,11 +41,10 @@ const allCloseModalWindow: Record<string, number | boolean> = {
 const Students = (): JSX.Element => {
   const [isActiveModal, setIsActiveModal] = useState <Record<string, number| boolean>>(allCloseModalWindow);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
-  const [data, setData] = useState<IStudentData[]>();
   const [pagination, setPagination] = useState<Pagination>({ ...initialPagination });
 
-  const { getStudents, studentEdit, studentCreate, studentDelete } = useStudentsContext();
-  const { isTablet, isPhone, isDesktop } = useDeviceContext();
+  const { getStudents, studentEdit, studentCreate, studentDelete } = StudentsContext();
+  const { isPhone } = DeviceContext();
   const { get } = useQueryParam();
 
   const studentId = Number(get('studentId'));
@@ -82,7 +79,6 @@ const Students = (): JSX.Element => {
   useEffect(() => {
     if (getStudents?.data) {
       setPagination(getStudents.data.meta);
-      setData(getStudents.data.items);
       setDataRow(getStudents.data.items.map((item: IStudentData) => ({
         list: [
           { id: 1, label: `${item.user.lastName} ${item.user.firstName} ${item.user.patronymic}` },
@@ -108,60 +104,29 @@ const Students = (): JSX.Element => {
   return (
     <Layout>
       <div>
-        {isDesktop && (
-          <>
-            <TitlePage
-              title="Студенти"
-              action={(
-                <Button
-                  nameClass="primary"
-                  className={pagesStyle.buttonsCreate}
-                  size="large"
-                  onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
-                >
-                  Створити
-                </Button>
+        <TitlePage
+          title="Студенти"
+          {...isPhone && ({ setIsActiveModal })}
+          {...isPhone && ({ isActiveModal: !!isActiveModal.filter })}
+          action={(
+            <Button
+              nameClass="primary"
+              className={pagesStyle.buttonsCreate}
+              size="large"
+              onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
+            >
+              Створити
+            </Button>
               )}
-            />
-            <ABC
-              filter={(<StudentsFilters studentId={studentId} groupId={groupId} isFullTime={isFullTime} />)}
-              dataHeader={dataHeader}
-              dataRow={dataRow}
-              className={styles.columns}
-              totalItems={pagination.totalItems}
-            />
-          </>
-        )}
-        {(isTablet || isPhone) && (
-          <>
-            <TitlePage
-              title="Студенти"
-              {...isPhone && ({ setIsActiveModal })}
-              {...isPhone && ({ isActiveModal: !!isActiveModal.filter })}
-              action={(
-                <Button
-                  nameClass="primary"
-                  className={pagesStyle.buttonsCreate}
-                  size="large"
-                  onClick={() => setIsActiveModal({ create: true })}
-                >
-                  Створити
-                </Button>
-              )}
-            />
-            {isTablet && (
-            <TableFilter
-              filter={<StudentsFilters studentId={studentId} groupId={groupId} isFullTime={isFullTime} />}
-            />
-            )}
-            <MobileElementListStudents
-              data={data}
-              isActiveModal={isActiveModal}
-              setIsActiveModal={setIsActiveModal}
-            />
-          </>
-        )}
-        <PhoneFilter isActive={!!isActiveModal.filter} closeModal={closeModal}>
+        />
+        <Table
+          filter={(<StudentsFilters studentId={studentId} groupId={groupId} isFullTime={isFullTime} />)}
+          dataHeader={dataHeader}
+          dataRow={dataRow}
+          gridColumns={styles.columns}
+          totalItems={pagination.totalItems}
+        />
+        <PhoneFilter modalTitle="Фільтрація студентів" isActive={!!isActiveModal.filter} closeModal={closeModal}>
           <StudentsFilters studentId={studentId} groupId={groupId} isFullTime={isFullTime} />
         </PhoneFilter>
         <StudentsCreateModal modalActive={!!isActiveModal.create} closeModal={closeModal} />

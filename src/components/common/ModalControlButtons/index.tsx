@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import Button from '../Button';
 import styles from './index.module.scss';
-import { useDeviceContext } from '../../../context/TypeDevice';
+import { DeviceContext } from '../../../context/All/DeviceType';
 
 interface IModalButtons {
   cancelButtonText?: string;
@@ -17,7 +17,7 @@ const ModalControlButtons = ({
   cancelButtonText,
   mainButtonText,
 }: IModalButtons): JSX.Element => {
-  const { isDesktop, isTablet, isPhone } = useDeviceContext();
+  const { isDesktop, isTablet, isPhone } = DeviceContext();
 
   return (
     <div className={clsx(isDesktop && styles.block_Buttons, (isTablet || isPhone) && styles.AdaptiveButtonsModal)}>

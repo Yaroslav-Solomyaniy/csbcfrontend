@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import Select from '../index';
 import { Option, SelectType } from '../../../../types';
-import { useGetListCourses } from '../../../../hooks/useDropDown';
-import { useCourseContext } from '../../../../context/courses';
-import { useAuthContext } from '../../../../context/useAuthContext';
+import { useGetListCourses } from '../../../../hooks/All/useDropDowns';
+import { CoursesContext } from '../../../../context/PagesInAdmin/Courses';
+import { AuthContext } from '../../../../context/All/AuthContext';
 
 interface SelectCourse {
   value: string | number | null;
@@ -39,9 +39,9 @@ const SelectCourse = ({
   isTeacher,
 }: SelectCourse): JSX.Element => {
   const [options, setOptions] = useState<Option[]>([]);
-  const { courseCreate, courseEdit, courseDelete } = useCourseContext();
+  const { courseCreate, courseEdit, courseDelete } = CoursesContext();
   const { optionCourses, getListCourses } = useGetListCourses();
-  const { user } = useAuthContext();
+  const { user } = AuthContext();
 
   useEffect(() => {
     getListCourses(isTeacher ? { teacherId: user?.id } : {});

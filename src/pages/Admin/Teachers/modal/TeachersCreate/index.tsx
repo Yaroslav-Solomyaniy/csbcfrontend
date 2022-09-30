@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import ModalWindow from '../../../../../components/common/ModalWindow';
 import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
 import pagesStyle from '../../../../pagesStyle.module.scss';
-import ModalInput from '../../../../../components/common/ModalInput';
-import { useTeachersContext } from '../../../../../context/teachers';
+import ModalInput from '../../../../../components/common/MyInput';
+import { TeachersContext } from '../../../../../context/PagesInAdmin/Teachers';
 import { Email, EmailValidation } from '../../../../../types/regExp';
-import { IUserCreateParams } from '../../../../../hooks/useUser';
+import { IUserCreateParams } from '../../../../../hooks/All/useUser';
 import { ICreateModal } from '../../../../../types';
-import { useMessagesContext } from '../../../../../context/messagesContext';
+import { MessagesContext } from '../../../../../context/All/Messages';
 
 const formInitialData: IUserCreateParams = {
   firstName: '',
@@ -18,10 +18,10 @@ const formInitialData: IUserCreateParams = {
 };
 
 export const TeacherCreateModal = ({ modalActive, closeModal }: ICreateModal): JSX.Element => {
-  const { teacherCreate } = useTeachersContext();
+  const { teacherCreate } = TeachersContext();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState<IUserCreateParams>(formInitialData);
-  const { addInfo } = useMessagesContext();
+  const { addInfo } = MessagesContext();
 
   const handleClose = () => {
     setIsSubmitted(false);

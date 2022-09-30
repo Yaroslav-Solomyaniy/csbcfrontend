@@ -3,7 +3,7 @@ import styles from './index.module.scss';
 import SelectSemester from '../../Select/SelectSemester';
 import SelectCourse from '../../Select/SelectCourse';
 import Button from '../../Button';
-import { Minus, Plus } from '../../Icon';
+import { Minus, Plus } from '../../Icons';
 
 interface IMultiSelectCourseSemestr{
   error?: string;

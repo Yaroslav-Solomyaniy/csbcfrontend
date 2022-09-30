@@ -1,25 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import TitlePage from '../../../components/TitlePage';
+import TitlePage from '../../../components/common/TitlePage';
 import Button from '../../../components/common/Button';
 import styles from './index.module.scss';
 import pagesStyle from '../../pagesStyle.module.scss';
 import Layout from '../../../loyout/Layout';
-import { ITableHeader } from '../../../components/common/table/TableHeader';
-import { ITableRowItem } from '../../../components/common/table/TableBody';
+import { ITableHeader } from '../../../components/common/Table/TypeDisplay/Desktop/TableHeader';
+import { ITableRowItem } from '../../../components/common/Table/TypeDisplay/Desktop/TableBody';
 import { initialPagination, Pagination } from '../../../types';
 import CuratorCreateModal from './Modal/Create';
-import { useCuratorContext } from '../../../context/curators';
-import { IGetCuratorData, IGetCuratorParams } from '../../../hooks/useCurators';
+import { CuratorContext } from '../../../context/PagesInAdmin/Curators';
+import { IGetCuratorData, IGetCuratorParams } from '../../../hooks/PagesInAdmin/useCurators';
 import CuratorEditModal from './Modal/Edit';
 import CuratorDeleteModal from './Modal/Delete';
-import { useDeviceContext } from '../../../context/TypeDevice';
-import { useQueryParam } from '../../../hooks/useUrlParams';
-import { EditAndDelete } from '../../../components/common/GroupButtons';
-import ABC from '../../../components/common/table/ABC';
-import TableFilter from '../../../components/common/table/TableFilter';
-import CuratorsFilters from './Components/CuratorsFilters';
+import { DeviceContext } from '../../../context/All/DeviceType';
+import { useQueryParam } from '../../../hooks/All/useQueryParams';
+import { EditAndDelete } from '../../../components/common/CollectionMiniButtons';
+import Filters from './Filters';
 import PhoneFilter from '../../../components/common/PhoneFilter';
-import MobileElementListCurators from './Components/MobileElementListCurators';
+import Table from '../../../components/common/Table';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІБ' },
@@ -38,11 +36,10 @@ const allCloseModalWindow: Record<string, number | boolean> = {
 const Curators = (): JSX.Element => {
   const [isActiveModal, setIsActiveModal] = useState(allCloseModalWindow);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
-  const [data, setData] = useState<IGetCuratorData[]>();
   const [pagination, setPagination] = useState<Pagination>({ ...initialPagination });
 
-  const { getCurators, curatorCreate, curatorDelete, curatorEdit } = useCuratorContext();
-  const { isDesktop, isPhone, isTablet } = useDeviceContext();
+  const { getCurators, curatorCreate, curatorDelete, curatorEdit } = CuratorContext();
+  const { isPhone } = DeviceContext();
   const { get } = useQueryParam();
 
   const groupName = get('groupName');
@@ -68,7 +65,6 @@ const Curators = (): JSX.Element => {
   useEffect(() => {
     if (getCurators?.data) {
       setPagination(getCurators.data.meta);
-      setData(getCurators.data.items);
       setDataRow(getCurators?.data?.items.map((item: IGetCuratorData) => ({
         list: [
           { id: 1, label: `${item.lastName} ${item.firstName} ${item.patronymic}` },
@@ -87,58 +83,30 @@ const Curators = (): JSX.Element => {
   return (
     <Layout>
       <div>
-        {isDesktop && (
-          <>
-            <TitlePage
-              title="Куратори"
-              action={(
-                <Button
-                  nameClass="primary"
-                  className={pagesStyle.buttonsCreate}
-                  size="large"
-                  onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
-                >
-                  Створити
-                </Button>
+        <TitlePage
+          title="Куратори"
+          {...isPhone && ({ setIsActiveModal })}
+          {...isPhone && ({ isActiveModal: !!isActiveModal.filter })}
+          action={(
+            <Button
+              nameClass="primary"
+              className={pagesStyle.buttonsCreate}
+              size="large"
+              onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
+            >
+              Створити
+            </Button>
               )}
-            />
-            <ABC
-              filter={(<CuratorsFilters curatorId={curatorId} groupName={groupName} />)}
-              dataHeader={dataHeader}
-              dataRow={dataRow}
-              className={styles.columns}
-              totalItems={pagination.totalItems}
-            />
-          </>
-        )}
-        {(isTablet || isPhone) && (
-          <>
-            <TitlePage
-              title="Куратори"
-              {...isPhone && ({ setIsActiveModal })}
-              {...isPhone && ({ isActiveModal: !!isActiveModal.filter })}
-              action={(
-                <Button
-                  nameClass="primary"
-                  className={pagesStyle.buttonsCreate}
-                  size="large"
-                  onClick={() => setIsActiveModal({ create: true })}
-                >
-                  Створити
-                </Button>
-              )}
-            />
-            {isTablet && (<TableFilter filter={<CuratorsFilters curatorId={curatorId} groupName={groupName} />} />)}
-            <MobileElementListCurators
-              data={data}
-              isActiveModal={isActiveModal}
-              setIsActiveModal={setIsActiveModal}
-            />
-          </>
-        )}
-
-        <PhoneFilter closeModal={closeModal} isActive={!!isActiveModal.filter}>
-          <CuratorsFilters groupName={groupName} curatorId={curatorId} />
+        />
+        <Table
+          filter={(<Filters curatorId={curatorId} groupName={groupName} />)}
+          dataHeader={dataHeader}
+          dataRow={dataRow}
+          gridColumns={styles.columns}
+          totalItems={pagination.totalItems}
+        />
+        <PhoneFilter modalTitle="Фільтрація кураторів" closeModal={closeModal} isActive={!!isActiveModal.filter}>
+          <Filters groupName={groupName} curatorId={curatorId} />
         </PhoneFilter>
 
         <CuratorCreateModal
@@ -158,10 +126,6 @@ const Curators = (): JSX.Element => {
       </div>
     </Layout>
   );
-};
-
-Curators.defaultProps = {
-  filter: '',
 };
 
 export default Curators;

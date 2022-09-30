@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import ModalWindow from '../../../../../components/common/ModalWindow';
-import { IGetVotingResultDataById } from '../../../../../hooks/useVotingAdmin';
-import { useVotingAdminContext } from '../../../../../context/voting';
+import { IGetVotingResultDataById } from '../../../../../hooks/PagesInAdmin/useVotings';
+import { AdminVotingsContext } from '../../../../../context/PagesInAdmin/Votings';
 import ResultDisplay from './Components/ResultDisplay';
-import { useDeviceContext } from '../../../../../context/TypeDevice';
-import MobileModalWindow from '../../../../../components/common/MobileModalWindow';
+import { DeviceContext } from '../../../../../context/All/DeviceType';
 
 const formInitialData: IGetVotingResultDataById = {
   id: 0,
@@ -27,8 +26,8 @@ interface IResultModal {
 export const VotingResultModal = ({ modalActive, closeModal, votingId, changeWindow }: IResultModal): JSX.Element => {
   const [formData, setFormData] = useState(formInitialData);
 
-  const { votingResult } = useVotingAdminContext();
-  const { isDesktop, isTablet, isPhone } = useDeviceContext();
+  const { votingResult } = AdminVotingsContext();
+  const { isDesktop, isTablet, isPhone } = DeviceContext();
 
   const handleClose = () => {
     closeModal();
@@ -58,34 +57,20 @@ export const VotingResultModal = ({ modalActive, closeModal, votingId, changeWin
   }, [votingResult?.data]);
 
   return (
-    <>
-      {isDesktop && (
-        <ModalWindow
-          modalTitle={`Результати голосування для 
+    <ModalWindow
+      modalTitle={`Результати голосування для 
       ${formData.groups.map((item) => item.name).join(',')} 
       від ${moment(formData.startDate).format('DD.MM.YYYY')}`}
-          active={modalActive}
-          closeModal={handleClose}
-        >
-          <ResultDisplay
-            votingId={votingId}
-            formData={formData}
-            changeWindow={changeWindow}
-            handleClose={handleClose}
-          />
-        </ModalWindow>
-      )}
-      {(isTablet || isPhone) && (
-        <MobileModalWindow isActive={modalActive}>
-          <ResultDisplay
-            votingId={votingId}
-            formData={formData}
-            changeWindow={changeWindow}
-            handleClose={handleClose}
-          />
-        </MobileModalWindow>
-      )}
-    </>
+      active={modalActive}
+      closeModal={handleClose}
+    >
+      <ResultDisplay
+        votingId={votingId}
+        formData={formData}
+        changeWindow={changeWindow}
+        handleClose={handleClose}
+      />
+    </ModalWindow>
   );
 };
 

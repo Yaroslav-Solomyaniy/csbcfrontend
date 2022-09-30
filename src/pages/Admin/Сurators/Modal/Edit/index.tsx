@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import ModalWindow from '../../../../../components/common/ModalWindow';
 import { IEditModal } from '../../../../../types';
-import { useCuratorContext } from '../../../../../context/curators';
+import { CuratorContext } from '../../../../../context/PagesInAdmin/Curators';
 import { Email } from '../../../../../types/regExp';
-import { IUserEditParams } from '../../../../../hooks/useUser';
-import { useMessagesContext } from '../../../../../context/messagesContext';
+import { IUserEditParams } from '../../../../../hooks/All/useUser';
+import { MessagesContext } from '../../../../../context/All/Messages';
 import CuratorsForm from '../form/create&edit';
-import MobileModalWindow from '../../../../../components/common/MobileModalWindow';
-import { useDeviceContext } from '../../../../../context/TypeDevice';
+import { DeviceContext } from '../../../../../context/All/DeviceType';
 
 const formInitialData: IUserEditParams = {
   firstName: '',
@@ -21,9 +20,9 @@ export const CuratorEditModal = ({ modalActive, closeModal, studentId }: IEditMo
   const [isSubmitted, setIsSubmited] = useState(false);
   const [formData, setFormData] = useState<IUserEditParams>(formInitialData);
 
-  const { curatorEdit, getCuratorId } = useCuratorContext();
-  const { addInfo } = useMessagesContext();
-  const { isPhone, isDesktop, isTablet } = useDeviceContext();
+  const { curatorEdit, getCuratorId } = CuratorContext();
+  const { addInfo } = MessagesContext();
+  const { isPhone, isDesktop, isTablet } = DeviceContext();
 
   const handleClose = () => {
     setIsSubmited(false);
@@ -72,31 +71,15 @@ export const CuratorEditModal = ({ modalActive, closeModal, studentId }: IEditMo
   }, [getCuratorId?.data]);
 
   return (
-    <>
-      {isDesktop && (
-        <ModalWindow modalTitle="Редагування куратора" active={modalActive} closeModal={handleClose}>
-          <CuratorsForm
-            handleClose={handleClose}
-            isSubmitted={isSubmitted}
-            setFormData={setFormData}
-            formData={formData}
-            onSubmit={onSubmit}
-          />
-        </ModalWindow>
-      )}
-      {(isTablet || isPhone) && (
-        <MobileModalWindow isActive={modalActive}>
-          <CuratorsForm
-            modalTitle="Редагування куратора"
-            handleClose={handleClose}
-            isSubmitted={isSubmitted}
-            setFormData={setFormData}
-            formData={formData}
-            onSubmit={onSubmit}
-          />
-        </MobileModalWindow>
-      )}
-    </>
+    <ModalWindow modalTitle="Редагування куратора" active={modalActive} closeModal={handleClose}>
+      <CuratorsForm
+        handleClose={handleClose}
+        isSubmitted={isSubmitted}
+        setFormData={setFormData}
+        formData={formData}
+        onSubmit={onSubmit}
+      />
+    </ModalWindow>
   );
 };
 

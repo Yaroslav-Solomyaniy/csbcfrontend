@@ -1,27 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import TitlePage from '../../../components/TitlePage';
+import TitlePage from '../../../components/common/TitlePage';
 import Button from '../../../components/common/Button';
 import styles from './index.module.scss';
 import pagesStyle from '../../pagesStyle.module.scss';
 import Layout from '../../../loyout/Layout';
-import { ITableHeader } from '../../../components/common/table/TableHeader';
-import { ITableRowItem } from '../../../components/common/table/TableBody';
+import { ITableHeader } from '../../../components/common/Table/TypeDisplay/Desktop/TableHeader';
+import { ITableRowItem } from '../../../components/common/Table/TypeDisplay/Desktop/TableBody';
 import { initialPagination, Pagination } from '../../../types';
 import { AdministratorCreateModal } from './ModalWindow/Create';
 import { AdministratorEditModal } from './ModalWindow/Edit';
 import { AdministratorDeleteModal } from './ModalWindow/Delete';
-import { useAdministratorsContext } from '../../../context/administators';
-import { IGetUserData, IGetUserParams } from '../../../hooks/useUser';
-import ABC from '../../../components/common/table/ABC';
-import TableFilter from '../../../components/common/table/TableFilter';
-import { useQueryParam } from '../../../hooks/useUrlParams';
-import { useDeviceContext } from '../../../context/TypeDevice';
-import MobileElementListAdministrators from './Components/MobileElementListAdministrators';
+import { AdministratorsContext } from '../../../context/PagesInAdmin/Administators';
+import { IGetUserData, IGetUserParams } from '../../../hooks/All/useUser';
+import { useQueryParam } from '../../../hooks/All/useQueryParams';
+import { DeviceContext } from '../../../context/All/DeviceType';
 import PhoneFilter from '../../../components/common/PhoneFilter';
-import AdministratorsFilters from './Components/AdministratorsFilters';
-import { EditAndDelete } from '../../../components/common/GroupButtons';
-import AdaptiveTable from '../../../components/common/table/typeDisplay/AdaptiveTable';
-import Table from '../../../components/common/table';
+import AdministratorsFilters from './Filters';
+import { EditAndDelete } from '../../../components/common/CollectionMiniButtons';
+import Table from '../../../components/common/Table';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІБ' },
@@ -46,9 +42,9 @@ const Administrators = (): JSX.Element => {
     administratorsCreate,
     administratorsDelete,
     administratorsEdit,
-  } = useAdministratorsContext();
+  } = AdministratorsContext();
 
-  const { isDesktop } = useDeviceContext();
+  const { isPhone } = DeviceContext();
 
   const adminId = Number(get('adminId'));
   const currentPage = Number(get('currentPage')) || 1;
@@ -98,58 +94,29 @@ const Administrators = (): JSX.Element => {
   return (
     <Layout>
       <div>
-        {isDesktop && (
-          <>
-            <TitlePage
-              title="Адміністратори"
-              action={(
-                <Button
-                  nameClass="primary"
-                  className={pagesStyle.buttonsCreate}
-                  size="large"
-                  onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
-                >
-                  Створити
-                </Button>
+        <TitlePage
+          title="Адміністратори"
+          {...isPhone && ({ setIsActiveModal })}
+          {...isPhone && ({ isActiveModal: !!isActiveModal.filter })}
+          action={(
+            <Button
+              nameClass="primary"
+              className={pagesStyle.buttonsCreate}
+              size="large"
+              onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
+            >
+              Створити
+            </Button>
               )}
-            />
-
-            <Table
-              filter={(<AdministratorsFilters adminId={1} />)}
-              dataHeader={dataHeader}
-              dataRow={dataRow}
-              gridColumns={styles.columns}
-              totalItems={pagination.totalItems}
-            />
-          </>
-        )}
-
-        {/* {(isTablet || isPhone) && ( */}
-        {/*  <> */}
-        {/*    <TitlePage */}
-        {/*      title="Адміністратори" */}
-        {/*      {...isPhone && ({ setIsActiveModal })} */}
-        {/*      {...isPhone && ({ isActiveModal: !!isActiveModal.filter })} */}
-        {/*      action={( */}
-        {/*        <Button */}
-        {/*          nameClass="primary" */}
-        {/*          className={pagesStyle.buttonsCreate} */}
-        {/*          size="large" */}
-        {/*          onClick={() => setIsActiveModal({ create: true })} */}
-        {/*        > */}
-        {/*          Створити */}
-        {/*        </Button> */}
-        {/*      )} */}
-        {/*    /> */}
-        {/*    {isTablet && (<TableFilter filter={<AdministratorsFilters adminId={adminId} />} />)} */}
-        {/*    <MobileElementListAdministrators */}
-        {/*      data={data} */}
-        {/*      isActiveModal={isActiveModal} */}
-        {/*      setIsActiveModal={setIsActiveModal} */}
-        {/*    /> */}
-        {/*  </> */}
-        {/* )} */}
-        <PhoneFilter isActive={!!isActiveModal.filter} closeModal={closeModal}>
+        />
+        <Table
+          filter={(<AdministratorsFilters adminId={adminId} />)}
+          dataHeader={dataHeader}
+          dataRow={dataRow}
+          gridColumns={styles.columns}
+          totalItems={pagination.totalItems}
+        />
+        <PhoneFilter modalTitle="Фільтрація адміністраторів" isActive={!!isActiveModal.filter} closeModal={closeModal}>
           <AdministratorsFilters adminId={1} />
         </PhoneFilter>
         <AdministratorCreateModal modalActive={!!isActiveModal.create} closeModal={closeModal} />
@@ -166,10 +133,6 @@ const Administrators = (): JSX.Element => {
       </div>
     </Layout>
   );
-};
-
-Administrators.defaultProps = {
-  filter: '',
 };
 
 export default Administrators;

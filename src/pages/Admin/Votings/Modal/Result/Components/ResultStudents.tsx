@@ -1,9 +1,9 @@
 import React from 'react';
 import styles from '../index.module.scss';
-import Table from '../../../../../../components/common/table';
-import { IsCheck } from '../../../../../../components/common/Icon';
-import { IGetVotingResultDataById } from '../../../../../../hooks/useVotingAdmin';
-import { ITableHeader } from '../../../../../../components/common/table/TableHeader';
+import Table from '../../../../../../components/common/Table';
+import { IsCheck } from '../../../../../../components/common/Icons';
+import { IGetVotingResultDataById } from '../../../../../../hooks/PagesInAdmin/useVotings';
+import { ITableHeader } from '../../../../../../components/common/Table/TypeDisplay/Desktop/TableHeader';
 
 const dataHeaderStudents: ITableHeader[] = [
   { id: 1, label: 'ПІБ' },

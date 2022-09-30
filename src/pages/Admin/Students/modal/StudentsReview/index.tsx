@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import styles from './index.module.scss';
 import StudentModalArrow from '../../../../../images/StudentModalArrow.svg';
-import { useStudentsContext } from '../../../../../context/students';
-import Table from '../../../../../components/common/table';
-import { initialPagination } from '../../../../../types';
-import { ITableHeader } from '../../../../../components/common/table/TableHeader';
+import { StudentsContext } from '../../../../../context/PagesInAdmin/Students';
+import Table from '../../../../../components/common/Table';
+import { ITableHeader } from '../../../../../components/common/Table/TypeDisplay/Desktop/TableHeader';
 import Button from '../../../../../components/common/Button';
 import StudentsReviewEdit from '../StudentsReviewEdit';
 
@@ -25,7 +24,7 @@ interface IStudentsReviewModal {
 }
 
 const StudentsReview = ({ modalActive, closeModal, id }: IStudentsReviewModal) => {
-  const { getStudentById } = useStudentsContext();
+  const { getStudentById } = StudentsContext();
   const [modalEditActive, setModalEditActive] = useState(false);
 
   useEffect(() => {

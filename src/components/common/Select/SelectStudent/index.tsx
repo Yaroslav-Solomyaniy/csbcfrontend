@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import Select from '../index';
 import { Option, SelectType } from '../../../../types';
-import { useStudentsContext } from '../../../../context/students';
-import { useGetListStudents } from '../../../../hooks/useDropDown';
-import { useAuthContext } from '../../../../context/useAuthContext';
+import { StudentsContext } from '../../../../context/PagesInAdmin/Students';
+import { useGetListStudents } from '../../../../hooks/All/useDropDowns';
+import { AuthContext } from '../../../../context/All/AuthContext';
 
 interface SelectPIB {
   value: string | number | null;
@@ -40,8 +40,8 @@ const SelectStudent = ({
 }: SelectPIB): JSX.Element => {
   const { getListStudents, listStudents } = useGetListStudents();
   const [options, setOptions] = useState<Option[]>([]);
-  const { studentCreate, studentEdit, studentDelete } = useStudentsContext();
-  const { user } = useAuthContext();
+  const { studentCreate, studentEdit, studentDelete } = StudentsContext();
+  const { user } = AuthContext();
 
   useEffect(() => {
     getListStudents(isTeacher ? { teacherId: user?.id } : {});

@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
-import { useStudentsContext } from '../../../../../context/students';
+import { StudentsContext } from '../../../../../context/PagesInAdmin/Students';
 import ModalWindow from '../../../../../components/common/ModalWindow';
-import { IStudentCreateParams } from '../../../../../hooks/useStudents';
+import { IStudentCreateParams } from '../../../../../hooks/PagesInAdmin/useStudents';
 import { Email } from '../../../../../types/regExp';
-import { useMessagesContext } from '../../../../../context/messagesContext';
+import { MessagesContext } from '../../../../../context/All/Messages';
 import { IEditModal } from '../../../../../types';
 import CreateOrEditStudentsForm from '../form/CreateOrEdit';
-import MobileModalWindow from '../../../../../components/common/MobileModalWindow';
-import { useDeviceContext } from '../../../../../context/TypeDevice';
 
 const formInitialData = {
   dateOfBirth: null,
@@ -26,11 +24,10 @@ const formInitialData = {
 };
 
 export const StudentsEditModal = ({ modalActive, closeModal, studentId }: IEditModal): JSX.Element => {
-  const { studentEdit, getStudentById } = useStudentsContext();
+  const { studentEdit, getStudentById } = StudentsContext();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState<IStudentCreateParams>(formInitialData);
-  const { addInfo } = useMessagesContext();
-  const { isPhone, isDesktop, isTablet } = useDeviceContext();
+  const { addInfo } = MessagesContext();
 
   const handleClose = () => {
     setIsSubmitted(false);
@@ -95,31 +92,15 @@ export const StudentsEditModal = ({ modalActive, closeModal, studentId }: IEditM
   }, [getStudentById?.data]);
 
   return (
-    <>
-      {isDesktop && (
-        <ModalWindow modalTitle="Редагування студента" active={modalActive} closeModal={handleClose}>
-          <CreateOrEditStudentsForm
-            handleClose={handleClose}
-            isSubmitted={isSubmitted}
-            setFormData={setFormData}
-            formData={formData}
-            onSubmit={onSubmit}
-          />
-        </ModalWindow>
-      )}
-      {(isTablet || isPhone) && (
-        <MobileModalWindow isActive={modalActive}>
-          <CreateOrEditStudentsForm
-            modalTitle="Редагування студента"
-            handleClose={handleClose}
-            isSubmitted={isSubmitted}
-            setFormData={setFormData}
-            formData={formData}
-            onSubmit={onSubmit}
-          />
-        </MobileModalWindow>
-      )}
-    </>
+    <ModalWindow modalTitle="Редагування студента" active={modalActive} closeModal={handleClose}>
+      <CreateOrEditStudentsForm
+        handleClose={handleClose}
+        isSubmitted={isSubmitted}
+        setFormData={setFormData}
+        formData={formData}
+        onSubmit={onSubmit}
+      />
+    </ModalWindow>
   );
 };
 

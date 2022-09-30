@@ -1,7 +1,7 @@
 import './App.css';
 import { BrowserRouter } from 'react-router-dom';
 import AppRoutes from './Routes';
-import DeviceSizeProvider from './context/TypeDevice';
+import DeviceSizeProvider from './context/All/DeviceType';
 
 const App = (): JSX.Element => (
   <BrowserRouter>

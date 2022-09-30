@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 import styles from './index.module.scss';
-import { Close } from '../Icon/index';
+import { Close } from '../Icons/index';
 import Button from '../Button';
 
 interface IModalMessage {

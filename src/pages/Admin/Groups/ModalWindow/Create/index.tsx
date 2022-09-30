@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useGroupContext } from '../../../../../context/groups';
-import { IGroupCreateParams } from '../../../../../hooks/useGroups';
+import { GroupsContext } from '../../../../../context/PagesInAdmin/Groups';
+import { IGroupCreateParams } from '../../../../../hooks/PagesInAdmin/useGroups';
 import ModalWindow from '../../../../../components/common/ModalWindow';
-import { useMessagesContext } from '../../../../../context/messagesContext';
+import { MessagesContext } from '../../../../../context/All/Messages';
 import { ICreateModal } from '../../../../../types';
 import GroupPageModalForm from '../form/Create&Edit/modalForm';
-import { useDeviceContext } from '../../../../../context/TypeDevice';
-import MobileModalWindow from '../../../../../components/common/MobileModalWindow';
+import { DeviceContext } from '../../../../../context/All/DeviceType';
 
 const formInitialData = {
   name: '',
@@ -17,9 +16,9 @@ const formInitialData = {
 export const GroupCreate = ({ modalActive, closeModal }: ICreateModal): JSX.Element => {
   const [formData, setFormData] = useState<IGroupCreateParams>(formInitialData);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const { isDesktop, isTablet, isPhone } = useDeviceContext();
-  const { groupCreate } = useGroupContext();
-  const { addInfo } = useMessagesContext();
+  const { isDesktop, isTablet, isPhone } = DeviceContext();
+  const { groupCreate } = GroupsContext();
+  const { addInfo } = MessagesContext();
 
   const handleClose = () => {
     setIsSubmitted(false);
@@ -47,31 +46,15 @@ export const GroupCreate = ({ modalActive, closeModal }: ICreateModal): JSX.Elem
   }, [groupCreate?.data]);
 
   return (
-    <>
-      {isDesktop && (
-      <ModalWindow modalTitle="Створення групи" active={modalActive} closeModal={handleClose}>
-        <GroupPageModalForm
-          handleClose={handleClose}
-          isSubmitted={isSubmitted}
-          setFormData={setFormData}
-          formData={formData}
-          onSubmit={onSubmit}
-        />
-      </ModalWindow>
-      )}
-      {(isTablet || isPhone) && (
-        <MobileModalWindow isActive={modalActive}>
-          <GroupPageModalForm
-            modalTitle="Створення групи"
-            handleClose={handleClose}
-            isSubmitted={isSubmitted}
-            setFormData={setFormData}
-            formData={formData}
-            onSubmit={onSubmit}
-          />
-        </MobileModalWindow>
-      )}
-    </>
+    <ModalWindow modalTitle="Створення групи" active={modalActive} closeModal={handleClose}>
+      <GroupPageModalForm
+        handleClose={handleClose}
+        isSubmitted={isSubmitted}
+        setFormData={setFormData}
+        formData={formData}
+        onSubmit={onSubmit}
+      />
+    </ModalWindow>
   );
 };
 

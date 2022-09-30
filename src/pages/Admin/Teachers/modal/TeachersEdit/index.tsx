@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import ModalWindow from '../../../../../components/common/ModalWindow';
 import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
 import pagesStyle from '../../../../pagesStyle.module.scss';
-import ModalInput from '../../../../../components/common/ModalInput';
-import { useTeachersContext } from '../../../../../context/teachers';
+import ModalInput from '../../../../../components/common/MyInput';
+import { TeachersContext } from '../../../../../context/PagesInAdmin/Teachers';
 import { Email, EmailValidation } from '../../../../../types/regExp';
 import { IEditModal } from '../../../../../types';
-import { IUserEditParams } from '../../../../../hooks/useUser';
-import { useMessagesContext } from '../../../../../context/messagesContext';
+import { IUserEditParams } from '../../../../../hooks/All/useUser';
+import { MessagesContext } from '../../../../../context/All/Messages';
 
 const formInitialData: IUserEditParams = {
   firstName: '',
@@ -18,10 +18,10 @@ const formInitialData: IUserEditParams = {
 };
 
 export const TeacherEditModal = ({ modalActive, closeModal, studentId }: IEditModal): JSX.Element => {
-  const { teacherEdit, getTeacherById } = useTeachersContext();
+  const { teacherEdit, getTeacherById } = TeachersContext();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState<IUserEditParams>(formInitialData);
-  const { addInfo } = useMessagesContext();
+  const { addInfo } = MessagesContext();
 
   const handleClose = () => {
     setIsSubmitted(false);

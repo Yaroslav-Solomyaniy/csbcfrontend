@@ -1,31 +1,64 @@
 import clsx from 'clsx';
-import React from 'react';
-import styles from './index.module.scss';
-import { useDeviceContext } from '../../../context/TypeDevice';
+import React, { useEffect } from 'react';
+import DesktopStyles from './DesktopStyles.module.scss';
+import MobileStyles from './MobileStyles.module.scss';
+import { DeviceContext } from '../../../context/All/DeviceType';
 
 interface IModalWindow {
-  modalTitle: string;
+  modalTitle?: string;
   active: boolean;
   children: React.ReactNode | React.ReactChild;
   closeModal: () => void;
   overflowY?: boolean;
 }
 
-const ModalWindow = ({ modalTitle, active, children, closeModal, overflowY }: IModalWindow): JSX.Element => (
-  <div className={clsx(styles.modal, active && styles.active)} onClick={closeModal}>
-    <div
-      className={clsx(styles.modal__content, active && styles.active, overflowY && styles.modal__overflow)}
-      onClick={(e) => e.stopPropagation()}
-    >
-      <div className={styles.modal__container}>
-        <div className={styles.modal__title}>{modalTitle}</div>
-        {children}
+const ModalWindow = ({ modalTitle, active, children, closeModal, overflowY }: IModalWindow): JSX.Element => {
+  const { isDesktop, isTablet, isPhone } = DeviceContext();
+
+  useEffect(() => {
+    const bodyStyle = document.body.style;
+
+    if (active) {
+      bodyStyle.overflowY = 'hidden';
+    } else {
+      bodyStyle.overflowY = 'auto';
+    }
+  }, [active]);
+
+  return (
+    <>
+      {isDesktop && (
+      <div className={clsx(DesktopStyles.modal, active && DesktopStyles.active)} onClick={closeModal}>
+        <div
+          className={clsx(
+            DesktopStyles.modal__content,
+            active && DesktopStyles.active,
+            overflowY && DesktopStyles.modal__overflow,
+          )}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className={DesktopStyles.modal__container}>
+            <div className={DesktopStyles.title}>{modalTitle}</div>
+            {children}
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-);
+      )}
+
+      {(isTablet || isPhone) && (
+        <div className={clsx(MobileStyles.overlay, active && MobileStyles.overlay_active)}>
+          <div className={clsx(MobileStyles.modal, active && MobileStyles.modal_active)}>
+            <div className={MobileStyles.title}>{modalTitle}</div>
+            {children}
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
 
 ModalWindow.defaultProps = {
   overflowY: false,
+  modalTitle: '',
 };
 export default ModalWindow;

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Option, SelectType } from '../../../../types';
-import { useGroupContext } from '../../../../context/groups';
-import { useGetListGroups } from '../../../../hooks/useDropDown';
+import { GroupsContext } from '../../../../context/PagesInAdmin/Groups';
+import { useGetListGroups } from '../../../../hooks/All/useDropDowns';
 import MultiSelect from '../index';
 
 interface IMultiSelectGroup {
@@ -29,7 +29,7 @@ const MultiSelectGroup = ({
 }: IMultiSelectGroup): JSX.Element => {
   const { optionsGroups, getListGroups } = useGetListGroups();
   const [options, setOptions] = useState<Option[]>([]);
-  const { groupCreate, groupEdit, groupDelete } = useGroupContext();
+  const { groupCreate, groupEdit, groupDelete } = GroupsContext();
 
   useEffect(() => {
     getListGroups();

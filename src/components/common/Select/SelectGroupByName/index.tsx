@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import Select from '../index';
 import { Option, SelectType } from '../../../../types';
-import { useGroupContext } from '../../../../context/groups';
-import { useGetListGroups } from '../../../../hooks/useDropDown';
+import { GroupsContext } from '../../../../context/PagesInAdmin/Groups';
+import { useGetListGroups } from '../../../../hooks/All/useDropDowns';
 
 interface ISelectGroupByName {
   value: string | number | undefined;
@@ -37,7 +37,7 @@ const SelectGroupByName = ({
 }: ISelectGroupByName): JSX.Element => {
   const { optionsGroups, getListGroups } = useGetListGroups();
   const [options, setOptions] = useState<Option[]>([]);
-  const { groupCreate, groupEdit, groupDelete } = useGroupContext();
+  const { groupCreate, groupEdit, groupDelete } = GroupsContext();
 
   useEffect(() => {
     getListGroups();

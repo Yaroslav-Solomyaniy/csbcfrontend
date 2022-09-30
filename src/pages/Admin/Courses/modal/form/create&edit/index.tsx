@@ -1,5 +1,5 @@
 import React from 'react';
-import ModalInput from '../../../../../../components/common/ModalInput';
+import ModalInput from '../../../../../../components/common/MyInput';
 import { FiveSymbolOnlyNumbers, LettersAndNumbersEnUa } from '../../../../../../types/regExp';
 import MultiSelectGroup from '../../../../../../components/common/MultiSelect/MultiSelectGroup';
 import SelectTeacher from '../../../../../../components/common/Select/SelectTeacher';
@@ -7,7 +7,7 @@ import SelectSemester from '../../../../../../components/common/Select/SelectSem
 import SelectExam from '../../../../../../components/common/Select/SelectIsExam';
 import SelectCompulsory from '../../../../../../components/common/Select/SelectCompulsory';
 import ModalControlButtons from '../../../../../../components/common/ModalControlButtons';
-import { ICourseEditParams, ICoursesCreateParams } from '../../../../../../hooks/useCourses';
+import { ICourseEditParams, ICoursesCreateParams } from '../../../../../../hooks/PagesInAdmin/useCourses';
 import styles from '../../../../../pagesStyle.module.scss';
 
 interface ICoursesInputForm{

@@ -1,10 +1,10 @@
 import React from 'react';
-import { IStudentCreateParams } from '../../../../../hooks/useStudents';
+import { IStudentCreateParams } from '../../../../../hooks/PagesInAdmin/useStudents';
 import styles from '../../../../pagesStyle.module.scss';
-import ModalInput from '../../../../../components/common/ModalInput';
+import ModalInput from '../../../../../components/common/MyInput';
 import { Email, EmailValidation } from '../../../../../types/regExp';
 import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
-import MyDatePicker from '../../../../../components/common/datePicker';
+import MyDatePicker from '../../../../../components/common/DatePicker';
 import SelectGroupById from '../../../../../components/common/Select/SelectGroupById';
 import SelectIsFullTime from '../../../../../components/common/Select/SelectIsFullTime';
 

@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import Select from '../index';
 import { Option, SelectType } from '../../../../types';
-import { useGetListCurators } from '../../../../hooks/useDropDown';
-import { useCuratorContext } from '../../../../context/curators';
+import { useGetListCurators } from '../../../../hooks/All/useDropDowns';
+import { CuratorContext } from '../../../../context/PagesInAdmin/Curators';
 
 interface SelectCurator {
   value: string | number | null;
@@ -37,7 +37,7 @@ const SelectCurator = ({
 }: SelectCurator): JSX.Element => {
   const [options, setOptions] = useState<Option[]>([]);
   const { optionCurators, getListCurators } = useGetListCurators();
-  const { curatorDelete, curatorEdit, curatorCreate } = useCuratorContext();
+  const { curatorDelete, curatorEdit, curatorCreate } = CuratorContext();
 
   useEffect(() => {
     getListCurators();

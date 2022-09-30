@@ -1,23 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import TitlePage from '../../components/TitlePage';
+import TitlePage from '../../components/common/TitlePage';
 import styles from './index.module.scss';
 import Layout from '../../loyout/Layout';
-import { ITableHeader } from '../../components/common/table/TableHeader';
-import { ITableRowItem } from '../../components/common/table/TableBody';
+import { ITableHeader } from '../../components/common/Table/TypeDisplay/Desktop/TableHeader';
+import { ITableRowItem } from '../../components/common/Table/TypeDisplay/Desktop/TableBody';
 import { initialPagination, Pagination } from '../../types';
-import { TeacherRatingEdit } from './RatingEdit';
-import TeacherRatingHistory from './RatingHistory';
-import { useTeacherPageContext } from '../../context/pageTeacher';
-import { IGetPageTeacherData, IGetPageTeacherParams } from '../../hooks/usePageTeacher';
-import { useEstimatesContext } from '../../context/estimates';
-import { useDeviceContext } from '../../context/TypeDevice';
-import ABC from '../../components/common/table/ABC';
-import MobileElementListTeacherPage from './components/MobileElementListTeacherPage';
-import FilterTeacherPage from './components/FilterTeacherPage';
-import TableFilter from '../../components/common/table/TableFilter';
-import { EditAndHistory } from '../../components/common/GroupButtons';
+import { TeacherRatingEdit } from './modal/RatingEdit';
+import TeacherRatingHistory from './modal/RatingHistory';
+import { TeacherContext } from '../../context/PageInTeacher/Teacher';
+import { IGetPageTeacherData, IGetPageTeacherParams } from '../../hooks/PageInTeacher/useTeacher';
+import { EstimatesContext } from '../../context/PagesInAdmin/Estimates';
+import { DeviceContext } from '../../context/All/DeviceType';
+import TeacherFilters from './Filters';
+import { EditAndHistory } from '../../components/common/CollectionMiniButtons';
 import PhoneFilter from '../../components/common/PhoneFilter';
-import { useQueryParam } from '../../hooks/useUrlParams';
+import { useQueryParam } from '../../hooks/All/useQueryParams';
+import Table from '../../components/common/Table';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІБ' },
@@ -36,13 +34,11 @@ const TeacherPageModalState: Record<string, number | boolean> = {
 const TeacherPage = (): JSX.Element => {
   const [isActiveModal, setIsActiveModal] = useState<Record<string, number | boolean>>(TeacherPageModalState);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
-  const [formData, setFormData] = useState<IGetPageTeacherData[]>();
   const [pagination, setPagination] = useState<Pagination>({ ...initialPagination });
-  const [data, setData] = useState<IGetPageTeacherData[]>();
 
-  const { teacherDataGet, teacherEditRating } = useTeacherPageContext();
-  const { gradesEdit } = useEstimatesContext();
-  const { isDesktop, isTablet, isPhone } = useDeviceContext();
+  const { teacherDataGet, teacherEditRating } = TeacherContext();
+  const { gradesEdit } = EstimatesContext();
+  const { isPhone } = DeviceContext();
   const { get } = useQueryParam();
 
   const groupId = Number(get('groupId'));
@@ -77,7 +73,6 @@ const TeacherPage = (): JSX.Element => {
   useEffect(() => {
     if (teacherDataGet?.data) {
       setPagination(teacherDataGet.data.meta);
-      setData(teacherDataGet.data.items);
       setDataRow(teacherDataGet?.data?.items.map((item: IGetPageTeacherData) => ({
         list: [
           {
@@ -99,52 +94,26 @@ const TeacherPage = (): JSX.Element => {
         ],
         key: item.id,
       })));
-      setFormData(teacherDataGet.data.items);
     }
   }, [teacherDataGet?.data]);
 
   return (
     <Layout>
       <div>
-        {isDesktop && (
-          <>
-            <TitlePage title="Студенти" action={undefined} />
-            <ABC
-              filter={(<FilterTeacherPage studentId={studentId} groupId={groupId} courseId={courseId} />)}
-              dataHeader={dataHeader}
-              dataRow={dataRow}
-              className={styles.columns}
-              totalItems={pagination.totalItems}
-            />
-          </>
-        )}
-        {(isTablet || isPhone) && (
-          <>
-            <TitlePage
-              title="Студенти"
-              {...isPhone && ({ setIsActiveModal })}
-              {...isPhone && ({ isActiveModal: !!isActiveModal.filter })}
-              action={undefined}
-            />
-            {isTablet && (
-              <TableFilter filter={(
-                <FilterTeacherPage
-                  studentId={studentId}
-                  groupId={groupId}
-                  courseId={courseId}
-                />
-              )}
-              />
-            )}
-            <MobileElementListTeacherPage
-              data={data}
-              isActiveModal={isActiveModal}
-              setIsActiveModal={setIsActiveModal}
-            />
-          </>
-        )}
-        <PhoneFilter isActive={!!isActiveModal.filter} closeModal={closeModal}>
-          <FilterTeacherPage studentId={studentId} groupId={groupId} courseId={courseId} />
+        <TitlePage
+          title="Студенти"
+          {...isPhone && ({ setIsActiveModal })}
+          {...isPhone && ({ isActiveModal: !!isActiveModal.filter })}
+        />
+        <Table
+          filter={(<TeacherFilters studentId={studentId} groupId={groupId} courseId={courseId} />)}
+          dataHeader={dataHeader}
+          dataRow={dataRow}
+          gridColumns={styles.columns}
+          totalItems={pagination.totalItems}
+        />
+        <PhoneFilter modalTitle="Фільтрація студентів" isActive={!!isActiveModal.filter} closeModal={closeModal}>
+          <TeacherFilters studentId={studentId} groupId={groupId} courseId={courseId} />
         </PhoneFilter>
         <TeacherRatingEdit
           modalActive={!!isActiveModal.edit}

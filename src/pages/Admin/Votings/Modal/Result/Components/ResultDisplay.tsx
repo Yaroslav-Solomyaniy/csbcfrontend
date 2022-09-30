@@ -3,7 +3,7 @@ import ResultControl from './ResultControl';
 import ResultCourses from './ResultCourses';
 import ResultStudents from './ResultStudents';
 import ModalControlButtons from '../../../../../../components/common/ModalControlButtons';
-import { IGetVotingResultDataById } from '../../../../../../hooks/useVotingAdmin';
+import { IGetVotingResultDataById } from '../../../../../../hooks/PagesInAdmin/useVotings';
 
 interface IResultDisplay{
   votingId: number;

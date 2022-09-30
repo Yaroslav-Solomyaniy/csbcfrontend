@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import Select from '../index';
 import { Option, SelectType } from '../../../../types';
-import { useGroupContext } from '../../../../context/groups';
-import { useGetListGroups } from '../../../../hooks/useDropDown';
-import { useAuthContext } from '../../../../context/useAuthContext';
+import { GroupsContext } from '../../../../context/PagesInAdmin/Groups';
+import { useGetListGroups } from '../../../../hooks/All/useDropDowns';
+import { AuthContext } from '../../../../context/All/AuthContext';
 
 interface ISelectGroupById {
   value: string | number | undefined | null;
@@ -40,8 +40,8 @@ const SelectGroupById = ({
 }: ISelectGroupById): JSX.Element => {
   const { optionsGroups, getListGroups } = useGetListGroups();
   const [options, setOptions] = useState<Option[]>([]);
-  const { groupCreate, groupEdit, groupDelete } = useGroupContext();
-  const { user } = useAuthContext();
+  const { groupCreate, groupEdit, groupDelete } = GroupsContext();
+  const { user } = AuthContext();
 
   useEffect(() => {
     getListGroups(isTeacher ? { teacherId: user?.id } : {});

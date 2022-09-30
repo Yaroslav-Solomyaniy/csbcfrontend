@@ -1,7 +1,7 @@
 import React from 'react';
-import { IGroupCreateParams } from '../../../../../../hooks/useGroups';
+import { IGroupCreateParams } from '../../../../../../hooks/PagesInAdmin/useGroups';
 import styles from '../../../../../pagesStyle.module.scss';
-import ModalInput from '../../../../../../components/common/ModalInput';
+import ModalInput from '../../../../../../components/common/MyInput';
 import { LettersAndNumbersEnUa, NumbersAndLettersEn } from '../../../../../../types/regExp';
 import SelectCurator from '../../../../../../components/common/Select/SelectCurator';
 import ModalControlButtons from '../../../../../../components/common/ModalControlButtons';

@@ -2,14 +2,14 @@ import React from 'react';
 import { Navigate, NavLink } from 'react-router-dom';
 import clsx from 'clsx';
 import styles from '../MenuLink.module.scss';
-import { useDeviceContext } from '../../../../context/TypeDevice';
+import { DeviceContext } from '../../../../context/All/DeviceType';
 
 interface IDefaultMenuLink{
 logout: ()=> void;
 role: string;
 }
 const DefaultMenuLink = ({ logout, role }:IDefaultMenuLink):JSX.Element => {
-  const { isPhone, isTablet } = useDeviceContext();
+  const { isPhone, isTablet } = DeviceContext();
 
   return (
     <div className={clsx(((role === 'admin' || role === 'student') && (isPhone || isTablet)) && styles.defaultBorder)}>

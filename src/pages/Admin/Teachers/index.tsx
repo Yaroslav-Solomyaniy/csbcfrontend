@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { ITableHeader } from '../../../components/common/table/TableHeader';
-import { ITableRowItem } from '../../../components/common/table/TableBody';
+import { ITableHeader } from '../../../components/common/Table/TypeDisplay/Desktop/TableHeader';
+import { ITableRowItem } from '../../../components/common/Table/TypeDisplay/Desktop/TableBody';
 import { initialPagination, Pagination } from '../../../types';
-import { useTeachersContext } from '../../../context/teachers';
-import { IGetTeacherData, IGetTeacherParams } from '../../../hooks/useTeachers';
-import { Delete, Edit } from '../../../components/common/Icon';
+import { TeachersContext } from '../../../context/PagesInAdmin/Teachers';
+import { IGetTeacherData, IGetTeacherParams } from '../../../hooks/PagesInAdmin/useTeachers';
+import { Delete, Edit } from '../../../components/common/Icons';
 import Layout from '../../../loyout/Layout';
 import Button from '../../../components/common/Button';
 import SelectCourse from '../../../components/common/Select/SelectCourse';
-import TitlePage from '../../../components/TitlePage';
-import Table from '../../../components/common/table';
+import TitlePage from '../../../components/common/TitlePage';
+import Table from '../../../components/common/Table';
 import SelectTeacher from '../../../components/common/Select/SelectTeacher';
 import styles from './index.module.scss';
 import pagesStyle from '../../pagesStyle.module.scss';
@@ -50,7 +50,7 @@ interface Params {
 }
 
 const Teachers = (): JSX.Element => {
-  const { teachersGet, teacherCreate, teacherEdit, teacherDelete } = useTeachersContext();
+  const { teachersGet, teacherCreate, teacherEdit, teacherDelete } = TeachersContext();
   const [isActiveModal, setIsActiveModal] = useState<IIsActiveTeacherModalState>(allCloseModalWindow);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
   const [params, setParams] = useState<Params>({

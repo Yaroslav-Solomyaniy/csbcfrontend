@@ -1,26 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import TitlePage from '../../../components/TitlePage';
+import TitlePage from '../../../components/common/TitlePage';
 import Button from '../../../components/common/Button';
 import styles from './index.module.scss';
 import pagesStyle from '../../pagesStyle.module.scss';
 import Layout from '../../../loyout/Layout';
-import { ITableHeader } from '../../../components/common/table/TableHeader';
-import { ITableRowItem } from '../../../components/common/table/TableBody';
+import { ITableHeader } from '../../../components/common/Table/TypeDisplay/Desktop/TableHeader';
+import { ITableRowItem } from '../../../components/common/Table/TypeDisplay/Desktop/TableBody';
 import { initialPagination, Pagination } from '../../../types';
-import { useVotingAdminContext } from '../../../context/voting';
-import { IGetVotingAdminData, IGetVotingAdminParams } from '../../../hooks/useVotingAdmin';
+import { AdminVotingsContext } from '../../../context/PagesInAdmin/Votings';
+import { IGetVotingAdminData, IGetVotingAdminParams } from '../../../hooks/PagesInAdmin/useVotings';
 import VotingEditModal from './Modal/Edit';
 import VotingDeleteModal from './Modal/Delete';
 import VotingResultModal from './Modal/Result';
 import VotingCreateModal from './Modal/Create';
-import VotingFilters from './Components/VotingFilters';
-import { useDeviceContext } from '../../../context/TypeDevice';
-import { useQueryParam } from '../../../hooks/useUrlParams';
-import { EditDeleteReviewApprove } from '../../../components/common/GroupButtons';
-import ABC from '../../../components/common/table/ABC';
+import VotingFilters from './Filters';
+import { DeviceContext } from '../../../context/All/DeviceType';
+import { useQueryParam } from '../../../hooks/All/useQueryParams';
+import { EditDeleteReviewApprove } from '../../../components/common/CollectionMiniButtons';
 import PhoneFilter from '../../../components/common/PhoneFilter';
-import MobileElementListVotingAdmin from './Components/MobileElementListVotingAdmin';
-import TableFilter from '../../../components/common/table/TableFilter';
+import Table from '../../../components/common/Table';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'Групи' },
@@ -45,10 +43,9 @@ const VotingAdmin = (): JSX.Element => {
   const [isActiveModal, setIsActiveModal] = useState(allCloseModalWindow);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
   const [pagination, setPagination] = useState<Pagination>({ ...initialPagination });
-  const [data, setData] = useState<IGetVotingAdminData[]>();
 
-  const { getVoting, votingDelete, votingEdit, votingCreate } = useVotingAdminContext();
-  const { isPhone, isDesktop, isTablet } = useDeviceContext();
+  const { getVoting, votingDelete, votingEdit, votingCreate } = AdminVotingsContext();
+  const { isPhone } = DeviceContext();
   const { get } = useQueryParam();
 
   const groupId = Number(get('groupId'));
@@ -105,63 +102,35 @@ const VotingAdmin = (): JSX.Element => {
         ],
         key: item.id,
       })));
-      setData(getVoting.data.items);
     }
   }, [getVoting?.data]);
 
   return (
     <Layout>
       <div>
-        {isDesktop && (
-          <>
-            <TitlePage
-              title="Голосування"
-              action={(
-                <Button
-                  nameClass="primary"
-                  className={pagesStyle.buttonsCreate}
-                  size="large"
-                  onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
-                >
-                  Створити
-                </Button>
+        <TitlePage
+          title="Голосування"
+          {...isPhone && ({ setIsActiveModal })}
+          {...isPhone && ({ isActiveModal: !!isActiveModal.filter })}
+          action={(
+            <Button
+              nameClass="primary"
+              className={pagesStyle.buttonsCreate}
+              size="large"
+              onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
+            >
+              Створити
+            </Button>
               )}
-            />
-            <ABC
-              filter={(<VotingFilters groupId={groupId} statusMessage={statusMessage} />)}
-              dataHeader={dataHeader}
-              dataRow={dataRow}
-              className={styles.columns}
-              totalItems={pagination.totalItems}
-            />
-          </>
-        )}
-        {(isTablet || isPhone) && (
-          <>
-            <TitlePage
-              title="Голосування"
-              {...isPhone && ({ setIsActiveModal })}
-              {...isPhone && ({ isActiveModal: !!isActiveModal.filter })}
-              action={(
-                <Button
-                  nameClass="primary"
-                  className={pagesStyle.buttonsCreate}
-                  size="large"
-                  onClick={() => setIsActiveModal({ create: true })}
-                >
-                  Створити
-                </Button>
-              )}
-            />
-            {isTablet && (<TableFilter filter={<VotingFilters groupId={groupId} statusMessage={statusMessage} />} />)}
-            <MobileElementListVotingAdmin
-              data={data}
-              isActiveModal={isActiveModal}
-              setIsActiveModal={setIsActiveModal}
-            />
-          </>
-        )}
-        <PhoneFilter isActive={!!isActiveModal.filter} closeModal={closeModal}>
+        />
+        <Table
+          filter={(<VotingFilters groupId={groupId} statusMessage={statusMessage} />)}
+          dataHeader={dataHeader}
+          dataRow={dataRow}
+          gridColumns={styles.columns}
+          totalItems={pagination.totalItems}
+        />
+        <PhoneFilter modalTitle="Фільтрація голосувань" isActive={!!isActiveModal.filter} closeModal={closeModal}>
           <VotingFilters groupId={groupId} statusMessage={statusMessage} />
         </PhoneFilter>
         <VotingCreateModal
@@ -193,10 +162,6 @@ const VotingAdmin = (): JSX.Element => {
       </div>
     </Layout>
   );
-};
-
-VotingAdmin.defaultProps = {
-  filter: '',
 };
 
 export default VotingAdmin;

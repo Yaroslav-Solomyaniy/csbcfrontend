@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import ModalWindow from '../../../../../components/common/ModalWindow';
 import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
 import pagesStyle from '../../../../pagesStyle.module.scss';
-import { useTeachersContext } from '../../../../../context/teachers';
-import { useMessagesContext } from '../../../../../context/messagesContext';
+import { TeachersContext } from '../../../../../context/PagesInAdmin/Teachers';
+import { MessagesContext } from '../../../../../context/All/Messages';
 import { IDeleteModal } from '../../../../../types';
 
 const formInitialData = {
@@ -13,9 +13,9 @@ const formInitialData = {
 };
 
 export const TeachersDeleteModal = ({ modalActive, closeModal, Id }: IDeleteModal): JSX.Element => {
-  const { getTeacherById, teacherDelete } = useTeachersContext();
+  const { getTeacherById, teacherDelete } = TeachersContext();
   const [formData, setFormData] = useState(formInitialData);
-  const { addInfo } = useMessagesContext();
+  const { addInfo } = MessagesContext();
 
   const handleClose = () => {
     closeModal();

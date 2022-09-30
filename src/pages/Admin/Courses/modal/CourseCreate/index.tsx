@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import ModalWindow from '../../../../../components/common/ModalWindow';
-import { useMessagesContext } from '../../../../../context/messagesContext';
-import { ICoursesCreateParams } from '../../../../../hooks/useCourses';
+import { MessagesContext } from '../../../../../context/All/Messages';
+import { ICoursesCreateParams } from '../../../../../hooks/PagesInAdmin/useCourses';
 import { ICreateModal } from '../../../../../types';
-import { useCourseContext } from '../../../../../context/courses';
-import MobileModalWindow from '../../../../../components/common/MobileModalWindow';
+import { CoursesContext } from '../../../../../context/PagesInAdmin/Courses';
 import CoursesInputForm from '../form/create&edit';
-import { useDeviceContext } from '../../../../../context/TypeDevice';
+import { DeviceContext } from '../../../../../context/All/DeviceType';
 
 const formInitialData: ICoursesCreateParams = {
   name: '',
@@ -24,9 +23,9 @@ export const CourseCreateModal = ({ modalActive, closeModal }: ICreateModal): JS
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState<ICoursesCreateParams>(formInitialData);
 
-  const { isTablet, isPhone, isDesktop } = useDeviceContext();
-  const { courseCreate } = useCourseContext();
-  const { addInfo } = useMessagesContext();
+  const { isTablet, isPhone, isDesktop } = DeviceContext();
+  const { courseCreate } = CoursesContext();
+  const { addInfo } = MessagesContext();
 
   const handleClose = () => {
     setIsSubmitted(false);
@@ -55,31 +54,15 @@ export const CourseCreateModal = ({ modalActive, closeModal }: ICreateModal): JS
   }, [courseCreate?.data]);
 
   return (
-    <>
-      {isDesktop && (
-        <ModalWindow modalTitle="Створення предмету" active={modalActive} closeModal={handleClose}>
-          <CoursesInputForm
-            handleClose={handleClose}
-            isSubmitted={isSubmitted}
-            setFormData={setFormData}
-            formData={formData}
-            onSubmit={onSubmit}
-          />
-        </ModalWindow>
-      )}
-      {(isTablet || isPhone) && (
-        <MobileModalWindow isActive={modalActive}>
-          <CoursesInputForm
-            modalTitle="Створення предмету"
-            handleClose={handleClose}
-            isSubmitted={isSubmitted}
-            setFormData={setFormData}
-            formData={formData}
-            onSubmit={onSubmit}
-          />
-        </MobileModalWindow>
-      )}
-    </>
+    <ModalWindow modalTitle="Створення предмету" active={modalActive} closeModal={handleClose}>
+      <CoursesInputForm
+        handleClose={handleClose}
+        isSubmitted={isSubmitted}
+        setFormData={setFormData}
+        formData={formData}
+        onSubmit={onSubmit}
+      />
+    </ModalWindow>
   );
 };
 

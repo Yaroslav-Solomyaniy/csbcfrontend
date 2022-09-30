@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import ModalWindow from '../../../../../components/common/ModalWindow';
 import { IDeleteModal } from '../../../../../types';
-import { useMessagesContext } from '../../../../../context/messagesContext';
-import { useAdministratorsContext } from '../../../../../context/administators';
-import MobileModalWindow from '../../../../../components/common/MobileModalWindow';
-import { useDeviceContext } from '../../../../../context/TypeDevice';
+import { MessagesContext } from '../../../../../context/All/Messages';
+import { AdministratorsContext } from '../../../../../context/PagesInAdmin/Administators';
+import { DeviceContext } from '../../../../../context/All/DeviceType';
 import AdministratorsDeleteForm from '../form/Delete';
 
 const formInitialData = {
@@ -15,9 +14,9 @@ const formInitialData = {
 
 export const AdministratorDeleteModal = ({ modalActive, closeModal, Id }: IDeleteModal): JSX.Element => {
   const [formData, setFormData] = useState(formInitialData);
-  const { administratorsDelete, getAdministratorsId } = useAdministratorsContext();
-  const { addInfo } = useMessagesContext();
-  const { isDesktop, isTablet, isPhone } = useDeviceContext();
+  const { administratorsDelete, getAdministratorsId } = AdministratorsContext();
+  const { addInfo } = MessagesContext();
+  const { isDesktop, isTablet, isPhone } = DeviceContext();
 
   useEffect(() => {
     if (Id) {
@@ -55,27 +54,14 @@ export const AdministratorDeleteModal = ({ modalActive, closeModal, Id }: IDelet
   };
 
   return (
-    <>
-      {isDesktop && (
-        <ModalWindow modalTitle="Видалення адміністратора" active={modalActive} closeModal={handleClose}>
-          <AdministratorsDeleteForm
-            handleClose={handleClose}
-            formData={formData}
-            onSubmit={onSubmit}
-          />
-        </ModalWindow>
-      )}
-      {(isTablet || isPhone) && (
-        <MobileModalWindow isActive={modalActive}>
-          <AdministratorsDeleteForm
-            modalTitle="Видалення адміністратора"
-            handleClose={handleClose}
-            formData={formData}
-            onSubmit={onSubmit}
-          />
-        </MobileModalWindow>
-      )}
-    </>
+    <ModalWindow modalTitle="Видалення адміністратора" active={modalActive} closeModal={handleClose}>
+      <AdministratorsDeleteForm
+        handleClose={handleClose}
+        formData={formData}
+        onSubmit={onSubmit}
+
+      />
+    </ModalWindow>
   );
 };
 

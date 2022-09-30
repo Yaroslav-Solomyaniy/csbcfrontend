@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './index.module.scss';
-import { LoginParams } from '../../../hooks/useAuth';
-import { useAuthContext } from '../../../context/useAuthContext';
+import { LoginParams } from '../../../hooks/All/useAuth';
+import { AuthContext } from '../../../context/All/AuthContext';
 import Layout from '../../../loyout/Layout';
 import Button from '../../../components/common/Button';
-import Input from '../../../components/common/Input';
+import Input from '../../../components/common/MyInput/Input';
 import { Email, EmailValidation } from '../../../types/regExp';
 import CheckBox from './MyCheckBox.module.scss';
 
 const Login = (): JSX.Element => {
-  const { postLogin } = useAuthContext();
+  const { postLogin } = AuthContext();
   const [formData, setFormData] = useState<LoginParams>({ email: '', password: '' });
   const [check, setCheck] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);

@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react';
 import ModalWindow from '../../../../../components/common/ModalWindow';
-import { useStudentsContext } from '../../../../../context/students';
-import { useMessagesContext } from '../../../../../context/messagesContext';
-import MobileModalWindow from '../../../../../components/common/MobileModalWindow';
-import { useDeviceContext } from '../../../../../context/TypeDevice';
+import { StudentsContext } from '../../../../../context/PagesInAdmin/Students';
+import { MessagesContext } from '../../../../../context/All/Messages';
 import StudentsDeleteForm from '../form/DeleteForm';
 
 interface IStudentsDeleteModal {
@@ -13,9 +11,8 @@ interface IStudentsDeleteModal {
 }
 
 export const StudentsDeleteModal = ({ modalActive, closeModal, studentId }: IStudentsDeleteModal): JSX.Element => {
-  const { studentDelete, getStudentById } = useStudentsContext();
-  const { addInfo } = useMessagesContext();
-  const { isTablet, isPhone, isDesktop } = useDeviceContext();
+  const { studentDelete, getStudentById } = StudentsContext();
+  const { addInfo } = MessagesContext();
 
   const onSubmit = (e: React.FormEvent | undefined) => {
     e?.preventDefault?.();
@@ -37,30 +34,14 @@ export const StudentsDeleteModal = ({ modalActive, closeModal, studentId }: IStu
   }, [studentId]);
 
   return (
-    <>
-      {isDesktop && (
-        <ModalWindow modalTitle="Видалення студента" active={modalActive} closeModal={closeModal}>
-          <StudentsDeleteForm
-            onSubmit={onSubmit}
-            student={`${getStudentById?.data?.user.lastName} 
+    <ModalWindow modalTitle="Видалення студента" active={modalActive} closeModal={closeModal}>
+      <StudentsDeleteForm
+        onSubmit={onSubmit}
+        student={`${getStudentById?.data?.user.lastName} 
             ${getStudentById?.data?.user.firstName} ${getStudentById?.data?.user.patronymic}`}
-            handleClose={closeModal}
-          />
-        </ModalWindow>
-      )}
-      {(isTablet || isPhone) && (
-        <MobileModalWindow isActive={modalActive}>
-          <StudentsDeleteForm
-            modalTitle="Видалення студента"
-            onSubmit={onSubmit}
-            student={`${getStudentById?.data?.user.lastName} 
-            ${getStudentById?.data?.user.firstName} ${getStudentById?.data?.user.patronymic}`}
-            handleClose={closeModal}
-          />
-
-        </MobileModalWindow>
-      )}
-    </>
+        handleClose={closeModal}
+      />
+    </ModalWindow>
   );
 };
 

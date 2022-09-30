@@ -3,17 +3,17 @@ import clsx from 'clsx';
 import Header from '../components/Header';
 import Navigation from '../components/Navigation';
 import styles from '../components/Navigation/index.module.scss';
-import { useMessagesContext } from '../context/messagesContext';
+import { MessagesContext } from '../context/All/Messages';
 import stylesPortal from '../stylesPortal.module.scss';
-import { useAuthContext } from '../context/useAuthContext';
+import { AuthContext } from '../context/All/AuthContext';
 import ModalMessage from '../components/common/ModalMessage';
-import { useDeviceContext } from '../context/TypeDevice';
+import { DeviceContext } from '../context/All/DeviceType';
 
 const Layout = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
   const [isOpen, setIsOpen] = useState(true);
-  const { messages, closeError, closeWarning, closeInfo } = useMessagesContext();
-  const { user } = useAuthContext();
-  const { isDesktop, isTablet, isPhone } = useDeviceContext();
+  const { messages, closeError, closeWarning, closeInfo } = MessagesContext();
+  const { user } = AuthContext();
+  const { isDesktop, isTablet, isPhone } = DeviceContext();
 
   const setOpen = (): void => {
     setIsOpen(!isOpen);

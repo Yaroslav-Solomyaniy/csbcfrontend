@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
-import TitlePage from '../../../components/TitlePage';
+import TitlePage from '../../../components/common/TitlePage';
 import styles from './index.module.scss';
 import Layout from '../../../loyout/Layout';
-import { ITableHeader } from '../../../components/common/table/TableHeader';
+import { ITableHeader } from '../../../components/common/Table/TypeDisplay/Desktop/TableHeader';
 import pagestyles from '../../pagesStyle.module.scss';
-import { useStudentsContext } from '../../../context/student';
-import Table from '../../../components/common/table';
-import { IGetStudentVotingData, IVotingStudentPostParams } from '../../../hooks/usePageInStudents';
+import { StudentContext } from '../../../context/PagesInStudent/Student';
+import Table from '../../../components/common/Table';
+import { IGetStudentVotingData, IVotingStudentPostParams } from '../../../hooks/PagesInStudents/usePageInStudents';
 import Button from '../../../components/common/Button';
 
 const dataHeader: ITableHeader[] = [
@@ -27,7 +27,7 @@ const formInitialDataVotingCourses:IGetStudentVotingData = {
 const VotingStudents = (): JSX.Element => {
   const [votingCourses, setVotingCourses] = useState<IGetStudentVotingData>(formInitialDataVotingCourses);
   const [isDraw, setIsDraw] = useState(false);
-  const { getVoting, votingCreate } = useStudentsContext();
+  const { getVoting, votingCreate } = StudentContext();
   const [formData, setFormData] = useState<IVotingStudentPostParams>({ courses: [0, 0, 0, 0] });
 
   useEffect(() => {

@@ -1,8 +1,10 @@
 import React from 'react';
+import clsx from 'clsx';
+import ReactSelect from 'react-select';
 import { Option, SelectType } from '../../../types';
-import { useDeviceContext } from '../../../context/TypeDevice';
-import DesktopMultiSelect from './typeDisplay/Desktop';
-import AdaptiveMultiSelect from './typeDisplay/Adaptive';
+import { DeviceContext } from '../../../context/All/DeviceType';
+import styles from './index.module.scss';
+import { MultiSelectDesktopStyle, MultiSelectMobileStyle } from './SelectStyle';
 
 interface MultiSelect {
   options: Option[];
@@ -29,39 +31,38 @@ const MultiSelect = ({
   isClearable,
   type,
 }: MultiSelect): JSX.Element => {
-  const { isDesktop, isTablet, isPhone } = useDeviceContext();
+  const { isDesktop, isTablet, isPhone } = DeviceContext();
 
   return (
-    <>
-      {isDesktop && (
-        <DesktopMultiSelect
-          label={label}
-          required={required}
-          error={error}
-          type={type}
+    <div className={clsx(isDesktop && styles.wrap, isTablet && styles.tablet_row, isPhone && styles.phone_row)}>
+      {label && (
+        <label className={clsx(isDesktop ? styles.desktop_label
+          : styles.mobile_label, isDesktop && (error && styles.error_label))}
+        >
+          {label}
+          {required && <span className={styles.required}>*</span>}
+        </label>
+      )}
+      <div className={clsx(isDesktop && styles.selectWrap)}>
+        <ReactSelect
+          styles={isDesktop ? MultiSelectDesktopStyle[type] : MultiSelectMobileStyle[type]}
           isSearchable={isSearchable}
+          className={clsx(isDesktop ? styles.desktop_select : styles.mobile_select)}
           options={options}
           placeholder={placeholder}
           isClearable={isClearable}
-          value={value}
-          onChange={onChange}
+          noOptionsMessage={() => 'Нічого не знайдено'}
+          value={options.filter((option) => value.includes(`${option.value}`))}
+          onChange={(newValue) => onChange(newValue ? newValue as Option[] : [])}
+          isMulti
         />
-      )}
-      {(isTablet || isPhone) && (
-        <AdaptiveMultiSelect
-          label={label}
-          required={required}
-          error={error}
-          type={type}
-          isSearchable={isSearchable}
-          options={options}
-          placeholder={placeholder}
-          isClearable={isClearable}
-          value={value}
-          onChange={onChange}
-        />
-      )}
-    </>
+        {error && (
+          <div className={styles.error}>
+            <div className={styles.textError}>{error}</div>
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
 

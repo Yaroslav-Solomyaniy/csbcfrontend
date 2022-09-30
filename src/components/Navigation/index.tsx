@@ -9,10 +9,10 @@ import {
   Students,
   Teachers,
   Voting,
-} from '../common/Icon';
+} from '../common/Icons';
 import NavigationItemDesktop from './NavigationItemDesktop';
 import styles from './index.module.scss';
-import { useDeviceContext } from '../../context/TypeDevice';
+import { DeviceContext } from '../../context/All/DeviceType';
 import MobileNavigationList from './NavigationList/Mobile';
 
 export interface IRoute {
@@ -91,7 +91,7 @@ interface INavigation {
 }
 
 const Navigation = ({ isOpen, role }: INavigation): JSX.Element => {
-  const { isDesktop, isTablet, isPhone } = useDeviceContext();
+  const { isDesktop, isTablet, isPhone } = DeviceContext();
 
   return (
     <>

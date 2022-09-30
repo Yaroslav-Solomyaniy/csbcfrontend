@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import Select from '../index';
 import { Option, SelectType } from '../../../../types';
-import { useGetListAdministrators } from '../../../../hooks/useDropDown';
-import { useAdministratorsContext } from '../../../../context/administators';
+import { useGetListAdministrators } from '../../../../hooks/All/useDropDowns';
+import { AdministratorsContext } from '../../../../context/PagesInAdmin/Administators';
 
 interface ISelectAdministrator {
   value: string | number | undefined;
@@ -38,7 +38,7 @@ const SelectAdministrator = ({
 }: ISelectAdministrator): JSX.Element => {
   const { listAdmins, getListAdministrators } = useGetListAdministrators();
   const [options, setOptions] = useState<Option[]>([]);
-  const { administratorsCreate, administratorsDelete, administratorsEdit } = useAdministratorsContext();
+  const { administratorsCreate, administratorsDelete, administratorsEdit } = AdministratorsContext();
 
   useEffect(() => {
     getListAdministrators();

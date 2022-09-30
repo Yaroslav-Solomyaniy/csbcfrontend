@@ -3,13 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 import styles from './index.module.scss';
 import Header from '../../../components/Header';
-import { useChangePassword } from '../../../hooks/useAuth';
+import { useChangePassword } from '../../../hooks/All/useAuth';
 import leftArrow from '../../../images/login/leftArrow.svg';
-import { useAuthContext } from '../../../context/useAuthContext';
+import { AuthContext } from '../../../context/All/AuthContext';
 import stylesPortal from '../../../stylesPortal.module.scss';
 import ModalMessage from '../../../components/common/ModalMessage';
-import { useMessagesContext } from '../../../context/messagesContext';
-import Input from '../../../components/common/Input';
+import { MessagesContext } from '../../../context/All/Messages';
+import Input from '../../../components/common/MyInput/Input';
 import Button from '../../../components/common/Button';
 
 interface IChangePassword{
@@ -26,8 +26,8 @@ const ChangePassword = (): JSX.Element => {
   const { patchChangePassword } = useChangePassword();
   const [formData, setFormData] = useState<IChangePassword>(initialFormData);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const { messages, closeError, closeWarning, closeInfo } = useMessagesContext();
-  const { user } = useAuthContext();
+  const { messages, closeError, closeWarning, closeInfo } = MessagesContext();
+  const { user } = AuthContext();
   const navigate = useNavigate();
 
   const onSubmit = (e: (React.FormEvent<Element> | undefined)) => {

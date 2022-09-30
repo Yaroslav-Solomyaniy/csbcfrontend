@@ -4,7 +4,7 @@ import stylesStud from '../../../../pagesStyle.module.scss';
 import ModalWindow from '../../../../../components/common/ModalWindow';
 import Select from '../../../../../components/common/Select';
 import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
-import { useStudentsContext } from '../../../../../context/students';
+import { StudentsContext } from '../../../../../context/PagesInAdmin/Students';
 
 interface IStudentsReviewModal {
   closeModal: () => void;
@@ -12,7 +12,7 @@ interface IStudentsReviewModal {
 }
 
 const StudentsReviewEdit = ({ modalActive, closeModal }: IStudentsReviewModal) => {
-  const { getStudentById } = useStudentsContext();
+  const { getStudentById } = StudentsContext();
 
   const handleClose = () => {
     closeModal();

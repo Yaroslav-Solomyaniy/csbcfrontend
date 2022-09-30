@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import ModalWindow from '../../../../../components/common/ModalWindow';
-import { useMessagesContext } from '../../../../../context/messagesContext';
-import { useCourseContext } from '../../../../../context/courses';
+import { MessagesContext } from '../../../../../context/All/Messages';
+import { CoursesContext } from '../../../../../context/PagesInAdmin/Courses';
 import { IDeleteModal } from '../../../../../types';
-import MobileModalWindow from '../../../../../components/common/MobileModalWindow';
-import { useDeviceContext } from '../../../../../context/TypeDevice';
+import { DeviceContext } from '../../../../../context/All/DeviceType';
 import CourseDeleteForm from '../form/Delete';
 
 export const CourseDeleteModal = ({ modalActive, closeModal, Id }: IDeleteModal): JSX.Element => {
   const [courseName, setCourseName] = useState<string>();
-  const { courseDelete, getCourseId } = useCourseContext();
-  const { addInfo } = useMessagesContext();
-  const { isTablet, isPhone, isDesktop } = useDeviceContext();
+  const { courseDelete, getCourseId } = CoursesContext();
+  const { addInfo } = MessagesContext();
+  const { isTablet, isPhone, isDesktop } = DeviceContext();
 
   const onSubmit = (e: React.FormEvent | undefined) => {
     e?.preventDefault?.();
@@ -38,27 +37,14 @@ export const CourseDeleteModal = ({ modalActive, closeModal, Id }: IDeleteModal)
   }, [Id]);
 
   return (
-    <>
-      {isDesktop && (
-        <ModalWindow modalTitle="Видалення предмету" active={modalActive} closeModal={closeModal}>
-          <CourseDeleteForm
-            handleClose={closeModal}
-            courseName={courseName}
-            onSubmit={onSubmit}
-          />
-        </ModalWindow>
-      )}
-      {(isTablet || isPhone) && (
-        <MobileModalWindow isActive={modalActive}>
-          <CourseDeleteForm
-            modalTitle="Видалення предмету"
-            handleClose={closeModal}
-            courseName={courseName}
-            onSubmit={onSubmit}
-          />
-        </MobileModalWindow>
-      )}
-    </>
+    <ModalWindow modalTitle="Видалення предмету" active={modalActive} closeModal={closeModal}>
+      <CourseDeleteForm
+        handleClose={closeModal}
+        courseName={courseName}
+        onSubmit={onSubmit}
+      />
+    </ModalWindow>
+
   );
 };
 

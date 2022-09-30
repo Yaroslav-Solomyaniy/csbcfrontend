@@ -2,9 +2,9 @@ import React from 'react';
 import styles from '../../../../pagesStyle.module.scss';
 import MultiSelectGroup from '../../../../../components/common/MultiSelect/MultiSelectGroup';
 import MultiSelectCoursesNoOptional from '../../../../../components/common/MultiSelect/MultiSelectCoursesNoOptional';
-import MyDatePicker from '../../../../../components/common/datePicker';
+import MyDatePicker from '../../../../../components/common/DatePicker';
 import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
-import { ICreateVotingParams } from '../../../../../hooks/useVotingAdmin';
+import { ICreateVotingParams } from '../../../../../hooks/PagesInAdmin/useVotings';
 
 interface ICreateEditRevoteFormVotingAdmin{
   formData: ICreateVotingParams;

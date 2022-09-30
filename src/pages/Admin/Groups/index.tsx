@@ -1,28 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import TitlePage from '../../../components/TitlePage';
+import TitlePage from '../../../components/common/TitlePage';
 import Button from '../../../components/common/Button';
 import styles from './index.module.scss';
 import pagesStyle from '../../pagesStyle.module.scss';
 import Layout from '../../../loyout/Layout';
-import { ITableHeader } from '../../../components/common/table/TableHeader';
-import { IGetGroupParams, IGroupData } from '../../../hooks/useGroups';
-import { ITableRowItem } from '../../../components/common/table/TableBody';
-import { useGroupContext } from '../../../context/groups';
+import { ITableHeader } from '../../../components/common/Table/TypeDisplay/Desktop/TableHeader';
+import { IGetGroupParams, IGroupData } from '../../../hooks/PagesInAdmin/useGroups';
+import { ITableRowItem } from '../../../components/common/Table/TypeDisplay/Desktop/TableBody';
+import { GroupsContext } from '../../../context/PagesInAdmin/Groups';
 import { initialPagination, Pagination } from '../../../types';
 import GroupCreate from './ModalWindow/Create';
 import GroupDelete from './ModalWindow/Delete';
 import GroupEdit from './ModalWindow/Edit';
-import { Delete, Edit } from '../../../components/common/Icon';
-import { useQueryParam } from '../../../hooks/useUrlParams';
+import { useQueryParam } from '../../../hooks/All/useQueryParams';
 import PhoneFilter from '../../../components/common/PhoneFilter';
-import FilterPageGroup from './components/FilterPageGroup';
-import { useDeviceContext } from '../../../context/TypeDevice';
-import ABC from '../../../components/common/table/ABC';
-import TableFilter from '../../../components/common/table/TableFilter';
-import MobileElementListGroupPageAdmin from './components/MobileElementListGroupPageAdmin';
-import { EditAndDelete } from '../../../components/common/GroupButtons';
-import Table from '../../../components/common/table';
+import FiltersGroups from './Filters';
+import { DeviceContext } from '../../../context/All/DeviceType';
+import { EditAndDelete } from '../../../components/common/CollectionMiniButtons';
+import Table from '../../../components/common/Table';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'Номер групи' },
@@ -44,11 +39,9 @@ const Group = (): JSX.Element => {
   const [isActiveModal, setIsActiveModal] = useState(allCloseModalWindow);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
   const [pagination, setPagination] = useState<Pagination>({ ...initialPagination });
-  const [data, setData] = useState<IGroupData[]>();
-  const [searchParams] = useSearchParams();
 
-  const { getGroups, groupCreate, groupEdit, groupDelete } = useGroupContext();
-  const { isDesktop, isTablet, isPhone } = useDeviceContext();
+  const { getGroups, groupCreate, groupEdit, groupDelete } = GroupsContext();
+  const { isPhone } = DeviceContext();
 
   const { get } = useQueryParam();
 
@@ -78,7 +71,7 @@ const Group = (): JSX.Element => {
     }
 
     getGroups?.getGroups(query);
-  }, [currentPage, itemsPerPage, curator, group, searchParams, groupCreate?.data, groupEdit?.data, groupDelete?.data]);
+  }, [currentPage, itemsPerPage, curator, group, groupCreate?.data, groupEdit?.data, groupDelete?.data]);
 
   useEffect(() => {
     if (getGroups?.data) {
@@ -96,7 +89,6 @@ const Group = (): JSX.Element => {
         ],
         key: item.id,
       })));
-      setData(getGroups.data.items);
     }
   }, [getGroups?.data]);
 
@@ -119,39 +111,14 @@ const Group = (): JSX.Element => {
             )}
         />
         <Table
-          filter={(<FilterPageGroup group={group} curator={curator} />)}
+          filter={(<FiltersGroups group={group} curator={curator} />)}
           dataHeader={dataHeader}
           dataRow={dataRow}
           gridColumns={styles.columns}
           totalItems={pagination.totalItems}
         />
-        {/* {(isTablet || isPhone) && ( */}
-        {/*  <> */}
-        {/*    <TitlePage */}
-        {/*      title="Групи" */}
-        {/*      {...isPhone && ({ setIsActiveModal })} */}
-        {/*      {...isPhone && ({ isActiveModal: !!isActiveModal.filter })} */}
-        {/*      action={( */}
-        {/*        <Button */}
-        {/*          nameClass="primary" */}
-        {/*          className={pagesStyle.buttonsCreate} */}
-        {/*          size="large" */}
-        {/*          onClick={() => setIsActiveModal({ create: true })} */}
-        {/*        > */}
-        {/*          Створити */}
-        {/*        </Button> */}
-        {/*      )} */}
-        {/*    /> */}
-        {/*    {isTablet && (<TableFilter filter={<FilterPageGroup group={group} curator={curator} />} />)} */}
-        {/*    <MobileElementListGroupPageAdmin */}
-        {/*      data={data} */}
-        {/*      isActiveModal={isActiveModal} */}
-        {/*      setIsActiveModal={setIsActiveModal} */}
-        {/*    /> */}
-        {/*  </> */}
-        {/* )} */}
-        <PhoneFilter isActive={!!isActiveModal.filter} closeModal={closeModal}>
-          <FilterPageGroup group={group} curator={curator} />
+        <PhoneFilter modalTitle="Фільтрація груп" isActive={!!isActiveModal.filter} closeModal={closeModal}>
+          <FiltersGroups group={group} curator={curator} />
         </PhoneFilter>
         <GroupCreate modalActive={!!isActiveModal.create} closeModal={closeModal} />
         <GroupEdit modalActive={!!isActiveModal.edit} studentId={+isActiveModal.edit} closeModal={closeModal} />
@@ -161,8 +128,4 @@ const Group = (): JSX.Element => {
   );
 };
 
-Group.defaultProps = {
-  filter: '',
-};
-
-export default React.memo(Group);
+export default Group;

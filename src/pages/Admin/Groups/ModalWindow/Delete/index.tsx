@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import ModalWindow from '../../../../../components/common/ModalWindow';
-import { IGroupDeleteParams } from '../../../../../hooks/useGroups';
-import { useGroupContext } from '../../../../../context/groups';
-import { useMessagesContext } from '../../../../../context/messagesContext';
+import { IGroupDeleteParams } from '../../../../../hooks/PagesInAdmin/useGroups';
+import { GroupsContext } from '../../../../../context/PagesInAdmin/Groups';
+import { MessagesContext } from '../../../../../context/All/Messages';
 import { IDeleteModal } from '../../../../../types';
-import MobileModalWindow from '../../../../../components/common/MobileModalWindow';
-import { useDeviceContext } from '../../../../../context/TypeDevice';
+import { DeviceContext } from '../../../../../context/All/DeviceType';
 import GroupPageModalDeleteForm from '../form/Delete';
 
 const formInitialData = {
@@ -16,9 +15,9 @@ export const GroupDelete = ({ modalActive, closeModal, Id }: IDeleteModal): JSX.
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState<IGroupDeleteParams>(formInitialData);
 
-  const { addInfo } = useMessagesContext();
-  const { groupDelete, getGroupId } = useGroupContext();
-  const { isDesktop, isTablet, isPhone } = useDeviceContext();
+  const { addInfo } = MessagesContext();
+  const { groupDelete, getGroupId } = GroupsContext();
+  const { isDesktop, isTablet, isPhone } = DeviceContext();
   const [orderNumber, setOrderNumber] = useState('');
 
   const handleClose = () => {
@@ -60,33 +59,16 @@ export const GroupDelete = ({ modalActive, closeModal, Id }: IDeleteModal): JSX.
   }, [Id]);
 
   return (
-    <>
-      {isDesktop && (
-        <ModalWindow modalTitle="Видалення групи" active={modalActive} closeModal={handleClose}>
-          <GroupPageModalDeleteForm
-            handleClose={handleClose}
-            isSubmitted={isSubmitted}
-            setFormData={setFormData}
-            formData={formData}
-            onSubmit={onSubmit}
-            orderNumber={orderNumber}
-          />
-        </ModalWindow>
-      )}
-      {(isTablet || isPhone) && (
-        <MobileModalWindow isActive={modalActive}>
-          <GroupPageModalDeleteForm
-            modalTitle="Видалення групи"
-            handleClose={handleClose}
-            isSubmitted={isSubmitted}
-            setFormData={setFormData}
-            formData={formData}
-            onSubmit={onSubmit}
-            orderNumber={orderNumber}
-          />
-        </MobileModalWindow>
-      )}
-    </>
+    <ModalWindow modalTitle="Видалення групи" active={modalActive} closeModal={handleClose}>
+      <GroupPageModalDeleteForm
+        handleClose={handleClose}
+        isSubmitted={isSubmitted}
+        setFormData={setFormData}
+        formData={formData}
+        onSubmit={onSubmit}
+        orderNumber={orderNumber}
+      />
+    </ModalWindow>
   );
 };
 

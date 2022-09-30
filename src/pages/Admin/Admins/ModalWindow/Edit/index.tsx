@@ -2,12 +2,11 @@ import React, { useEffect, useState } from 'react';
 import ModalWindow from '../../../../../components/common/ModalWindow';
 import { IEditModal } from '../../../../../types';
 import { Email } from '../../../../../types/regExp';
-import { IUserEditParams } from '../../../../../hooks/useUser';
-import { useAdministratorsContext } from '../../../../../context/administators';
-import { useMessagesContext } from '../../../../../context/messagesContext';
+import { IUserEditParams } from '../../../../../hooks/All/useUser';
+import { AdministratorsContext } from '../../../../../context/PagesInAdmin/Administators';
+import { MessagesContext } from '../../../../../context/All/Messages';
 import AdministratorsForm from '../form/Create&Edit';
-import MobileModalWindow from '../../../../../components/common/MobileModalWindow';
-import { useDeviceContext } from '../../../../../context/TypeDevice';
+import { DeviceContext } from '../../../../../context/All/DeviceType';
 
 const formInitialData: IUserEditParams = {
   firstName: '',
@@ -21,9 +20,9 @@ export const AdministratorEditModal = ({ modalActive, closeModal, studentId }: I
   const [isSubmitted, setIsSubmited] = useState(false);
   const [formData, setFormData] = useState<IUserEditParams>(formInitialData);
 
-  const { isPhone, isTablet, isDesktop } = useDeviceContext();
-  const { administratorsEdit, getAdministratorsId } = useAdministratorsContext();
-  const { addInfo } = useMessagesContext();
+  const { isPhone, isTablet, isDesktop } = DeviceContext();
+  const { administratorsEdit, getAdministratorsId } = AdministratorsContext();
+  const { addInfo } = MessagesContext();
 
   const handleClose = () => {
     setIsSubmited(false);
@@ -72,31 +71,15 @@ export const AdministratorEditModal = ({ modalActive, closeModal, studentId }: I
   }, [getAdministratorsId?.data]);
 
   return (
-    <>
-      {isDesktop && (
-        <ModalWindow modalTitle="Створення адміністратора" active={modalActive} closeModal={handleClose}>
-          <AdministratorsForm
-            handleClose={handleClose}
-            isSubmitted={isSubmitted}
-            setFormData={setFormData}
-            formData={formData}
-            onSubmit={onSubmit}
-          />
-        </ModalWindow>
-      )}
-      {(isTablet || isPhone) && (
-        <MobileModalWindow isActive={modalActive}>
-          <AdministratorsForm
-            modalTitle="Створення адміністратора"
-            handleClose={handleClose}
-            isSubmitted={isSubmitted}
-            setFormData={setFormData}
-            formData={formData}
-            onSubmit={onSubmit}
-          />
-        </MobileModalWindow>
-      )}
-    </>
+    <ModalWindow modalTitle="Створення адміністратора" active={modalActive} closeModal={handleClose}>
+      <AdministratorsForm
+        handleClose={handleClose}
+        isSubmitted={isSubmitted}
+        setFormData={setFormData}
+        formData={formData}
+        onSubmit={onSubmit}
+      />
+    </ModalWindow>
   );
 };
 

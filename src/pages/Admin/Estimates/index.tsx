@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import Layout from '../../../loyout/Layout';
-import { ITableHeader } from '../../../components/common/table/TableHeader';
+import { ITableHeader } from '../../../components/common/Table/TypeDisplay/Desktop/TableHeader';
 import { initialPagination, Pagination } from '../../../types';
-import { ITableRowItem } from '../../../components/common/table/TableBody';
+import { ITableRowItem } from '../../../components/common/Table/TypeDisplay/Desktop/TableBody';
 import styles from './index.module.scss';
 import Button from '../../../components/common/Button';
 import SelectStudent from '../../../components/common/Select/SelectStudent';
 import SelectGroupById from '../../../components/common/Select/SelectGroupById';
-import TitlePage from '../../../components/TitlePage';
-import Table from '../../../components/common/table';
-import { useGetListCourses } from '../../../hooks/useDropDown';
-import { useEstimatesContext } from '../../../context/estimates';
-import { IGetGradesData, IGetGradesParams } from '../../../hooks/useEstimates';
+import TitlePage from '../../../components/common/TitlePage';
+import Table from '../../../components/common/Table';
+import { useGetListCourses } from '../../../hooks/All/useDropDowns';
+import { EstimatesContext } from '../../../context/PagesInAdmin/Estimates';
+import { IGetGradesData, IGetGradesParams } from '../../../hooks/PagesInAdmin/useEstimates';
 import SelectSemester from '../../../components/common/Select/SelectSemester';
 import EstimatesEdit from './modal/EstimatesEdit';
-import { Download, Edit, History } from '../../../components/common/Icon';
+import { Download, Edit, History } from '../../../components/common/Icons';
 import EstimatesHistory from './modal/EstimatesHystory';
 
 interface IIsActiveGradesModal {
@@ -101,7 +101,7 @@ const Estimates = (): JSX.Element => {
   const [isActiveModal, setIsActiveModal] = useState<IIsActiveGradesModal>(allCloseModalWindow);
   const [dataHeader, setDataHeader] = useState<ITableHeader[]>([]);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
-  const { gradesGet, gradesEdit } = useEstimatesContext();
+  const { gradesGet, gradesEdit } = EstimatesContext();
   const dropCurses = useGetListCourses();
   const [params, setParams] = useState<Params>({
     filter: { studentId: '', group: '', semester: '' },

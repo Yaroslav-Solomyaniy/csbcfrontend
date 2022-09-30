@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import ModalWindow from '../../../../../components/common/ModalWindow';
 import { IDeleteModal } from '../../../../../types';
-import { useCuratorContext } from '../../../../../context/curators';
-import { useMessagesContext } from '../../../../../context/messagesContext';
-import MobileModalWindow from '../../../../../components/common/MobileModalWindow';
-import { useDeviceContext } from '../../../../../context/TypeDevice';
+import { CuratorContext } from '../../../../../context/PagesInAdmin/Curators';
+import { MessagesContext } from '../../../../../context/All/Messages';
+import { DeviceContext } from '../../../../../context/All/DeviceType';
 import CuratorsDeleteForm from '../form/delete';
 
 const formInitialData = {
@@ -16,9 +15,9 @@ const formInitialData = {
 export const CuratorDeleteModal = ({ modalActive, closeModal, Id }: IDeleteModal): JSX.Element => {
   const [formData, setFormData] = useState(formInitialData);
 
-  const { isTablet, isPhone, isDesktop } = useDeviceContext();
-  const { addInfo } = useMessagesContext();
-  const { curatorDelete, getCuratorId } = useCuratorContext();
+  const { isTablet, isPhone, isDesktop } = DeviceContext();
+  const { addInfo } = MessagesContext();
+  const { curatorDelete, getCuratorId } = CuratorContext();
 
   const handleClose = () => {
     closeModal();
@@ -56,27 +55,13 @@ export const CuratorDeleteModal = ({ modalActive, closeModal, Id }: IDeleteModal
   };
 
   return (
-    <>
-      {isDesktop && (
-        <ModalWindow modalTitle="Видалення куратора" active={modalActive} closeModal={handleClose}>
-          <CuratorsDeleteForm
-            handleClose={handleClose}
-            formData={formData}
-            onSubmit={onSubmit}
-          />
-        </ModalWindow>
-      )}
-      {(isTablet || isPhone) && (
-        <MobileModalWindow isActive={modalActive}>
-          <CuratorsDeleteForm
-            modalTitle="Видалення куратора"
-            handleClose={handleClose}
-            formData={formData}
-            onSubmit={onSubmit}
-          />
-        </MobileModalWindow>
-      )}
-    </>
+    <ModalWindow modalTitle="Видалення куратора" active={modalActive} closeModal={handleClose}>
+      <CuratorsDeleteForm
+        handleClose={handleClose}
+        formData={formData}
+        onSubmit={onSubmit}
+      />
+    </ModalWindow>
   );
 };
 

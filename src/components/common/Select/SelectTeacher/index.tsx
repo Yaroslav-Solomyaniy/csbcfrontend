@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Select from '../index';
 import { Option, SelectType } from '../../../../types';
-import { useGetListTeachers } from '../../../../hooks/useDropDown';
+import { useGetListTeachers } from '../../../../hooks/All/useDropDowns';
 
 interface SelectTeacher {
   value: string | number | null;

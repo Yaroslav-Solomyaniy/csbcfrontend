@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Option, SelectType } from '../../../../types';
-import { useGetListCourses } from '../../../../hooks/useDropDown';
+import { useGetListCourses } from '../../../../hooks/All/useDropDowns';
 import MultiSelect from '../index';
-import { useCourseContext } from '../../../../context/courses';
+import { CoursesContext } from '../../../../context/PagesInAdmin/Courses';
 
 interface IMultiSelectCourses {
   label?: string;
@@ -27,7 +27,7 @@ const MultiSelectCourses = ({
   required,
   error,
 }: IMultiSelectCourses): JSX.Element => {
-  const { courseCreate, courseEdit, courseDelete } = useCourseContext();
+  const { courseCreate, courseEdit, courseDelete } = CoursesContext();
   const { optionCourses, getListCourses } = useGetListCourses();
   const [options, setOptions] = useState<Option[]>([]);
 

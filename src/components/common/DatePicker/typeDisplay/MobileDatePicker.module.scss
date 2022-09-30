@@ -1,0 +1,37 @@
+.tablet_wrap{
+  width: 408px;
+  display: flex;
+  flex-direction: column;
+  margin: 10px auto 0 auto;
+}
+.phone_wrap{
+  width: 288px;
+  display: flex;
+  flex-direction: column;
+  margin: 10px auto 0 auto;
+}
+.mobile_label{
+  width: 100%;
+  text-align: left;
+}
+
+.required {
+  color: red;
+}
+
+.datePicker{
+  width: 100%;
+  text-align: center;
+}
+
+.error {
+  display: flex;
+  align-items: center;
+  margin-top: 4px;
+
+  .textError {
+    font-size: 12px;
+    font-weight: 400;
+    color: red;
+  }
+}

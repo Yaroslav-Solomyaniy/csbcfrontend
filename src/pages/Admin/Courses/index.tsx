@@ -1,32 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import TitlePage from '../../../components/TitlePage';
+import TitlePage from '../../../components/common/TitlePage';
 import Button from '../../../components/common/Button';
 import styles from './index.module.scss';
 import pagesStyle from '../../pagesStyle.module.scss';
 import Layout from '../../../loyout/Layout';
-import { ITableHeader } from '../../../components/common/table/TableHeader';
-import Table from '../../../components/common/table';
-import { ITableRowItem } from '../../../components/common/table/TableBody';
+import { ITableHeader } from '../../../components/common/Table/TypeDisplay/Desktop/TableHeader';
+import { ITableRowItem } from '../../../components/common/Table/TypeDisplay/Desktop/TableBody';
 import { initialPagination, Pagination } from '../../../types';
-import { useCourseContext } from '../../../context/courses';
-import { IGetCoursesData, IGetCoursesParams } from '../../../hooks/useCourses';
-import SelectCourse from '../../../components/common/Select/SelectCourse';
-import SelectTeacher from '../../../components/common/Select/SelectTeacher';
+import { CoursesContext } from '../../../context/PagesInAdmin/Courses';
+import { IGetCoursesData, IGetCoursesParams } from '../../../hooks/PagesInAdmin/useCourses';
 import CourseCreateModal from './modal/CourseCreate';
 import CourseEditModal from './modal/CourseEdit';
 import CourseDeleteModal from './modal/CourseDelete';
-import SelectCompulsory from '../../../components/common/Select/SelectCompulsory';
-import SelectGroupById from '../../../components/common/Select/SelectGroupById';
-import { useDeviceContext } from '../../../context/TypeDevice';
-import { useQueryParam } from '../../../hooks/useUrlParams';
-import { EditAndDelete } from '../../../components/common/GroupButtons';
-import CoursesFilters from './components/CoursesFilters';
-import ABC from '../../../components/common/table/ABC';
-import AdministratorsFilters from '../Admins/Components/AdministratorsFilters';
-import TableFilter from '../../../components/common/table/TableFilter';
-import MobileElementListAdministrators from '../Admins/Components/MobileElementListAdministrators';
+import { DeviceContext } from '../../../context/All/DeviceType';
+import { useQueryParam } from '../../../hooks/All/useQueryParams';
+import { EditAndDelete } from '../../../components/common/CollectionMiniButtons';
+import CoursesFilters from './Filters';
 import PhoneFilter from '../../../components/common/PhoneFilter';
-import MobileElementListCourses from './components/MobileElementListCourses';
+import Table from '../../../components/common/Table';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'Назва' },
@@ -51,10 +42,9 @@ const Courses = (): JSX.Element => {
   const [isActiveModal, setIsActiveModal] = useState(allCloseModalWindow);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
   const [pagination, setPagination] = useState<Pagination>({ ...initialPagination });
-  const [data, setData] = useState<IGetCoursesData[]>();
 
-  const { getCourses, courseDelete, courseEdit, courseCreate } = useCourseContext();
-  const { isPhone, isDesktop, isTablet } = useDeviceContext();
+  const { getCourses, courseDelete, courseEdit, courseCreate } = CoursesContext();
+  const { isPhone } = DeviceContext();
   const { get } = useQueryParam();
 
   const courseId = Number(get('courseId'));
@@ -85,7 +75,6 @@ const Courses = (): JSX.Element => {
   useEffect(() => {
     if (getCourses?.data) {
       setPagination(getCourses.data.meta);
-      setData(getCourses.data.items);
       setDataRow(getCourses?.data?.items.map((item: IGetCoursesData) => ({
         list: [
           { id: 1, label: item.name },
@@ -114,74 +103,37 @@ const Courses = (): JSX.Element => {
   return (
     <Layout>
       <div>
-        {isDesktop && (
-          <>
-            <TitlePage
-              title="Предмети"
-              action={(
-                <Button
-                  nameClass="primary"
-                  className={pagesStyle.buttonsCreate}
-                  size="large"
-                  onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
-                >
-                  Створити
-                </Button>
+        <TitlePage
+          title="Предмети"
+          {...isPhone && ({ setIsActiveModal })}
+          {...isPhone && ({ isActiveModal: !!isActiveModal.filter })}
+          action={(
+            <Button
+              nameClass="primary"
+              className={pagesStyle.buttonsCreate}
+              size="large"
+              onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
+            >
+              Створити
+            </Button>
               )}
+        />
+        <Table
+          filter={(
+            <CoursesFilters
+              courseId={courseId}
+              groupId={groupId}
+              teacherId={teacherId}
+              isCompulsory={isCompulsory}
             />
-            <ABC
-              filter={(
-                <CoursesFilters
-                  courseId={courseId}
-                  groupId={groupId}
-                  teacherId={teacherId}
-                  isCompulsory={isCompulsory}
-                />
-)}
-              dataHeader={dataHeader}
-              dataRow={dataRow}
-              className={styles.columns}
-              totalItems={pagination.totalItems}
-            />
-          </>
-        )}
-        {(isTablet || isPhone) && (
-          <>
-            <TitlePage
-              title="Предмети"
-              {...isPhone && ({ setIsActiveModal })}
-              {...isPhone && ({ isActiveModal: !!isActiveModal.filter })}
-              action={(
-                <Button
-                  nameClass="primary"
-                  className={pagesStyle.buttonsCreate}
-                  size="large"
-                  onClick={() => setIsActiveModal({ create: true })}
-                >
-                  Створити
-                </Button>
-              )}
-            />
-            {isTablet && (
-              <TableFilter filter={(
-                <CoursesFilters
-                  courseId={courseId}
-                  groupId={groupId}
-                  teacherId={teacherId}
-                  isCompulsory={isCompulsory}
-                />
-                )}
-              />
-            )}
-            <MobileElementListCourses
-              data={data}
-              isActiveModal={isActiveModal}
-              setIsActiveModal={setIsActiveModal}
-            />
-          </>
-        )}
+          )}
+          dataHeader={dataHeader}
+          dataRow={dataRow}
+          gridColumns={styles.columns}
+          totalItems={pagination.totalItems}
+        />
 
-        <PhoneFilter isActive={!!isActiveModal.filter} closeModal={closeModal}>
+        <PhoneFilter modalTitle="Фільтрація предметів" isActive={!!isActiveModal.filter} closeModal={closeModal}>
           <CoursesFilters courseId={courseId} groupId={groupId} teacherId={teacherId} isCompulsory={isCompulsory} />
         </PhoneFilter>
 
@@ -202,10 +154,6 @@ const Courses = (): JSX.Element => {
       </div>
     </Layout>
   );
-};
-
-Courses.defaultProps = {
-  filter: '',
 };
 
 export default Courses;

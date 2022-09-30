@@ -3,8 +3,8 @@ import styles from '../../../../pagesStyle.module.scss';
 import ModalWindow from '../../../../../components/common/ModalWindow';
 import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
 import { IEditModal } from '../../../../../types';
-import { useEstimatesContext } from '../../../../../context/estimates';
-import ModalInput from '../../../../../components/common/ModalInput';
+import { EstimatesContext } from '../../../../../context/PagesInAdmin/Estimates';
+import ModalInput from '../../../../../components/common/MyInput';
 import { OnlyNumbers } from '../../../../../types/regExp';
 import SelectReason from '../../../../../components/common/Select/SelectReason';
 
@@ -25,7 +25,7 @@ const formInitialData: IFormInitialData = {
 };
 
 export const EstimatesEdit = ({ modalActive, closeModal, studentId, gradeId }: IEditModal): JSX.Element => {
-  const { gradesEdit, gradesGetId } = useEstimatesContext();
+  const { gradesEdit, gradesGetId } = EstimatesContext();
   const [formData, setFormData] = useState(formInitialData);
   const [isSubmitted, setIsSubmited] = useState(false);
 

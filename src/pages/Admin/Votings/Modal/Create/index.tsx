@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import ModalWindow from '../../../../../components/common/ModalWindow';
 import { ICreateModal } from '../../../../../types';
-import { ICreateVotingParams } from '../../../../../hooks/useVotingAdmin';
-import { useVotingAdminContext } from '../../../../../context/voting';
-import { useMessagesContext } from '../../../../../context/messagesContext';
-import MobileModalWindow from '../../../../../components/common/MobileModalWindow';
-import { useDeviceContext } from '../../../../../context/TypeDevice';
+import { ICreateVotingParams } from '../../../../../hooks/PagesInAdmin/useVotings';
+import { AdminVotingsContext } from '../../../../../context/PagesInAdmin/Votings';
+import { MessagesContext } from '../../../../../context/All/Messages';
+import { DeviceContext } from '../../../../../context/All/DeviceType';
 import CreateEditRevoteFormVotingAdmin from '../form/CreateEditRevoteFormVotingAdmin';
 
 const formInitialData: ICreateVotingParams = {
@@ -20,9 +19,9 @@ const formInitialData: ICreateVotingParams = {
 export const VotingCreateModal = ({ modalActive, closeModal }: ICreateModal): JSX.Element => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState<ICreateVotingParams>(formInitialData);
-  const { votingCreate } = useVotingAdminContext();
-  const { addInfo } = useMessagesContext();
-  const { isDesktop, isTablet, isPhone } = useDeviceContext();
+  const { votingCreate } = AdminVotingsContext();
+  const { addInfo } = MessagesContext();
+  const { isDesktop, isTablet, isPhone } = DeviceContext();
 
   const handleClose = () => {
     setIsSubmitted(false);
@@ -56,31 +55,15 @@ export const VotingCreateModal = ({ modalActive, closeModal }: ICreateModal): JS
   }, [votingCreate?.data]);
 
   return (
-    <>
-      {isDesktop && (
-        <ModalWindow modalTitle="Створення голосування" active={modalActive} closeModal={handleClose}>
-          <CreateEditRevoteFormVotingAdmin
-            handleClose={handleClose}
-            isSubmitted={isSubmitted}
-            setFormData={setFormData}
-            formData={formData}
-            onSubmit={onSubmit}
-          />
-        </ModalWindow>
-      )}
-      {(isTablet || isPhone) && (
-        <MobileModalWindow isActive={modalActive}>
-          <CreateEditRevoteFormVotingAdmin
-            modalTitle="Створення голосування"
-            handleClose={handleClose}
-            isSubmitted={isSubmitted}
-            setFormData={setFormData}
-            formData={formData}
-            onSubmit={onSubmit}
-          />
-        </MobileModalWindow>
-      )}
-    </>
+    <ModalWindow modalTitle="Створення голосування" active={modalActive} closeModal={handleClose}>
+      <CreateEditRevoteFormVotingAdmin
+        handleClose={handleClose}
+        isSubmitted={isSubmitted}
+        setFormData={setFormData}
+        formData={formData}
+        onSubmit={onSubmit}
+      />
+    </ModalWindow>
   );
 };
 

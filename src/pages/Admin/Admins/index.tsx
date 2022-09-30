@@ -21,6 +21,7 @@ import PhoneFilter from '../../../components/common/PhoneFilter';
 import AdministratorsFilters from './Components/AdministratorsFilters';
 import { EditAndDelete } from '../../../components/common/GroupButtons';
 import AdaptiveTable from '../../../components/common/table/typeDisplay/AdaptiveTable';
+import Table from '../../../components/common/table';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІБ' },
@@ -40,17 +41,18 @@ const Administrators = (): JSX.Element => {
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
   const [pagination, setPagination] = useState<Pagination>({ ...initialPagination });
 
-  const { isDesktop, isPhone, isTablet } = useDeviceContext();
-  // const { get } = useQueryParam();
+  const { get } = useQueryParam();
   const { getAdministrators,
     administratorsCreate,
     administratorsDelete,
     administratorsEdit,
   } = useAdministratorsContext();
 
-  // const adminId = Number(get('adminId'));
-  // const currentPage = Number(get('currentPage')) || 1;
-  // const itemsPerPage = Number(get('itemsPerPage')) || 10;
+  const { isDesktop } = useDeviceContext();
+
+  const adminId = Number(get('adminId'));
+  const currentPage = Number(get('currentPage')) || 1;
+  const itemsPerPage = Number(get('itemsPerPage')) || 10;
 
   const closeModal = () => {
     setIsActiveModal(allCloseModalWindow);
@@ -58,16 +60,16 @@ const Administrators = (): JSX.Element => {
 
   useEffect(() => {
     const query: IGetUserParams = { role: 'admin' };
-    //
-    // if (adminId) query.id = adminId;
-    // if (currentPage) query.page = currentPage;
-    // if (itemsPerPage) query.limit = itemsPerPage;
+
+    if (adminId) query.id = adminId;
+    if (currentPage) query.page = currentPage;
+    if (itemsPerPage) query.limit = itemsPerPage;
 
     getAdministrators?.getUser(query);
   }, [
-    // adminId,
-    // currentPage,
-    // itemsPerPage,
+    adminId,
+    currentPage,
+    itemsPerPage,
     administratorsCreate?.data,
     administratorsEdit?.data,
     administratorsDelete?.data,
@@ -112,18 +114,16 @@ const Administrators = (): JSX.Element => {
               )}
             />
 
-            <ABC
+            <Table
               filter={(<AdministratorsFilters adminId={1} />)}
               dataHeader={dataHeader}
               dataRow={dataRow}
-              className={styles.columns}
+              gridColumns={styles.columns}
               totalItems={pagination.totalItems}
             />
           </>
         )}
-        {(isTablet || isPhone) && (
-        <AdaptiveTable dataRow={dataRow} dataHeader={dataHeader} />
-        )}
+
         {/* {(isTablet || isPhone) && ( */}
         {/*  <> */}
         {/*    <TitlePage */}

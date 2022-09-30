@@ -4,6 +4,7 @@ import TableFilter from './TableFilter';
 import { ITableHeader } from './TableHeader';
 import { useDeviceContext } from '../../../context/TypeDevice';
 import DesktopTable from './typeDisplay/DesktopTable';
+import AdaptiveTable from './typeDisplay/AdaptiveTable';
 
 interface ITable {
   dataHeader: ITableHeader[] | [];
@@ -44,6 +45,9 @@ const Table = ({
           columScrollHorizontal={columScrollHorizontal}
           totalItems={totalItems}
         />
+      )}
+      {(isTablet || isPhone) && (
+        <AdaptiveTable dataHeader={dataHeader} dataRow={dataRow} />
       )}
     </>
   );

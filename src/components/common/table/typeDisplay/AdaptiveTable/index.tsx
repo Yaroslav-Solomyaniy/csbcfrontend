@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { ITableHeader } from '../../TableHeader';
 import { ITableRowItem } from '../../TableBody';
 import styles from './index.module.scss';

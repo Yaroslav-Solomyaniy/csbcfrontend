@@ -22,6 +22,7 @@ import ABC from '../../../components/common/table/ABC';
 import TableFilter from '../../../components/common/table/TableFilter';
 import MobileElementListGroupPageAdmin from './components/MobileElementListGroupPageAdmin';
 import { EditAndDelete } from '../../../components/common/GroupButtons';
+import Table from '../../../components/common/table';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'Номер групи' },
@@ -102,55 +103,53 @@ const Group = (): JSX.Element => {
   return (
     <Layout>
       <div>
-        {isDesktop && (
-          <>
-            <TitlePage
-              title="Групи"
-              action={(
-                <Button
-                  nameClass="primary"
-                  className={pagesStyle.buttonsCreate}
-                  size="large"
-                  onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
-                >
-                  Створити
-                </Button>
+        <TitlePage
+          title="Групи"
+          {...isPhone && ({ setIsActiveModal })}
+          {...isPhone && ({ isActiveModal: !!isActiveModal.filter })}
+          action={(
+            <Button
+              nameClass="primary"
+              className={pagesStyle.buttonsCreate}
+              size="large"
+              onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
+            >
+              Створити
+            </Button>
             )}
-            />
-            <ABC
-              filter={(<FilterPageGroup group={group} curator={curator} />)}
-              dataHeader={dataHeader}
-              dataRow={dataRow}
-              className={styles.columns}
-              totalItems={pagination.totalItems}
-            />
-          </>
-        )}
-        {(isTablet || isPhone) && (
-          <>
-            <TitlePage
-              title="Групи"
-              {...isPhone && ({ setIsActiveModal })}
-              {...isPhone && ({ isActiveModal: !!isActiveModal.filter })}
-              action={(
-                <Button
-                  nameClass="primary"
-                  className={pagesStyle.buttonsCreate}
-                  size="large"
-                  onClick={() => setIsActiveModal({ create: true })}
-                >
-                  Створити
-                </Button>
-              )}
-            />
-            {isTablet && (<TableFilter filter={<FilterPageGroup group={group} curator={curator} />} />)}
-            <MobileElementListGroupPageAdmin
-              data={data}
-              isActiveModal={isActiveModal}
-              setIsActiveModal={setIsActiveModal}
-            />
-          </>
-        )}
+        />
+        <Table
+          filter={(<FilterPageGroup group={group} curator={curator} />)}
+          dataHeader={dataHeader}
+          dataRow={dataRow}
+          gridColumns={styles.columns}
+          totalItems={pagination.totalItems}
+        />
+        {/* {(isTablet || isPhone) && ( */}
+        {/*  <> */}
+        {/*    <TitlePage */}
+        {/*      title="Групи" */}
+        {/*      {...isPhone && ({ setIsActiveModal })} */}
+        {/*      {...isPhone && ({ isActiveModal: !!isActiveModal.filter })} */}
+        {/*      action={( */}
+        {/*        <Button */}
+        {/*          nameClass="primary" */}
+        {/*          className={pagesStyle.buttonsCreate} */}
+        {/*          size="large" */}
+        {/*          onClick={() => setIsActiveModal({ create: true })} */}
+        {/*        > */}
+        {/*          Створити */}
+        {/*        </Button> */}
+        {/*      )} */}
+        {/*    /> */}
+        {/*    {isTablet && (<TableFilter filter={<FilterPageGroup group={group} curator={curator} />} />)} */}
+        {/*    <MobileElementListGroupPageAdmin */}
+        {/*      data={data} */}
+        {/*      isActiveModal={isActiveModal} */}
+        {/*      setIsActiveModal={setIsActiveModal} */}
+        {/*    /> */}
+        {/*  </> */}
+        {/* )} */}
         <PhoneFilter isActive={!!isActiveModal.filter} closeModal={closeModal}>
           <FilterPageGroup group={group} curator={curator} />
         </PhoneFilter>
@@ -166,4 +165,4 @@ Group.defaultProps = {
   filter: '',
 };
 
-export default Group;
+export default React.memo(Group);

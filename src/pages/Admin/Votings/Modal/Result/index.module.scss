@@ -1,4 +1,3 @@
-
 .BlockCourses {
   margin-bottom: 30px;
 }
@@ -21,9 +20,8 @@
   line-height: 28px;
 }
 
-
 .columns {
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
 }
 .columnsStudents{
   grid-template-columns: repeat(2, 1fr);

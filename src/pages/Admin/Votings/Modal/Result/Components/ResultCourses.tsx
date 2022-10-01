@@ -7,7 +7,8 @@ import { IGetVotingResultDataById } from '../../../../../../hooks/PagesInAdmin/u
 const dataHeaderCourses: ITableHeader[] = [
   { id: 1, label: 'Предмет' },
   { id: 2, label: 'Викладач' },
-  { id: 3, label: 'К-ть голосів' },
+  { id: 3, label: 'Вид проведення' },
+  { id: 4, label: 'К-ть голосів' },
 ];
 
 interface IResultCourses{
@@ -27,7 +28,8 @@ const ResultCourses = ({ formData }:IResultCourses):JSX.Element => (
             label: `${item.teacher.lastName}
                          ${item.teacher.firstName}
                          ${item.teacher.patronymic}` },
-          { id: 3, label: item.allVotes },
+          { id: 3, label: item.type },
+          { id: 4, label: item.allVotes },
         ],
         key: item.id,
       }))}
@@ -44,7 +46,8 @@ const ResultCourses = ({ formData }:IResultCourses):JSX.Element => (
             label: `${item.teacher.lastName}
                         ${item.teacher.firstName}
                         ${item.teacher.patronymic}` },
-          { id: 3, label: item.allVotes },
+          { id: 3, label: item.type },
+          { id: 4, label: item.allVotes },
         ],
         key: item.id,
       }))}

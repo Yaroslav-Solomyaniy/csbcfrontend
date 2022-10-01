@@ -5,7 +5,6 @@ import { ICreateModal } from '../../../../../types';
 import { ICreateVotingParams } from '../../../../../hooks/PagesInAdmin/useVotings';
 import { AdminVotingsContext } from '../../../../../context/PagesInAdmin/Votings';
 import { MessagesContext } from '../../../../../context/All/Messages';
-import { DeviceContext } from '../../../../../context/All/DeviceType';
 import CreateEditRevoteFormVotingAdmin from '../form/CreateEditRevoteFormVotingAdmin';
 
 const formInitialData: ICreateVotingParams = {
@@ -21,7 +20,6 @@ export const VotingCreateModal = ({ modalActive, closeModal }: ICreateModal): JS
   const [formData, setFormData] = useState<ICreateVotingParams>(formInitialData);
   const { votingCreate } = AdminVotingsContext();
   const { addInfo } = MessagesContext();
-  const { isDesktop, isTablet, isPhone } = DeviceContext();
 
   const handleClose = () => {
     setIsSubmitted(false);

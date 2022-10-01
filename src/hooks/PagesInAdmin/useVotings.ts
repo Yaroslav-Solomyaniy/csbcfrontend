@@ -255,6 +255,7 @@ export interface IGetVotingResultDataById {
       id: number | string;
       name: string;
       semester: number;
+      type:string;
        teacher: {
         id: number | string;
         firstName: string;

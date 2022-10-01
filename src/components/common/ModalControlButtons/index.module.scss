@@ -1,3 +1,11 @@
+.redButton{
+  background: rgba(240, 0, 0, 1);
+  border: none;
+  &:hover{
+    background: rgba(255, 0, 0, 1);
+    border: none;
+  }
+}
 .AdaptiveButtonsModal{
   display: flex;
   position: sticky;

@@ -3,6 +3,7 @@ import { Option, SelectType } from '../../../../types';
 import { useGetListCourses } from '../../../../hooks/All/useDropDowns';
 import MultiSelect from '../index';
 import { CoursesContext } from '../../../../context/PagesInAdmin/Courses';
+import { useCoursesGet } from '../../../../hooks/PagesInAdmin/useCourses';
 
 interface IMultiSelectCoursesNoOptional {
   label?: string;
@@ -14,6 +15,7 @@ interface IMultiSelectCoursesNoOptional {
   error?: string;
   required?: boolean;
   type: SelectType;
+  typeConduct: 'Загальна' | 'Фахова';
 }
 
 const MultiSelectCoursesNoOptional = ({
@@ -26,20 +28,25 @@ const MultiSelectCoursesNoOptional = ({
   isClearable,
   required,
   error,
+  typeConduct,
 }: IMultiSelectCoursesNoOptional): JSX.Element => {
   const { courseCreate, courseEdit, courseDelete } = CoursesContext();
-  const { optionCourses, getListCourses } = useGetListCourses();
+  const { getCourses, data } = useCoursesGet();
   const [options, setOptions] = useState<Option[]>([]);
 
   useEffect(() => {
-    getListCourses({ isCompulsory: false });
+    getCourses(
+      { type: ((typeConduct === 'Загальна')
+        ? 'Вибіркова загальна компетентність'
+        : 'Вибіркова фахова компетентність') },
+    );
   }, [courseCreate?.data, courseEdit?.data, courseDelete?.data]);
 
   useEffect(() => {
-    if (optionCourses?.items.length) {
-      setOptions(optionCourses.items.map((course) => ({ value: `${course.id}`, label: course.name })));
+    if (data?.items.length) {
+      setOptions(data.items.map((course) => ({ value: `${course.id}`, label: course.name })));
     }
-  }, [optionCourses]);
+  }, [data]);
 
   return (
     <MultiSelect

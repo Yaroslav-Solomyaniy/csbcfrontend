@@ -17,7 +17,7 @@ interface IResultStudents{
 const ResultStudents = ({ formData }:IResultStudents):JSX.Element => (
   <div className={styles.BlockStudents}>
     {formData.groups.map((item) => (
-      <>
+      <div key={item.id}>
         <h1 className={styles.Title}>
           Група
           {' '}
@@ -35,7 +35,7 @@ const ResultStudents = ({ formData }:IResultStudents):JSX.Element => (
           }))}
           gridColumns={styles.columnsStudents}
         />
-      </>
+      </div>
     ))}
   </div>
 );

@@ -38,7 +38,6 @@ const GroupPageModalDeleteForm = ({
           : (isSubmitted && (`${formData.deletedOrderNumber}`.length < 6 || `${formData.deletedOrderNumber}`.length > 20
             ? 'Номер наказу повинен містити не менше 6-ти символів' : ''))}
         placeholder="Номер наказу"
-        required
         pattern={NumbersAndLettersEn}
       />
     </form>

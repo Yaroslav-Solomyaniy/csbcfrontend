@@ -63,6 +63,7 @@ const VotingStudents = (): JSX.Element => {
             <h1 className={clsx(pagestyles.title, styles.firstTitle)}>Вибірковий профільний предмет(I семестр)</h1>
             <Table
               dataHeader={dataHeader}
+              isTableResult
               dataRow={votingCourses.requiredCourses.filter((item) => item.semester === 1).map((course) => ({ list: [
                 { id: 1,
                   label: <input
@@ -83,6 +84,7 @@ const VotingStudents = (): JSX.Element => {
             />
             <h1 className={pagestyles.title}>Вибірковий непрофільний предмет(I семестр)</h1>
             <Table
+              isTableResult
               dataHeader={dataHeader}
               dataRow={votingCourses.notRequiredCourses.filter((item) => item.semester === 1).map((course) => ({ list: [
                 { id: 1,
@@ -104,6 +106,7 @@ const VotingStudents = (): JSX.Element => {
             />
             <h1 className={pagestyles.title}>Вибірковий профільний предмет(II семестр)</h1>
             <Table
+              isTableResult
               dataHeader={dataHeader}
               dataRow={votingCourses.requiredCourses.filter((item) => item.semester === 2).map((course) => ({ list: [
                 { id: 1,
@@ -125,6 +128,7 @@ const VotingStudents = (): JSX.Element => {
             />
             <h1 className={pagestyles.title}>Вибірковий непрофільний предмет(II семестр)</h1>
             <Table
+              isTableResult
               dataHeader={dataHeader}
               dataRow={votingCourses.notRequiredCourses.filter((item) => item.semester === 2).map((course) => ({ list: [
                 { id: 1,

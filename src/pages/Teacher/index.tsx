@@ -101,7 +101,7 @@ const TeacherPage = (): JSX.Element => {
     <Layout>
       <div>
         <TitlePage
-          title="Студенти"
+          title="Оцінки студентів"
           {...isPhone && ({ setIsActiveModal })}
           {...isPhone && ({ isActiveModal: !!isActiveModal.filter })}
         />
@@ -112,7 +112,7 @@ const TeacherPage = (): JSX.Element => {
           gridColumns={styles.columns}
           totalItems={pagination.totalItems}
         />
-        <PhoneFilter modalTitle="Фільтрація студентів" isActive={!!isActiveModal.filter} closeModal={closeModal}>
+        <PhoneFilter modalTitle="Фільтрація Оцінок студентів" isActive={!!isActiveModal.filter} closeModal={closeModal}>
           <TeacherFilters studentId={studentId} groupId={groupId} courseId={courseId} />
         </PhoneFilter>
         <TeacherRatingEdit

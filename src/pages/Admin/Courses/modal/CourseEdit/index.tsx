@@ -5,7 +5,6 @@ import { IEditModal } from '../../../../../types';
 import { ICourseEditParams } from '../../../../../hooks/PagesInAdmin/useCourses';
 import { CoursesContext } from '../../../../../context/PagesInAdmin/Courses';
 import CoursesInputForm from '../form/create&edit';
-import { DeviceContext } from '../../../../../context/All/DeviceType';
 
 const formInitialData: ICourseEditParams = {
   name: '',
@@ -15,7 +14,7 @@ const formInitialData: ICourseEditParams = {
   semester: 1,
   isExam: false,
   lectureHours: null,
-  isCompulsory: '',
+  type: 'Загальна компетентність',
 };
 
 export const CourseEdit = ({ modalActive, closeModal, studentId }: IEditModal): JSX.Element => {
@@ -23,7 +22,6 @@ export const CourseEdit = ({ modalActive, closeModal, studentId }: IEditModal): 
   const [formData, setFormData] = useState<ICourseEditParams>(formInitialData);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const { courseEdit, getCourseId } = CoursesContext();
-  const { isPhone, isDesktop, isTablet } = DeviceContext();
 
   const handleClose = () => {
     setIsSubmitted(false);
@@ -39,8 +37,8 @@ export const CourseEdit = ({ modalActive, closeModal, studentId }: IEditModal): 
     if (formData.name && formData.credits
       && formData.teacher && formData.semester
       && formData.lectureHours && formData.groups.toString().length >= 1
-      && (formData.isCompulsory === 'true' || formData.isCompulsory === 'false')) {
-      courseEdit?.courseEdit({ ...formData, isCompulsory: formData.isCompulsory === 'true' }, studentId);
+      && formData.type) {
+      courseEdit?.courseEdit(formData, studentId);
     }
   };
 
@@ -61,7 +59,7 @@ export const CourseEdit = ({ modalActive, closeModal, studentId }: IEditModal): 
         isActive: getCourseId.data.isActive,
         isExam: !!getCourseId.data.isExam,
         lectureHours: getCourseId.data.lectureHours ? +getCourseId.data.lectureHours : null,
-        isCompulsory: `${getCourseId.data.isCompulsory}`,
+        type: getCourseId.data.type,
       };
 
       setFormData(data);

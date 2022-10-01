@@ -5,7 +5,6 @@ import { ICoursesCreateParams } from '../../../../../hooks/PagesInAdmin/useCours
 import { ICreateModal } from '../../../../../types';
 import { CoursesContext } from '../../../../../context/PagesInAdmin/Courses';
 import CoursesInputForm from '../form/create&edit';
-import { DeviceContext } from '../../../../../context/All/DeviceType';
 
 const formInitialData: ICoursesCreateParams = {
   name: '',
@@ -16,14 +15,13 @@ const formInitialData: ICoursesCreateParams = {
   isActive: false,
   isExam: false,
   lectureHours: null,
-  isCompulsory: 'true',
+  type: 'Загальна компетентність',
 };
 
 export const CourseCreateModal = ({ modalActive, closeModal }: ICreateModal): JSX.Element => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState<ICoursesCreateParams>(formInitialData);
 
-  const { isTablet, isPhone, isDesktop } = DeviceContext();
   const { courseCreate } = CoursesContext();
   const { addInfo } = MessagesContext();
 
@@ -41,8 +39,8 @@ export const CourseCreateModal = ({ modalActive, closeModal }: ICreateModal): JS
     if (formData.name && formData.credits
       && formData.teacher && formData.semester
       && formData.lectureHours && formData.groups.toString().length >= 1
-      && (formData.isCompulsory === 'true' || formData.isCompulsory === 'false')) {
-      courseCreate?.createCourse({ ...formData, isCompulsory: formData.isCompulsory === 'true' });
+      && formData.type) {
+      courseCreate?.createCourse(formData);
     }
   };
 

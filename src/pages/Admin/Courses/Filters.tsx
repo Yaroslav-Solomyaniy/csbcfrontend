@@ -2,16 +2,16 @@ import React from 'react';
 import SelectCourse from '../../../components/common/Select/SelectCourse';
 import SelectTeacher from '../../../components/common/Select/SelectTeacher';
 import SelectGroupById from '../../../components/common/Select/SelectGroupById';
-import SelectCompulsory from '../../../components/common/Select/SelectCompulsory';
+import SelectCompulsory from '../../../components/common/Select/SelectTypeCourse';
 import { useQueryParam } from '../../../hooks/All/useQueryParams';
 
 interface ICoursesFilters{
   courseId: number;
   groupId: number;
   teacherId: number;
-  isCompulsory: string;
+  courseType: string;
 }
-const CoursesFilters = ({ courseId, groupId, teacherId, isCompulsory }:ICoursesFilters) => {
+const CoursesFilters = ({ courseId, groupId, teacherId, courseType }:ICoursesFilters) => {
   const { post } = useQueryParam();
 
   return (
@@ -46,8 +46,8 @@ const CoursesFilters = ({ courseId, groupId, teacherId, isCompulsory }:ICoursesF
       <SelectCompulsory
         type="filter"
         placeholder="Вид проведення"
-        onChange={(value) => post({ isCompulsory: value, currentPage: 1 })}
-        value={isCompulsory}
+        onChange={(value) => post({ courseType: value, currentPage: 1 })}
+        value={courseType}
         isClearable
         isSearchable
         isFilter

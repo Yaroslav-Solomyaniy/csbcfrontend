@@ -3,6 +3,12 @@
   align-items: center;
   margin-top: 16px;
 }
+.desktop_wrap_center{
+  display: flex;
+  align-items: center;
+  margin-top: 16px;
+  justify-content: center;
+}
 .tablet_wrap{
   width: 408px;
   display: flex;
@@ -10,7 +16,21 @@
   margin: 10px auto 0 auto;
   box-sizing: border-box;
 }
+.tablet_wrap_center{
+  width: 408px;
+  display: flex;
+  flex-direction: column;
+  margin: 10px auto 0 auto;
+  box-sizing: border-box;
+}
 .phone_wrap{
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 288px;
+  margin: 16px auto 0 auto;
+}
+.phone_wrap_center{
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
@@ -33,8 +53,9 @@
   text-align: left;
 }
 
-.inputWrap{
+.inputWrap_center{
   width: 100%;
+  text-align: center;
 }
 
 .desktop_input{

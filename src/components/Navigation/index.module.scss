@@ -43,9 +43,10 @@
   padding: 24px 24px 40px 24px;
 }
 .content_mobile{
-  overflow: hidden;
+  overflow-y: auto;
   width: 100vw;
   position: relative;
   top: 56px;
   padding: 24px 24px 40px 24px;
+  height: calc(100vh - 24px - 56px - 40px);
 }

@@ -62,8 +62,8 @@ const TabletDatePicker = ({
         minDate={minDate}
         timeIntervals={15}
         maxDate={maxDate}
+        onFocus={(e) => e.target.blur()}
         shouldCloseOnSelect={false}
-        disabledKeyboardNavigation
         showYearDropdown
         dropdownMode="select"
         showDisabledMonthNavigation={showDisabledMonthNavigation}

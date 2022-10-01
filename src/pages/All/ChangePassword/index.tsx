@@ -88,10 +88,14 @@ const ChangePassword = (): JSX.Element => {
           />
         ))}
       </div>
-      <button className={styles.changePassword__button} onClick={() => navigate(-1)} type="button">
+      <Button
+        className={styles.changePassword__button}
+        onClick={() => navigate(-1)}
+        isImg
+      >
         <img src={leftArrow} alt=" " />
-        Повернутися
-      </button>
+        Повернутись
+      </Button>
 
       <div className={styles.changePassword__div}>
         <div className={styles.changePassword__form}>
@@ -137,6 +141,7 @@ const ChangePassword = (): JSX.Element => {
             nameClass="primary"
             className={styles.changePassword__form__button}
             onClick={onSubmit}
+            disabled={!formData.newPassword || !formData.oldPassword || !formData.confirmedPassword}
           >
             Зберегти
           </Button>

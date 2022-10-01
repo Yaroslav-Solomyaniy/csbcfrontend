@@ -34,10 +34,11 @@ export const SelectStylesDesktop:any = {
     }),
     option: (base: any, state: any) => ({
       ...base,
-      background: state.isSelected ? '#428BCA' : '#FEFEFE',
+      color: 'rgba(0, 0, 0, 0.75)',
+      background: '#FEFEFE',
       '&:hover': {
         cursor: 'pointer',
-        background: state.isSelected ? '#428BCA' : '#D7E7F4',
+        background: '#D7E7F4',
       },
     }),
     menu: (base: any) => ({

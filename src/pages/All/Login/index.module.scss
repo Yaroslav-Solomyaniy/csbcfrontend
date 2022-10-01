@@ -32,7 +32,7 @@
       padding: 10px 16px;
       height: 20px;
       font-size: 14px;
-      margin: 8px 0;
+      margin-top: 8px;
       border: 1px solid rgba(0, 0, 0, 0.1);
       border-radius: 8px;
     }
@@ -46,9 +46,12 @@
 
     a {
       margin: 32px auto 0;
-      text-underline-offset: 2px;
+      text-underline-offset: 5px;
     }
   }
+}
+.second_input{
+  margin-top: 16px;
 }
 
 .checkbox{

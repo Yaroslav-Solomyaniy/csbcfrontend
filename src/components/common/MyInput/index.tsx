@@ -30,9 +30,9 @@ const ModalInput = ({
 
   return (
     <div className={clsx(
-      isDesktop && styles.desktop_wrap,
-      isTablet && styles.tablet_wrap,
-      isPhone && styles.phone_wrap,
+      isDesktop && (label ? styles.desktop_wrap : styles.desktop_wrap_center),
+      isTablet && (label ? styles.tablet_wrap : styles.tablet_wrap_center),
+      isPhone && (label ? styles.phone_wrap : styles.phone_wrap_center),
     )}
     >
       {label && (
@@ -46,7 +46,7 @@ const ModalInput = ({
           {required && <span className={styles.required}>*</span>}
         </label>
       )}
-      <div className={clsx(styles.inputWrap)}>
+      <div>
         <input
           type={inputType}
           className={clsx(isDesktop ? styles.desktop_input : styles.mobile_input, className)}

@@ -35,12 +35,20 @@ const SelectCompulsory = ({
 }: ISelectCompulsory): JSX.Element => {
   const [options] = useState<Option[]>([
     {
-      value: 'true',
-      label: "Обов'язковий",
+      value: 'Загальна компетентність',
+      label: 'Загальна компетентність',
     },
     {
-      value: 'false',
-      label: "Не обов'язковий",
+      value: 'Фахова компетентність',
+      label: 'Фахова компетентність',
+    },
+    {
+      value: 'Вибіркова загальна компетентність',
+      label: 'Вибіркова загальна компетентність',
+    },
+    {
+      value: 'Вибіркова фахова компетентність',
+      label: 'Вибіркова фахова компетентність',
     }]);
 
   return (

@@ -34,7 +34,8 @@ const Table = ({
   return (
     <>
       {(isDesktop || isTablet) && (<TableFilter filter={filter} />)}
-      {isDesktop && (
+
+      {((isDesktop) || (isTablet && (isTableResult || isHistoryTable))) && (
         <DesktopTable
           dataRow={dataRow}
           dataHeader={dataHeader}
@@ -46,8 +47,13 @@ const Table = ({
           totalItems={totalItems}
         />
       )}
-      {(isTablet || isPhone) && (
-        <AdaptiveTable dataHeader={dataHeader} dataRow={dataRow} />
+      {((isTablet && (!isTableResult && !isHistoryTable)) || isPhone) && (
+        <AdaptiveTable
+          isHistoryTable={isHistoryTable}
+          isTableResult={isTableResult}
+          dataHeader={dataHeader}
+          dataRow={dataRow}
+        />
       )}
     </>
   );

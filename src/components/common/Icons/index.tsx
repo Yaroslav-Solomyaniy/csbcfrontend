@@ -235,7 +235,7 @@ export const buttonNav = ({ ...props }: Record<any, any>): JSX.Element => (
 );
 
 export const Administrators = ({ ...props }: Record<any, any>): JSX.Element => (
-  <Svg viewBox="0 0 16 16" {...props}>
+  <Svg viewBox="0 0 16 18" {...props}>
     <path
       d="M9.33331 4.6665H6.66665C5.93331 4.6665 5.33331 5.2665 5.33331 5.99984V9.99984H6.66665V14.6665H9.33331V9.99984H10.6666V5.99984C10.6666 5.2665 10.0666 4.6665 9.33331 4.6665Z"
       fill="currentColor"

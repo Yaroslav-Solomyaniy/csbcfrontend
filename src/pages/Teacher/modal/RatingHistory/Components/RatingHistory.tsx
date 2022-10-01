@@ -25,12 +25,15 @@ const RatingHistory = ({ infoRow, dataHeader, dataRow, closeModal, modalTitle }:
       <div className={styles.subtitle}>
         {`Предмет: ${infoRow.courseName}`}
       </div>
-      <Table
-        dataHeader={dataHeader}
-        dataRow={dataRow}
-        gridColumns={styles.columns}
-        isHistoryTable
-      />
+      <div className={styles.blocs}>
+        <Table
+          dataHeader={dataHeader}
+          dataRow={dataRow}
+          gridColumns={styles.columns}
+          isHistoryTable
+        />
+      </div>
+
     </div>
     <ModalControlButtons
       handleClose={closeModal}

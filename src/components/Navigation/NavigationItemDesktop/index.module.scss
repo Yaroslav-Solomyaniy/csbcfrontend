@@ -14,7 +14,6 @@
   }
 
   .link:hover {
-    transition: all 0.01ms;
     background-color: #D7E7F4;
   }
 
@@ -23,7 +22,6 @@
   }
 
   &:hover {
-    transition: all 0.1s;
     background-color: #ffffff;
     color: black;
 
@@ -45,7 +43,7 @@
   align-items: center;
   text-decoration: none;
   border-radius: 8px;
-  transition: all 1s;
+
 
   .title {
     overflow: hidden;
@@ -64,10 +62,10 @@
     margin: 13px 16px;
     transition: all 0.1s;
     fill: #607180;
+    scale: 1.35;
   }
 
   &:hover {
-    transition: all 0.1s;
     background-color: #D7E7F4;
     color: black;
 

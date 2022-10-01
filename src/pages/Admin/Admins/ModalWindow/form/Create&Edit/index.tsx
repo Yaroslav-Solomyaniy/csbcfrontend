@@ -50,8 +50,8 @@ const AdministratorsForm = ({ formData,
             setFormData({ ...formData, patronymic: event.target.value.slice(0, 15) });
           }}
           value={formData.patronymic}
-          placeholder="По-Батькові"
-          label="По-Батькові"
+          placeholder="По батькові"
+          label="По батькові"
           required
           error={isSubmitted && !formData.patronymic ? 'По батькові не введено' : ''}
           pattern={LettersAndNumbersEnUa}

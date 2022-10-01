@@ -27,30 +27,19 @@ const formInitialData = {
   isFullTime: true,
 };
 
-const selectValueDefault = {
-  group: '',
-  isFullTime: 'Денна',
-};
-
 export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateModal): JSX.Element => {
   const { studentCreate } = StudentsContext();
   const { addInfo } = MessagesContext();
   const [formData, setFormData] = useState<IStudentCreateParams>(formInitialData);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [selectValue, setSelectValue] = useState(selectValueDefault);
 
   const handleClose = () => {
     setIsSubmitted(false);
     closeModal();
     setTimeout(() => {
       setFormData(formInitialData);
-      setSelectValue(selectValueDefault);
     }, 200);
   };
-
-  useEffect(() => {
-    setSelectValue({ ...selectValue, isFullTime: formData.isFullTime ? 'Денна' : 'Заочна' });
-  }, [formData.isFullTime]);
 
   const onSubmit = (e: React.FormEvent | undefined) => {
     e?.preventDefault?.();

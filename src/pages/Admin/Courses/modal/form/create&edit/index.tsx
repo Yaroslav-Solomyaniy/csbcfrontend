@@ -5,7 +5,7 @@ import MultiSelectGroup from '../../../../../../components/common/MultiSelect/Mu
 import SelectTeacher from '../../../../../../components/common/Select/SelectTeacher';
 import SelectSemester from '../../../../../../components/common/Select/SelectSemester';
 import SelectExam from '../../../../../../components/common/Select/SelectIsExam';
-import SelectCompulsory from '../../../../../../components/common/Select/SelectCompulsory';
+import SelectCompulsory from '../../../../../../components/common/Select/SelectTypeCourse';
 import ModalControlButtons from '../../../../../../components/common/ModalControlButtons';
 import { ICourseEditParams, ICoursesCreateParams } from '../../../../../../hooks/PagesInAdmin/useCourses';
 import styles from '../../../../../pagesStyle.module.scss';
@@ -102,8 +102,7 @@ const CoursesInputForm = ({ formData,
             setFormData({ ...formData, isExam: !!value });
           }}
           value={formData.isExam}
-          error={(isSubmitted
-            && !(formData.isExam === true || formData.isExam === false)) ? 'Вид контролю не обрано.' : ''}
+          error={(isSubmitted && !(formData.isExam || !formData.isExam)) ? 'Вид контролю не обрано.' : ''}
         />
         <ModalInput
           onChange={(event) => {
@@ -123,11 +122,10 @@ const CoursesInputForm = ({ formData,
           required
           isSearchable
           onChange={(value) => {
-            setFormData({ ...formData, isCompulsory: value });
+            setFormData({ ...formData, type: value });
           }}
-          value={formData.isCompulsory}
-          error={(isSubmitted && !(formData.isCompulsory === 'true'
-            || formData.isCompulsory === 'false')) ? 'Вид проведення не обрано.' : ''}
+          value={formData.type}
+          error={(isSubmitted && !formData.type) ? 'Вид проведення не обрано.' : ''}
         />
       </form>
       <ModalControlButtons

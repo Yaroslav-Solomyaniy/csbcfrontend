@@ -13,20 +13,20 @@
   height: 0;
   padding: 0;
 
-  transition: all .5s linear;
+  transition: all .4s linear;
   overflow: hidden;
 
   &__active{
-    transition: all .7s linear;
+    transition: all .5s linear;
     height: 86px;
     padding: 4px 0;
     &_mobileAdmin{
-      transition: all 1s linear;
+      transition: all .5s linear;
       height: 420px;
       padding: 4px 0;
     }
     &_mobileStudent{
-      transition: all 1s linear;
+      transition: all .5s linear;
       height: 170px;
       padding: 4px 0;
     }
@@ -47,7 +47,7 @@
     width: 100vw;
     height: 100vh;
     background-color: rgba(0,0,0,0.5);
-    transition: background-color .5s linear;
+    transition: background-color .3s linear;
     overflow: hidden;
   }
 }

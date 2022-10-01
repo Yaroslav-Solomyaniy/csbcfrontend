@@ -107,7 +107,7 @@ interface IGetListCoursesParams{
     | 'created'
     | 'updated';
   orderBy?: OrderBy;
-  isCompulsory?: boolean;
+  type?: string;
   courseName?: string | number;
   teacherId?: number;
   page?:number;
@@ -121,7 +121,7 @@ export interface IGetListCoursesData {
   lectureHours: number;
   isActive: boolean;
   semester: number;
-  isCompulsory: boolean;
+  type: string;
   teacher: {
     id: number;
     firstName: string;
@@ -155,7 +155,7 @@ export const useGetListCourses = (): IUseGetListCourses => {
   const [optionCourses, setOptionCourses] = useState<IPaginateData<IGetListCoursesData> | null>(null);
 
   const getListCourses = (params?: IGetListCoursesParams) => {
-    axios.get(`${process.env.REACT_APP_API_URL}/courses/course/dropdown`, {
+    axios.get(`${process.env.REACT_APP_API_URL}/courses/name`, {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },

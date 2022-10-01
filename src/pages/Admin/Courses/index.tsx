@@ -50,7 +50,7 @@ const Courses = (): JSX.Element => {
   const courseId = Number(get('courseId'));
   const groupId = Number(get('groupId'));
   const teacherId = Number(get('teacherId'));
-  const isCompulsory = String(get('isCompulsory'));
+  const courseType = get('courseType');
   const currentPage = Number(get('currentPage')) || 1;
   const itemsPerPage = Number(get('itemsPerPage')) || 10;
 
@@ -64,12 +64,12 @@ const Courses = (): JSX.Element => {
     if (courseId) query.id = courseId;
     if (groupId) query.groups = groupId;
     if (teacherId) query.teacher = teacherId;
-    if (isCompulsory === 'true' || isCompulsory === 'false') query.isCompulsory = isCompulsory === 'true';
+    if (courseType) query.type = courseType.toString();
     if (currentPage) query.page = currentPage;
     if (itemsPerPage) query.limit = itemsPerPage;
 
     getCourses?.getCourses(query);
-  }, [courseId, groupId, teacherId, isCompulsory, currentPage,
+  }, [courseId, groupId, teacherId, courseType, currentPage,
     itemsPerPage, courseCreate?.data, courseEdit?.data, courseDelete?.data]);
 
   useEffect(() => {
@@ -89,7 +89,7 @@ const Courses = (): JSX.Element => {
           { id: 5, label: item.groups.map((group) => group.name).join(',') },
           { id: 6, label: `${item.lectureHours}` },
           { id: 7, label: item.isExam ? 'Іспит' : 'Залік' },
-          { id: 8, label: item.isCompulsory ? "Обов'язковий" : "Не обов'язковий" },
+          { id: 8, label: item.type },
           {
             id: 9,
             label: <EditAndDelete isActiveModal={isActiveModal} setIsActiveModal={setIsActiveModal} itemId={item.id} />,
@@ -124,7 +124,7 @@ const Courses = (): JSX.Element => {
               courseId={courseId}
               groupId={groupId}
               teacherId={teacherId}
-              isCompulsory={isCompulsory}
+              courseType={courseType}
             />
           )}
           dataHeader={dataHeader}
@@ -134,7 +134,7 @@ const Courses = (): JSX.Element => {
         />
 
         <PhoneFilter modalTitle="Фільтрація предметів" isActive={!!isActiveModal.filter} closeModal={closeModal}>
-          <CoursesFilters courseId={courseId} groupId={groupId} teacherId={teacherId} isCompulsory={isCompulsory} />
+          <CoursesFilters courseId={courseId} groupId={groupId} teacherId={teacherId} courseType={courseType} />
         </PhoneFilter>
 
         <CourseCreateModal

@@ -26,7 +26,7 @@ export interface IGetCoursesParams {
   isExam?: boolean;
   isActive?: boolean;
   semester?: number;
-  isCompulsory?: boolean;
+  type?: string;
   teacher?: number;
   groups?: number;
   page?: number;
@@ -41,7 +41,10 @@ export interface IGetCoursesData {
   isActive: boolean;
   semester: number;
   isExam: boolean;
-  isCompulsory: boolean;
+  type: 'Загальна компетентність'
+    | 'Фахова компетентність'
+    | 'Вибіркова загальна компетентність'
+    | 'Вибіркова фахова компетентність';
   teacher: {
     id: number;
     firstName: string;
@@ -92,7 +95,7 @@ export interface ICoursesCreateParams {
   lectureHours: number | null;
   isActive: boolean;
   semester: number;
-  isCompulsory: boolean | string;
+  type: string;
   isExam: boolean;
   teacher: number;
   groups: number [];
@@ -141,7 +144,7 @@ interface IGetCourseIdData {
   lectureHours: number | string;
   isActive: boolean;
   semester: number;
-  isCompulsory: string;
+  type: string;
   isExam: string;
   teacher: {
     'id': number;
@@ -191,7 +194,7 @@ export interface ICourseEditParams {
   lectureHours: number | null;
   isActive?: boolean;
   semester: number;
-  isCompulsory: boolean | string;
+  type: string;
   isExam: boolean;
   teacher: number | null;
   groups: number [];

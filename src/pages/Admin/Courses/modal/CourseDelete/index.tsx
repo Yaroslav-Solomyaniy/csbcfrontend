@@ -3,14 +3,12 @@ import ModalWindow from '../../../../../components/common/ModalWindow';
 import { MessagesContext } from '../../../../../context/All/Messages';
 import { CoursesContext } from '../../../../../context/PagesInAdmin/Courses';
 import { IDeleteModal } from '../../../../../types';
-import { DeviceContext } from '../../../../../context/All/DeviceType';
 import CourseDeleteForm from '../form/Delete';
 
 export const CourseDeleteModal = ({ modalActive, closeModal, Id }: IDeleteModal): JSX.Element => {
   const [courseName, setCourseName] = useState<string>();
   const { courseDelete, getCourseId } = CoursesContext();
   const { addInfo } = MessagesContext();
-  const { isTablet, isPhone, isDesktop } = DeviceContext();
 
   const onSubmit = (e: React.FormEvent | undefined) => {
     e?.preventDefault?.();

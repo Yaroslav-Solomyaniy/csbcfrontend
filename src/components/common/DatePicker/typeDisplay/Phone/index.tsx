@@ -63,7 +63,7 @@ const PhoneDatePicker = ({
         timeIntervals={15}
         maxDate={maxDate}
         shouldCloseOnSelect={false}
-        disabledKeyboardNavigation
+        onFocus={(e) => e.target.blur()}
         showYearDropdown
         dropdownMode="select"
         showDisabledMonthNavigation={showDisabledMonthNavigation}

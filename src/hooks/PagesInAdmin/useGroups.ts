@@ -123,7 +123,7 @@ export interface IUseGroupCreate {
 }
 
 export const useGroupCreate = (): IUseGroupCreate => {
-  const { addErrors, addInfo } = MessagesContext();
+  const { addErrors } = MessagesContext();
   const { user } = AuthContext();
   const [data, setData] = useState<IGroupCreateResponse | null>(null);
 

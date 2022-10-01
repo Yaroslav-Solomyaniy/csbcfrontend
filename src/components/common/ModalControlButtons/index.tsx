@@ -34,7 +34,7 @@ const ModalControlButtons = ({
         onClick={onSubmit}
         nameClass="primary"
         size="small"
-        className={styles.submitButton}
+        className={clsx(styles.submitButton, mainButtonText === 'Видалити' && styles.redButton)}
       >
         {mainButtonText}
       </Button>

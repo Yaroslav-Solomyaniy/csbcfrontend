@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import clsx from 'clsx';
 import styles from './index.module.scss';
 import { LoginParams } from '../../../hooks/All/useAuth';
 import { AuthContext } from '../../../context/All/AuthContext';
@@ -41,7 +42,7 @@ const Login = (): JSX.Element => {
             />
 
             <Input
-              className={styles.login__form__input}
+              className={clsx(styles.login__form__input, styles.second_input)}
               inputType="password"
               placeholder="Пароль"
               value={formData.password}

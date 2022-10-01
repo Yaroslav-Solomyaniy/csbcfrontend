@@ -42,8 +42,8 @@ const CreateEditRevoteFormVotingAdmin = ({ formData,
         />
         <MultiSelectCoursesNoOptional
           type="modal"
-          label="Профільні предмети"
-          placeholder="Профільні предмети"
+          label="Фахові компетентності"
+          placeholder="Фахові компетентності"
           required
           isSearchable
           isClearable
@@ -56,11 +56,12 @@ const CreateEditRevoteFormVotingAdmin = ({ formData,
           }}
           value={formData.requiredCourses.map((course) => `${course}`)}
           error={isSubmitted && formData.requiredCourses.length < 1 ? 'Не обрано жодного предмету' : ''}
+          typeConduct="Фахова"
         />
         <MultiSelectCoursesNoOptional
           type="modal"
-          label="Не профільні предмети"
-          placeholder="Не профільні предмети"
+          label="Загальні компетентності"
+          placeholder="Загальні компетентності"
           required
           isSearchable
           isClearable
@@ -73,6 +74,7 @@ const CreateEditRevoteFormVotingAdmin = ({ formData,
           }}
           value={formData.notRequiredCourses.map((course) => `${course}`)}
           error={isSubmitted && formData.notRequiredCourses.length < 1 ? 'Не обрано жодного предмету' : ''}
+          typeConduct="Загальна"
         />
         <MyDatePicker
           label="Дата початку"

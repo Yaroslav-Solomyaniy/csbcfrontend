@@ -7,29 +7,54 @@ import AdaptiveTableModalButtons from '../../../AdaptiveTableModalButtons';
 interface IAdaptiveTable{
   dataHeader: ITableHeader[];
   dataRow: ITableRowItem[];
+  isTableResult: boolean | undefined;
+  isHistoryTable: boolean | undefined;
 }
 
-const AdaptiveTable = ({ dataHeader, dataRow }:IAdaptiveTable) => (
+const AdaptiveTable = ({ dataHeader, dataRow, isTableResult, isHistoryTable }:IAdaptiveTable) => (
   <>
-    {dataRow.map((rowItem) => (
-      <div key={rowItem.key} className={styles.block}>
-        <div className={styles.content}>
-          {rowItem.list
-            .slice(0, rowItem.list.length - 1)
-            .map((i, index) => (
-              <h6 key={i.id} className={index === 0 ? styles.Title : styles.Subtitle}>
-                {index !== 0 && (`${dataHeader[index]?.label}: `) }
-                {i.label}
-              </h6>
-            ))}
+    {(!isTableResult && !isHistoryTable) && (
+      dataRow.map((rowItem) => (
+        <div key={rowItem.key} className={styles.block}>
+          <div className={styles.content}>
+            {rowItem.list
+              .slice(0, rowItem.list.length - 1)
+              .map((i, index) => (
+                <h6 key={i.id} className={index === 0 ? styles.Title : styles.Subtitle}>
+                  {index !== 0 && (`${dataHeader[index]?.label}: `) }
+                  {i.label}
+                </h6>
+              ))}
+          </div>
+          <div className={styles.Buttons}>
+            <AdaptiveTableModalButtons>
+              {rowItem.list[rowItem.list.length - 1].label}
+            </AdaptiveTableModalButtons>
+          </div>
         </div>
-        <div className={styles.Buttons}>
-          <AdaptiveTableModalButtons>
-            {rowItem.list[rowItem.list.length - 1].label}
-          </AdaptiveTableModalButtons>
-        </div>
-      </div>
-    ))}
+      ))
+    )}
+    {(isTableResult || isHistoryTable) && (
+      dataRow.length
+        ? dataRow.map((rowItem) => (
+          <div key={rowItem.key} className={styles.block}>
+            <div className={styles.content}>
+              {rowItem.list.map((i, index) => (
+                <h6 key={i.id} className={index === 0 ? styles.Title : styles.Subtitle}>
+                  {index !== 0 && (`${dataHeader[index]?.label}: `) }
+                  {i.label}
+                </h6>
+              ))}
+            </div>
+          </div>
+        ))
+        : (
+          <div className={styles.block_no_data}>
+            <div className={styles.no_data}>Дані відсутні</div>
+          </div>
+        )
+
+    )}
   </>
 );
 

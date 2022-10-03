@@ -7,7 +7,7 @@ import Layout from '../../../loyout/Layout';
 import { ITableHeader } from '../../../components/common/Table/TypeDisplay/Desktop/TableHeader';
 import { ITableRowItem } from '../../../components/common/Table/TypeDisplay/Desktop/TableBody';
 import { initialPagination, Pagination } from '../../../types';
-import { AdminVotingsContext } from '../../../context/PagesInAdmin/Votings';
+import { VotingsAdmin } from '../../../context/PagesInAdmin/Votings';
 import { IGetVotingAdminData, IGetVotingAdminParams } from '../../../hooks/PagesInAdmin/useVotings';
 import VotingEditModal from './Modal/Edit';
 import VotingDeleteModal from './Modal/Delete';
@@ -19,6 +19,7 @@ import { useQueryParam } from '../../../hooks/All/useQueryParams';
 import { EditDeleteReviewApprove } from '../../../components/common/CollectionMiniButtons';
 import PhoneFilter from '../../../components/common/PhoneFilter';
 import Table from '../../../components/common/Table';
+import VotingSubmitModal from './Modal/Submit';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'Групи' },
@@ -44,7 +45,7 @@ const VotingAdmin = (): JSX.Element => {
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
   const [pagination, setPagination] = useState<Pagination>({ ...initialPagination });
 
-  const { getVoting, votingDelete, votingEdit, votingCreate } = AdminVotingsContext();
+  const { getVoting, votingDelete, votingEdit, votingCreate } = VotingsAdmin();
   const { isPhone } = DeviceContext();
   const { get } = useQueryParam();
 
@@ -158,6 +159,11 @@ const VotingAdmin = (): JSX.Element => {
           id={isActiveModal.result as number}
           closeModal={closeModal}
           isRevote
+        />
+        <VotingSubmitModal
+          modalActive={!!isActiveModal.approve}
+          closeModal={closeModal}
+          votingId={isActiveModal.approve as number}
         />
       </div>
     </Layout>

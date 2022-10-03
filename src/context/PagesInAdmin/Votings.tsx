@@ -25,9 +25,9 @@ const defaultValue: IVotingsContext = {
   votingResult: null,
 };
 
-export const adminVotingsContext = createContext<IVotingsContext>(defaultValue);
+export const votingsAdminContext = createContext<IVotingsContext>(defaultValue);
 
-const AdminVotingsProvider: React.FC = ({ children }): JSX.Element => {
+const VotingAdminProvider: React.FC = ({ children }): JSX.Element => {
   const getVoting = useVotingGet();
   const votingCreate = useVotingCreate();
   const votingEdit = useVotingEdit();
@@ -36,13 +36,13 @@ const AdminVotingsProvider: React.FC = ({ children }): JSX.Element => {
   const votingResult = useVotingGetResultById();
 
   return (
-    <adminVotingsContext.Provider
+    <votingsAdminContext.Provider
       value={{ getVoting, votingCreate, votingEdit, votingGetById, votingDelete, votingResult }}
     >
       {children}
-    </adminVotingsContext.Provider>
+    </votingsAdminContext.Provider>
   );
 };
 
-export default AdminVotingsProvider;
-export const AdminVotingsContext = (): IVotingsContext => useContext(adminVotingsContext);
+export default VotingAdminProvider;
+export const VotingsAdmin = (): IVotingsContext => useContext(votingsAdminContext);

@@ -12,6 +12,8 @@
 
 .form {
   padding: 40px 0;
+  max-height: 60vh;
+  overflow-y: auto;
 
   & p {
     text-align: center;

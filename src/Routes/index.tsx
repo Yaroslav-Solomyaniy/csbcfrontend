@@ -25,7 +25,7 @@ import PasRec from '../pages/All/PasswordRecovery';
 import styles from '../pages/All/PasswordRecovery/index.module.scss';
 import leftArrow from '../images/login/leftArrow.svg';
 import { AuthContext } from '../context/All/AuthContext';
-import AdminVotingsProvider from '../context/PagesInAdmin/Votings';
+import VotingAdminProvider from '../context/PagesInAdmin/Votings';
 import StudentProvider from '../context/PagesInStudent/Student';
 import TeacherProvider from '../context/PageInTeacher/Teacher';
 
@@ -62,7 +62,7 @@ const AppRoutes = () => {
           />
           <Route
             path="/voting-admin"
-            element={<AdminVotingsProvider><VotingAdmin /></AdminVotingsProvider>}
+            element={<VotingAdminProvider><VotingAdmin /></VotingAdminProvider>}
           />
           <Route
             path="/administrators"

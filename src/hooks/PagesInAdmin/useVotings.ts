@@ -223,7 +223,7 @@ export const useVotingDelete = (): IUseVotingDelete => {
   return { data, votingDelete };
 };
 interface IGetVotingResultByIdParams {
-  id: string;
+  id: number;
 }
 
 export interface IGetVotingResultDataById {

@@ -3,7 +3,7 @@ import moment from 'moment';
 import ModalWindow from '../../../../../components/common/ModalWindow';
 import 'react-datepicker/dist/react-datepicker.css';
 import { IVotingEditParams } from '../../../../../hooks/PagesInAdmin/useVotings';
-import { AdminVotingsContext } from '../../../../../context/PagesInAdmin/Votings';
+import { VotingsAdmin } from '../../../../../context/PagesInAdmin/Votings';
 import { MessagesContext } from '../../../../../context/All/Messages';
 import CreateEditRevoteFormVotingAdmin from '../form/CreateEditRevoteFormVotingAdmin';
 import { DeviceContext } from '../../../../../context/All/DeviceType';
@@ -33,7 +33,7 @@ export const VotingEditModal = (
 ): JSX.Element => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState(formInitialData);
-  const { votingGetById, votingEdit } = AdminVotingsContext();
+  const { votingGetById, votingEdit } = VotingsAdmin();
   const { addInfo } = MessagesContext();
   const { isTablet, isPhone, isDesktop } = DeviceContext();
 

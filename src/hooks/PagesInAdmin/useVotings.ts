@@ -222,6 +222,7 @@ export const useVotingDelete = (): IUseVotingDelete => {
 
   return { data, votingDelete };
 };
+
 interface IGetVotingResultByIdParams {
   id: number;
 }
@@ -291,4 +292,107 @@ export const useVotingGetResultById = (): IUseVotingGetResultById => {
   };
 
   return { data, votingGetResultById };
+};
+
+interface IGetVotingSubmitDataByIdParams {
+  id: number;
+}
+
+export interface IGetVotingSubmitDataById {
+  id: number;
+  groups:
+  {
+    id: number;
+    name: string;
+  }[];
+  startDate: string;
+  requiredCourses:
+    {
+    id: number;
+    name: string;
+    semester: number;
+    teacher: {
+      id: number;
+      firstName: string;
+      lastName: string;
+      patronymic: string;
+    };
+    allVotes: number;
+  }[];
+  notRequiredCourses:
+  {
+    id: number;
+    name: string;
+    semester: number;
+    teacher: {
+      id: number;
+      firstName: string;
+      lastName: string;
+      patronymic: string;
+    };
+    allVotes: number;
+  }[];
+}
+
+export interface IUseVotingGetSubmitDataById {
+  data: IGetVotingSubmitDataById | null;
+  votingGetSubmitDataById: (params: IGetVotingSubmitDataByIdParams) => void;
+}
+
+export const useVotingGetSubmitDataById = (): IUseVotingGetSubmitDataById => {
+  const { user } = AuthContext();
+  const { addErrors } = MessagesContext();
+  const [data, setData] = useState<IGetVotingSubmitDataById | null>(null);
+
+  const votingGetSubmitDataById = (params: IGetVotingResultByIdParams) => {
+    axios.get(`${process.env.REACT_APP_API_URL}/voting/${params.id}/submit-form`, {
+      headers: {
+        Authorization: `Bearer ${user?.accessToken}`,
+      },
+    })
+      .then((response: AxiosResponse<IGetVotingSubmitDataById | null>) => {
+        setData(response.data);
+      })
+      .catch((error) => {
+        addErrors(error.response.data.message);
+      });
+  };
+
+  return { data, votingGetSubmitDataById };
+};
+
+export interface IVotingSubmitParams {
+  id: number;
+  course: number[];
+}
+
+export interface IVotingSubmitData {
+  message: string;
+}
+
+export interface IUseVotingSubmit {
+  data: IVotingSubmitData | null;
+  votingSubmit: (params: IVotingSubmitParams) => void;
+}
+
+export const useVotingSubmit = (): IUseVotingSubmit => {
+  const { user } = AuthContext();
+  const { addErrors } = MessagesContext();
+  const [data, setData] = useState<IVotingSubmitData | null>(null);
+
+  const votingSubmit = (params: IVotingSubmitParams) => {
+    axios.post(`${process.env.REACT_APP_API_URL}/voting/${params.id}/courses/submit`, params, {
+      headers: {
+        Authorization: `Bearer ${user?.accessToken}`,
+      },
+    })
+      .then((response: AxiosResponse<IVotingSubmitData | null>) => {
+        setData(response.data);
+      })
+      .catch((error) => {
+        addErrors(error.response.data.message);
+      });
+  };
+
+  return { data, votingSubmit };
 };

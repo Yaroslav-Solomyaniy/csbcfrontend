@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import moment from 'moment/moment';
 import ModalWindow from '../../../../../components/common/ModalWindow';
-import { IGetVotingResultDataById } from '../../../../../hooks/PagesInAdmin/useVotings';
-import VotingAdmin from '../../index';
+import { IGetVotingSubmitDataById, IVotingSubmitParams } from '../../../../../hooks/PagesInAdmin/useVotings';
 import { VotingsAdmin } from '../../../../../context/PagesInAdmin/Votings';
 import SubmitVotingForm from './SubmitForm';
 
@@ -13,27 +12,36 @@ interface IVotingSubmitModal{
 }
 
 const VotingSubmitModal = ({ votingId, modalActive, closeModal }:IVotingSubmitModal) => {
-  const [data, setData] = useState<IGetVotingResultDataById>();
+  const [data, setData] = useState<IGetVotingSubmitDataById>();
+  const [formData, setFormData] = useState<IVotingSubmitParams>({ id: 0, course: [0, 0, 0, 0] });
+  const { getVotingFormSubmit } = VotingsAdmin();
 
-  const { votingResult } = VotingsAdmin();
-  // const handleClose = () => {
-  //   closeModal();
-  //   setTimeout(() => {
-  //     setData({});
-  //   }, 200);
-  // };
+  const handleClose = () => {
+    closeModal();
+    setTimeout(() => {
+      setFormData({ id: 0, course: [0, 0, 0, 0] });
+    }, 200);
+  };
+
+  const handleRadioClick = (e: React.ChangeEvent<HTMLInputElement>): void => (
+
+    setFormData({ ...formData,
+      course: formData.course.map((item, index) => (
+        index === +e.target.name ? +e.currentTarget.value : item)),
+    })
+  );
 
   useEffect(() => {
     if (votingId) {
-      votingResult?.votingGetResultById({ id: votingId });
+      getVotingFormSubmit?.votingGetSubmitDataById({ id: votingId });
     }
   }, [votingId]);
 
   useEffect(() => {
-    if (votingResult?.data) {
-      setData(votingResult.data);
+    if (getVotingFormSubmit?.data) {
+      setData(getVotingFormSubmit.data);
     }
-  }, [votingResult?.data]);
+  }, [getVotingFormSubmit?.data]);
 
   return (
     <ModalWindow
@@ -41,9 +49,14 @@ const VotingSubmitModal = ({ votingId, modalActive, closeModal }:IVotingSubmitMo
         (group) => group.name,
       ) || ''} від ${moment(data?.startDate).format('DD.MM.YYYY')}`}
       active={modalActive}
-      closeModal={closeModal}
+      closeModal={handleClose}
     >
-      <SubmitVotingForm data={data} votingSubmitCourses={[]} onSubmit={() => console.log('hi')} />
+      <SubmitVotingForm
+        data={data}
+        formData={formData.course}
+        handleRadioClick={handleRadioClick}
+        onSubmit={() => console.log('hi')}
+      />
     </ModalWindow>
   );
 };

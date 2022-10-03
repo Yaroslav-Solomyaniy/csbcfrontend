@@ -2,9 +2,9 @@ import React, { createContext, useContext } from 'react';
 import {
   IUseVotingAdmCreate, IUseVotingDelete,
   IUseVotingEdit,
-  IUseVotingGet, IUseVotingGetById, IUseVotingGetResultById,
+  IUseVotingGet, IUseVotingGetById, IUseVotingGetResultById, IUseVotingGetSubmitDataById, IUseVotingSubmit,
   useVotingCreate, useVotingDelete, useVotingEdit,
-  useVotingGet, useVotingGetById, useVotingGetResultById,
+  useVotingGet, useVotingGetById, useVotingGetResultById, useVotingGetSubmitDataById, useVotingSubmit,
 } from '../../hooks/PagesInAdmin/useVotings';
 
 interface IVotingsContext {
@@ -14,6 +14,8 @@ interface IVotingsContext {
   votingGetById: IUseVotingGetById | null;
   votingDelete: IUseVotingDelete | null;
   votingResult: IUseVotingGetResultById | null;
+  getVotingFormSubmit: IUseVotingGetSubmitDataById | null;
+  votingSubmit: IUseVotingSubmit | null;
 }
 
 const defaultValue: IVotingsContext = {
@@ -23,6 +25,8 @@ const defaultValue: IVotingsContext = {
   votingGetById: null,
   votingDelete: null,
   votingResult: null,
+  getVotingFormSubmit: null,
+  votingSubmit: null,
 };
 
 export const votingsAdminContext = createContext<IVotingsContext>(defaultValue);
@@ -34,10 +38,19 @@ const VotingAdminProvider: React.FC = ({ children }): JSX.Element => {
   const votingGetById = useVotingGetById();
   const votingDelete = useVotingDelete();
   const votingResult = useVotingGetResultById();
+  const getVotingFormSubmit = useVotingGetSubmitDataById();
+  const votingSubmit = useVotingSubmit();
 
   return (
     <votingsAdminContext.Provider
-      value={{ getVoting, votingCreate, votingEdit, votingGetById, votingDelete, votingResult }}
+      value={{ getVoting,
+        votingCreate,
+        votingEdit,
+        votingGetById,
+        votingDelete,
+        votingResult,
+        getVotingFormSubmit,
+        votingSubmit }}
     >
       {children}
     </votingsAdminContext.Provider>

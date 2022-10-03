@@ -22,6 +22,9 @@
 }
 .content{
   width: 70%;
+  display: flex;
+  align-items: stretch;
+  flex-wrap: wrap;
 }
 .Buttons{
   align-items: center;
@@ -31,16 +34,24 @@
   color: rgba(0,0,0,.75);
   font-size: 20px;
   font-weight: 700;
+  width: 100%;
 }
 .Subtitle{
   color: #607180;
   font-size: 14px;
   font-weight: 400;
   margin-top: 10px;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .no_data{
   color: black;
   font-size: 16px;
   font-weight: 700;
   text-align: center;
+}
+.ArrayRow{
+  width: 50%;
 }

@@ -6,8 +6,8 @@ import { MessagesContext } from '../../context/All/Messages';
 
 export interface IGetTeacherParams {
   teacherId?: number;
-  groups: string | number;
-  courses: string | number;
+  groups?: string | number;
+  courses?: string | number;
   orderByColumns?:
     'id'
     | 'firstName'

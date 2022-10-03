@@ -1,4 +1,6 @@
 import React from 'react';
+import clsx from 'clsx';
+import { isArray } from 'util';
 import { ITableHeader } from '../Desktop/TableHeader';
 import { ITableRowItem } from '../Desktop/TableBody';
 import styles from './index.module.scss';
@@ -20,11 +22,34 @@ const AdaptiveTable = ({ dataHeader, dataRow, isTableResult, isHistoryTable }:IA
             {rowItem.list
               .slice(0, rowItem.list.length - 1)
               .map((i, index) => (
-                <h6 key={i.id} className={index === 0 ? styles.Title : styles.Subtitle}>
-                  {index !== 0 && (`${dataHeader[index]?.label}: `) }
-                  {i.label}
-                </h6>
-              ))}
+                Array.isArray(i.label)
+                  ? (
+                    <div className={styles.ArrayRow}>
+                      <h6
+                        key={i.id}
+                        className={index === 0 ? styles.Title : styles.Subtitle}
+                      >
+                        {index !== 0 && (`${dataHeader[index]?.label}: `) }
+                      </h6>
+                      <div>
+                        {i.label.map((el) => (
+                          <h6
+                            className={clsx(index === 0
+                              ? styles.Title : styles.Subtitle, styles.label)}
+                            key={i.id}
+                          >
+                            {el}
+                          </h6>
+                        ))}
+                      </div>
+                    </div>
+                  )
+                  : (
+                    <h6 key={i.id} className={index === 0 ? styles.Title : styles.Subtitle}>
+                      {index !== 0 && (`${dataHeader[index]?.label}: `) }
+                      {i.label}
+                    </h6>
+                  )))}
           </div>
           <div className={styles.Buttons}>
             <AdaptiveTableModalButtons>

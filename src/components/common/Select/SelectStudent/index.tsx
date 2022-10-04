@@ -20,6 +20,7 @@ interface SelectPIB {
   menuPlace?: 'top' | 'auto' | 'bottom';
   isFilter?: boolean;
   isTeacher?: boolean;
+  isCurator?:boolean;
 }
 
 const SelectStudent = ({
@@ -37,6 +38,7 @@ const SelectStudent = ({
   menuPlace,
   isFilter,
   isTeacher,
+  isCurator,
 }: SelectPIB): JSX.Element => {
   const { getListStudents, listStudents } = useGetListStudents();
   const [options, setOptions] = useState<Option[]>([]);
@@ -44,7 +46,7 @@ const SelectStudent = ({
   const { user } = AuthContext();
 
   useEffect(() => {
-    getListStudents(isTeacher ? { teacherId: user?.id } : {});
+    getListStudents((isTeacher && { teacherId: user?.id } || isCurator && { curatorId: user?.id }) || {});
   }, [studentCreate?.data, studentEdit?.data, studentDelete?.data]);
 
   useEffect(() => {
@@ -88,6 +90,7 @@ SelectStudent.defaultProps = {
   isDisabled: false,
   isFilter: false,
   isTeacher: false,
+  isCurator: false,
 };
 
 export default SelectStudent;

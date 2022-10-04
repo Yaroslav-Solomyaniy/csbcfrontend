@@ -11,6 +11,7 @@ interface IGetListGroupsParams {
   orderBy?: OrderBy;
   curatorName?: string;
   teacherId?: number;
+  curatorId?:number;
   page?: number;
   limit?: number;
 }
@@ -110,6 +111,7 @@ interface IGetListCoursesParams{
   type?: string;
   courseName?: string | number;
   teacherId?: number;
+  curatorId?: number;
   page?:number;
   limit?: number;
 }
@@ -233,6 +235,7 @@ interface IGetListStudentParams {
   orderBy?: OrderBy;
   teacherName?: string;
   teacherId?: number;
+  curatorId?: number;
   page?: string;
   limit?: string;
 }

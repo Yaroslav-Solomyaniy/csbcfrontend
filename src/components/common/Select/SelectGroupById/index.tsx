@@ -20,6 +20,7 @@ interface ISelectGroupById {
   menuPlace?: 'top' | 'auto' | 'bottom';
   isFilter?: boolean;
   isTeacher?: boolean;
+  isCurator?: boolean;
 }
 
 const SelectGroupById = ({
@@ -37,6 +38,7 @@ const SelectGroupById = ({
   menuPlace,
   isFilter,
   isTeacher,
+  isCurator,
 }: ISelectGroupById): JSX.Element => {
   const { optionsGroups, getListGroups } = useGetListGroups();
   const [options, setOptions] = useState<Option[]>([]);
@@ -44,7 +46,7 @@ const SelectGroupById = ({
   const { user } = AuthContext();
 
   useEffect(() => {
-    getListGroups(isTeacher ? { teacherId: user?.id } : {});
+    getListGroups((isTeacher && { teacherId: user?.id } || isCurator && { curatorId: user?.id }) || {});
   }, [groupEdit?.data, groupCreate?.data, groupDelete?.data]);
 
   useEffect(() => {
@@ -85,6 +87,7 @@ SelectGroupById.defaultProps = {
   isDisabled: false,
   isFilter: false,
   isTeacher: false,
+  isCurator: false,
 };
 
 export default SelectGroupById;

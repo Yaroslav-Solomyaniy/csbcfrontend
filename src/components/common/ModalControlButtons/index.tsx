@@ -43,14 +43,6 @@ const ModalControlButtons = ({
       >
         {mainButtonText}
       </Button>
-        <Button
-          onClick={onSubmit}
-          nameClass="primary"
-          size="small"
-          className={clsx(styles.submitButton, mainButtonText === 'Видалити' && styles.redButton)}
-        >
-          {mainButtonText}
-        </Button>
       )}
     </div>
   );

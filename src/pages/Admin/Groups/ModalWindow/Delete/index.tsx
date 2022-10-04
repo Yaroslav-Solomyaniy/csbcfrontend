@@ -70,8 +70,9 @@ export const GroupDelete = ({ modalActive, closeModal, Id }: IDeleteModal): JSX.
           value={formData.deletedOrderNumber}
           error={isSubmitted && orderNumber !== formData.deletedOrderNumber
             ? 'Номер наказу введено невірно'
-            : (isSubmitted && (`${formData.deletedOrderNumber}`.length < 6 || `${formData.deletedOrderNumber}`.length > 20
-              ? 'Номер наказу повинен містити не менше 6-ти символів' : ''))}
+            : (isSubmitted
+              && (`${formData.deletedOrderNumber}`.length < 6 || `${formData.deletedOrderNumber}`.length > 20
+                ? 'Номер наказу повинен містити не менше 6-ти символів' : ''))}
           placeholder="Номер наказу"
           pattern={NumbersAndLettersEn}
         />

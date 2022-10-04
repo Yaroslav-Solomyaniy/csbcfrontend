@@ -33,7 +33,7 @@ const TableBody = ({
         style={isScroll ? {
           gridTemplateColumns: `16% 9% 9% repeat(${columScrollHorizontal}, ${
             columScrollHorizontal
-              ? columScrollHorizontal > 6 ? 10 : 55 / columScrollHorizontal : 55}%) 10%`,
+              ? columScrollHorizontal > 6 ? 10 : 55 / columScrollHorizontal : 53}%) 12%`,
         } : {}}
       >
         {list.map(({ id, label }) => (
@@ -52,7 +52,11 @@ const TableBody = ({
                 </div>
               ))
             ) : (
-              <div title={label.toString()} className={clsx(styles.body__row__item__string, 'clip')} key={`${id}${label}`}>
+              <div
+                title={label.toString()}
+                className={clsx(styles.body__row__item__string, 'clip')}
+                key={`${id}${label}`}
+              >
                 {label}
               </div>
             )}

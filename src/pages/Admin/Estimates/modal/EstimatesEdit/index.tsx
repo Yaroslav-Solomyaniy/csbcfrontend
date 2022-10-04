@@ -73,7 +73,7 @@ export const EstimatesEdit = ({ modalActive, closeModal, studentId, gradeId }: I
   }, [studentId]);
 
   return (
-    <ModalWindow modalTitle="Редагування оцінки" active={modalActive} closeModal={handleClose}>
+    <ModalWindow modalTitle="Редагування оцінки" active={modalActive && !!gradeId} closeModal={handleClose}>
       <form className={styles.form} onSubmit={onSubmit}>
         <div className={styles.subtitle}>
           {`${gradesGetId?.data?.user.lastName}

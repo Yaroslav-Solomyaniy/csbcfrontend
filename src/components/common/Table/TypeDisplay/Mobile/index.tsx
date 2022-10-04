@@ -1,19 +1,19 @@
 import React from 'react';
 import clsx from 'clsx';
-import { isArray } from 'util';
 import { ITableHeader } from '../Desktop/TableHeader';
 import { ITableRowItem } from '../Desktop/TableBody';
 import styles from './index.module.scss';
 import AdaptiveTableModalButtons from '../../../AdaptiveTableModalButtons';
 
-interface IAdaptiveTable{
+interface IAdaptiveTable {
   dataHeader: ITableHeader[];
   dataRow: ITableRowItem[];
   isTableResult: boolean | undefined;
   isHistoryTable: boolean | undefined;
+  isTwoColumns?: boolean;
 }
 
-const AdaptiveTable = ({ dataHeader, dataRow, isTableResult, isHistoryTable }:IAdaptiveTable) => (
+const AdaptiveTable = ({ dataHeader, dataRow, isTableResult, isHistoryTable, isTwoColumns }: IAdaptiveTable) => (
   <>
     {(!isTableResult && !isHistoryTable) && (
       dataRow.map((rowItem) => (
@@ -29,7 +29,7 @@ const AdaptiveTable = ({ dataHeader, dataRow, isTableResult, isHistoryTable }:IA
                         key={i.id}
                         className={index === 0 ? styles.Title : styles.Subtitle}
                       >
-                        {index !== 0 && (`${dataHeader[index]?.label}: `) }
+                        {index !== 0 && (`${dataHeader[index]?.label}: `)}
                       </h6>
                       <div>
                         {i.label.map((el) => (
@@ -46,7 +46,11 @@ const AdaptiveTable = ({ dataHeader, dataRow, isTableResult, isHistoryTable }:IA
                   )
                   : (
                     <h6 key={i.id} className={index === 0 ? styles.Title : styles.Subtitle}>
-                      {index !== 0 && (`${dataHeader[index]?.label}: `) }
+                      <div
+                        className={clsx(isTwoColumns && styles.titleGrade)}
+                      >
+                        {index !== 0 && (`${dataHeader[index]?.label}: `)}
+                      </div>
                       {i.label}
                     </h6>
                   )))}
@@ -66,7 +70,7 @@ const AdaptiveTable = ({ dataHeader, dataRow, isTableResult, isHistoryTable }:IA
             <div className={styles.content}>
               {rowItem.list.map((i, index) => (
                 <h6 key={i.id} className={index === 0 ? styles.Title : styles.Subtitle}>
-                  {index !== 0 && (`${dataHeader[index]?.label}: `) }
+                  {index !== 0 && (`${dataHeader[index]?.label}: `)}
                   {i.label}
                 </h6>
               ))}
@@ -82,5 +86,9 @@ const AdaptiveTable = ({ dataHeader, dataRow, isTableResult, isHistoryTable }:IA
     )}
   </>
 );
+
+AdaptiveTable.defaultProps = {
+  isTwoColumns: false,
+};
 
 export default AdaptiveTable;

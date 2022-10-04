@@ -53,8 +53,8 @@ export const EstimatesHistory = ({ modalActive, closeModal, studentId, semester 
   }, [gradesHistoryGet?.data]);
 
   useEffect(() => {
-    if (studentId && semester) {
-      gradesHistoryGet?.getGradesHistory({ semester: +semester }, studentId);
+    if (studentId) {
+      gradesHistoryGet?.getGradesHistory({ semester: semester ? +semester : undefined }, studentId);
     }
   }, [studentId, semester]);
 
@@ -67,18 +67,17 @@ export const EstimatesHistory = ({ modalActive, closeModal, studentId, semester 
       ${gradesHistoryGet?.data?.user.patronymic}
       , ${gradesHistoryGet?.data?.group.name}, ${semester} семестр`}
       </p>
-
-      <Table
-        gridColumns={styles.columns}
-        dataRow={dataRow}
-        dataHeader={dataHeader}
-      />
-
+      <form className={styles.form} onSubmit={onSubmit}>
+        <Table
+          gridColumns={styles.columns}
+          dataRow={dataRow}
+          dataHeader={dataHeader}
+          isHistoryTable
+        />
+      </form>
       <ModalControlButtons
-        handleClose={handleClose}
-        onSubmit={onSubmit}
-        cancelButtonText="Відміна"
-        mainButtonText="Видалити"
+        onSubmit={handleClose}
+        mainButtonText="Назад"
       />
     </ModalWindow>
   );

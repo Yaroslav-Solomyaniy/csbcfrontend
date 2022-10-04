@@ -1,25 +1,25 @@
 import React from 'react';
 import styles from './index.module.scss';
 import Button from '../Button';
-import { Approve, Delete, Edit, History, Review } from '../Icons';
+import { Approve, Delete, Download, Edit, History, Review } from '../Icons';
 
-interface ITablesActions{
+interface ITablesActions {
   children: React.ReactChild | React.ReactNode;
 }
 
-export const TablesActions = ({ children }:ITablesActions):JSX.Element => (
+export const TablesActions = ({ children }: ITablesActions): JSX.Element => (
   <div className={styles.actions}>
     {children}
   </div>
 );
 
-interface IButtons{
-  isActiveModal: Record<string, number | boolean> ;
-  setIsActiveModal:(value: Record<string, number | boolean>) => void;
+interface IButtons {
+  isActiveModal: Record<string, number | boolean | string>;
+  setIsActiveModal: (value: Record<string, number | boolean>) => void;
   itemId: number;
 }
 
-export const EditDeleteReviewApprove = ({ isActiveModal, setIsActiveModal, itemId }:IButtons):JSX.Element => (
+export const EditDeleteReviewApprove = ({ isActiveModal, setIsActiveModal, itemId }: IButtons): JSX.Element => (
   <TablesActions>
     <Button
       onClick={() => setIsActiveModal({ ...isActiveModal, edit: itemId })}
@@ -48,7 +48,7 @@ export const EditDeleteReviewApprove = ({ isActiveModal, setIsActiveModal, itemI
   </TablesActions>
 );
 
-export const EditReviewDelete = ({ isActiveModal, setIsActiveModal, itemId }:IButtons):JSX.Element => (
+export const EditReviewDelete = ({ isActiveModal, setIsActiveModal, itemId }: IButtons): JSX.Element => (
   <TablesActions>
     <Button
       onClick={() => setIsActiveModal({ ...isActiveModal, edit: itemId })}
@@ -71,7 +71,7 @@ export const EditReviewDelete = ({ isActiveModal, setIsActiveModal, itemId }:IBu
   </TablesActions>
 );
 
-export const EditAndHistory = ({ isActiveModal, setIsActiveModal, itemId }:IButtons):JSX.Element => (
+export const EditAndHistory = ({ isActiveModal, setIsActiveModal, itemId }: IButtons): JSX.Element => (
   <TablesActions>
     <Button
       onClick={() => setIsActiveModal({ ...isActiveModal, edit: itemId })}
@@ -88,7 +88,7 @@ export const EditAndHistory = ({ isActiveModal, setIsActiveModal, itemId }:IButt
   </TablesActions>
 );
 
-export const EditAndDelete = ({ isActiveModal, setIsActiveModal, itemId }:IButtons):JSX.Element => (
+export const EditAndDelete = ({ isActiveModal, setIsActiveModal, itemId }: IButtons): JSX.Element => (
   <TablesActions>
     <Button
       onClick={() => setIsActiveModal({ ...isActiveModal, edit: itemId })}
@@ -101,6 +101,29 @@ export const EditAndDelete = ({ isActiveModal, setIsActiveModal, itemId }:IButto
       isImg
     >
       <Delete />
+    </Button>
+  </TablesActions>
+);
+
+export const EditHistoryDownload = ({ isActiveModal, setIsActiveModal, itemId }: IButtons): JSX.Element => (
+  <TablesActions>
+    <Button
+      onClick={() => setIsActiveModal({ ...isActiveModal, edit: isActiveModal.gradeEdit ? itemId : 0 })}
+      isImg
+    >
+      <Edit />
+    </Button>
+    <Button
+      onClick={() => setIsActiveModal({ ...isActiveModal, history: itemId })}
+      isImg
+    >
+      <History />
+    </Button>
+    <Button
+      onClick={() => setIsActiveModal({ ...isActiveModal, download: itemId })}
+      isImg
+    >
+      <Download />
     </Button>
   </TablesActions>
 );

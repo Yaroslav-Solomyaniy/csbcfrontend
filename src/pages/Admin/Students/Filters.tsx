@@ -40,7 +40,6 @@ const StudentsFilters = ({ studentId, groupId, isFullTime }:IStudentsFilters) =>
           post({ isFullTime: value, currentPage: 1 });
         }}
         isFilter
-        isSearchable
         isClearable
       />
     </>

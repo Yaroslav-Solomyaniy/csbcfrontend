@@ -3,8 +3,8 @@ import ModalWindow from '../../../../../components/common/ModalWindow';
 import { IDeleteModal } from '../../../../../types';
 import { MessagesContext } from '../../../../../context/All/Messages';
 import { AdministratorsContext } from '../../../../../context/PagesInAdmin/Administators';
-import { DeviceContext } from '../../../../../context/All/DeviceType';
-import AdministratorsDeleteForm from '../form/Delete';
+import styles from '../../../../pagesStyle.module.scss';
+import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
 
 const formInitialData = {
   firstName: '',
@@ -16,7 +16,6 @@ export const AdministratorDeleteModal = ({ modalActive, closeModal, Id }: IDelet
   const [formData, setFormData] = useState(formInitialData);
   const { administratorsDelete, getAdministratorsId } = AdministratorsContext();
   const { addInfo } = MessagesContext();
-  const { isDesktop, isTablet, isPhone } = DeviceContext();
 
   useEffect(() => {
     if (Id) {
@@ -55,11 +54,17 @@ export const AdministratorDeleteModal = ({ modalActive, closeModal, Id }: IDelet
 
   return (
     <ModalWindow modalTitle="Видалення адміністратора" active={modalActive} closeModal={handleClose}>
-      <AdministratorsDeleteForm
+      <form className={styles.form} onSubmit={onSubmit}>
+        <h3 className={styles.subtitle}>
+          {`Ви дійсно бажаєте видалити адміністратора
+        "${formData.lastName} ${formData.firstName} ${formData.patronymic}" ?`}
+        </h3>
+      </form>
+      <ModalControlButtons
         handleClose={handleClose}
-        formData={formData}
         onSubmit={onSubmit}
-
+        cancelButtonText="Відміна"
+        mainButtonText="Видалити"
       />
     </ModalWindow>
   );

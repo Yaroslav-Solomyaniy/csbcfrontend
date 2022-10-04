@@ -25,16 +25,6 @@ const TeacherFilters = ({ studentId, groupId, courseId }:ITeacherFilters):JSX.El
         isTeacher
         isFilter
       />
-      <SelectGroupById
-        type="filter"
-        placeholder="Група"
-        onChange={(value) => post({ groupId: value, currentPage: 1 })}
-        value={groupId}
-        isClearable
-        isSearchable
-        isTeacher
-        isFilter
-      />
       <SelectCourse
         type="filter"
         placeholder="Предмет"
@@ -45,6 +35,17 @@ const TeacherFilters = ({ studentId, groupId, courseId }:ITeacherFilters):JSX.El
         isTeacher
         isFilter
       />
+      <SelectGroupById
+        type="filter"
+        placeholder="Група"
+        onChange={(value) => post({ groupId: value, currentPage: 1 })}
+        value={groupId}
+        isClearable
+        isSearchable
+        isTeacher
+        isFilter
+      />
+
     </>
   );
 };

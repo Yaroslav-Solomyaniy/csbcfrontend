@@ -4,7 +4,8 @@ import { IDeleteModal } from '../../../../../types';
 import { CuratorContext } from '../../../../../context/PagesInAdmin/Curators';
 import { MessagesContext } from '../../../../../context/All/Messages';
 import { DeviceContext } from '../../../../../context/All/DeviceType';
-import CuratorsDeleteForm from '../form/delete';
+import styles from '../../../../pagesStyle.module.scss';
+import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
 
 const formInitialData = {
   firstName: '',
@@ -15,7 +16,6 @@ const formInitialData = {
 export const CuratorDeleteModal = ({ modalActive, closeModal, Id }: IDeleteModal): JSX.Element => {
   const [formData, setFormData] = useState(formInitialData);
 
-  const { isTablet, isPhone, isDesktop } = DeviceContext();
   const { addInfo } = MessagesContext();
   const { curatorDelete, getCuratorId } = CuratorContext();
 
@@ -56,10 +56,17 @@ export const CuratorDeleteModal = ({ modalActive, closeModal, Id }: IDeleteModal
 
   return (
     <ModalWindow modalTitle="Видалення куратора" active={modalActive} closeModal={handleClose}>
-      <CuratorsDeleteForm
+      <form className={styles.form} onSubmit={onSubmit}>
+        <h3 className={styles.subtitle}>
+          {`Ви дійсно бажаєте видалити куратора:
+        "${formData.lastName} ${formData.firstName} ${formData.patronymic}" ?`}
+        </h3>
+      </form>
+      <ModalControlButtons
         handleClose={handleClose}
-        formData={formData}
         onSubmit={onSubmit}
+        cancelButtonText="Відміна"
+        mainButtonText="Видалити"
       />
     </ModalWindow>
   );

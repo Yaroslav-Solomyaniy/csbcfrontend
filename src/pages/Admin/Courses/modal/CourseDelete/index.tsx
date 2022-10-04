@@ -3,7 +3,8 @@ import ModalWindow from '../../../../../components/common/ModalWindow';
 import { MessagesContext } from '../../../../../context/All/Messages';
 import { CoursesContext } from '../../../../../context/PagesInAdmin/Courses';
 import { IDeleteModal } from '../../../../../types';
-import CourseDeleteForm from '../form/Delete';
+import styles from '../../../../pagesStyle.module.scss';
+import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
 
 export const CourseDeleteModal = ({ modalActive, closeModal, Id }: IDeleteModal): JSX.Element => {
   const [courseName, setCourseName] = useState<string>();
@@ -36,10 +37,14 @@ export const CourseDeleteModal = ({ modalActive, closeModal, Id }: IDeleteModal)
 
   return (
     <ModalWindow modalTitle="Видалення предмету" active={modalActive} closeModal={closeModal}>
-      <CourseDeleteForm
+      <form className={styles.form} onSubmit={onSubmit}>
+        <h3 className={styles.subtitle}>{`Ви дійсно бажаєте видалити предмет "${courseName}" ?`}</h3>
+      </form>
+      <ModalControlButtons
         handleClose={closeModal}
-        courseName={courseName}
         onSubmit={onSubmit}
+        cancelButtonText="Відміна"
+        mainButtonText="Видалити"
       />
     </ModalWindow>
 

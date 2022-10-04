@@ -6,6 +6,7 @@ import { MessagesContext } from '../../../../../context/All/Messages';
 import { IEditModal } from '../../../../../types';
 import GroupPageModalForm from '../form/Create&Edit/modalForm';
 import { DeviceContext } from '../../../../../context/All/DeviceType';
+import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
 
 const formInitialData = {
   name: '',
@@ -64,11 +65,16 @@ export const GroupEdit = ({ modalActive, closeModal, studentId }: IEditModal): J
   return (
     <ModalWindow modalTitle="Редагування групи" active={modalActive} closeModal={handleClose}>
       <GroupPageModalForm
-        handleClose={handleClose}
         isSubmitted={isSubmitted}
         setFormData={setFormData}
         formData={formData}
         onSubmit={onSubmit}
+      />
+      <ModalControlButtons
+        handleClose={handleClose}
+        onSubmit={onSubmit}
+        cancelButtonText="Відміна"
+        mainButtonText="Зберегти"
       />
     </ModalWindow>
   );

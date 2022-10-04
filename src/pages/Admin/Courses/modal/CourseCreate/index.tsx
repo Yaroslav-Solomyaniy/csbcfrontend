@@ -5,6 +5,7 @@ import { ICoursesCreateParams } from '../../../../../hooks/PagesInAdmin/useCours
 import { ICreateModal } from '../../../../../types';
 import { CoursesContext } from '../../../../../context/PagesInAdmin/Courses';
 import CoursesInputForm from '../form/create&edit';
+import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
 
 const formInitialData: ICoursesCreateParams = {
   name: '',
@@ -54,11 +55,16 @@ export const CourseCreateModal = ({ modalActive, closeModal }: ICreateModal): JS
   return (
     <ModalWindow modalTitle="Створення предмету" active={modalActive} closeModal={handleClose}>
       <CoursesInputForm
-        handleClose={handleClose}
         isSubmitted={isSubmitted}
         setFormData={setFormData}
         formData={formData}
         onSubmit={onSubmit}
+      />
+      <ModalControlButtons
+        handleClose={handleClose}
+        onSubmit={onSubmit}
+        cancelButtonText="Відміна"
+        mainButtonText="Створити"
       />
     </ModalWindow>
   );

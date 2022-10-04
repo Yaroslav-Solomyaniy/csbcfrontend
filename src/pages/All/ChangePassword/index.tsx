@@ -30,7 +30,7 @@ const ChangePassword = (): JSX.Element => {
   const { user } = AuthContext();
   const navigate = useNavigate();
 
-  const onSubmit = (e: (React.FormEvent<Element> | undefined)) => {
+  const onSubmit = () => {
     setIsSubmitted(true);
     if (formData.oldPassword.length > 7
       && formData.newPassword.length > 7

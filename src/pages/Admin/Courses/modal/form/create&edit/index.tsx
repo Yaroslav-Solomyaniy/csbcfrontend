@@ -6,7 +6,6 @@ import SelectTeacher from '../../../../../../components/common/Select/SelectTeac
 import SelectSemester from '../../../../../../components/common/Select/SelectSemester';
 import SelectExam from '../../../../../../components/common/Select/SelectIsExam';
 import SelectCompulsory from '../../../../../../components/common/Select/SelectTypeCourse';
-import ModalControlButtons from '../../../../../../components/common/ModalControlButtons';
 import { ICourseEditParams, ICoursesCreateParams } from '../../../../../../hooks/PagesInAdmin/useCourses';
 import styles from '../../../../../pagesStyle.module.scss';
 
@@ -14,7 +13,6 @@ interface ICoursesInputForm{
   formData: ICourseEditParams | ICoursesCreateParams;
   setFormData: (value:any) => void;
   isSubmitted: boolean;
-  handleClose:() => void;
   onSubmit: (e: React.FormEvent | undefined) => void;
   modalTitle?: string;
 }
@@ -23,7 +21,6 @@ const CoursesInputForm = ({ formData,
   setFormData,
   isSubmitted,
   onSubmit,
-  handleClose,
   modalTitle }:ICoursesInputForm) => (
     <>
       {modalTitle && (<div className={styles.modal__title}>{modalTitle}</div>)}
@@ -85,7 +82,6 @@ const CoursesInputForm = ({ formData,
           label="Семестр"
           placeholder="Семестр"
           required
-          isSearchable
           onChange={(value) => {
             setFormData({ ...formData, semester: +value });
           }}
@@ -97,7 +93,6 @@ const CoursesInputForm = ({ formData,
           label="Вид контролю"
           placeholder="Вид контролю"
           required
-          isSearchable
           onChange={(value) => {
             setFormData({ ...formData, isExam: !!value });
           }}
@@ -120,7 +115,6 @@ const CoursesInputForm = ({ formData,
           label="Вид проведення"
           placeholder="Вид проведення"
           required
-          isSearchable
           onChange={(value) => {
             setFormData({ ...formData, type: value });
           }}
@@ -128,12 +122,7 @@ const CoursesInputForm = ({ formData,
           error={(isSubmitted && !formData.type) ? 'Вид проведення не обрано.' : ''}
         />
       </form>
-      <ModalControlButtons
-        handleClose={handleClose}
-        onSubmit={onSubmit}
-        cancelButtonText="Відміна"
-        mainButtonText="Створити"
-      />
+
     </>
 
 );

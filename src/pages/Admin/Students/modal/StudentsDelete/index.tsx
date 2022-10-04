@@ -2,7 +2,8 @@ import React, { useEffect } from 'react';
 import ModalWindow from '../../../../../components/common/ModalWindow';
 import { StudentsContext } from '../../../../../context/PagesInAdmin/Students';
 import { MessagesContext } from '../../../../../context/All/Messages';
-import StudentsDeleteForm from '../form/DeleteForm';
+import styles from '../../../../pagesStyle.module.scss';
+import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
 
 interface IStudentsDeleteModal {
   modalActive: boolean;
@@ -35,11 +36,17 @@ export const StudentsDeleteModal = ({ modalActive, closeModal, studentId }: IStu
 
   return (
     <ModalWindow modalTitle="Видалення студента" active={modalActive} closeModal={closeModal}>
-      <StudentsDeleteForm
-        onSubmit={onSubmit}
-        student={`${getStudentById?.data?.user.lastName} 
-            ${getStudentById?.data?.user.firstName} ${getStudentById?.data?.user.patronymic}`}
+      <form className={styles.form} onSubmit={onSubmit}>
+        <h3 className={styles.subtitle}>
+          {`Ви дійсно бажаєте видалити студента: "${getStudentById?.data?.user.lastName}
+         ${getStudentById?.data?.user.firstName} ${getStudentById?.data?.user.patronymic}" ?`}
+        </h3>
+      </form>
+      <ModalControlButtons
         handleClose={closeModal}
+        onSubmit={onSubmit}
+        cancelButtonText="Відміна"
+        mainButtonText="Видалити"
       />
     </ModalWindow>
   );

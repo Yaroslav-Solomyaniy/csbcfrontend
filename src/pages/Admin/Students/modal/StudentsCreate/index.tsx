@@ -6,6 +6,7 @@ import { StudentsContext } from '../../../../../context/PagesInAdmin/Students';
 import { Email } from '../../../../../types/regExp';
 import { MessagesContext } from '../../../../../context/All/Messages';
 import CreateOrEditStudentsForm from '../form/CreateOrEdit';
+import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
 
 interface IGroupCreateModal {
   closeModal: () => void;
@@ -71,11 +72,16 @@ export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateMod
   return (
     <ModalWindow modalTitle="Створення студента" active={modalActive} closeModal={handleClose}>
       <CreateOrEditStudentsForm
-        handleClose={handleClose}
         isSubmitted={isSubmitted}
         setFormData={setFormData}
         formData={formData}
         onSubmit={onSubmit}
+      />
+      <ModalControlButtons
+        handleClose={handleClose}
+        onSubmit={onSubmit}
+        cancelButtonText="Відміна"
+        mainButtonText="Створити"
       />
     </ModalWindow>
   );

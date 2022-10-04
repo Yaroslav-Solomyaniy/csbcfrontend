@@ -60,6 +60,7 @@ const Select = ({
           {label}
           {required && <span className={styles.required}>*</span>}
         </label>
+
       )}
       <div className={clsx(isDesktop ? (!isFilter && styles.selectWrap) : (!isFilter && styles.mobile_select))}>
 

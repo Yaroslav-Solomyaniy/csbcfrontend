@@ -2,12 +2,11 @@ import React, { useEffect, useState } from 'react';
 import ModalWindow from '../../../../../components/common/ModalWindow';
 import { CuratorContext } from '../../../../../context/PagesInAdmin/Curators';
 import { ICreateModal } from '../../../../../types';
-
 import { Email } from '../../../../../types/regExp';
 import { MessagesContext } from '../../../../../context/All/Messages';
 import { IUserCreateParams } from '../../../../../hooks/All/useUser';
-import { DeviceContext } from '../../../../../context/All/DeviceType';
 import CuratorsForm from '../form/create&edit';
+import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
 
 const formInitialData: IUserCreateParams = {
   firstName: '',
@@ -20,10 +19,8 @@ const formInitialData: IUserCreateParams = {
 export const CuratorCreateModal = ({ modalActive, closeModal }: ICreateModal): JSX.Element => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState<IUserCreateParams>(formInitialData);
-
   const { curatorCreate } = CuratorContext();
   const { addInfo } = MessagesContext();
-  const { isPhone, isDesktop, isTablet } = DeviceContext();
 
   const handleClose = () => {
     setIsSubmitted(false);
@@ -51,11 +48,16 @@ export const CuratorCreateModal = ({ modalActive, closeModal }: ICreateModal): J
   return (
     <ModalWindow modalTitle="Створення куратора" active={modalActive} closeModal={handleClose}>
       <CuratorsForm
-        handleClose={handleClose}
         isSubmitted={isSubmitted}
         setFormData={setFormData}
         formData={formData}
         onSubmit={onSubmit}
+      />
+      <ModalControlButtons
+        handleClose={handleClose}
+        onSubmit={onSubmit}
+        cancelButtonText="Відміна"
+        mainButtonText="Створити"
       />
     </ModalWindow>
   );

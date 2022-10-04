@@ -5,6 +5,7 @@ import { IEditModal } from '../../../../../types';
 import { ICourseEditParams } from '../../../../../hooks/PagesInAdmin/useCourses';
 import { CoursesContext } from '../../../../../context/PagesInAdmin/Courses';
 import CoursesInputForm from '../form/create&edit';
+import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
 
 const formInitialData: ICourseEditParams = {
   name: '',
@@ -76,11 +77,16 @@ export const CourseEdit = ({ modalActive, closeModal, studentId }: IEditModal): 
   return (
     <ModalWindow modalTitle="Редагування предмету" active={modalActive} closeModal={handleClose}>
       <CoursesInputForm
-        handleClose={handleClose}
         isSubmitted={isSubmitted}
         setFormData={setFormData}
         formData={formData}
         onSubmit={onSubmit}
+      />
+      <ModalControlButtons
+        handleClose={handleClose}
+        onSubmit={onSubmit}
+        cancelButtonText="Відміна"
+        mainButtonText="Зберегти"
       />
     </ModalWindow>
   );

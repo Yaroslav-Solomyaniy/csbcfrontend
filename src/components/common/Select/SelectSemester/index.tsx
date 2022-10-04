@@ -35,7 +35,7 @@ const SelectSemester = ({
   menuPlace,
   isFilter,
 }: ISelectSemester): JSX.Element => {
-  const [options, setOptions] = useState<Option[]>([
+  const [options] = useState<Option[]>([
     {
       value: 1,
       label: 'І семестр',

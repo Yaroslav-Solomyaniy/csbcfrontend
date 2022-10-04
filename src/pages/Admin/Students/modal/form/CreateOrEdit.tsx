@@ -3,7 +3,6 @@ import { IStudentCreateParams } from '../../../../../hooks/PagesInAdmin/useStude
 import styles from '../../../../pagesStyle.module.scss';
 import ModalInput from '../../../../../components/common/MyInput';
 import { Email, EmailValidation } from '../../../../../types/regExp';
-import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
 import MyDatePicker from '../../../../../components/common/DatePicker';
 import SelectGroupById from '../../../../../components/common/Select/SelectGroupById';
 import SelectIsFullTime from '../../../../../components/common/Select/SelectIsFullTime';
@@ -11,7 +10,6 @@ import SelectIsFullTime from '../../../../../components/common/Select/SelectIsFu
 interface ICreateOrEditStudentsForm{
   formData: IStudentCreateParams;
   setFormData: (value:IStudentCreateParams) => void;
-  handleClose:() => void;
   onSubmit: (e: React.FormEvent | undefined) => void;
   isSubmitted: boolean;
   modalTitle?: string;
@@ -20,7 +18,6 @@ const CreateOrEditStudentsForm = ({ formData,
   setFormData,
   isSubmitted,
   onSubmit,
-  handleClose,
   modalTitle }:ICreateOrEditStudentsForm) => (
     <>
       {modalTitle && (<div className={styles.modal__title}>{modalTitle}</div>)}
@@ -121,7 +118,6 @@ const CreateOrEditStudentsForm = ({ formData,
           type="modal"
           label="Форма навчання"
           required
-          isSearchable
           placeholder="Форма навчання"
           onChange={(value) => {
             setFormData({ ...formData, isFullTime: value });
@@ -129,12 +125,7 @@ const CreateOrEditStudentsForm = ({ formData,
           value={formData.isFullTime}
         />
       </form>
-      <ModalControlButtons
-        handleClose={handleClose}
-        onSubmit={onSubmit}
-        cancelButtonText="Відміна"
-        mainButtonText="Створити"
-      />
+
     </>
 );
 

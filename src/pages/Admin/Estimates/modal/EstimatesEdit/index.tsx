@@ -105,7 +105,6 @@ export const EstimatesEdit = ({ modalActive, closeModal, studentId, gradeId }: I
           label="Причина зміни"
           placeholder="Причина зміни"
           required
-          isSearchable
           onChange={(value) => {
             setFormData({ ...formData, reasonChange: value });
           }}

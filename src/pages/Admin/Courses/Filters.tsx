@@ -49,7 +49,6 @@ const CoursesFilters = ({ courseId, groupId, teacherId, courseType }:ICoursesFil
         onChange={(value) => post({ courseType: value, currentPage: 1 })}
         value={courseType}
         isClearable
-        isSearchable
         isFilter
       />
     </>

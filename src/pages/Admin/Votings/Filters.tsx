@@ -27,7 +27,6 @@ const VotingFilters = ({ groupId, statusMessage }:IVotingFilters) => {
         onChange={(value) => post({ statusMessage: value, currentPage: 1 })}
         value={statusMessage}
         isClearable
-        isSearchable
         isFilter
       />
 

@@ -4,8 +4,10 @@ import { IGroupDeleteParams } from '../../../../../hooks/PagesInAdmin/useGroups'
 import { GroupsContext } from '../../../../../context/PagesInAdmin/Groups';
 import { MessagesContext } from '../../../../../context/All/Messages';
 import { IDeleteModal } from '../../../../../types';
-import { DeviceContext } from '../../../../../context/All/DeviceType';
-import GroupPageModalDeleteForm from '../form/Delete';
+import styles from '../../../../pagesStyle.module.scss';
+import ModalInput from '../../../../../components/common/MyInput';
+import { NumbersAndLettersEn } from '../../../../../types/regExp';
+import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
 
 const formInitialData = {
   deletedOrderNumber: '',
@@ -17,7 +19,6 @@ export const GroupDelete = ({ modalActive, closeModal, Id }: IDeleteModal): JSX.
 
   const { addInfo } = MessagesContext();
   const { groupDelete, getGroupId } = GroupsContext();
-  const { isDesktop, isTablet, isPhone } = DeviceContext();
   const [orderNumber, setOrderNumber] = useState('');
 
   const handleClose = () => {
@@ -60,13 +61,26 @@ export const GroupDelete = ({ modalActive, closeModal, Id }: IDeleteModal): JSX.
 
   return (
     <ModalWindow modalTitle="Видалення групи" active={modalActive} closeModal={handleClose}>
-      <GroupPageModalDeleteForm
+      <form className={styles.form} onSubmit={onSubmit}>
+        <h3 className={styles.subtitle}>Для підтвердження видалення групи введіть номер наказу.</h3>
+        <ModalInput
+          onChange={(event) => {
+            setFormData({ ...formData, deletedOrderNumber: event.target.value.slice(0, 8) });
+          }}
+          value={formData.deletedOrderNumber}
+          error={isSubmitted && orderNumber !== formData.deletedOrderNumber
+            ? 'Номер наказу введено невірно'
+            : (isSubmitted && (`${formData.deletedOrderNumber}`.length < 6 || `${formData.deletedOrderNumber}`.length > 20
+              ? 'Номер наказу повинен містити не менше 6-ти символів' : ''))}
+          placeholder="Номер наказу"
+          pattern={NumbersAndLettersEn}
+        />
+      </form>
+      <ModalControlButtons
         handleClose={handleClose}
-        isSubmitted={isSubmitted}
-        setFormData={setFormData}
-        formData={formData}
         onSubmit={onSubmit}
-        orderNumber={orderNumber}
+        cancelButtonText="Відміна"
+        mainButtonText="Видалити"
       />
     </ModalWindow>
   );

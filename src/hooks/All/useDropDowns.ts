@@ -281,7 +281,7 @@ export const useGetListStudents = (): IUseGetListStudents => {
 };
 
 interface IGetListAdministratorsParams {
-  orderByColumn?: 'id' | 'firstname' | 'lastname' | 'email' | 'role' | 'created' | 'updated';
+  orderByColumn?: 'id' | 'firstName' | 'lastName' | 'email' | 'role' | 'created' | 'updated';
   orderBy?: OrderBy;
   page?: number;
   limit?: number;
@@ -309,7 +309,7 @@ export const useGetListAdministrators = (): IUseGetListAdministrators => {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
-      params: { orderByColumn: 'id', limit: 100, orderBy: 'ASC', ...params },
+      params: { orderByColumn: 'lastName', limit: 100, orderBy: 'ASC', ...params },
     })
       .then((response: AxiosResponse<IPaginateData<IGetListAdministratorsData> | null>) => {
         setListAdmins(response.data);

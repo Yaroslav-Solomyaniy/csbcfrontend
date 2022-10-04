@@ -9,12 +9,11 @@ import ModalControlButtons from '../../../../../../components/common/ModalContro
 interface ICuratorsForm{
   formData: IUserCreateParams;
   setFormData: (value:IUserCreateParams) => void;
-  handleClose:() => void;
   onSubmit: (e: React.FormEvent | undefined) => void;
   isSubmitted: boolean;
   modalTitle?: string;
 }
-const CuratorsForm = ({ formData, setFormData, isSubmitted, onSubmit, handleClose, modalTitle }:ICuratorsForm) => (
+const CuratorsForm = ({ formData, setFormData, isSubmitted, onSubmit, modalTitle }:ICuratorsForm) => (
   <>
     {modalTitle && (<div className={styles.modal__title}>{modalTitle}</div>)}
     <form className={styles.form} onSubmit={onSubmit}>
@@ -45,8 +44,8 @@ const CuratorsForm = ({ formData, setFormData, isSubmitted, onSubmit, handleClos
           setFormData({ ...formData, patronymic: event.target.value.slice(0, 15) });
         }}
         value={formData.patronymic}
-        placeholder="По-Батькові"
-        label="По-Батькові"
+        placeholder="По батькові"
+        label="По батькові"
         required
         error={isSubmitted && !formData.patronymic ? 'По батькові не введено' : ''}
         pattern={LettersAndNumbersEnUa}
@@ -64,12 +63,7 @@ const CuratorsForm = ({ formData, setFormData, isSubmitted, onSubmit, handleClos
         pattern={EmailValidation}
       />
     </form>
-    <ModalControlButtons
-      handleClose={handleClose}
-      onSubmit={onSubmit}
-      cancelButtonText="Відміна"
-      mainButtonText="Створити"
-    />
+
   </>
 );
 

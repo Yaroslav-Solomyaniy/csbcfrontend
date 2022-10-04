@@ -7,6 +7,7 @@ import { Email } from '../../../../../types/regExp';
 import { MessagesContext } from '../../../../../context/All/Messages';
 import { IEditModal } from '../../../../../types';
 import CreateOrEditStudentsForm from '../form/CreateOrEdit';
+import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
 
 const formInitialData = {
   dateOfBirth: null,
@@ -94,11 +95,16 @@ export const StudentsEditModal = ({ modalActive, closeModal, studentId }: IEditM
   return (
     <ModalWindow modalTitle="Редагування студента" active={modalActive} closeModal={handleClose}>
       <CreateOrEditStudentsForm
-        handleClose={handleClose}
         isSubmitted={isSubmitted}
         setFormData={setFormData}
         formData={formData}
         onSubmit={onSubmit}
+      />
+      <ModalControlButtons
+        handleClose={handleClose}
+        onSubmit={onSubmit}
+        cancelButtonText="Відміна"
+        mainButtonText="Зберегти"
       />
     </ModalWindow>
   );

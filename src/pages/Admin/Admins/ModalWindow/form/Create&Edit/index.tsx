@@ -8,7 +8,6 @@ import ModalControlButtons from '../../../../../../components/common/ModalContro
 interface IAdministratorsForm{
   formData: IUserCreateParams;
   setFormData: (value:IUserCreateParams) => void;
-  handleClose:() => void;
   onSubmit: (e: React.FormEvent | undefined) => void;
   isSubmitted: boolean;
   modalTitle?: string;
@@ -18,7 +17,6 @@ const AdministratorsForm = ({ formData,
   setFormData,
   isSubmitted,
   onSubmit,
-  handleClose,
   modalTitle }:IAdministratorsForm) => (
     <>
       {modalTitle && (<div className={styles.modal__title}>{modalTitle}</div>)}
@@ -69,12 +67,6 @@ const AdministratorsForm = ({ formData,
           pattern={EmailValidation}
         />
       </form>
-      <ModalControlButtons
-        handleClose={handleClose}
-        onSubmit={onSubmit}
-        cancelButtonText="Відміна"
-        mainButtonText="Створити"
-      />
     </>
 );
 

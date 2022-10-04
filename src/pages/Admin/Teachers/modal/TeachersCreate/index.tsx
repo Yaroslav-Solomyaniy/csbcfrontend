@@ -85,7 +85,6 @@ export const TeacherCreateModal = ({ modalActive, closeModal }: ICreateModal): J
           pattern={EmailValidation}
         />
       </form>
-
       <ModalControlButtons
         handleClose={handleClose}
         onSubmit={onSubmit}

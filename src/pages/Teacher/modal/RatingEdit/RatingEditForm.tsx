@@ -50,7 +50,6 @@ const RatingEditForm = ({
           label="Причина зміни"
           placeholder="Причина зміни"
           required
-          isSearchable
           onChange={(value) => {
             setFormData({ ...formData, reasonForChange: value });
           }}

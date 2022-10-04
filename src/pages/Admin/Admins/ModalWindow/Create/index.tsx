@@ -7,6 +7,7 @@ import { IUserCreateParams } from '../../../../../hooks/All/useUser';
 import { AdministratorsContext } from '../../../../../context/PagesInAdmin/Administators';
 import { DeviceContext } from '../../../../../context/All/DeviceType';
 import AdministratorsForm from '../form/Create&Edit';
+import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
 
 const formInitialData: IUserCreateParams = {
   firstName: '',
@@ -50,13 +51,20 @@ export const AdministratorCreateModal = ({ modalActive, closeModal }: ICreateMod
 
   return (
     <ModalWindow modalTitle="Створення адміністратора" active={modalActive} closeModal={handleClose}>
-      <AdministratorsForm
-        handleClose={handleClose}
-        isSubmitted={isSubmitted}
-        setFormData={setFormData}
-        formData={formData}
-        onSubmit={onSubmit}
-      />
+      <>
+        <AdministratorsForm
+          isSubmitted={isSubmitted}
+          setFormData={setFormData}
+          formData={formData}
+          onSubmit={onSubmit}
+        />
+        <ModalControlButtons
+          handleClose={handleClose}
+          onSubmit={onSubmit}
+          cancelButtonText="Відміна"
+          mainButtonText="Створити"
+        />
+      </>
     </ModalWindow>
   );
 };

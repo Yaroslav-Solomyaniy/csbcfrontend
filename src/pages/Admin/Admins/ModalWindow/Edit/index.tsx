@@ -7,6 +7,7 @@ import { AdministratorsContext } from '../../../../../context/PagesInAdmin/Admin
 import { MessagesContext } from '../../../../../context/All/Messages';
 import AdministratorsForm from '../form/Create&Edit';
 import { DeviceContext } from '../../../../../context/All/DeviceType';
+import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
 
 const formInitialData: IUserEditParams = {
   firstName: '',
@@ -71,14 +72,21 @@ export const AdministratorEditModal = ({ modalActive, closeModal, studentId }: I
   }, [getAdministratorsId?.data]);
 
   return (
-    <ModalWindow modalTitle="Створення адміністратора" active={modalActive} closeModal={handleClose}>
-      <AdministratorsForm
-        handleClose={handleClose}
-        isSubmitted={isSubmitted}
-        setFormData={setFormData}
-        formData={formData}
-        onSubmit={onSubmit}
-      />
+    <ModalWindow modalTitle="Редагування адміністратора" active={modalActive} closeModal={handleClose}>
+      <>
+        <AdministratorsForm
+          isSubmitted={isSubmitted}
+          setFormData={setFormData}
+          formData={formData}
+          onSubmit={onSubmit}
+        />
+        <ModalControlButtons
+          handleClose={handleClose}
+          onSubmit={onSubmit}
+          cancelButtonText="Відміна"
+          mainButtonText="Зберегти"
+        />
+      </>
     </ModalWindow>
   );
 };

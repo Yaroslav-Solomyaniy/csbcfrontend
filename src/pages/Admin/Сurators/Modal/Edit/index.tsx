@@ -7,6 +7,7 @@ import { IUserEditParams } from '../../../../../hooks/All/useUser';
 import { MessagesContext } from '../../../../../context/All/Messages';
 import CuratorsForm from '../form/create&edit';
 import { DeviceContext } from '../../../../../context/All/DeviceType';
+import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
 
 const formInitialData: IUserEditParams = {
   firstName: '',
@@ -73,11 +74,16 @@ export const CuratorEditModal = ({ modalActive, closeModal, studentId }: IEditMo
   return (
     <ModalWindow modalTitle="Редагування куратора" active={modalActive} closeModal={handleClose}>
       <CuratorsForm
-        handleClose={handleClose}
         isSubmitted={isSubmitted}
         setFormData={setFormData}
         formData={formData}
         onSubmit={onSubmit}
+      />
+      <ModalControlButtons
+        handleClose={handleClose}
+        onSubmit={onSubmit}
+        cancelButtonText="Відміна"
+        mainButtonText="Зберегти"
       />
     </ModalWindow>
   );

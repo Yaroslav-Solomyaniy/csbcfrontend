@@ -6,6 +6,7 @@ import { MessagesContext } from '../../../../../context/All/Messages';
 import { ICreateModal } from '../../../../../types';
 import GroupPageModalForm from '../form/Create&Edit/modalForm';
 import { DeviceContext } from '../../../../../context/All/DeviceType';
+import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
 
 const formInitialData = {
   name: '',
@@ -16,7 +17,6 @@ const formInitialData = {
 export const GroupCreate = ({ modalActive, closeModal }: ICreateModal): JSX.Element => {
   const [formData, setFormData] = useState<IGroupCreateParams>(formInitialData);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const { isDesktop, isTablet, isPhone } = DeviceContext();
   const { groupCreate } = GroupsContext();
   const { addInfo } = MessagesContext();
 
@@ -48,11 +48,16 @@ export const GroupCreate = ({ modalActive, closeModal }: ICreateModal): JSX.Elem
   return (
     <ModalWindow modalTitle="Створення групи" active={modalActive} closeModal={handleClose}>
       <GroupPageModalForm
-        handleClose={handleClose}
         isSubmitted={isSubmitted}
         setFormData={setFormData}
         formData={formData}
         onSubmit={onSubmit}
+      />
+      <ModalControlButtons
+        handleClose={handleClose}
+        onSubmit={onSubmit}
+        cancelButtonText="Відміна"
+        mainButtonText="Створити"
       />
     </ModalWindow>
   );

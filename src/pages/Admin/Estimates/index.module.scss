@@ -36,6 +36,27 @@
   }
 }
 
+.gradesMobile {
+  height: 100%;
+  width: 50px;
+  text-align: center;
+  border: solid 1.5px rgba(255, 255, 255, 0);
+  border-radius: 4px;
+  box-sizing: border-box;
+  transition: all 0.3s;
+
+  &:hover {
+    transition: all 0.3s;
+    border: solid 1.5px #428BCA;
+  }
+
+  &__active {
+    transition: all 0.3s;
+    border: #276FAD 1.5px solid;
+  }
+}
+
+
 .modalSemester {
   position: absolute;
   display: flex;

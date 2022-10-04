@@ -2,111 +2,50 @@ import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import Layout from '../../../loyout/Layout';
 import { ITableHeader } from '../../../components/common/Table/TypeDisplay/Desktop/TableHeader';
-import { initialPagination, Pagination } from '../../../types';
 import { ITableRowItem } from '../../../components/common/Table/TypeDisplay/Desktop/TableBody';
 import styles from './index.module.scss';
-import Button from '../../../components/common/Button';
-import SelectStudent from '../../../components/common/Select/SelectStudent';
-import SelectGroupById from '../../../components/common/Select/SelectGroupById';
 import TitlePage from '../../../components/common/TitlePage';
 import Table from '../../../components/common/Table';
 import { useGetListCourses } from '../../../hooks/All/useDropDowns';
 import { EstimatesContext } from '../../../context/PagesInAdmin/Estimates';
 import { IGetGradesData, IGetGradesParams } from '../../../hooks/PagesInAdmin/useEstimates';
-import SelectSemester from '../../../components/common/Select/SelectSemester';
 import EstimatesEdit from './modal/EstimatesEdit';
-import { Download, Edit, History } from '../../../components/common/Icons';
+import EstimatesFilters from './Filters';
+import PhoneFilter from '../../../components/common/PhoneFilter';
+import { useQueryParam } from '../../../hooks/All/useQueryParams';
+import { initialPagination, Pagination } from '../../../types';
+import { DeviceContext } from '../../../context/All/DeviceType';
 import EstimatesHistory from './modal/EstimatesHystory';
+import { EditHistoryDownload } from '../../../components/common/CollectionMiniButtons';
 
-interface IIsActiveGradesModal {
-  openHistory: boolean;
-  studentEdit: number;
-  gradeEdit: number;
-  history: number;
-  download: number;
-  semester: string;
-}
-
-const allCloseModalWindow: IIsActiveGradesModal = {
+const allCloseModalWindow: Record<string, boolean | number | string> = {
   openHistory: false,
   studentEdit: 0,
   gradeEdit: 0,
   history: 0,
   download: 0,
   semester: '',
+  filter: false,
 };
 
-interface Filter {
-  studentId: string;
-  group: string;
-  semester: string;
-}
-
-interface Params {
-  filter: Filter;
-  pagination: Pagination;
-}
-
-const ActionsButton = ({
-  onClickEdit,
-  onClickHistory,
-  onClickDownload,
-  close,
-  isActive,
-}: {
-  onClickEdit: () => void;
-  onClickHistory: () => void;
-  onClickDownload: () => void;
-  close: (semester: string) => void;
-  isActive: boolean;
-}): JSX.Element => (
-  <div className={styles.actions}>
-    <Button
-      isImg
-      type="button"
-      onClick={onClickEdit}
-    >
-      <Edit />
-    </Button>
-    <Button
-      isImg
-      type="button"
-      onClick={onClickHistory}
-    >
-      <History />
-    </Button>
-    <Button
-      isImg
-      type="button"
-      onClick={onClickDownload}
-    >
-      <Download />
-    </Button>
-    <div
-      className={clsx(
-        styles.modalSemester,
-        isActive && styles.modalSemester__open,
-      )}
-    >
-      <Button onClick={() => close('1')} type="button">I</Button>
-      <Button onClick={() => close('2')} type="button">II</Button>
-      <Button onClick={() => close('3')} type="button">III</Button>
-      <Button onClick={() => close('4')} type="button">all</Button>
-      <Button onClick={() => close('')} type="button">X</Button>
-    </div>
-  </div>
-);
-
 const Estimates = (): JSX.Element => {
-  const [isActiveModal, setIsActiveModal] = useState<IIsActiveGradesModal>(allCloseModalWindow);
+  const [isActiveModal, setIsActiveModal] = useState<Record<string, boolean | string | number>>(allCloseModalWindow);
   const [dataHeader, setDataHeader] = useState<ITableHeader[]>([]);
+  const [pagination, setPagination] = useState<Pagination>({ ...initialPagination });
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
   const { gradesGet, gradesEdit } = EstimatesContext();
   const dropCurses = useGetListCourses();
-  const [params, setParams] = useState<Params>({
-    filter: { studentId: '', group: '', semester: '' },
-    pagination: initialPagination,
-  });
+
+  const { isPhone, isDesktop } = DeviceContext();
+
+  const { get } = useQueryParam();
+
+  const groupId = Number(get('groupId'));
+  const semesterId = Number(get('semesterId'));
+  const studentId = Number(get('studentId'));
+  const currentPage = Number(get('currentPage')) || 1;
+  const itemsPerPage = Number(get('itemsPerPage')) || 10;
+
   const closeModal = () => {
     setIsActiveModal(allCloseModalWindow);
   };
@@ -118,19 +57,20 @@ const Estimates = (): JSX.Element => {
   useEffect(() => {
     const query: IGetGradesParams = {};
 
-    if (params.filter.group) query.groupId = +params.filter.group;
-    if (params.filter.studentId) query.studentId = +params.filter.studentId;
-    if (params.pagination.currentPage) query.page = params.pagination.currentPage;
-    if (params.pagination.itemsPerPage) query.limit = params.pagination.itemsPerPage;
+    if (groupId) query.groupId = groupId;
+    // if (semesterId) query.studentId = semesterId;
+    if (studentId) query.studentId = studentId;
+    if (currentPage) query.page = currentPage;
+    if (itemsPerPage) query.limit = itemsPerPage;
 
     gradesGet?.getEstimateStudent(query);
   }, [
     gradesEdit?.data,
-    params.filter.group,
-    params.filter.studentId,
-    params.filter.semester,
-    params.pagination.currentPage,
-    params.pagination.itemsPerPage,
+    groupId,
+    semesterId,
+    studentId,
+    currentPage,
+    itemsPerPage,
   ]);
 
   const tableRows = (arrTableRows: IGetGradesData[]) => {
@@ -149,17 +89,20 @@ const Estimates = (): JSX.Element => {
               label: studentGrades ? (
                 <div
                   className={clsx(
-                    styles.gradesCell,
-                    isActiveModal.gradeEdit === studentGrades.id && styles.gradesCell__active,
+                    isDesktop ? styles.gradesCell : styles.gradesMobile,
+                    !!(isActiveModal.gradeEdit === studentGrades.id && isDesktop) && styles.gradesCell__active,
+                    (isActiveModal.gradeEdit === studentGrades.id && !(isDesktop)) && styles.gradesMobile__active,
                   )}
                   onClick={() => setIsActiveModal(
-                    { ...isActiveModal, gradeEdit: studentGrades.id },
+                    {
+                      ...isActiveModal,
+                      gradeEdit: isActiveModal.gradeEdit === studentGrades.id ? 0 : studentGrades.id,
+                    },
                   )}
                 >
                   {`${studentGrades.grade}`}
                 </div>
-              )
-                : '',
+              ) : '',
             });
           })
           : [];
@@ -170,28 +113,16 @@ const Estimates = (): JSX.Element => {
             { id: 2, label: student.group.name },
             {
               id: 3,
-              label: student.grades.reduce((sum, elem) => sum + elem.grade, 0),
+              label: Math.ceil(student.grades.reduce((sum, elem) => sum + elem.grade, 0) / student.grades.length),
             },
             ...arrTableRowsGrade,
             {
               id: ++id,
               label: (
-                <ActionsButton
-                  onClickEdit={() => {
-                    setIsActiveModal(
-                      { ...isActiveModal, studentEdit: isActiveModal.gradeEdit ? student.id : 0 },
-                    );
-                  }}
-                  onClickHistory={() => {
-                    setIsActiveModal({ ...isActiveModal, history: student.id, openHistory: true });
-                  }}
-                  onClickDownload={() => {
-                    setIsActiveModal({ ...isActiveModal, download: student.id });
-                  }}
-                  close={(semester: string) => {
-                    setIsActiveModal({ ...isActiveModal, openHistory: false, semester });
-                  }}
-                  isActive={(isActiveModal.history === student.id && isActiveModal.openHistory)}
+                <EditHistoryDownload
+                  isActiveModal={isActiveModal}
+                  setIsActiveModal={setIsActiveModal}
+                  itemId={student.id}
                 />
               ),
             },
@@ -216,7 +147,7 @@ const Estimates = (): JSX.Element => {
     ]);
 
     if (gradesGet?.data) {
-      setParams({ ...params, pagination: gradesGet?.data.meta });
+      setPagination(gradesGet.data.meta);
       setDataRow(tableRows(gradesGet.data.items));
     }
   }, [gradesGet?.data, dropCurses.optionCourses, isActiveModal]);
@@ -224,59 +155,38 @@ const Estimates = (): JSX.Element => {
   return (
     <Layout>
       <div className={styles.grades}>
-        <TitlePage title="Оцінки" />
+
+        <TitlePage
+          title="Оцінки"
+          {...isPhone && ({ setIsActiveModal })}
+          {...isPhone && ({ isActiveModal: !!isActiveModal.filter })}
+        />
         <Table
-          filter={(
-            <>
-              <SelectStudent
-                type="filter"
-                placeholder="ПІБ"
-                isClearable
-                isSearchable
-                value={params.filter.studentId}
-                onChange={(value) => setParams({
-                  ...params, filter: { ...params.filter, studentId: value },
-                })}
-              />
-              <SelectGroupById
-                type="filter"
-                placeholder="Група"
-                isClearable
-                isSearchable
-                value={params.filter.group}
-                onChange={(value) => setParams({
-                  ...params, filter: { ...params.filter, group: value },
-                })}
-              />
-              <SelectSemester
-                type="filter"
-                placeholder="Семестр"
-                required
-                isClearable
-                value={params.filter.semester}
-                onChange={(value) => setParams({
-                  ...params, filter: { ...params.filter, semester: value },
-                })}
-              />
-            </>
-          )}
+          filter={(<EstimatesFilters studentId={studentId} semesterId={semesterId} groupId={groupId} />)}
           columScrollHorizontal={dropCurses.optionCourses ? +`${dropCurses.optionCourses?.items.length}` : 0}
           isScroll
+          isTwoColumns
           dataHeader={dataHeader}
-          gridColumns={styles.columns}
           dataRow={dataRow}
+          gridColumns={styles.columns}
+          totalItems={pagination.totalItems}
         />
+
+        <PhoneFilter modalTitle="Фільтрація предметів" isActive={!!isActiveModal.filter} closeModal={closeModal}>
+          <EstimatesFilters studentId={studentId} semesterId={semesterId} groupId={groupId} />
+        </PhoneFilter>
+
         <EstimatesEdit
-          modalActive={!!isActiveModal.studentEdit}
+          modalActive={!!isActiveModal.edit}
           closeModal={closeModal}
-          studentId={isActiveModal.studentEdit}
-          gradeId={isActiveModal.gradeEdit}
+          studentId={+isActiveModal.edit}
+          gradeId={+isActiveModal.gradeEdit}
         />
         <EstimatesHistory
-          modalActive={!!(isActiveModal.semester && isActiveModal.history)}
+          modalActive={!!isActiveModal.history}
           closeModal={closeModal}
-          studentId={isActiveModal.history}
-          semester={isActiveModal.semester}
+          studentId={+isActiveModal.history}
+          semester={isActiveModal.semester.toString()}
         />
       </div>
     </Layout>

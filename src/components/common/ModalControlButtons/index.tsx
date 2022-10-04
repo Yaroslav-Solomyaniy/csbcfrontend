@@ -7,7 +7,7 @@ import { DeviceContext } from '../../../context/All/DeviceType';
 interface IModalButtons {
   cancelButtonText?: string;
   mainButtonText?: string;
-  handleClose: () => void;
+  handleClose?: () => void;
   onSubmit?: (e: React.FormEvent | undefined) => void;
   isDisabled?: boolean;
 }
@@ -23,14 +23,16 @@ const ModalControlButtons = ({
 
   return (
     <div className={clsx(isDesktop && styles.block_Buttons, (isTablet || isPhone) && styles.AdaptiveButtonsModal)}>
-      <Button
-        onClick={handleClose}
-        nameClass="secondary"
-        size="small"
-        className={styles.cancelButton}
-      >
-        {cancelButtonText}
-      </Button>
+      {handleClose && (
+        <Button
+          onClick={handleClose}
+          nameClass="secondary"
+          size="small"
+          className={styles.cancelButton}
+        >
+          {cancelButtonText}
+        </Button>
+      )}
       {onSubmit && (
       <Button
         onClick={onSubmit}
@@ -41,6 +43,14 @@ const ModalControlButtons = ({
       >
         {mainButtonText}
       </Button>
+        <Button
+          onClick={onSubmit}
+          nameClass="primary"
+          size="small"
+          className={clsx(styles.submitButton, mainButtonText === 'Видалити' && styles.redButton)}
+        >
+          {mainButtonText}
+        </Button>
       )}
     </div>
   );
@@ -49,6 +59,7 @@ const ModalControlButtons = ({
 ModalControlButtons.defaultProps = {
   cancelButtonText: '',
   mainButtonText: '',
+  handleClose: undefined,
   onSubmit: undefined,
   isDisabled: false,
 };

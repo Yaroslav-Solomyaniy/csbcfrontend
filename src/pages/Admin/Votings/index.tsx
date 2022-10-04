@@ -123,7 +123,7 @@ const VotingAdmin = (): JSX.Element => {
             >
               Створити
             </Button>
-              )}
+          )}
         />
         <Table
           filter={(<VotingFilters groupId={groupId} statusMessage={statusMessage} />)}

@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Option, SelectType } from '../../../../types';
-import { useGetListCourses } from '../../../../hooks/All/useDropDowns';
 import MultiSelect from '../index';
 import { CoursesContext } from '../../../../context/PagesInAdmin/Courses';
 import { useCoursesGet } from '../../../../hooks/PagesInAdmin/useCourses';

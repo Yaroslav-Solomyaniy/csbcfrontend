@@ -5,7 +5,6 @@ import { GroupsContext } from '../../../../../context/PagesInAdmin/Groups';
 import { MessagesContext } from '../../../../../context/All/Messages';
 import { IEditModal } from '../../../../../types';
 import GroupPageModalForm from '../form/Create&Edit/modalForm';
-import { DeviceContext } from '../../../../../context/All/DeviceType';
 
 const formInitialData = {
   name: '',
@@ -19,7 +18,6 @@ export const GroupEdit = ({ modalActive, closeModal, studentId }: IEditModal): J
 
   const { groupEdit, getGroupId } = GroupsContext();
   const { addInfo } = MessagesContext();
-  const { isDesktop, isTablet, isPhone } = DeviceContext();
 
   const handleClose = () => {
     setIsSubmited(false);

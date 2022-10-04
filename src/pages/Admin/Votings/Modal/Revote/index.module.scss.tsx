@@ -4,7 +4,6 @@ import ModalWindow from '../../../../../components/common/ModalWindow';
 import 'react-datepicker/dist/react-datepicker.css';
 import { IVotingEditParams } from '../../../../../hooks/PagesInAdmin/useVotings';
 import { VotingsAdmin } from '../../../../../context/PagesInAdmin/Votings';
-import { MessagesContext } from '../../../../../context/All/Messages';
 import CreateEditRevoteFormVotingAdmin from '../form/CreateEditRevoteFormVotingAdmin';
 
 const formInitialData: IVotingEditParams = {
@@ -13,27 +12,24 @@ const formInitialData: IVotingEditParams = {
   endDate: null,
   requiredCourses: [],
   notRequiredCourses: [],
-  isRevote: false,
+  isRevote: true,
 };
 
 interface IEditModalAndRevote {
   modalActive: boolean;
   closeModal: () => void;
   id: number;
-  isRevote?: boolean;
 }
 
-export const VotingEditModal = (
+export const RevoteEditModal = (
   { modalActive,
     closeModal,
     id,
-    isRevote,
   }: IEditModalAndRevote,
 ): JSX.Element => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState(formInitialData);
   const { votingGetById, votingEdit } = VotingsAdmin();
-  const { addInfo } = MessagesContext();
 
   const handleClose = () => {
     setIsSubmitted(false);
@@ -57,17 +53,9 @@ export const VotingEditModal = (
         ...formData,
         startDate: moment(formData.startDate).format(),
         endDate: moment(formData.endDate).format(),
-        isRevote,
       }, id);
     }
   };
-
-  useEffect(() => {
-    if (votingEdit?.data) {
-      handleClose();
-      addInfo('Голосування успішно відредаговане');
-    }
-  }, [votingEdit?.data]);
 
   useEffect(() => {
     if (id) {
@@ -89,10 +77,7 @@ export const VotingEditModal = (
   }, [votingGetById?.data]);
 
   return (
-    <ModalWindow
-      active={modalActive}
-      closeModal={handleClose}
-    >
+    <ModalWindow modalTitle="Редагування переголосування" active={modalActive} closeModal={handleClose}>
       <CreateEditRevoteFormVotingAdmin
         handleClose={handleClose}
         isSubmitted={isSubmitted}
@@ -104,8 +89,4 @@ export const VotingEditModal = (
   );
 };
 
-VotingEditModal.defaultProps = {
-  isRevote: false,
-};
-
-export default VotingEditModal;
+export default RevoteEditModal;

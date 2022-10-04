@@ -53,7 +53,7 @@ export const StudentsCreateModal = ({ modalActive, closeModal }: IGroupCreateMod
       && formData.user.lastName
       && formData.user.patronymic
       && Email.test(formData.user.email)
-      && (formData.isFullTime === 'true' || formData.isFullTime === 'false')) {
+    ) {
       studentCreate?.studentCreate({ ...formData,
         dateOfBirth: moment(formData.dateOfBirth).format('DD.MM.yyyy'),
         isFullTime: formData.isFullTime === 'true' });

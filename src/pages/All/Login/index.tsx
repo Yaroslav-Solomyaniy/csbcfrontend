@@ -16,7 +16,7 @@ const Login = (): JSX.Element => {
   const [check, setCheck] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const onSubmit = (e: (React.FormEvent<Element> | undefined)) => {
+  const onSubmit = () => {
     setIsSubmitted(true);
     if (Email.test(formData.email) && formData.password.length > 7) {
       postLogin(formData, check);

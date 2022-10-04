@@ -14,21 +14,21 @@ interface IVotingSubmitModal{
 
 const VotingSubmitModal = ({ votingId, modalActive, closeModal }:IVotingSubmitModal) => {
   const [data, setData] = useState<IGetVotingSubmitDataById>();
-  const [formData, setFormData] = useState<IVotingSubmitParams>({ id: 0, course: [0, 0, 0, 0] });
+  const [formData, setFormData] = useState<IVotingSubmitParams>({ courses: [0, 0, 0, 0] });
   const { getVotingFormSubmit, votingSubmit } = VotingsAdmin();
   const { addInfo } = MessagesContext();
 
   const handleClose = () => {
     closeModal();
     setTimeout(() => {
-      setFormData({ id: 0, course: [0, 0, 0, 0] });
+      setFormData({ courses: [0, 0, 0, 0] });
     }, 200);
   };
 
   const onSubmit = (e: React.FormEvent | undefined) => {
     e?.preventDefault?.();
-    if (formData.id !== 0 && !formData.course.includes(0)) {
-      votingSubmit?.votingSubmit(formData);
+    if (!formData.courses.includes(0)) {
+      votingSubmit?.votingSubmit(formData, votingId);
     }
   };
 
@@ -41,7 +41,7 @@ const VotingSubmitModal = ({ votingId, modalActive, closeModal }:IVotingSubmitMo
 
   const handleRadioClick = (e: React.ChangeEvent<HTMLInputElement>): void => (
     setFormData({ ...formData,
-      course: formData.course.map((item, index) => (
+      courses: formData.courses.map((item, index) => (
         index === +e.target.name ? +e.currentTarget.value : item)),
     })
   );
@@ -55,7 +55,6 @@ const VotingSubmitModal = ({ votingId, modalActive, closeModal }:IVotingSubmitMo
   useEffect(() => {
     if (getVotingFormSubmit?.data) {
       setData(getVotingFormSubmit.data);
-      setFormData({ ...formData, id: getVotingFormSubmit.data.id });
     }
   }, [getVotingFormSubmit?.data]);
 
@@ -69,7 +68,7 @@ const VotingSubmitModal = ({ votingId, modalActive, closeModal }:IVotingSubmitMo
     >
       <SubmitVotingForm
         data={data}
-        formData={formData.course}
+        formData={formData.courses}
         handleRadioClick={handleRadioClick}
         onSubmit={onSubmit}
         handleClose={handleClose}

@@ -52,7 +52,10 @@ const TableBody = ({
                 </div>
               ))
             ) : (
-              <div title={label.toString()} className={clsx(styles.body__row__item__string, 'clip')} key={`${id}${label}`}>
+              <div
+                className={clsx(styles.body__row__item__string, 'clip')}
+                key={`${id}${label}`}
+              >
                 {label}
               </div>
             )}

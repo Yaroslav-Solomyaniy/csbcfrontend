@@ -4,7 +4,6 @@ import { IGroupDeleteParams } from '../../../../../hooks/PagesInAdmin/useGroups'
 import { GroupsContext } from '../../../../../context/PagesInAdmin/Groups';
 import { MessagesContext } from '../../../../../context/All/Messages';
 import { IDeleteModal } from '../../../../../types';
-import { DeviceContext } from '../../../../../context/All/DeviceType';
 import GroupPageModalDeleteForm from '../form/Delete';
 
 const formInitialData = {
@@ -17,7 +16,6 @@ export const GroupDelete = ({ modalActive, closeModal, Id }: IDeleteModal): JSX.
 
   const { addInfo } = MessagesContext();
   const { groupDelete, getGroupId } = GroupsContext();
-  const { isDesktop, isTablet, isPhone } = DeviceContext();
   const [orderNumber, setOrderNumber] = useState('');
 
   const handleClose = () => {

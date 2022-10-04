@@ -18,34 +18,45 @@ interface IButtons{
   setIsActiveModal:(value: Record<string, number | boolean>) => void;
   itemId: number;
 }
-
-export const EditDeleteReviewApprove = ({ isActiveModal, setIsActiveModal, itemId }:IButtons):JSX.Element => (
-  <TablesActions>
-    <Button
-      onClick={() => setIsActiveModal({ ...isActiveModal, edit: itemId })}
-      isImg
-    >
-      <Edit />
-    </Button>
-    <Button
-      onClick={() => setIsActiveModal({ ...isActiveModal, delete: itemId })}
-      isImg
-    >
-      <Delete />
-    </Button>
-    <Button
-      onClick={() => setIsActiveModal({ ...isActiveModal, result: itemId })}
-      isImg
-    >
-      <Review />
-    </Button>
-    <Button
-      onClick={() => setIsActiveModal({ ...isActiveModal, approve: itemId })}
-      isImg
-    >
-      <Approve />
-    </Button>
-  </TablesActions>
+interface IEditDeleteReviewApprove{
+  isActiveModal: Record<string, number | boolean> ;
+  setIsActiveModal:(value: Record<string, number | boolean>) => void;
+  itemId: number;
+  status: string;
+}
+export const EditDeleteReviewApprove = ({ isActiveModal,
+  setIsActiveModal,
+  itemId,
+  status }:IEditDeleteReviewApprove):JSX.Element => (
+    <TablesActions>
+      <Button
+        onClick={() => setIsActiveModal(status === 'Переголосування у прогресі'
+          ? { ...isActiveModal, revote: itemId } : { ...isActiveModal, edit: itemId })}
+        isImg
+      >
+        <Edit />
+      </Button>
+      <Button
+        onClick={() => setIsActiveModal({ ...isActiveModal, delete: itemId })}
+        isImg
+      >
+        <Delete />
+      </Button>
+      <Button
+        onClick={() => setIsActiveModal({ ...isActiveModal, result: itemId })}
+        disabled={status === 'Нове'}
+        isImg
+      >
+        <Review />
+      </Button>
+      <Button
+        onClick={() => setIsActiveModal({ ...isActiveModal, approve: itemId })}
+        disabled={status !== 'Потребує перегляду'}
+        isImg
+      >
+        <Approve />
+      </Button>
+    </TablesActions>
 );
 
 export const EditReviewDelete = ({ isActiveModal, setIsActiveModal, itemId }:IButtons):JSX.Element => (

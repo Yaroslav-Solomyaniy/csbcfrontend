@@ -6,7 +6,6 @@ import { ICreateModal } from '../../../../../types';
 import { Email } from '../../../../../types/regExp';
 import { MessagesContext } from '../../../../../context/All/Messages';
 import { IUserCreateParams } from '../../../../../hooks/All/useUser';
-import { DeviceContext } from '../../../../../context/All/DeviceType';
 import CuratorsForm from '../form/create&edit';
 
 const formInitialData: IUserCreateParams = {
@@ -23,7 +22,6 @@ export const CuratorCreateModal = ({ modalActive, closeModal }: ICreateModal): J
 
   const { curatorCreate } = CuratorContext();
   const { addInfo } = MessagesContext();
-  const { isPhone, isDesktop, isTablet } = DeviceContext();
 
   const handleClose = () => {
     setIsSubmitted(false);

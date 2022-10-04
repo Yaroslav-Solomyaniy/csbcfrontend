@@ -3,7 +3,6 @@ import ModalWindow from '../../../../../components/common/ModalWindow';
 import { IDeleteModal } from '../../../../../types';
 import { CuratorContext } from '../../../../../context/PagesInAdmin/Curators';
 import { MessagesContext } from '../../../../../context/All/Messages';
-import { DeviceContext } from '../../../../../context/All/DeviceType';
 import CuratorsDeleteForm from '../form/delete';
 
 const formInitialData = {
@@ -15,7 +14,6 @@ const formInitialData = {
 export const CuratorDeleteModal = ({ modalActive, closeModal, Id }: IDeleteModal): JSX.Element => {
   const [formData, setFormData] = useState(formInitialData);
 
-  const { isTablet, isPhone, isDesktop } = DeviceContext();
   const { addInfo } = MessagesContext();
   const { curatorDelete, getCuratorId } = CuratorContext();
 

@@ -98,6 +98,7 @@ const VotingAdmin = (): JSX.Element => {
               isActiveModal={isActiveModal}
               setIsActiveModal={setIsActiveModal}
               itemId={item.id}
+              status={item.status}
             />,
           },
         ],
@@ -131,7 +132,11 @@ const VotingAdmin = (): JSX.Element => {
           gridColumns={styles.columns}
           totalItems={pagination.totalItems}
         />
-        <PhoneFilter modalTitle="Фільтрація голосувань" isActive={!!isActiveModal.filter} closeModal={closeModal}>
+        <PhoneFilter
+          modalTitle="Фільтрація голосувань"
+          isActive={!!isActiveModal.filter}
+          closeModal={closeModal}
+        >
           <VotingFilters groupId={groupId} statusMessage={statusMessage} />
         </PhoneFilter>
         <VotingCreateModal
@@ -154,12 +159,11 @@ const VotingAdmin = (): JSX.Element => {
           closeModal={closeModal}
           changeWindow={changeWindow}
         />
-        <VotingEditModal
-          modalActive={!!isActiveModal.revote}
-          id={isActiveModal.result as number}
-          closeModal={closeModal}
-          isRevote
-        />
+        {/* <VotingEditModal */}
+        {/*  modalActive={!!isActiveModal.revote} */}
+        {/*  id={isActiveModal.revote as number} */}
+        {/*  closeModal={closeModal} */}
+        {/* /> */}
         <VotingSubmitModal
           modalActive={!!isActiveModal.approve}
           closeModal={closeModal}

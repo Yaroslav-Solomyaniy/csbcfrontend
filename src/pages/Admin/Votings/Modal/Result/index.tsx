@@ -4,7 +4,6 @@ import ModalWindow from '../../../../../components/common/ModalWindow';
 import { IGetVotingResultDataById } from '../../../../../hooks/PagesInAdmin/useVotings';
 import { VotingsAdmin } from '../../../../../context/PagesInAdmin/Votings';
 import ResultDisplay from './Components/ResultDisplay';
-import { DeviceContext } from '../../../../../context/All/DeviceType';
 
 const formInitialData: IGetVotingResultDataById = {
   id: 0,

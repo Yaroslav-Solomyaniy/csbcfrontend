@@ -3,14 +3,12 @@ import ModalWindow from '../../../../../components/common/ModalWindow';
 import { IDeleteModal } from '../../../../../types';
 import { MessagesContext } from '../../../../../context/All/Messages';
 import { VotingsAdmin } from '../../../../../context/PagesInAdmin/Votings';
-import { DeviceContext } from '../../../../../context/All/DeviceType';
 import FormDeleteVoting from './formDeleteVoting';
 
 export const VotingDeleteModal = ({ modalActive, closeModal, Id }: IDeleteModal): JSX.Element => {
   const [groups, setGroups] = useState<string[]>([]);
   const { votingGetById, votingDelete } = VotingsAdmin();
   const { addInfo } = MessagesContext();
-  const { isPhone, isDesktop, isTablet } = DeviceContext();
 
   const handleClose = () => {
     closeModal();

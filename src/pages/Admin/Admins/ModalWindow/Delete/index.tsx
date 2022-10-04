@@ -3,7 +3,6 @@ import ModalWindow from '../../../../../components/common/ModalWindow';
 import { IDeleteModal } from '../../../../../types';
 import { MessagesContext } from '../../../../../context/All/Messages';
 import { AdministratorsContext } from '../../../../../context/PagesInAdmin/Administators';
-import { DeviceContext } from '../../../../../context/All/DeviceType';
 import AdministratorsDeleteForm from '../form/Delete';
 
 const formInitialData = {
@@ -16,7 +15,6 @@ export const AdministratorDeleteModal = ({ modalActive, closeModal, Id }: IDelet
   const [formData, setFormData] = useState(formInitialData);
   const { administratorsDelete, getAdministratorsId } = AdministratorsContext();
   const { addInfo } = MessagesContext();
-  const { isDesktop, isTablet, isPhone } = DeviceContext();
 
   useEffect(() => {
     if (Id) {

@@ -5,7 +5,6 @@ import ModalWindow from '../../../../../components/common/ModalWindow';
 import { MessagesContext } from '../../../../../context/All/Messages';
 import { ICreateModal } from '../../../../../types';
 import GroupPageModalForm from '../form/Create&Edit/modalForm';
-import { DeviceContext } from '../../../../../context/All/DeviceType';
 
 const formInitialData = {
   name: '',

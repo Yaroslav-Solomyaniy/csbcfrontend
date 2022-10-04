@@ -1,10 +1,6 @@
 import React from 'react';
 import styles from './index.module.scss';
 import TitlePage from '../../../components/common/TitlePage';
-import Button from '../../../components/common/Button';
-import Table from '../../../components/common/Table';
-import { ITableHeader } from '../../../components/common/Table/TypeDisplay/Desktop/TableHeader';
-import SelectSemester from '../../../components/common/Select/SelectSemester';
 
 interface IPageIndividualPlan{
   data: any;

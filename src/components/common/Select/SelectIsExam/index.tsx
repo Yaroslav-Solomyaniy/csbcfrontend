@@ -32,7 +32,7 @@ const SelectExam = ({
   menuPos,
   menuPlace,
   isFilter }: ISelectIsExam): JSX.Element => {
-  const [options, setOptions] = useState<Option[]>([
+  const [options] = useState<Option[]>([
     {
       value: true,
       label: 'Іспит',

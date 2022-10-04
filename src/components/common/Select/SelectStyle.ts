@@ -32,7 +32,7 @@ export const SelectStylesDesktop:any = {
       ...provided,
       height: '32px',
     }),
-    option: (base: any, state: any) => ({
+    option: (base: any) => ({
       ...base,
       color: 'rgba(0, 0, 0, 0.75)',
       background: '#FEFEFE',

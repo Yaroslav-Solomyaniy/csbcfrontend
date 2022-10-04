@@ -362,8 +362,7 @@ export const useVotingGetSubmitDataById = (): IUseVotingGetSubmitDataById => {
 };
 
 export interface IVotingSubmitParams {
-  id: number;
-  course: number[];
+  courses: number[];
 }
 
 export interface IVotingSubmitData {
@@ -372,7 +371,7 @@ export interface IVotingSubmitData {
 
 export interface IUseVotingSubmit {
   data: IVotingSubmitData | null;
-  votingSubmit: (params: IVotingSubmitParams) => void;
+  votingSubmit: (params: IVotingSubmitParams, id: number) => void;
 }
 
 export const useVotingSubmit = (): IUseVotingSubmit => {
@@ -380,8 +379,8 @@ export const useVotingSubmit = (): IUseVotingSubmit => {
   const { addErrors } = MessagesContext();
   const [data, setData] = useState<IVotingSubmitData | null>(null);
 
-  const votingSubmit = (params: IVotingSubmitParams) => {
-    axios.post(`${process.env.REACT_APP_API_URL}/voting/${params.id}/courses/submit`, params, {
+  const votingSubmit = (params: IVotingSubmitParams, id: number) => {
+    axios.post(`${process.env.REACT_APP_API_URL}/voting/${id}/courses/submit`, params, {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },

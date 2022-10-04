@@ -1,6 +1,5 @@
 import React from 'react';
 import clsx from 'clsx';
-import { isArray } from 'util';
 import { ITableHeader } from '../Desktop/TableHeader';
 import { ITableRowItem } from '../Desktop/TableBody';
 import styles from './index.module.scss';

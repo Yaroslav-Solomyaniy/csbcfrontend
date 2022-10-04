@@ -5,7 +5,6 @@ import { Email } from '../../../../../types/regExp';
 import { MessagesContext } from '../../../../../context/All/Messages';
 import { IUserCreateParams } from '../../../../../hooks/All/useUser';
 import { AdministratorsContext } from '../../../../../context/PagesInAdmin/Administators';
-import { DeviceContext } from '../../../../../context/All/DeviceType';
 import AdministratorsForm from '../form/Create&Edit';
 import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
 
@@ -23,7 +22,6 @@ export const AdministratorCreateModal = ({ modalActive, closeModal }: ICreateMod
 
   const { administratorsCreate } = AdministratorsContext();
   const { addInfo } = MessagesContext();
-  const { isTablet, isPhone, isDesktop } = DeviceContext();
 
   const handleClose = () => {
     setIsSubmitted(false);

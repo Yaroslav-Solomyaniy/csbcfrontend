@@ -33,7 +33,7 @@ const SelectReason = ({
   menuPlace,
   isFilter,
 }: ISelectReason): JSX.Element => {
-  const [options, setOptions] = useState<Option[]>([
+  const [options] = useState<Option[]>([
     {
       value: 'Екзамен',
       label: 'Екзамен',

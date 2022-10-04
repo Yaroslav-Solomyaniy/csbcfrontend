@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import ModalWindow from '../../../../../components/common/ModalWindow';
 import { IGetVotingResultDataById } from '../../../../../hooks/PagesInAdmin/useVotings';
-import { AdminVotingsContext } from '../../../../../context/PagesInAdmin/Votings';
+import { VotingsAdmin } from '../../../../../context/PagesInAdmin/Votings';
 import ResultDisplay from './Components/ResultDisplay';
-import { DeviceContext } from '../../../../../context/All/DeviceType';
 
 const formInitialData: IGetVotingResultDataById = {
   id: 0,
@@ -26,8 +25,7 @@ interface IResultModal {
 export const VotingResultModal = ({ modalActive, closeModal, votingId, changeWindow }: IResultModal): JSX.Element => {
   const [formData, setFormData] = useState(formInitialData);
 
-  const { votingResult } = AdminVotingsContext();
-  const { isDesktop, isTablet, isPhone } = DeviceContext();
+  const { votingResult } = VotingsAdmin();
 
   const handleClose = () => {
     closeModal();
@@ -38,7 +36,7 @@ export const VotingResultModal = ({ modalActive, closeModal, votingId, changeWin
 
   useEffect(() => {
     if (votingId) {
-      votingResult?.votingGetResultById({ id: `${votingId}` });
+      votingResult?.votingGetResultById({ id: votingId });
     }
   }, [votingId]);
 
@@ -58,8 +56,8 @@ export const VotingResultModal = ({ modalActive, closeModal, votingId, changeWin
 
   return (
     <ModalWindow
-      modalTitle={`Результати голосування для 
-      ${formData.groups.map((item) => item.name).join(',')} 
+      modalTitle={`Результати голосування для
+      ${formData.groups.map((item) => item.name).join(',')}
       від ${moment(formData.startDate).format('DD.MM.YYYY')}`}
       active={modalActive}
       closeModal={handleClose}

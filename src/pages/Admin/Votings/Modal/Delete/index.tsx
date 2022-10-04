@@ -2,15 +2,13 @@ import React, { useEffect, useState } from 'react';
 import ModalWindow from '../../../../../components/common/ModalWindow';
 import { IDeleteModal } from '../../../../../types';
 import { MessagesContext } from '../../../../../context/All/Messages';
-import { AdminVotingsContext } from '../../../../../context/PagesInAdmin/Votings';
-import { DeviceContext } from '../../../../../context/All/DeviceType';
+import { VotingsAdmin } from '../../../../../context/PagesInAdmin/Votings';
 import FormDeleteVoting from './formDeleteVoting';
 
 export const VotingDeleteModal = ({ modalActive, closeModal, Id }: IDeleteModal): JSX.Element => {
   const [groups, setGroups] = useState<string[]>([]);
-  const { votingGetById, votingDelete } = AdminVotingsContext();
+  const { votingGetById, votingDelete } = VotingsAdmin();
   const { addInfo } = MessagesContext();
-  const { isPhone, isDesktop, isTablet } = DeviceContext();
 
   const handleClose = () => {
     closeModal();

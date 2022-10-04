@@ -3,7 +3,7 @@ import moment from 'moment';
 import ModalWindow from '../../../../../components/common/ModalWindow';
 import { ICreateModal } from '../../../../../types';
 import { ICreateVotingParams } from '../../../../../hooks/PagesInAdmin/useVotings';
-import { AdminVotingsContext } from '../../../../../context/PagesInAdmin/Votings';
+import { VotingsAdmin } from '../../../../../context/PagesInAdmin/Votings';
 import { MessagesContext } from '../../../../../context/All/Messages';
 import CreateEditRevoteFormVotingAdmin from '../form/CreateEditRevoteFormVotingAdmin';
 
@@ -18,7 +18,7 @@ const formInitialData: ICreateVotingParams = {
 export const VotingCreateModal = ({ modalActive, closeModal }: ICreateModal): JSX.Element => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState<ICreateVotingParams>(formInitialData);
-  const { votingCreate } = AdminVotingsContext();
+  const { votingCreate } = VotingsAdmin();
   const { addInfo } = MessagesContext();
 
   const handleClose = () => {

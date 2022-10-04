@@ -57,5 +57,7 @@
   line-height: 32px;
   color: rgba(0, 0, 0, 0.85);
   text-align: center;
-
+  &:first-child{
+    padding: 0;
+  }
 }

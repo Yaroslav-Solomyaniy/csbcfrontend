@@ -7,7 +7,7 @@ import Layout from '../../../loyout/Layout';
 import { ITableHeader } from '../../../components/common/Table/TypeDisplay/Desktop/TableHeader';
 import { ITableRowItem } from '../../../components/common/Table/TypeDisplay/Desktop/TableBody';
 import { initialPagination, Pagination } from '../../../types';
-import { AdminVotingsContext } from '../../../context/PagesInAdmin/Votings';
+import { VotingsAdmin } from '../../../context/PagesInAdmin/Votings';
 import { IGetVotingAdminData, IGetVotingAdminParams } from '../../../hooks/PagesInAdmin/useVotings';
 import VotingEditModal from './Modal/Edit';
 import VotingDeleteModal from './Modal/Delete';
@@ -19,6 +19,7 @@ import { useQueryParam } from '../../../hooks/All/useQueryParams';
 import { EditDeleteReviewApprove } from '../../../components/common/CollectionMiniButtons';
 import PhoneFilter from '../../../components/common/PhoneFilter';
 import Table from '../../../components/common/Table';
+import VotingSubmitModal from './Modal/Submit';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'Групи' },
@@ -44,7 +45,7 @@ const VotingAdmin = (): JSX.Element => {
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
   const [pagination, setPagination] = useState<Pagination>({ ...initialPagination });
 
-  const { getVoting, votingDelete, votingEdit, votingCreate } = AdminVotingsContext();
+  const { getVoting, votingDelete, votingEdit, votingCreate } = VotingsAdmin();
   const { isPhone } = DeviceContext();
   const { get } = useQueryParam();
 
@@ -97,6 +98,7 @@ const VotingAdmin = (): JSX.Element => {
               isActiveModal={isActiveModal}
               setIsActiveModal={setIsActiveModal}
               itemId={item.id}
+              status={item.status}
             />,
           },
         ],
@@ -130,7 +132,11 @@ const VotingAdmin = (): JSX.Element => {
           gridColumns={styles.columns}
           totalItems={pagination.totalItems}
         />
-        <PhoneFilter modalTitle="Фільтрація голосувань" isActive={!!isActiveModal.filter} closeModal={closeModal}>
+        <PhoneFilter
+          modalTitle="Фільтрація голосувань"
+          isActive={!!isActiveModal.filter}
+          closeModal={closeModal}
+        >
           <VotingFilters groupId={groupId} statusMessage={statusMessage} />
         </PhoneFilter>
         <VotingCreateModal
@@ -153,11 +159,15 @@ const VotingAdmin = (): JSX.Element => {
           closeModal={closeModal}
           changeWindow={changeWindow}
         />
-        <VotingEditModal
-          modalActive={!!isActiveModal.revote}
-          id={isActiveModal.result as number}
+        {/* <VotingEditModal */}
+        {/*  modalActive={!!isActiveModal.revote} */}
+        {/*  id={isActiveModal.revote as number} */}
+        {/*  closeModal={closeModal} */}
+        {/* /> */}
+        <VotingSubmitModal
+          modalActive={!!isActiveModal.approve}
           closeModal={closeModal}
-          isRevote
+          votingId={isActiveModal.approve as number}
         />
       </div>
     </Layout>

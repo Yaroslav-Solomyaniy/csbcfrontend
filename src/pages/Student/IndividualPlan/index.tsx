@@ -1,12 +1,13 @@
 import React from 'react';
 import Layout from '../../../loyout/Layout';
+import PageIndividualPlan from '../../Components/IndividualPlan';
 
-const IndPlan = ():JSX.Element => (
+const StudentIndividualPlan = ():JSX.Element => (
   <Layout>
     <div>
-      Individual_plan
+      <PageIndividualPlan data="hi" />
     </div>
   </Layout>
 );
 
-export default IndPlan;
+export default StudentIndividualPlan;

@@ -117,7 +117,7 @@ const Administrators = (): JSX.Element => {
           totalItems={pagination.totalItems}
         />
         <PhoneFilter modalTitle="Фільтрація адміністраторів" isActive={!!isActiveModal.filter} closeModal={closeModal}>
-          <AdministratorsFilters adminId={1} />
+          <AdministratorsFilters adminId={adminId} />
         </PhoneFilter>
         <AdministratorCreateModal modalActive={!!isActiveModal.create} closeModal={closeModal} />
         <AdministratorEditModal

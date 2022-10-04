@@ -44,7 +44,7 @@ export interface IUseGroupsGet {
 
 export const useGroupsGet = (): IUseGroupsGet => {
   const { user } = AuthContext();
-  const { addInfo, addErrors } = MessagesContext();
+  const { addErrors } = MessagesContext();
   const [data, setData] = useState<IPaginateData<IGroupData> | null>(null);
 
   const getGroups = (params?: IGetGroupParams) => {

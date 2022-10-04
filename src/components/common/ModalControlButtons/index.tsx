@@ -9,6 +9,7 @@ interface IModalButtons {
   mainButtonText?: string;
   handleClose: () => void;
   onSubmit?: (e: React.FormEvent | undefined) => void;
+  isDisabled?: boolean;
 }
 
 const ModalControlButtons = ({
@@ -16,6 +17,7 @@ const ModalControlButtons = ({
   onSubmit,
   cancelButtonText,
   mainButtonText,
+  isDisabled,
 }: IModalButtons): JSX.Element => {
   const { isDesktop, isTablet, isPhone } = DeviceContext();
 
@@ -34,6 +36,7 @@ const ModalControlButtons = ({
         onClick={onSubmit}
         nameClass="primary"
         size="small"
+        disabled={isDisabled}
         className={clsx(styles.submitButton, mainButtonText === 'Видалити' && styles.redButton)}
       >
         {mainButtonText}
@@ -47,6 +50,7 @@ ModalControlButtons.defaultProps = {
   cancelButtonText: '',
   mainButtonText: '',
   onSubmit: undefined,
+  isDisabled: false,
 };
 
 export default ModalControlButtons;

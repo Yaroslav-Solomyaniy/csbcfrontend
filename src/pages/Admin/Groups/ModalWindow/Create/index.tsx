@@ -16,7 +16,6 @@ const formInitialData = {
 export const GroupCreate = ({ modalActive, closeModal }: ICreateModal): JSX.Element => {
   const [formData, setFormData] = useState<IGroupCreateParams>(formInitialData);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const { isDesktop, isTablet, isPhone } = DeviceContext();
   const { groupCreate } = GroupsContext();
   const { addInfo } = MessagesContext();
 

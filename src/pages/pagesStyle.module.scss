@@ -12,8 +12,6 @@
 
 .form {
   padding: 40px 0;
-  max-height: 60vh;
-  overflow-y: auto;
 
   & p {
     text-align: center;
@@ -59,5 +57,7 @@
   line-height: 32px;
   color: rgba(0, 0, 0, 0.85);
   text-align: center;
-
+  &:first-child{
+    padding: 0;
+  }
 }

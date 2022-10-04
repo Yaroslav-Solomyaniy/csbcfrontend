@@ -4,6 +4,7 @@ import ModalWindow from '../../../../../components/common/ModalWindow';
 import { IGetVotingSubmitDataById, IVotingSubmitParams } from '../../../../../hooks/PagesInAdmin/useVotings';
 import { VotingsAdmin } from '../../../../../context/PagesInAdmin/Votings';
 import SubmitVotingForm from './SubmitForm';
+import { MessagesContext } from '../../../../../context/All/Messages';
 
 interface IVotingSubmitModal{
   modalActive: boolean;
@@ -14,7 +15,8 @@ interface IVotingSubmitModal{
 const VotingSubmitModal = ({ votingId, modalActive, closeModal }:IVotingSubmitModal) => {
   const [data, setData] = useState<IGetVotingSubmitDataById>();
   const [formData, setFormData] = useState<IVotingSubmitParams>({ id: 0, course: [0, 0, 0, 0] });
-  const { getVotingFormSubmit } = VotingsAdmin();
+  const { getVotingFormSubmit, votingSubmit } = VotingsAdmin();
+  const { addInfo } = MessagesContext();
 
   const handleClose = () => {
     closeModal();
@@ -23,8 +25,21 @@ const VotingSubmitModal = ({ votingId, modalActive, closeModal }:IVotingSubmitMo
     }, 200);
   };
 
-  const handleRadioClick = (e: React.ChangeEvent<HTMLInputElement>): void => (
+  const onSubmit = (e: React.FormEvent | undefined) => {
+    e?.preventDefault?.();
+    if (formData.id !== 0 && !formData.course.includes(0)) {
+      votingSubmit?.votingSubmit(formData);
+    }
+  };
 
+  useEffect(() => {
+    if (votingSubmit?.data) {
+      handleClose();
+      addInfo(`Вибіркові компетентності для груп:${data?.groups.map((item) => item.name).join(', ')} затверджені`);
+    }
+  }, [votingSubmit?.data]);
+
+  const handleRadioClick = (e: React.ChangeEvent<HTMLInputElement>): void => (
     setFormData({ ...formData,
       course: formData.course.map((item, index) => (
         index === +e.target.name ? +e.currentTarget.value : item)),
@@ -40,6 +55,7 @@ const VotingSubmitModal = ({ votingId, modalActive, closeModal }:IVotingSubmitMo
   useEffect(() => {
     if (getVotingFormSubmit?.data) {
       setData(getVotingFormSubmit.data);
+      setFormData({ ...formData, id: getVotingFormSubmit.data.id });
     }
   }, [getVotingFormSubmit?.data]);
 
@@ -55,7 +71,8 @@ const VotingSubmitModal = ({ votingId, modalActive, closeModal }:IVotingSubmitMo
         data={data}
         formData={formData.course}
         handleRadioClick={handleRadioClick}
-        onSubmit={() => console.log('hi')}
+        onSubmit={onSubmit}
+        handleClose={handleClose}
       />
     </ModalWindow>
   );

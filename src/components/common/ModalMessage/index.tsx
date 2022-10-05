@@ -20,7 +20,7 @@ const ModalMessage = ({ message, closeModal, type }: IModalMessage): JSX.Element
     }
   }, [closeMod]);
 
-  setTimeout(() => setCloseMod(true), 4500);
+  setTimeout(() => setCloseMod(true), 3500);
 
   return (
     <div className={clsx(styles.message, styles[type])}>

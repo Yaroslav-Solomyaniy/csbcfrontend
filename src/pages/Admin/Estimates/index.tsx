@@ -113,7 +113,9 @@ const Estimates = (): JSX.Element => {
             { id: 2, label: student.group.name },
             {
               id: 3,
-              label: Math.ceil(student.grades.reduce((sum, elem) => sum + elem.grade, 0) / student.grades.length),
+              label: student.grades.length
+                ? (student.grades.reduce((sum, elem) => sum + elem.grade, 0) / student.grades.length).toFixed(1)
+                : 0,
             },
             ...arrTableRowsGrade,
             {

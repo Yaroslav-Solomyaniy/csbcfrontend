@@ -1,13 +1,18 @@
-.overlay{
-    overflow: hidden;
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: 100%;
-    width: 100%;
-    z-index: 100;
-    background: rgba(0, 0, 0, 0.5);
-  }
+.columns {
+  grid-template-columns: repeat(6, 1fr);
+}
+
+.overlay {
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.5);
+  transition: all .5s linear;
+}
 
 .modal {
   height: 100%;
@@ -21,6 +26,7 @@
   display: block;
   background-color: #ffffff;
   transition: all 1s linear;
+
   &__active {
     transition: all 1s linear;
     right: 0;
@@ -32,11 +38,16 @@
   margin-right: 10px;
 }
 
+.contentScroll {
+  height: 100%;
+  overflow-y: scroll;
+}
+
 .cancel {
   background-color: #ffffff;
   font-style: normal;
   font-weight: 700;
-  font-size: 24px;
+  font-size: 21px;
   line-height: 32px;
   display: flex;
   align-items: center;

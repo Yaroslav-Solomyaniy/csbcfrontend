@@ -11,7 +11,7 @@ interface IGetListGroupsParams {
   orderBy?: OrderBy;
   curatorName?: string;
   teacherId?: number;
-  curatorId?:number;
+  curatorId?: number;
   page?: number;
   limit?: number;
 }
@@ -95,7 +95,7 @@ export const useGetListCurators = (): IUseGetListCurators => {
 };
 
 // GET LIST COURSES
-interface IGetListCoursesParams{
+interface IGetListCoursesParams {
   orderByColumn?: 'id'
     | 'name'
     | 'credits'
@@ -112,7 +112,8 @@ interface IGetListCoursesParams{
   courseName?: string | number;
   teacherId?: number;
   curatorId?: number;
-  page?:number;
+  page?: number;
+  semester?: number;
   limit?: number;
 }
 

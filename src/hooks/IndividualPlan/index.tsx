@@ -4,10 +4,11 @@ import { AuthContext } from '../../context/All/AuthContext';
 import { MessagesContext } from '../../context/All/Messages';
 
 export interface IGetInvPlanParams {
-  id:number;
- semester?: number;
+  id: number;
+  semester?: number;
 }
-export interface IGetInvPlanData{
+
+export interface IGetInvPlanData {
   id: number;
   user: {
     id: number;

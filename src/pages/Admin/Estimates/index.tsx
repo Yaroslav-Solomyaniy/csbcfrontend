@@ -51,14 +51,14 @@ const Estimates = (): JSX.Element => {
   };
 
   useEffect(() => {
-    dropCurses.getListCourses();
-  }, [gradesGet?.data]);
+    dropCurses.getListCourses({ semester: semesterId });
+  }, [gradesGet?.data, semesterId]);
 
   useEffect(() => {
     const query: IGetGradesParams = {};
 
     if (groupId) query.groupId = groupId;
-    // if (semesterId) query.studentId = semesterId;
+    if (semesterId) query.semester = semesterId;
     if (studentId) query.studentId = studentId;
     if (currentPage) query.page = currentPage;
     if (itemsPerPage) query.limit = itemsPerPage;
@@ -194,7 +194,7 @@ const Estimates = (): JSX.Element => {
           modalActive={!!isActiveModal.history}
           closeModal={closeModal}
           studentId={+isActiveModal.history}
-          semester={isActiveModal.semester.toString()}
+          semester={semesterId}
         />
       </div>
     </Layout>

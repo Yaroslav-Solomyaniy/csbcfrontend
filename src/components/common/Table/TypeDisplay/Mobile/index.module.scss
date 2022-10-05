@@ -22,11 +22,11 @@
   }
 }
 
-.tooltip{
-  opacity: 1!important;
+.tooltip {
+  opacity: 1 !important;
   border: 1px solid #e8e8e8 !important;
 
-  >span{
+  > span {
     font-size: 14px;
     font-weight: 500;
   }
@@ -55,6 +55,10 @@
 .titleGrade {
   width: 80%;
   margin-right: 5px;
+}
+
+.none {
+  display: none;
 }
 
 .Subtitle {

@@ -12,15 +12,6 @@ const FiltersGroups = ({ curator, group }: IFiltersGroups) => {
 
   return (
     <>
-      <SelectCurator
-        type="filter"
-        placeholder="Куратор"
-        onChange={(value) => post({ curatorId: value, currentPage: 1 })}
-        value={curator}
-        isClearable
-        isSearchable
-        isFilter
-      />
       <SelectGroupByName
         type="filter"
         placeholder="Група"
@@ -30,6 +21,16 @@ const FiltersGroups = ({ curator, group }: IFiltersGroups) => {
         isSearchable
         isFilter
       />
+      <SelectCurator
+        type="filter"
+        placeholder="Куратор"
+        onChange={(value) => post({ curatorId: value, currentPage: 1 })}
+        value={curator}
+        isClearable
+        isSearchable
+        isFilter
+      />
+
     </>
   );
 };

@@ -1,5 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
+import ReactTooltip from 'react-tooltip';
 import { ITableHeader } from '../Desktop/TableHeader';
 import { ITableRowItem } from '../Desktop/TableBody';
 import styles from './index.module.scss';
@@ -32,13 +33,24 @@ const AdaptiveTable = ({ dataHeader, dataRow, isTableResult, isHistoryTable, isT
                         {index !== 0 && (`${dataHeader[index]?.label}: `)}
                       </h6>
                       <div>
-                        {i.label.map((el) => (
+                        {i.label.map((el, num) => (
                           <h6
                             className={clsx(index === 0
                               ? styles.Title : styles.Subtitle, styles.label)}
                             key={i.id}
                           >
-                            {el}
+                            <a data-tip data-for={`${index}:-${rowItem.key}--${num}`}>{el}</a>
+                            <ReactTooltip
+                              id={`${index}:-${rowItem.key}--${num}`}
+                              type="info"
+                              backgroundColor="#C0D7FC"
+                              delayShow={850}
+                              textColor="#000000"
+                              arrowColor="#e8e8e8"
+                              className={styles.tooltip}
+                            >
+                              <span>{el}</span>
+                            </ReactTooltip>
                           </h6>
                         ))}
                       </div>
@@ -51,7 +63,18 @@ const AdaptiveTable = ({ dataHeader, dataRow, isTableResult, isHistoryTable, isT
                       >
                         {index !== 0 && (`${dataHeader[index]?.label}: `)}
                       </div>
-                      {i.label}
+                      <a data-tip data-for={`${rowItem.key}-${i.id}`}>{i.label}</a>
+                      <ReactTooltip
+                        id={`${rowItem.key}-${i.id}`}
+                        type="info"
+                        backgroundColor="#C0D7FC"
+                        delayShow={850}
+                        textColor="#000000"
+                        arrowColor="#e8e8e8"
+                        className={styles.tooltip}
+                      >
+                        <span>{i.label}</span>
+                      </ReactTooltip>
                     </h6>
                   )))}
           </div>
@@ -71,7 +94,18 @@ const AdaptiveTable = ({ dataHeader, dataRow, isTableResult, isHistoryTable, isT
               {rowItem.list.map((i, index) => (
                 <h6 key={i.id} className={index === 0 ? styles.Title : styles.Subtitle}>
                   {index !== 0 && (`${dataHeader[index]?.label}: `)}
-                  {i.label}
+                  <a data-tip data-for={`${index}-${i.id}:${rowItem.key}`}>{i.label}</a>
+                  <ReactTooltip
+                    id={`${index}-${i.id}:${rowItem.key}`}
+                    type="info"
+                    backgroundColor="#C0D7FC"
+                    delayShow={850}
+                    textColor="#000000"
+                    arrowColor="#e8e8e8"
+                    className={styles.tooltip}
+                  >
+                    <span>{i.label}</span>
+                  </ReactTooltip>
                 </h6>
               ))}
             </div>

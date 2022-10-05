@@ -39,6 +39,7 @@
     "react-router-dom": "^6.0.0",
     "react-scripts": "^5.0.1",
     "react-select": "^5.1.0",
+    "react-tooltip": "^4.2.21",
     "sass": "^1.43.2",
     "stylelint-scss": "^3.21.0",
     "unique-names-generator": "^4.7.1",

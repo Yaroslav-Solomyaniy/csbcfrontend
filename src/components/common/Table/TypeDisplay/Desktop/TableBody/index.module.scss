@@ -2,6 +2,15 @@
   width: 100%;
 }
 
+.tooltip{
+  opacity: 1!important;
+  border: 1px solid #e8e8e8 !important;
+
+  >span{
+    font-size: 14px;
+  }
+}
+
 .tableResult {
   max-height: 170px;
   overflow-y: auto;

@@ -28,6 +28,8 @@ import { AuthContext } from '../context/All/AuthContext';
 import VotingAdminProvider from '../context/PagesInAdmin/Votings';
 import StudentProvider from '../context/PagesInStudent/Student';
 import TeacherProvider from '../context/PageInTeacher/Teacher';
+import PlanProvider from '../context/IndividualPlan';
+import CuratorProvider from '../context/PageInCurator';
 
 const AppRoutes = () => {
   const { user } = AuthContext();
@@ -72,7 +74,7 @@ const AppRoutes = () => {
       )}
       {user?.role === 'student' && (
       <>
-        <Route index element={<IndPlan />} />
+        <Route index element={<PlanProvider><IndPlan /></PlanProvider>} />
         <Route path="/voting-students" element={<StudentProvider><VotingStudents /></StudentProvider>} />
       </>
       )}
@@ -80,7 +82,7 @@ const AppRoutes = () => {
       <Route index element={<TeacherProvider><TeacherPage /></TeacherProvider>} />
       )}
       {user?.role === 'curator' && (
-        <Route index element={<Curator />} />
+        <Route index element={<CuratorProvider><Curator /></CuratorProvider>} />
       )}
       {user && (
         <Route path="/change-password" element={<ChangePassword />} />

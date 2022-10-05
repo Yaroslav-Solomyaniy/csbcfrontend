@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import axios, { AxiosResponse } from 'axios';
-import { IPaginateData } from '../types';
-import { AuthContext } from '../context/All/AuthContext';
-import { MessagesContext } from '../context/All/Messages';
+import { IPaginateData } from '../../types';
+import { AuthContext } from '../../context/All/AuthContext';
+import { MessagesContext } from '../../context/All/Messages';
 
 export interface IGetCuratorInfoParams {
   courseId?: number;

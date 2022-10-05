@@ -3,7 +3,7 @@ import {
   IUseGradesHistoryGetId,
   useGradesHistoryGet,
 } from '../../hooks/PagesInAdmin/useEstimates';
-import { IUseGetCuratorPage, useGetCuratorPage } from '../../hooks/CuratorPage';
+import { IUseGetCuratorPage, useGetCuratorPage } from '../../hooks/PageInCurator/CuratorPage';
 import { IUseGetStudentId, useStudentGetId } from '../../hooks/PagesInAdmin/useStudents';
 
 interface ICuratorPageContext {

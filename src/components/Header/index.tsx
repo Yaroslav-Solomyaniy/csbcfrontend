@@ -12,12 +12,12 @@ import Navigation from '../Navigation';
 import Button from '../common/Button';
 
 interface IHeader {
+  isOpen: boolean;
   setOpen: () => void;
   isRenderButtonMenu?: boolean;
 }
 
-const Header = ({ setOpen, isRenderButtonMenu = true }: IHeader): JSX.Element => {
-  const [navOpen, setNavOpen] = useState(true);
+const Header = ({ setOpen, isOpen = false, isRenderButtonMenu = true }: IHeader): JSX.Element => {
   const [dropMenuOpen, setDropMenuOpen] = useState(false);
   const { logout, user } = AuthContext();
   const { isDesktop, isPhone, isTablet } = DeviceContext();
@@ -33,16 +33,15 @@ const Header = ({ setOpen, isRenderButtonMenu = true }: IHeader): JSX.Element =>
           // eslint-disable-next-line react/jsx-no-useless-fragment
           <>
             {isRenderButtonMenu && (user?.role === 'admin' || user?.role === 'student') && (
-            <Button
-              className={clsx(styles.navigation__button, navOpen && styles.navigation__button__revert)}
-              isImg
-              onClick={() => {
-                setOpen();
-                setNavOpen(!navOpen);
-              }}
-            >
-              <img src={buttonNav} alt="menu" />
-            </Button>
+              <Button
+                className={clsx(styles.navigation__button, isOpen && styles.navigation__button__revert)}
+                isImg
+                onClick={() => {
+                  setOpen();
+                }}
+              >
+                <img src={buttonNav} alt="menu" />
+              </Button>
             )}
           </>
         )}

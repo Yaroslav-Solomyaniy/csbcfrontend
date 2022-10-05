@@ -12,12 +12,13 @@ import { MessagesContext } from '../../../context/All/Messages';
 import Input from '../../../components/common/MyInput/Input';
 import Button from '../../../components/common/Button';
 
-interface IChangePassword{
+interface IChangePassword {
   oldPassword: string;
   newPassword: string;
   confirmedPassword: string;
 }
-const initialFormData:IChangePassword = {
+
+const initialFormData: IChangePassword = {
   oldPassword: '',
   newPassword: '',
   confirmedPassword: '',
@@ -49,7 +50,7 @@ const ChangePassword = (): JSX.Element => {
   return (
     <div className={styles.changePassword}>
 
-      <Header setOpen={() => undefined} isRenderButtonMenu={false} />
+      <Header setOpen={() => undefined} isOpen={false} isRenderButtonMenu={false} />
 
       <div className={clsx(
         stylesPortal.portal__unauthorized,

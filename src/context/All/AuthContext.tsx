@@ -15,7 +15,7 @@ const defaultValue: IAuthContext = {
 
 export const authContext = createContext<IAuthContext>(defaultValue);
 
-const getStorageData = ():LoginData | null => {
+const getStorageData = (): LoginData | null => {
   const authLocal: string | null = localStorage.getItem('auth') || null;
   const authSession: string | null = sessionStorage.getItem('auth') || null;
 
@@ -43,6 +43,7 @@ const AuthProvider = ({ children }: { children: JSX.Element; }): JSX.Element => 
         setUser(data);
       }
     }
+    if (!localStorage.getItem('open')) localStorage.setItem('open', 'true');
   }, [data]);
 
   useEffect(() => {

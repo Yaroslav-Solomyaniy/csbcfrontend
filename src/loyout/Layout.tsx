@@ -10,21 +10,22 @@ import ModalMessage from '../components/common/ModalMessage';
 import { DeviceContext } from '../context/All/DeviceType';
 
 const Layout = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState<boolean>(localStorage.getItem('open') === 'true');
   const { messages, closeError, closeWarning, closeInfo } = MessagesContext();
   const { user } = AuthContext();
   const { isDesktop, isTablet, isPhone } = DeviceContext();
 
   const setOpen = (): void => {
     setIsOpen(!isOpen);
+    localStorage.setItem('open', `${!isOpen}`);
   };
 
   return (
     <>
-      <Header setOpen={setOpen} />
+      <Header setOpen={setOpen} isOpen={isOpen} />
       <div className={styles.nav_and_content}>
         {(user?.role === 'admin' || user?.role === 'student') && isDesktop && (
-        <Navigation isOpen={isOpen} role={user.role} />
+          <Navigation isOpen={isOpen} role={user.role} />
         )}
 
         <div className={clsx(isDesktop && styles.content, (isTablet || isPhone) && styles.content_mobile)}>

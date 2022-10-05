@@ -33,6 +33,7 @@ const Layout = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
               <ModalMessage
                 type="error"
                 key={error.id}
+                id={error.id}
                 message={error.text}
                 closeModal={() => {
                   closeError(error.id);
@@ -44,6 +45,7 @@ const Layout = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
                 type="warning"
                 key={warning.id}
                 message={warning.text}
+                id={warning.id}
                 closeModal={() => {
                   closeWarning(warning.id);
                 }}
@@ -54,6 +56,7 @@ const Layout = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
                 type="info"
                 key={info.id}
                 message={info.text}
+                id={info.id}
                 closeModal={() => {
                   closeInfo(info.id);
                 }}

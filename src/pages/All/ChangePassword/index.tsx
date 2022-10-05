@@ -62,6 +62,7 @@ const ChangePassword = (): JSX.Element => {
             type="error"
             key={error.id}
             message={error.text}
+            id={error.id}
             closeModal={() => {
               closeError(error.id);
             }}
@@ -72,6 +73,7 @@ const ChangePassword = (): JSX.Element => {
             type="warning"
             key={warning.id}
             message={warning.text}
+            id={warning.id}
             closeModal={() => {
               closeWarning(warning.id);
             }}
@@ -82,6 +84,7 @@ const ChangePassword = (): JSX.Element => {
             type="info"
             key={info.id}
             message={info.text}
+            id={info.id}
             closeModal={() => {
               closeInfo(info.id);
             }}

@@ -14,6 +14,7 @@
   flex-grow: 1;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 
   padding: 10px 0;
   height: auto;
@@ -24,8 +25,14 @@
   transition: all 2s;
   border-radius: 0 0 8px 8px;
   width: 40vw;
-
-  bottom: 25px;
+  &__mobile{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 8vh;
+    z-index:200;
+  }
 
   &__error {
     transition: all .5s;
@@ -38,15 +45,10 @@
     width: 19px;
   }
 
-  &__div {
-    font-style: normal;
-    font-weight: 700;
-    font-size: 20px;
-    line-height: 28px;
-
-    display: flex;
-    align-items: center;
+  &__content {
+  padding-left: 15px;
   }
+
 }
 
 .error {

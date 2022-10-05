@@ -1,8 +1,11 @@
 .header {
+  grid-template-columns: repeat(4, 1fr);
+
   flex-wrap: nowrap;
   display: grid;
 
   &__scroll &__item {
+
     &:first-child {
       position: sticky;
       left: 0;

@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link, Navigate, Route, Routes } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import GroupProvider from '../context/PagesInAdmin/Groups';
 import Group from '../pages/Admin/Groups';
 import StudentsProvider from '../context/PagesInAdmin/Students';
@@ -30,9 +30,16 @@ import StudentProvider from '../context/PagesInStudent/Student';
 import TeacherProvider from '../context/PageInTeacher/Teacher';
 import PlanProvider from '../context/IndividualPlan';
 import CuratorProvider from '../context/PageInCurator';
+import { MessagesContext } from '../context/All/Messages';
 
 const AppRoutes = () => {
   const { user } = AuthContext();
+  const { clearMessages } = MessagesContext();
+  const location = useLocation();
+
+  useEffect(() => {
+    clearMessages();
+  }, [location.pathname, user]);
 
   return (
     <Routes>

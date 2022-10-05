@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 import styles from './index.module.scss';
-import { Close } from '../Icons/index';
+import { Close } from '../Icons';
 import Button from '../Button';
-import { DeviceContext, deviceContext } from '../../../context/All/DeviceType';
+import { DeviceContext } from '../../../context/All/DeviceType';
 
 interface IModalMessage {
   message: string;
@@ -15,7 +15,7 @@ interface IModalMessage {
 
 const ModalMessage = ({ message, closeModal, type, id }: IModalMessage): JSX.Element => {
   const [closeMod, setCloseMod] = useState<boolean>(false);
-  const { isDesktop, isTablet, isPhone } = DeviceContext();
+  const { isTablet, isPhone } = DeviceContext();
 
   useEffect(() => {
     if (closeMod) {
@@ -23,7 +23,7 @@ const ModalMessage = ({ message, closeModal, type, id }: IModalMessage): JSX.Ele
     }
   }, [closeMod]);
 
-  setTimeout(() => setCloseMod(true), 3500);
+  setTimeout(() => setCloseMod(true), 3000);
 
   return (
     <div

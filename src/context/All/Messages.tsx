@@ -19,6 +19,7 @@ interface IMessagesContext {
   closeWarning: (index: number) => void;
   addInfo: (info: string) => void;
   closeInfo: (index: number) => void;
+  clearMessages:()=> void;
 }
 
 const defaultValue: IMessagesContext = {
@@ -29,6 +30,7 @@ const defaultValue: IMessagesContext = {
   closeWarning: () => undefined,
   addInfo: () => undefined,
   closeInfo: () => undefined,
+  clearMessages: () => undefined,
 };
 
 export const messagesContext = createContext<IMessagesContext>(defaultValue);
@@ -40,6 +42,14 @@ const MessagesProvider = ({ children }: { children: JSX.Element; }): JSX.Element
     warning: [],
     info: [],
   });
+
+  const clear = () => {
+    setMessages({
+      error: [],
+      warning: [],
+      info: [],
+    });
+  };
 
   const addErrors = (text: string) => {
     setMessages((prevState) => ({
@@ -94,6 +104,7 @@ const MessagesProvider = ({ children }: { children: JSX.Element; }): JSX.Element
       closeWarning,
       addInfo,
       closeInfo,
+      clearMessages: clear,
     }}
     >
       {children}

@@ -1,12 +1,14 @@
 .content {
   width: 100%;
 }
-.tableResult{
+
+.tableResult {
   max-height: 170px;
   overflow-y: auto;
 
 }
-.historyTable{
+
+.historyTable {
   max-height: 50vh;
   overflow-y: auto;
 }
@@ -26,7 +28,7 @@
     position: relative;
 
     &:nth-child(n) {
-      border-bottom:1px solid #E8E8E8;
+      border-bottom: 1px solid #E8E8E8;
     }
 
     &__scroll {

@@ -113,7 +113,9 @@ const Estimates = (): JSX.Element => {
             { id: 2, label: student.group.name },
             {
               id: 3,
-              label: Math.ceil(student.grades.reduce((sum, elem) => sum + elem.grade, 0) / student.grades.length),
+              label: student.grades.length
+                ? (student.grades.reduce((sum, elem) => sum + elem.grade, 0) / student.grades.length).toFixed(1)
+                : 0,
             },
             ...arrTableRowsGrade,
             {
@@ -158,24 +160,30 @@ const Estimates = (): JSX.Element => {
 
         <TitlePage
           title="Оцінки"
-          {...isPhone && ({ setIsActiveModal })}
-          {...isPhone && ({ isActiveModal: !!isActiveModal.filter })}
-        />
-        <Table
-          filter={(<EstimatesFilters studentId={studentId} semesterId={semesterId} groupId={groupId} />)}
-          columScrollHorizontal={dropCurses.optionCourses ? +`${dropCurses.optionCourses?.items.length}` : 0}
-          isScroll
-          isTwoColumns
-          dataHeader={dataHeader}
-          dataRow={dataRow}
-          gridColumns={styles.columns}
-          totalItems={pagination.totalItems}
+          {...isPhone && !!(dropCurses.optionCourses?.items.length) && ({ setIsActiveModal })}
+          {...isPhone && !!(dropCurses.optionCourses?.items.length) && ({ isActiveModal: !!isActiveModal.filter })}
         />
 
-        <PhoneFilter modalTitle="Фільтрація предметів" isActive={!!isActiveModal.filter} closeModal={closeModal}>
-          <EstimatesFilters studentId={studentId} semesterId={semesterId} groupId={groupId} />
-        </PhoneFilter>
+        {(dropCurses.optionCourses?.items.length || 0) > 0 ? (
+          <>
+            <Table
+              filter={(<EstimatesFilters studentId={studentId} semesterId={semesterId} groupId={groupId} />)}
+              columScrollHorizontal={dropCurses.optionCourses ? +`${dropCurses.optionCourses?.items.length}` : 0}
+              isScroll
+              isTwoColumns
+              dataHeader={dataHeader}
+              dataRow={dataRow}
+              gridColumns={styles.columns}
+              totalItems={pagination.totalItems}
+            />
 
+            <PhoneFilter modalTitle="Фільтрація предметів" isActive={!!isActiveModal.filter} closeModal={closeModal}>
+              <EstimatesFilters studentId={studentId} semesterId={semesterId} groupId={groupId} />
+            </PhoneFilter>
+          </>
+        ) : (
+          <h1 className={styles.titleNullCourses}>Додайте предмети для відображення оцінок</h1>
+        )}
         <EstimatesEdit
           modalActive={!!isActiveModal.edit}
           closeModal={closeModal}

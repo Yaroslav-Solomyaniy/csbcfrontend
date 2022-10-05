@@ -20,19 +20,26 @@ const ModalMessage = ({ message, closeModal, type }: IModalMessage): JSX.Element
     }
   }, [closeMod]);
 
-  setTimeout(() => setCloseMod(true), 4500);
+  setTimeout(() => setCloseMod(true), 3500);
 
   return (
-    <div className={clsx(styles.login__modal)}>
+    <div className={clsx(styles.message, styles[type])}>
       <Button
-        className={styles.login__modal__button}
+        className={styles.message__close}
         onClick={closeModal}
         isImg
       >
         <Close />
       </Button>
 
-      <div className={clsx(styles.login__modal__div, styles[type])}>{message}</div>
+      <div className={clsx(styles.message__content)}>
+        <h6 className={styles.title}>
+          {type === 'warning' && 'Увага'}
+          {type === 'error' && 'Помилка'}
+          {type === 'info' && 'Успішно'}
+        </h6>
+        <div className={styles.text}>{message}</div>
+      </div>
       {type === 'voting' && <Link className={styles[type]} to="/" />}
     </div>
   );

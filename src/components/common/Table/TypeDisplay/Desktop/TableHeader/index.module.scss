@@ -3,6 +3,7 @@
   display: grid;
 
   &__scroll &__item {
+
     &:first-child {
       position: sticky;
       left: 0;

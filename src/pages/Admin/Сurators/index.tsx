@@ -40,7 +40,7 @@ const Curators = (): JSX.Element => {
 
   const { getCurators, curatorCreate, curatorDelete, curatorEdit } = CuratorContext();
   const { isPhone } = DeviceContext();
-  const { get } = useQueryParam();
+  const { get, post } = useQueryParam();
 
   const groupName = get('groupName');
   const curatorId = Number(get('curatorId')) || 0;
@@ -50,6 +50,14 @@ const Curators = (): JSX.Element => {
   const closeModal = () => {
     setIsActiveModal(allCloseModalWindow);
   };
+
+  useEffect(() => {
+    if (currentPage > pagination.totalPages) {
+      post({ currentPage: currentPage - 1 });
+      console.log('Хочу змінити сторінку на першу');
+    }
+    console.log('Ефект сработав');
+  }, [pagination]);
 
   useEffect(() => {
     const query: IGetCuratorParams = {};

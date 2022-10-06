@@ -177,13 +177,9 @@ export const useGroupEdit = (): IUseGroupEdit => {
   return { data, groupEdit };
 };
 
-export interface IGroupDeleteParams {
-  deletedOrderNumber: string;
-}
-
 export interface IUseGroupDelete {
   data: FetchSuccess | null;
-  groupDelete: (params: IGroupDeleteParams, id: number) => void;
+  groupDelete: (id: number) => void;
 }
 
 export const useGroupDelete = (): IUseGroupDelete => {
@@ -191,8 +187,8 @@ export const useGroupDelete = (): IUseGroupDelete => {
   const { user } = AuthContext();
   const [data, setData] = useState<FetchSuccess | null>(null);
 
-  const groupDelete = (params: IGroupDeleteParams, id: number) => {
-    axios.patch(`${process.env.REACT_APP_API_URL}/groups/${id}`, params, {
+  const groupDelete = (id: number) => {
+    axios.delete(`${process.env.REACT_APP_API_URL}/groups/${id}`, {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },

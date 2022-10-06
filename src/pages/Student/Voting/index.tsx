@@ -72,6 +72,7 @@ const VotingStudents = (): JSX.Element => {
                     checked={course.id === formData.courses[0]}
                     value={course.id}
                     onChange={handleRadioClick}
+
                   /> },
                 { id: 2, label: course.name },
                 { id: 3, label: `${course.teacher.lastName} ${course.teacher.firstName} ${course.teacher.patronymic}` },
@@ -151,7 +152,7 @@ const VotingStudents = (): JSX.Element => {
             />
             <div className={styles.voting_footer}>
               <Button
-                onClick={() => console.log(formData)}
+                onClick={AnswerPostVoting}
                 size="large"
                 nameClass="primary"
                 className={styles.button}

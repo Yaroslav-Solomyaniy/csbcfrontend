@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import ModalWindow from '../../../../../components/common/ModalWindow';
-import { IGroupDeleteParams } from '../../../../../hooks/PagesInAdmin/useGroups';
 import { GroupsContext } from '../../../../../context/PagesInAdmin/Groups';
 import { MessagesContext } from '../../../../../context/All/Messages';
 import { IDeleteModal } from '../../../../../types';
@@ -15,7 +14,7 @@ const formInitialData = {
 
 export const GroupDelete = ({ modalActive, closeModal, Id }: IDeleteModal): JSX.Element => {
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [formData, setFormData] = useState<IGroupDeleteParams>(formInitialData);
+  const [formData, setFormData] = useState(formInitialData);
 
   const { addInfo } = MessagesContext();
   const { groupDelete, getGroupId } = GroupsContext();
@@ -36,7 +35,7 @@ export const GroupDelete = ({ modalActive, closeModal, Id }: IDeleteModal): JSX.
     if (
       (`${formData.deletedOrderNumber}`.length >= 6 && `${formData.deletedOrderNumber}`.length <= 20)
       && formData.deletedOrderNumber === orderNumber) {
-      groupDelete?.groupDelete({ ...formData }, Id);
+      groupDelete?.groupDelete(Id);
     }
   };
 

@@ -51,7 +51,7 @@ const AppRoutes = () => {
           />
           <Route
             path="/students"
-            element={<StudentsProvider><Students /></StudentsProvider>}
+            element={<StudentsProvider><PlanProvider><Students /></PlanProvider></StudentsProvider>}
           />
           <Route
             path="/curators"
@@ -80,13 +80,13 @@ const AppRoutes = () => {
         </>
       )}
       {user?.role === 'student' && (
-      <>
-        <Route index element={<PlanProvider><IndPlan /></PlanProvider>} />
-        <Route path="/voting-students" element={<StudentProvider><VotingStudents /></StudentProvider>} />
-      </>
+        <>
+          <Route index element={<PlanProvider><IndPlan /></PlanProvider>} />
+          <Route path="/voting-students" element={<StudentProvider><VotingStudents /></StudentProvider>} />
+        </>
       )}
       {user?.role === 'teacher' && (
-      <Route index element={<TeacherProvider><TeacherPage /></TeacherProvider>} />
+        <Route index element={<TeacherProvider><TeacherPage /></TeacherProvider>} />
       )}
       {user?.role === 'curator' && (
         <Route index element={<CuratorProvider><Curator /></CuratorProvider>} />

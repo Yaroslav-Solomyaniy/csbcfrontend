@@ -2,6 +2,7 @@ export interface Option {
   value: string | number | boolean;
   label: string | number;
 }
+
 export interface Size {
   width: number | undefined;
   height: number | undefined;
@@ -16,7 +17,7 @@ export interface IEditModal {
   studentId: number;
   courseId?: number;
   gradeId?: number;
-  semester?: string;
+  semester?: number;
 }
 
 export interface IDeleteModal {

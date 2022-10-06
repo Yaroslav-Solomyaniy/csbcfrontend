@@ -4,18 +4,10 @@ import styles from './index.module.scss';
 import StudentModalArrow from '../../../../../images/StudentModalArrow.svg';
 import { StudentsContext } from '../../../../../context/PagesInAdmin/Students';
 import Table from '../../../../../components/common/Table';
-import { ITableHeader } from '../../../../../components/common/Table/TypeDisplay/Desktop/TableHeader';
 import Button from '../../../../../components/common/Button';
 import StudentsReviewEdit from '../StudentsReviewEdit';
-
-const dataHeader: ITableHeader[] = [
-  { id: 1, label: 'Назва дисципліни' },
-  { id: 2, label: 'Викладач' },
-  { id: 3, label: 'Кількість студентів' },
-  { id: 4, label: 'Кількість аудиторних годин' },
-  { id: 5, label: 'Форма контролю' },
-  { id: 6, label: 'Оцінка' },
-];
+import { IndividualPlanHeader } from '../../../../Student/IndividualPlan/types';
+import { IndividualPlanContext } from '../../../../../context/IndividualPlan';
 
 interface IStudentsReviewModal {
   closeModal: () => void;
@@ -33,6 +25,14 @@ const StudentsReview = ({ modalActive, closeModal, id }: IStudentsReviewModal) =
     }
   }, [id]);
 
+  const { getPlan } = IndividualPlanContext();
+
+  useEffect(() => {
+    if (getStudentById?.data) {
+      getPlan?.getPlan({ id: getStudentById?.data?.user.id || 0 });
+    }
+  }, [getStudentById?.data]);
+
   return (
     <div className={clsx(modalActive && styles.overlay)}>
       <div className={clsx(styles.modal, modalActive && styles.modal__active)}>
@@ -47,9 +47,28 @@ const StudentsReview = ({ modalActive, closeModal, id }: IStudentsReviewModal) =
             <h1 className={styles.content__subtitle__h1}>Обовязкові предмети</h1>
           </div>
           <Table
-            dataHeader={dataHeader}
-            gridColumns={styles.content__columns}
-            dataRow={[]}
+            heightVH="20vh"
+            gridColumns={styles.columns}
+            dataRow={(getPlan?.data?.grades
+              // eslint-disable-next-line max-len
+              .filter((course) => (course.course.type === 'Загальна компетентність' || course.course.type === 'Фахова компетентність'))
+              .map((item) => ({
+                list: [
+                  { id: 1, label: item.course.name },
+                  {
+                    id: 2,
+                    label: `${item.course.teacher.lastName}
+                ${item.course.teacher.firstName[0]}. ${item.course.teacher.patronymic[0]}.`,
+                  },
+                  { id: 3, label: item.course.credits },
+                  { id: 4, label: item.course.lectureHours },
+                  { id: 5, label: item.course.isExam ? 'Екзамен' : 'Залік' },
+                  { id: 6, label: item.grade },
+                ],
+                key: item.id,
+              }))) || []}
+            dataHeader={IndividualPlanHeader}
+            isTableResult
           />
           <div className={styles.content__subtitle}>
             <h1 className={styles.content__subtitle__h1}>Вибіркові предмети</h1>
@@ -65,12 +84,30 @@ const StudentsReview = ({ modalActive, closeModal, id }: IStudentsReviewModal) =
 
           <div>
             <Table
-              dataHeader={dataHeader}
-              gridColumns={styles.content__columns}
-              dataRow={[]}
+              heightVH="20vh"
+              gridColumns={styles.columns}
+              dataRow={(getPlan?.data?.grades
+                // eslint-disable-next-line max-len
+                .filter((course) => (course.course.type === 'Вибіркова загальна компетентність' || course.course.type === 'Вибіркова фахова компетентність'))
+                .map((item) => ({
+                  list: [
+                    { id: 1, label: item.course.name },
+                    {
+                      id: 2,
+                      label: `${item.course.teacher.lastName}
+                ${item.course.teacher.firstName[0]}. ${item.course.teacher.patronymic[0]}.`,
+                    },
+                    { id: 3, label: item.course.credits },
+                    { id: 4, label: item.course.lectureHours },
+                    { id: 5, label: item.course.isExam ? 'Екзамен' : 'Залік' },
+                    { id: 6, label: item.grade },
+                  ],
+                  key: item.id,
+                }))) || []}
+              dataHeader={IndividualPlanHeader}
+              isTableResult
             />
           </div>
-
         </div>
         <StudentsReviewEdit closeModal={() => setModalEditActive(false)} modalActive={modalEditActive} />
       </div>

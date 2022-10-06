@@ -18,6 +18,7 @@ interface ITable {
   totalItems?: number;
   isTwoColumns?: boolean;
   isTableVoting?: boolean;
+  heightVH?: string;
 }
 
 const Table = ({
@@ -30,6 +31,7 @@ const Table = ({
   isHistoryTable,
   columScrollHorizontal,
   isScroll,
+  heightVH,
   isTwoColumns,
   isTableVoting,
 }: ITable): JSX.Element => {
@@ -58,6 +60,7 @@ const Table = ({
           isTableResult={isTableResult}
           dataHeader={dataHeader}
           dataRow={dataRow}
+          heightVH={heightVH}
           isTwoColumns={isTwoColumns}
 
         />
@@ -75,6 +78,7 @@ Table.defaultProps = {
   isHistoryTable: false,
   isTwoColumns: false,
   totalItems: 0,
+  heightVH: '60vh',
   isTableVoting: false,
 };
 

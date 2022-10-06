@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import clsx from 'clsx';
 import Layout from '../../loyout/Layout';
 import { ITableHeader } from '../../components/common/Table/TypeDisplay/Desktop/TableHeader';
 import { initialPagination, Pagination } from '../../types';
@@ -7,9 +6,8 @@ import { ITableRowItem } from '../../components/common/Table/TypeDisplay/Desktop
 import { useGetListCourses } from '../../hooks/All/useDropDowns';
 import { DeviceContext } from '../../context/All/DeviceType';
 import { useQueryParam } from '../../hooks/All/useQueryParams';
-import { IGetGradesData, IGetGradesParams } from '../../hooks/PagesInAdmin/useEstimates';
+import { IGetGradesParams } from '../../hooks/PagesInAdmin/useEstimates';
 import styles from '../Admin/Estimates/index.module.scss';
-import { EditHistoryDownload } from '../../components/common/CollectionMiniButtons';
 import TitlePage from '../../components/common/TitlePage';
 import Table from '../../components/common/Table';
 import EstimatesFilters from '../Admin/Estimates/Filters';
@@ -28,7 +26,7 @@ const allCloseModalWindow: Record<string, boolean | number> = {
 
 };
 
-const Curator = ():JSX.Element => {
+const Curator = (): JSX.Element => {
   const [isActiveModal, setIsActiveModal] = useState<Record<string, boolean | number>>(allCloseModalWindow);
   const [dataHeader, setDataHeader] = useState<ITableHeader[]>([]);
   const [pagination, setPagination] = useState<Pagination>({ ...initialPagination });
@@ -188,7 +186,7 @@ const Curator = ():JSX.Element => {
           modalActive={!!isActiveModal.history}
           closeModal={closeModal}
           studentId={+isActiveModal.history}
-          semester={isActiveModal.semester.toString()}
+          semester={+isActiveModal.semester}
         />
       </div>
     </Layout>

@@ -18,6 +18,7 @@ export interface IGetGradesParams {
   orderByColumn?: string;
   orderBy?: string;
   search?: string;
+  semester?: number;
   studentId?: number;
   courseId?: number;
   groupId?: number;

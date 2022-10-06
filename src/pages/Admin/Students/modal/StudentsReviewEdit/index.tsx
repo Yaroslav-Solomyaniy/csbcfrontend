@@ -1,18 +1,36 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './index.module.scss';
 import stylesStud from '../../../../pagesStyle.module.scss';
 import ModalWindow from '../../../../../components/common/ModalWindow';
-import Select from '../../../../../components/common/Select';
 import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
 import { StudentsContext } from '../../../../../context/PagesInAdmin/Students';
+import { IndividualPlanContext } from '../../../../../context/IndividualPlan';
+import MultiSelectCoursesNoOptional from '../../../../../components/common/MultiSelect/MultiSelectCoursesNoOptional';
 
 interface IStudentsReviewModal {
   closeModal: () => void;
   modalActive: boolean;
+  courses?: {
+    required: number[];
+    noRequired: number[];
+  };
+  id: number;
 }
 
-const StudentsReviewEdit = ({ modalActive, closeModal }: IStudentsReviewModal) => {
+const StudentsReviewEdit = ({ modalActive, closeModal, courses, id }: IStudentsReviewModal) => {
+  const { editPlan } = IndividualPlanContext();
   const { getStudentById } = StudentsContext();
+  const [data, setData] = useState<{
+    required: number[];
+    noRequired: number[];
+  }>({
+    required: [],
+    noRequired: [],
+  });
+
+  useEffect(() => {
+    if (courses) setData(courses);
+  }, [courses]);
 
   const handleClose = () => {
     closeModal();
@@ -20,6 +38,7 @@ const StudentsReviewEdit = ({ modalActive, closeModal }: IStudentsReviewModal) =
 
   const onSubmit = (e: React.FormEvent | undefined) => {
     e?.preventDefault?.();
+    editPlan?.EditPlan([...data.required, ...data.noRequired], id);
     handleClose();
   };
 
@@ -31,29 +50,37 @@ const StudentsReviewEdit = ({ modalActive, closeModal }: IStudentsReviewModal) =
             ${getStudentById?.data?.user.patronymic}`}
         </p>
         <p className={styles.form__title}>Вибіркові предмети</p>
-        <Select
+        <MultiSelectCoursesNoOptional
           type="modal"
-          label="Профільний предмет"
-          placeholder="Профільний предмет"
+          label="Фахові компетентності"
+          placeholder="Фахові компетентності"
           required
-          isClearable
           isSearchable
-          options={[]}
-          value="!"
-          onChange={() => undefined}
-          error=""
+          isClearable
+          onChange={(value) => {
+            setData({
+              ...data,
+              required: value.map((Option) => +Option.value),
+            });
+          }}
+          value={data.required.map((course) => `${course}`)}
+          typeConduct="Фахова"
         />
-        <Select
+        <MultiSelectCoursesNoOptional
           type="modal"
-          label="Непрофільний предмет"
-          placeholder="Непрофільний предмет"
+          label="Загальні компетентності"
+          placeholder="Загальні компетентності"
           required
           isSearchable
           isClearable
-          options={[]}
-          value="!"
-          onChange={() => undefined}
-          error=""
+          onChange={(value) => {
+            setData({
+              ...data,
+              noRequired: value.map((Option) => +Option.value),
+            });
+          }}
+          value={data.noRequired.map((course) => `${course}`)}
+          typeConduct="Загальна"
         />
       </form>
       <ModalControlButtons
@@ -64,6 +91,13 @@ const StudentsReviewEdit = ({ modalActive, closeModal }: IStudentsReviewModal) =
       />
     </ModalWindow>
   );
+};
+
+StudentsReviewEdit.defaultProps = {
+  courses: {
+    required: [],
+    noRequired: [],
+  },
 };
 
 export default StudentsReviewEdit;

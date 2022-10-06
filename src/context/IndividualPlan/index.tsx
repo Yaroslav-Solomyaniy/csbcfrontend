@@ -1,22 +1,25 @@
 import { createContext, useContext } from 'react';
-import { IUseIndvPlanGet, useIndvPlanGet } from '../../hooks/IndividualPlan';
+import { IUseIndvPlanEdit, IUseIndvPlanGet, useIndvPlanEdit, useIndvPlanGet } from '../../hooks/IndividualPlan';
 
 interface IIndvPlanContext {
   getPlan: IUseIndvPlanGet | null;
+  editPlan: IUseIndvPlanEdit | null;
 }
 
 const defaultValue: IIndvPlanContext = {
   getPlan: null,
+  editPlan: null,
 };
 
 export const individualPlanContext = createContext<IIndvPlanContext>(defaultValue);
 
 const PlanProvider = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
   const getPlan = useIndvPlanGet();
+  const editPlan = useIndvPlanEdit();
 
   return (
     <individualPlanContext.Provider
-      value={{ getPlan }}
+      value={{ getPlan, editPlan }}
     >
       {children}
     </individualPlanContext.Provider>

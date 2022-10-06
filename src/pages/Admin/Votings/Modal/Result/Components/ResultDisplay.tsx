@@ -8,11 +8,10 @@ import { IGetVotingResultDataById } from '../../../../../../hooks/PagesInAdmin/u
 interface IResultDisplay{
   votingId: number;
   formData: IGetVotingResultDataById;
-  changeWindow: (value: number) => void;
   handleClose: ()=> void;
 }
 
-const ResultDisplay = ({ votingId, formData, changeWindow, handleClose }:IResultDisplay) => {
+const ResultDisplay = ({ votingId, formData, handleClose }:IResultDisplay) => {
   const [activeBlock, setActiveBlock] = useState<boolean>(false);
   const ActiveCourseBlock = () => {
     setActiveBlock(false);
@@ -30,7 +29,6 @@ const ResultDisplay = ({ votingId, formData, changeWindow, handleClose }:IResult
         activeBlock={activeBlock}
         ActiveCourseBlock={ActiveCourseBlock}
         ActiveStudentsBlock={ActiveStudentsBlock}
-        changeWindow={changeWindow}
       />
       {!activeBlock && <ResultCourses formData={formData} />}
       {activeBlock && <ResultStudents formData={formData} />}

@@ -1,5 +1,5 @@
 .columns {
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: 60px repeat(3, 1fr);
 }
 .submitContent{
   overflow-y: auto;

@@ -17,6 +17,7 @@ interface ITable {
   isHistoryTable?: boolean;
   totalItems?: number;
   isTwoColumns?: boolean;
+  isTableVoting?: boolean;
 }
 
 const Table = ({
@@ -30,6 +31,7 @@ const Table = ({
   columScrollHorizontal,
   isScroll,
   isTwoColumns,
+  isTableVoting,
 }: ITable): JSX.Element => {
   const { isPhone, isTablet, isDesktop } = DeviceContext();
 
@@ -47,6 +49,7 @@ const Table = ({
           isTableResult={isTableResult}
           columScrollHorizontal={columScrollHorizontal}
           totalItems={totalItems}
+          isTableVoting={isTableVoting}
         />
       )}
       {((isTablet && (!isTableResult && !isHistoryTable)) || isPhone) && (
@@ -56,6 +59,7 @@ const Table = ({
           dataHeader={dataHeader}
           dataRow={dataRow}
           isTwoColumns={isTwoColumns}
+
         />
       )}
     </>
@@ -71,6 +75,7 @@ Table.defaultProps = {
   isHistoryTable: false,
   isTwoColumns: false,
   totalItems: 0,
+  isTableVoting: false,
 };
 
 export default Table;

@@ -51,7 +51,7 @@ export const EditDeleteReviewApprove = ({ isActiveModal,
       </Button>
       <Button
         onClick={() => setIsActiveModal({ ...isActiveModal, approve: itemId })}
-        disabled={status !== 'Потребує перегляду'}
+        // disabled={status !== 'Потребує перегляду'}
         isImg
       >
         <Approve />

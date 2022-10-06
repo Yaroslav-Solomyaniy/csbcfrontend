@@ -1,10 +1,10 @@
-import React from 'react';
-import { IGetVotingSubmitDataById } from '../../../../../hooks/PagesInAdmin/useVotings';
+import React, { useState } from 'react';
+import { IGetVotingSubmitDataById, IVotingSubmitParams } from '../../../../../hooks/PagesInAdmin/useVotings';
 import styles from '../../../../pagesStyle.module.scss';
 import columns from './submitForm.module.scss';
 import Table from '../../../../../components/common/Table';
 import { ITableHeader } from '../../../../../components/common/Table/TypeDisplay/Desktop/TableHeader';
-import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
+import CheckBox from '../../../../All/Login/MyCheckBox.module.scss';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'Дія' },
@@ -18,27 +18,42 @@ interface ISubmitVotingForm{
 data: IGetVotingSubmitDataById | undefined;
 formData: number[];
 onSubmit: (e:React.FormEvent | undefined) => void;
-handleRadioClick: (e: React.ChangeEvent<HTMLInputElement>) => void;
-handleClose: () => void;
+setFormData:(value:IVotingSubmitParams) => void;
 }
 
-const SubmitVotingForm = ({ data, formData, onSubmit, handleRadioClick, handleClose }:ISubmitVotingForm) => (
-  <>
+const SubmitVotingForm = ({ data, formData, onSubmit, setFormData }:ISubmitVotingForm) => {
+  const [checkArray, setCheckArray] = useState<number[]>([]);
+
+  return (
     <form className={styles.form} onSubmit={onSubmit}>
       <div className={columns.submitContent}>
         <h1 className={styles.title}>Фахова компетентність - I семестр</h1>
         <Table
           dataHeader={dataHeader}
           isTableResult
+          isTableVoting
           dataRow={data?.requiredCourses.filter((item) => item.semester === 1).map((course) => ({ list: [
             { id: 1,
-              label: <input
-                type="radio"
-                name="0"
-                checked={course.id === formData[0]}
-                value={course.id}
-                onChange={handleRadioClick}
-              /> },
+              label: (
+                <div className={styles.checkbox}>
+                  <input
+                    className={CheckBox.custom__CheckBox}
+                    checked={formData.includes(course.id)}
+                    onChange={(event) => {
+                      if (event.target.checked) {
+                        setFormData({ courses: [...formData, +event.target.value] });
+                      } else {
+                        setFormData({ courses: formData.filter((value) => value !== +event.target.value) });
+                        // setCheckArray(checkArray.filter((value) => value !== +event.target.value));
+                      }
+                    }}
+                    value={course.id}
+                    type="checkbox"
+                    id={`MyCheckBox${course.id}`}
+                  />
+                  <label htmlFor={`MyCheckBox${course.id}`} />
+                </div>),
+            },
             { id: 2, label: course.name },
             { id: 3,
               label: `${course.teacher.lastName}
@@ -51,17 +66,49 @@ const SubmitVotingForm = ({ data, formData, onSubmit, handleRadioClick, handleCl
         />
         <h1 className={styles.title}>Загальна компетентність - I семестр</h1>
         <Table
+          isTableVoting
           isTableResult
           dataHeader={dataHeader}
           dataRow={data?.notRequiredCourses.filter((item) => item.semester === 1).map((course) => ({ list: [
             { id: 1,
-              label: <input
-                type="radio"
-                name="1"
-                checked={course.id === formData[1]}
-                value={course.id}
-                onChange={handleRadioClick}
-              /> },
+              // label: (
+              //   <div className={styles.checkbox}>
+              //     <input
+              //       className={CheckBox.custom__CheckBox}
+              //       checked={checkArray.includes(course.id)}
+              //       onChange={(event) => {
+              //         if (event.target.checked) {
+              //           setCheckArray([...checkArray, +event.target.value]);
+              //         } else {
+              //           setCheckArray(checkArray.filter((value) => value !== +event.target.value));
+              //         }
+              //       }}
+              //       value={course.id}
+              //       type="checkbox"
+              //       id={`MyCheckBox${course.id}`}
+              //     />
+              //     <label htmlFor={`MyCheckBox${course.id}`} />
+              //   </div>) },
+              label: (
+                <div className={styles.checkbox}>
+                  <input
+                    className={CheckBox.custom__CheckBox}
+                    checked={formData.includes(course.id)}
+                    onChange={(event) => {
+                      if (event.target.checked) {
+                        setFormData({ courses: [...formData, +event.target.value] });
+                      } else {
+                        setFormData({ courses: formData.filter((value) => value !== +event.target.value) });
+                        // setCheckArray(checkArray.filter((value) => value !== +event.target.value));
+                      }
+                    }}
+                    value={course.id}
+                    type="checkbox"
+                    id={`MyCheckBox${course.id}`}
+                  />
+                  <label htmlFor={`MyCheckBox${course.id}`} />
+                </div>),
+            },
             { id: 2, label: course.name },
             { id: 3,
               label: `${course.teacher.lastName}
@@ -74,17 +121,31 @@ const SubmitVotingForm = ({ data, formData, onSubmit, handleRadioClick, handleCl
         />
         <h1 className={styles.title}>Фахова компетентність - II семестр</h1>
         <Table
+          isTableVoting
           isTableResult
           dataHeader={dataHeader}
           dataRow={data?.requiredCourses.filter((item) => item.semester === 2).map((course) => ({ list: [
             { id: 1,
-              label: <input
-                type="radio"
-                name="2"
-                checked={course.id === formData[2]}
-                value={course.id}
-                onChange={handleRadioClick}
-              /> },
+              label: (
+                <div className={styles.checkbox}>
+                  <input
+                    className={CheckBox.custom__CheckBox}
+                    checked={formData.includes(course.id)}
+                    onChange={(event) => {
+                      if (event.target.checked) {
+                        setFormData({ courses: [...formData, +event.target.value] });
+                      } else {
+                        setFormData({ courses: formData.filter((value) => value !== +event.target.value) });
+                        // setCheckArray(checkArray.filter((value) => value !== +event.target.value));
+                      }
+                    }}
+                    value={course.id}
+                    type="checkbox"
+                    id={`MyCheckBox${course.id}`}
+                  />
+                  <label htmlFor={`MyCheckBox${course.id}`} />
+                </div>),
+            },
             { id: 2, label: course.name },
             { id: 3,
               label: `${course.teacher.lastName}
@@ -97,17 +158,31 @@ const SubmitVotingForm = ({ data, formData, onSubmit, handleRadioClick, handleCl
         />
         <h1 className={styles.title}>Загальна компетентність - II семестр</h1>
         <Table
+          isTableVoting
           isTableResult
           dataHeader={dataHeader}
           dataRow={data?.notRequiredCourses.filter((item) => item.semester === 2).map((course) => ({ list: [
             { id: 1,
-              label: <input
-                type="radio"
-                name="3"
-                checked={course.id === formData[3]}
-                value={course.id}
-                onChange={handleRadioClick}
-              /> },
+              label: (
+                <div className={styles.checkbox}>
+                  <input
+                    className={CheckBox.custom__CheckBox}
+                    checked={formData.includes(course.id)}
+                    onChange={(event) => {
+                      if (event.target.checked) {
+                        setFormData({ courses: [...formData, +event.target.value] });
+                      } else {
+                        setFormData({ courses: formData.filter((value) => value !== +event.target.value) });
+                        // setCheckArray(checkArray.filter((value) => value !== +event.target.value));
+                      }
+                    }}
+                    value={course.id}
+                    type="checkbox"
+                    id={`MyCheckBox${course.id}`}
+                  />
+                  <label htmlFor={`MyCheckBox${course.id}`} />
+                </div>),
+            },
             { id: 2, label: course.name },
             { id: 3,
               label: `${course.teacher.lastName}
@@ -120,14 +195,7 @@ const SubmitVotingForm = ({ data, formData, onSubmit, handleRadioClick, handleCl
         />
       </div>
     </form>
-    <ModalControlButtons
-      handleClose={handleClose}
-      cancelButtonText="Відміна"
-      onSubmit={onSubmit}
-      mainButtonText="Затвердити компетентності"
-      isDisabled={formData.includes(0)}
-    />
-  </>
-);
+  );
+};
 
 export default SubmitVotingForm;

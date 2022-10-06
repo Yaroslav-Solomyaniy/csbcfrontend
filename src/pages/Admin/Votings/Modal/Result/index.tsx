@@ -19,10 +19,9 @@ interface IResultModal {
   modalActive: boolean;
   closeModal: () => void;
   votingId: number;
-  changeWindow: (value: number) => void;
 }
 
-export const VotingResultModal = ({ modalActive, closeModal, votingId, changeWindow }: IResultModal): JSX.Element => {
+export const VotingResultModal = ({ modalActive, closeModal, votingId }: IResultModal): JSX.Element => {
   const [formData, setFormData] = useState(formInitialData);
 
   const { votingResult } = VotingsAdmin();
@@ -65,7 +64,6 @@ export const VotingResultModal = ({ modalActive, closeModal, votingId, changeWin
       <ResultDisplay
         votingId={votingId}
         formData={formData}
-        changeWindow={changeWindow}
         handleClose={handleClose}
       />
     </ModalWindow>

@@ -5,29 +5,33 @@ import { IGetVotingSubmitDataById, IVotingSubmitParams } from '../../../../../ho
 import { VotingsAdmin } from '../../../../../context/PagesInAdmin/Votings';
 import SubmitVotingForm from './SubmitForm';
 import { MessagesContext } from '../../../../../context/All/Messages';
+import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
+import styles from './index.module.scss';
+import Button from '../../../../../components/common/Button';
 
 interface IVotingSubmitModal{
   modalActive: boolean;
   closeModal: () => void;
   votingId: number;
+  changeWindow: (value: number) => void;
 }
 
-const VotingSubmitModal = ({ votingId, modalActive, closeModal }:IVotingSubmitModal) => {
+const VotingSubmitModal = ({ votingId, modalActive, closeModal, changeWindow }:IVotingSubmitModal) => {
   const [data, setData] = useState<IGetVotingSubmitDataById>();
-  const [formData, setFormData] = useState<IVotingSubmitParams>({ courses: [0, 0, 0, 0] });
+  const [formData, setFormData] = useState<IVotingSubmitParams>({ courses: [] });
   const { getVotingFormSubmit, votingSubmit } = VotingsAdmin();
   const { addInfo } = MessagesContext();
 
   const handleClose = () => {
     closeModal();
     setTimeout(() => {
-      setFormData({ courses: [0, 0, 0, 0] });
+      setFormData({ courses: [] });
     }, 200);
   };
 
   const onSubmit = (e: React.FormEvent | undefined) => {
     e?.preventDefault?.();
-    if (!formData.courses.includes(0)) {
+    if (formData.courses.length > 0) {
       votingSubmit?.votingSubmit(formData, votingId);
     }
   };
@@ -38,13 +42,6 @@ const VotingSubmitModal = ({ votingId, modalActive, closeModal }:IVotingSubmitMo
       addInfo(`Вибіркові компетентності для груп:${data?.groups.map((item) => item.name).join(', ')} затверджені`);
     }
   }, [votingSubmit?.data]);
-
-  const handleRadioClick = (e: React.ChangeEvent<HTMLInputElement>): void => (
-    setFormData({ ...formData,
-      courses: formData.courses.map((item, index) => (
-        index === +e.target.name ? +e.currentTarget.value : item)),
-    })
-  );
 
   useEffect(() => {
     if (votingId) {
@@ -69,10 +66,27 @@ const VotingSubmitModal = ({ votingId, modalActive, closeModal }:IVotingSubmitMo
       <SubmitVotingForm
         data={data}
         formData={formData.courses}
-        handleRadioClick={handleRadioClick}
         onSubmit={onSubmit}
-        handleClose={handleClose}
+        setFormData={setFormData}
       />
+      <div className={styles.buttons}>
+        <ModalControlButtons
+          handleClose={handleClose}
+          cancelButtonText="Відміна"
+          onSubmit={onSubmit}
+          mainButtonText="Затвердити компетентності"
+          isDisabled={formData.courses.length === 0}
+        />
+        <Button
+          onClick={() => changeWindow(votingId)}
+          size="small"
+          nameClass="primary"
+          className={styles.buttonCreateRevoting}
+        >
+          Створити переголосування
+        </Button>
+
+      </div>
     </ModalWindow>
   );
 };

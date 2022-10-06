@@ -8,11 +8,9 @@ interface IResultControl{
   activeBlock: boolean;
   ActiveCourseBlock: () => void;
   ActiveStudentsBlock: () => void;
-  changeWindow: (value: number) => void;
 }
 
-const ResultControl = ({ id,
-  changeWindow,
+const ResultControl = ({
   status,
   ActiveCourseBlock,
   ActiveStudentsBlock,
@@ -20,19 +18,7 @@ const ResultControl = ({ id,
     <>
       <h4 className={styles.statusVoting}>
         {status}
-        {status === 'Потребує перегляду'
-        && (
-          <Button
-            onClick={() => changeWindow(id)}
-            size="small"
-            nameClass="primary"
-            className={styles.revoteButton}
-          >
-            Створити переголосування
-          </Button>
-        )}
       </h4>
-
       <div className={styles.blockControlButtons}>
         <Button
           size="large"

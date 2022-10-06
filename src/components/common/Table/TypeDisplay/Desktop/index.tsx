@@ -14,6 +14,7 @@ interface IDesktopTable {
   isTableResult?: boolean;
   isHistoryTable?: boolean;
   totalItems?: number;
+  isTableVoting?: boolean;
 }
 
 const DesktopTable = ({
@@ -25,6 +26,7 @@ const DesktopTable = ({
   isScroll,
   gridColumns,
   totalItems,
+  isTableVoting,
 }: IDesktopTable) => (
   <div className={clsx(styles.table, !totalItems && styles.tableNoPagination)}>
     <div className={clsx(isScroll && styles.table__scroll)}>
@@ -43,6 +45,7 @@ const DesktopTable = ({
             gridColumns={gridColumns}
             isTableResult={isTableResult}
             isHistoryTable={isHistoryTable}
+            isTableVoting={isTableVoting}
           />
         )
         : <div className={styles.table__not_found}>Нічого не знайдено</div>}
@@ -57,6 +60,7 @@ DesktopTable.defaultProps = {
   isTableResult: false,
   isHistoryTable: false,
   totalItems: 0,
+  isTableVoting: false,
 };
 
 export default DesktopTable;

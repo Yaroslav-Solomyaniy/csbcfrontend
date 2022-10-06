@@ -20,6 +20,7 @@ import { EditDeleteReviewApprove } from '../../../components/common/CollectionMi
 import PhoneFilter from '../../../components/common/PhoneFilter';
 import Table from '../../../components/common/Table';
 import VotingSubmitModal from './Modal/Submit';
+import RevoteEditModal from './Modal/Revote/index.module.scss';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'Групи' },
@@ -60,7 +61,7 @@ const VotingAdmin = (): JSX.Element => {
 
   const changeWindow = (value: number) => {
     setIsActiveModal(allCloseModalWindow);
-    setIsActiveModal({ ...isActiveModal, revote: value });
+    setIsActiveModal({ revote: value });
   };
 
   useEffect(() => {
@@ -157,17 +158,17 @@ const VotingAdmin = (): JSX.Element => {
           modalActive={!!isActiveModal.result}
           votingId={isActiveModal.result as number}
           closeModal={closeModal}
-          changeWindow={changeWindow}
         />
-        {/* <VotingEditModal */}
-        {/*  modalActive={!!isActiveModal.revote} */}
-        {/*  id={isActiveModal.revote as number} */}
-        {/*  closeModal={closeModal} */}
-        {/* /> */}
+        <RevoteEditModal
+          modalActive={!!isActiveModal.revote}
+          id={isActiveModal.revote as number}
+          closeModal={closeModal}
+        />
         <VotingSubmitModal
           modalActive={!!isActiveModal.approve}
           closeModal={closeModal}
           votingId={isActiveModal.approve as number}
+          changeWindow={changeWindow}
         />
       </div>
     </Layout>

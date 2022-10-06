@@ -19,12 +19,13 @@ interface ITableBody {
   columScrollHorizontal?: number;
   isTableResult?: boolean;
   isHistoryTable?: boolean;
+  isTableVoting?: boolean;
 }
 
 const TableBody = ({
   dataRow, gridColumns,
   isScroll, columScrollHorizontal, isTableResult,
-  isHistoryTable,
+  isHistoryTable, isTableVoting,
 }: ITableBody): JSX.Element => (
   <div className={clsx(isTableResult && styles.tableResult, isHistoryTable && styles.historyTable, styles.content)}>
     {dataRow.map(({ key, list }) => (
@@ -51,34 +52,39 @@ const TableBody = ({
                 <div className={clsx(styles.body__row__item__string, 'clip')} key={`${id}${el}`}>
                   <a data-tip data-for={`${key}-${id}-${index}`}>{el}</a>
                   <ReactTooltip
-                                       id={`${key}-${id}-${index}`}
-                                       type="info"
-                                       backgroundColor="#C0D7FC"
-                                       delayShow={850}
-                                       textColor="#000000"
-                                       arrowColor="#e8e8e8"
-                                       className={styles.tooltip}
-                                     >
-                                       <span>{el}</span>
-                                     </ReactTooltip>
+                    id={`${key}-${id}-${index}`}
+                    type="info"
+                    backgroundColor="#C0D7FC"
+                    delayShow={850}
+                    textColor="#000000"
+                    arrowColor="#e8e8e8"
+                    className={styles.tooltip}
+                  >
+                    <span>{el}</span>
+                  </ReactTooltip>
+
                 </div>
               ))
             ) : (
               <div className={clsx(styles.body__row__item__string, 'clip')} key={`${id}${label}`}>
-                {(isScroll || id === list.length)
-                                     ? <span>{label}</span>
-                                     : (<a data-tip data-for={`${key}-${id}`}>{label}</a>)}
-                <ReactTooltip
-                                     id={`${key}-${id}`}
-                                     type="info"
-                                     backgroundColor="#C0D7FC"
-                                     delayShow={850}
-                                     textColor="#000000"
-                                     arrowColor="#e8e8e8"
-                                     className={styles.tooltip}
-                                   >
-                                     <span>{label}</span>
-                                   </ReactTooltip>
+                {(isScroll || id === list.length || (isTableVoting && id === 1))
+                  ? <span>{label}</span>
+                  : (
+                    <>
+                      <a data-tip data-for={`${key}-${id}`}>{label}</a>
+                      <ReactTooltip
+                        id={`${key}-${id}`}
+                        type="info"
+                        backgroundColor="#C0D7FC"
+                        delayShow={850}
+                        textColor="#000000"
+                        arrowColor="#e8e8e8"
+                        className={styles.tooltip}
+                      >
+                        <span>{label}</span>
+                      </ReactTooltip>
+                    </>
+                  )}
               </div>
             )}
           </div>
@@ -95,6 +101,7 @@ TableBody.defaultProps = {
   columScrollHorizontal: 0,
   isTableResult: false,
   isHistoryTable: false,
+  isTableVoting: false,
 };
 
 export default TableBody;

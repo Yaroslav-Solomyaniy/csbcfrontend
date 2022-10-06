@@ -6,7 +6,7 @@ import SelectSemester from '../../../components/common/Select/SelectSemester';
 
 interface IEstimatesFilters {
   studentId: number;
-  semesterId: number;
+  semesterId: number | undefined;
   groupId: number;
 }
 

@@ -29,7 +29,12 @@ const Layout = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
         )}
 
         <div className={clsx(isDesktop && styles.content, (isTablet || isPhone) && styles.content_mobile)}>
-          <div className={clsx(stylesPortal.portal__unauthorized, user && stylesPortal.portal__authorized)}>
+          <div className={clsx(
+            stylesPortal.portal__unauthorized,
+            (isTablet || isPhone) && stylesPortal.portal__unauthorized__mobile,
+            user && stylesPortal.portal__authorized,
+          )}
+          >
             {messages.error.map((error) => (
               <ModalMessage
                 type="error"

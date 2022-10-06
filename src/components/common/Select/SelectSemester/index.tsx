@@ -3,7 +3,7 @@ import Select from '../index';
 import { Option, SelectType } from '../../../../types';
 
 interface ISelectSemester {
-  value: string | number;
+  value: string | number | undefined;
   onChange: (value: string) => void;
   type: SelectType;
   label?: string;

@@ -36,7 +36,7 @@ const Curator = (): JSX.Element => {
   const { curatorGet } = CuratorContext();
   const { gradesEdit } = EstimatesContext();
 
-  const { isPhone, isDesktop } = DeviceContext();
+  const { isPhone } = DeviceContext();
   const courses = useGetListCourses();
 
   const { get } = useQueryParam();

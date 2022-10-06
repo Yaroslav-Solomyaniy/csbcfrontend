@@ -5,7 +5,7 @@ import { ITableHeader } from '../../../components/common/Table/TypeDisplay/Deskt
 import { ITableRowItem } from '../../../components/common/Table/TypeDisplay/Desktop/TableBody';
 import styles from './index.module.scss';
 import TitlePage from '../../../components/common/TitlePage';
-import Table from '../../../components/common/Table';
+import Table from '../../../components/common/Table/index';
 import { useGetListCourses } from '../../../hooks/All/useDropDowns';
 import { EstimatesContext } from '../../../context/PagesInAdmin/Estimates';
 import { IGetGradesData, IGetGradesParams } from '../../../hooks/PagesInAdmin/useEstimates';
@@ -41,7 +41,7 @@ const Estimates = (): JSX.Element => {
   const { get } = useQueryParam();
 
   const groupId = Number(get('groupId'));
-  const semesterId = Number(get('semesterId'));
+  const semesterId = Number(get('semesterId')) || undefined;
   const studentId = Number(get('studentId'));
   const currentPage = Number(get('currentPage')) || 1;
   const itemsPerPage = Number(get('itemsPerPage')) || 10;

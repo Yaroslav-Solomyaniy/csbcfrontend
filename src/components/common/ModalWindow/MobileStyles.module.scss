@@ -7,8 +7,9 @@
   z-index: -20;
   overflow: hidden;
   transition: all 0.5s linear;
-  &_active{
-    z-index: 100;
+
+  &_active {
+    z-index: 500;
     background-color: #00000040;
     transition: background-color .5s linear;
     overflow: hidden;
@@ -26,7 +27,8 @@
   transition: all 0.5s ease-in-out;
   padding: 25px 20px 0 20px;
   box-sizing: border-box;
-  &_active{
+
+  &_active {
     right: 0;
     overflow-y: auto;
     transition: all 0.6s linear;

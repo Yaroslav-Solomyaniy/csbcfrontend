@@ -6,19 +6,17 @@ import ModalControlButtons from '../../../../../components/common/ModalControlBu
 import { StudentsContext } from '../../../../../context/PagesInAdmin/Students';
 import { IndividualPlanContext } from '../../../../../context/IndividualPlan';
 import MultiSelectCoursesNoOptional from '../../../../../components/common/MultiSelect/MultiSelectCoursesNoOptional';
+import { MessagesContext } from '../../../../../context/All/Messages';
 
 interface IStudentsReviewModal {
   closeModal: () => void;
   modalActive: boolean;
-  courses?: {
-    required: number[];
-    noRequired: number[];
-  };
   id: number;
 }
 
-const StudentsReviewEdit = ({ modalActive, closeModal, courses, id }: IStudentsReviewModal) => {
-  const { editPlan } = IndividualPlanContext();
+const StudentsReviewEdit = ({ modalActive, closeModal, id }: IStudentsReviewModal) => {
+  const { editPlan, getPlan } = IndividualPlanContext();
+  const { addInfo } = MessagesContext();
   const { getStudentById } = StudentsContext();
   const [data, setData] = useState<{
     required: number[];
@@ -29,21 +27,36 @@ const StudentsReviewEdit = ({ modalActive, closeModal, courses, id }: IStudentsR
   });
 
   useEffect(() => {
-    if (courses) setData(courses);
-  }, [courses]);
+    if (getStudentById?.data) {
+      getPlan?.getPlan({ id: getStudentById?.data?.user.id || 0 });
+    }
+  }, [getStudentById?.data]);
 
-  const handleClose = () => {
-    closeModal();
-  };
+  useEffect(() => {
+    setData({
+      required: getPlan?.data ? getPlan?.data?.grades
+        .filter((grade) => grade.course.type === 'Вибіркова фахова компетентність')
+        .map((grade) => grade.course.id) : [],
+      noRequired: getPlan?.data ? getPlan?.data?.grades
+        .filter((grade) => grade.course.type === 'Вибіркова загальна компетентність')
+        .map((grade) => grade.course.id) : [],
+    });
+  }, [getPlan?.data]);
 
   const onSubmit = (e: React.FormEvent | undefined) => {
     e?.preventDefault?.();
-    editPlan?.EditPlan([...data.required, ...data.noRequired], id);
-    handleClose();
+    editPlan?.EditPlan({ courses: [...data.required, ...data.noRequired] }, id);
   };
 
+  useEffect(() => {
+    if (editPlan?.data) {
+      closeModal();
+      addInfo('Вибіркові предмети студента успішно відредаговані');
+    }
+  }, [editPlan?.data]);
+
   return (
-    <ModalWindow modalTitle="Редагування індивідуального плану" active={modalActive} closeModal={handleClose}>
+    <ModalWindow modalTitle="Редагування індивідуального плану" active={modalActive} closeModal={closeModal}>
       <form className={stylesStud.form} onSubmit={onSubmit}>
         <p className={styles.form__name}>
           {`${getStudentById?.data?.user.lastName} ${getStudentById?.data?.user.firstName}
@@ -84,7 +97,7 @@ const StudentsReviewEdit = ({ modalActive, closeModal, courses, id }: IStudentsR
         />
       </form>
       <ModalControlButtons
-        handleClose={handleClose}
+        handleClose={closeModal}
         onSubmit={onSubmit}
         cancelButtonText="Відміна"
         mainButtonText="Зберегти"

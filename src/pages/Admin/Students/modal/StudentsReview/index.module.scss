@@ -9,9 +9,16 @@
   right: 0;
   height: 100%;
   width: 100%;
-  z-index: 100;
-  background: rgba(0, 0, 0, 0.5);
+  z-index: -4;
+  background: rgba(0, 0, 0, 0);
   transition: all .5s linear;
+
+  &__active {
+    z-index: 50;
+    background: rgba(0, 0, 0, 0.5);
+    transition: background-color .5s linear;
+    overflow: hidden;
+  }
 }
 
 .modal {
@@ -25,10 +32,10 @@
   right: -110%;
   display: block;
   background-color: #ffffff;
-  transition: all 1s linear;
+  transition: all .5s linear;
 
   &__active {
-    transition: all 1s linear;
+    transition: all .5s linear;
     right: 0;
     overflow: hidden;
   }

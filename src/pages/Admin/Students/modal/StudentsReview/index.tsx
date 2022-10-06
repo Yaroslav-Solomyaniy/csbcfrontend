@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import clsx from 'clsx';
 import styles from './index.module.scss';
 import StudentModalArrow from '../../../../../images/StudentModalArrow.svg';
 import { StudentsContext } from '../../../../../context/PagesInAdmin/Students';
 import Table from '../../../../../components/common/Table';
 import Button from '../../../../../components/common/Button';
-import StudentsReviewEdit from '../StudentsReviewEdit';
 import { IndividualPlanHeader } from '../../../../Student/IndividualPlan/types';
 import { IndividualPlanContext } from '../../../../../context/IndividualPlan';
 
@@ -13,12 +12,12 @@ interface IStudentsReviewModal {
   closeModal: () => void;
   modalActive: boolean;
   id: number;
+  Open: () => void;
 }
 
-const StudentsReview = ({ modalActive, closeModal, id }: IStudentsReviewModal) => {
+const StudentsReview = ({ modalActive, closeModal, id, Open }: IStudentsReviewModal) => {
   const { getPlan } = IndividualPlanContext();
   const { getStudentById } = StudentsContext();
-  const [modalEditActive, setModalEditActive] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -33,14 +32,14 @@ const StudentsReview = ({ modalActive, closeModal, id }: IStudentsReviewModal) =
   }, [getStudentById?.data]);
 
   return (
-    <div className={clsx(modalActive && styles.overlay)}>
+    <div className={clsx(styles.overlay, modalActive && styles.overlay__active)}>
       <div className={clsx(styles.modal, modalActive && styles.modal__active)}>
         <div className={styles.content}>
           <button className={styles.cancel} onClick={closeModal} type="button">
             <img className={styles.arrow} src={StudentModalArrow} alt="повернутись" />
             Індивідуальний план студента групи
             {`
-              ${getStudentById?.data?.group.name || 'ГРУПА - НАЛЛ БЛЯТЬ'}
+              ${getStudentById?.data?.group.name}
               ${getStudentById?.data?.user.lastName}
               ${getStudentById?.data?.user.firstName}
               ${getStudentById?.data?.user.patronymic}
@@ -79,7 +78,7 @@ const StudentsReview = ({ modalActive, closeModal, id }: IStudentsReviewModal) =
               nameClass="secondary"
               size="large"
               className={styles.content__subtitle__actions}
-              onClick={() => setModalEditActive(true)}
+              onClick={Open}
             >
               Редагувати
             </Button>
@@ -112,19 +111,6 @@ const StudentsReview = ({ modalActive, closeModal, id }: IStudentsReviewModal) =
             />
           </div>
         </div>
-        <StudentsReviewEdit
-          closeModal={() => setModalEditActive(false)}
-          modalActive={modalEditActive}
-          courses={{
-            required: getPlan?.data ? getPlan?.data?.grades
-              .filter((grade) => grade.course.type === 'Вибіркова фахова компетентність')
-              .map((grade) => grade.course.id) : [],
-            noRequired: getPlan?.data ? getPlan?.data?.grades
-              .filter((grade) => grade.course.type === 'Вибіркова загальна компетентність')
-              .map((grade) => grade.course.id) : [],
-          }}
-          id={0}
-        />
       </div>
     </div>
   );

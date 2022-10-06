@@ -19,6 +19,7 @@ import { EditReviewDelete } from '../../../components/common/CollectionMiniButto
 import PhoneFilter from '../../../components/common/PhoneFilter';
 import StudentsFilters from './Filters';
 import Table from '../../../components/common/Table';
+import StudentsReviewEdit from './modal/StudentsReviewEdit';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІБ студента' },
@@ -35,6 +36,7 @@ const allCloseModalWindow: Record<string, number | boolean> = {
   boolean: false,
   edit: 0,
   review: 0,
+  reviewEdit: false,
   delete: 0,
 };
 
@@ -144,6 +146,12 @@ const Students = (): JSX.Element => {
           modalActive={!!isActiveModal.review}
           closeModal={closeModal}
           id={isActiveModal.review as number}
+          Open={() => setIsActiveModal({ ...isActiveModal, reviewEdit: true })}
+        />
+        <StudentsReviewEdit
+          closeModal={() => setIsActiveModal({ ...isActiveModal, reviewEdit: false })}
+          modalActive={!!(isActiveModal.reviewEdit)}
+          id={+isActiveModal.review}
         />
       </div>
     </Layout>

@@ -71,7 +71,7 @@ export const useIndvPlanGet = (): IUseIndvPlanGet => {
 
 export interface IUseIndvPlanEdit {
   data: FetchSuccess | null;
-  EditPlan: (params: number[], id: number) => void;
+  EditPlan: (params: { courses: number[]; }, id: number) => void;
 }
 
 export const useIndvPlanEdit = (): IUseIndvPlanEdit => {
@@ -79,7 +79,7 @@ export const useIndvPlanEdit = (): IUseIndvPlanEdit => {
   const { addErrors } = MessagesContext();
   const [data, setData] = useState<FetchSuccess | null>(null);
 
-  const EditPlan = (params: number[], id: number) => {
+  const EditPlan = (params: { courses: number[]; }, id: number) => {
     axios.patch(`${process.env.REACT_APP_API_URL}/students/${id}/edit-individual-plan`, params, {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,

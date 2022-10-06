@@ -16,6 +16,7 @@ interface IStudentsReviewModal {
 }
 
 const StudentsReview = ({ modalActive, closeModal, id }: IStudentsReviewModal) => {
+  const { getPlan } = IndividualPlanContext();
   const { getStudentById } = StudentsContext();
   const [modalEditActive, setModalEditActive] = useState(false);
 
@@ -24,8 +25,6 @@ const StudentsReview = ({ modalActive, closeModal, id }: IStudentsReviewModal) =
       getStudentById?.getStudentId({ id: `${id}` });
     }
   }, [id]);
-
-  const { getPlan } = IndividualPlanContext();
 
   useEffect(() => {
     if (getStudentById?.data) {
@@ -40,8 +39,12 @@ const StudentsReview = ({ modalActive, closeModal, id }: IStudentsReviewModal) =
           <button className={styles.cancel} onClick={closeModal} type="button">
             <img className={styles.arrow} src={StudentModalArrow} alt="повернутись" />
             Індивідуальний план студента групи
-            {` ${getStudentById?.data?.group.name} ${getStudentById?.data?.user.lastName}
-           ${getStudentById?.data?.user.firstName} ${getStudentById?.data?.user.patronymic}`}
+            {`
+              ${getStudentById?.data?.group.name || 'ГРУПА - НАЛЛ БЛЯТЬ'}
+              ${getStudentById?.data?.user.lastName}
+              ${getStudentById?.data?.user.firstName}
+              ${getStudentById?.data?.user.patronymic}
+            `}
           </button>
           <div className={styles.content__subtitle}>
             <h1 className={styles.content__subtitle__h1}>Обовязкові предмети</h1>
@@ -109,7 +112,19 @@ const StudentsReview = ({ modalActive, closeModal, id }: IStudentsReviewModal) =
             />
           </div>
         </div>
-        <StudentsReviewEdit closeModal={() => setModalEditActive(false)} modalActive={modalEditActive} />
+        <StudentsReviewEdit
+          closeModal={() => setModalEditActive(false)}
+          modalActive={modalEditActive}
+          courses={{
+            required: getPlan?.data ? getPlan?.data?.grades
+              .filter((grade) => grade.course.type === 'Вибіркова фахова компетентність')
+              .map((grade) => grade.course.id) : [],
+            noRequired: getPlan?.data ? getPlan?.data?.grades
+              .filter((grade) => grade.course.type === 'Вибіркова загальна компетентність')
+              .map((grade) => grade.course.id) : [],
+          }}
+          id={0}
+        />
       </div>
     </div>
   );

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import axios, { AxiosResponse } from 'axios';
 import { AuthContext } from '../../context/All/AuthContext';
 import { MessagesContext } from '../../context/All/Messages';
+import { FetchSuccess } from '../../types';
 
 export interface IGetInvPlanParams {
   id: number;
@@ -66,6 +67,33 @@ export const useIndvPlanGet = (): IUseIndvPlanGet => {
   };
 
   return { data, getPlan };
+};
+
+export interface IUseIndvPlanEdit {
+  data: FetchSuccess | null;
+  EditPlan: (params: number[], id: number) => void;
+}
+
+export const useIndvPlanEdit = (): IUseIndvPlanEdit => {
+  const { user } = AuthContext();
+  const { addErrors } = MessagesContext();
+  const [data, setData] = useState<FetchSuccess | null>(null);
+
+  const EditPlan = (params: number[], id: number) => {
+    axios.patch(`${process.env.REACT_APP_API_URL}/students/${id}/edit-individual-plan`, params, {
+      headers: {
+        Authorization: `Bearer ${user?.accessToken}`,
+      },
+    })
+      .then((response: AxiosResponse<FetchSuccess | null>) => {
+        setData(response.data);
+      })
+      .catch((error) => {
+        addErrors(error.response.data.message);
+      });
+  };
+
+  return { data, EditPlan };
 };
 
 // export interface IGetDownloadIndvPlanParams {

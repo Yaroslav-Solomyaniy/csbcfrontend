@@ -39,7 +39,7 @@ const allCloseModalWindow: Record<string, number | boolean> = {
 };
 
 const Students = (): JSX.Element => {
-  const [isActiveModal, setIsActiveModal] = useState <Record<string, number| boolean>>(allCloseModalWindow);
+  const [isActiveModal, setIsActiveModal] = useState<Record<string, number | boolean>>(allCloseModalWindow);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
   const [pagination, setPagination] = useState<Pagination>({ ...initialPagination });
 
@@ -82,7 +82,7 @@ const Students = (): JSX.Element => {
       setDataRow(getStudents.data.items.map((item: IStudentData) => ({
         list: [
           { id: 1, label: `${item.user.lastName} ${item.user.firstName} ${item.user.patronymic}` },
-          { id: 2, label: item.group.name },
+          { id: 2, label: item.group ? item.group.name : 'ГРУПА - НАЛЛ БЛЯТЬ' },
           { id: 3, label: item.orderNumber },
           { id: 4, label: item.isFullTime ? 'Денна' : 'Заочна' },
           { id: 5, label: item.user.email },
@@ -117,7 +117,7 @@ const Students = (): JSX.Element => {
             >
               Створити
             </Button>
-              )}
+          )}
         />
         <Table
           filter={(<StudentsFilters studentId={studentId} groupId={groupId} isFullTime={isFullTime} />)}

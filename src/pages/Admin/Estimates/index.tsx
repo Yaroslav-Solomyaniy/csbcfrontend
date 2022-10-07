@@ -5,7 +5,7 @@ import { ITableHeader } from '../../../components/common/Table/TypeDisplay/Deskt
 import { ITableRowItem } from '../../../components/common/Table/TypeDisplay/Desktop/TableBody';
 import styles from './index.module.scss';
 import TitlePage from '../../../components/common/TitlePage';
-import Table from '../../../components/common/Table/index';
+import Table from '../../../components/common/Table';
 import { useGetListCourses } from '../../../hooks/All/useDropDowns';
 import { EstimatesContext } from '../../../context/PagesInAdmin/Estimates';
 import { IGetGradesData, IGetGradesParams } from '../../../hooks/PagesInAdmin/useEstimates';
@@ -114,7 +114,9 @@ const Estimates = (): JSX.Element => {
             {
               id: 3,
               label: student.grades.length
-                ? (student.grades.reduce((sum, elem) => sum + elem.grade, 0) / student.grades.length).toFixed(1)
+                ? (student.grades
+                  .reduce((sum, elem) => sum + elem.grade, 0) / student.grades.length)
+                  .toFixed(1)
                 : 0,
             },
             ...arrTableRowsGrade,
@@ -173,6 +175,7 @@ const Estimates = (): JSX.Element => {
               isTwoColumns
               dataHeader={dataHeader}
               dataRow={dataRow}
+              // dataRowMobileEstimates={gradesGet.data.items}
               gridColumns={styles.columns}
               totalItems={pagination.totalItems}
             />

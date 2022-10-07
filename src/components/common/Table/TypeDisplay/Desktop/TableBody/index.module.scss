@@ -2,11 +2,11 @@
   width: 100%;
 }
 
-.tooltip{
-  opacity: 1!important;
+.tooltip {
+  opacity: 1 !important;
   border: 1px solid #e8e8e8 !important;
 
-  >span{
+  > span {
     font-size: 14px;
   }
 }
@@ -18,7 +18,7 @@
 }
 
 .historyTable {
-  max-height: 50vh;
+  max-height: 40vh;
   overflow-y: auto;
   border-bottom: 1px solid #e8e8e8;
 }

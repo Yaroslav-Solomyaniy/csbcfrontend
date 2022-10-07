@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './index.module.scss';
 import Button from '../Button';
-import { Approve, Delete, Download, Edit, History, Review } from '../Icons';
+import { Approve, Delete, Download, Edit, History, Listic, Review } from '../Icons';
 
 interface ITablesActions {
   children: React.ReactChild | React.ReactNode;
@@ -18,48 +18,52 @@ interface IButtons {
   setIsActiveModal: (value: Record<string, number | boolean>) => void;
   itemId: number;
 }
-interface IEditDeleteReviewApprove{
-  isActiveModal: Record<string, number | boolean> ;
-  setIsActiveModal:(value: Record<string, number | boolean>) => void;
+
+interface IEditDeleteReviewApprove {
+  isActiveModal: Record<string, number | boolean>;
+  setIsActiveModal: (value: Record<string, number | boolean>) => void;
   itemId: number;
   status: string;
 }
-export const EditDeleteReviewApprove = ({ isActiveModal,
+
+export const EditDeleteReviewApprove = ({
+  isActiveModal,
   setIsActiveModal,
   itemId,
-  status }:IEditDeleteReviewApprove):JSX.Element => (
-    <TablesActions>
-      <Button
-        onClick={() => setIsActiveModal(status === 'Переголосування у прогресі'
-          ? { ...isActiveModal, revote: itemId } : { ...isActiveModal, edit: itemId })}
-        isImg
-      >
-        <Edit />
-      </Button>
-      <Button
-        onClick={() => setIsActiveModal({ ...isActiveModal, delete: itemId })}
-        isImg
-      >
-        <Delete />
-      </Button>
-      <Button
-        onClick={() => setIsActiveModal({ ...isActiveModal, result: itemId })}
-        disabled={status === 'Нове'}
-        isImg
-      >
-        <Review />
-      </Button>
-      <Button
-        onClick={() => setIsActiveModal({ ...isActiveModal, approve: itemId })}
-        // disabled={status !== 'Потребує перегляду'}
-        isImg
-      >
-        <Approve />
-      </Button>
-    </TablesActions>
+  status,
+}: IEditDeleteReviewApprove): JSX.Element => (
+  <TablesActions>
+    <Button
+      onClick={() => setIsActiveModal(status === 'Переголосування у прогресі'
+        ? { ...isActiveModal, revote: itemId } : { ...isActiveModal, edit: itemId })}
+      isImg
+    >
+      <Edit />
+    </Button>
+    <Button
+      onClick={() => setIsActiveModal({ ...isActiveModal, delete: itemId })}
+      isImg
+    >
+      <Delete />
+    </Button>
+    <Button
+      onClick={() => setIsActiveModal({ ...isActiveModal, result: itemId })}
+      disabled={status === 'Нове'}
+      isImg
+    >
+      <Review />
+    </Button>
+    <Button
+      onClick={() => setIsActiveModal({ ...isActiveModal, approve: itemId })}
+      // disabled={status !== 'Потребує перегляду'}
+      isImg
+    >
+      <Approve />
+    </Button>
+  </TablesActions>
 );
 
-export const EditReviewDelete = ({ isActiveModal, setIsActiveModal, itemId }:IButtons):JSX.Element => (
+export const EditReviewDelete = ({ isActiveModal, setIsActiveModal, itemId }: IButtons): JSX.Element => (
   <TablesActions>
     <Button
       onClick={() => setIsActiveModal({ ...isActiveModal, edit: itemId })}
@@ -123,6 +127,29 @@ export const EditHistoryDownload = ({ isActiveModal, setIsActiveModal, itemId }:
       isImg
     >
       <Edit />
+    </Button>
+    <Button
+      onClick={() => setIsActiveModal({ ...isActiveModal, history: itemId })}
+      isImg
+    >
+      <History />
+    </Button>
+    <Button
+      onClick={() => setIsActiveModal({ ...isActiveModal, download: itemId })}
+      isImg
+    >
+      <Download />
+    </Button>
+  </TablesActions>
+);
+
+export const ListicHistoryDownload = ({ isActiveModal, setIsActiveModal, itemId }: IButtons): JSX.Element => (
+  <TablesActions>
+    <Button
+      onClick={() => setIsActiveModal({ ...isActiveModal, info: itemId })}
+      isImg
+    >
+      <Listic />
     </Button>
     <Button
       onClick={() => setIsActiveModal({ ...isActiveModal, history: itemId })}

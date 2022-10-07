@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import moment from 'moment/moment';
 import styles from '../../../../pagesStyle.module.scss';
 import ModalWindow from '../../../../../components/common/ModalWindow';
 import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
@@ -6,77 +7,78 @@ import { IEditModal } from '../../../../../types';
 import Table from '../../../../../components/common/Table';
 import { ITableHeader } from '../../../../../components/common/Table/TypeDisplay/Desktop/TableHeader';
 import { ITableRowItem } from '../../../../../components/common/Table/TypeDisplay/Desktop/TableBody';
-import { EstimatesContext } from '../../../../../context/PagesInAdmin/Estimates';
-import { IGradesHistoryGetIdDataGradesHistories } from '../../../../../hooks/PagesInAdmin/useEstimates';
+import { useGetHistoryGrades } from '../../../../../hooks/All/useGradesHistory';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'Предмет' },
-  { id: 2, label: 'Дта' },
+  { id: 2, label: 'Дата' },
   { id: 3, label: 'Оцінка' },
   { id: 4, label: 'Причина зміни' },
   { id: 5, label: 'Хто змінив' },
 ];
 
 export const EstimatesHistory = ({ modalActive, closeModal, studentId, semester }: IEditModal): JSX.Element => {
-  const { gradesHistoryGet } = EstimatesContext();
+  const { getHistoryGrades, data } = useGetHistoryGrades();
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
-
-  const handleClose = () => {
-    closeModal();
-  };
 
   const onSubmit = (e: React.FormEvent | undefined) => {
     e?.preventDefault?.();
   };
 
-  const tableRows = (arrTableRows: IGradesHistoryGetIdDataGradesHistories[]) => (
-    arrTableRows.length ? arrTableRows.map((course: IGradesHistoryGetIdDataGradesHistories) => ({
-      list: [
-        { id: 1, label: course.course.name },
-        { id: 2, label: course.createdAt },
-        { id: 3, label: course.grade },
-        { id: 4, label: course.reasonOfChange },
-        {
-          id: 5,
-          label: `${course.userChanged.lastName}
-          ${course.userChanged.firstName[0].toUpperCase()}
-          ${course.userChanged.patronymic[0].toUpperCase()}`,
-        },
-      ],
-      key: course.id,
-    })) : []);
-
   useEffect(() => {
-    if (gradesHistoryGet?.data) {
-      setDataRow(tableRows(gradesHistoryGet.data.gradesHistories));
+    if (data) {
+      setDataRow(data.reduce((acc: ITableRowItem[], historyGrades) => {
+        const items: ITableRowItem[] = historyGrades.gradesHistories.map((history): ITableRowItem => ({
+
+          key: history.id,
+          list: [
+            { id: 1, label: history.course.name },
+            { id: 2, label: moment(history.createdAt).format('DD.MM.yyyy') },
+            { id: 3, label: history.grade },
+            { id: 4, label: history.reasonOfChange },
+            {
+              id: 5,
+              label: `${history.userChanged.lastName}
+             ${history.userChanged.firstName[0]}.
+             ${history.userChanged.patronymic[0]}.`,
+            },
+          ],
+
+        }));
+
+        return [...acc, ...items];
+      }, []));
     }
-  }, [gradesHistoryGet?.data]);
+  }, [data]);
 
   useEffect(() => {
     if (studentId) {
-      gradesHistoryGet?.getGradesHistory({ semester: semester ? +semester : undefined }, studentId);
+      getHistoryGrades({ studentId, semester: semester ? +semester : undefined });
     }
   }, [studentId, semester]);
 
   return (
-    <ModalWindow modalTitle="Історія змін оцінки" active={modalActive} closeModal={handleClose}>
+    <ModalWindow modalTitle="Історія змін оцінки" active={modalActive} closeModal={closeModal}>
 
-      <p className={styles.text}>
-        {`${gradesHistoryGet?.data?.user.lastName}
-      ${gradesHistoryGet?.data?.user.firstName}
-      ${gradesHistoryGet?.data?.user.patronymic}
-      , ${gradesHistoryGet?.data?.group.name}, ${semester} семестр`}
-      </p>
+      {data[0]?.user && (
+        <p className={styles.text}>
+          {`${data[0]?.user.lastName}
+      ${data[0]?.user.firstName}
+      ${data[0]?.user.patronymic}
+      , ${data[0]?.group.name} ${semester ? `, ${+semester} семестр` : ''}`}
+        </p>
+      )}
       <form className={styles.form} onSubmit={onSubmit}>
         <Table
           gridColumns={styles.columns}
           dataRow={dataRow}
           dataHeader={dataHeader}
           isHistoryTable
+          heightVH="50vh"
         />
       </form>
       <ModalControlButtons
-        onSubmit={handleClose}
+        onSubmit={closeModal}
         mainButtonText="Назад"
       />
     </ModalWindow>

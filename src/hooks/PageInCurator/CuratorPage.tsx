@@ -13,33 +13,25 @@ export interface IGetCuratorInfoParams {
 
 export interface IGetCuratorData {
   id: number;
-  firstName: string;
-  lastName: string;
-  patronymic: string;
-  groups:
-    {
-      id:number;
+  user: {
+    id: number;
+    firstName: string;
+    lastName: string;
+    patronymic: string;
+  };
+  grades: {
+    id: number;
+    grade: number;
+    course: {
+      id: number;
       name: string;
-      students:
-        {
-          id:number;
-          user: {
-            id:number;
-            firstName:string;
-            lastName:string;
-            patronymic: string;
-          };
-          grades:
-            {
-              id: number;
-              grade: number | null;
-              course: {
-                id: number;
-                name: string;
-              };
-            }[];
-        }[];
-    }[];
+    };
+  } [];
+  group: {
+    id: number;
+    name: string;
+    orderNumber: string;
+  };
 }
 
 export interface IUseGetCuratorPage {

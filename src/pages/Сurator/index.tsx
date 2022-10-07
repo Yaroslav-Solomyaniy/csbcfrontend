@@ -12,12 +12,13 @@ import TitlePage from '../../components/common/TitlePage';
 import Table from '../../components/common/Table';
 import EstimatesFilters from '../Admin/Estimates/Filters';
 import PhoneFilter from '../../components/common/PhoneFilter';
-import EstimatesEdit from '../Admin/Estimates/modal/EstimatesEdit';
 import EstimatesHistory from '../Admin/Estimates/modal/EstimatesHystory';
 import CuratorFilters from './Filters';
 import { AuthContext } from '../../context/All/AuthContext';
 import { CuratorContext } from '../../context/PageInCurator';
 import { EstimatesContext } from '../../context/PagesInAdmin/Estimates';
+import { ListicHistoryDownload } from '../../components/common/CollectionMiniButtons';
+import { IGetCuratorData } from '../../hooks/PageInCurator/CuratorPage';
 
 const allCloseModalWindow: Record<string, boolean | number> = {
   studentInfo: 0,
@@ -59,7 +60,7 @@ const Curator = (): JSX.Element => {
     const query: IGetGradesParams = {};
 
     if (groupId) query.groupId = groupId;
-    // if (semesterId) query.studentId = semesterId;
+    if (semesterId) query.studentId = semesterId;
     if (studentId) query.studentId = studentId;
     if (currentPage) query.page = currentPage;
     if (itemsPerPage) query.limit = itemsPerPage;
@@ -74,84 +75,71 @@ const Curator = (): JSX.Element => {
     itemsPerPage,
   ]);
 
-  // useEffect(() => {
-  //   let id = 3;
-  //
-  //   setDataHeader([
-  //     { id: 1, label: 'ПІБ' },
-  //     { id: 2, label: 'Група' },
-  //     { id: 3, label: 'Середній бал' },
-  //     ...courses.optionCourses ? courses.optionCourses.items.map(
-  //       (el) => ({ id: ++id, label: el.name }),
-  //     ) : [],
-  //     { id: ++id, label: 'Дії' },
-  //   ]);
-  //
-  //   if (curatorGet?.data) {
-  //     setPagination(curatorGet.data.meta);
-  //     setDataRow(tableRows(curatorGet.data.items));
-  //   }
-  // }, [curatorGet?.data, courses.optionCourses, isActiveModal]);
-  //
-  // const tableRows = (arrTableRows: IGetGradesData[]) => {
-  //   let id = 3;
-  //
-  //   return (
-  //     arrTableRows.length ? arrTableRows.map((student: IGetGradesData) => {
-  //       const arrTableRowsGrade = courses.optionCourses
-  //         ? courses.optionCourses.items.map((course) => {
-  //           const studentGrades = student.grades.find(
-  //             (studentGrade) => studentGrade.course.id === course.id,
-  //           );
-  //
-  //           return ({
-  //             id: ++id,
-  //             label: studentGrades ? (
-  //               <div
-  //                 className={clsx(
-  //                   isDesktop ? styles.gradesCell : styles.gradesMobile,
-  //                   !!(isActiveModal.gradeEdit === studentGrades.id && isDesktop) && styles.gradesCell__active,
-  //                   (isActiveModal.gradeEdit === studentGrades.id && !(isDesktop)) && styles.gradesMobile__active,
-  //                 )}
-  //                 onClick={() => setIsActiveModal(
-  //                   {
-  //                     ...isActiveModal,
-  //                     gradeEdit: isActiveModal.gradeEdit === studentGrades.id ? 0 : studentGrades.id,
-  //                   },
-  //                 )}
-  //               >
-  //                 {`${studentGrades.grade}`}
-  //               </div>
-  //             ) : '',
-  //           });
-  //         })
-  //         : [];
-  //
-  //       return ({
-  //         list: [
-  //           { id: 1, label: `${student.user.lastName} ${student.user.firstName} ${student.user.patronymic} ` },
-  //           { id: 2, label: student.group.name },
-  //           {
-  //             id: 3,
-  //             label: Math.ceil(student.grades.reduce((sum, elem) => sum + elem.grade, 0) / student.grades.length),
-  //           },
-  //           ...arrTableRowsGrade,
-  //           {
-  //             id: ++id,
-  //             label: (
-  //               <EditHistoryDownload
-  //                 isActiveModal={isActiveModal}
-  //                 setIsActiveModal={setIsActiveModal}
-  //                 itemId={student.id}
-  //               />
-  //             ),
-  //           },
-  //         ],
-  //         key: student.id,
-  //       });
-  //     }) : []
-  //   );
-  // };
+  useEffect(() => {
+    let id = 3;
+
+    setDataHeader([
+      { id: 1, label: 'ПІБ' },
+      { id: 2, label: 'Група' },
+      { id: 3, label: 'Середній бал' },
+      ...courses.optionCourses ? courses.optionCourses.items.map(
+        (el) => ({ id: ++id, label: el.name }),
+      ) : [],
+      { id: ++id, label: 'Дії' },
+    ]);
+
+    if (curatorGet?.data) {
+      setPagination(curatorGet.data.meta);
+      setDataRow(tableRows(curatorGet.data.items));
+    }
+  }, [curatorGet?.data, courses.optionCourses, isActiveModal]);
+
+  const tableRows = (arrTableRows: IGetCuratorData[]) => {
+    let id = 3;
+
+    return (
+      arrTableRows.length ? arrTableRows.map((student: IGetCuratorData) => {
+        const arrTableRowsGrade = courses.optionCourses
+          ? courses.optionCourses.items.map((course) => {
+            const studentGrades = student.grades.find(
+              (studentGrade) => studentGrade.course.id === course.id,
+            );
+
+            return ({
+              id: ++id,
+              label: studentGrades ? `${studentGrades.grade}` : '',
+            });
+          }) : [];
+
+        return ({
+          list: [
+            { id: 1, label: `${student.user.lastName} ${student.user.firstName} ${student.user.patronymic} ` },
+            { id: 2, label: student.group.name },
+            {
+              id: 3,
+              label: student.grades.length
+                ? (student.grades
+                  .reduce((sum, elem) => sum + elem.grade, 0) / student.grades.length)
+                  .toFixed(1)
+                : 0,
+            },
+            ...arrTableRowsGrade,
+            {
+              id: ++id,
+              label: (
+                <ListicHistoryDownload
+                  isActiveModal={isActiveModal}
+                  setIsActiveModal={setIsActiveModal}
+                  itemId={student.id}
+                />
+              ),
+            },
+          ],
+          key: student.id,
+        });
+      }) : []
+    );
+  };
 
   return (
     <Layout>
@@ -176,12 +164,6 @@ const Curator = (): JSX.Element => {
           <CuratorFilters studentId={studentId} groupId={groupId} />
         </PhoneFilter>
 
-        <EstimatesEdit
-          modalActive={!!isActiveModal.edit}
-          closeModal={closeModal}
-          studentId={+isActiveModal.edit}
-          gradeId={+isActiveModal.gradeEdit}
-        />
         <EstimatesHistory
           modalActive={!!isActiveModal.history}
           closeModal={closeModal}

@@ -56,13 +56,12 @@ const StudentsReviewEdit = ({ modalActive, closeModal, id }: IStudentsReviewModa
   }, [editPlan?.data]);
 
   return (
-    <ModalWindow modalTitle="Редагування індивідуального плану" active={modalActive} closeModal={closeModal}>
+    <ModalWindow modalTitle="Редагування вибіркових предметів" active={modalActive} closeModal={closeModal}>
       <form className={stylesStud.form} onSubmit={onSubmit}>
-        <p className={styles.form__name}>
-          {`${getStudentById?.data?.user.lastName} ${getStudentById?.data?.user.firstName}
+        <p className={stylesStud.subtitle}>
+          {`Студент:  ${getStudentById?.data?.user.lastName} ${getStudentById?.data?.user.firstName}
             ${getStudentById?.data?.user.patronymic}`}
         </p>
-        <p className={styles.form__title}>Вибіркові предмети</p>
         <MultiSelectCoursesNoOptional
           type="modal"
           label="Фахові компетентності"

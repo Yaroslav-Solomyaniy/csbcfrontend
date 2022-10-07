@@ -55,8 +55,8 @@ export interface IGetParams {
     | 'edeboId'
     | 'isFullTime'
     | 'updated'
-    |'created';
-    id?:number;
+    | 'created';
+  id?: number;
   firstName?: string;
   lastName?: string;
   patronymic?: string;
@@ -71,7 +71,7 @@ export interface IGetParams {
 }
 
 export interface IUseGetStudents {
-  data: IPaginateData<IStudentData>| null;
+  data: IPaginateData<IStudentData> | null;
   getStudents: (params: IGetParams) => void;
 }
 
@@ -90,7 +90,7 @@ export const useGetStudents = (): IUseGetStudents => {
         orderBy: 'DESC',
         ...params,
       },
-    }).then((response: AxiosResponse<IPaginateData<IStudentData>| null>) => {
+    }).then((response: AxiosResponse<IPaginateData<IStudentData> | null>) => {
       setData(response.data);
     }).catch((error) => {
       addErrors(error.response.data.message);
@@ -147,7 +147,7 @@ export const useStudentCreate = (): IUseStudentCreate => {
 };
 
 interface IGetStudentIdParams {
-  id: string;
+  id: number;
 }
 
 export interface IUseGetStudentId {

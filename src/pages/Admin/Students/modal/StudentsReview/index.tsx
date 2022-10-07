@@ -21,7 +21,7 @@ const StudentsReview = ({ modalActive, closeModal, id, Open }: IStudentsReviewMo
 
   useEffect(() => {
     if (id) {
-      getStudentById?.getStudentId({ id: `${id}` });
+      getStudentById?.getStudentId({ id });
     }
   }, [id]);
 

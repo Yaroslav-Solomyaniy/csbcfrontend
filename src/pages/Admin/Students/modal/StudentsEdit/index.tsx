@@ -43,7 +43,7 @@ export const StudentsEditModal = ({ modalActive, closeModal, studentId }: IEditM
     setIsSubmitted(true);
 
     if (formData.dateOfBirth
-     && formData.edeboId.length === 8
+      && formData.edeboId.length === 8
       && `${formData.orderNumber}`.length >= 6
       && `${formData.orderNumber}`.length <= 20
       && formData.user.firstName
@@ -51,15 +51,17 @@ export const StudentsEditModal = ({ modalActive, closeModal, studentId }: IEditM
       && formData.user.patronymic
       && Email.test(formData.user.email)
     ) {
-      studentEdit?.studentEdit({ ...formData,
+      studentEdit?.studentEdit({
+        ...formData,
         dateOfBirth: moment(formData.dateOfBirth).format('DD.MM.yyyy'),
-        isFullTime: formData.isFullTime === 'true' }, studentId);
+        isFullTime: formData.isFullTime === 'true',
+      }, studentId);
     }
   };
 
   useEffect(() => {
     if (studentId) {
-      getStudentById?.getStudentId({ id: `${studentId}` });
+      getStudentById?.getStudentId({ id: studentId });
     }
   }, [studentId]);
 

@@ -30,7 +30,7 @@ export const StudentsDeleteModal = ({ modalActive, closeModal, studentId }: IStu
 
   useEffect(() => {
     if (studentId) {
-      getStudentById?.getStudentId({ id: `${studentId}` });
+      getStudentById?.getStudentId({ id: studentId });
     }
   }, [studentId]);
 

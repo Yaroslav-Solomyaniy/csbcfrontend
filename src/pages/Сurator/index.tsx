@@ -19,12 +19,12 @@ import { CuratorContext } from '../../context/PageInCurator';
 import { EstimatesContext } from '../../context/PagesInAdmin/Estimates';
 import { ListicHistoryDownload } from '../../components/common/CollectionMiniButtons';
 import { IGetCuratorData } from '../../hooks/PageInCurator/CuratorPage';
+import StudentInfo from './modal/StudentInfo';
 
 const allCloseModalWindow: Record<string, boolean | number> = {
-  studentInfo: 0,
   filter: false,
   history: 0,
-
+  info: 0,
 };
 
 const Curator = (): JSX.Element => {
@@ -163,6 +163,12 @@ const Curator = (): JSX.Element => {
         <PhoneFilter modalTitle="Фільтрація" isActive={!!isActiveModal.filter} closeModal={closeModal}>
           <CuratorFilters studentId={studentId} groupId={groupId} />
         </PhoneFilter>
+
+        <StudentInfo
+          modalActive={!!isActiveModal.info}
+          studentId={+isActiveModal.info}
+          closeModal={closeModal}
+        />
 
         <EstimatesHistory
           modalActive={!!isActiveModal.history}

@@ -1,5 +1,5 @@
 .DropMenu{
-  position: fixed;
+  position: absolute;
   top: 56px;
   right: 22px;
   z-index: 120;
@@ -22,13 +22,17 @@
     padding: 4px 0;
     &_mobileAdmin{
       transition: all .5s linear;
+      position: fixed;
       height: 420px;
       padding: 4px 0;
+      top: 56px;
     }
     &_mobileStudent{
       transition: all .5s linear;
       height: 170px;
+      position: fixed;
       padding: 4px 0;
+      top: 56px;
     }
   }
 }

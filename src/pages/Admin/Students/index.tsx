@@ -84,7 +84,7 @@ const Students = (): JSX.Element => {
       setDataRow(getStudents.data.items.map((item: IStudentData) => ({
         list: [
           { id: 1, label: `${item.user.lastName} ${item.user.firstName} ${item.user.patronymic}` },
-          { id: 2, label: item.group ? item.group.name : 'ГРУПА - НАЛЛ БЛЯТЬ' },
+          { id: 2, label: item.group ? item.group.name : '' },
           { id: 3, label: item.orderNumber },
           { id: 4, label: item.isFullTime ? 'Денна' : 'Заочна' },
           { id: 5, label: item.user.email },

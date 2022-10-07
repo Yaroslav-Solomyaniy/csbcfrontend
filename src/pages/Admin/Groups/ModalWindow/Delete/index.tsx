@@ -75,6 +75,7 @@ export const GroupDelete = ({ modalActive, closeModal, Id }: IDeleteModal): JSX.
           placeholder="Номер наказу"
           pattern={NumbersAndLettersEn}
         />
+        <h3 className={styles.modal__title_display}>Студенти які знаходяться в групі, також будуть видалені!!</h3>
       </form>
       <ModalControlButtons
         handleClose={handleClose}

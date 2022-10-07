@@ -67,7 +67,10 @@ const TableBody = ({
               ))
             ) : (
               <div className={clsx(styles.body__row__item__string, 'clip')} key={`${id}${label}`}>
-                {(isScroll || id === list.length || (isTableVoting && id === 1))
+                {(isScroll
+                  || ((!isTableResult && !isHistoryTable) && id === list.length)
+                  || (isTableVoting && id === 1)
+                  || (isTableVoting && isTableResult && id === 1))
                   ? <span>{label}</span>
                   : (
                     <>

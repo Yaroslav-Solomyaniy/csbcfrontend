@@ -53,10 +53,8 @@ const Curators = (): JSX.Element => {
 
   useEffect(() => {
     if (currentPage > pagination.totalPages) {
-      post({ currentPage: currentPage - 1 });
-      console.log('Хочу змінити сторінку на першу');
+      post({ currentPage: pagination.totalPages });
     }
-    console.log('Ефект сработав');
   }, [pagination]);
 
   useEffect(() => {

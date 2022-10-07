@@ -90,6 +90,7 @@ export const VotingEditModal = (
 
   return (
     <ModalWindow
+      modalTitle="Редагування голосування"
       active={modalActive}
       closeModal={handleClose}
     >

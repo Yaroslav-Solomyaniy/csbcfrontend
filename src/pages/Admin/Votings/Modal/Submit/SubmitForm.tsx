@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { IGetVotingSubmitDataById, IVotingSubmitParams } from '../../../../../hooks/PagesInAdmin/useVotings';
 import styles from '../../../../pagesStyle.module.scss';
 import columns from './submitForm.module.scss';
@@ -21,181 +20,159 @@ onSubmit: (e:React.FormEvent | undefined) => void;
 setFormData:(value:IVotingSubmitParams) => void;
 }
 
-const SubmitVotingForm = ({ data, formData, onSubmit, setFormData }:ISubmitVotingForm) => {
-  const [checkArray, setCheckArray] = useState<number[]>([]);
-
-  return (
-    <form className={styles.form} onSubmit={onSubmit}>
-      <div className={columns.submitContent}>
-        <h1 className={styles.title}>Фахова компетентність - I семестр</h1>
-        <Table
-          dataHeader={dataHeader}
-          isTableResult
-          isTableVoting
-          dataRow={data?.requiredCourses.filter((item) => item.semester === 1).map((course) => ({ list: [
-            { id: 1,
-              label: (
-                <div className={styles.checkbox}>
-                  <input
-                    className={CheckBox.custom__CheckBox}
-                    checked={formData.includes(course.id)}
-                    onChange={(event) => {
-                      if (event.target.checked) {
-                        setFormData({ courses: [...formData, +event.target.value] });
-                      } else {
-                        setFormData({ courses: formData.filter((value) => value !== +event.target.value) });
-                        // setCheckArray(checkArray.filter((value) => value !== +event.target.value));
-                      }
-                    }}
-                    value={course.id}
-                    type="checkbox"
-                    id={`MyCheckBox${course.id}`}
-                  />
-                  <label htmlFor={`MyCheckBox${course.id}`} />
-                </div>),
-            },
-            { id: 2, label: course.name },
-            { id: 3,
-              label: `${course.teacher.lastName}
+const SubmitVotingForm = ({ data, formData, onSubmit, setFormData }:ISubmitVotingForm) => (
+  <form className={styles.form} onSubmit={onSubmit}>
+    <div className={columns.submitContent}>
+      <h1 className={styles.title}>Фахова компетентність - I семестр</h1>
+      <Table
+        dataHeader={dataHeader}
+        isTableResult
+        isTableVoting
+        heightVH="auto"
+        dataRow={data?.requiredCourses.filter((item) => item.semester === 1).map((course) => ({ list: [
+          { id: 1,
+            label: (
+              <div className={styles.checkbox}>
+                <input
+                  className={CheckBox.custom__CheckBox}
+                  checked={formData.includes(course.id)}
+                  onChange={(event) => {
+                    if (event.target.checked) {
+                      setFormData({ courses: [...formData, +event.target.value] });
+                    } else {
+                      setFormData({ courses: formData.filter((value) => value !== +event.target.value) });
+                    }
+                  }}
+                  value={course.id}
+                  type="checkbox"
+                  id={`MyCheckBox${course.id}`}
+                />
+                <label htmlFor={`MyCheckBox${course.id}`} />
+              </div>),
+          },
+          { id: 2, label: course.name },
+          { id: 3,
+            label: `${course.teacher.lastName}
           ${course.teacher.firstName[0]}.
           ${course.teacher.patronymic[0]}.` },
-            { id: 4, label: course.allVotes },
-          ],
-          key: course.id })) || []}
-          gridColumns={columns.columns}
-        />
-        <h1 className={styles.title}>Загальна компетентність - I семестр</h1>
-        <Table
-          isTableVoting
-          isTableResult
-          dataHeader={dataHeader}
-          dataRow={data?.notRequiredCourses.filter((item) => item.semester === 1).map((course) => ({ list: [
-            { id: 1,
-              // label: (
-              //   <div className={styles.checkbox}>
-              //     <input
-              //       className={CheckBox.custom__CheckBox}
-              //       checked={checkArray.includes(course.id)}
-              //       onChange={(event) => {
-              //         if (event.target.checked) {
-              //           setCheckArray([...checkArray, +event.target.value]);
-              //         } else {
-              //           setCheckArray(checkArray.filter((value) => value !== +event.target.value));
-              //         }
-              //       }}
-              //       value={course.id}
-              //       type="checkbox"
-              //       id={`MyCheckBox${course.id}`}
-              //     />
-              //     <label htmlFor={`MyCheckBox${course.id}`} />
-              //   </div>) },
-              label: (
-                <div className={styles.checkbox}>
-                  <input
-                    className={CheckBox.custom__CheckBox}
-                    checked={formData.includes(course.id)}
-                    onChange={(event) => {
-                      if (event.target.checked) {
-                        setFormData({ courses: [...formData, +event.target.value] });
-                      } else {
-                        setFormData({ courses: formData.filter((value) => value !== +event.target.value) });
-                        // setCheckArray(checkArray.filter((value) => value !== +event.target.value));
-                      }
-                    }}
-                    value={course.id}
-                    type="checkbox"
-                    id={`MyCheckBox${course.id}`}
-                  />
-                  <label htmlFor={`MyCheckBox${course.id}`} />
-                </div>),
-            },
-            { id: 2, label: course.name },
-            { id: 3,
-              label: `${course.teacher.lastName}
+          { id: 4, label: course.allVotes },
+        ],
+        key: course.id })) || []}
+        gridColumns={columns.columns}
+      />
+      <h1 className={styles.title}>Загальна компетентність - I семестр</h1>
+      <Table
+        isTableVoting
+        isTableResult
+        heightVH="auto"
+        dataHeader={dataHeader}
+        dataRow={data?.notRequiredCourses.filter((item) => item.semester === 1).map((course) => ({ list: [
+          { id: 1,
+            label: (
+              <div className={styles.checkbox}>
+                <input
+                  className={CheckBox.custom__CheckBox}
+                  checked={formData.includes(course.id)}
+                  onChange={(event) => {
+                    if (event.target.checked) {
+                      setFormData({ courses: [...formData, +event.target.value] });
+                    } else {
+                      setFormData({ courses: formData.filter((value) => value !== +event.target.value) });
+                    }
+                  }}
+                  value={course.id}
+                  type="checkbox"
+                  id={`MyCheckBox${course.id}`}
+                />
+                <label htmlFor={`MyCheckBox${course.id}`} />
+              </div>),
+          },
+          { id: 2, label: course.name },
+          { id: 3,
+            label: `${course.teacher.lastName}
           ${course.teacher.firstName[0]}.
           ${course.teacher.patronymic[0]}.` },
-            { id: 4, label: course.allVotes },
-          ],
-          key: course.id })) || []}
-          gridColumns={columns.columns}
-        />
-        <h1 className={styles.title}>Фахова компетентність - II семестр</h1>
-        <Table
-          isTableVoting
-          isTableResult
-          dataHeader={dataHeader}
-          dataRow={data?.requiredCourses.filter((item) => item.semester === 2).map((course) => ({ list: [
-            { id: 1,
-              label: (
-                <div className={styles.checkbox}>
-                  <input
-                    className={CheckBox.custom__CheckBox}
-                    checked={formData.includes(course.id)}
-                    onChange={(event) => {
-                      if (event.target.checked) {
-                        setFormData({ courses: [...formData, +event.target.value] });
-                      } else {
-                        setFormData({ courses: formData.filter((value) => value !== +event.target.value) });
-                        // setCheckArray(checkArray.filter((value) => value !== +event.target.value));
-                      }
-                    }}
-                    value={course.id}
-                    type="checkbox"
-                    id={`MyCheckBox${course.id}`}
-                  />
-                  <label htmlFor={`MyCheckBox${course.id}`} />
-                </div>),
-            },
-            { id: 2, label: course.name },
-            { id: 3,
-              label: `${course.teacher.lastName}
+          { id: 4, label: course.allVotes },
+        ],
+        key: course.id })) || []}
+        gridColumns={columns.columns}
+      />
+      <h1 className={styles.title}>Фахова компетентність - II семестр</h1>
+      <Table
+        isTableVoting
+        isTableResult
+        heightVH="auto"
+        dataHeader={dataHeader}
+        dataRow={data?.requiredCourses.filter((item) => item.semester === 2).map((course) => ({ list: [
+          { id: 1,
+            label: (
+              <div className={styles.checkbox}>
+                <input
+                  className={CheckBox.custom__CheckBox}
+                  checked={formData.includes(course.id)}
+                  onChange={(event) => {
+                    if (event.target.checked) {
+                      setFormData({ courses: [...formData, +event.target.value] });
+                    } else {
+                      setFormData({ courses: formData.filter((value) => value !== +event.target.value) });
+                    }
+                  }}
+                  value={course.id}
+                  type="checkbox"
+                  id={`MyCheckBox${course.id}`}
+                />
+                <label htmlFor={`MyCheckBox${course.id}`} />
+              </div>),
+          },
+          { id: 2, label: course.name },
+          { id: 3,
+            label: `${course.teacher.lastName}
           ${course.teacher.firstName[0]}.
           ${course.teacher.patronymic[0]}.` },
-            { id: 4, label: course.allVotes },
-          ],
-          key: course.id })) || []}
-          gridColumns={columns.columns}
-        />
-        <h1 className={styles.title}>Загальна компетентність - II семестр</h1>
-        <Table
-          isTableVoting
-          isTableResult
-          dataHeader={dataHeader}
-          dataRow={data?.notRequiredCourses.filter((item) => item.semester === 2).map((course) => ({ list: [
-            { id: 1,
-              label: (
-                <div className={styles.checkbox}>
-                  <input
-                    className={CheckBox.custom__CheckBox}
-                    checked={formData.includes(course.id)}
-                    onChange={(event) => {
-                      if (event.target.checked) {
-                        setFormData({ courses: [...formData, +event.target.value] });
-                      } else {
-                        setFormData({ courses: formData.filter((value) => value !== +event.target.value) });
-                        // setCheckArray(checkArray.filter((value) => value !== +event.target.value));
-                      }
-                    }}
-                    value={course.id}
-                    type="checkbox"
-                    id={`MyCheckBox${course.id}`}
-                  />
-                  <label htmlFor={`MyCheckBox${course.id}`} />
-                </div>),
-            },
-            { id: 2, label: course.name },
-            { id: 3,
-              label: `${course.teacher.lastName}
+          { id: 4, label: course.allVotes },
+        ],
+        key: course.id })) || []}
+        gridColumns={columns.columns}
+      />
+      <h1 className={styles.title}>Загальна компетентність - II семестр</h1>
+      <Table
+        isTableVoting
+        isTableResult
+        heightVH="auto"
+        dataHeader={dataHeader}
+        dataRow={data?.notRequiredCourses.filter((item) => item.semester === 2).map((course) => ({ list: [
+          { id: 1,
+            label: (
+              <div className={styles.checkbox}>
+                <input
+                  className={CheckBox.custom__CheckBox}
+                  checked={formData.includes(course.id)}
+                  onChange={(event) => {
+                    if (event.target.checked) {
+                      setFormData({ courses: [...formData, +event.target.value] });
+                    } else {
+                      setFormData({ courses: formData.filter((value) => value !== +event.target.value) });
+                    }
+                  }}
+                  value={course.id}
+                  type="checkbox"
+                  id={`MyCheckBox${course.id}`}
+                />
+                <label htmlFor={`MyCheckBox${course.id}`} />
+              </div>),
+          },
+          { id: 2, label: course.name },
+          { id: 3,
+            label: `${course.teacher.lastName}
           ${course.teacher.firstName[0]}.
           ${course.teacher.patronymic[0]}.` },
-            { id: 4, label: course.allVotes },
-          ],
-          key: course.id })) || []}
-          gridColumns={columns.columns}
-        />
-      </div>
-    </form>
-  );
-};
+          { id: 4, label: course.allVotes },
+        ],
+        key: course.id })) || []}
+        gridColumns={columns.columns}
+      />
+    </div>
+  </form>
+);
 
 export default SubmitVotingForm;

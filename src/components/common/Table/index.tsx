@@ -78,7 +78,7 @@ Table.defaultProps = {
   isHistoryTable: false,
   isTwoColumns: false,
   totalItems: 0,
-  heightVH: '60vh',
+  heightVH: '30vh',
   isTableVoting: false,
 };
 

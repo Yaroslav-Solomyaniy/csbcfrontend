@@ -82,7 +82,6 @@ const VotingStudents = (): JSX.Element => {
               key: course.id }))}
               gridColumns={styles.columns}
               isTableVoting
-              isTableResult
             />
             <h1 className={pagestyles.title}>Вибірковий непрофільний предмет(I семестр)</h1>
             <Table
@@ -104,7 +103,6 @@ const VotingStudents = (): JSX.Element => {
               key: course.id }))}
               gridColumns={styles.columns}
               isTableVoting
-              isTableResult
             />
             <h1 className={pagestyles.title}>Вибірковий профільний предмет(II семестр)</h1>
             <Table
@@ -126,7 +124,6 @@ const VotingStudents = (): JSX.Element => {
               key: course.id }))}
               gridColumns={styles.columns}
               isTableVoting
-              isTableResult
             />
             <h1 className={pagestyles.title}>Вибірковий непрофільний предмет(II семестр)</h1>
             <Table
@@ -148,7 +145,6 @@ const VotingStudents = (): JSX.Element => {
               key: course.id }))}
               gridColumns={styles.columns}
               isTableVoting
-              isTableResult
             />
             <div className={styles.voting_footer}>
               <Button

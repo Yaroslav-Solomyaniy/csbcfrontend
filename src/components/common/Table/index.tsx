@@ -62,6 +62,7 @@ const Table = ({
           dataRow={dataRow}
           heightVH={heightVH}
           isTwoColumns={isTwoColumns}
+          isTableVoting={isTableVoting}
 
         />
       )}
@@ -78,7 +79,7 @@ Table.defaultProps = {
   isHistoryTable: false,
   isTwoColumns: false,
   totalItems: 0,
-  heightVH: '30vh',
+  heightVH: 'auto',
   isTableVoting: false,
 };
 

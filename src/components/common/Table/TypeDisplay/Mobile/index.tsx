@@ -13,6 +13,7 @@ interface IAdaptiveTable {
   isHistoryTable: boolean | undefined;
   isTwoColumns?: boolean;
   heightVH?: string;
+  isTableVoting?: boolean;
 }
 
 const AdaptiveTable = ({
@@ -22,6 +23,7 @@ const AdaptiveTable = ({
   isHistoryTable,
   isTwoColumns,
   heightVH,
+  isTableVoting,
 }: IAdaptiveTable) => (
   // eslint-disable-next-line react/jsx-no-useless-fragment
   <>
@@ -97,7 +99,7 @@ const AdaptiveTable = ({
             </div>
           ))
         )}
-        {(isTableResult || isHistoryTable) && (
+        {(isTableResult || isHistoryTable || isTableVoting) && (
         <div className={styles.contentScroll} style={{ height: heightVH }}>
           {dataRow.map((rowItem) => (
             <div key={rowItem.key} className={styles.block}>
@@ -136,7 +138,8 @@ const AdaptiveTable = ({
 
 AdaptiveTable.defaultProps = {
   isTwoColumns: false,
-  heightVH: '30vh',
+  heightVH: 'auto',
+  isTableVoting: false,
 };
 
 export default AdaptiveTable;

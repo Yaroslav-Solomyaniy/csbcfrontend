@@ -59,6 +59,7 @@ export const CourseCreateModal = ({ modalActive, closeModal }: ICreateModal): JS
         setFormData={setFormData}
         formData={formData}
         onSubmit={onSubmit}
+        isCreate
       />
       <ModalControlButtons
         handleClose={handleClose}

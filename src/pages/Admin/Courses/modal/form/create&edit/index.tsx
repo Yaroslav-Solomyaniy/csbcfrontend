@@ -15,12 +15,14 @@ interface ICoursesInputForm{
   isSubmitted: boolean;
   onSubmit: (e: React.FormEvent | undefined) => void;
   modalTitle?: string;
+  isCreate?: boolean;
 }
 
 const CoursesInputForm = ({ formData,
   setFormData,
   isSubmitted,
   onSubmit,
+  isCreate,
   modalTitle }:ICoursesInputForm) => (
     <>
       {modalTitle && (<div className={styles.modal__title}>{modalTitle}</div>)}
@@ -108,17 +110,19 @@ const CoursesInputForm = ({ formData,
           error={isSubmitted && !formData.lectureHours ? 'К-сть ауд.годин не введено.' : ''}
           pattern={FiveSymbolOnlyNumbers}
         />
-        <SelectCompulsory
-          type="modal"
-          label="Вид проведення"
-          placeholder="Вид проведення"
-          required
-          onChange={(value) => {
-            setFormData({ ...formData, type: value });
-          }}
-          value={formData.type}
-          error={(isSubmitted && !formData.type) ? 'Вид проведення не обрано.' : ''}
-        />
+        {isCreate && (
+          <SelectCompulsory
+            type="modal"
+            label="Вид проведення"
+            placeholder="Вид проведення"
+            required
+            onChange={(value) => {
+              setFormData({ ...formData, type: value });
+            }}
+            value={formData.type}
+            error={(isSubmitted && !formData.type) ? 'Вид проведення не обрано.' : ''}
+          />
+        )}
       </form>
 
     </>
@@ -127,6 +131,7 @@ const CoursesInputForm = ({ formData,
 
 CoursesInputForm.defaultProps = {
   modalTitle: '',
+  isCreate: false,
 };
 
 export default CoursesInputForm;

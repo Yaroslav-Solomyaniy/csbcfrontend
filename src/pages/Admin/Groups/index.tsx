@@ -78,10 +78,12 @@ const Group = (): JSX.Element => {
       setPagination(getGroups.data.meta);
       setDataRow(getGroups?.data?.items.map((item: IGroupData) => ({
         list: [
-          { id: 1, label: item.name },
-          { id: 2, label: `${item.curator.lastName} ${item.curator.firstName} ${item.curator.patronymic}` },
-          { id: 3, label: item.orderNumber },
-          { id: 4, label: `${item.students}` },
+          { id: 1, label: item.name ? item.name : 'Назва групи відсутня' },
+          { id: 2,
+            label: item.curator ? `${item?.curator?.lastName} ${item?.curator?.firstName} ${item?.curator?.patronymic}`
+              : 'Куратор відсутній' },
+          { id: 3, label: item.orderNumber ? item.orderNumber : 'Номер наказу відсуній' },
+          { id: 4, label: item.students ? item.students : 'Студенти відсутні' },
           {
             id: 5,
             label: <EditAndDelete isActiveModal={isActiveModal} setIsActiveModal={setIsActiveModal} itemId={item.id} />,

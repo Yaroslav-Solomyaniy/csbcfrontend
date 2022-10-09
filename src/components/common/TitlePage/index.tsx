@@ -35,7 +35,7 @@ const TitlePage = ({ title, action, setIsActiveModal }: ITitlePage):JSX.Element 
             className={styles.title_mobile}
             onClick={() => setIsActiveModal ? setIsActiveModal({ filter: true }) : undefined}
           >
-            <Filter />
+            {setIsActiveModal && <Filter />}
             {title}
           </h1>
           {action && <div className={styles.isAction}>{action}</div> }
@@ -48,7 +48,7 @@ const TitlePage = ({ title, action, setIsActiveModal }: ITitlePage):JSX.Element 
 TitlePage.defaultProps = {
   action: '',
   isActiveModal: false,
-  setIsActiveModal: () => undefined,
+  setIsActiveModal: undefined,
 };
 
 export default TitlePage;

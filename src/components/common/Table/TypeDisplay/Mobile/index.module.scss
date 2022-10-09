@@ -2,7 +2,7 @@
   border: 1px solid #e8e8e8;
   border-radius: 12px;
   padding: 8px 12px 8px 12px;
-  margin-top: 12px;
+  margin: 12px 0 ;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -34,6 +34,7 @@
 
 .contentScroll {
   overflow-y: auto;
+  border: 1px solid #e8e8e8;
 }
 
 .content {

@@ -24,10 +24,8 @@ const Layout = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
     <>
       <Header setOpen={setOpen} isOpen={isOpen} />
       <div className={styles.nav_and_content}>
-        {(user?.role === 'admin' || user?.role === 'student') && isDesktop && (
-          <Navigation isOpen={isOpen} role={user.role} />
-        )}
-
+        {/* eslint-disable-next-line max-len */}
+        {(user?.role === 'admin' || user?.role === 'student') && isDesktop && (<Navigation isOpen={isOpen} role={user.role} />)}
         <div className={clsx(isDesktop && styles.content, (isTablet || isPhone) && styles.content_mobile)}>
           <div className={clsx(
             stylesPortal.portal__unauthorized,

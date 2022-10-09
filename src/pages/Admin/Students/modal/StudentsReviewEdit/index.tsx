@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import styles from './index.module.scss';
 import stylesStud from '../../../../pagesStyle.module.scss';
 import ModalWindow from '../../../../../components/common/ModalWindow';
 import ModalControlButtons from '../../../../../components/common/ModalControlButtons';

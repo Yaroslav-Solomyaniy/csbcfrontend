@@ -15,7 +15,6 @@ const PhoneFilter = ({ children, modalTitle, closeModal, isActive }: IPhoneFilte
   <ModalWindow modalTitle={modalTitle} active={isActive} closeModal={closeModal}>
     <div className={style.Title} onClick={closeModal}>
       <ArrowLeft />
-      <div className={style.Text}>Назад</div>
     </div>
 
     <div className={style.filterRow}>

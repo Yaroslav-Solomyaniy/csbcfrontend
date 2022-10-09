@@ -7,11 +7,12 @@
     flex-direction: column;
     align-items: center;
     position: fixed;
-    top: 30px;
+    top: 56px;
     left: 50%;
     transform: translateX(calc(-55% + -8px));
     &__mobile{
-      transform: translateX(-50%);
+      left: 0;
+      transform: translateX(0);
     }
   }
 

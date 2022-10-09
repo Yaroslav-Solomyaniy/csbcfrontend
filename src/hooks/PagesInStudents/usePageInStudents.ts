@@ -59,9 +59,6 @@ export const useStudentVotingGet = (): IUseStudentVotingGet => {
     })
       .then((response: AxiosResponse<IGetStudentVotingData| null>) => {
         setData(response.data);
-      })
-      .catch((error) => {
-        addErrors(error.response.data.message);
       });
   };
 
@@ -82,7 +79,7 @@ export interface IUseStudentVotingCreate {
 }
 
 export const useStudentVotingCreate = (): IUseStudentVotingCreate => {
-  const { addErrors } = MessagesContext();
+  const { addErrors, addInfo } = MessagesContext();
   const { user } = AuthContext();
   const [data, setData] = useState<IVotingStudentPostData | null>(null);
 
@@ -94,6 +91,7 @@ export const useStudentVotingCreate = (): IUseStudentVotingCreate => {
     })
       .then((response: AxiosResponse<IVotingStudentPostData>) => {
         setData(response.data);
+        addInfo('Ваш голос успішно зараховано');
       })
       .catch((error) => {
         addErrors(error.response.data.message);

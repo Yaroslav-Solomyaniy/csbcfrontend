@@ -71,7 +71,7 @@ interface IGetGroupIdParams {
 
 interface IGetGroupIdResponse {
   created: string;
-  curator: { id: number; firstName: string; lastName: string; };
+  curator: { id: number; firstName: string; lastName: string; } | null;
   deletedOrderNumber: null;
   id: number;
   name: string;

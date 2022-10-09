@@ -18,6 +18,7 @@ import PhoneFilter from '../../../components/common/PhoneFilter';
 import AdministratorsFilters from './Filters';
 import { EditAndDelete } from '../../../components/common/CollectionMiniButtons';
 import Table from '../../../components/common/Table';
+import Preloader from '../../../components/common/Preloader/Preloader';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІБ' },
@@ -94,42 +95,43 @@ const Administrators = (): JSX.Element => {
   return (
     <Layout>
       <div>
-        <TitlePage
-          title="Адміністратори"
-          {...isPhone && ({ setIsActiveModal })}
-          {...isPhone && ({ isActiveModal: !!isActiveModal.filter })}
-          action={(
-            <Button
-              nameClass="primary"
-              className={pagesStyle.buttonsCreate}
-              size="large"
-              onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
-            >
-              Створити
-            </Button>
-              )}
-        />
-        <Table
-          filter={(<AdministratorsFilters adminId={adminId} />)}
-          dataHeader={dataHeader}
-          dataRow={dataRow}
-          gridColumns={styles.columns}
-          totalItems={pagination.totalItems}
-        />
-        <PhoneFilter modalTitle="Фільтрація адміністраторів" isActive={!!isActiveModal.filter} closeModal={closeModal}>
-          <AdministratorsFilters adminId={adminId} />
-        </PhoneFilter>
-        <AdministratorCreateModal modalActive={!!isActiveModal.create} closeModal={closeModal} />
-        <AdministratorEditModal
-          modalActive={!!isActiveModal.edit}
-          studentId={+isActiveModal.edit}
-          closeModal={closeModal}
-        />
-        <AdministratorDeleteModal
-          modalActive={!!isActiveModal.delete}
-          Id={+isActiveModal.delete}
-          closeModal={closeModal}
-        />
+        <Preloader />
+        {/* <TitlePage */}
+        {/*  title="Адміністратори" */}
+        {/*  {...isPhone && ({ setIsActiveModal })} */}
+        {/*  {...isPhone && ({ isActiveModal: !!isActiveModal.filter })} */}
+        {/*  action={( */}
+        {/*    <Button */}
+        {/*      nameClass="primary" */}
+        {/*      className={pagesStyle.buttonsCreate} */}
+        {/*      size="large" */}
+        {/*      onClick={() => setIsActiveModal({ ...isActiveModal, create: true })} */}
+        {/*    > */}
+        {/*      Створити */}
+        {/*    </Button> */}
+        {/*      )} */}
+        {/* /> */}
+        {/* <Table */}
+        {/*  filter={(<AdministratorsFilters adminId={adminId} />)} */}
+        {/*  dataHeader={dataHeader} */}
+        {/*  dataRow={dataRow} */}
+        {/*  gridColumns={styles.columns} */}
+        {/*  totalItems={pagination.totalItems} */}
+        {/* /> */}
+        {/* <PhoneFilter modalTitle="Фільтрація адміністраторів" isActive={!!isActiveModal.filter} closeModal={closeModal}> */}
+        {/*  <AdministratorsFilters adminId={adminId} /> */}
+        {/* </PhoneFilter> */}
+        {/* <AdministratorCreateModal modalActive={!!isActiveModal.create} closeModal={closeModal} /> */}
+        {/* <AdministratorEditModal */}
+        {/*  modalActive={!!isActiveModal.edit} */}
+        {/*  studentId={+isActiveModal.edit} */}
+        {/*  closeModal={closeModal} */}
+        {/* /> */}
+        {/* <AdministratorDeleteModal */}
+        {/*  modalActive={!!isActiveModal.delete} */}
+        {/*  Id={+isActiveModal.delete} */}
+        {/*  closeModal={closeModal} */}
+        {/* /> */}
       </div>
     </Layout>
   );

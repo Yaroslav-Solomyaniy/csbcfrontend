@@ -1,0 +1,32 @@
+.loader{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: white;
+}
+
+.svg{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: rotate360 10s infinite ease-in;
+  width: 300px;
+  height: 300px;
+}
+
+.preloader{
+  width: 300px;
+  height: 300px;
+  border: 5px;
+  border-radius: 50%;
+}
+
+@keyframes rotate360 {
+  from{
+    transform: rotate(0);
+  }
+  to{
+    transform: rotate(360deg);
+  }
+
+}

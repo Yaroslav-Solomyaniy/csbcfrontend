@@ -5,7 +5,6 @@ import { GroupsContext } from '../../../../../context/PagesInAdmin/Groups';
 import { MessagesContext } from '../../../../../context/All/Messages';
 import { IEditModal } from '../../../../../types';
 import GroupPageModalForm from '../form/Create&Edit/modalForm';
-import { DeviceContext } from '../../../../../context/All/DeviceType';
 import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
 
 const formInitialData = {
@@ -20,7 +19,6 @@ export const GroupEdit = ({ modalActive, closeModal, studentId }: IEditModal): J
 
   const { groupEdit, getGroupId } = GroupsContext();
   const { addInfo } = MessagesContext();
-  const { isDesktop, isTablet, isPhone } = DeviceContext();
 
   const handleClose = () => {
     setIsSubmited(false);
@@ -55,9 +53,9 @@ export const GroupEdit = ({ modalActive, closeModal, studentId }: IEditModal): J
   useEffect(() => {
     if (getGroupId?.data) {
       setFormData({
-        name: getGroupId?.data.name,
-        orderNumber: getGroupId?.data.orderNumber,
-        curatorId: getGroupId?.data.curator.id,
+        name: getGroupId?.data?.name || '',
+        orderNumber: getGroupId?.data?.orderNumber || '',
+        curatorId: getGroupId?.data?.curator?.id || 0,
       });
     }
   }, [getGroupId?.data]);

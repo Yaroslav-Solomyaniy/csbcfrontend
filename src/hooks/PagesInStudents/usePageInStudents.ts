@@ -39,6 +39,10 @@ export interface IGetStudentVotingData {
       email:string;
     };
   }[];
+  startDate: string;
+  approveCourse: [];
+  endDate: string;
+  studentVotes: [];
 }
 
 export interface IUseStudentVotingGet{
@@ -48,7 +52,6 @@ export interface IUseStudentVotingGet{
 
 export const useStudentVotingGet = (): IUseStudentVotingGet => {
   const { user } = AuthContext();
-  const { addErrors } = MessagesContext();
   const [data, setData] = useState<IGetStudentVotingData | null>(null);
 
   const getVotingStudent = () => {
@@ -91,7 +94,6 @@ export const useStudentVotingCreate = (): IUseStudentVotingCreate => {
     })
       .then((response: AxiosResponse<IVotingStudentPostData>) => {
         setData(response.data);
-        addInfo('Ваш голос успішно зараховано');
       })
       .catch((error) => {
         addErrors(error.response.data.message);
@@ -99,4 +101,38 @@ export const useStudentVotingCreate = (): IUseStudentVotingCreate => {
   };
 
   return { data, studentVotingCreate };
+};
+
+export interface IVotingStudentRevoteParams {
+  courses: number[];
+}
+
+interface IVotingStudentRevoteData {
+  message:string;
+}
+export interface IUseVotingStudentRevote {
+  data: IVotingStudentRevoteData | null;
+  studentVotingRevote: (params: IVotingStudentRevoteParams) => void;
+}
+
+export const useVotingStudentRevote = (): IUseVotingStudentRevote => {
+  const { addErrors } = MessagesContext();
+  const { user } = AuthContext();
+  const [data, setData] = useState<IVotingStudentRevoteData | null>(null);
+
+  const studentVotingRevote = (params: IVotingStudentRevoteParams) => {
+    axios.patch(`${process.env.REACT_APP_API_URL}/students/page/voting`, params, {
+      headers: {
+        Authorization: `Bearer ${user?.accessToken}`,
+      },
+    })
+      .then((response: AxiosResponse<IVotingStudentRevoteData>) => {
+        setData(response.data);
+      })
+      .catch((error) => {
+        addErrors(error.response.data.message);
+      });
+  };
+
+  return { data, studentVotingRevote };
 };

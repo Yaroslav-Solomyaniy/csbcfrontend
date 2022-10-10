@@ -83,7 +83,6 @@ export const VotingEditModal = (
         notRequiredCourses: votingGetById.data.notRequiredCourses.map((course) => course.id),
         startDate: moment(votingGetById.data.startDate).toDate(),
         endDate: moment(votingGetById.data.endDate).toDate(),
-
       });
     }
   }, [votingGetById?.data]);

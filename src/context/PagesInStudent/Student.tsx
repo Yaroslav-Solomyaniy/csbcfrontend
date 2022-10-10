@@ -1,38 +1,42 @@
 import React, { createContext, useContext } from 'react';
 import {
   IUseStudentVotingCreate,
-  IUseStudentVotingGet,
+  IUseStudentVotingGet, IUseVotingStudentRevote,
   useStudentVotingCreate,
-  useStudentVotingGet,
+  useStudentVotingGet, useVotingStudentRevote,
 } from '../../hooks/PagesInStudents/usePageInStudents';
 
-interface IStudentContext {
+interface IStudentVotingContext {
   getVoting: IUseStudentVotingGet | null;
   votingCreate: IUseStudentVotingCreate | null;
+  votingEdit: IUseVotingStudentRevote | null;
 }
 
-const defaultValue: IStudentContext = {
+const defaultValue: IStudentVotingContext = {
   getVoting: null,
   votingCreate: null,
+  votingEdit: null,
 };
 
-export const studentContext = createContext<IStudentContext>(defaultValue);
+export const studentVotingContext = createContext<IStudentVotingContext>(defaultValue);
 
-const StudentProvider = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
+const StudentVotingProvider = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
   const getVoting = useStudentVotingGet();
   const votingCreate = useStudentVotingCreate();
+  const votingEdit = useVotingStudentRevote();
 
   return (
-    <studentContext.Provider value={{
+    <studentVotingContext.Provider value={{
+      votingEdit,
       getVoting,
       votingCreate,
     }}
     >
       {children}
-    </studentContext.Provider>
+    </studentVotingContext.Provider>
   );
 };
 
-export default StudentProvider;
+export default StudentVotingProvider;
 
-export const StudentContext = (): IStudentContext => useContext(studentContext);
+export const StudentVotingContext = (): IStudentVotingContext => useContext(studentVotingContext);

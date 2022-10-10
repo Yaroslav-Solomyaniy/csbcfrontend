@@ -53,6 +53,7 @@ export const RevoteEditModal = (
         ...formData,
         startDate: moment(formData.startDate).format(),
         endDate: moment(formData.endDate).format(),
+        isRevote: true,
       }, id);
     }
   };
@@ -71,7 +72,6 @@ export const RevoteEditModal = (
         notRequiredCourses: votingGetById.data.notRequiredCourses.map((course) => course.id),
         startDate: moment(votingGetById.data.startDate).toDate(),
         endDate: moment(votingGetById.data.endDate).toDate(),
-
       });
     }
   }, [votingGetById?.data]);

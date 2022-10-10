@@ -90,8 +90,8 @@ const Administrators = (): JSX.Element => {
         ],
         key: item.id,
       })));
-      setIsLoading(false);
     }
+    setIsLoading(false);
   }, [getAdministrators?.data]);
 
   return (
@@ -148,3 +148,6 @@ const Administrators = (): JSX.Element => {
 };
 
 export default Administrators;
+function componentDidMount() {
+  throw new Error('Function not implemented.');
+}

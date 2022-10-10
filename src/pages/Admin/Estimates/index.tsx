@@ -17,6 +17,7 @@ import { initialPagination, Pagination } from '../../../types';
 import { DeviceContext } from '../../../context/All/DeviceType';
 import EstimatesHistory from './modal/EstimatesHystory';
 import { EditHistoryDownload } from '../../../components/common/CollectionMiniButtons';
+import Preloader from '../../../components/common/Preloader/Preloader';
 
 const allCloseModalWindow: Record<string, boolean | number | string> = {
   openHistory: false,
@@ -29,6 +30,7 @@ const allCloseModalWindow: Record<string, boolean | number | string> = {
 };
 
 const Estimates = (): JSX.Element => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isActiveModal, setIsActiveModal] = useState<Record<string, boolean | string | number>>(allCloseModalWindow);
   const [dataHeader, setDataHeader] = useState<ITableHeader[]>([]);
   const [pagination, setPagination] = useState<Pagination>({ ...initialPagination });
@@ -107,6 +109,8 @@ const Estimates = (): JSX.Element => {
           })
           : [];
 
+        setIsLoading(false);
+
         return ({
           list: [
             { id: 1, label: `${student.user.lastName} ${student.user.firstName} ${student.user.patronymic} ` },
@@ -158,48 +162,48 @@ const Estimates = (): JSX.Element => {
 
   return (
     <Layout>
-      <div className={styles.grades}>
-
-        <TitlePage
-          title="Оцінки"
-          {...isPhone && !!(dropCurses.optionCourses?.items.length) && ({ setIsActiveModal })}
-          {...isPhone && !!(dropCurses.optionCourses?.items.length) && ({ isActiveModal: !!isActiveModal.filter })}
-        />
-
-        {(dropCurses.optionCourses?.items.length || 0) > 0 ? (
-          <>
-            <Table
-              filter={(<EstimatesFilters studentId={studentId} semesterId={semesterId} groupId={groupId} />)}
-              columScrollHorizontal={dropCurses.optionCourses ? +`${dropCurses.optionCourses?.items.length}` : 0}
-              isScroll
-              isTwoColumns
-              dataHeader={dataHeader}
-              dataRow={dataRow}
+      <TitlePage
+        title="Оцінки"
+        {...isPhone && !!(dropCurses.optionCourses?.items.length) && ({ setIsActiveModal })}
+        {...isPhone && !!(dropCurses.optionCourses?.items.length) && ({ isActiveModal: !!isActiveModal.filter })}
+      />
+      {isLoading && !dropCurses.optionCourses ? <Preloader /> : (
+        <>
+          {(dropCurses?.optionCourses?.items?.length || 0) > 0 ? (
+            <>
+              <Table
+                filter={(<EstimatesFilters studentId={studentId} semesterId={semesterId} groupId={groupId} />)}
+                columScrollHorizontal={dropCurses.optionCourses ? +`${dropCurses.optionCourses?.items.length}` : 0}
+                isScroll
+                isTwoColumns
+                dataHeader={dataHeader}
+                dataRow={dataRow}
               // dataRowMobileEstimates={gradesGet.data.items}
-              gridColumns={styles.columns}
-              totalItems={pagination.totalItems}
-            />
+                gridColumns={styles.columns}
+                totalItems={pagination.totalItems}
+              />
 
-            <PhoneFilter modalTitle="Фільтрація предметів" isActive={!!isActiveModal.filter} closeModal={closeModal}>
-              <EstimatesFilters studentId={studentId} semesterId={semesterId} groupId={groupId} />
-            </PhoneFilter>
-          </>
-        ) : (
-          <h1 className={styles.titleNullCourses}>Додайте предмети для відображення оцінок</h1>
-        )}
-        <EstimatesEdit
-          modalActive={!!isActiveModal.edit}
-          closeModal={closeModal}
-          studentId={+isActiveModal.edit}
-          gradeId={+isActiveModal.gradeEdit}
-        />
-        <EstimatesHistory
-          modalActive={!!isActiveModal.history}
-          closeModal={closeModal}
-          studentId={+isActiveModal.history}
-          semester={semesterId}
-        />
-      </div>
+              <PhoneFilter modalTitle="Фільтрація предметів" isActive={!!isActiveModal.filter} closeModal={closeModal}>
+                <EstimatesFilters studentId={studentId} semesterId={semesterId} groupId={groupId} />
+              </PhoneFilter>
+            </>
+          ) : (
+            <h1 className={styles.titleNullCourses}>Додайте предмети для відображення оцінок</h1>
+          )}
+          <EstimatesEdit
+            modalActive={!!isActiveModal.edit}
+            closeModal={closeModal}
+            studentId={+isActiveModal.edit}
+            gradeId={+isActiveModal.gradeEdit}
+          />
+          <EstimatesHistory
+            modalActive={!!isActiveModal.history}
+            closeModal={closeModal}
+            studentId={+isActiveModal.history}
+            semester={semesterId}
+          />
+        </>
+      )}
     </Layout>
   );
 };

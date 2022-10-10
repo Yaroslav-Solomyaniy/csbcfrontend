@@ -31,6 +31,7 @@ const AdaptiveTable = ({
       <>
         {!isTableResult
           && !isHistoryTable
+          && !isTableVoting
           && dataRow.map((rowItem) => (
             <div key={rowItem.key} className={styles.block}>
               <div className={styles.content}>
@@ -114,31 +115,33 @@ const AdaptiveTable = ({
               </div>
             </div>
           ))}
+
         {(isTableResult || isHistoryTable || isTableVoting) && (
           <div className={styles.contentScroll} style={{ height: heightVH }}>
             {dataRow.map((rowItem) => (
               <div key={rowItem.key} className={styles.block}>
                 <div className={styles.content}>
                   {rowItem.list.map((i, index) => (
-                    <h6
-                      key={i.id}
-                      className={index === 0 ? styles.Title : styles.Subtitle}
-                    >
-                      {index !== 0 && `${dataHeader[index]?.label}: `}
-                      <a data-tip data-for={`${index}-${i.id}:${rowItem.key}`}>
-                        {i.label}
-                      </a>
-                      <ReactTooltip
-                        id={`${index}-${i.id}:${rowItem.key}`}
-                        type="info"
-                        backgroundColor="#C0D7FC"
-                        delayShow={850}
-                        textColor="#000000"
-                        arrowColor="#e8e8e8"
-                        className={styles.tooltip}
-                      >
-                        <span>{i.label}</span>
-                      </ReactTooltip>
+                    <h6 key={i.id} className={index === 0 ? styles.Title : styles.Subtitle}>
+                      {isTableVoting && index === 0 ? <span>{i.label}</span> : (
+                        <>
+                          {index !== 0 && `${dataHeader[index]?.label}: `}
+                          <a data-tip data-for={`${index}-${i.id}:${rowItem.key}`}>
+                            {i.label}
+                          </a>
+                          <ReactTooltip
+                            id={`${index}-${i.id}:${rowItem.key}`}
+                            type="info"
+                            backgroundColor="#C0D7FC"
+                            delayShow={850}
+                            textColor="#000000"
+                            arrowColor="#e8e8e8"
+                            className={styles.tooltip}
+                          >
+                            <span>{i.label}</span>
+                          </ReactTooltip>
+                        </>
+                      )}
                     </h6>
                   ))}
                 </div>

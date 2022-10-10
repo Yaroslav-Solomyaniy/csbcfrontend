@@ -18,6 +18,7 @@ import { EditAndDelete } from '../../../components/common/CollectionMiniButtons'
 import CoursesFilters from './Filters';
 import PhoneFilter from '../../../components/common/PhoneFilter';
 import Table from '../../../components/common/Table';
+import Preloader from '../../../components/common/Preloader/Preloader';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'Назва' },
@@ -39,6 +40,7 @@ const allCloseModalWindow: Record<string, number | boolean> = {
 };
 
 const Courses = (): JSX.Element => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isActiveModal, setIsActiveModal] = useState(allCloseModalWindow);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
   const [pagination, setPagination] = useState<Pagination>({ ...initialPagination });
@@ -97,61 +99,64 @@ const Courses = (): JSX.Element => {
         ],
         key: item.id,
       })));
+      setIsLoading(false);
     }
   }, [getCourses?.data]);
 
   return (
     <Layout>
-      <div>
-        <TitlePage
-          title="Предмети"
-          {...isPhone && ({ setIsActiveModal })}
-          {...isPhone && ({ isActiveModal: !!isActiveModal.filter })}
-          action={(
-            <Button
-              nameClass="primary"
-              className={pagesStyle.buttonsCreate}
-              size="large"
-              onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
-            >
-              Створити
-            </Button>
+      <TitlePage
+        title="Предмети"
+        {...isPhone && ({ setIsActiveModal })}
+        {...isPhone && ({ isActiveModal: !!isActiveModal.filter })}
+        action={(
+          <Button
+            nameClass="primary"
+            className={pagesStyle.buttonsCreate}
+            size="large"
+            onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
+          >
+            Створити
+          </Button>
               )}
-        />
-        <Table
-          filter={(
-            <CoursesFilters
-              courseId={courseId}
-              groupId={groupId}
-              teacherId={teacherId}
-              courseType={courseType}
-            />
+      />
+      {isLoading ? <Preloader /> : (
+        <>
+          <Table
+            filter={(
+              <CoursesFilters
+                courseId={courseId}
+                groupId={groupId}
+                teacherId={teacherId}
+                courseType={courseType}
+              />
           )}
-          dataHeader={dataHeader}
-          dataRow={dataRow}
-          gridColumns={styles.columns}
-          totalItems={pagination.totalItems}
-        />
+            dataHeader={dataHeader}
+            dataRow={dataRow}
+            gridColumns={styles.columns}
+            totalItems={pagination.totalItems}
+          />
 
-        <PhoneFilter modalTitle="Фільтрація предметів" isActive={!!isActiveModal.filter} closeModal={closeModal}>
-          <CoursesFilters courseId={courseId} groupId={groupId} teacherId={teacherId} courseType={courseType} />
-        </PhoneFilter>
+          <PhoneFilter modalTitle="Фільтрація предметів" isActive={!!isActiveModal.filter} closeModal={closeModal}>
+            <CoursesFilters courseId={courseId} groupId={groupId} teacherId={teacherId} courseType={courseType} />
+          </PhoneFilter>
 
-        <CourseCreateModal
-          modalActive={!!isActiveModal.create}
-          closeModal={closeModal}
-        />
-        <CourseEditModal
-          modalActive={!!isActiveModal.edit}
-          studentId={+isActiveModal.edit}
-          closeModal={closeModal}
-        />
-        <CourseDeleteModal
-          modalActive={!!isActiveModal.delete}
-          Id={+isActiveModal.delete}
-          closeModal={closeModal}
-        />
-      </div>
+          <CourseCreateModal
+            modalActive={!!isActiveModal.create}
+            closeModal={closeModal}
+          />
+          <CourseEditModal
+            modalActive={!!isActiveModal.edit}
+            studentId={+isActiveModal.edit}
+            closeModal={closeModal}
+          />
+          <CourseDeleteModal
+            modalActive={!!isActiveModal.delete}
+            Id={+isActiveModal.delete}
+            closeModal={closeModal}
+          />
+        </>
+      )}
     </Layout>
   );
 };

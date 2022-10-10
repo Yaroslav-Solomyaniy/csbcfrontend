@@ -17,6 +17,7 @@ import { useQueryParam } from '../../../hooks/All/useQueryParams';
 import { DeviceContext } from '../../../context/All/DeviceType';
 import { EditAndDelete } from '../../../components/common/CollectionMiniButtons';
 import { initialPagination, Pagination } from '../../../types';
+import Preloader from '../../../components/common/Preloader/Preloader';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІБ' },
@@ -34,6 +35,7 @@ const allCloseModalWindow: Record<string, number | boolean> = {
 };
 
 const Teachers = (): JSX.Element => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const { teachersGet, teacherCreate, teacherEdit, teacherDelete } = TeachersContext();
   const [isActiveModal, setIsActiveModal] = useState<Record<string, number | boolean>>(allCloseModalWindow);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
@@ -97,6 +99,7 @@ const Teachers = (): JSX.Element => {
 
   useEffect(() => {
     if (teachersGet?.data) {
+      setIsLoading(false);
       setPagination(teachersGet.data.meta);
       setDataRow(tableRows(teachersGet.data ? teachersGet.data.items : []));
     }
@@ -109,48 +112,50 @@ const Teachers = (): JSX.Element => {
 
   return (
     <Layout>
-      <div>
-        <TitlePage
-          title="Викладачі"
-          {...isPhone && ({ setIsActiveModal })}
-          {...isPhone && ({ isActiveModal: !!isActiveModal.filter })}
-          action={(
-            <Button
-              nameClass="primary"
-              size="large"
-              className={pagesStyle.buttonsCreate}
-              onClick={() => {
-                setIsActiveModal({ ...allCloseModalWindow, create: true });
-              }}
-            >
-              Створити
-            </Button>
+      <TitlePage
+        title="Викладачі"
+        {...isPhone && ({ setIsActiveModal })}
+        {...isPhone && ({ isActiveModal: !!isActiveModal.filter })}
+        action={(
+          <Button
+            nameClass="primary"
+            size="large"
+            className={pagesStyle.buttonsCreate}
+            onClick={() => {
+              setIsActiveModal({ ...allCloseModalWindow, create: true });
+            }}
+          >
+            Створити
+          </Button>
           )}
-        />
-        <Table
-          filter={(
-            <TeachersFilters teacherId={teacherId} groupId={groupId} courseId={courseId} />
+      />
+      {isLoading ? <Preloader /> : (
+        <>
+          <Table
+            filter={(
+              <TeachersFilters teacherId={teacherId} groupId={groupId} courseId={courseId} />
           )}
-          dataHeader={dataHeader}
-          gridColumns={styles.columns}
-          dataRow={dataRow}
-          totalItems={pagination.totalItems}
-        />
-        <TeacherCreateModal
-          modalActive={!!isActiveModal.create}
-          closeModal={closeModal}
-        />
-        <TeacherEditModal
-          modalActive={!!isActiveModal.edit}
-          closeModal={closeModal}
-          studentId={isActiveModal.edit as number}
-        />
-        <TeachersDeleteModal
-          modalActive={!!isActiveModal.delete}
-          closeModal={closeModal}
-          Id={isActiveModal.delete as number}
-        />
-      </div>
+            dataHeader={dataHeader}
+            gridColumns={styles.columns}
+            dataRow={dataRow}
+            totalItems={pagination.totalItems}
+          />
+          <TeacherCreateModal
+            modalActive={!!isActiveModal.create}
+            closeModal={closeModal}
+          />
+          <TeacherEditModal
+            modalActive={!!isActiveModal.edit}
+            closeModal={closeModal}
+            studentId={isActiveModal.edit as number}
+          />
+          <TeachersDeleteModal
+            modalActive={!!isActiveModal.delete}
+            closeModal={closeModal}
+            Id={isActiveModal.delete as number}
+          />
+        </>
+      )}
     </Layout>
   );
 };

@@ -42,7 +42,7 @@ export interface IGetStudentVotingData {
   startDate: string;
   approveCourse: number[];
   endDate: string;
-  studentVotes: number[];
+  studentVotes: number[][];
 }
 
 export interface IUseStudentVotingGet{

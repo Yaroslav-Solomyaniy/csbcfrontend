@@ -18,6 +18,7 @@ import { EditAndDelete } from '../../../components/common/CollectionMiniButtons'
 import Filters from './Filters';
 import PhoneFilter from '../../../components/common/PhoneFilter';
 import Table from '../../../components/common/Table';
+import Preloader from '../../../components/common/Preloader/Preloader';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІБ' },
@@ -34,6 +35,7 @@ const allCloseModalWindow: Record<string, number | boolean> = {
 };
 
 const Curators = (): JSX.Element => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isActiveModal, setIsActiveModal] = useState(allCloseModalWindow);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
   const [pagination, setPagination] = useState<Pagination>({ ...initialPagination });
@@ -83,53 +85,56 @@ const Curators = (): JSX.Element => {
         ],
         key: item.id,
       })));
+      setIsLoading(false);
     }
   }, [getCurators?.data]);
 
   return (
     <Layout>
-      <div>
-        <TitlePage
-          title="Куратори"
-          {...isPhone && ({ setIsActiveModal })}
-          {...isPhone && ({ isActiveModal: !!isActiveModal.filter })}
-          action={(
-            <Button
-              nameClass="primary"
-              className={pagesStyle.buttonsCreate}
-              size="large"
-              onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
-            >
-              Створити
-            </Button>
+      <TitlePage
+        title="Куратори"
+        {...isPhone && ({ setIsActiveModal })}
+        {...isPhone && ({ isActiveModal: !!isActiveModal.filter })}
+        action={(
+          <Button
+            nameClass="primary"
+            className={pagesStyle.buttonsCreate}
+            size="large"
+            onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
+          >
+            Створити
+          </Button>
               )}
-        />
-        <Table
-          filter={(<Filters curatorId={curatorId} groupName={groupName} />)}
-          dataHeader={dataHeader}
-          dataRow={dataRow}
-          gridColumns={styles.columns}
-          totalItems={pagination.totalItems}
-        />
-        <PhoneFilter modalTitle="Фільтрація кураторів" closeModal={closeModal} isActive={!!isActiveModal.filter}>
-          <Filters groupName={groupName} curatorId={curatorId} />
-        </PhoneFilter>
+      />
+      {isLoading ? <Preloader /> : (
+        <>
+          <Table
+            filter={(<Filters curatorId={curatorId} groupName={groupName} />)}
+            dataHeader={dataHeader}
+            dataRow={dataRow}
+            gridColumns={styles.columns}
+            totalItems={pagination.totalItems}
+          />
+          <PhoneFilter modalTitle="Фільтрація кураторів" closeModal={closeModal} isActive={!!isActiveModal.filter}>
+            <Filters groupName={groupName} curatorId={curatorId} />
+          </PhoneFilter>
 
-        <CuratorCreateModal
-          modalActive={!!isActiveModal.create}
-          closeModal={closeModal}
-        />
-        <CuratorEditModal
-          modalActive={!!isActiveModal.edit}
-          studentId={isActiveModal.edit as number}
-          closeModal={closeModal}
-        />
-        <CuratorDeleteModal
-          modalActive={!!isActiveModal.delete}
-          Id={isActiveModal.delete as number}
-          closeModal={closeModal}
-        />
-      </div>
+          <CuratorCreateModal
+            modalActive={!!isActiveModal.create}
+            closeModal={closeModal}
+          />
+          <CuratorEditModal
+            modalActive={!!isActiveModal.edit}
+            studentId={isActiveModal.edit as number}
+            closeModal={closeModal}
+          />
+          <CuratorDeleteModal
+            modalActive={!!isActiveModal.delete}
+            Id={isActiveModal.delete as number}
+            closeModal={closeModal}
+          />
+        </>
+      )}
     </Layout>
   );
 };

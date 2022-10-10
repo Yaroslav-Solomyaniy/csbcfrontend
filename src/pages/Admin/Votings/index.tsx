@@ -21,6 +21,7 @@ import PhoneFilter from '../../../components/common/PhoneFilter';
 import Table from '../../../components/common/Table';
 import VotingSubmitModal from './Modal/Submit';
 import RevoteEditModal from './Modal/Revote/index.module.scss';
+import Preloader from '../../../components/common/Preloader/Preloader';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'Групи' },
@@ -42,6 +43,7 @@ const allCloseModalWindow: Record<string, number | boolean> = {
 };
 
 const VotingAdmin = (): JSX.Element => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isActiveModal, setIsActiveModal] = useState(allCloseModalWindow);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
   const [pagination, setPagination] = useState<Pagination>({ ...initialPagination });
@@ -105,72 +107,75 @@ const VotingAdmin = (): JSX.Element => {
         ],
         key: item.id,
       })));
+      setIsLoading(false);
     }
   }, [getVoting?.data]);
 
   return (
     <Layout>
-      <div>
-        <TitlePage
-          title="Голосування"
-          {...isPhone && ({ setIsActiveModal })}
-          {...isPhone && ({ isActiveModal: !!isActiveModal.filter })}
-          action={(
-            <Button
-              nameClass="primary"
-              className={pagesStyle.buttonsCreate}
-              size="large"
-              onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
-            >
-              Створити
-            </Button>
+      <TitlePage
+        title="Голосування"
+        {...isPhone && ({ setIsActiveModal })}
+        {...isPhone && ({ isActiveModal: !!isActiveModal.filter })}
+        action={(
+          <Button
+            nameClass="primary"
+            className={pagesStyle.buttonsCreate}
+            size="large"
+            onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
+          >
+            Створити
+          </Button>
           )}
-        />
-        <Table
-          filter={(<VotingFilters groupId={groupId} statusMessage={statusMessage} />)}
-          dataHeader={dataHeader}
-          dataRow={dataRow}
-          gridColumns={styles.columns}
-          totalItems={pagination.totalItems}
-        />
-        <PhoneFilter
-          modalTitle="Фільтрація голосувань"
-          isActive={!!isActiveModal.filter}
-          closeModal={closeModal}
-        >
-          <VotingFilters groupId={groupId} statusMessage={statusMessage} />
-        </PhoneFilter>
-        <VotingCreateModal
-          modalActive={!!isActiveModal.create}
-          closeModal={closeModal}
-        />
-        <VotingEditModal
-          modalActive={!!isActiveModal.edit}
-          id={isActiveModal.edit as number}
-          closeModal={closeModal}
-        />
-        <VotingDeleteModal
-          modalActive={!!isActiveModal.delete}
-          Id={isActiveModal.delete as number}
-          closeModal={closeModal}
-        />
-        <VotingResultModal
-          modalActive={!!isActiveModal.result}
-          votingId={isActiveModal.result as number}
-          closeModal={closeModal}
-        />
-        <RevoteEditModal
-          modalActive={!!isActiveModal.revote}
-          id={isActiveModal.revote as number}
-          closeModal={closeModal}
-        />
-        <VotingSubmitModal
-          modalActive={!!isActiveModal.approve}
-          closeModal={closeModal}
-          votingId={isActiveModal.approve as number}
-          changeWindow={changeWindow}
-        />
-      </div>
+      />
+      {isLoading ? <Preloader /> : (
+        <>
+          <Table
+            filter={(<VotingFilters groupId={groupId} statusMessage={statusMessage} />)}
+            dataHeader={dataHeader}
+            dataRow={dataRow}
+            gridColumns={styles.columns}
+            totalItems={pagination.totalItems}
+          />
+          <PhoneFilter
+            modalTitle="Фільтрація голосувань"
+            isActive={!!isActiveModal.filter}
+            closeModal={closeModal}
+          >
+            <VotingFilters groupId={groupId} statusMessage={statusMessage} />
+          </PhoneFilter>
+          <VotingCreateModal
+            modalActive={!!isActiveModal.create}
+            closeModal={closeModal}
+          />
+          <VotingEditModal
+            modalActive={!!isActiveModal.edit}
+            id={isActiveModal.edit as number}
+            closeModal={closeModal}
+          />
+          <VotingDeleteModal
+            modalActive={!!isActiveModal.delete}
+            Id={isActiveModal.delete as number}
+            closeModal={closeModal}
+          />
+          <VotingResultModal
+            modalActive={!!isActiveModal.result}
+            votingId={isActiveModal.result as number}
+            closeModal={closeModal}
+          />
+          <RevoteEditModal
+            modalActive={!!isActiveModal.revote}
+            id={isActiveModal.revote as number}
+            closeModal={closeModal}
+          />
+          <VotingSubmitModal
+            modalActive={!!isActiveModal.approve}
+            closeModal={closeModal}
+            votingId={isActiveModal.approve as number}
+            changeWindow={changeWindow}
+          />
+        </>
+      )}
     </Layout>
   );
 };

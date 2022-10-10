@@ -7,6 +7,7 @@ import { ICreateModal } from '../../../../../types';
 import GroupPageModalForm from '../form/Create&Edit/modalForm';
 import { DeviceContext } from '../../../../../context/All/DeviceType';
 import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
+import Preloader from '../../../../../components/common/Preloader/Preloader';
 
 const formInitialData = {
   name: '',

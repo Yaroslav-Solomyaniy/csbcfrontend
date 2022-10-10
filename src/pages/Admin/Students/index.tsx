@@ -20,6 +20,7 @@ import PhoneFilter from '../../../components/common/PhoneFilter';
 import StudentsFilters from './Filters';
 import Table from '../../../components/common/Table';
 import StudentsReviewEdit from './modal/StudentsReviewEdit';
+import Preloader from '../../../components/common/Preloader/Preloader';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІБ студента' },
@@ -41,6 +42,7 @@ const allCloseModalWindow: Record<string, number | boolean> = {
 };
 
 const Students = (): JSX.Element => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isActiveModal, setIsActiveModal] = useState<Record<string, number | boolean>>(allCloseModalWindow);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
   const [pagination, setPagination] = useState<Pagination>({ ...initialPagination });
@@ -100,60 +102,63 @@ const Students = (): JSX.Element => {
         ],
         key: item.id,
       })));
+      setIsLoading(false);
     }
   }, [getStudents?.data]);
 
   return (
     <Layout>
-      <div>
-        <TitlePage
-          title="Студенти"
-          {...isPhone && ({ setIsActiveModal })}
-          {...isPhone && ({ isActiveModal: !!isActiveModal.filter })}
-          action={(
-            <Button
-              nameClass="primary"
-              className={pagesStyle.buttonsCreate}
-              size="large"
-              onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
-            >
-              Створити
-            </Button>
+      <TitlePage
+        title="Студенти"
+        {...isPhone && ({ setIsActiveModal })}
+        {...isPhone && ({ isActiveModal: !!isActiveModal.filter })}
+        action={(
+          <Button
+            nameClass="primary"
+            className={pagesStyle.buttonsCreate}
+            size="large"
+            onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
+          >
+            Створити
+          </Button>
           )}
-        />
-        <Table
-          filter={(<StudentsFilters studentId={studentId} groupId={groupId} isFullTime={isFullTime} />)}
-          dataHeader={dataHeader}
-          dataRow={dataRow}
-          gridColumns={styles.columns}
-          totalItems={pagination.totalItems}
-        />
-        <PhoneFilter modalTitle="Фільтрація студентів" isActive={!!isActiveModal.filter} closeModal={closeModal}>
-          <StudentsFilters studentId={studentId} groupId={groupId} isFullTime={isFullTime} />
-        </PhoneFilter>
-        <StudentsCreateModal modalActive={!!isActiveModal.create} closeModal={closeModal} />
-        <StudentsEditModal
-          modalActive={!!isActiveModal.edit}
-          closeModal={closeModal}
-          studentId={isActiveModal.edit as number}
-        />
-        <StudentsDelete
-          modalActive={!!isActiveModal.delete}
-          closeModal={closeModal}
-          studentId={isActiveModal.delete as number}
-        />
-        <StudentsReview
-          modalActive={!!isActiveModal.review}
-          closeModal={closeModal}
-          id={isActiveModal.review as number}
-          Open={() => setIsActiveModal({ ...isActiveModal, reviewEdit: true })}
-        />
-        <StudentsReviewEdit
-          closeModal={() => setIsActiveModal({ ...isActiveModal, reviewEdit: false })}
-          modalActive={!!(isActiveModal.reviewEdit)}
-          id={+isActiveModal.review}
-        />
-      </div>
+      />
+      {isLoading ? <Preloader /> : (
+        <>
+          <Table
+            filter={(<StudentsFilters studentId={studentId} groupId={groupId} isFullTime={isFullTime} />)}
+            dataHeader={dataHeader}
+            dataRow={dataRow}
+            gridColumns={styles.columns}
+            totalItems={pagination.totalItems}
+          />
+          <PhoneFilter modalTitle="Фільтрація студентів" isActive={!!isActiveModal.filter} closeModal={closeModal}>
+            <StudentsFilters studentId={studentId} groupId={groupId} isFullTime={isFullTime} />
+          </PhoneFilter>
+          <StudentsCreateModal modalActive={!!isActiveModal.create} closeModal={closeModal} />
+          <StudentsEditModal
+            modalActive={!!isActiveModal.edit}
+            closeModal={closeModal}
+            studentId={isActiveModal.edit as number}
+          />
+          <StudentsDelete
+            modalActive={!!isActiveModal.delete}
+            closeModal={closeModal}
+            studentId={isActiveModal.delete as number}
+          />
+          <StudentsReview
+            modalActive={!!isActiveModal.review}
+            closeModal={closeModal}
+            id={isActiveModal.review as number}
+            Open={() => setIsActiveModal({ ...isActiveModal, reviewEdit: true })}
+          />
+          <StudentsReviewEdit
+            closeModal={() => setIsActiveModal({ ...isActiveModal, reviewEdit: false })}
+            modalActive={!!(isActiveModal.reviewEdit)}
+            id={+isActiveModal.review}
+          />
+        </>
+      )}
     </Layout>
   );
 };

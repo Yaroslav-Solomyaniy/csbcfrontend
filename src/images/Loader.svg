@@ -1,8 +1,8 @@
-<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M12 24C18.6274 24 24 18.6274 24 12C24 5.37258 18.6274 0 12 0C5.37258 0 0 5.37258 0 12C0 18.6274 5.37258 24 12 24ZM12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" fill="url(#paint0_angular_5355_10737)"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M22.7816 9.60062C23.3293 9.52995 23.8306 9.91669 23.9013 10.4644C23.967 10.9736 24 11.4865 24 11.9999C24 12.5522 23.5522 12.9999 23 12.9999C22.4477 12.9999 22 12.5522 22 11.9999C22 11.5721 21.9725 11.1447 21.9178 10.7204C21.8471 10.1726 22.2338 9.67128 22.7816 9.60062Z" fill="#428BCA"/>
+<svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M40 80C62.0914 80 80 62.0914 80 40C80 17.9086 62.0914 0 40 0C17.9086 0 0 17.9086 0 40C0 62.0914 17.9086 80 40 80ZM40 73.3333C58.4095 73.3333 73.3333 58.4095 73.3333 40C73.3333 21.5905 58.4095 6.66667 40 6.66667C21.5905 6.66667 6.66667 21.5905 6.66667 40C6.66667 58.4095 21.5905 73.3333 40 73.3333Z" fill="url(#paint0_angular_5355_10716)"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M75.9387 32.0024C77.7645 31.7668 79.4356 33.056 79.6711 34.8818C79.8901 36.5791 79.9999 38.2887 79.9999 40.0001C79.9999 41.841 78.5076 43.3334 76.6666 43.3334C74.8257 43.3334 73.3333 41.841 73.3333 40.0001C73.3333 38.5739 73.2418 37.1492 73.0593 35.7348C72.8237 33.909 74.1129 32.2379 75.9387 32.0024Z" fill="#428BCA"/>
 <defs>
-<radialGradient id="paint0_angular_5355_10737" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(12 12) scale(12)">
+<radialGradient id="paint0_angular_5355_10716" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(40 40) scale(40)">
 <stop stop-color="#428BCA"/>
 <stop offset="0.0001" stop-color="#3AE180" stop-opacity="0"/>
 <stop offset="1" stop-color="#428BCA"/>

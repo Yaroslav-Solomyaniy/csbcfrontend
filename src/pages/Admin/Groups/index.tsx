@@ -45,7 +45,7 @@ const Group = (): JSX.Element => {
   const { getGroups, groupCreate, groupEdit, groupDelete } = GroupsContext();
   const { isPhone } = DeviceContext();
 
-  const { get } = useQueryParam();
+  const { get, post } = useQueryParam();
 
   const curator = get('curatorId');
   const group = get('group');
@@ -55,6 +55,12 @@ const Group = (): JSX.Element => {
   const closeModal = () => {
     setIsActiveModal(allCloseModalWindow);
   };
+
+  useEffect(() => {
+    if (currentPage > pagination.totalPages) {
+      post({ currentPage: pagination.totalPages });
+    }
+  }, [pagination]);
 
   useEffect(() => {
     const query: IGetGroupParams = {};
@@ -99,40 +105,38 @@ const Group = (): JSX.Element => {
 
   return (
     <Layout>
-      <div>
-        {isLoading ? (<Preloader />) : (
-          <>
-            <TitlePage
-              title="Групи"
-              {...isPhone && ({ setIsActiveModal })}
-              {...isPhone && ({ isActiveModal: !!isActiveModal.filter })}
-              action={(
-                <Button
-                  nameClass="primary"
-                  className={pagesStyle.buttonsCreate}
-                  size="large"
-                  onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
-                >
-                  Створити
-                </Button>
-              )}
-            />
-            <Table
-              filter={(<FiltersGroups group={group} curator={curator} />)}
-              dataHeader={dataHeader}
-              dataRow={dataRow}
-              gridColumns={styles.columns}
-              totalItems={pagination.totalItems}
-            />
-            <PhoneFilter modalTitle="Фільтрація груп" isActive={!!isActiveModal.filter} closeModal={closeModal}>
-              <FiltersGroups group={group} curator={curator} />
-            </PhoneFilter>
-            <GroupCreate modalActive={!!isActiveModal.create} closeModal={closeModal} />
-            <GroupEdit modalActive={!!isActiveModal.edit} studentId={+isActiveModal.edit} closeModal={closeModal} />
-            <GroupDelete modalActive={!!isActiveModal.delete} Id={+isActiveModal.delete} closeModal={closeModal} />
-          </>
+      <TitlePage
+        title="Групи"
+        {...isPhone && ({ setIsActiveModal })}
+        {...isPhone && ({ isActiveModal: !!isActiveModal.filter })}
+        action={(
+          <Button
+            nameClass="primary"
+            className={pagesStyle.buttonsCreate}
+            size="large"
+            onClick={() => setIsActiveModal({ ...isActiveModal, create: true })}
+          >
+            Створити
+          </Button>
         )}
-      </div>
+      />
+      {isLoading ? (<Preloader />) : (
+        <>
+          <Table
+            filter={(<FiltersGroups group={group} curator={curator} />)}
+            dataHeader={dataHeader}
+            dataRow={dataRow}
+            gridColumns={styles.columns}
+            totalItems={pagination.totalItems}
+          />
+          <PhoneFilter modalTitle="Фільтрація груп" isActive={!!isActiveModal.filter} closeModal={closeModal}>
+            <FiltersGroups group={group} curator={curator} />
+          </PhoneFilter>
+          <GroupCreate modalActive={!!isActiveModal.create} closeModal={closeModal} />
+          <GroupEdit modalActive={!!isActiveModal.edit} studentId={+isActiveModal.edit} closeModal={closeModal} />
+          <GroupDelete modalActive={!!isActiveModal.delete} Id={+isActiveModal.delete} closeModal={closeModal} />
+        </>
+      )}
     </Layout>
   );
 };

@@ -25,7 +25,7 @@ const formInitialDataVotingCourses:IGetStudentVotingData = {
   isRevote: false,
   requiredCourses: [],
   notRequiredCourses: [],
-  studentVotes: [],
+  studentVotes: [[0, 0], [0, 0], [0, 0], [0, 0]],
   startDate: new Date().toISOString(),
   endDate: new Date().toISOString(),
   approveCourse: [],
@@ -48,11 +48,24 @@ const VotingStudents = (): JSX.Element => {
   useEffect(() => {
     if (getVoting?.data) {
       setVotingInfo(getVoting?.data);
-      setFormData({ courses: getVoting.data.studentVotes.length ? getVoting.data.studentVotes : [0, 0, 0, 0] });
+      // setFormData(c)
+      // setFormData({courses: getVoting.data.studentVotes.map((element,index)=> formData.courses[index] === element )})
+      // getVoting.data.studentVotes.map((i) => setFormData({courses: }));
+      // const arr = [[3, 6], [1, 5], [2, 8], [0, 7]]
+      // arr.sort((a, b) => a[0] - b[0]);
+      // eslint-disable-next-line prefer-destructuring,no-return-assign
+      // console.log(getVoting.data.studentVotes ?
+      // getVoting?.data?.studentVotes.forEach((element) => array[element[0]] = element[1]) : [0, 0, 0, 0]);
       setIsDraw(true);
       setIsLoading(false);
     }
   }, [getVoting?.data]);
+
+  useEffect(() => {
+    console.log(votingInfo.studentVotes
+      ? votingInfo.studentVotes.sort((a, b) => a[0] - b[0])
+      : 'hi');
+  }, [votingInfo]);
 
   const AnswerPostVoting = () => {
     if (votingInfo.studentVotes.length === 0) {
@@ -106,11 +119,11 @@ const VotingStudents = (): JSX.Element => {
                         checked={course.id === formData.courses[0]}
                         value={course.id}
                         onChange={handleRadioClick}
-                        disabled={votingInfo.isRevote && !!votingInfo.studentVotes
-                          .filter((el) => votingInfo.requiredCourses
-                            .filter((sem) => sem.semester === 1)
-                            .map((element) => element.id)
-                            .filter((i) => votingInfo.approveCourse.includes(i)).includes(el)).length}
+                        // disabled={votingInfo.isRevote && !!votingInfo.studentVotes
+                        //   .filter((el) => votingInfo.requiredCourses
+                        //     .filter((sem) => sem.semester === 1)
+                        //     .map((element) => element.id)
+                        //     .filter((i) => votingInfo.approveCourse.includes(i)).includes(el)).length}
                       /> },
                     { id: 2, label: course.name },
                     { id: 3,
@@ -138,11 +151,11 @@ const VotingStudents = (): JSX.Element => {
                         checked={course.id === formData.courses[1]}
                         value={course.id}
                         onChange={handleRadioClick}
-                        disabled={votingInfo.isRevote && !!votingInfo.studentVotes
-                          .filter((el) => votingInfo.notRequiredCourses
-                            .filter((sem) => sem.semester === 1)
-                            .map((element) => element.id)
-                            .filter((i) => votingInfo.approveCourse.includes(i)).includes(el)).length}
+                        // disabled={votingInfo.isRevote && !!votingInfo.studentVotes
+                        //   .filter((el) => votingInfo.notRequiredCourses
+                        //     .filter((sem) => sem.semester === 1)
+                        //     .map((element) => element.id)
+                        //     .filter((i) => votingInfo.approveCourse.includes(i)).includes(el)).length}
                       /> },
                     { id: 2, label: course.name },
                     { id: 3,
@@ -170,11 +183,11 @@ const VotingStudents = (): JSX.Element => {
                         checked={course.id === formData.courses[2]}
                         value={course.id}
                         onChange={handleRadioClick}
-                        disabled={votingInfo.isRevote && !!votingInfo.studentVotes
-                          .filter((el) => votingInfo.requiredCourses
-                            .filter((sem) => sem.semester === 2)
-                            .map((element) => element.id)
-                            .filter((i) => votingInfo.approveCourse.includes(i)).includes(el)).length}
+                        // disabled={votingInfo.isRevote && !!votingInfo.studentVotes
+                        //   .filter((el) => votingInfo.requiredCourses
+                        //     .filter((sem) => sem.semester === 2)
+                        //     .map((element) => element.id)
+                        //     .filter((i) => votingInfo.approveCourse.includes(i)).includes(el)).length}
                       /> },
                     { id: 2, label: course.name },
                     { id: 3,
@@ -202,11 +215,11 @@ const VotingStudents = (): JSX.Element => {
                         checked={course.id === formData.courses[3]}
                         value={course.id}
                         onChange={handleRadioClick}
-                        disabled={votingInfo.isRevote && !!votingInfo.studentVotes
-                          .filter((el) => votingInfo.notRequiredCourses
-                            .filter((sem) => sem.semester === 2)
-                            .map((element) => element.id)
-                            .filter((i) => votingInfo.approveCourse.includes(i)).includes(el)).length}
+                        // disabled={votingInfo.isRevote && !!votingInfo.studentVotes
+                        //   .filter((el) => votingInfo.notRequiredCourses
+                        //     .filter((sem) => sem.semester === 2)
+                        //     .map((element) => element.id)
+                        //     .filter((i) => votingInfo.approveCourse.includes(i)).includes(el)).length}
                       /> },
                     { id: 2, label: course.name },
                     { id: 3,

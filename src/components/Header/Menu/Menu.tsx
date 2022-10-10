@@ -47,7 +47,7 @@ const Menu = ({ children,
             user?.role === 'admin' && stateDropMenu && (isDesktop ? styles.DropMenu__active : ((isTablet || isPhone) && styles.DropMenu__active_mobileAdmin)),
             // eslint-disable-next-line max-len
             user?.role === 'student' && stateDropMenu && (isDesktop ? styles.DropMenu__active : ((isTablet || isPhone) && styles.DropMenu__active_mobileStudent)),
-            (user?.role !== ('admin' || 'student') && stateDropMenu) && styles.DropMenu__active,
+            (user?.role !== ('admin' || 'student') && stateDropMenu) && styles.DropMenu__active__mobile,
           )}
           >
             {children}

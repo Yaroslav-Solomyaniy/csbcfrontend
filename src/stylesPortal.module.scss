@@ -7,19 +7,22 @@
     flex-direction: column;
     align-items: center;
     position: fixed;
-    top: 56px;
+    top: 15px;
     left: 50%;
     transform: translateX(calc(-55% + -8px));
     &__mobile{
+      top: 56px;
       left: 0;
       transform: translateX(0);
     }
   }
 
   &__authorized {
-    width: 100vw;
-    position: absolute;
-    top: 0;
+    width: 40vw;
+    &__mobile{
+      top: 56px;
+      width: 100vw;
+    }
   }
 
 }

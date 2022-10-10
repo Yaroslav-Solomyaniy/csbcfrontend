@@ -48,17 +48,10 @@ const VotingStudents = (): JSX.Element => {
   useEffect(() => {
     if (getVoting?.data) {
       setVotingInfo(getVoting?.data);
+      setFormData({ courses: getVoting.data.studentVotes.length ? getVoting.data.studentVotes : [0, 0, 0, 0] });
       setIsDraw(true);
       setIsLoading(false);
     }
-  }, [getVoting?.data]);
-
-  useEffect(() => {
-    const data = {
-      courses: getVoting?.data?.studentVotes || [0, 0, 0, 0],
-    };
-
-    setFormData(data);
   }, [getVoting?.data]);
 
   const AnswerPostVoting = () => {
@@ -110,9 +103,6 @@ const VotingStudents = (): JSX.Element => {
                       label: <input
                         type="radio"
                         name="0"
-                        // checked={!!votingInfo.studentVotes.filter(
-                        //   (item) => course.id === item,
-                        // ).length || course.id === formData[0]}
                         checked={course.id === formData.courses[0]}
                         value={course.id}
                         onChange={handleRadioClick}
@@ -145,7 +135,7 @@ const VotingStudents = (): JSX.Element => {
                       label: <input
                         type="radio"
                         name="1"
-                        checked={course.id === formData.courses[1] || votingInfo.studentVotes.includes(course.id)}
+                        checked={course.id === formData.courses[1]}
                         value={course.id}
                         onChange={handleRadioClick}
                         disabled={votingInfo.isRevote && !!votingInfo.studentVotes
@@ -177,7 +167,7 @@ const VotingStudents = (): JSX.Element => {
                       label: <input
                         type="radio"
                         name="2"
-                        checked={course.id === formData.courses[2] || votingInfo.studentVotes.includes(course.id)}
+                        checked={course.id === formData.courses[2]}
                         value={course.id}
                         onChange={handleRadioClick}
                         disabled={votingInfo.isRevote && !!votingInfo.studentVotes
@@ -209,7 +199,7 @@ const VotingStudents = (): JSX.Element => {
                       label: <input
                         type="radio"
                         name="3"
-                        checked={course.id === formData.courses[3] || votingInfo.studentVotes.includes(course.id)}
+                        checked={course.id === formData.courses[3]}
                         value={course.id}
                         onChange={handleRadioClick}
                         disabled={votingInfo.isRevote && !!votingInfo.studentVotes

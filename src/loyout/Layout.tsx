@@ -31,6 +31,7 @@ const Layout = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
             stylesPortal.portal__unauthorized,
             (isTablet || isPhone) && stylesPortal.portal__unauthorized__mobile,
             user && stylesPortal.portal__authorized,
+            ((isTablet || isPhone) && user) && stylesPortal.portal__authorized__mobile,
           )}
           >
             {messages.error.map((error) => (

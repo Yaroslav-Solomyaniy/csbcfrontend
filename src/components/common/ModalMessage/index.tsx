@@ -23,7 +23,7 @@ const ModalMessage = ({ message, closeModal, type, id }: IModalMessage): JSX.Ele
     }
   }, [closeMod]);
 
-  setTimeout(() => setCloseMod(true), 3000);
+  setTimeout(() => setCloseMod(true), 999999999);
 
   return (
     <div

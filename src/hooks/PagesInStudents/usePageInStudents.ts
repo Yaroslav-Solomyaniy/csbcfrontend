@@ -82,7 +82,7 @@ export interface IUseStudentVotingCreate {
 }
 
 export const useStudentVotingCreate = (): IUseStudentVotingCreate => {
-  const { addErrors, addInfo } = MessagesContext();
+  const { addErrors } = MessagesContext();
   const { user } = AuthContext();
   const [data, setData] = useState<IVotingStudentPostData | null>(null);
 

@@ -54,8 +54,12 @@ const VotingStudents = (): JSX.Element => {
   }, [getVoting?.data]);
 
   useEffect(() => {
-    setFormData({ courses: votingInfo.studentVotes.length === 0 ? [0, 0, 0, 0] : votingInfo.studentVotes });
-  }, [votingInfo]);
+    const data = {
+      courses: getVoting?.data?.studentVotes || [0, 0, 0, 0],
+    };
+
+    setFormData(data);
+  }, [getVoting?.data]);
 
   const AnswerPostVoting = () => {
     if (votingInfo.studentVotes.length === 0) {
@@ -106,11 +110,17 @@ const VotingStudents = (): JSX.Element => {
                       label: <input
                         type="radio"
                         name="0"
+                        // checked={!!votingInfo.studentVotes.filter(
+                        //   (item) => course.id === item,
+                        // ).length || course.id === formData[0]}
                         checked={course.id === formData.courses[0]}
                         value={course.id}
                         onChange={handleRadioClick}
-                        // disabled={votingInfo.requiredCourses.filter((i) => i.id === course.id)}
-
+                        disabled={votingInfo.isRevote && !!votingInfo.studentVotes
+                          .filter((el) => votingInfo.requiredCourses
+                            .filter((sem) => sem.semester === 1)
+                            .map((element) => element.id)
+                            .filter((i) => votingInfo.approveCourse.includes(i)).includes(el)).length}
                       /> },
                     { id: 2, label: course.name },
                     { id: 3,
@@ -135,9 +145,14 @@ const VotingStudents = (): JSX.Element => {
                       label: <input
                         type="radio"
                         name="1"
-                        checked={course.id === formData.courses[1]}
+                        checked={course.id === formData.courses[1] || votingInfo.studentVotes.includes(course.id)}
                         value={course.id}
                         onChange={handleRadioClick}
+                        disabled={votingInfo.isRevote && !!votingInfo.studentVotes
+                          .filter((el) => votingInfo.notRequiredCourses
+                            .filter((sem) => sem.semester === 1)
+                            .map((element) => element.id)
+                            .filter((i) => votingInfo.approveCourse.includes(i)).includes(el)).length}
                       /> },
                     { id: 2, label: course.name },
                     { id: 3,
@@ -162,9 +177,14 @@ const VotingStudents = (): JSX.Element => {
                       label: <input
                         type="radio"
                         name="2"
-                        checked={course.id === formData.courses[2]}
+                        checked={course.id === formData.courses[2] || votingInfo.studentVotes.includes(course.id)}
                         value={course.id}
                         onChange={handleRadioClick}
+                        disabled={votingInfo.isRevote && !!votingInfo.studentVotes
+                          .filter((el) => votingInfo.requiredCourses
+                            .filter((sem) => sem.semester === 2)
+                            .map((element) => element.id)
+                            .filter((i) => votingInfo.approveCourse.includes(i)).includes(el)).length}
                       /> },
                     { id: 2, label: course.name },
                     { id: 3,
@@ -189,9 +209,14 @@ const VotingStudents = (): JSX.Element => {
                       label: <input
                         type="radio"
                         name="3"
-                        checked={course.id === formData.courses[3]}
+                        checked={course.id === formData.courses[3] || votingInfo.studentVotes.includes(course.id)}
                         value={course.id}
                         onChange={handleRadioClick}
+                        disabled={votingInfo.isRevote && !!votingInfo.studentVotes
+                          .filter((el) => votingInfo.notRequiredCourses
+                            .filter((sem) => sem.semester === 2)
+                            .map((element) => element.id)
+                            .filter((i) => votingInfo.approveCourse.includes(i)).includes(el)).length}
                       /> },
                     { id: 2, label: course.name },
                     { id: 3,

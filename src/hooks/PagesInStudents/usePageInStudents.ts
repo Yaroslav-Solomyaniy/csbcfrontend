@@ -40,9 +40,9 @@ export interface IGetStudentVotingData {
     };
   }[];
   startDate: string;
-  approveCourse: [];
+  approveCourse: number[];
   endDate: string;
-  studentVotes: [];
+  studentVotes: number[];
 }
 
 export interface IUseStudentVotingGet{

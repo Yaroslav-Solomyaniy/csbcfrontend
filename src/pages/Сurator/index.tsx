@@ -20,6 +20,7 @@ import { EstimatesContext } from '../../context/PagesInAdmin/Estimates';
 import { ListicHistoryDownload } from '../../components/common/CollectionMiniButtons';
 import { IGetCuratorData } from '../../hooks/PageInCurator/CuratorPage';
 import StudentInfo from './modal/StudentInfo';
+import Preloader from '../../components/common/Preloader/Preloader';
 
 const allCloseModalWindow: Record<string, boolean | number> = {
   filter: false,
@@ -28,6 +29,7 @@ const allCloseModalWindow: Record<string, boolean | number> = {
 };
 
 const Curator = (): JSX.Element => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isActiveModal, setIsActiveModal] = useState<Record<string, boolean | number>>(allCloseModalWindow);
   const [dataHeader, setDataHeader] = useState<ITableHeader[]>([]);
   const [pagination, setPagination] = useState<Pagination>({ ...initialPagination });
@@ -111,6 +113,8 @@ const Curator = (): JSX.Element => {
             });
           }) : [];
 
+        setIsLoading(false);
+
         return ({
           list: [
             { id: 1, label: `${student.user.lastName} ${student.user.firstName} ${student.user.patronymic} ` },
@@ -143,40 +147,42 @@ const Curator = (): JSX.Element => {
 
   return (
     <Layout>
-      <div className={styles.grades}>
-        <TitlePage
-          title="Оцінки студентів"
-          {...isPhone && ({ setIsActiveModal })}
-          {...isPhone && ({ isActiveModal: !!isActiveModal.filter })}
-        />
-        <Table
-          filter={(<EstimatesFilters studentId={studentId} semesterId={semesterId} groupId={groupId} />)}
-          columScrollHorizontal={courses.optionCourses ? +`${courses.optionCourses?.items.length}` : 0}
-          isScroll
-          isTwoColumns
-          dataHeader={dataHeader}
-          dataRow={dataRow}
-          gridColumns={styles.columns}
-          totalItems={pagination.totalItems}
-        />
+      <TitlePage
+        title="Оцінки студентів"
+        {...isPhone && ({ setIsActiveModal })}
+        {...isPhone && ({ isActiveModal: !!isActiveModal.filter })}
+      />
+      {isLoading ? <Preloader /> : (
+        <>
+          <Table
+            filter={(<EstimatesFilters studentId={studentId} semesterId={semesterId} groupId={groupId} />)}
+            columScrollHorizontal={courses.optionCourses ? +`${courses.optionCourses?.items.length}` : 0}
+            isScroll
+            isTwoColumns
+            dataHeader={dataHeader}
+            dataRow={dataRow}
+            gridColumns={styles.columns}
+            totalItems={pagination.totalItems}
+          />
 
-        <PhoneFilter modalTitle="Фільтрація" isActive={!!isActiveModal.filter} closeModal={closeModal}>
-          <CuratorFilters studentId={studentId} groupId={groupId} />
-        </PhoneFilter>
+          <PhoneFilter modalTitle="Фільтрація" isActive={!!isActiveModal.filter} closeModal={closeModal}>
+            <CuratorFilters studentId={studentId} groupId={groupId} />
+          </PhoneFilter>
 
-        <StudentInfo
-          modalActive={!!isActiveModal.info}
-          studentId={+isActiveModal.info}
-          closeModal={closeModal}
-        />
+          <StudentInfo
+            modalActive={!!isActiveModal.info}
+            studentId={+isActiveModal.info}
+            closeModal={closeModal}
+          />
 
-        <EstimatesHistory
-          modalActive={!!isActiveModal.history}
-          closeModal={closeModal}
-          studentId={+isActiveModal.history}
-          semester={+isActiveModal.semester}
-        />
-      </div>
+          <EstimatesHistory
+            modalActive={!!isActiveModal.history}
+            closeModal={closeModal}
+            studentId={+isActiveModal.history}
+            semester={+isActiveModal.semester}
+          />
+        </>
+      )}
     </Layout>
   );
 };

@@ -39,7 +39,7 @@ const Administrators = (): JSX.Element => {
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
   const [pagination, setPagination] = useState<Pagination>({ ...initialPagination });
 
-  const { get } = useQueryParam();
+  const { get, post } = useQueryParam();
   const { getAdministrators,
     administratorsCreate,
     administratorsDelete,
@@ -47,6 +47,12 @@ const Administrators = (): JSX.Element => {
   } = AdministratorsContext();
 
   const { isPhone } = DeviceContext();
+
+  useEffect(() => {
+    if (currentPage > pagination.totalPages) {
+      post({ currentPage: pagination.totalPages });
+    }
+  }, [pagination]);
 
   const adminId = Number(get('adminId'));
   const currentPage = Number(get('currentPage')) || 1;

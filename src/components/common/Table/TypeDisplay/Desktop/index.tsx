@@ -28,7 +28,7 @@ const DesktopTable = ({
   totalItems,
   isTableVoting,
 }: IDesktopTable) => (
-  <div className={clsx(styles.table, !totalItems && styles.tableNoPagination)}>
+  <div className={clsx(styles.table)}>
     <div className={clsx(isScroll && styles.table__scroll)}>
       <TableHeader
         dataHeader={dataHeader}

@@ -1,6 +1,6 @@
 .table {
   background: rgba(255, 255, 255, 1);
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid #e8e8e8;
   border-radius: 8px;
   overflow: hidden;
 
@@ -10,16 +10,10 @@
   }
 
   &__not_found {
-    border-bottom: 1px solid #e8e8e8;
     background: rgba(255, 255, 255, 1);
     display: flex;
     justify-content: center;
     padding: 10px 16px;
     font-size: 14px;
   }
-}
-
-.tableNoPagination {
-  border-bottom: 0;
-
 }

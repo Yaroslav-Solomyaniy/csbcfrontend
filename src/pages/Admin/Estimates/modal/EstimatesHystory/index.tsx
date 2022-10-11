@@ -59,16 +59,15 @@ export const EstimatesHistory = ({ modalActive, closeModal, studentId, semester 
 
   return (
     <ModalWindow modalTitle="Історія змін оцінки" active={modalActive} closeModal={closeModal}>
-
-      {data[0]?.user && (
-        <p className={styles.text}>
-          {`${data[0]?.user.lastName}
+      <form className={styles.form} onSubmit={onSubmit}>
+        {data[0]?.user && (
+          <p className={styles.subtitle}>
+            {`${data[0]?.user.lastName}
       ${data[0]?.user.firstName}
       ${data[0]?.user.patronymic}
       , ${data[0]?.group.name} ${semester ? `, ${+semester} семестр` : ''}`}
-        </p>
-      )}
-      <form className={styles.form} onSubmit={onSubmit}>
+          </p>
+        )}
         <Table
           gridColumns={styles.columns}
           dataRow={dataRow}

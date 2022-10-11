@@ -16,6 +16,7 @@ import { EditAndHistory } from '../../components/common/CollectionMiniButtons';
 import PhoneFilter from '../../components/common/PhoneFilter';
 import { useQueryParam } from '../../hooks/All/useQueryParams';
 import Table from '../../components/common/Table';
+import Preloader from '../../components/common/Preloader/Preloader';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІБ' },
@@ -32,6 +33,7 @@ const TeacherPageModalState: Record<string, number | boolean> = {
 };
 
 const TeacherPage = (): JSX.Element => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isActiveModal, setIsActiveModal] = useState<Record<string, number | boolean>>(TeacherPageModalState);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
   const [pagination, setPagination] = useState<Pagination>({ ...initialPagination });
@@ -94,38 +96,45 @@ const TeacherPage = (): JSX.Element => {
         ],
         key: item.id,
       })));
+      setIsLoading(false);
     }
   }, [teacherDataGet?.data]);
 
   return (
     <Layout>
-      <div>
-        <TitlePage
-          title="Оцінки студентів"
-          {...isPhone && ({ setIsActiveModal })}
-          {...isPhone && ({ isActiveModal: !!isActiveModal.filter })}
-        />
-        <Table
-          filter={(<TeacherFilters studentId={studentId} groupId={groupId} courseId={courseId} />)}
-          dataHeader={dataHeader}
-          dataRow={dataRow}
-          gridColumns={styles.columns}
-          totalItems={pagination.totalItems}
-        />
-        <PhoneFilter modalTitle="Фільтрація Оцінок студентів" isActive={!!isActiveModal.filter} closeModal={closeModal}>
-          <TeacherFilters studentId={studentId} groupId={groupId} courseId={courseId} />
-        </PhoneFilter>
-        <TeacherRatingEdit
-          modalActive={!!isActiveModal.edit}
-          studentId={isActiveModal.edit as number}
-          closeModal={closeModal}
-        />
-        <TeacherRatingHistory
-          modalActive={!!isActiveModal.history}
-          Id={isActiveModal.history as number}
-          closeModal={closeModal}
-        />
-      </div>
+      <TitlePage
+        title="Оцінки студентів"
+        {...isPhone && ({ setIsActiveModal })}
+        {...isPhone && ({ isActiveModal: !!isActiveModal.filter })}
+      />
+      {isLoading ? <Preloader /> : (
+        <>
+          <Table
+            filter={(<TeacherFilters studentId={studentId} groupId={groupId} courseId={courseId} />)}
+            dataHeader={dataHeader}
+            dataRow={dataRow}
+            gridColumns={styles.columns}
+            totalItems={pagination.totalItems}
+          />
+          <PhoneFilter
+            modalTitle="Фільтрація Оцінок студентів"
+            isActive={!!isActiveModal.filter}
+            closeModal={closeModal}
+          >
+            <TeacherFilters studentId={studentId} groupId={groupId} courseId={courseId} />
+          </PhoneFilter>
+          <TeacherRatingEdit
+            modalActive={!!isActiveModal.edit}
+            studentId={isActiveModal.edit as number}
+            closeModal={closeModal}
+          />
+          <TeacherRatingHistory
+            modalActive={!!isActiveModal.history}
+            Id={isActiveModal.history as number}
+            closeModal={closeModal}
+          />
+        </>
+      )}
     </Layout>
   );
 };

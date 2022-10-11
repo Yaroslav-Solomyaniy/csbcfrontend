@@ -42,7 +42,13 @@ const Teachers = (): JSX.Element => {
   const [pagination, setPagination] = useState<Pagination>({ ...initialPagination });
 
   const { isPhone } = DeviceContext();
-  const { get } = useQueryParam();
+  const { get, post } = useQueryParam();
+
+  useEffect(() => {
+    if (currentPage > pagination.totalPages) {
+      post({ currentPage: pagination.totalPages });
+    }
+  }, [pagination]);
 
   const teacherId = Number(get('teacherId'));
   const groupId = Number(get('groupId'));

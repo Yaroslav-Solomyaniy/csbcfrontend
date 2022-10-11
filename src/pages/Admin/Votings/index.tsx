@@ -50,7 +50,7 @@ const VotingAdmin = (): JSX.Element => {
 
   const { getVoting, votingDelete, votingEdit, votingCreate } = VotingsAdmin();
   const { isPhone } = DeviceContext();
-  const { get } = useQueryParam();
+  const { get, post } = useQueryParam();
 
   const groupId = Number(get('groupId'));
   const statusMessage = get('statusMessage');
@@ -60,6 +60,12 @@ const VotingAdmin = (): JSX.Element => {
   const closeModal = () => {
     setIsActiveModal(allCloseModalWindow);
   };
+
+  useEffect(() => {
+    if (currentPage > pagination.totalPages) {
+      post({ currentPage: pagination.totalPages });
+    }
+  }, [pagination]);
 
   const changeWindow = (value: number) => {
     setIsActiveModal(allCloseModalWindow);
@@ -94,7 +100,21 @@ const VotingAdmin = (): JSX.Element => {
           { id: 2, label: new Date(item.startDate).toLocaleString() },
           { id: 3, label: new Date(item.endDate).toLocaleString() },
           { id: 4, label: `${item.tookPart} / ${item.allStudents}` },
-          { id: 5, label: item.status },
+          { id: 5,
+            label: <div className={styles.circleAndStatus}>
+              <div
+                className={styles.circleStatus}
+                style={{
+                  opacity: 0.6,
+                  background: item.status === 'Потребує перегляду'
+                    ? 'red' : item.status === 'Нове'
+                      ? 'rebeccapurple' : item.status === 'У прогресі'
+                        ? 'orange' : item.status === 'Переголосування у прогресі' ? '#adad00' : 'green' }}
+              />
+              <div className={styles.statusText}>
+                {item.status}
+              </div>
+            </div> },
           {
             id: 6,
             label: <EditDeleteReviewApprove

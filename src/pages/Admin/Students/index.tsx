@@ -49,7 +49,7 @@ const Students = (): JSX.Element => {
 
   const { getStudents, studentEdit, studentCreate, studentDelete } = StudentsContext();
   const { isPhone } = DeviceContext();
-  const { get } = useQueryParam();
+  const { get, post } = useQueryParam();
 
   const studentId = Number(get('studentId'));
   const groupId = Number(get('groupId'));
@@ -60,6 +60,12 @@ const Students = (): JSX.Element => {
   const closeModal = () => {
     setIsActiveModal(allCloseModalWindow);
   };
+
+  useEffect(() => {
+    if (currentPage > pagination.totalPages) {
+      post({ currentPage: pagination.totalPages });
+    }
+  }, [pagination]);
 
   useEffect(() => {
     const query: IGetParams = {};

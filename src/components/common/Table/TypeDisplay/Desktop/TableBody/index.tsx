@@ -30,7 +30,7 @@ const TableBody = ({
   <div className={clsx(isTableResult && styles.tableResult, isHistoryTable && styles.historyTable, styles.content)}>
     {dataRow.map(({ key, list }) => (
       <div
-        className={clsx(styles.body__row, gridColumns)}
+        className={clsx(styles.body__row, gridColumns, !isScroll && styles.borderBottom)}
         key={key}
         style={isScroll ? {
           gridTemplateColumns: `16% 9% 9% repeat(${columScrollHorizontal}, ${

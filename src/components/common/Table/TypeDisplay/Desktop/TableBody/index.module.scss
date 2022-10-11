@@ -37,10 +37,6 @@
     color: rgba(0, 0, 0, 0.75);
     position: relative;
 
-    &:nth-child(n) {
-      border-bottom: 1px solid #E8E8E8;
-    }
-
     &__scroll {
       &:first-child {
         position: sticky;
@@ -53,6 +49,9 @@
         z-index: 2;
         right: 0;
       }
+      &:nth-child(n) {
+        border-bottom: 1px solid #E8E8E8;
+      }
     }
 
     &__string {
@@ -60,5 +59,14 @@
       line-height: 22px;
       margin: 5px;
     }
+  }
+}
+
+.borderBottom{
+  &:nth-child(n) {
+    border-bottom: 1px solid #E8E8E8;
+  }
+  &:last-child{
+    border-bottom: 0;
   }
 }

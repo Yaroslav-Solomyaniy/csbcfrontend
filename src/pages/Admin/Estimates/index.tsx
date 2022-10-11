@@ -40,13 +40,19 @@ const Estimates = (): JSX.Element => {
 
   const { isPhone, isDesktop } = DeviceContext();
 
-  const { get } = useQueryParam();
+  const { get, post } = useQueryParam();
 
   const groupId = Number(get('groupId'));
   const semesterId = Number(get('semesterId')) || undefined;
   const studentId = Number(get('studentId'));
   const currentPage = Number(get('currentPage')) || 1;
   const itemsPerPage = Number(get('itemsPerPage')) || 10;
+
+  useEffect(() => {
+    if (currentPage > pagination.totalPages) {
+      post({ currentPage: pagination.totalPages });
+    }
+  }, [pagination]);
 
   const closeModal = () => {
     setIsActiveModal(allCloseModalWindow);
@@ -167,7 +173,7 @@ const Estimates = (): JSX.Element => {
         {...isPhone && !!(dropCurses.optionCourses?.items.length) && ({ setIsActiveModal })}
         {...isPhone && !!(dropCurses.optionCourses?.items.length) && ({ isActiveModal: !!isActiveModal.filter })}
       />
-      {isLoading && !dropCurses.optionCourses ? <Preloader /> : (
+      {isLoading ? <Preloader /> : (
         <>
           {(dropCurses?.optionCourses?.items?.length || 0) > 0 ? (
             <>

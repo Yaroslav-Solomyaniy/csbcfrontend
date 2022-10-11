@@ -47,7 +47,7 @@ const Courses = (): JSX.Element => {
 
   const { getCourses, courseDelete, courseEdit, courseCreate } = CoursesContext();
   const { isPhone } = DeviceContext();
-  const { get } = useQueryParam();
+  const { get, post } = useQueryParam();
 
   const courseId = Number(get('courseId'));
   const groupId = Number(get('groupId'));
@@ -59,6 +59,12 @@ const Courses = (): JSX.Element => {
   const closeModal = () => {
     setIsActiveModal(allCloseModalWindow);
   };
+
+  useEffect(() => {
+    if (currentPage > pagination.totalPages) {
+      post({ currentPage: pagination.totalPages });
+    }
+  }, [pagination]);
 
   useEffect(() => {
     const query: IGetCoursesParams = {};
@@ -82,14 +88,14 @@ const Courses = (): JSX.Element => {
           { id: 1, label: item.name },
           {
             id: 2,
-            label: `${item?.teacher?.lastName || ''}
-            ${item?.teacher?.firstName || ''}
-            ${item?.teacher?.patronymic || ''}`,
+            label: (item.teacher
+              ? `${item?.teacher?.lastName} ${item?.teacher?.firstName} ${item?.teacher?.patronymic}`
+              : 'Викладач відсутній'),
           },
           { id: 3, label: item.semester === 1 ? 'I' : 'II' },
-          { id: 4, label: `${item.credits}` },
-          { id: 5, label: item.groups.map((group) => group.name).join(',') },
-          { id: 6, label: `${item.lectureHours}` },
+          { id: 4, label: item.credits },
+          { id: 5, label: item.groups ? item.groups.map((group) => group.name).join(',') : 'Групи відсутні' },
+          { id: 6, label: item.lectureHours },
           { id: 7, label: item.isExam ? 'Іспит' : 'Залік' },
           { id: 8, label: item.type },
           {

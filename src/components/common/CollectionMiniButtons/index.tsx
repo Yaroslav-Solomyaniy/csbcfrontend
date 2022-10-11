@@ -34,6 +34,7 @@ export const EditDeleteReviewApprove = ({
 }: IEditDeleteReviewApprove): JSX.Element => (
   <TablesActions>
     <Button
+      disabled={status === 'Потребує перегляду'}
       onClick={() => setIsActiveModal(status === 'Переголосування у прогресі'
         ? { ...isActiveModal, revote: itemId } : { ...isActiveModal, edit: itemId })}
       isImg
@@ -48,14 +49,13 @@ export const EditDeleteReviewApprove = ({
     </Button>
     <Button
       onClick={() => setIsActiveModal({ ...isActiveModal, result: itemId })}
-      disabled={status === 'Нове'}
       isImg
     >
       <Review />
     </Button>
     <Button
       onClick={() => setIsActiveModal({ ...isActiveModal, approve: itemId })}
-      // disabled={status !== 'Потребує перегляду'}
+      disabled={status !== 'Потребує перегляду'}
       isImg
     >
       <Approve />

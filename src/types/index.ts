@@ -8,7 +8,7 @@ export interface Size {
   height: number | undefined;
 }
 
-export type SelectType = 'filter' | 'modal' | 'pagination' | 'multimodal';
+export type SelectType = 'filter' | 'modal' | 'pagination' | 'mini';
 export type OrderBy = 'ASC' | 'DESC';
 
 export interface IEditModal {

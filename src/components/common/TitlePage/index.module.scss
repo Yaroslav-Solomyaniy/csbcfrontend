@@ -7,12 +7,11 @@
 }
 .top_row_mobile{
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
   text-align: center;
   align-items: center;
-  height: 36px;
+  justify-content: space-between;
   box-sizing: border-box;
-  max-height: 36px;
   margin-bottom: 24px;
 }
 .isAction{

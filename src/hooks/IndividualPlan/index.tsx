@@ -56,7 +56,7 @@ export const useIndvPlanGet = (): IUseIndvPlanGet => {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
-      params: { semester: params.semester },
+      params: params.semester,
     })
       .then((response: AxiosResponse<IGetInvPlanData | null>) => {
         setData(response.data);

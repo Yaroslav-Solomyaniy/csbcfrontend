@@ -210,6 +210,73 @@ export const SelectStylesDesktop:any = {
       },
     }),
   },
+  mini: {
+    control: (provided: any) => ({
+      ...provided,
+      background: '#fff',
+      border: '1px solid rgba(0, 0, 0, 0.1)',
+      height: '42px',
+      width: '180px',
+      borderRadius: '8px',
+      boxShadow: 'none',
+      fontWeight: 400,
+      color: 'rgba(0, 0, 0, 0.75)',
+      '&:hover': {
+        borderWidth: '1px',
+        borderColor: 'rgba(39, 111, 173, 1)',
+      },
+      '&:focus': {
+        borderWidth: '1px',
+        borderColor: 'rgba(39, 111, 173, 1)',
+      },
+      '&:active': {
+        borderWidth: '1px',
+        borderColor: 'rgba(39, 111, 173, 1)',
+      },
+    }),
+    indicatorSeparator: (provided: any) => ({
+      ...provided,
+      display: 'none',
+    }),
+    option: (base: any, state: any) => ({
+      ...base,
+      background: state.isSelected ? '#428BCA' : '#FEFEFE',
+      '&:hover': {
+        cursor: 'pointer',
+        background: state.isSelected ? '#428BCA' : '#D7E7F4',
+      },
+    }),
+    menu: (base: any) => ({
+      ...base,
+      background: '#FEFEFE',
+      overflow: 'hidden',
+      zIndex: 980,
+    }),
+    menuList: (base: any) => ({
+      ...base,
+      background: '#FEFEFE',
+      zIndex: 980,
+    }),
+    valueContainer: (provided: any) => ({
+      ...provided,
+      padding: '9px 16px',
+      fontSize: '14px',
+    }),
+    clearIndicator: (provided: any) => ({
+      ...provided,
+      '&:hover': {
+        backgroundColor: 'transparent',
+        color: 'rgba(45, 112, 169, 1)',
+      },
+    }),
+    dropdownIndicator: (provided: any) => ({
+      ...provided,
+      '&:hover': {
+        backgroundColor: 'transparent',
+        color: 'rgba(45, 112, 169, 1)',
+      },
+    }),
+  },
 };
 export const SelectStylesTablet:any = {
   pagination: {
@@ -274,10 +341,144 @@ export const SelectStylesTablet:any = {
       height: '42px',
     }),
   },
+  mini: {
+    control: (provided: any) => ({
+      ...provided,
+      background: '#fff',
+      border: '1px solid rgba(0, 0, 0, 0.1)',
+      height: '42px',
+      width: '150px',
+      borderRadius: '8px',
+      boxShadow: 'none',
+      fontWeight: 400,
+      color: 'rgba(0, 0, 0, 0.75)',
+      '&:hover': {
+        borderWidth: '1px',
+        borderColor: 'rgba(39, 111, 173, 1)',
+      },
+      '&:focus': {
+        borderWidth: '1px',
+        borderColor: 'rgba(39, 111, 173, 1)',
+      },
+      '&:active': {
+        borderWidth: '1px',
+        borderColor: 'rgba(39, 111, 173, 1)',
+      },
+    }),
+    indicatorSeparator: (provided: any) => ({
+      ...provided,
+      display: 'none',
+    }),
+    option: (base: any, state: any) => ({
+      ...base,
+      background: state.isSelected ? '#428BCA' : '#FEFEFE',
+      '&:hover': {
+        cursor: 'pointer',
+        background: state.isSelected ? '#428BCA' : '#D7E7F4',
+      },
+    }),
+    menu: (base: any) => ({
+      ...base,
+      background: '#FEFEFE',
+      overflow: 'hidden',
+      zIndex: 980,
+    }),
+    menuList: (base: any) => ({
+      ...base,
+      background: '#FEFEFE',
+      zIndex: 980,
+    }),
+    valueContainer: (provided: any) => ({
+      ...provided,
+      padding: '9px 16px',
+      fontSize: '14px',
+    }),
+    clearIndicator: (provided: any) => ({
+      ...provided,
+      '&:hover': {
+        backgroundColor: 'transparent',
+        color: 'rgba(45, 112, 169, 1)',
+      },
+    }),
+    dropdownIndicator: (provided: any) => ({
+      ...provided,
+      '&:hover': {
+        backgroundColor: 'transparent',
+        color: 'rgba(45, 112, 169, 1)',
+      },
+    }),
+  },
 };
 export const SelectStylesPhone:any = {
   pagination: {
     ...SelectStylesTablet.pagination,
+  },
+  mini: {
+    control: (provided: any) => ({
+      ...provided,
+      background: '#fff',
+      border: '1px solid rgba(0, 0, 0, 0.1)',
+      height: '42px',
+      width: '150px',
+      borderRadius: '8px',
+      boxShadow: 'none',
+      fontWeight: 400,
+      color: 'rgba(0, 0, 0, 0.75)',
+      '&:hover': {
+        borderWidth: '1px',
+        borderColor: 'rgba(39, 111, 173, 1)',
+      },
+      '&:focus': {
+        borderWidth: '1px',
+        borderColor: 'rgba(39, 111, 173, 1)',
+      },
+      '&:active': {
+        borderWidth: '1px',
+        borderColor: 'rgba(39, 111, 173, 1)',
+      },
+    }),
+    indicatorSeparator: (provided: any) => ({
+      ...provided,
+      display: 'none',
+    }),
+    option: (base: any, state: any) => ({
+      ...base,
+      background: state.isSelected ? '#428BCA' : '#FEFEFE',
+      '&:hover': {
+        cursor: 'pointer',
+        background: state.isSelected ? '#428BCA' : '#D7E7F4',
+      },
+    }),
+    menu: (base: any) => ({
+      ...base,
+      background: '#FEFEFE',
+      overflow: 'hidden',
+      zIndex: 980,
+    }),
+    menuList: (base: any) => ({
+      ...base,
+      background: '#FEFEFE',
+      zIndex: 980,
+    }),
+    valueContainer: (provided: any) => ({
+      ...provided,
+      padding: '9px 16px',
+      fontSize: '14px',
+    }),
+    clearIndicator: (provided: any) => ({
+      ...provided,
+      '&:hover': {
+        backgroundColor: 'transparent',
+        color: 'rgba(45, 112, 169, 1)',
+      },
+    }),
+    dropdownIndicator: (provided: any) => ({
+      ...provided,
+      '&:hover': {
+        backgroundColor: 'transparent',
+        color: 'rgba(45, 112, 169, 1)',
+      },
+    }),
   },
   filter: {
     ...SelectStylesTablet.filter,

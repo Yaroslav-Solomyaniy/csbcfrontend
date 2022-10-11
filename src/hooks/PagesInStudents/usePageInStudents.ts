@@ -136,3 +136,37 @@ export const useVotingStudentRevote = (): IUseVotingStudentRevote => {
 
   return { data, studentVotingRevote };
 };
+
+interface IIndividualPlanDownloadParams {
+  id: number;
+  semester: number;
+}
+
+export interface IUseIndividualPlanDownload {
+  dataFile: Blob | undefined;
+  planDownload: (params: IIndividualPlanDownloadParams) => void;
+}
+
+export const UseIndividualPlanDownload = (): IUseIndividualPlanDownload => {
+  const { user } = AuthContext();
+  const { addErrors } = MessagesContext();
+  const [dataFile, setDataFile] = useState<Blob | undefined>();
+
+  const planDownload = (params: IIndividualPlanDownloadParams) => {
+    axios.get(`${process.env.REACT_APP_API_URL}/students/download-individual-plan/${params.id}`, {
+      headers: {
+        Authorization: `Bearer ${user?.accessToken}`,
+      },
+      responseType: 'arraybuffer',
+      params: params.semester,
+    })
+      .then((response: AxiosResponse<Blob | undefined>) => {
+        setDataFile(response.data);
+      })
+      .catch((error) => {
+        addErrors(error.response.data.message);
+      });
+  };
+
+  return { dataFile, planDownload };
+};

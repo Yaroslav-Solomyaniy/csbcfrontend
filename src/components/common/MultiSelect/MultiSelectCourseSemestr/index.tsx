@@ -64,7 +64,7 @@ const MultiSelectCourseSemestr = ({
             isSearchable
             value={obj.courseId}
             onChange={(e) => updateCourse(obj.id, e)}
-            type="multimodal"
+            type="mini"
             menuPos="absolute"
             menuPlace="auto"
           />

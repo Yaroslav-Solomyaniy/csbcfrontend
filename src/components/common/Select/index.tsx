@@ -44,26 +44,8 @@ const Select = ({
   const focusIndexRef = useRef(-1);
 
   return (
-    <div className={clsx(
-      isDesktop && (isFilter ? styles.desktop_filter : styles.desktop_wrap),
-      isTablet && (isFilter ? styles.tablet_filter : styles.tablet_wrap),
-      isPhone && (isFilter ? styles.phone_filter : styles.phone_wrap),
-    )}
-    >
-      {label && (
-        <label
-          className={clsx(
-            isDesktop ? styles.desktop_label : styles.mobile_label,
-            isDesktop && (error && styles.error_label),
-          )}
-        >
-          {label}
-          {required && <span className={styles.required}>*</span>}
-        </label>
-
-      )}
-      <div className={clsx(isDesktop ? (!isFilter && styles.selectWrap) : (!isFilter && styles.mobile_select))}>
-
+    type === 'mini'
+      ? (
         <ReactSelect<Option>
           isDisabled={isDisabled}
           menuPosition={menuPos}
@@ -77,32 +59,68 @@ const Select = ({
           noOptionsMessage={() => 'Нічого не знайдено'}
           value={options.find((option) => option?.value?.toString() === value?.toString()) || null}
           onChange={(option: SingleValue<Option>) => onChange(option?.value ? `${option.value}` : '')}
-          ariaLiveMessages={{
-            onFocus: (e) => {
-              focusIndexRef.current = e.options.indexOf(e.focused);
-
-              return '';
-            },
-          }}
-          onKeyDown={(e) => {
-            if (
-              e.key === 'ArrowDown'
-              && focusIndexRef.current === options.length - 1
-            ) {
-              e.preventDefault();
-            }
-            if (e.key === 'ArrowUp' && focusIndexRef.current === 0) {
-              e.preventDefault();
-            }
-          }}
         />
-        {error && (
-          <div className={styles.error}>
-            <div className={styles.textError}>{error}</div>
-          </div>
+      ) : (
+        <div className={clsx(
+          isDesktop && (isFilter ? styles.desktop_filter : styles.desktop_wrap),
+          isTablet && (isFilter ? styles.tablet_filter : styles.tablet_wrap),
+          isPhone && (isFilter ? styles.phone_filter : styles.phone_wrap),
         )}
-      </div>
-    </div>
+        >
+          {label && (
+          <label
+            className={clsx(
+              isDesktop ? styles.desktop_label : styles.mobile_label,
+              isDesktop && (error && styles.error_label),
+            )}
+          >
+            {label}
+            {required && <span className={styles.required}>*</span>}
+          </label>
+
+          )}
+          <div className={clsx(isDesktop ? (!isFilter && styles.selectWrap) : (!isFilter && styles.mobile_select))}>
+            <ReactSelect<Option>
+              isDisabled={isDisabled}
+              menuPosition={menuPos}
+              menuPlacement={menuPlace}
+              styles={isDesktop ? SelectStylesDesktop[type] : isTablet ? SelectStylesTablet[type] : SelectStylesPhone[type]}
+              isSearchable={isSearchable}
+              className={clsx(isDesktop && styles.desktop_select)}
+              options={options}
+              placeholder={placeholder}
+              isClearable={isClearable}
+              noOptionsMessage={() => 'Нічого не знайдено'}
+              value={options.find((option) => option?.value?.toString() === value?.toString()) || null}
+              onChange={(option: SingleValue<Option>) => onChange(option?.value ? `${option.value}` : '')}
+              ariaLiveMessages={{
+                onFocus: (e) => {
+                  focusIndexRef.current = e.options.indexOf(e.focused);
+
+                  return '';
+                },
+              }}
+              onKeyDown={(e) => {
+                if (
+                  e.key === 'ArrowDown'
+                  && focusIndexRef.current === options.length - 1
+                ) {
+                  e.preventDefault();
+                }
+                if (e.key === 'ArrowUp' && focusIndexRef.current === 0) {
+                  e.preventDefault();
+                }
+              }}
+            />
+
+            {error && (
+            <div className={styles.error}>
+              <div className={styles.textError}>{error}</div>
+            </div>
+            )}
+          </div>
+        </div>
+      )
   );
 };
 

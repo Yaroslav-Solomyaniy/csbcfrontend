@@ -20,7 +20,7 @@ import { TablesActions } from '../../../components/common/CollectionMiniButtons'
 import Preloader from '../../../components/common/Preloader/Preloader';
 import Button from '../../../components/common/Button';
 import { Download, Edit, History } from '../../../components/common/Icons';
-import { DownloadXlsxFile } from '../../../hooks/All/UseDownloadFile';
+import { downloadFile } from '../../../hooks/All/DownloadFile';
 import { useStudentGetId } from '../../../hooks/PagesInAdmin/useStudents';
 
 const allCloseModalWindow: Record<string, boolean | number | string> = {
@@ -87,17 +87,16 @@ const Estimates = (): JSX.Element => {
     itemsPerPage,
   ]);
 
-  const downloadFile = (id: number) => {
+  const downloadGrades = (id: number) => {
     getStudentId({ id });
     gradesDownload({ id });
   };
 
   useEffect(() => {
     if (data && dataFile) {
-      DownloadXlsxFile(dataFile, data.user
-        ? `Оцінки - ${data.user.lastName}
-         ${data.user.firstName[0].toUpperCase()}.
-         ${data.user.patronymic[0].toUpperCase()}.`
+      downloadFile(dataFile, data.user
+        // eslint-disable-next-line max-len
+        ? `Оцінки - ${data.user.lastName} ${data.user.firstName[0].toUpperCase()}.${data.user.patronymic[0].toUpperCase()}.`
         : 'User');
     }
   }, [data, dataFile]);
@@ -170,7 +169,7 @@ const Estimates = (): JSX.Element => {
                     <History />
                   </Button>
                   <Button
-                    onClick={() => downloadFile(student.id)}
+                    onClick={() => downloadGrades(student.id)}
                     isImg
                   >
                     <Download />

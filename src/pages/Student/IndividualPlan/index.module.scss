@@ -4,7 +4,18 @@
 .table__title{
   color: rgba(0, 0, 0, 0.75);
   font-weight: 700;
-  font-size: 20px;
+  font-size: 19px;
   line-height: 20px;
   padding: 20px 0;
+}
+.actions{
+  display: flex;
+  align-items: center;
+}
+.downloadButton{
+  margin-left: 20px;
+  border: 0;
+  &:hover{
+    border: 0;
+  }
 }

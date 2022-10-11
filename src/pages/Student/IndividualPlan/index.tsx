@@ -7,23 +7,53 @@ import { AuthContext } from '../../../context/All/AuthContext';
 import Table from '../../../components/common/Table';
 import { IndividualPlanHeader } from './types';
 import Preloader from '../../../components/common/Preloader/Preloader';
+import SelectSemester from '../../../components/common/Select/SelectSemester';
+import Button from '../../../components/common/Button';
+import { downloadFile } from '../../../hooks/All/DownloadFile';
 
 const StudentIndividualPlan = ():JSX.Element => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const { getPlan } = IndividualPlanContext();
+  const [semester, setSemester] = useState<number>(1);
+  const { getPlan, download } = IndividualPlanContext();
   const { user } = AuthContext();
 
   useEffect(() => {
-    getPlan?.getPlan({ id: user?.id || 0 });
-  }, []);
+    getPlan?.getPlan({ id: user?.id || 0, semester });
+  }, [semester]);
 
   useEffect(() => {
     setIsLoading(false);
   }, [getPlan?.data]);
 
+  useEffect(() => {
+    if (download?.dataFile) {
+      downloadFile(
+        download.dataFile,
+        // eslint-disable-next-line max-len
+        `Індивідуальний план - ${semester === 1 ? 'I' : 'II'} Семестр. ${user?.lastName} ${user?.firstName[0].toUpperCase()}.`,
+      );
+    }
+  }, [download?.dataFile]);
+
   return (
     <Layout>
-      <TitlePage title="Індивідуальний план" />
+      <TitlePage
+        title="Індивідуальний план"
+        isHaveSelect
+        action={(
+          <div className={styles.actions}>
+            <SelectSemester onChange={(value) => setSemester(+value)} type="mini" value={semester} />
+            <Button
+              className={styles.downloadButton}
+              onClick={() => download?.planDownload({ id: user?.id || 0, semester })}
+              size="large"
+              nameClass="primary"
+            >
+              Завантажити
+            </Button>
+          </div>
+      )}
+      />
       {isLoading ? <Preloader /> : (
         <>
           <div className={styles.requiredTable}>

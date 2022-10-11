@@ -84,6 +84,7 @@ const Select = ({
               isDisabled={isDisabled}
               menuPosition={menuPos}
               menuPlacement={menuPlace}
+              // eslint-disable-next-line max-len
               styles={isDesktop ? SelectStylesDesktop[type] : isTablet ? SelectStylesTablet[type] : SelectStylesPhone[type]}
               isSearchable={isSearchable}
               className={clsx(isDesktop && styles.desktop_select)}

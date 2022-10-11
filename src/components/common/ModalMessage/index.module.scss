@@ -24,13 +24,13 @@
   margin-bottom: 5px;
   transition: all 2s;
   border-radius: 0 0 8px 8px;
-  width: 40vw;
+  width: 47vw;
   &__mobile{
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
-    height: 6vh;
+    height: 10vh;
     z-index:200;
     min-height: 50px;
   }
@@ -63,12 +63,12 @@
 }
 
 .warning {
-  background-color: #FFFBF6;
+  background-color: rgba(230, 247, 255, 1);
 
   .title {
     font-size: 14px;
     font-weight: 700;
-    color: #F6BE00;
+    color: #1560BD;
   }
 }
 
@@ -83,5 +83,13 @@
 }
 
 .voting {
-  color: #a300ff;
+  background-color:#FFFBF6;
+  .title {
+    font-size: 14px;
+    font-weight: 700;
+    color:black;
+  }
+}
+.text{
+  padding: 5px 5px 5px 0;
 }

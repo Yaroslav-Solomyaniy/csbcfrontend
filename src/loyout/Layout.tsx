@@ -11,7 +11,7 @@ import { DeviceContext } from '../context/All/DeviceType';
 
 const Layout = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
   const [isOpen, setIsOpen] = useState<boolean>(localStorage.getItem('open') === 'true');
-  const { messages, closeError, closeWarning, closeInfo } = MessagesContext();
+  const { messages, closeError, closeWarning, closeInfo, closeVoting } = MessagesContext();
   const { user } = AuthContext();
   const { isDesktop, isTablet, isPhone } = DeviceContext();
 
@@ -67,9 +67,18 @@ const Layout = ({ children }: JSX.ElementChildrenAttribute): JSX.Element => {
                 }}
               />
             ))}
-
+            {messages.voting.map((info) => (
+              <ModalMessage
+                type="voting"
+                key={info.id}
+                message={info.text}
+                id={info.id}
+                closeModal={() => {
+                  closeVoting(info.id);
+                }}
+              />
+            ))}
           </div>
-
           {children}
         </div>
       </div>

@@ -12,6 +12,7 @@ import Button from '../../../components/common/Button';
 import { StudentVotingContext } from '../../../context/PagesInStudent/Student';
 import Preloader from '../../../components/common/Preloader/Preloader';
 import { MessagesContext } from '../../../context/All/Messages';
+import { DeviceContext } from '../../../context/All/DeviceType';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'Дія' },
@@ -25,7 +26,7 @@ const formInitialDataVotingCourses:IGetStudentVotingData = {
   isRevote: false,
   requiredCourses: [],
   notRequiredCourses: [],
-  studentVotes: [[0, 0], [0, 0], [0, 0], [0, 0]],
+  studentVotes: [],
   startDate: new Date().toISOString(),
   endDate: new Date().toISOString(),
   approveCourse: [],
@@ -40,6 +41,7 @@ const VotingStudents = (): JSX.Element => {
 
   const { getVoting, votingCreate, votingEdit } = StudentVotingContext();
   const { addInfo } = MessagesContext();
+  const { isPhone } = DeviceContext();
 
   useEffect(() => {
     getVoting?.getVotingStudent();
@@ -47,28 +49,25 @@ const VotingStudents = (): JSX.Element => {
 
   useEffect(() => {
     if (getVoting?.data) {
-      setVotingInfo(getVoting?.data);
-      // setFormData(c)
-      // setFormData({courses: getVoting.data.studentVotes.map((element,index)=> formData.courses[index] === element )})
-      // getVoting.data.studentVotes.map((i) => setFormData({courses: }));
-      // const arr = [[3, 6], [1, 5], [2, 8], [0, 7]]
-      // arr.sort((a, b) => a[0] - b[0]);
-      // eslint-disable-next-line prefer-destructuring,no-return-assign
-      // console.log(getVoting.data.studentVotes ?
-      // getVoting?.data?.studentVotes.forEach((element) => array[element[0]] = element[1]) : [0, 0, 0, 0]);
-      setIsDraw(true);
+      setVotingInfo(Array.isArray(getVoting.data) ? formInitialDataVotingCourses : getVoting.data);
+      setIsDraw(!Array.isArray(getVoting.data));
       setIsLoading(false);
     }
   }, [getVoting?.data]);
 
   useEffect(() => {
-    console.log(votingInfo.studentVotes
-      ? votingInfo.studentVotes.sort((a, b) => a[0] - b[0])
-      : 'hi');
+    if (votingInfo) {
+      setFormData({ courses: votingInfo.studentVotes.length
+        ? votingInfo.studentVotes
+          .sort((a, b) => a[0] - b[0])
+          .map((element) => element[1])
+        : [0, 0, 0, 0] });
+      console.log(formData);
+    }
   }, [votingInfo]);
 
   const AnswerPostVoting = () => {
-    if (votingInfo.studentVotes.length === 0) {
+    if (votingInfo?.studentVotes.length === 0) {
       votingCreate?.studentVotingCreate(formData);
     } else {
       votingEdit?.studentVotingRevote(formData);
@@ -99,9 +98,9 @@ const VotingStudents = (): JSX.Element => {
     <Layout>
       <div className={styles.contentVoting}>
         <TitlePage
-          title={`${votingInfo.isRevote ? 'Переголосування' : 'Голосування'}${getVoting?.data
-            ? (`. Ви можете змінити вибір до: ${moment(votingInfo.endDate).format('DD.MM.YYYY HH:mm')}`)
-            : ''}`}
+          title={`${votingInfo?.isRevote ? 'Переголосування' : 'Голосування'}${isDraw ? getVoting?.data
+            ? (`. Ви можете змінити вибір до: ${moment(votingInfo?.endDate).format('DD.MM.YYYY HH:mm')}`)
+            : '' : ''}`}
         />
         {isLoading ? <Preloader /> : (
           isDraw ? (
@@ -109,7 +108,7 @@ const VotingStudents = (): JSX.Element => {
               <h1 className={clsx(pagestyles.title, styles.firstTitle)}>Вибірковий профільний предмет(I семестр)</h1>
               <Table
                 dataHeader={dataHeader}
-                dataRow={votingInfo.requiredCourses
+                dataRow={votingInfo?.requiredCourses
                   .filter((item) => item.semester === 1)
                   .map((course) => ({ list: [
                     { id: 1,
@@ -134,14 +133,14 @@ const VotingStudents = (): JSX.Element => {
                     { id: 4, label: course.credits },
                     { id: 5, label: course.lectureHours },
                   ],
-                  key: course.id }))}
+                  key: course.id })) || []}
                 gridColumns={styles.columns}
                 isTableVoting
               />
               <h1 className={pagestyles.title}>Вибірковий непрофільний предмет(I семестр)</h1>
               <Table
                 dataHeader={dataHeader}
-                dataRow={votingInfo.notRequiredCourses
+                dataRow={votingInfo?.notRequiredCourses
                   .filter((item) => item.semester === 1)
                   .map((course) => ({ list: [
                     { id: 1,
@@ -166,14 +165,14 @@ const VotingStudents = (): JSX.Element => {
                     { id: 4, label: course.credits },
                     { id: 5, label: course.lectureHours },
                   ],
-                  key: course.id }))}
+                  key: course.id })) || []}
                 gridColumns={styles.columns}
                 isTableVoting
               />
               <h1 className={pagestyles.title}>Вибірковий профільний предмет(II семестр)</h1>
               <Table
                 dataHeader={dataHeader}
-                dataRow={votingInfo.requiredCourses
+                dataRow={votingInfo?.requiredCourses
                   .filter((item) => item.semester === 2)
                   .map((course) => ({ list: [
                     { id: 1,
@@ -198,14 +197,14 @@ const VotingStudents = (): JSX.Element => {
                     { id: 4, label: course.credits },
                     { id: 5, label: course.lectureHours },
                   ],
-                  key: course.id }))}
+                  key: course.id })) || []}
                 gridColumns={styles.columns}
                 isTableVoting
               />
               <h1 className={pagestyles.title}>Вибірковий непрофільний предмет(II семестр)</h1>
               <Table
                 dataHeader={dataHeader}
-                dataRow={votingInfo.notRequiredCourses
+                dataRow={votingInfo?.notRequiredCourses
                   .filter((item) => item.semester === 2)
                   .map((course) => ({ list: [
                     { id: 1,
@@ -230,16 +229,16 @@ const VotingStudents = (): JSX.Element => {
                     { id: 4, label: course.credits },
                     { id: 5, label: course.lectureHours },
                   ],
-                  key: course.id }))}
+                  key: course.id })) || []}
                 gridColumns={styles.columns}
                 isTableVoting
               />
-              <div className={styles.voting_footer}>
+              <div className={clsx(styles.voting_footer, isPhone && styles.voting_footer_phone)}>
                 <Button
                   onClick={AnswerPostVoting}
                   size="large"
                   nameClass="primary"
-                  className={styles.button}
+                  className={clsx(styles.submitButton, isPhone && styles.submitButton_phone)}
                   disabled={formData.courses.includes(0)}
                 >
                   Проголосувати
@@ -253,7 +252,6 @@ const VotingStudents = (): JSX.Element => {
               </div>
             )
         )}
-
       </div>
     </Layout>
   );

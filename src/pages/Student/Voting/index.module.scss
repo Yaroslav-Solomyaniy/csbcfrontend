@@ -1,3 +1,9 @@
+.submitButton{
+  margin-bottom: 48px;
+  &_phone{
+    width: 100%;
+  }
+}
 .columns {
   grid-template-columns: 50px repeat(4, 1fr);
 }
@@ -12,6 +18,10 @@
   display: flex;
   justify-content: flex-end;
   margin-right: 65px;
+  &_phone{
+    margin-right: 0;
+    justify-content: center;
+  }
 }
 .noActiveVoting{
   display: flex;

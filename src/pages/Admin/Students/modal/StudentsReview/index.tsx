@@ -49,7 +49,7 @@ const StudentsReview = ({ modalActive, closeModal, id, Open }: IStudentsReviewMo
             <h1 className={styles.content__subtitle__h1}>Обовязкові предмети</h1>
           </div>
           <Table
-            heightVH="20vh"
+            heightVH="25vh"
             gridColumns={styles.columns}
             dataRow={(getPlan?.data?.grades
               // eslint-disable-next-line max-len
@@ -86,7 +86,7 @@ const StudentsReview = ({ modalActive, closeModal, id, Open }: IStudentsReviewMo
 
           <div>
             <Table
-              heightVH="20vh"
+              heightVH="25vh"
               gridColumns={styles.columns}
               dataRow={(getPlan?.data?.grades
                 // eslint-disable-next-line max-len

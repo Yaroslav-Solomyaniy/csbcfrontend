@@ -44,7 +44,7 @@ const StudentsReviewEdit = ({ modalActive, closeModal, id }: IStudentsReviewModa
 
   const onSubmit = (e: React.FormEvent | undefined) => {
     e?.preventDefault?.();
-    editPlan?.EditPlan({ courses: [...data.required, ...data.noRequired] }, id);
+    editPlan?.EditPlan({ courses: [...data.required, ...data.noRequired] }, getStudentById?.data?.user.id || 0);
   };
 
   useEffect(() => {

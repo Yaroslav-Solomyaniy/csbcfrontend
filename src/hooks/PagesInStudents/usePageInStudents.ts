@@ -3,6 +3,35 @@ import axios, { AxiosResponse } from 'axios';
 import { AuthContext } from '../../context/All/AuthContext';
 import { MessagesContext } from '../../context/All/Messages';
 
+export interface IGetStudentVotingInfo {
+startDate: string;
+endDate: string;
+isRevote: boolean;
+}
+
+export interface IUseStudentVotingInfo{
+  studentVotingInfo: IGetStudentVotingInfo | null;
+  getStudentVotingInfo: () => void;
+}
+
+export const useStudentVotingInfo = (): IUseStudentVotingInfo => {
+  const { user } = AuthContext();
+  const [studentVotingInfo, setStudentVotingInfo] = useState<IGetStudentVotingInfo | null>(null);
+
+  const getStudentVotingInfo = () => {
+    axios.get(`${process.env.REACT_APP_API_URL}/students/page/voting/info`, {
+      headers: {
+        Authorization: `Bearer ${user?.accessToken}`,
+      },
+    })
+      .then((response: AxiosResponse<IGetStudentVotingInfo | null>) => {
+        setStudentVotingInfo(response.data);
+      });
+  };
+
+  return { studentVotingInfo, getStudentVotingInfo };
+};
+
 export interface IGetStudentVotingData {
   isRevote: boolean;
   requiredCourses: {
@@ -46,13 +75,13 @@ export interface IGetStudentVotingData {
 }
 
 export interface IUseStudentVotingGet{
-  data: IGetStudentVotingData | null;
+  data: IGetStudentVotingData| [] | null;
   getVotingStudent: () => void;
 }
 
 export const useStudentVotingGet = (): IUseStudentVotingGet => {
   const { user } = AuthContext();
-  const [data, setData] = useState<IGetStudentVotingData | null>(null);
+  const [data, setData] = useState<IGetStudentVotingData |[] | null>(null);
 
   const getVotingStudent = () => {
     axios.get(`${process.env.REACT_APP_API_URL}/students/page/voting`, {
@@ -60,7 +89,7 @@ export const useStudentVotingGet = (): IUseStudentVotingGet => {
         Authorization: `Bearer ${user?.accessToken}`,
       },
     })
-      .then((response: AxiosResponse<IGetStudentVotingData| null>) => {
+      .then((response: AxiosResponse<IGetStudentVotingData | [] | null>) => {
         setData(response.data);
       });
   };
@@ -158,7 +187,7 @@ export const UseIndividualPlanDownload = (): IUseIndividualPlanDownload => {
         Authorization: `Bearer ${user?.accessToken}`,
       },
       responseType: 'arraybuffer',
-      params: params.semester,
+      params: { semester: params.semester },
     })
       .then((response: AxiosResponse<Blob | undefined>) => {
         setDataFile(response.data);

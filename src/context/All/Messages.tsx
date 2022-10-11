@@ -9,6 +9,7 @@ interface IMessages {
   error: IMessageItem[];
   warning: IMessageItem[];
   info: IMessageItem[];
+  voting: IMessageItem[];
 }
 
 interface IMessagesContext {
@@ -19,17 +20,21 @@ interface IMessagesContext {
   closeWarning: (index: number) => void;
   addInfo: (info: string) => void;
   closeInfo: (index: number) => void;
-  clearMessages:()=> void;
+  addVoting: (voting: string) => void;
+  closeVoting: (index: number) => void;
+  clearMessages:() => void;
 }
 
 const defaultValue: IMessagesContext = {
-  messages: { error: [], warning: [], info: [] },
+  messages: { error: [], warning: [], info: [], voting: [] },
   addErrors: () => undefined,
   closeError: () => undefined,
   addWarning: () => undefined,
   closeWarning: () => undefined,
   addInfo: () => undefined,
   closeInfo: () => undefined,
+  addVoting: () => undefined,
+  closeVoting: () => undefined,
   clearMessages: () => undefined,
 };
 
@@ -41,6 +46,7 @@ const MessagesProvider = ({ children }: { children: JSX.Element; }): JSX.Element
     error: [],
     warning: [],
     info: [],
+    voting: [],
   });
 
   const clear = () => {
@@ -48,6 +54,7 @@ const MessagesProvider = ({ children }: { children: JSX.Element; }): JSX.Element
       error: [],
       warning: [],
       info: [],
+      voting: [],
     });
   };
 
@@ -95,6 +102,21 @@ const MessagesProvider = ({ children }: { children: JSX.Element; }): JSX.Element
     });
   };
 
+  const addVoting = (text: string) => {
+    setMessages((prevState) => ({
+      ...prevState,
+      voting: [...prevState.voting, { id, text }],
+    }));
+    id++;
+  };
+
+  const closeVoting = (messageId: number): void => {
+    setMessages({
+      ...messages,
+      voting: messages.voting.filter((message) => messageId !== message.id),
+    });
+  };
+
   return (
     <messagesContext.Provider value={{
       messages,
@@ -104,6 +126,8 @@ const MessagesProvider = ({ children }: { children: JSX.Element; }): JSX.Element
       closeWarning,
       addInfo,
       closeInfo,
+      addVoting,
+      closeVoting,
       clearMessages: clear,
     }}
     >

@@ -36,15 +36,26 @@ const ModalMessage = ({ message, closeModal, type, id }: IModalMessage): JSX.Ele
     >
       <div className={clsx(styles.message__content)}>
         <h6 className={styles.title}>
-          {type === 'warning' && 'Увага'}
-          {type === 'error' && 'Помилка'}
-          {type === 'info' && 'Успішно'}
+          {type === 'warning' && 'Увага.'}
+          {type === 'error' && 'Помилка.'}
+          {type === 'info' && 'Успішно.'}
+          {type === 'voting' && 'Увага! Голосування.'}
         </h6>
         <div className={styles.text}>{message}</div>
       </div>
-      {/* <Button onClick={() => console.log('text')} nameClass="secondary"
-      size="large">Перегол2313213213213213231321осувати</Button> */}
-      {type === 'voting' && <Link className={styles[type]} to="/" />}
+
+      {type === 'voting' && (
+        <Link to="/voting-students">
+          <Button
+            onClick={() => undefined}
+            nameClass="secondary"
+            size="large"
+          >
+            Перейти
+          </Button>
+        </Link>
+
+      )}
       <Button
         className={styles.message__close}
         onClick={closeModal}

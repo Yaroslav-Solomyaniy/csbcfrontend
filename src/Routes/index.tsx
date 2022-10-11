@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link, Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import moment from 'moment';
 import GroupProvider from '../context/PagesInAdmin/Groups';
 import Group from '../pages/Admin/Groups';
 import StudentsProvider from '../context/PagesInAdmin/Students';
@@ -31,15 +32,41 @@ import TeacherProvider from '../context/PageInTeacher/Teacher';
 import PlanProvider from '../context/IndividualPlan';
 import CuratorProvider from '../context/PageInCurator';
 import { MessagesContext } from '../context/All/Messages';
+import { useStudentVotingInfo } from '../hooks/PagesInStudents/usePageInStudents';
 
 const AppRoutes = () => {
   const { user } = AuthContext();
-  const { clearMessages } = MessagesContext();
+  const { clearMessages, addVoting, addWarning } = MessagesContext();
   const location = useLocation();
+  const { getStudentVotingInfo, studentVotingInfo } = useStudentVotingInfo();
 
   useEffect(() => {
     clearMessages();
   }, [location.pathname, user]);
+
+  useEffect(() => {
+    if (user?.role === 'student') {
+      getStudentVotingInfo();
+    }
+  }, [user?.role === 'student']);
+
+  useEffect(() => {
+    if (studentVotingInfo) {
+      if (new Date() < moment(studentVotingInfo.startDate).toDate()) {
+        addWarning(studentVotingInfo.isRevote
+          // eslint-disable-next-line max-len
+          ? `Скоро розпочнеться переголосування. До початку переголосування ${+moment(Math.abs(new Date().getTime() - moment(studentVotingInfo.startDate).toDate().getTime())).format('D') - 1} - дні(-в).`
+          // eslint-disable-next-line max-len
+          : `Скоро розпочнеться голосування. До початку голосування ${+moment(Math.abs(new Date().getTime() - moment(studentVotingInfo.startDate).toDate().getTime())).format('D') - 1} - дні(-в).`);
+      }
+      if (new Date() > moment(studentVotingInfo.startDate).toDate()
+        && new Date() < moment(studentVotingInfo.endDate).toDate()) {
+        addVoting(studentVotingInfo.isRevote
+          ? 'Розпочалось переголосування. Ви можете змінити свій вибір.'
+          : 'Розпочалось голосування. Ви можете обрати вибіркові предмети.');
+      }
+    }
+  }, [studentVotingInfo]);
 
   return (
     <Routes>

@@ -20,8 +20,8 @@ import { TablesActions } from '../../../components/common/CollectionMiniButtons'
 import Preloader from '../../../components/common/Preloader/Preloader';
 import Button from '../../../components/common/Button';
 import { Download, Edit, History } from '../../../components/common/Icons';
-import { downloadFile } from '../../../hooks/All/DownloadFile';
 import { useStudentGetId } from '../../../hooks/PagesInAdmin/useStudents';
+import { downloadFile } from '../../../hooks/All/DownloadFile';
 
 const allCloseModalWindow: Record<string, boolean | number | string> = {
   openHistory: false,

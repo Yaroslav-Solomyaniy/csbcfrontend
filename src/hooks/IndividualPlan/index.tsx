@@ -56,7 +56,7 @@ export const useIndvPlanGet = (): IUseIndvPlanGet => {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
-      params: params.semester,
+      params: { semester: params.semester },
     })
       .then((response: AxiosResponse<IGetInvPlanData | null>) => {
         setData(response.data);
@@ -95,39 +95,3 @@ export const useIndvPlanEdit = (): IUseIndvPlanEdit => {
 
   return { data, EditPlan };
 };
-
-// export interface IGetDownloadIndvPlanParams {
-//   id: number;
-//   semester: number;
-// }
-// export interface IGetDownloadIndvPlanData{
-//
-// }
-//
-// export interface IUseIndvPlanGet {
-//   data: IGetInvPlanData | null;
-//   getPlan: (params?: IGetInvPlanParams) => void;
-// }
-//
-// export const useIndvPlanGet = (): IUseIndvPlanGet => {
-//   const { user } = AuthContext();
-//   const { addErrors } = MessagesContext();
-//   const [data, setData] = useState<IGetInvPlanData | null>(null);
-//
-//   const getPlan = (params?: IGetInvPlanParams) => {
-//     axios.get(`${process.env.REACT_APP_API_URL}/students/get-individual-plan/${params?.id}`, {
-//       headers: {
-//         Authorization: `Bearer ${user?.accessToken}`,
-//       },
-//       params: { ...params },
-//     })
-//       .then((response: AxiosResponse<IGetInvPlanData | null>) => {
-//         setData(response.data);
-//       })
-//       .catch((error) => {
-//         addErrors(error.response.data.message);
-//       });
-//   };
-//
-//   return { data, getPlan };
-// };

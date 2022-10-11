@@ -115,8 +115,7 @@ const VotingAdmin = (): JSX.Element => {
                 {item.status}
               </div>
             </div> },
-          {
-            id: 6,
+          { id: 6,
             label: <EditDeleteReviewApprove
               isActiveModal={isActiveModal}
               setIsActiveModal={setIsActiveModal}

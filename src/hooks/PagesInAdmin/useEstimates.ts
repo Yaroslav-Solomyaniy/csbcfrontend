@@ -66,7 +66,6 @@ export const useGradesGet = (): IUseGradesGet => {
         Authorization: `Bearer ${user?.accessToken}`,
       },
       params: {
-        // orderByColumn: 'id',
         orderBy: 'DESC',
         ...params,
       },
@@ -81,8 +80,6 @@ export const useGradesGet = (): IUseGradesGet => {
 
   return { data, getEstimateStudent };
 };
-
-// get course by id
 
 interface IGetGradesIdParams {
   id: number;
@@ -147,4 +144,36 @@ export const useGradesEdit = (): IUseGradesEdit => {
   };
 
   return { data, gradesEdit };
+};
+
+interface IGradesDownloadParams {
+  id: number;
+}
+
+export interface IUseGradesDownload {
+  dataFile: Blob | undefined;
+  gradesDownload: (params: IGradesDownloadParams) => void;
+}
+
+export const UseGradesDownload = (): IUseGradesDownload => {
+  const { user } = AuthContext();
+  const { addErrors } = MessagesContext();
+  const [dataFile, setDataFile] = useState<Blob | undefined>();
+
+  const gradesDownload = (params: IGradesDownloadParams) => {
+    axios.get(`${process.env.REACT_APP_API_URL}/grades/download-grades/student/${params.id}`, {
+      headers: {
+        Authorization: `Bearer ${user?.accessToken}`,
+      },
+      responseType: 'arraybuffer',
+    })
+      .then((response: AxiosResponse<Blob | undefined>) => {
+        setDataFile(response.data);
+      })
+      .catch((error) => {
+        addErrors(error.response.data.message);
+      });
+  };
+
+  return { dataFile, gradesDownload };
 };

@@ -8,7 +8,7 @@ import TitlePage from '../../../components/common/TitlePage';
 import Table from '../../../components/common/Table';
 import { useGetListCourses } from '../../../hooks/All/useDropDowns';
 import { EstimatesContext } from '../../../context/PagesInAdmin/Estimates';
-import { IGetGradesData, IGetGradesParams } from '../../../hooks/PagesInAdmin/useEstimates';
+import { IGetGradesData, IGetGradesParams, UseGradesDownload } from '../../../hooks/PagesInAdmin/useEstimates';
 import EstimatesEdit from './modal/EstimatesEdit';
 import EstimatesFilters from './Filters';
 import PhoneFilter from '../../../components/common/PhoneFilter';
@@ -16,8 +16,12 @@ import { useQueryParam } from '../../../hooks/All/useQueryParams';
 import { initialPagination, Pagination } from '../../../types';
 import { DeviceContext } from '../../../context/All/DeviceType';
 import EstimatesHistory from './modal/EstimatesHystory';
-import { EditHistoryDownload } from '../../../components/common/CollectionMiniButtons';
+import { TablesActions } from '../../../components/common/CollectionMiniButtons';
 import Preloader from '../../../components/common/Preloader/Preloader';
+import Button from '../../../components/common/Button';
+import { Download, Edit, History } from '../../../components/common/Icons';
+import { DownloadXlsxFile } from '../../../hooks/All/UseDownloadFile';
+import { useStudentGetId } from '../../../hooks/PagesInAdmin/useStudents';
 
 const allCloseModalWindow: Record<string, boolean | number | string> = {
   openHistory: false,
@@ -47,6 +51,8 @@ const Estimates = (): JSX.Element => {
   const studentId = Number(get('studentId'));
   const currentPage = Number(get('currentPage')) || 1;
   const itemsPerPage = Number(get('itemsPerPage')) || 10;
+  const { gradesDownload, dataFile } = UseGradesDownload();
+  const { getStudentId, data } = useStudentGetId();
 
   useEffect(() => {
     if (currentPage > pagination.totalPages) {
@@ -80,6 +86,21 @@ const Estimates = (): JSX.Element => {
     currentPage,
     itemsPerPage,
   ]);
+
+  const downloadFile = (id: number) => {
+    getStudentId({ id });
+    gradesDownload({ id });
+  };
+
+  useEffect(() => {
+    if (data && dataFile) {
+      DownloadXlsxFile(dataFile, data.user
+        ? `Оцінки - ${data.user.lastName}
+         ${data.user.firstName[0].toUpperCase()}.
+         ${data.user.patronymic[0].toUpperCase()}.`
+        : 'User');
+    }
+  }, [data, dataFile]);
 
   const tableRows = (arrTableRows: IGetGradesData[]) => {
     let id = 3;
@@ -133,11 +154,28 @@ const Estimates = (): JSX.Element => {
             {
               id: ++id,
               label: (
-                <EditHistoryDownload
-                  isActiveModal={isActiveModal}
-                  setIsActiveModal={setIsActiveModal}
-                  itemId={student.id}
-                />
+                <TablesActions>
+                  <Button
+                    onClick={() => setIsActiveModal(
+                      { ...isActiveModal, edit: isActiveModal.gradeEdit ? student.id : 0 },
+                    )}
+                    isImg
+                  >
+                    <Edit />
+                  </Button>
+                  <Button
+                    onClick={() => setIsActiveModal({ ...isActiveModal, history: student.id })}
+                    isImg
+                  >
+                    <History />
+                  </Button>
+                  <Button
+                    onClick={() => downloadFile(student.id)}
+                    isImg
+                  >
+                    <Download />
+                  </Button>
+                </TablesActions>
               ),
             },
           ],

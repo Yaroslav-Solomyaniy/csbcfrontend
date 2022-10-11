@@ -6,6 +6,7 @@ import { ICreateVotingParams } from '../../../../../hooks/PagesInAdmin/useVoting
 import { VotingsAdmin } from '../../../../../context/PagesInAdmin/Votings';
 import { MessagesContext } from '../../../../../context/All/Messages';
 import CreateEditRevoteFormVotingAdmin from '../form/CreateEditRevoteFormVotingAdmin';
+import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
 
 const formInitialData: ICreateVotingParams = {
   groups: [],
@@ -55,11 +56,16 @@ export const VotingCreateModal = ({ modalActive, closeModal }: ICreateModal): JS
   return (
     <ModalWindow modalTitle="Створення голосування" active={modalActive} closeModal={handleClose}>
       <CreateEditRevoteFormVotingAdmin
-        handleClose={handleClose}
         isSubmitted={isSubmitted}
         setFormData={setFormData}
         formData={formData}
         onSubmit={onSubmit}
+      />
+      <ModalControlButtons
+        handleClose={handleClose}
+        onSubmit={onSubmit}
+        cancelButtonText="Відміна"
+        mainButtonText="Створити"
       />
     </ModalWindow>
   );

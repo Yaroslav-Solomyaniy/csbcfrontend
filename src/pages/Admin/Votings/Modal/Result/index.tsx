@@ -4,6 +4,7 @@ import ModalWindow from '../../../../../components/common/ModalWindow';
 import { IGetVotingResultDataById } from '../../../../../hooks/PagesInAdmin/useVotings';
 import { VotingsAdmin } from '../../../../../context/PagesInAdmin/Votings';
 import ResultDisplay from './Components/ResultDisplay';
+import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
 
 const formInitialData: IGetVotingResultDataById = {
   id: 0,
@@ -64,7 +65,10 @@ export const VotingResultModal = ({ modalActive, closeModal, votingId }: IResult
       <ResultDisplay
         votingId={votingId}
         formData={formData}
+      />
+      <ModalControlButtons
         handleClose={handleClose}
+        cancelButtonText="Назад"
       />
     </ModalWindow>
   );

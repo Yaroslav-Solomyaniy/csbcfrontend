@@ -20,7 +20,7 @@ import { EditDeleteReviewApprove } from '../../../components/common/CollectionMi
 import PhoneFilter from '../../../components/common/PhoneFilter';
 import Table from '../../../components/common/Table';
 import VotingSubmitModal from './Modal/Submit';
-import RevoteEditModal from './Modal/Revote/index.module.scss';
+import RevoteEditModal from './Modal/Revote';
 import Preloader from '../../../components/common/Preloader/Preloader';
 
 const dataHeader: ITableHeader[] = [

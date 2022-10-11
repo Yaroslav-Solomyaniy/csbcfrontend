@@ -42,7 +42,7 @@ const Curator = (): JSX.Element => {
   const { isPhone } = DeviceContext();
   const courses = useGetListCourses();
 
-  const { get } = useQueryParam();
+  const { get, post } = useQueryParam();
 
   const groupId = Number(get('groupId'));
   const semesterId = Number(get('semesterId'));
@@ -76,6 +76,12 @@ const Curator = (): JSX.Element => {
     currentPage,
     itemsPerPage,
   ]);
+
+  useEffect(() => {
+    if (currentPage > pagination.totalPages) {
+      post({ currentPage: pagination.totalPages });
+    }
+  }, [pagination]);
 
   useEffect(() => {
     let id = 3;

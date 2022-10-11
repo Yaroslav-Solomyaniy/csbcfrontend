@@ -41,13 +41,19 @@ const TeacherPage = (): JSX.Element => {
   const { teacherDataGet, teacherEditRating } = TeacherContext();
   const { gradesEdit } = EstimatesContext();
   const { isPhone } = DeviceContext();
-  const { get } = useQueryParam();
+  const { get, post } = useQueryParam();
 
   const groupId = Number(get('groupId'));
   const studentId = Number(get('studentId'));
   const courseId = Number(get('courseId'));
   const currentPage = Number(get('currentPage')) || 1;
   const itemsPerPage = Number(get('itemsPerPage')) || 10;
+
+  useEffect(() => {
+    if (currentPage > pagination.totalPages) {
+      post({ currentPage: pagination.totalPages });
+    }
+  }, [pagination]);
 
   const closeModal = () => {
     setIsActiveModal(TeacherPageModalState);

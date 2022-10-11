@@ -3,7 +3,8 @@ import ModalWindow from '../../../../../components/common/ModalWindow';
 import { IDeleteModal } from '../../../../../types';
 import { MessagesContext } from '../../../../../context/All/Messages';
 import { VotingsAdmin } from '../../../../../context/PagesInAdmin/Votings';
-import FormDeleteVoting from './formDeleteVoting';
+import styles from '../../../../pagesStyle.module.scss';
+import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
 
 export const VotingDeleteModal = ({ modalActive, closeModal, Id }: IDeleteModal): JSX.Element => {
   const [groups, setGroups] = useState<string[]>([]);
@@ -43,10 +44,16 @@ export const VotingDeleteModal = ({ modalActive, closeModal, Id }: IDeleteModal)
 
   return (
     <ModalWindow modalTitle="Видалення голосування" active={modalActive} closeModal={handleClose}>
-      <FormDeleteVoting
+      <form className={styles.form} onSubmit={onSubmit}>
+        <h3 className={styles.subtitle}>
+          {`Ви дійсно бажаєте видалити голосування для груп: "${groups.map((group) => group).join(',')}" ?`}
+        </h3>
+      </form>
+      <ModalControlButtons
         handleClose={handleClose}
-        groups={groups}
         onSubmit={onSubmit}
+        cancelButtonText="Відміна"
+        mainButtonText="Видалити"
       />
     </ModalWindow>
   );

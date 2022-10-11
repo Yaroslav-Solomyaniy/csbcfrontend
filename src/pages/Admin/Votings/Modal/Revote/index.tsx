@@ -5,6 +5,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { IVotingEditParams } from '../../../../../hooks/PagesInAdmin/useVotings';
 import { VotingsAdmin } from '../../../../../context/PagesInAdmin/Votings';
 import CreateEditRevoteFormVotingAdmin from '../form/CreateEditRevoteFormVotingAdmin';
+import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
 
 const formInitialData: IVotingEditParams = {
   groups: [],
@@ -79,11 +80,16 @@ export const RevoteEditModal = (
   return (
     <ModalWindow modalTitle="Редагування переголосування" active={modalActive} closeModal={handleClose}>
       <CreateEditRevoteFormVotingAdmin
-        handleClose={handleClose}
         isSubmitted={isSubmitted}
         setFormData={setFormData}
         formData={formData}
         onSubmit={onSubmit}
+      />
+      <ModalControlButtons
+        handleClose={handleClose}
+        onSubmit={onSubmit}
+        cancelButtonText="Відміна"
+        mainButtonText="Зберегти"
       />
     </ModalWindow>
   );

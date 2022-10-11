@@ -34,8 +34,8 @@ export const EditDeleteReviewApprove = ({
 }: IEditDeleteReviewApprove): JSX.Element => (
   <TablesActions>
     <Button
-      disabled={status === 'Потребує перегляду'}
-      onClick={() => setIsActiveModal(status === 'Переголосування у прогресі'
+      disabled={status === 'Потребує перегляду' || status === 'Затвердженно'}
+      onClick={() => setIsActiveModal((status === 'Переголосування у прогресі' || status === 'Нове переголосування')
         ? { ...isActiveModal, revote: itemId } : { ...isActiveModal, edit: itemId })}
       isImg
     >
@@ -116,29 +116,6 @@ export const EditAndDelete = ({ isActiveModal, setIsActiveModal, itemId }: IButt
       isImg
     >
       <Delete />
-    </Button>
-  </TablesActions>
-);
-
-export const EditHistoryDownload = ({ isActiveModal, setIsActiveModal, itemId }: IButtons): JSX.Element => (
-  <TablesActions>
-    <Button
-      onClick={() => setIsActiveModal({ ...isActiveModal, edit: isActiveModal.gradeEdit ? itemId : 0 })}
-      isImg
-    >
-      <Edit />
-    </Button>
-    <Button
-      onClick={() => setIsActiveModal({ ...isActiveModal, history: itemId })}
-      isImg
-    >
-      <History />
-    </Button>
-    <Button
-      onClick={() => setIsActiveModal({ ...isActiveModal, download: itemId })}
-      isImg
-    >
-      <Download />
     </Button>
   </TablesActions>
 );

@@ -240,6 +240,7 @@ const VotingStudents = (): JSX.Element => {
                   className={clsx(styles.submitButton, isPhone && styles.submitButton_phone)}
                   disabled={formData.courses.includes(0)}
                 >
+                  {/* {formData === [0, 0, 0, 0] ? 'Проголосувати' : 'Змінити свій вибір'} */}
                   Проголосувати
                 </Button>
               </div>

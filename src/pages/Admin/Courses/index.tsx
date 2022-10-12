@@ -48,6 +48,7 @@ const Courses = (): JSX.Element => {
   const { getCourses, courseDelete, courseEdit, courseCreate } = CoursesContext();
   const { isPhone } = DeviceContext();
   const { get, post } = useQueryParam();
+  const [data, setData] = useState();
 
   const courseId = Number(get('courseId'));
   const groupId = Number(get('groupId'));
@@ -55,21 +56,6 @@ const Courses = (): JSX.Element => {
   const courseType = get('courseType') || '';
   const currentPage = Number(get('currentPage')) || 1;
   const itemsPerPage = Number(get('itemsPerPage')) || 10;
-
-  // useEffect(() => {
-  //   const handleScroll = (e:any) => {
-  //     const myScrollHeight = e.target.documentElement.scrollHeight;
-  //     const currentHeight = e.target.documentElement.scrollTop + window.innerHeight;
-  //
-  //     if (currentHeight - 1 >= myScrollHeight) {
-  //       post({ currentPage: currentPage + 1 });
-  //     }
-  //   };
-  //
-  //   window.addEventListener('scroll', handleScroll);
-  //
-  //   return () => window.removeEventListener('scroll', handleScroll);
-  // }, [currentPage, pagination, itemsPerPage]);
 
   const closeModal = () => {
     setIsActiveModal(allCloseModalWindow);

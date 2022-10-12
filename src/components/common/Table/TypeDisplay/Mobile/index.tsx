@@ -1,10 +1,12 @@
 import React from 'react';
 import clsx from 'clsx';
 import ReactTooltip from 'react-tooltip';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import { ITableHeader } from '../Desktop/TableHeader';
 import { ITableRowItem } from '../Desktop/TableBody';
 import styles from './index.module.scss';
 import AdaptiveTableModalButtons from '../../../AdaptiveTableModalButtons';
+import { useQueryParam } from '../../../../../hooks/All/useQueryParams';
 
 interface IAdaptiveTable {
   dataHeader: ITableHeader[];
@@ -24,15 +26,27 @@ const AdaptiveTable = ({
   isTwoColumns,
   heightVH,
   isTableVoting,
-}: IAdaptiveTable) => (
+}: IAdaptiveTable) => {
+  const { get, post } = useQueryParam();
+  const itemsPerPage = Number(get('itemsPerPage')) || 10;
+  const currentPage = Number(get('currentPage')) || 1;
+
+  return (
   // eslint-disable-next-line react/jsx-no-useless-fragment
-  <>
-    {dataRow.length ? (
-      <>
-        {!isTableResult
-          && !isHistoryTable
-          && !isTableVoting
-          && dataRow.map((rowItem) => (
+    <>
+      {dataRow.length ? (
+        <InfiniteScroll
+          className={styles.infinity}
+          dataLength={dataRow.length}
+          next={() => post({
+            itemsPerPage: 100,
+            currentPage: dataRow.length === itemsPerPage ? currentPage + 1 : currentPage })}
+          hasMore
+          height="65vh"
+          loader={<h4>Loading...</h4>}
+          endMessage={(<p style={{ textAlign: 'center' }}><b>Yay! You have seen it all</b></p>)}
+        >
+          {!isTableResult && !isHistoryTable && !isTableVoting && dataRow.map((rowItem) => (
             <div key={rowItem.key} className={styles.block}>
               <div className={styles.content}>
                 {rowItem.list
@@ -44,7 +58,7 @@ const AdaptiveTable = ({
                       </h6>
                       <div className={styles.label}>
                         {item.label.map((el, num) => (
-                          // eslint-disable-next-line max-len
+                        // eslint-disable-next-line max-len
                           <h6 className={clsx(index === 0 ? styles.Title : styles.Subtitle, styles.label)} key={item.id}>
                             <a className={styles.label} data-tip data-for={`${index}:-${rowItem.key}--${num}`}>{el}</a>
                             <ReactTooltip
@@ -63,25 +77,25 @@ const AdaptiveTable = ({
                       </div>
                     </div>
                   ) : (!!item.label && (
-                    <h6 key={item.id} className={clsx(index === 0 ? styles.Title : styles.Subtitle)}>
-                      <div className={clsx(styles.marginHeder, isTwoColumns && styles.titleGrade)}>
-                        {index !== 0 && `${dataHeader[index]?.label}:  `}
-                      </div>
-                      <a className={styles.label} data-tip data-for={`${rowItem.key}-${item.id}`}>
-                        {item.label}
-                      </a>
-                      <ReactTooltip
-                        id={`${rowItem.key}-${item.id}`}
-                        type="info"
-                        backgroundColor="#C0D7FC"
-                        delayShow={850}
-                        textColor="#000000"
-                        arrowColor="#e8e8e8"
-                        className={styles.tooltip}
-                      >
-                        <span>{item.label}</span>
-                      </ReactTooltip>
-                    </h6>
+                  <h6 key={item.id} className={clsx(index === 0 ? styles.Title : styles.Subtitle)}>
+                    <div className={clsx(styles.marginHeder, isTwoColumns && styles.titleGrade)}>
+                      {index !== 0 && `${dataHeader[index]?.label}:  `}
+                    </div>
+                    <a className={styles.label} data-tip data-for={`${rowItem.key}-${item.id}`}>
+                      {item.label}
+                    </a>
+                    <ReactTooltip
+                      id={`${rowItem.key}-${item.id}`}
+                      type="info"
+                      backgroundColor="#C0D7FC"
+                      delayShow={850}
+                      textColor="#000000"
+                      arrowColor="#e8e8e8"
+                      className={styles.tooltip}
+                    >
+                      <span>{item.label}</span>
+                    </ReactTooltip>
+                  </h6>
                   )
                   ))}
               </div>
@@ -92,8 +106,7 @@ const AdaptiveTable = ({
               </div>
             </div>
           ))}
-
-        {(isTableResult || isHistoryTable || isTableVoting) && (
+          {(isTableResult || isHistoryTable || isTableVoting) && (
           <div className={styles.contentScroll} style={{ height: heightVH }}>
             {dataRow.map((rowItem) => (
               <div key={rowItem.key} className={styles.block}>
@@ -125,15 +138,16 @@ const AdaptiveTable = ({
               </div>
             ))}
           </div>
-        )}
-      </>
-    ) : (
-      <div className={styles.block_no_data}>
-        <div className={styles.no_data}>Дані відсутні</div>
-      </div>
-    )}
-  </>
-);
+          )}
+        </InfiniteScroll>
+      ) : (
+        <div className={styles.block_no_data}>
+          <div className={styles.no_data}>Дані відсутні</div>
+        </div>
+      )}
+    </>
+  );
+};
 
 AdaptiveTable.defaultProps = {
   isTwoColumns: false,

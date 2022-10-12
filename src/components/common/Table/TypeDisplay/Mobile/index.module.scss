@@ -40,6 +40,11 @@
     font-weight: 500;
   }
 }
+.infinity{
+  width: 100%;
+  overflow: hidden;
+  overflow-y: auto;
+}
 
 .contentScroll {
   overflow-y: auto;

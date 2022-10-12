@@ -1,10 +1,12 @@
 import React from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import { ITableRowItem } from './TypeDisplay/Desktop/TableBody';
 import TableFilter from './TypeDisplay/Desktop/TableFilter';
 import { ITableHeader } from './TypeDisplay/Desktop/TableHeader';
 import { DeviceContext } from '../../../context/All/DeviceType';
 import DesktopTable from './TypeDisplay/Desktop';
 import AdaptiveTable from './TypeDisplay/Mobile';
+import styles from './index.module.scss';
 
 interface ITable {
   dataHeader: ITableHeader[] | [];
@@ -55,16 +57,15 @@ const Table = ({
         />
       )}
       {((isTablet && (!isTableResult && !isHistoryTable)) || isPhone) && (
-        <AdaptiveTable
-          isHistoryTable={isHistoryTable}
-          isTableResult={isTableResult}
-          dataHeader={dataHeader}
-          dataRow={dataRow}
-          heightVH={heightVH}
-          isTwoColumns={isTwoColumns}
-          isTableVoting={isTableVoting}
-
-        />
+      <AdaptiveTable
+        isHistoryTable={isHistoryTable}
+        isTableResult={isTableResult}
+        dataHeader={dataHeader}
+        dataRow={dataRow}
+        heightVH={heightVH}
+        isTwoColumns={isTwoColumns}
+        isTableVoting={isTableVoting}
+      />
       )}
     </>
   );

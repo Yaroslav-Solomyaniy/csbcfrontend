@@ -22,6 +22,11 @@
   }
 }
 
+.label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .marginHeder {
   margin-right: 5px;
 }

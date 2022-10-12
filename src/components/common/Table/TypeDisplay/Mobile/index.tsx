@@ -39,14 +39,14 @@ const AdaptiveTable = ({
                   .slice(0, rowItem.list.length - 1)
                   .map((item, index) => Array.isArray(item.label) ? (
                     <div className={styles.ArrayRow}>
-                      <h6 key={item.id} className={index === 0 ? styles.Title : styles.Subtitle}>
+                      <h6 key={item.id} className={clsx(index === 0 ? styles.Title : styles.Subtitle)}>
                         {index !== 0 && `${dataHeader[index]?.label}: `}
                       </h6>
-                      <div>
+                      <div className={styles.label}>
                         {item.label.map((el, num) => (
                           // eslint-disable-next-line max-len
                           <h6 className={clsx(index === 0 ? styles.Title : styles.Subtitle, styles.label)} key={item.id}>
-                            <a data-tip data-for={`${index}:-${rowItem.key}--${num}`}>{el}</a>
+                            <a className={styles.label} data-tip data-for={`${index}:-${rowItem.key}--${num}`}>{el}</a>
                             <ReactTooltip
                               id={`${index}:-${rowItem.key}--${num}`}
                               type="info"
@@ -63,11 +63,11 @@ const AdaptiveTable = ({
                       </div>
                     </div>
                   ) : (!!item.label && (
-                    <h6 key={item.id} className={index === 0 ? styles.Title : styles.Subtitle}>
+                    <h6 key={item.id} className={clsx(index === 0 ? styles.Title : styles.Subtitle)}>
                       <div className={clsx(styles.marginHeder, isTwoColumns && styles.titleGrade)}>
                         {index !== 0 && `${dataHeader[index]?.label}:  `}
                       </div>
-                      <a data-tip data-for={`${rowItem.key}-${item.id}`}>
+                      <a className={styles.label} data-tip data-for={`${rowItem.key}-${item.id}`}>
                         {item.label}
                       </a>
                       <ReactTooltip
@@ -99,11 +99,11 @@ const AdaptiveTable = ({
               <div key={rowItem.key} className={styles.block}>
                 <div className={styles.content}>
                   {rowItem.list.map((i, index) => (
-                    <h6 key={i.id} className={index === 0 ? styles.Title : styles.Subtitle}>
-                      {isTableVoting && index === 0 ? <span>{` ${i.label}`}</span> : (
+                    <h6 key={i.id} className={clsx(index === 0 ? styles.Title : styles.Subtitle, styles.label)}>
+                      {isTableVoting && index === 0 ? <span>{i.label}</span> : (
                         <>
                           {index !== 0 && `${dataHeader[index]?.label}:  `}
-                          <a data-tip data-for={`${index}-${i.id}:${rowItem.key}`}>
+                          <a className={styles.label} data-tip data-for={`${index}-${i.id}:${rowItem.key}`}>
                             {i.label}
                           </a>
                           <ReactTooltip

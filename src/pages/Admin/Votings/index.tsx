@@ -48,7 +48,7 @@ const VotingAdmin = (): JSX.Element => {
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
   const [pagination, setPagination] = useState<Pagination>({ ...initialPagination });
 
-  const { getVoting, votingDelete, votingEdit, votingCreate } = VotingsAdmin();
+  const { getVoting, votingDelete, votingEdit, votingCreate, votingSubmit } = VotingsAdmin();
   const { isPhone } = DeviceContext();
   const { get, post } = useQueryParam();
 
@@ -85,6 +85,7 @@ const VotingAdmin = (): JSX.Element => {
     votingCreate?.data,
     votingEdit?.data,
     votingDelete?.data,
+    votingSubmit?.data,
     groupId,
     statusMessage,
     currentPage,
@@ -101,20 +102,21 @@ const VotingAdmin = (): JSX.Element => {
           { id: 3, label: new Date(item.endDate).toLocaleString() },
           { id: 4, label: `${item.tookPart} / ${item.allStudents}` },
           { id: 5,
-            label: <div className={styles.circleAndStatus}>
-              <div
-                className={styles.circleStatus}
-                style={{
-                  opacity: 0.6,
-                  background: item.status === 'Потребує перегляду'
-                    ? 'red' : item.status === 'Нове'
-                      ? 'rebeccapurple' : item.status === 'У прогресі'
-                        ? 'orange' : item.status === 'Переголосування у прогресі' ? '#adad00' : 'green' }}
-              />
-              <div className={styles.statusText}>
-                {item.status}
-              </div>
-            </div> },
+            label:
+  <div className={styles.circleAndStatus}>
+    <div
+      className={styles.circleStatus}
+      style={{
+        opacity: 0.6,
+        background: item.status === 'Потребує перегляду'
+          ? 'red' : item.status === 'Нове'
+            ? 'rebeccapurple' : item.status === 'У прогресі'
+              ? 'orange' : item.status === 'Переголосування у прогресі' ? '#adad00' : 'green' }}
+    />
+    <div className={styles.statusText}>
+      {item.status}
+    </div>
+  </div> },
           { id: 6,
             label: <EditDeleteReviewApprove
               isActiveModal={isActiveModal}

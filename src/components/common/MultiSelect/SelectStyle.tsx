@@ -1,6 +1,6 @@
-export const MultiSelectDesktopStyle: any = {
+export const MultiSelectDesktopStyle:Record<string, object> = {
   modal: {
-    control: (provided: any) => ({
+    control: (provided: object) => ({
       ...provided,
       background: '#fff',
       border: '1px solid rgba(0, 0, 0, 0.1)',
@@ -20,7 +20,7 @@ export const MultiSelectDesktopStyle: any = {
         border: '1px solid rgba(39, 111, 173, 1)',
       },
     }),
-    multiValue: (base: any) => ({
+    multiValue: (base: object) => ({
       ...base,
       backgroundColor: 'white',
       fontSize: '14px',
@@ -33,52 +33,52 @@ export const MultiSelectDesktopStyle: any = {
       display: 'flex',
       justifyContent: 'space-Between',
     }),
-    multiValueLabel: (base: any) => ({
+    multiValueLabel: (base: object) => ({
       ...base,
       backgroundColor: 'white',
     }),
-    multiValueRemove: (base: any) => ({
+    multiValueRemove: (base: object) => ({
       ...base,
       color: 'rgba(0, 0, 0, 0.75)',
       '&:hover': {
         color: 'rgba(39, 111, 173, 1)',
       },
     }),
-    menu: (base: any) => ({
+    menu: (base: object) => ({
       ...base,
       background: '#FEFEFE',
       overflow: 'hidden',
     }),
-    menuList: (base: any) => ({
+    menuList: (base: object) => ({
       ...base,
       background: '#FEFEFE',
     }),
-    valueContainer: (provided: any) => ({
+    valueContainer: (provided: object) => ({
       ...provided,
       padding: '0 15px',
     }),
-    indicatorSeparator: (provided: any) => ({
+    indicatorSeparator: (provided: object) => ({
       ...provided,
       display: 'none',
     }),
-    indicatorsContainer: (provided: any) => ({
+    indicatorsContainer: (provided: object) => ({
       ...provided,
       minHeight: 30,
       maxHeight: 30,
     }),
-    input: (provided: any) => ({
+    input: (provided: object) => ({
       ...provided,
       margin: '0px',
       padding: '0',
     }),
-    clearIndicator: (provided: any) => ({
+    clearIndicator: (provided: object) => ({
       ...provided,
       '&:hover': {
         backgroundColor: 'transparent',
         color: 'rgba(45, 112, 169, 1)',
       },
     }),
-    dropdownIndicator: (provided: any) => ({
+    dropdownIndicator: (provided: object) => ({
       ...provided,
       '&:hover': {
         backgroundColor: 'transparent',
@@ -87,11 +87,10 @@ export const MultiSelectDesktopStyle: any = {
     }),
   },
 };
-
-export const MultiSelectMobileStyle: any = {
+export const MultiSelectMobileStyle:Record<string, object> = {
   modal: {
     ...MultiSelectDesktopStyle.modal,
-    control: (provided: any) => ({
+    control: (provided: object) => ({
       ...provided,
       background: '#fff',
       border: '1px solid rgba(0, 0, 0, 0.1)',
@@ -111,12 +110,12 @@ export const MultiSelectMobileStyle: any = {
         border: '1px solid rgba(39, 111, 173, 1)',
       },
     }),
-    indicatorsContainer: (provided: any) => ({
+    indicatorsContainer: (provided: object) => ({
       ...provided,
       minHeight: 40,
       maxHeight: 40,
     }),
-    valueContainer: (provided: any) => ({
+    valueContainer: (provided: object) => ({
       ...provided,
       padding: '0 20px',
     }),

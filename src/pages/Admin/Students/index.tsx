@@ -161,7 +161,6 @@ const Students = (): JSX.Element => {
           <StudentsReviewEdit
             closeModal={() => setIsActiveModal({ ...isActiveModal, reviewEdit: false })}
             modalActive={!!(isActiveModal.reviewEdit)}
-            id={+isActiveModal.review}
           />
         </>
       )}

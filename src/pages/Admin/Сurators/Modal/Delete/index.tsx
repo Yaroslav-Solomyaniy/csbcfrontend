@@ -3,7 +3,6 @@ import ModalWindow from '../../../../../components/common/ModalWindow';
 import { IDeleteModal } from '../../../../../types';
 import { CuratorContext } from '../../../../../context/PagesInAdmin/Curators';
 import { MessagesContext } from '../../../../../context/All/Messages';
-import { DeviceContext } from '../../../../../context/All/DeviceType';
 import styles from '../../../../pagesStyle.module.scss';
 import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
 

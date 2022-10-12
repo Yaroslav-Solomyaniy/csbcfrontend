@@ -6,7 +6,6 @@ import { MessagesContext } from '../../../../../context/All/Messages';
 import { IEditModal } from '../../../../../types';
 import GroupPageModalForm from '../form/Create&Edit/modalForm';
 import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
-import Preloader from '../../../../../components/common/Preloader/Preloader';
 
 const formInitialData = {
   name: '',

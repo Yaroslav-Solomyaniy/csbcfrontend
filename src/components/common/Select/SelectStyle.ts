@@ -1,6 +1,6 @@
-export const SelectStylesDesktop:any = {
+export const SelectStylesDesktop:Record<string, object> = {
   pagination: {
-    control: (provided: any) => ({
+    control: (provided: object) => ({
       ...provided,
       background: '#fff',
       border: '1px solid rgba(0, 0, 0, 0.1)',
@@ -24,15 +24,15 @@ export const SelectStylesDesktop:any = {
         borderColor: 'rgba(39, 111, 173, 1)',
       },
     }),
-    indicatorSeparator: (provided: any) => ({
+    indicatorSeparator: (provided: object) => ({
       ...provided,
       display: 'none',
     }),
-    indicatorsContainer: (provided: any) => ({
+    indicatorsContainer: (provided: object) => ({
       ...provided,
       height: '32px',
     }),
-    option: (base: any) => ({
+    option: (base: object) => ({
       ...base,
       color: 'rgba(0, 0, 0, 0.75)',
       background: '#FEFEFE',
@@ -41,23 +41,23 @@ export const SelectStylesDesktop:any = {
         background: '#D7E7F4',
       },
     }),
-    menu: (base: any) => ({
+    menu: (base: object) => ({
       ...base,
       background: '#FEFEFE',
       overflow: 'hidden',
     }),
-    menuList: (base: any) => ({
+    menuList: (base: object) => ({
       ...base,
       background: '#FEFEFE',
     }),
-    clearIndicator: (provided: any) => ({
+    clearIndicator: (provided: object) => ({
       ...provided,
       '&:hover': {
         backgroundColor: 'transparent',
         color: 'rgba(45, 112, 169, 1)',
       },
     }),
-    dropdownIndicator: (provided: any) => ({
+    dropdownIndicator: (provided: object) => ({
       ...provided,
       '&:hover': {
         backgroundColor: 'transparent',
@@ -66,7 +66,7 @@ export const SelectStylesDesktop:any = {
     }),
   },
   filter: {
-    control: (provided: any) => ({
+    control: (provided: object) => ({
       ...provided,
       background: '#fff',
       border: '1px solid rgba(0, 0, 0, 0.1)',
@@ -89,11 +89,11 @@ export const SelectStylesDesktop:any = {
         borderColor: 'rgba(39, 111, 173, 1)',
       },
     }),
-    indicatorSeparator: (provided: any) => ({
+    indicatorSeparator: (provided: object) => ({
       ...provided,
       display: 'none',
     }),
-    option: (base: any, state: any) => ({
+    option: (base: object, state:Record<string, object>) => ({
       ...base,
       background: state.isSelected ? '#428BCA' : '#FEFEFE',
       '&:hover': {
@@ -101,30 +101,30 @@ export const SelectStylesDesktop:any = {
         background: state.isSelected ? '#428BCA' : '#D7E7F4',
       },
     }),
-    menu: (base: any) => ({
+    menu: (base: object) => ({
       ...base,
       background: '#FEFEFE',
       overflow: 'hidden',
       zIndex: 980,
     }),
-    menuList: (base: any) => ({
+    menuList: (base: object) => ({
       ...base,
       background: '#FEFEFE',
       zIndex: 980,
     }),
-    valueContainer: (provided: any) => ({
+    valueContainer: (provided: object) => ({
       ...provided,
       padding: '9px 16px',
       fontSize: '14px',
     }),
-    clearIndicator: (provided: any) => ({
+    clearIndicator: (provided: object) => ({
       ...provided,
       '&:hover': {
         backgroundColor: 'transparent',
         color: 'rgba(45, 112, 169, 1)',
       },
     }),
-    dropdownIndicator: (provided: any) => ({
+    dropdownIndicator: (provided: object) => ({
       ...provided,
       '&:hover': {
         backgroundColor: 'transparent',
@@ -133,7 +133,7 @@ export const SelectStylesDesktop:any = {
     }),
   },
   modal: {
-    control: (provided: any) => ({
+    control: (provided: object) => ({
       ...provided,
       background: '#fff',
       border: '1px solid rgba(0, 0, 0, 0.1)',
@@ -157,11 +157,11 @@ export const SelectStylesDesktop:any = {
         borderColor: 'rgba(39, 111, 173, 1)',
       },
     }),
-    indicatorSeparator: (provided: any) => ({
+    indicatorSeparator: (provided: object) => ({
       ...provided,
       display: 'none',
     }),
-    option: (base: any, state: any) => ({
+    option: (base: object, state:Record<string, object>) => ({
       ...base,
       background: state.isSelected ? '#428BCA' : '#FEFEFE',
       '&:hover': {
@@ -169,40 +169,40 @@ export const SelectStylesDesktop:any = {
         background: state.isSelected ? '#428BCA' : '#D7E7F4',
       },
     }),
-    menu: (base: any) => ({
+    menu: (base: object) => ({
       ...base,
       background: '#FEFEFE',
       overflow: 'hidden',
       zIndex: 980,
     }),
-    menuList: (base: any) => ({
+    menuList: (base: object) => ({
       ...base,
       background: '#FEFEFE',
       zIndex: 980,
     }),
-    valueContainer: (provided: any) => ({
+    valueContainer: (provided: object) => ({
       ...provided,
       padding: '8px 16px',
       fontSize: '14px',
       height: '32px',
     }),
-    input: (provided: any) => ({
+    input: (provided: object) => ({
       ...provided,
       margin: '0px',
       padding: '0',
     }),
-    indicatorsContainer: (provided: any) => ({
+    indicatorsContainer: (provided: object) => ({
       ...provided,
       height: '32px',
     }),
-    clearIndicator: (provided: any) => ({
+    clearIndicator: (provided: object) => ({
       ...provided,
       '&:hover': {
         backgroundColor: 'transparent',
         color: 'rgba(45, 112, 169, 1)',
       },
     }),
-    dropdownIndicator: (provided: any) => ({
+    dropdownIndicator: (provided: object) => ({
       ...provided,
       '&:hover': {
         backgroundColor: 'transparent',
@@ -211,7 +211,7 @@ export const SelectStylesDesktop:any = {
     }),
   },
   mini: {
-    control: (provided: any) => ({
+    control: (provided: object) => ({
       ...provided,
       background: '#fff',
       border: '1px solid rgba(0, 0, 0, 0.1)',
@@ -234,11 +234,11 @@ export const SelectStylesDesktop:any = {
         borderColor: 'rgba(39, 111, 173, 1)',
       },
     }),
-    indicatorSeparator: (provided: any) => ({
+    indicatorSeparator: (provided: object) => ({
       ...provided,
       display: 'none',
     }),
-    option: (base: any, state: any) => ({
+    option: (base: object, state:Record<string, object>) => ({
       ...base,
       background: state.isSelected ? '#428BCA' : '#FEFEFE',
       '&:hover': {
@@ -246,30 +246,30 @@ export const SelectStylesDesktop:any = {
         background: state.isSelected ? '#428BCA' : '#D7E7F4',
       },
     }),
-    menu: (base: any) => ({
+    menu: (base: object) => ({
       ...base,
       background: '#FEFEFE',
       overflow: 'hidden',
       zIndex: 980,
     }),
-    menuList: (base: any) => ({
+    menuList: (base: object) => ({
       ...base,
       background: '#FEFEFE',
       zIndex: 980,
     }),
-    valueContainer: (provided: any) => ({
+    valueContainer: (provided: object) => ({
       ...provided,
       padding: '9px 16px',
       fontSize: '14px',
     }),
-    clearIndicator: (provided: any) => ({
+    clearIndicator: (provided: object) => ({
       ...provided,
       '&:hover': {
         backgroundColor: 'transparent',
         color: 'rgba(45, 112, 169, 1)',
       },
     }),
-    dropdownIndicator: (provided: any) => ({
+    dropdownIndicator: (provided: object) => ({
       ...provided,
       '&:hover': {
         backgroundColor: 'transparent',
@@ -278,13 +278,13 @@ export const SelectStylesDesktop:any = {
     }),
   },
 };
-export const SelectStylesTablet:any = {
+export const SelectStylesTablet:Record<string, object> = {
   pagination: {
     ...SelectStylesDesktop.pagination,
   },
   filter: {
     ...SelectStylesDesktop.filter,
-    control: (provided: any) => ({
+    control: (provided: object) => ({
       ...provided,
       background: '#fff',
       border: '1px solid rgba(0, 0, 0, 0.1)',
@@ -310,7 +310,7 @@ export const SelectStylesTablet:any = {
   },
   modal: {
     ...SelectStylesDesktop.modal,
-    control: (provided: any) => ({
+    control: (provided: object) => ({
       ...provided,
       height: '42px',
       border: '1px solid rgba(0, 0, 0, 0.1)',
@@ -331,18 +331,18 @@ export const SelectStylesTablet:any = {
         borderColor: 'rgba(39, 111, 173, 1)',
       },
     }),
-    valueContainer: (provided: any) => ({
+    valueContainer: (provided: object) => ({
       ...provided,
       height: '42px',
       padding: '5px 16px',
     }),
-    indicatorsContainer: (provided: any) => ({
+    indicatorsContainer: (provided: object) => ({
       ...provided,
       height: '42px',
     }),
   },
   mini: {
-    control: (provided: any) => ({
+    control: (provided: object) => ({
       ...provided,
       background: '#fff',
       border: '1px solid rgba(0, 0, 0, 0.1)',
@@ -365,11 +365,11 @@ export const SelectStylesTablet:any = {
         borderColor: 'rgba(39, 111, 173, 1)',
       },
     }),
-    indicatorSeparator: (provided: any) => ({
+    indicatorSeparator: (provided: object) => ({
       ...provided,
       display: 'none',
     }),
-    option: (base: any, state: any) => ({
+    option: (base: object, state:Record<string, object>) => ({
       ...base,
       background: state.isSelected ? '#428BCA' : '#FEFEFE',
       '&:hover': {
@@ -377,30 +377,30 @@ export const SelectStylesTablet:any = {
         background: state.isSelected ? '#428BCA' : '#D7E7F4',
       },
     }),
-    menu: (base: any) => ({
+    menu: (base: object) => ({
       ...base,
       background: '#FEFEFE',
       overflow: 'hidden',
       zIndex: 980,
     }),
-    menuList: (base: any) => ({
+    menuList: (base: object) => ({
       ...base,
       background: '#FEFEFE',
       zIndex: 980,
     }),
-    valueContainer: (provided: any) => ({
+    valueContainer: (provided: object) => ({
       ...provided,
       padding: '9px 16px',
       fontSize: '14px',
     }),
-    clearIndicator: (provided: any) => ({
+    clearIndicator: (provided: object) => ({
       ...provided,
       '&:hover': {
         backgroundColor: 'transparent',
         color: 'rgba(45, 112, 169, 1)',
       },
     }),
-    dropdownIndicator: (provided: any) => ({
+    dropdownIndicator: (provided: object) => ({
       ...provided,
       '&:hover': {
         backgroundColor: 'transparent',
@@ -409,12 +409,12 @@ export const SelectStylesTablet:any = {
     }),
   },
 };
-export const SelectStylesPhone:any = {
+export const SelectStylesPhone:Record<string, object> = {
   pagination: {
-    ...SelectStylesTablet.pagination,
+    ...SelectStylesDesktop.pagination,
   },
   mini: {
-    control: (provided: any) => ({
+    control: (provided: object) => ({
       ...provided,
       background: '#fff',
       border: '1px solid rgba(0, 0, 0, 0.1)',
@@ -437,11 +437,11 @@ export const SelectStylesPhone:any = {
         borderColor: 'rgba(39, 111, 173, 1)',
       },
     }),
-    indicatorSeparator: (provided: any) => ({
+    indicatorSeparator: (provided: object) => ({
       ...provided,
       display: 'none',
     }),
-    option: (base: any, state: any) => ({
+    option: (base: object, state: Record<string, object>) => ({
       ...base,
       background: state.isSelected ? '#428BCA' : '#FEFEFE',
       '&:hover': {
@@ -449,30 +449,30 @@ export const SelectStylesPhone:any = {
         background: state.isSelected ? '#428BCA' : '#D7E7F4',
       },
     }),
-    menu: (base: any) => ({
+    menu: (base: object) => ({
       ...base,
       background: '#FEFEFE',
       overflow: 'hidden',
       zIndex: 980,
     }),
-    menuList: (base: any) => ({
+    menuList: (base: object) => ({
       ...base,
       background: '#FEFEFE',
       zIndex: 980,
     }),
-    valueContainer: (provided: any) => ({
+    valueContainer: (provided: object) => ({
       ...provided,
       padding: '9px 16px',
       fontSize: '14px',
     }),
-    clearIndicator: (provided: any) => ({
+    clearIndicator: (provided: object) => ({
       ...provided,
       '&:hover': {
         backgroundColor: 'transparent',
         color: 'rgba(45, 112, 169, 1)',
       },
     }),
-    dropdownIndicator: (provided: any) => ({
+    dropdownIndicator: (provided: object) => ({
       ...provided,
       '&:hover': {
         backgroundColor: 'transparent',
@@ -482,7 +482,7 @@ export const SelectStylesPhone:any = {
   },
   filter: {
     ...SelectStylesTablet.filter,
-    control: (provided: any) => ({
+    control: (provided: object) => ({
       ...provided,
       background: '#fff',
       border: '1px solid rgba(0, 0, 0, 0.1)',
@@ -508,7 +508,7 @@ export const SelectStylesPhone:any = {
   },
   modal: {
     ...SelectStylesTablet.modal,
-    control: (provided: any) => ({
+    control: (provided: object) => ({
       ...provided,
       height: '42px',
       border: '1px solid rgba(0, 0, 0, 0.1)',
@@ -529,12 +529,12 @@ export const SelectStylesPhone:any = {
         borderColor: 'rgba(39, 111, 173, 1)',
       },
     }),
-    valueContainer: (provided: any) => ({
+    valueContainer: (provided: object) => ({
       ...provided,
       height: '42px',
       padding: '5px 16px',
     }),
-    indicatorsContainer: (provided: any) => ({
+    indicatorsContainer: (provided: object) => ({
       ...provided,
       height: '42px',
     }),

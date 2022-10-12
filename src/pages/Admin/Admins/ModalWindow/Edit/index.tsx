@@ -6,7 +6,6 @@ import { IUserEditParams } from '../../../../../hooks/All/useUser';
 import { AdministratorsContext } from '../../../../../context/PagesInAdmin/Administators';
 import { MessagesContext } from '../../../../../context/All/Messages';
 import AdministratorsForm from '../form/Create&Edit';
-import { DeviceContext } from '../../../../../context/All/DeviceType';
 import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
 
 const formInitialData: IUserEditParams = {
@@ -20,8 +19,6 @@ const formInitialData: IUserEditParams = {
 export const AdministratorEditModal = ({ modalActive, closeModal, studentId }: IEditModal): JSX.Element => {
   const [isSubmitted, setIsSubmited] = useState(false);
   const [formData, setFormData] = useState<IUserEditParams>(formInitialData);
-
-  const { isPhone, isTablet, isDesktop } = DeviceContext();
   const { administratorsEdit, getAdministratorsId } = AdministratorsContext();
   const { addInfo } = MessagesContext();
 

@@ -8,11 +8,11 @@ import TitlePage from '../../../components/common/TitlePage';
 import Table from '../../../components/common/Table';
 import { useGetListCourses } from '../../../hooks/All/useDropDowns';
 import { EstimatesContext } from '../../../context/PagesInAdmin/Estimates';
-import { IGetGradesData, IGetGradesParams, UseGradesDownload } from '../../../hooks/PagesInAdmin/useEstimates';
+import { IGetGradesData, UseGradesDownload } from '../../../hooks/PagesInAdmin/useEstimates';
 import EstimatesEdit from './modal/EstimatesEdit';
 import EstimatesFilters from './Filters';
 import PhoneFilter from '../../../components/common/PhoneFilter';
-import { useQueryParam } from '../../../hooks/All/useQueryParams';
+import { AddQueryParams, useQueryParam } from '../../../hooks/All/useQueryParams';
 import { initialPagination, Pagination } from '../../../types';
 import { DeviceContext } from '../../../context/All/DeviceType';
 import EstimatesHistory from './modal/EstimatesHystory';
@@ -69,23 +69,10 @@ const Estimates = (): JSX.Element => {
   }, [gradesGet?.data, semesterId]);
 
   useEffect(() => {
-    const query: IGetGradesParams = {};
-
-    if (groupId) query.groupId = groupId;
-    if (semesterId) query.semester = semesterId;
-    if (studentId) query.studentId = studentId;
-    if (currentPage) query.page = currentPage;
-    if (itemsPerPage) query.limit = itemsPerPage;
-
-    gradesGet?.getEstimateStudent(query);
-  }, [
-    gradesEdit?.data,
-    groupId,
-    semesterId,
-    studentId,
-    currentPage,
-    itemsPerPage,
-  ]);
+    gradesGet?.getEstimateStudent(
+      AddQueryParams({ groupId, semester: semesterId, studentId, page: currentPage, limit: itemsPerPage }),
+    );
+  }, [gradesEdit?.data, groupId, semesterId, studentId, currentPage, itemsPerPage]);
 
   const downloadGrades = (id: number) => {
     getStudentId({ id });
@@ -107,7 +94,7 @@ const Estimates = (): JSX.Element => {
     return (
       arrTableRows.length ? arrTableRows.map((student: IGetGradesData) => {
         const arrTableRowsGrade = dropCurses.optionCourses
-          ? dropCurses.optionCourses.items.map((course) => {
+          ? dropCurses.optionCourses.map((course) => {
             const studentGrades = student.grades.find(
               (studentGrade) => studentGrade.course.id === course.id,
             );
@@ -134,8 +121,6 @@ const Estimates = (): JSX.Element => {
             });
           })
           : [];
-
-        setIsLoading(false);
 
         return ({
           list: [
@@ -191,7 +176,7 @@ const Estimates = (): JSX.Element => {
       { id: 1, label: 'ПІБ' },
       { id: 2, label: 'Група' },
       { id: 3, label: 'Середній бал' },
-      ...dropCurses.optionCourses ? dropCurses.optionCourses.items.map(
+      ...dropCurses.optionCourses ? dropCurses.optionCourses.map(
         (el) => ({ id: ++id, label: el.name }),
       ) : [],
       { id: ++id, label: 'Дії' },
@@ -200,6 +185,7 @@ const Estimates = (): JSX.Element => {
     if (gradesGet?.data) {
       setPagination(gradesGet.data.meta);
       setDataRow(tableRows(gradesGet.data.items));
+      setIsLoading(false);
     }
   }, [gradesGet?.data, dropCurses.optionCourses, isActiveModal]);
 
@@ -207,16 +193,16 @@ const Estimates = (): JSX.Element => {
     <Layout>
       <TitlePage
         title="Оцінки"
-        {...isPhone && !!(dropCurses.optionCourses?.items.length) && ({ setIsActiveModal })}
-        {...isPhone && !!(dropCurses.optionCourses?.items.length) && ({ isActiveModal: !!isActiveModal.filter })}
+        {...isPhone && !!(dropCurses.optionCourses?.length) && ({ setIsActiveModal })}
+        {...isPhone && !!(dropCurses.optionCourses?.length) && ({ isActiveModal: !!isActiveModal.filter })}
       />
       {isLoading ? <Preloader /> : (
         <>
-          {(dropCurses?.optionCourses?.items?.length || 0) > 0 ? (
+          {(dropCurses?.optionCourses?.length || 0) > 0 ? (
             <>
               <Table
                 filter={(<EstimatesFilters studentId={studentId} semesterId={semesterId} groupId={groupId} />)}
-                columScrollHorizontal={dropCurses.optionCourses ? +`${dropCurses.optionCourses?.items.length}` : 0}
+                columScrollHorizontal={dropCurses.optionCourses ? +`${dropCurses.optionCourses?.length}` : 0}
                 isScroll
                 isTwoColumns
                 dataHeader={dataHeader}

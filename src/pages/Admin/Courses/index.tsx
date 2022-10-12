@@ -13,7 +13,7 @@ import CourseCreateModal from './modal/CourseCreate';
 import CourseEditModal from './modal/CourseEdit';
 import CourseDeleteModal from './modal/CourseDelete';
 import { DeviceContext } from '../../../context/All/DeviceType';
-import { useQueryParam } from '../../../hooks/All/useQueryParams';
+import { AddQueryParams, useQueryParam } from '../../../hooks/All/useQueryParams';
 import { EditAndDelete } from '../../../components/common/CollectionMiniButtons';
 import CoursesFilters from './Filters';
 import PhoneFilter from '../../../components/common/PhoneFilter';
@@ -56,21 +56,6 @@ const Courses = (): JSX.Element => {
   const currentPage = Number(get('currentPage')) || 1;
   const itemsPerPage = Number(get('itemsPerPage')) || 10;
 
-  // useEffect(() => {
-  //   const handleScroll = (e:any) => {
-  //     const myScrollHeight = e.target.documentElement.scrollHeight;
-  //     const currentHeight = e.target.documentElement.scrollTop + window.innerHeight;
-  //
-  //     if (currentHeight - 1 >= myScrollHeight) {
-  //       post({ currentPage: currentPage + 1 });
-  //     }
-  //   };
-  //
-  //   window.addEventListener('scroll', handleScroll);
-  //
-  //   return () => window.removeEventListener('scroll', handleScroll);
-  // }, [currentPage, pagination, itemsPerPage]);
-
   const closeModal = () => {
     setIsActiveModal(allCloseModalWindow);
   };
@@ -82,11 +67,8 @@ const Courses = (): JSX.Element => {
   }, [pagination]);
 
   useEffect(() => {
-    // eslint-disable-next-line max-len
-    const query = (element:object) => Object.fromEntries(Object.entries(element).filter(([, value]) => Boolean(value)));
-
     getCourses?.getCourses(
-      query({ id: courseId,
+      AddQueryParams({ id: courseId,
         groups: groupId,
         teacher: teacherId,
         type: courseType.toString(),

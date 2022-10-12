@@ -44,8 +44,8 @@ const SelectGroupByName = ({
   }, [groupEdit?.data, groupCreate?.data, groupDelete?.data]);
 
   useEffect(() => {
-    if (optionsGroups?.items.length) {
-      setOptions(optionsGroups.items.map((group) => ({ value: group.name, label: group.name })));
+    if (optionsGroups?.length) {
+      setOptions(optionsGroups.map((group) => ({ value: group.name, label: group.name })));
     }
   }, [optionsGroups]);
 

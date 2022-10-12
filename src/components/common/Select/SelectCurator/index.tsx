@@ -44,8 +44,8 @@ const SelectCurator = ({
   }, [curatorEdit, curatorDelete, curatorCreate]);
 
   useEffect(() => {
-    if (optionCurators?.items.length) {
-      setOptions(optionCurators.items.map((curator) => ({
+    if (optionCurators?.length) {
+      setOptions(optionCurators.map((curator) => ({
         value: curator.id,
         label: `${curator.lastName || null} ${curator.firstName || null} ${curator.patronymic || null}`,
       })));

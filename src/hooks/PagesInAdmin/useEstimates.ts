@@ -134,7 +134,7 @@ export const useGradesEdit = (): IUseGradesEdit => {
         Authorization: `Bearer ${user?.accessToken}`,
       },
     })
-      .then((response: AxiosResponse<FetchSuccess | null>) => {
+      .then(() => {
         setData({ success: true });
         addInfo('Оцінку успішно відредаговано.');
       })

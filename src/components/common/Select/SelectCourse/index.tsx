@@ -48,8 +48,8 @@ const SelectCourse = ({
   }, [courseCreate?.data, courseEdit?.data, courseDelete?.data]);
 
   useEffect(() => {
-    if (optionCourses?.items.length) {
-      setOptions(optionCourses.items.map((course) => ({ value: course.id, label: course.name })));
+    if (optionCourses?.length) {
+      setOptions(optionCourses.map((course) => ({ value: course.id, label: course.name })));
     }
   }, [optionCourses]);
 

@@ -12,33 +12,28 @@ interface IGetListGroupsParams {
   curatorName?: string;
   teacherId?: number;
   curatorId?: number;
-  page?: number;
-  limit?: number;
 }
-
 interface IGetListGroupsData {
   id: number;
   name: string;
 }
-
 export interface IUseGetListGroups {
-  optionsGroups: IPaginateData<IGetListGroupsData> | null;
+  optionsGroups: IGetListGroupsData[] | null;
   getListGroups: (params?: IGetListGroupsParams) => void;
 }
-
 export const useGetListGroups = (): IUseGetListGroups => {
   const { addErrors } = MessagesContext();
   const { user } = AuthContext();
-  const [optionsGroups, setOptionsGroups] = useState<IPaginateData<IGetListGroupsData> | null>(null);
+  const [optionsGroups, setOptionsGroups] = useState<IGetListGroupsData[] | null>(null);
 
   const getListGroups = (params?: IGetListGroupsParams) => {
     axios.get(`${process.env.REACT_APP_API_URL}/groups/dropdown/name`, {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
-      params: { OrderByColumn: 'Name', limit: 100, orderBy: 'ASC', ...params },
+      params: { OrderByColumn: 'Name', ...params },
     })
-      .then((response: AxiosResponse<IPaginateData<IGetListGroupsData> | null>) => {
+      .then((response: AxiosResponse<IGetListGroupsData[] | null>) => {
         setOptionsGroups(response.data);
       })
       .catch((error) => {
@@ -55,35 +50,30 @@ interface IGetListCuratorsParams {
   orderByColumn?: 'id' | 'Name' | 'curator_id' | 'order_number' | 'deleted_order_number' | 'created' | 'updated';
   orderBy?: OrderBy;
   curatorName?: string;
-  page?: number;
-  limit?: number;
 }
-
 interface IGetListCuratorsData {
-  'id': number;
-  'firstName': string;
-  'lastName': string;
-  'patronymic': string;
+  id: number;
+  firstName: string;
+  lastName: string;
+  patronymic: string;
 }
-
 interface IUseGetListCurators {
-  optionCurators: IPaginateData<IGetListCuratorsData> | null;
+  optionCurators: IGetListCuratorsData[] | null;
   getListCurators: (params?: IGetListCuratorsParams) => void;
 }
-
 export const useGetListCurators = (): IUseGetListCurators => {
   const { addErrors } = MessagesContext();
   const { user } = AuthContext();
-  const [optionCurators, setOptionCurators] = useState<IPaginateData<IGetListCuratorsData> | null>(null);
+  const [optionCurators, setOptionCurators] = useState<IGetListCuratorsData[] | null>(null);
 
   const getListCurators = (params?: IGetListCuratorsParams) => {
     axios.get(`${process.env.REACT_APP_API_URL}/groups/dropdown/curators/`, {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
-      params: { OrderByColumn: 'Name', limit: 100, orderBy: 'ASC', ...params },
+      params: { OrderByColumn: 'Name', ...params },
     })
-      .then((response: AxiosResponse<IPaginateData<IGetListCuratorsData> | null>) => {
+      .then((response: AxiosResponse<IGetListCuratorsData[] | null>) => {
         setOptionCurators(response.data);
       })
       .catch((error) => {
@@ -112,11 +102,8 @@ interface IGetListCoursesParams {
   courseName?: string | number;
   teacherId?: number;
   curatorId?: number;
-  page?: number;
   semester?: number;
-  limit?: number;
 }
-
 export interface IGetListCoursesData {
   id: number;
   name: string;
@@ -146,25 +133,23 @@ export interface IGetListCoursesData {
     students: number;
   }[];
 }
-
 interface IUseGetListCourses {
-  optionCourses: IPaginateData<IGetListCoursesData> | null;
+  optionCourses:IGetListCoursesData[] | null;
   getListCourses: (params?: IGetListCoursesParams) => void;
 }
-
 export const useGetListCourses = (): IUseGetListCourses => {
   const { addErrors } = MessagesContext();
   const { user } = AuthContext();
-  const [optionCourses, setOptionCourses] = useState<IPaginateData<IGetListCoursesData> | null>(null);
+  const [optionCourses, setOptionCourses] = useState<IGetListCoursesData[] | null>(null);
 
   const getListCourses = (params?: IGetListCoursesParams) => {
     axios.get(`${process.env.REACT_APP_API_URL}/courses/name`, {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
-      params: { OrderByColumn: 'name', limit: 100, orderBy: 'ASC', ...params },
+      params: { OrderByColumn: 'name', ...params },
     })
-      .then((response: AxiosResponse<IPaginateData<IGetListCoursesData> | null>) => {
+      .then((response: AxiosResponse<IGetListCoursesData[] | null>) => {
         setOptionCourses(response.data);
       })
       .catch((error) => {
@@ -178,38 +163,32 @@ export const useGetListCourses = (): IUseGetListCourses => {
 // GET LIST TEACHER
 
 interface IGetListTeachersParams {
-  orderByColumn?: 'id' | 'firstname' | 'lastname' | 'email' | 'role' | 'created' | 'updated';
+  orderByColumn?: 'id' | 'firstName' | 'lastName' | 'email' | 'role' | 'created' | 'updated';
   orderBy?: OrderBy;
-  page?: number;
-  limit?: number;
   teacherName?: string;
 }
-
 interface IGetListTeachersData {
-  'id': number;
-  'firstName': string;
-  'lastName': string;
-  'patronymic': string;
+  id: number;
+  firstName: string;
+  lastName: string;
+  patronymic: string;
 }
-
 interface IUseGetListTeachers {
-  listTeachers: IPaginateData<IGetListTeachersData> | null;
+  listTeachers: IGetListTeachersData[] | null;
   getListTeachers: (params?: IGetListTeachersParams) => void;
 }
-
 export const useGetListTeachers = (): IUseGetListTeachers => {
   const { addErrors } = MessagesContext();
   const { user } = AuthContext();
-  const [listTeachers, setListTeachers] = useState<IPaginateData<IGetListTeachersData> | null>(null);
-
+  const [listTeachers, setListTeachers] = useState<IGetListTeachersData[] | null>(null);
   const getListTeachers = (params?: IGetListTeachersParams) => {
     axios.get(`${process.env.REACT_APP_API_URL}/users/dropdown/teacher`, {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
-      params: { OrderByColumn: 'id', limit: 100, orderBy: 'ASC', ...params },
+      params: { OrderByColumn: 'lastName', ...params },
     })
-      .then((response: AxiosResponse<IPaginateData<IGetListTeachersData> | null>) => {
+      .then((response: AxiosResponse<IGetListTeachersData[] | null>) => {
         setListTeachers(response.data);
       })
       .catch((error) => {
@@ -237,10 +216,7 @@ interface IGetListStudentParams {
   teacherName?: string;
   teacherId?: number;
   curatorId?: number;
-  page?: string;
-  limit?: string;
 }
-
 interface IGetListStudentsData {
   id: number;
   user: {
@@ -250,30 +226,23 @@ interface IGetListStudentsData {
     patronymic: string;
   };
 }
-
 interface IUseGetListStudents {
-  listStudents: IPaginateData<IGetListStudentsData> | null;
+  listStudents: IGetListStudentsData[] | null;
   getListStudents: (params?: IGetListStudentParams) => void;
 }
-
 export const useGetListStudents = (): IUseGetListStudents => {
   const { addErrors } = MessagesContext();
   const { user } = AuthContext();
-  const [listStudents, setListStudents] = useState<IPaginateData<IGetListStudentsData> | null>(null);
+  const [listStudents, setListStudents] = useState<IGetListStudentsData[] | null>(null);
 
   const getListStudents = (params?: IGetListStudentParams) => {
     axios.get(`${process.env.REACT_APP_API_URL}/students/dropdown/name`, {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
-      params: {
-        orderByColumn: 'id',
-        limit: 100,
-        orderBy: 'ASC',
-        ...params,
-      },
+      params: { orderByColumn: 'id', ...params },
     })
-      .then((response: AxiosResponse<IPaginateData<IGetListStudentsData> | null>) => {
+      .then((response: AxiosResponse<IGetListStudentsData[] | null>) => {
         setListStudents(response.data);
       })
       .catch((error) => {
@@ -287,35 +256,31 @@ export const useGetListStudents = (): IUseGetListStudents => {
 interface IGetListAdministratorsParams {
   orderByColumn?: 'id' | 'firstName' | 'lastName' | 'email' | 'role' | 'created' | 'updated';
   orderBy?: OrderBy;
-  page?: number;
-  limit?: number;
 }
-
 interface IGetListAdministratorsData {
   id: number;
   firstName: string;
   lastName: string;
   patronymic: string;
 }
-
 interface IUseGetListAdministrators {
-  listAdmins: IPaginateData<IGetListAdministratorsData> | null;
+  listAdmins: IGetListAdministratorsData[] | null;
   getListAdministrators: (params?: IGetListAdministratorsParams) => void;
 }
 
 export const useGetListAdministrators = (): IUseGetListAdministrators => {
   const { addErrors } = MessagesContext();
   const { user } = AuthContext();
-  const [listAdmins, setListAdmins] = useState<IPaginateData<IGetListAdministratorsData> | null>(null);
+  const [listAdmins, setListAdmins] = useState<IGetListAdministratorsData[] | null>(null);
 
   const getListAdministrators = (params?: IGetListAdministratorsParams) => {
     axios.get(`${process.env.REACT_APP_API_URL}/users/dropdown/admin`, {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
       },
-      params: { orderByColumn: 'lastName', limit: 100, orderBy: 'ASC', ...params },
+      params: { orderByColumn: 'lastName', ...params },
     })
-      .then((response: AxiosResponse<IPaginateData<IGetListAdministratorsData> | null>) => {
+      .then((response: AxiosResponse<IGetListAdministratorsData[] | null>) => {
         setListAdmins(response.data);
       })
       .catch((error) => {

@@ -9,11 +9,11 @@ import { ITableRowItem } from '../../../components/common/Table/TypeDisplay/Desk
 import { initialPagination, Pagination } from '../../../types';
 import CuratorCreateModal from './Modal/Create';
 import { CuratorContext } from '../../../context/PagesInAdmin/Curators';
-import { IGetCuratorData, IGetCuratorParams } from '../../../hooks/PagesInAdmin/useCurators';
+import { IGetCuratorData } from '../../../hooks/PagesInAdmin/useCurators';
 import CuratorEditModal from './Modal/Edit';
 import CuratorDeleteModal from './Modal/Delete';
 import { DeviceContext } from '../../../context/All/DeviceType';
-import { useQueryParam } from '../../../hooks/All/useQueryParams';
+import { AddQueryParams, useQueryParam } from '../../../hooks/All/useQueryParams';
 import { EditAndDelete } from '../../../components/common/CollectionMiniButtons';
 import Filters from './Filters';
 import PhoneFilter from '../../../components/common/PhoneFilter';
@@ -44,14 +44,12 @@ const Curators = (): JSX.Element => {
   const { isPhone } = DeviceContext();
   const { get, post } = useQueryParam();
 
-  const groupName = get('groupName');
+  const groupName = get('groupName') || '';
   const curatorId = Number(get('curatorId')) || 0;
   const currentPage = Number(get('currentPage')) || 1;
   const itemsPerPage = Number(get('itemsPerPage')) || 10;
 
-  const closeModal = () => {
-    setIsActiveModal(allCloseModalWindow);
-  };
+  const closeModal = () => setIsActiveModal(allCloseModalWindow);
 
   useEffect(() => {
     if (currentPage > pagination.totalPages) {
@@ -60,14 +58,9 @@ const Curators = (): JSX.Element => {
   }, [pagination]);
 
   useEffect(() => {
-    const query: IGetCuratorParams = {};
-
-    if (curatorId) query.curatorId = curatorId;
-    if (groupName) query.groupName = groupName;
-    if (currentPage) query.page = currentPage;
-    if (itemsPerPage) query.limit = itemsPerPage;
-
-    getCurators?.getCurators(query);
+    getCurators?.getCurators(
+      AddQueryParams({ curatorId, groupName: groupName.toString(), page: currentPage, limit: itemsPerPage }),
+    );
   }, [groupName, curatorId, currentPage, itemsPerPage, curatorCreate?.data, curatorEdit?.data, curatorDelete?.data]);
 
   useEffect(() => {

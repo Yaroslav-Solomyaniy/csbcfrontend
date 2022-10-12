@@ -37,3 +37,6 @@ export const useQueryParam = () => {
 
   return { get, post };
 };
+
+// eslint-disable-next-line max-len
+export const AddQueryParams = (element:object) => Object.fromEntries(Object.entries(element).filter(([, value]) => Boolean(value)));

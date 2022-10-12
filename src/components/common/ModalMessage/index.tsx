@@ -36,10 +36,10 @@ const ModalMessage = ({ message, closeModal, type, id }: IModalMessage): JSX.Ele
     >
       <div className={clsx(styles.message__content)}>
         <h6 className={styles.title}>
-          {type === 'warning' && 'Увага.'}
-          {type === 'error' && 'Помилка.'}
-          {type === 'info' && 'Успішно.'}
-          {type === 'voting' && 'Увага! Голосування.'}
+          {type === 'warning' && 'Увага'}
+          {type === 'error' && 'Помилка'}
+          {type === 'info' && 'Успішно'}
+          {type === 'voting' && 'Увага! Голосування'}
         </h6>
         <div className={styles.text}>{message}</div>
       </div>

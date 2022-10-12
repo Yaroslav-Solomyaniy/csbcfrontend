@@ -11,8 +11,8 @@ import { AdministratorCreateModal } from './ModalWindow/Create';
 import { AdministratorEditModal } from './ModalWindow/Edit';
 import { AdministratorDeleteModal } from './ModalWindow/Delete';
 import { AdministratorsContext } from '../../../context/PagesInAdmin/Administators';
-import { IGetUserData, IGetUserParams } from '../../../hooks/All/useUser';
-import { useQueryParam } from '../../../hooks/All/useQueryParams';
+import { IGetUserData } from '../../../hooks/All/useUser';
+import { AddQueryParams, useQueryParam } from '../../../hooks/All/useQueryParams';
 import { DeviceContext } from '../../../context/All/DeviceType';
 import PhoneFilter from '../../../components/common/PhoneFilter';
 import AdministratorsFilters from './Filters';
@@ -40,12 +40,7 @@ const Administrators = (): JSX.Element => {
   const [pagination, setPagination] = useState<Pagination>({ ...initialPagination });
 
   const { get, post } = useQueryParam();
-  const { getAdministrators,
-    administratorsCreate,
-    administratorsDelete,
-    administratorsEdit,
-  } = AdministratorsContext();
-
+  const { getAdministrators, administratorsCreate, administratorsDelete, administratorsEdit } = AdministratorsContext();
   const { isPhone } = DeviceContext();
 
   useEffect(() => {
@@ -63,21 +58,9 @@ const Administrators = (): JSX.Element => {
   };
 
   useEffect(() => {
-    const query: IGetUserParams = { role: 'admin' };
-
-    if (adminId) query.id = adminId;
-    if (currentPage) query.page = currentPage;
-    if (itemsPerPage) query.limit = itemsPerPage;
-
-    getAdministrators?.getUser(query);
-  }, [
-    adminId,
-    currentPage,
-    itemsPerPage,
-    administratorsCreate?.data,
-    administratorsEdit?.data,
-    administratorsDelete?.data,
-  ]);
+    getAdministrators?.getUser(AddQueryParams({ id: adminId, page: currentPage, limit: itemsPerPage, role: 'admin' }));
+  }, [adminId, currentPage, itemsPerPage, administratorsCreate?.data,
+    administratorsEdit?.data, administratorsDelete?.data]);
 
   useEffect(() => {
     if (getAdministrators?.data) {
@@ -115,7 +98,7 @@ const Administrators = (): JSX.Element => {
           >
             Створити
           </Button>
-              )}
+        )}
       />
       {isLoading ? <Preloader /> : (
         <>

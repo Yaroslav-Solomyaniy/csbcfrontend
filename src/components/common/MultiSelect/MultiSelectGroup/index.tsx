@@ -36,8 +36,8 @@ const MultiSelectGroup = ({
   }, [groupEdit?.data, groupCreate?.data, groupDelete?.data]);
 
   useEffect(() => {
-    if (optionsGroups?.items.length) {
-      setOptions(optionsGroups.items.map((group) => ({ value: `${group.id}`, label: group.name })));
+    if (optionsGroups?.length) {
+      setOptions(optionsGroups.map((group) => ({ value: `${group.id}`, label: group.name })));
     }
   }, [optionsGroups]);
 

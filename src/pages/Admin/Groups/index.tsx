@@ -5,14 +5,14 @@ import styles from './index.module.scss';
 import pagesStyle from '../../pagesStyle.module.scss';
 import Layout from '../../../loyout/Layout';
 import { ITableHeader } from '../../../components/common/Table/TypeDisplay/Desktop/TableHeader';
-import { IGetGroupParams, IGroupData } from '../../../hooks/PagesInAdmin/useGroups';
+import { IGroupData } from '../../../hooks/PagesInAdmin/useGroups';
 import { ITableRowItem } from '../../../components/common/Table/TypeDisplay/Desktop/TableBody';
 import { GroupsContext } from '../../../context/PagesInAdmin/Groups';
 import { initialPagination, Pagination } from '../../../types';
 import GroupCreate from './ModalWindow/Create';
 import GroupDelete from './ModalWindow/Delete';
 import GroupEdit from './ModalWindow/Edit';
-import { useQueryParam } from '../../../hooks/All/useQueryParams';
+import { AddQueryParams, useQueryParam } from '../../../hooks/All/useQueryParams';
 import PhoneFilter from '../../../components/common/PhoneFilter';
 import FiltersGroups from './Filters';
 import { DeviceContext } from '../../../context/All/DeviceType';
@@ -33,7 +33,6 @@ const allCloseModalWindow: Record<string, number | boolean> = {
   filter: false,
   edit: 0,
   delete: 0,
-
 };
 
 const Group = (): JSX.Element => {
@@ -44,11 +43,10 @@ const Group = (): JSX.Element => {
 
   const { getGroups, groupCreate, groupEdit, groupDelete } = GroupsContext();
   const { isPhone } = DeviceContext();
-
   const { get, post } = useQueryParam();
 
-  const curator = get('curatorId');
-  const group = get('group');
+  const curator = Number(get('curatorId'));
+  const group = get('group') || '';
   const currentPage = Number(get('currentPage')) || 1;
   const itemsPerPage = Number(get('itemsPerPage')) || 10;
 
@@ -63,22 +61,9 @@ const Group = (): JSX.Element => {
   }, [pagination]);
 
   useEffect(() => {
-    const query: IGetGroupParams = {};
-
-    if (curator) {
-      query.curatorId = +curator;
-    }
-    if (group) {
-      query.name = String(group);
-    }
-    if (currentPage) {
-      query.page = +currentPage;
-    }
-    if (itemsPerPage) {
-      query.limit = +itemsPerPage;
-    }
-
-    getGroups?.getGroups(query);
+    getGroups?.getGroups(
+      AddQueryParams({ curatorId: curator, name: group.toString(), page: currentPage, limit: itemsPerPage }),
+    );
   }, [currentPage, itemsPerPage, curator, group, groupCreate?.data, groupEdit?.data, groupDelete?.data]);
 
   useEffect(() => {

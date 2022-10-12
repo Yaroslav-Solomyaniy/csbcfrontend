@@ -45,8 +45,8 @@ const SelectAdministrator = ({
   }, [administratorsDelete?.data, administratorsEdit?.data, administratorsCreate?.data]);
 
   useEffect(() => {
-    if (listAdmins?.items.length) {
-      setOptions(listAdmins.items.map((admin) => ({
+    if (listAdmins?.length) {
+      setOptions(listAdmins.map((admin) => ({
         value: admin.id,
         label: `${admin.lastName} ${admin.firstName} ${admin.patronymic}`,
       })));

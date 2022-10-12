@@ -20,7 +20,7 @@ const VotingSubmitModal = ({ votingId, modalActive, closeModal, changeWindow }:I
   const [data, setData] = useState<IGetVotingSubmitDataById>();
   const [formData, setFormData] = useState<IVotingSubmitParams>({ courses: [] });
   const { getVotingFormSubmit, votingSubmit } = VotingsAdmin();
-  const { addInfo } = MessagesContext();
+  const { addInfo, addWarning } = MessagesContext();
 
   const handleClose = () => {
     closeModal();
@@ -39,6 +39,7 @@ const VotingSubmitModal = ({ votingId, modalActive, closeModal, changeWindow }:I
   useEffect(() => {
     if (votingSubmit?.data) {
       handleClose();
+      addWarning('Студентам які не проголосували, потрібно вручну обрати вибіркові предмети!');
       addInfo(`Вибіркові компетентності для груп:${data?.groups.map((item) => item.name).join(', ')} затверджені`);
     }
   }, [votingSubmit?.data]);

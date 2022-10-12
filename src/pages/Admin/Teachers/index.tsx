@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ITableHeader } from '../../../components/common/Table/TypeDisplay/Desktop/TableHeader';
 import { ITableRowItem } from '../../../components/common/Table/TypeDisplay/Desktop/TableBody';
 import { TeachersContext } from '../../../context/PagesInAdmin/Teachers';
-import { IGetTeacherData, IGetTeacherParams } from '../../../hooks/PagesInAdmin/useTeachers';
+import { IGetTeacherData } from '../../../hooks/PagesInAdmin/useTeachers';
 import Layout from '../../../loyout/Layout';
 import Button from '../../../components/common/Button';
 import TitlePage from '../../../components/common/TitlePage';
@@ -13,11 +13,12 @@ import TeachersDeleteModal from './modal/TeachersDelete';
 import TeacherCreateModal from './modal/TeachersCreate';
 import TeacherEditModal from './modal/TeachersEdit';
 import TeachersFilters from './Filters';
-import { useQueryParam } from '../../../hooks/All/useQueryParams';
+import { AddQueryParams, useQueryParam } from '../../../hooks/All/useQueryParams';
 import { DeviceContext } from '../../../context/All/DeviceType';
 import { EditAndDelete } from '../../../components/common/CollectionMiniButtons';
 import { initialPagination, Pagination } from '../../../types';
 import Preloader from '../../../components/common/Preloader/Preloader';
+import PhoneFilter from '../../../components/common/PhoneFilter';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІБ' },
@@ -60,6 +61,21 @@ const Teachers = (): JSX.Element => {
     setIsActiveModal(allCloseModalWindow);
   };
 
+  useEffect(() => {
+    teachersGet?.getTeacher(
+      AddQueryParams({ teacherId, groups: groupId, courses: courseId, page: currentPage, limit: itemsPerPage }),
+    );
+  }, [teacherId, groupId, courseId, currentPage,
+    itemsPerPage, teacherCreate?.data, teacherEdit?.data, teacherDelete?.data]);
+
+  useEffect(() => {
+    if (teachersGet?.data) {
+      setIsLoading(false);
+      setPagination(teachersGet.data.meta);
+      setDataRow(tableRows(teachersGet.data ? teachersGet.data.items : []));
+    }
+  }, [teacherCreate?.data, teachersGet?.data, teacherEdit?.data, teacherDelete?.data]);
+
   const tableRows = (arrTableRows: IGetTeacherData[]) => (
     arrTableRows.length ? arrTableRows.map((item) => {
       const arr: { subject: string[]; group: string[]; } = { subject: [], group: [] };
@@ -90,32 +106,6 @@ const Teachers = (): JSX.Element => {
       };
     }) : []);
 
-  useEffect(() => {
-    const query: IGetTeacherParams = {};
-
-    if (teacherId) query.teacherId = teacherId;
-    if (groupId) query.groups = groupId;
-    if (courseId) query.courses = courseId;
-    if (currentPage) query.page = currentPage;
-    if (itemsPerPage) query.limit = itemsPerPage;
-
-    teachersGet?.getTeacher(query);
-  }, [teacherId, groupId, courseId, currentPage,
-    itemsPerPage, teacherCreate?.data, teacherEdit?.data, teacherDelete?.data]);
-
-  useEffect(() => {
-    if (teachersGet?.data) {
-      setIsLoading(false);
-      setPagination(teachersGet.data.meta);
-      setDataRow(tableRows(teachersGet.data ? teachersGet.data.items : []));
-    }
-  }, [
-    teacherCreate?.data,
-    teachersGet?.data,
-    teacherEdit?.data,
-    teacherDelete?.data,
-  ]);
-
   return (
     <Layout>
       <TitlePage
@@ -138,14 +128,15 @@ const Teachers = (): JSX.Element => {
       {isLoading ? <Preloader /> : (
         <>
           <Table
-            filter={(
-              <TeachersFilters teacherId={teacherId} groupId={groupId} courseId={courseId} />
-          )}
+            filter={(<TeachersFilters teacherId={teacherId} groupId={groupId} courseId={courseId} />)}
             dataHeader={dataHeader}
             gridColumns={styles.columns}
             dataRow={dataRow}
             totalItems={pagination.totalItems}
           />
+          <PhoneFilter modalTitle="Фільтрація викладачів" isActive={!!isActiveModal.filter} closeModal={closeModal}>
+            <TeachersFilters teacherId={teacherId} groupId={groupId} courseId={courseId} />
+          </PhoneFilter>
           <TeacherCreateModal
             modalActive={!!isActiveModal.create}
             closeModal={closeModal}

@@ -54,7 +54,7 @@ export const useLogin = (): ILogin => {
 };
 
 interface IRefreshToken {
-  data: any;
+  data: LoginData | null;
   authGet: () => void;
 }
 
@@ -71,40 +71,6 @@ export const useRefreshToken = (): IRefreshToken => {
 
   return { data, authGet };
 };
-
-// interface StudentData {
-//   dateOfBirth: string;
-//   group: string;
-//   orderNumber: string;
-//   edeboId: string;
-//   isFullTime: boolean;
-// }
-//
-// interface Register {
-//   firstName: string;
-//   lastName: string;
-//   patronymic: string;
-//   email: string;
-//   uniqueItems: true;
-//   role: string;
-//   studentData: StudentData;
-//   password: string;
-// }
-
-// export const useRegister = (): {
-//   postRegister: (params: Register) => void;
-// } => {
-//   const postRegister = (params: Register) => {
-//     axios.post(`${process.env.REACT_APP_API_URL}/auth/register`, params).then((e) => {
-//       console.log(e);
-//     }).catch((e) => {
-//       console.error(e);
-//     });
-//   };
-//
-//   return { postRegister };
-// };
-
 export interface ForgotPassword {
   email: string;
 }

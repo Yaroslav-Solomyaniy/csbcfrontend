@@ -42,8 +42,8 @@ const SelectTeacher = ({
   }, []);
 
   useEffect(() => {
-    if (listTeachers?.items.length) {
-      setOptions(listTeachers.items.map((teacher) => ({
+    if (listTeachers?.length) {
+      setOptions(listTeachers.map((teacher) => ({
         value: teacher.id,
         label: `${teacher.lastName} ${teacher.firstName} ${teacher.patronymic}`,
       })));

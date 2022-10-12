@@ -50,8 +50,8 @@ const SelectStudent = ({
   }, [studentCreate?.data, studentEdit?.data, studentDelete?.data]);
 
   useEffect(() => {
-    if (listStudents?.items.length) {
-      setOptions(listStudents?.items.map((name) => ({
+    if (listStudents?.length) {
+      setOptions(listStudents?.map((name) => ({
         value: name.id,
         label: `${name.user.lastName} ${name.user.firstName} ${name.user.patronymic}`,
       })));

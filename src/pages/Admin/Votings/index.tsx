@@ -8,14 +8,14 @@ import { ITableHeader } from '../../../components/common/Table/TypeDisplay/Deskt
 import { ITableRowItem } from '../../../components/common/Table/TypeDisplay/Desktop/TableBody';
 import { initialPagination, Pagination } from '../../../types';
 import { VotingsAdmin } from '../../../context/PagesInAdmin/Votings';
-import { IGetVotingAdminData, IGetVotingAdminParams } from '../../../hooks/PagesInAdmin/useVotings';
+import { IGetVotingAdminData } from '../../../hooks/PagesInAdmin/useVotings';
 import VotingEditModal from './Modal/Edit';
 import VotingDeleteModal from './Modal/Delete';
 import VotingResultModal from './Modal/Result';
 import VotingCreateModal from './Modal/Create';
 import VotingFilters from './Filters';
 import { DeviceContext } from '../../../context/All/DeviceType';
-import { useQueryParam } from '../../../hooks/All/useQueryParams';
+import { AddQueryParams, useQueryParam } from '../../../hooks/All/useQueryParams';
 import { EditDeleteReviewApprove } from '../../../components/common/CollectionMiniButtons';
 import PhoneFilter from '../../../components/common/PhoneFilter';
 import Table from '../../../components/common/Table';
@@ -53,7 +53,7 @@ const VotingAdmin = (): JSX.Element => {
   const { get, post } = useQueryParam();
 
   const groupId = Number(get('groupId'));
-  const statusMessage = get('statusMessage');
+  const statusMessage = get('statusMessage') || '';
   const currentPage = Number(get('currentPage')) || 1;
   const itemsPerPage = Number(get('itemsPerPage')) || 10;
 
@@ -73,24 +73,11 @@ const VotingAdmin = (): JSX.Element => {
   };
 
   useEffect(() => {
-    const query: IGetVotingAdminParams = {};
-
-    if (groupId) query.groups = groupId;
-    if (statusMessage) query.status = statusMessage.toString();
-    if (currentPage) query.page = currentPage;
-    if (itemsPerPage) query.limit = itemsPerPage;
-
-    getVoting?.votingGet(query);
-  }, [
-    votingCreate?.data,
-    votingEdit?.data,
-    votingDelete?.data,
-    votingSubmit?.data,
-    groupId,
-    statusMessage,
-    currentPage,
-    itemsPerPage,
-  ]);
+    getVoting?.votingGet(
+      AddQueryParams({ groups: groupId, status: statusMessage.toString(), page: currentPage, limit: itemsPerPage }),
+    );
+  }, [votingCreate?.data, votingEdit?.data, votingDelete?.data, votingSubmit?.data,
+    groupId, statusMessage, currentPage, itemsPerPage]);
 
   useEffect(() => {
     if (getVoting?.data) {

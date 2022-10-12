@@ -6,7 +6,7 @@ import { ITableRowItem } from '../../components/common/Table/TypeDisplay/Desktop
 import { useGetListCourses } from '../../hooks/All/useDropDowns';
 import { DeviceContext } from '../../context/All/DeviceType';
 import { useQueryParam } from '../../hooks/All/useQueryParams';
-import { IGetGradesParams } from '../../hooks/PagesInAdmin/useEstimates';
+import { IGetGradesParams, UseGradesDownload } from '../../hooks/PagesInAdmin/useEstimates';
 import styles from '../Admin/Estimates/index.module.scss';
 import TitlePage from '../../components/common/TitlePage';
 import Table from '../../components/common/Table';
@@ -17,10 +17,14 @@ import CuratorFilters from './Filters';
 import { AuthContext } from '../../context/All/AuthContext';
 import { CuratorContext } from '../../context/PageInCurator';
 import { EstimatesContext } from '../../context/PagesInAdmin/Estimates';
-import { ListicHistoryDownload } from '../../components/common/CollectionMiniButtons';
+import { TablesActions } from '../../components/common/CollectionMiniButtons';
 import { IGetCuratorData } from '../../hooks/PageInCurator/CuratorPage';
 import StudentInfo from './modal/StudentInfo';
 import Preloader from '../../components/common/Preloader/Preloader';
+import Button from '../../components/common/Button';
+import { Download, History, Listic } from '../../components/common/Icons';
+import { downloadFile } from '../../hooks/All/DownloadFile';
+import { useStudentGetId } from '../../hooks/PagesInAdmin/useStudents';
 
 const allCloseModalWindow: Record<string, boolean | number> = {
   filter: false,
@@ -34,6 +38,8 @@ const Curator = (): JSX.Element => {
   const [dataHeader, setDataHeader] = useState<ITableHeader[]>([]);
   const [pagination, setPagination] = useState<Pagination>({ ...initialPagination });
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
+  const { gradesDownload, dataFile } = UseGradesDownload();
+  const { getStudentId, data } = useStudentGetId();
 
   const { user } = AuthContext();
   const { curatorGet } = CuratorContext();
@@ -77,6 +83,20 @@ const Curator = (): JSX.Element => {
     itemsPerPage,
   ]);
 
+  const downloadGrades = (id: number) => {
+    getStudentId({ id });
+    gradesDownload({ id });
+  };
+
+  useEffect(() => {
+    if (data && dataFile) {
+      downloadFile(dataFile, data.user
+        // eslint-disable-next-line max-len
+        ? `Оцінки - ${data.user.lastName} ${data.user.firstName[0].toUpperCase()}.${data.user.patronymic[0].toUpperCase()}.`
+        : 'User');
+    }
+  }, [data, dataFile]);
+
   useEffect(() => {
     if (currentPage > pagination.totalPages) {
       post({ currentPage: pagination.totalPages });
@@ -90,7 +110,7 @@ const Curator = (): JSX.Element => {
       { id: 1, label: 'ПІБ' },
       { id: 2, label: 'Група' },
       { id: 3, label: 'Середній бал' },
-      ...courses.optionCourses ? courses.optionCourses.items.map(
+      ...courses.optionCourses ? courses.optionCourses.map(
         (el) => ({ id: ++id, label: el.name }),
       ) : [],
       { id: ++id, label: 'Дії' },
@@ -108,7 +128,7 @@ const Curator = (): JSX.Element => {
     return (
       arrTableRows.length ? arrTableRows.map((student: IGetCuratorData) => {
         const arrTableRowsGrade = courses.optionCourses
-          ? courses.optionCourses.items.map((course) => {
+          ? courses.optionCourses.map((course) => {
             const studentGrades = student.grades.find(
               (studentGrade) => studentGrade.course.id === course.id,
             );
@@ -137,11 +157,28 @@ const Curator = (): JSX.Element => {
             {
               id: ++id,
               label: (
-                <ListicHistoryDownload
-                  isActiveModal={isActiveModal}
-                  setIsActiveModal={setIsActiveModal}
-                  itemId={student.id}
-                />
+                <TablesActions>
+                  <Button
+                    onClick={() => setIsActiveModal(
+                      { ...isActiveModal, info: student.id },
+                    )}
+                    isImg
+                  >
+                    <Listic />
+                  </Button>
+                  <Button
+                    onClick={() => setIsActiveModal({ ...isActiveModal, history: student.id })}
+                    isImg
+                  >
+                    <History />
+                  </Button>
+                  <Button
+                    onClick={() => downloadGrades(student.id)}
+                    isImg
+                  >
+                    <Download />
+                  </Button>
+                </TablesActions>
               ),
             },
           ],
@@ -162,7 +199,7 @@ const Curator = (): JSX.Element => {
         <>
           <Table
             filter={(<EstimatesFilters studentId={studentId} semesterId={semesterId} groupId={groupId} />)}
-            columScrollHorizontal={courses.optionCourses ? +`${courses.optionCourses?.items.length}` : 0}
+            columScrollHorizontal={courses.optionCourses ? +`${courses.optionCourses?.length}` : 0}
             isScroll
             isTwoColumns
             dataHeader={dataHeader}

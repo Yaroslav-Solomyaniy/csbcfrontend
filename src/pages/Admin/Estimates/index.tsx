@@ -221,7 +221,6 @@ const Estimates = (): JSX.Element => {
                 isTwoColumns
                 dataHeader={dataHeader}
                 dataRow={dataRow}
-              // dataRowMobileEstimates={gradesGet.data.items}
                 gridColumns={styles.columns}
                 totalItems={pagination.totalItems}
               />

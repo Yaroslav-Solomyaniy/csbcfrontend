@@ -46,7 +46,7 @@ const AdaptiveTable = ({
                         {item.label.map((el, num) => (
                           // eslint-disable-next-line max-len
                           <h6 className={clsx(index === 0 ? styles.Title : styles.Subtitle, styles.label)} key={item.id}>
-                            <a data-tip data-for={`${index}:-${rowItem.key}--${num}`}>{` ${el}`}</a>
+                            <a data-tip data-for={`${index}:-${rowItem.key}--${num}`}>{el}</a>
                             <ReactTooltip
                               id={`${index}:-${rowItem.key}--${num}`}
                               type="info"
@@ -56,7 +56,7 @@ const AdaptiveTable = ({
                               arrowColor="#e8e8e8"
                               className={styles.tooltip}
                             >
-                              <span>{` ${el}`}</span>
+                              <span>{el}</span>
                             </ReactTooltip>
                           </h6>
                         ))}
@@ -64,11 +64,11 @@ const AdaptiveTable = ({
                     </div>
                   ) : (!!item.label && (
                     <h6 key={item.id} className={index === 0 ? styles.Title : styles.Subtitle}>
-                      <div className={clsx(isTwoColumns && styles.titleGrade)}>
+                      <div className={clsx(styles.marginHeder, isTwoColumns && styles.titleGrade)}>
                         {index !== 0 && `${dataHeader[index]?.label}:  `}
                       </div>
                       <a data-tip data-for={`${rowItem.key}-${item.id}`}>
-                        {` ${item.label}`}
+                        {item.label}
                       </a>
                       <ReactTooltip
                         id={`${rowItem.key}-${item.id}`}
@@ -104,7 +104,7 @@ const AdaptiveTable = ({
                         <>
                           {index !== 0 && `${dataHeader[index]?.label}:  `}
                           <a data-tip data-for={`${index}-${i.id}:${rowItem.key}`}>
-                            {` ${i.label}`}
+                            {i.label}
                           </a>
                           <ReactTooltip
                             id={`${index}-${i.id}:${rowItem.key}`}
@@ -115,7 +115,7 @@ const AdaptiveTable = ({
                             arrowColor="#e8e8e8"
                             className={styles.tooltip}
                           >
-                            <span>{` ${i.label}`}</span>
+                            <span>{i.label}</span>
                           </ReactTooltip>
                         </>
                       )}

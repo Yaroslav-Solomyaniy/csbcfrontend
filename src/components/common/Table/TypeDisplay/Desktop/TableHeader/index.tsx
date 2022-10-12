@@ -20,7 +20,7 @@ const TableHeader = ({ dataHeader, gridColumns, isScroll, columScrollHorizontal 
     style={isScroll ? {
       gridTemplateColumns: `16% 9% 9% repeat(${columScrollHorizontal}, ${
         columScrollHorizontal
-          ? columScrollHorizontal > 6 ? 10 : 54 / columScrollHorizontal : 54}%) 12%`,
+          ? columScrollHorizontal > 6 ? 12 : 54 / columScrollHorizontal : 54}%) 12%`,
     } : {}}
   >
     {dataHeader.map((item) => (

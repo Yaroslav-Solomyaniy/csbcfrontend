@@ -10,10 +10,9 @@ import { MessagesContext } from '../../../../../context/All/Messages';
 interface IStudentsReviewModal {
   closeModal: () => void;
   modalActive: boolean;
-  id: number;
 }
 
-const StudentsReviewEdit = ({ modalActive, closeModal, id }: IStudentsReviewModal) => {
+const StudentsReviewEdit = ({ modalActive, closeModal }: IStudentsReviewModal) => {
   const { editPlan, getPlan } = IndividualPlanContext();
   const { addInfo } = MessagesContext();
   const { getStudentById } = StudentsContext();

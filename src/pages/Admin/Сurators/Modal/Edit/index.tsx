@@ -6,7 +6,6 @@ import { Email } from '../../../../../types/regExp';
 import { IUserEditParams } from '../../../../../hooks/All/useUser';
 import { MessagesContext } from '../../../../../context/All/Messages';
 import CuratorsForm from '../form/create&edit';
-import { DeviceContext } from '../../../../../context/All/DeviceType';
 import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
 
 const formInitialData: IUserEditParams = {
@@ -23,7 +22,6 @@ export const CuratorEditModal = ({ modalActive, closeModal, studentId }: IEditMo
 
   const { curatorEdit, getCuratorId } = CuratorContext();
   const { addInfo } = MessagesContext();
-  const { isPhone, isDesktop, isTablet } = DeviceContext();
 
   const handleClose = () => {
     setIsSubmited(false);

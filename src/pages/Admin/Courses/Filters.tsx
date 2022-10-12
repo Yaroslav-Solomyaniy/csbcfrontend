@@ -9,7 +9,7 @@ interface ICoursesFilters{
   courseId: number;
   groupId: number;
   teacherId: number;
-  courseType: string;
+  courseType: string | null;
 }
 const CoursesFilters = ({ courseId, groupId, teacherId, courseType }:ICoursesFilters) => {
   const { post } = useQueryParam();

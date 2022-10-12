@@ -3,7 +3,6 @@ import { IUserCreateParams } from '../../../../../../hooks/All/useUser';
 import styles from '../../../../../pagesStyle.module.scss';
 import ModalInput from '../../../../../../components/common/MyInput';
 import { Email, EmailValidation, LettersAndNumbersEnUa } from '../../../../../../types/regExp';
-import ModalControlButtons from '../../../../../../components/common/ModalControlButtons';
 
 interface IAdministratorsForm{
   formData: IUserCreateParams;

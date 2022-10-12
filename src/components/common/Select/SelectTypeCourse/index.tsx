@@ -3,7 +3,7 @@ import Select from '../index';
 import { Option, SelectType } from '../../../../types';
 
 interface ISelectCompulsory {
-  value: string | boolean;
+  value: string | boolean | null;
   onChange: (value: string) => void;
   type: SelectType;
   label?: string;

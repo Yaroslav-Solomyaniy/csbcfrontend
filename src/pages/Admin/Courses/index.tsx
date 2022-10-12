@@ -8,7 +8,7 @@ import { ITableHeader } from '../../../components/common/Table/TypeDisplay/Deskt
 import { ITableRowItem } from '../../../components/common/Table/TypeDisplay/Desktop/TableBody';
 import { initialPagination, Pagination } from '../../../types';
 import { CoursesContext } from '../../../context/PagesInAdmin/Courses';
-import { IGetCoursesData, IGetCoursesParams } from '../../../hooks/PagesInAdmin/useCourses';
+import { IGetCoursesData } from '../../../hooks/PagesInAdmin/useCourses';
 import CourseCreateModal from './modal/CourseCreate';
 import CourseEditModal from './modal/CourseEdit';
 import CourseDeleteModal from './modal/CourseDelete';
@@ -52,9 +52,24 @@ const Courses = (): JSX.Element => {
   const courseId = Number(get('courseId'));
   const groupId = Number(get('groupId'));
   const teacherId = Number(get('teacherId'));
-  const courseType = get('courseType');
+  const courseType = get('courseType') || '';
   const currentPage = Number(get('currentPage')) || 1;
   const itemsPerPage = Number(get('itemsPerPage')) || 10;
+
+  // useEffect(() => {
+  //   const handleScroll = (e:any) => {
+  //     const myScrollHeight = e.target.documentElement.scrollHeight;
+  //     const currentHeight = e.target.documentElement.scrollTop + window.innerHeight;
+  //
+  //     if (currentHeight - 1 >= myScrollHeight) {
+  //       post({ currentPage: currentPage + 1 });
+  //     }
+  //   };
+  //
+  //   window.addEventListener('scroll', handleScroll);
+  //
+  //   return () => window.removeEventListener('scroll', handleScroll);
+  // }, [currentPage, pagination, itemsPerPage]);
 
   const closeModal = () => {
     setIsActiveModal(allCloseModalWindow);
@@ -67,16 +82,17 @@ const Courses = (): JSX.Element => {
   }, [pagination]);
 
   useEffect(() => {
-    const query: IGetCoursesParams = {};
+    // eslint-disable-next-line max-len
+    const query = (element:object) => Object.fromEntries(Object.entries(element).filter(([, value]) => Boolean(value)));
 
-    if (courseId) query.id = courseId;
-    if (groupId) query.groups = groupId;
-    if (teacherId) query.teacher = teacherId;
-    if (courseType) query.type = courseType.toString();
-    if (currentPage) query.page = currentPage;
-    if (itemsPerPage) query.limit = itemsPerPage;
-
-    getCourses?.getCourses(query);
+    getCourses?.getCourses(
+      query({ id: courseId,
+        groups: groupId,
+        teacher: teacherId,
+        type: courseType.toString(),
+        page: currentPage,
+        limit: itemsPerPage }),
+    );
   }, [courseId, groupId, teacherId, courseType, currentPage,
     itemsPerPage, courseCreate?.data, courseEdit?.data, courseDelete?.data]);
 

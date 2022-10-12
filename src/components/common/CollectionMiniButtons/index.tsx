@@ -35,8 +35,11 @@ export const EditDeleteReviewApprove = ({
   <TablesActions>
     <Button
       disabled={status === 'Потребує перегляду' || status === 'Затвердженно'}
-      onClick={() => setIsActiveModal((status === 'Переголосування у прогресі' || status === 'Заплановане переголосування')
-        ? { ...isActiveModal, revote: itemId } : { ...isActiveModal, edit: itemId })}
+      onClick={() => setIsActiveModal(
+        (status === 'Переголосування у прогресі' || status === 'Заплановане переголосування')
+          ? { ...isActiveModal, revote: itemId }
+          : { ...isActiveModal, edit: itemId },
+      )}
       isImg
     >
       <Edit />

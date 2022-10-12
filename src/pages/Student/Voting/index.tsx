@@ -62,7 +62,6 @@ const VotingStudents = (): JSX.Element => {
           .sort((a, b) => a[0] - b[0])
           .map((element) => element[1])
         : [0, 0, 0, 0] });
-      console.log(formData);
     }
   }, [votingInfo]);
 

@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from './index.module.scss';
 import SelectSemester from '../../Select/SelectSemester';
 import SelectCourse from '../../Select/SelectCourse';
@@ -78,12 +77,12 @@ const MultiSelectCourseSemestr = ({
           />
           {index === data.length - 1
             ? (
-              <Button onClick={(e) => addNewRow()} isImg className={styles.button}>
+              <Button onClick={() => addNewRow()} isImg className={styles.button}>
                 <Plus />
               </Button>
             )
             : (
-              <Button onClick={(e) => deleteRowById(obj.id)} isImg className={styles.button}>
+              <Button onClick={() => deleteRowById(obj.id)} isImg className={styles.button}>
                 <Minus />
               </Button>
             )}

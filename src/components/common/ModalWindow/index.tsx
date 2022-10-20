@@ -10,9 +10,10 @@ interface IModalWindow {
   children: React.ReactNode | React.ReactChild;
   closeModal: () => void;
   overflowY?: boolean;
+  isStudentReview?: boolean;
 }
 
-const ModalWindow = ({ modalTitle, active, children, closeModal, overflowY }: IModalWindow): JSX.Element => {
+const ModalWindow = ({ modalTitle, active, children, closeModal, overflowY, isStudentReview }: IModalWindow): JSX.Element => {
   const { isDesktop, isTablet, isPhone } = DeviceContext();
 
   useEffect(() => {
@@ -32,6 +33,7 @@ const ModalWindow = ({ modalTitle, active, children, closeModal, overflowY }: IM
         <div
           className={clsx(
             DesktopStyles.modal__content,
+            isStudentReview && DesktopStyles.modal__content__student,
             active && DesktopStyles.active,
             overflowY && DesktopStyles.modal__overflow,
           )}
@@ -60,5 +62,6 @@ const ModalWindow = ({ modalTitle, active, children, closeModal, overflowY }: IM
 ModalWindow.defaultProps = {
   overflowY: false,
   modalTitle: '',
+  isStudentReview: false,
 };
 export default ModalWindow;

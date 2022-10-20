@@ -7,6 +7,7 @@ import Table from '../../../../../components/common/Table';
 import Button from '../../../../../components/common/Button';
 import { IndividualPlanHeader } from '../../../../Student/IndividualPlan/types';
 import { IndividualPlanContext } from '../../../../../context/IndividualPlan';
+import ModalWindow from '../../../../../components/common/ModalWindow';
 
 interface IStudentsReviewModal {
   closeModal: () => void;
@@ -18,6 +19,16 @@ interface IStudentsReviewModal {
 const StudentsReview = ({ modalActive, closeModal, id, Open }: IStudentsReviewModal) => {
   const { getPlan } = IndividualPlanContext();
   const { getStudentById } = StudentsContext();
+
+  useEffect(() => {
+    const bodyStyle = document.body.style;
+
+    if (modalActive) {
+      bodyStyle.overflowY = 'hidden';
+    } else {
+      bodyStyle.overflowY = 'auto';
+    }
+  }, [modalActive]);
 
   useEffect(() => {
     if (id) {
@@ -32,28 +43,64 @@ const StudentsReview = ({ modalActive, closeModal, id, Open }: IStudentsReviewMo
   }, [getStudentById?.data]);
 
   return (
-    <div className={clsx(styles.overlay, modalActive && styles.overlay__active)}>
-      <div className={clsx(styles.modal, modalActive && styles.modal__active)}>
-        <div className={styles.content}>
-          <button className={styles.cancel} onClick={closeModal} type="button">
-            <img className={styles.arrow} src={StudentModalArrow} alt="повернутись" />
-            Індивідуальний план студента групи
-            {`
+    <ModalWindow active={modalActive} closeModal={closeModal} isStudentReview>
+      <div className={styles.content}>
+        <button className={styles.cancel} onClick={closeModal} type="button">
+          <img className={styles.arrow} src={StudentModalArrow} alt="повернутись" />
+          Індивідуальний план студента групи
+          {`
               ${getStudentById?.data?.group.name}
               ${getStudentById?.data?.user.lastName}
               ${getStudentById?.data?.user.firstName}
               ${getStudentById?.data?.user.patronymic}
             `}
-          </button>
-          <div className={styles.content__subtitle}>
-            <h1 className={styles.content__subtitle__h1}>Обовязкові предмети</h1>
-          </div>
+        </button>
+        <div className={styles.content__subtitle}>
+          <h1 className={styles.content__subtitle__h1}>Обовязкові предмети</h1>
+        </div>
+        <Table
+          heightVH="25vh"
+          gridColumns={styles.columns}
+          dataRow={(getPlan?.data?.grades
+          // eslint-disable-next-line max-len
+            .filter((course) => (course.course.type === 'Загальна компетентність' || course.course.type === 'Фахова компетентність'))
+            .map((item) => ({
+              list: [
+                { id: 1, label: item.course.name },
+                {
+                  id: 2,
+                  label: `${item.course.teacher.lastName}
+                ${item.course.teacher.firstName[0]}. ${item.course.teacher.patronymic[0]}.`,
+                },
+                { id: 3, label: item.course.credits },
+                { id: 4, label: item.course.lectureHours },
+                { id: 5, label: item.course.isExam ? 'Екзамен' : 'Залік' },
+                { id: 6, label: item.grade },
+              ],
+              key: item.id,
+            }))) || []}
+          dataHeader={IndividualPlanHeader}
+          isTableResult
+        />
+        <div className={styles.content__subtitle}>
+          <h1 className={styles.content__subtitle__h1}>Вибіркові предмети</h1>
+          <Button
+            nameClass="secondary"
+            size="large"
+            className={styles.content__subtitle__actions}
+            onClick={Open}
+          >
+            Редагувати
+          </Button>
+        </div>
+
+        <div>
           <Table
             heightVH="25vh"
             gridColumns={styles.columns}
             dataRow={(getPlan?.data?.grades
-              // eslint-disable-next-line max-len
-              .filter((course) => (course.course.type === 'Загальна компетентність' || course.course.type === 'Фахова компетентність'))
+            // eslint-disable-next-line max-len
+              .filter((course) => (course.course.type === 'Вибіркова загальна компетентність' || course.course.type === 'Вибіркова фахова компетентність'))
               .map((item) => ({
                 list: [
                   { id: 1, label: item.course.name },
@@ -72,47 +119,9 @@ const StudentsReview = ({ modalActive, closeModal, id, Open }: IStudentsReviewMo
             dataHeader={IndividualPlanHeader}
             isTableResult
           />
-          <div className={styles.content__subtitle}>
-            <h1 className={styles.content__subtitle__h1}>Вибіркові предмети</h1>
-            <Button
-              nameClass="secondary"
-              size="large"
-              className={styles.content__subtitle__actions}
-              onClick={Open}
-            >
-              Редагувати
-            </Button>
-          </div>
-
-          <div>
-            <Table
-              heightVH="25vh"
-              gridColumns={styles.columns}
-              dataRow={(getPlan?.data?.grades
-                // eslint-disable-next-line max-len
-                .filter((course) => (course.course.type === 'Вибіркова загальна компетентність' || course.course.type === 'Вибіркова фахова компетентність'))
-                .map((item) => ({
-                  list: [
-                    { id: 1, label: item.course.name },
-                    {
-                      id: 2,
-                      label: `${item.course.teacher.lastName}
-                ${item.course.teacher.firstName[0]}. ${item.course.teacher.patronymic[0]}.`,
-                    },
-                    { id: 3, label: item.course.credits },
-                    { id: 4, label: item.course.lectureHours },
-                    { id: 5, label: item.course.isExam ? 'Екзамен' : 'Залік' },
-                    { id: 6, label: item.grade },
-                  ],
-                  key: item.id,
-                }))) || []}
-              dataHeader={IndividualPlanHeader}
-              isTableResult
-            />
-          </div>
         </div>
       </div>
-    </div>
+    </ModalWindow>
   );
 };
 

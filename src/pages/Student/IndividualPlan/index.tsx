@@ -81,7 +81,7 @@ const StudentIndividualPlan = ():JSX.Element => {
             />
           </div>
           <div className={styles.notRequiredTable}>
-            <h1 className={styles.table__title}>Не обов'язкові предмети</h1>
+            <h1 className={styles.table__title}>Вибіркові предмети</h1>
             <Table
               gridColumns={styles.columns}
               dataRow={(getPlan?.data?.grades

@@ -29,6 +29,17 @@
     transition: all .5s;
     padding: 15px 25px;
 
+    &__student {
+      position: fixed;
+      bottom: 0;
+      box-sizing: border-box;
+      max-height: 100vh;
+      max-width: 100vw;
+      height: calc(100vh - 56px);
+      width: 100vw;
+      border-radius: 0;
+    }
+
     &.active {
       transform: scale(1);
       transition: all .4s;

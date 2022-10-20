@@ -30,6 +30,7 @@ const allCloseModalWindow: Record<string, boolean | number | string> = {
   history: 0,
   download: 0,
   semester: '',
+  edit: false,
   filter: false,
 };
 
@@ -112,6 +113,7 @@ const Estimates = (): JSX.Element => {
                     {
                       ...isActiveModal,
                       gradeEdit: isActiveModal.gradeEdit === studentGrades.id ? 0 : studentGrades.id,
+                      studentEdit: student.id,
                     },
                   )}
                 >
@@ -140,8 +142,9 @@ const Estimates = (): JSX.Element => {
               label: (
                 <TablesActions>
                   <Button
+                    disabled={student.id !== isActiveModal.studentEdit}
                     onClick={() => setIsActiveModal(
-                      { ...isActiveModal, edit: isActiveModal.gradeEdit ? student.id : 0 },
+                      { ...isActiveModal, edit: !!isActiveModal.gradeEdit },
                     )}
                     isImg
                   >
@@ -221,7 +224,7 @@ const Estimates = (): JSX.Element => {
           <EstimatesEdit
             modalActive={!!isActiveModal.edit}
             closeModal={closeModal}
-            studentId={+isActiveModal.edit}
+            studentId={+isActiveModal.studentEdit}
             gradeId={+isActiveModal.gradeEdit}
           />
           <EstimatesHistory

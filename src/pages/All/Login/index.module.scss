@@ -50,9 +50,31 @@
     }
   }
 }
+.password{
+  position: relative;
+}
 .second_input{
   margin-top: 16px;
+  width: calc(280px - 40px - 16px);
+  padding: 10px 40px 10px 16px;
 }
+.show_pass{
+  position: absolute;
+  top: 48%;
+  right: 12px;
+  overflow: hidden;
+  cursor: pointer;
+}
+.show_pass > svg {
+  width: 17px;
+  height: 17px;
+  overflow: hidden;
+}
+
+.showPassword_active{
+  color: rgb(45, 112, 169);
+}
+
 
 .checkbox{
   margin: 19px 0;

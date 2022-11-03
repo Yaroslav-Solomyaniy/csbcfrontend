@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import styles from './index.module.scss';
@@ -9,10 +9,12 @@ import Button from '../../../components/common/Button';
 import Input from '../../../components/common/MyInput/Input';
 import { Email, EmailValidation } from '../../../types/regExp';
 import CheckBox from './MyCheckBox.module.scss';
+import { Review } from "../../../components/common/Icons";
 
 const Login = (): JSX.Element => {
   const { postLogin } = AuthContext();
   const [formData, setFormData] = useState<LoginParams>({ email: '', password: '' });
+  const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
   const [check, setCheck] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -22,6 +24,20 @@ const Login = (): JSX.Element => {
       postLogin(formData, check);
     }
   };
+
+  const PressEnter = (event:KeyboardEvent) => {
+    if (event.keyCode === 13) {
+      onSubmit();
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('keyup', PressEnter);
+
+    return () => {
+      document.removeEventListener('keyup', PressEnter);
+    };
+  });
 
   return (
     <Layout>
@@ -41,17 +57,25 @@ const Login = (): JSX.Element => {
               pattern={EmailValidation}
             />
 
-            <Input
-              className={clsx(styles.login__form__input, styles.second_input)}
-              inputType="password"
-              placeholder="Пароль"
-              value={formData.password}
-              onChange={(event) => setFormData({
-                ...formData,
-                password: event.target.value,
-              })}
-              error={isSubmitted && formData.password?.length < 8 ? 'Пароль містить менше 8-ми символів' : ''}
-            />
+            <div className={styles.password}>
+              <Input
+                className={clsx(styles.login__form__input, styles.second_input)}
+                inputType={isShowPassword ? 'text' : 'password'}
+                placeholder="Пароль"
+                value={formData.password}
+                onChange={(event) => setFormData({
+                  ...formData,
+                  password: event.target.value,
+                })}
+                error={isSubmitted && formData.password?.length < 8 ? 'Пароль містить менше 8-ми символів' : ''}
+              />
+              <Button
+                isImg
+                className={clsx(styles.show_pass, isShowPassword && styles.showPassword_active)}
+                onClick={() => setIsShowPassword(!isShowPassword)}>
+                <Review />
+              </Button>
+            </div>
             <div className={styles.checkbox}>
               <input
                 className={CheckBox.custom__CheckBox}

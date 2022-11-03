@@ -42,7 +42,6 @@ const CoursesInputForm = ({ formData,
           type="modal"
           label="Групи"
           placeholder="Групи"
-          required
           isSearchable
           isClearable
           onChange={(value) => {
@@ -53,7 +52,6 @@ const CoursesInputForm = ({ formData,
             });
           }}
           value={formData.groups.map((group) => `${group}`)}
-          error={isSubmitted && formData.groups.length < 1 ? 'Групи не обрано.' : ''}
         />
         <SelectTeacher
           type="modal"

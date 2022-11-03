@@ -40,7 +40,6 @@ export const CourseCreateModal = ({ modalActive, closeModal }: ICreateModal): JS
     if (formData.name && formData.credits
       && formData.teacher && formData.semester
       && formData.lectureHours
-      && formData.groups.toString().length >= 1
       && formData.type) {
       courseCreate?.createCourse(formData);
     }

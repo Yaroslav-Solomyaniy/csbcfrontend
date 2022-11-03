@@ -10,12 +10,16 @@ import Preloader from '../../../components/common/Preloader/Preloader';
 import SelectSemester from '../../../components/common/Select/SelectSemester';
 import Button from '../../../components/common/Button';
 import { downloadFile } from '../../../hooks/All/DownloadFile';
+import { Semesters } from '../../../types';
+import { useQueryParam } from '../../../hooks/All/useQueryParams';
 
 const StudentIndividualPlan = ():JSX.Element => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [semester, setSemester] = useState<number>(1);
   const { getPlan, download } = IndividualPlanContext();
+  const { post, get } = useQueryParam();
   const { user } = AuthContext();
+
+  const semester = Number(get('semester')) || 1;
 
   useEffect(() => {
     getPlan?.getPlan({ id: user?.id || 0, semester });
@@ -30,7 +34,7 @@ const StudentIndividualPlan = ():JSX.Element => {
       downloadFile(
         download.dataFile,
         // eslint-disable-next-line max-len
-        `Індивідуальний план - ${semester === 1 ? 'I' : 'II'} Семестр. ${user?.lastName} ${user?.firstName[0].toUpperCase()}.`,
+        `Індивідуальний план - ${Semesters[semester]}. ${user?.lastName} ${user?.firstName[0].toUpperCase()}.`,
       );
     }
   }, [download?.dataFile]);
@@ -42,7 +46,7 @@ const StudentIndividualPlan = ():JSX.Element => {
         isHaveSelect
         action={(
           <div className={styles.actions}>
-            <SelectSemester onChange={(value) => setSemester(+value)} type="mini" value={semester} />
+            <SelectSemester onChange={(value) => post({ semester: value })} type="mini" value={semester} />
             <Button
               className={styles.downloadButton}
               onClick={() => download?.planDownload({ id: user?.id || 0, semester })}

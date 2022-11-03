@@ -21,7 +21,7 @@ const ResultCourses = ({ formData }:IResultCourses):JSX.Element => (
     <Table
       isTableResult
       dataHeader={dataHeaderCourses}
-      dataRow={formData.courses.filter((item) => item.semester === 1).map((item) => ({
+      dataRow={formData.courses.filter((item) => item.semester === (1 || 3 || 5 || 7)).map((item) => ({
         list: [
           { id: 1, label: item.name },
           { id: 2,
@@ -39,7 +39,7 @@ const ResultCourses = ({ formData }:IResultCourses):JSX.Element => (
     <Table
       isTableResult
       dataHeader={dataHeaderCourses}
-      dataRow={formData.courses.filter((item) => item.semester === 2).map((item) => ({
+      dataRow={formData.courses.filter((item) => item.semester === (2 || 4 || 6 || 8)).map((item) => ({
         list: [
           { id: 1, label: item.name },
           { id: 2,

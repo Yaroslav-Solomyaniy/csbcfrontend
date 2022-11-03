@@ -43,6 +43,30 @@ const SelectSemester = ({
     {
       value: 2,
       label: 'ІI семестр',
+    },
+    {
+      value: 3,
+      label: 'ІII семестр',
+    },
+    {
+      value: 4,
+      label: 'ІV семестр',
+    },
+    {
+      value: 5,
+      label: 'V семестр',
+    },
+    {
+      value: 6,
+      label: 'VІ семестр',
+    },
+    {
+      value: 7,
+      label: 'VIІ семестр',
+    },
+    {
+      value: 8,
+      label: 'VIІI семестр',
     }]);
 
   return (

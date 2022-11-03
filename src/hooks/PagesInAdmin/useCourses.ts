@@ -197,7 +197,7 @@ export interface ICourseEditParams {
   type: string;
   isExam: boolean;
   teacher: number | null;
-  groups: number [];
+  groups: number[];
 }
 
 export interface IUseCourseEdit {

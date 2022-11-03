@@ -8,6 +8,17 @@ export interface Size {
   height: number | undefined;
 }
 
+export const Semesters:Record<number, string> = {
+  1: 'I семестр',
+  2: 'II семестр',
+  3: 'III семестр',
+  4: 'IV семестр',
+  5: 'V семестр',
+  6: 'VI семестр',
+  7: 'VII семестр',
+  8: 'VIII семестр',
+};
+
 export type SelectType = 'filter' | 'modal' | 'pagination' | 'mini';
 export type OrderBy = 'ASC' | 'DESC';
 

@@ -84,7 +84,7 @@ const VotingAdmin = (): JSX.Element => {
       setPagination(getVoting.data.meta);
       setDataRow(getVoting?.data?.items.map((item: IGetVotingAdminData) => ({
         list: [
-          { id: 1, label: item.groups.map((group) => group.name).join(', ') },
+          { id: 1, label: item.groups ? item.groups.map((group) => group.name).join(', ') : 'Групи відсутні' },
           { id: 2, label: new Date(item.startDate).toLocaleString() },
           { id: 3, label: new Date(item.endDate).toLocaleString() },
           { id: 4, label: `${item.tookPart} / ${item.allStudents}` },

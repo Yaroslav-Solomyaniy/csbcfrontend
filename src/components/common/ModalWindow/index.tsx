@@ -13,7 +13,12 @@ interface IModalWindow {
   isStudentReview?: boolean;
 }
 
-const ModalWindow = ({ modalTitle, active, children, closeModal, overflowY, isStudentReview }: IModalWindow): JSX.Element => {
+const ModalWindow = ({ modalTitle,
+  active,
+  children,
+  closeModal,
+  overflowY,
+  isStudentReview }: IModalWindow): JSX.Element => {
   const { isDesktop, isTablet, isPhone } = DeviceContext();
 
   useEffect(() => {

@@ -59,9 +59,7 @@ const VotingStudents = (): JSX.Element => {
   useEffect(() => {
     if (votingInfo) {
       setFormData({ courses: votingInfo.studentVotes.length
-        ? votingInfo.studentVotes
-          .sort((a, b) => a[0] - b[0])
-          .map((element) => element[1])
+        ? votingInfo.studentVotes.sort((a, b) => a[0] - b[0]).map((element) => element[1])
         : [0, 0, 0, 0] });
     }
   }, [votingInfo]);
@@ -79,11 +77,8 @@ const VotingStudents = (): JSX.Element => {
       if (votingCreate?.data) {
         addInfo('Ви успішно проголосували.');
       }
-      if (votingEdit?.data) {
-        addInfo('Ви успішно змінили свій вибір.');
-      }
     },
-    [votingCreate?.data, votingEdit?.data],
+    [votingCreate?.data],
   );
 
   const handleRadioClick = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -109,7 +104,7 @@ const VotingStudents = (): JSX.Element => {
               <Table
                 dataHeader={dataHeader}
                 dataRow={votingInfo?.requiredCourses
-                  .filter((item) => item.semester === 1)
+                  .filter((item) => item.semester % 2 === 1)
                   .map((course) => ({ list: [
                     { id: 1,
                       label: <input
@@ -120,7 +115,7 @@ const VotingStudents = (): JSX.Element => {
                         onChange={handleRadioClick}
                         disabled={votingInfo.isRevote && !!votingInfo.studentVotes
                           .filter((el) => votingInfo.requiredCourses
-                            .filter((sem) => sem.semester === 1)
+                            .filter((sem) => sem.semester % 2 === 1)
                             .map((element) => element.id)
                             .filter((i) => votingInfo.approveCourse.includes(i)).includes(el[1])).length}
                       /> },
@@ -141,7 +136,7 @@ const VotingStudents = (): JSX.Element => {
               <Table
                 dataHeader={dataHeader}
                 dataRow={votingInfo?.notRequiredCourses
-                  .filter((item) => item.semester === 1)
+                  .filter((item) => item.semester % 2 === 1)
                   .map((course) => ({ list: [
                     { id: 1,
                       label: <input
@@ -152,7 +147,7 @@ const VotingStudents = (): JSX.Element => {
                         onChange={handleRadioClick}
                         disabled={votingInfo.isRevote && !!votingInfo.studentVotes
                           .filter((el) => votingInfo.notRequiredCourses
-                            .filter((sem) => sem.semester === 1)
+                            .filter((sem) => sem.semester % 2 === 1)
                             .map((element) => element.id)
                             .filter((i) => votingInfo.approveCourse.includes(i)).includes(el[1])).length}
                       /> },
@@ -173,7 +168,7 @@ const VotingStudents = (): JSX.Element => {
               <Table
                 dataHeader={dataHeader}
                 dataRow={votingInfo?.requiredCourses
-                  .filter((item) => item.semester === 2)
+                  .filter((item) => item.semester % 2 === 0)
                   .map((course) => ({ list: [
                     { id: 1,
                       label: <input
@@ -184,7 +179,7 @@ const VotingStudents = (): JSX.Element => {
                         onChange={handleRadioClick}
                         disabled={votingInfo.isRevote && !!votingInfo.studentVotes
                           .filter((el) => votingInfo.requiredCourses
-                            .filter((sem) => sem.semester === 2)
+                            .filter((sem) => sem.semester % 2 === 0)
                             .map((element) => element.id)
                             .filter((i) => votingInfo.approveCourse.includes(i)).includes(el[1])).length}
                       /> },
@@ -205,7 +200,7 @@ const VotingStudents = (): JSX.Element => {
               <Table
                 dataHeader={dataHeader}
                 dataRow={votingInfo?.notRequiredCourses
-                  .filter((item) => item.semester === 2)
+                  .filter((item) => item.semester % 2 === 0)
                   .map((course) => ({ list: [
                     { id: 1,
                       label: <input
@@ -216,7 +211,7 @@ const VotingStudents = (): JSX.Element => {
                         onChange={handleRadioClick}
                         disabled={votingInfo.isRevote && !!votingInfo.studentVotes
                           .filter((el) => votingInfo.notRequiredCourses
-                            .filter((sem) => sem.semester === 2)
+                            .filter((sem) => sem.semester % 2 === 0)
                             .map((element) => element.id)
                             .filter((i) => votingInfo.approveCourse.includes(i)).includes(el[1])).length}
                       /> },

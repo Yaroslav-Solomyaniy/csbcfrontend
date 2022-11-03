@@ -75,13 +75,13 @@ export interface IGetStudentVotingData {
 }
 
 export interface IUseStudentVotingGet{
-  data: IGetStudentVotingData| [] | null;
+  data: IGetStudentVotingData | [] | null;
   getVotingStudent: () => void;
 }
 
 export const useStudentVotingGet = (): IUseStudentVotingGet => {
   const { user } = AuthContext();
-  const [data, setData] = useState<IGetStudentVotingData |[] | null>(null);
+  const [data, setData] = useState<IGetStudentVotingData | [] | null>(null);
 
   const getVotingStudent = () => {
     axios.get(`${process.env.REACT_APP_API_URL}/students/page/voting`, {

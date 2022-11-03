@@ -6,7 +6,7 @@ import pagesStyle from '../../pagesStyle.module.scss';
 import Layout from '../../../loyout/Layout';
 import { ITableHeader } from '../../../components/common/Table/TypeDisplay/Desktop/TableHeader';
 import { ITableRowItem } from '../../../components/common/Table/TypeDisplay/Desktop/TableBody';
-import { initialPagination, Pagination } from '../../../types';
+import { initialPagination, Pagination, Semesters } from '../../../types';
 import { CoursesContext } from '../../../context/PagesInAdmin/Courses';
 import { IGetCoursesData } from '../../../hooks/PagesInAdmin/useCourses';
 import CourseCreateModal from './modal/CourseCreate';
@@ -90,7 +90,7 @@ const Courses = (): JSX.Element => {
               ? `${item?.teacher?.lastName} ${item?.teacher?.firstName} ${item?.teacher?.patronymic}`
               : 'Викладач відсутній'),
           },
-          { id: 3, label: item.semester === 1 ? 'I' : 'II' },
+          { id: 3, label: Semesters[item.semester] || 'Невідоме значення' },
           { id: 4, label: item.credits },
           { id: 5, label: item.groups ? item.groups.map((group) => group.name).join(',') : 'Групи відсутні' },
           { id: 6, label: item.lectureHours },

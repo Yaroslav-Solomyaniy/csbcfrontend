@@ -38,7 +38,6 @@ export const CourseEdit = ({ modalActive, closeModal, studentId }: IEditModal): 
     if (formData.name && formData.credits
       && formData.teacher && formData.semester
       && formData.lectureHours
-      && formData.groups.toString().length >= 1
       && formData.type) {
       courseEdit?.courseEdit(formData, studentId);
     }

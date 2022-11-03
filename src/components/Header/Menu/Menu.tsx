@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import styles from './Menu.module.scss';
 import { DeviceContext } from '../../../context/All/DeviceType';
@@ -11,7 +11,8 @@ interface IMenu{
 const Menu = ({ children,
   stateDropMenu,
 }:IMenu):JSX.Element => {
-  const { isDesktop, isTablet, isPhone } = DeviceContext();
+  const [height, setHeight] = useState<number>(0);
+  const { isDesktop, isTablet, isPhone, deviceSize } = DeviceContext();
   const { user } = AuthContext();
 
   useEffect(() => {
@@ -24,18 +25,16 @@ const Menu = ({ children,
     }
   }, [stateDropMenu]);
 
+  useEffect(() => {
+    if (deviceSize?.height) {
+      setHeight(deviceSize.height);
+    }
+  }, [deviceSize?.height]);
+
   return (
     <>
       {isDesktop && (
-      <div className={clsx(
-        styles.DropMenu,
-        // eslint-disable-next-line max-len
-        user?.role === 'admin' && stateDropMenu && (isDesktop ? styles.DropMenu__active : ((isTablet || isPhone) && styles.DropMenu__active_mobileAdmin)),
-        // eslint-disable-next-line max-len
-        user?.role === 'student' && stateDropMenu && (isDesktop ? styles.DropMenu__active : ((isTablet || isPhone) && styles.DropMenu__active_mobileStudent)),
-        (user?.role !== ('admin' || 'student') && stateDropMenu) && styles.DropMenu__active,
-      )}
-      >
+      <div className={clsx(styles.DropMenu, stateDropMenu && styles.DropMenu__active)}>
         {children}
       </div>
       )}
@@ -44,10 +43,9 @@ const Menu = ({ children,
           <div className={clsx(
             styles.DropMenu,
             // eslint-disable-next-line max-len
-            user?.role === 'admin' && stateDropMenu && (isDesktop ? styles.DropMenu__active : ((isTablet || isPhone) && styles.DropMenu__active_mobileAdmin)),
-            // eslint-disable-next-line max-len
-            user?.role === 'student' && stateDropMenu && (isDesktop ? styles.DropMenu__active : ((isTablet || isPhone) && styles.DropMenu__active_mobileStudent)),
-            (user?.role !== ('admin' || 'student') && stateDropMenu) && styles.DropMenu__active__mobile,
+            user?.role === 'admin' && stateDropMenu && (height < 450 ? styles.DropMenu__active_mobileAdmin_mini : styles.DropMenu__active_mobileAdmin),
+            user?.role === 'student' && stateDropMenu && styles.DropMenu__active_mobileStudent,
+            user?.role !== ('admin' || 'student') && stateDropMenu && styles.DropMenu__active__mobile,
           )}
           >
             {children}

@@ -33,6 +33,14 @@
       padding: 4px 0;
       position: fixed;
       top: 56px;
+      &_mini{
+        transition: all .5s linear;
+        padding: 4px 0;
+        position: fixed;
+        top: 56px;
+        height: calc(90% - 56px);
+        overflow-y:scroll;
+      }
     }
     &_mobileStudent{
       transition: all .5s linear;

@@ -9,7 +9,7 @@ import Button from '../../../components/common/Button';
 import Input from '../../../components/common/MyInput/Input';
 import { Email, EmailValidation } from '../../../types/regExp';
 import CheckBox from './MyCheckBox.module.scss';
-import { Review } from "../../../components/common/Icons";
+import { Review } from '../../../components/common/Icons';
 
 const Login = (): JSX.Element => {
   const { postLogin } = AuthContext();
@@ -70,9 +70,10 @@ const Login = (): JSX.Element => {
                 error={isSubmitted && formData.password?.length < 8 ? 'Пароль містить менше 8-ми символів' : ''}
               />
               <Button
-                isImg
                 className={clsx(styles.show_pass, isShowPassword && styles.showPassword_active)}
-                onClick={() => setIsShowPassword(!isShowPassword)}>
+                onClick={() => setIsShowPassword(!isShowPassword)}
+                isImg
+              >
                 <Review />
               </Button>
             </div>

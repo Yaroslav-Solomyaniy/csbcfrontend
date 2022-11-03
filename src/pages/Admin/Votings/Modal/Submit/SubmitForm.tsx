@@ -30,7 +30,7 @@ const SubmitVotingForm = ({ data, formData, onSubmit, setFormData }:ISubmitVotin
         isTableVoting
         heightVH="auto"
         dataRow={data?.requiredCourses
-          .filter((item) => item.semester === (1 || 3 || 5 || 7))
+          .filter((item) => item.semester % 2 === 1)
           .map((course) => ({ list: [
             { id: 1,
               label: (
@@ -69,7 +69,7 @@ const SubmitVotingForm = ({ data, formData, onSubmit, setFormData }:ISubmitVotin
         heightVH="auto"
         dataHeader={dataHeader}
         dataRow={data?.notRequiredCourses
-          .filter((item) => item.semester === (1 || 3 || 5 || 7))
+         .filter((item) => item.semester % 2 === 1)
           .map((course) => ({ list: [
             { id: 1,
               label: (
@@ -108,7 +108,7 @@ const SubmitVotingForm = ({ data, formData, onSubmit, setFormData }:ISubmitVotin
         heightVH="auto"
         dataHeader={dataHeader}
         dataRow={data?.requiredCourses
-          .filter((item) => item.semester === (2 || 4 || 6 || 8))
+          .filter((item) => item.semester % 2 === 0)
           .map((course) => ({ list: [
             { id: 1,
               label: (
@@ -147,7 +147,7 @@ const SubmitVotingForm = ({ data, formData, onSubmit, setFormData }:ISubmitVotin
         heightVH="auto"
         dataHeader={dataHeader}
         dataRow={data?.notRequiredCourses
-          .filter((item) => item.semester === (2 || 4 || 6 || 8))
+          .filter((item) => item.semester % 2 === 0)
           .map((course) => ({ list: [
             { id: 1,
               label: (

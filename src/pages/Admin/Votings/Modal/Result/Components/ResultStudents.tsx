@@ -18,11 +18,7 @@ const ResultStudents = ({ formData }:IResultStudents):JSX.Element => (
   <div className={styles.BlockStudents}>
     {formData.groups.map((item) => (
       <div key={item.id}>
-        <h1 className={styles.Title}>
-          Група
-          {' '}
-          {item.name}
-        </h1>
+        <h1 className={styles.Title}>{`Група ${item.name}`}</h1>
         <Table
           isTableResult
           dataHeader={dataHeaderStudents}

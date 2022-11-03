@@ -4,7 +4,7 @@ import Header from '../components/Header';
 import Navigation from '../components/Navigation';
 import styles from '../components/Navigation/index.module.scss';
 import { MessagesContext } from '../context/All/Messages';
-import stylesPortal from '../stylesPortal.module.scss';
+import stylesPortal from './stylesPortal.module.scss';
 import { AuthContext } from '../context/All/AuthContext';
 import ModalMessage from '../components/common/ModalMessage';
 import { DeviceContext } from '../context/All/DeviceType';

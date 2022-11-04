@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import ModalWindow from '../../../../../components/common/ModalWindow';
 import { MessagesContext } from '../../../../../context/All/Messages';
-import { ICoursesCreateParams } from '../../../../../hooks/PagesInAdmin/useCourses';
+import { ICoursesParams } from '../../../../../hooks/PagesInAdmin/useCourses';
 import { ICreateModal } from '../../../../../types';
 import { CoursesContext } from '../../../../../context/PagesInAdmin/Courses';
 import CoursesInputForm from '../form/create&edit';
 import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
 
-const formInitialData: ICoursesCreateParams = {
+const formInitialData: ICoursesParams = {
   name: '',
   groups: [],
   teacher: 0,
@@ -21,7 +21,7 @@ const formInitialData: ICoursesCreateParams = {
 
 export const CourseCreateModal = ({ modalActive, closeModal }: ICreateModal): JSX.Element => {
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [formData, setFormData] = useState<ICoursesCreateParams>(formInitialData);
+  const [formData, setFormData] = useState<ICoursesParams>(formInitialData);
 
   const { courseCreate } = CoursesContext();
   const { addInfo } = MessagesContext();
@@ -41,7 +41,12 @@ export const CourseCreateModal = ({ modalActive, closeModal }: ICreateModal): JS
       && formData.teacher && formData.semester
       && formData.lectureHours
       && formData.type) {
-      courseCreate?.createCourse(formData);
+      if (formData.type === 'Вибіркова фахова компетентність'
+        || formData.type === 'Вибіркова загальна компетентність') {
+        courseCreate?.createCourse({ ...formData, groups: [] });
+      } else {
+        courseCreate?.createCourse(formData);
+      }
     }
   };
 

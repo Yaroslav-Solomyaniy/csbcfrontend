@@ -4,6 +4,18 @@ import { FetchSuccess, IPaginateData, OrderBy } from '../../types';
 import { AuthContext } from '../../context/All/AuthContext';
 import { MessagesContext } from '../../context/All/Messages';
 
+export interface ICoursesParams {
+  name: string;
+  credits: number | null;
+  lectureHours: number | null;
+  isActive: boolean;
+  semester: number;
+  type: string;
+  isExam: boolean;
+  teacher: number;
+  groups: number [];
+}
+
 export interface IGetCoursesParams {
   orderByColumn?:
     | 'id'
@@ -89,25 +101,13 @@ export const useCoursesGet = (): IUseCoursesGet => {
 
 // Create Course
 
-export interface ICoursesCreateParams {
-  name: string;
-  credits: number | null;
-  lectureHours: number | null;
-  isActive: boolean;
-  semester: number;
-  type: string;
-  isExam: boolean;
-  teacher: number;
-  groups: number [];
-}
-
 export interface ICoursesCreateData {
   id: string;
 }
 
 export interface IUseCoursesCreate {
   data: ICoursesCreateData | null;
-  createCourse: (params: ICoursesCreateParams) => void;
+  createCourse: (params: ICoursesParams) => void;
 }
 
 export const useCreateCourse = (): IUseCoursesCreate => {
@@ -115,7 +115,7 @@ export const useCreateCourse = (): IUseCoursesCreate => {
   const { addErrors } = MessagesContext();
   const [data, setData] = useState<ICoursesCreateData | null>(null);
 
-  const createCourse = (params: ICoursesCreateParams) => {
+  const createCourse = (params: ICoursesParams) => {
     axios.post(`${process.env.REACT_APP_API_URL}/courses`, params, {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,
@@ -188,21 +188,9 @@ export const useCourseGetId = (): IUseGetCourseId => {
   return { data, getCourseId };
 };
 
-export interface ICourseEditParams {
-  name: string;
-  credits: number | null;
-  lectureHours: number | null;
-  isActive?: boolean;
-  semester: number;
-  type: string;
-  isExam: boolean;
-  teacher: number | null;
-  groups: number[];
-}
-
 export interface IUseCourseEdit {
   data: FetchSuccess | null;
-  courseEdit: (params: ICourseEditParams, id: number) => void;
+  courseEdit: (params: ICoursesParams, id: number) => void;
 }
 
 export const useCourseEdit = (): IUseCourseEdit => {
@@ -210,7 +198,7 @@ export const useCourseEdit = (): IUseCourseEdit => {
   const { addErrors } = MessagesContext();
   const [data, setData] = useState<FetchSuccess | null>(null);
 
-  const courseEdit = (params: ICourseEditParams, id: number) => {
+  const courseEdit = (params: ICoursesParams, id: number) => {
     axios.patch(`${process.env.REACT_APP_API_URL}/courses/${id}`, params, {
       headers: {
         Authorization: `Bearer ${user?.accessToken}`,

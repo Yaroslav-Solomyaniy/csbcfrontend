@@ -2,17 +2,18 @@ import React, { useEffect, useState } from 'react';
 import ModalWindow from '../../../../../components/common/ModalWindow';
 import { MessagesContext } from '../../../../../context/All/Messages';
 import { IEditModal } from '../../../../../types';
-import { ICourseEditParams } from '../../../../../hooks/PagesInAdmin/useCourses';
+import { ICoursesParams } from '../../../../../hooks/PagesInAdmin/useCourses';
 import { CoursesContext } from '../../../../../context/PagesInAdmin/Courses';
 import CoursesInputForm from '../form/create&edit';
 import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
 
-const formInitialData: ICourseEditParams = {
+const formInitialData: ICoursesParams = {
   name: '',
   groups: [],
   teacher: 0,
   credits: null,
   semester: 1,
+  isActive: false,
   isExam: false,
   lectureHours: null,
   type: 'Загальна компетентність',
@@ -20,7 +21,7 @@ const formInitialData: ICourseEditParams = {
 
 export const CourseEdit = ({ modalActive, closeModal, studentId }: IEditModal): JSX.Element => {
   const { addInfo } = MessagesContext();
-  const [formData, setFormData] = useState<ICourseEditParams>(formInitialData);
+  const [formData, setFormData] = useState<ICoursesParams>(formInitialData);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const { courseEdit, getCourseId } = CoursesContext();
 
@@ -54,7 +55,7 @@ export const CourseEdit = ({ modalActive, closeModal, studentId }: IEditModal): 
       const data = {
         name: getCourseId?.data.name,
         groups: getCourseId.data.groups.map((item) => item.id),
-        teacher: getCourseId?.data?.teacher?.id || null,
+        teacher: getCourseId?.data?.teacher?.id || 0,
         credits: getCourseId.data.credits ? +getCourseId.data.credits : null,
         semester: getCourseId.data.semester,
         isActive: getCourseId.data.isActive,

@@ -6,7 +6,7 @@ import Header from '../../../components/Header';
 import { useChangePassword } from '../../../hooks/All/useAuth';
 import leftArrow from '../../../images/login/leftArrow.svg';
 import { AuthContext } from '../../../context/All/AuthContext';
-import stylesPortal from '../../../stylesPortal.module.scss';
+import stylesPortal from '../../../loyout/stylesPortal.module.scss';
 import ModalMessage from '../../../components/common/ModalMessage';
 import { MessagesContext } from '../../../context/All/Messages';
 import Input from '../../../components/common/MyInput/Input';

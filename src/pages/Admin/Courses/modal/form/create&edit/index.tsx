@@ -6,12 +6,12 @@ import SelectTeacher from '../../../../../../components/common/Select/SelectTeac
 import SelectSemester from '../../../../../../components/common/Select/SelectSemester';
 import SelectExam from '../../../../../../components/common/Select/SelectIsExam';
 import SelectCompulsory from '../../../../../../components/common/Select/SelectTypeCourse';
-import { ICourseEditParams, ICoursesCreateParams } from '../../../../../../hooks/PagesInAdmin/useCourses';
+import { ICoursesParams } from '../../../../../../hooks/PagesInAdmin/useCourses';
 import styles from '../../../../../pagesStyle.module.scss';
 
 interface ICoursesInputForm{
-  formData: ICourseEditParams | ICoursesCreateParams;
-  setFormData: (value:any) => void;
+  formData: ICoursesParams;
+  setFormData: (value: ICoursesParams) => void;
   isSubmitted: boolean;
   onSubmit: (e: React.FormEvent | undefined) => void;
   modalTitle?: string;
@@ -38,21 +38,24 @@ const CoursesInputForm = ({ formData,
           error={isSubmitted && !formData.name ? 'Назву предмету не введено.' : ''}
           pattern={LettersAndNumbersEnUa}
         />
-        <MultiSelectGroup
-          type="modal"
-          label="Групи"
-          placeholder="Групи"
-          isSearchable
-          isClearable
-          onChange={(value) => {
-            setFormData({
-              ...formData,
-              groups: value.map((option) => (
-                +option.value)),
-            });
-          }}
-          value={formData.groups.map((group) => `${group}`)}
-        />
+        {formData.type !== 'Вибіркова загальна компетентність' && formData.type !== 'Вибіркова фахова компетентність'
+          && (
+          <MultiSelectGroup
+            type="modal"
+            label="Групи"
+            placeholder="Групи"
+            isSearchable
+            isClearable
+            onChange={(value) => {
+              setFormData({
+                ...formData,
+                groups: value.map((option) => (
+                  +option.value)),
+              });
+            }}
+            value={formData.groups.map((group) => `${group}`)}
+          />
+          )}
         <SelectTeacher
           type="modal"
           label="ПІБ викладача"

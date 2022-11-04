@@ -93,10 +93,10 @@ const Teachers = (): JSX.Element => {
 
       return {
         list: [
-          { id: 1, label: `${item.lastName} ${item.firstName} ${item.patronymic}` },
-          { id: 2, label: arr.subject },
-          { id: 3, label: arr.group },
-          { id: 4, label: item.email },
+          { id: 1, label: `${item.lastName} ${item.firstName} ${item.patronymic}` || 'Дані відсутні' },
+          { id: 2, label: arr.subject.length ? arr.subject : 'Предмети відсутні' },
+          { id: 3, label: arr.group.length ? arr.group : 'Групи відсутні' },
+          { id: 4, label: item.email || 'Електронна адреса відсутня' },
           {
             id: 5,
             label: <EditAndDelete isActiveModal={isActiveModal} setIsActiveModal={setIsActiveModal} itemId={item.id} />,

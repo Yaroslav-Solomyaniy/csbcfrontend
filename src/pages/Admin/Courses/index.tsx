@@ -83,19 +83,19 @@ const Courses = (): JSX.Element => {
       setPagination(getCourses.data.meta);
       setDataRow(getCourses?.data?.items.map((item: IGetCoursesData) => ({
         list: [
-          { id: 1, label: item.name },
+          { id: 1, label: item.name || 'Назва предмету відсутня' },
           {
             id: 2,
             label: (item.teacher
               ? `${item?.teacher?.lastName} ${item?.teacher?.firstName} ${item?.teacher?.patronymic}`
               : 'Викладач відсутній'),
           },
-          { id: 3, label: Semesters[item.semester] || 'Невідоме значення' },
-          { id: 4, label: item.credits },
-          { id: 5, label: item.groups ? item.groups.map((group) => group.name).join(',') : 'Групи відсутні' },
-          { id: 6, label: item.lectureHours },
+          { id: 3, label: Semesters[item.semester] || 'Семестр відсутній' },
+          { id: 4, label: item.credits || 'К-ть кредитів відсутня' },
+          { id: 5, label: item.groups.length ? item.groups.map((group) => group.name).join(',') : 'Групи відсутні' },
+          { id: 6, label: item.lectureHours || 'К-ть аудиторних годин відсутня' },
           { id: 7, label: item.isExam ? 'Іспит' : 'Залік' },
-          { id: 8, label: item.type },
+          { id: 8, label: item.type || 'Тип відсутній' },
           {
             id: 9,
             label: <EditAndDelete isActiveModal={isActiveModal} setIsActiveModal={setIsActiveModal} itemId={item.id} />,

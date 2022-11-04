@@ -85,9 +85,9 @@ const VotingAdmin = (): JSX.Element => {
       setDataRow(getVoting?.data?.items.map((item: IGetVotingAdminData) => ({
         list: [
           { id: 1, label: item.groups ? item.groups.map((group) => group.name).join(', ') : 'Групи відсутні' },
-          { id: 2, label: new Date(item.startDate).toLocaleString() },
-          { id: 3, label: new Date(item.endDate).toLocaleString() },
-          { id: 4, label: `${item.tookPart} / ${item.allStudents}` },
+          { id: 2, label: new Date(item.startDate).toLocaleString() || 'Дата відсутня' },
+          { id: 3, label: new Date(item.endDate).toLocaleString() || 'Дата відсутня' },
+          { id: 4, label: `${item.tookPart} / ${item.allStudents}` || 'Дані відсутні' },
           { id: 5,
             label:
   <div className={styles.circleAndStatus}>

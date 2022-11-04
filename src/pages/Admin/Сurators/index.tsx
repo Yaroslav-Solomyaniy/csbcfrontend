@@ -68,9 +68,9 @@ const Curators = (): JSX.Element => {
       setPagination(getCurators.data.meta);
       setDataRow(getCurators?.data?.items.map((item: IGetCuratorData) => ({
         list: [
-          { id: 1, label: `${item.lastName} ${item.firstName} ${item.patronymic}` },
+          { id: 1, label: `${item.lastName} ${item.firstName} ${item.patronymic}` || 'Дані відсутні' },
           { id: 2, label: item.groups ? item.groups.map((group) => (group.name)).join(', ') : 'Групи відсутні' },
-          { id: 3, label: item.email },
+          { id: 3, label: item.email || 'Електронна адреса відсутня' },
           {
             id: 4,
             label: <EditAndDelete isActiveModal={isActiveModal} setIsActiveModal={setIsActiveModal} itemId={item.id} />,

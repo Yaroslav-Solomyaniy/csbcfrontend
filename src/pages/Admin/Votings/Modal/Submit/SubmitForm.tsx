@@ -69,7 +69,7 @@ const SubmitVotingForm = ({ data, formData, onSubmit, setFormData }:ISubmitVotin
         heightVH="auto"
         dataHeader={dataHeader}
         dataRow={data?.notRequiredCourses
-         .filter((item) => item.semester % 2 === 1)
+          .filter((item) => item.semester % 2 === 1)
           .map((course) => ({ list: [
             { id: 1,
               label: (

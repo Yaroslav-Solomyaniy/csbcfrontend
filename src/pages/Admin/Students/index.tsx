@@ -91,12 +91,12 @@ const Students = (): JSX.Element => {
       setPagination(getStudents.data.meta);
       setDataRow(getStudents.data.items.map((item: IStudentData) => ({
         list: [
-          { id: 1, label: `${item.user.lastName} ${item.user.firstName} ${item.user.patronymic}` },
-          { id: 2, label: item.group ? item.group.name : '' },
-          { id: 3, label: item.orderNumber },
+          { id: 1, label: `${item.user.lastName} ${item.user.firstName} ${item.user.patronymic}` || 'Дані відсутні' },
+          { id: 2, label: item.group ? item.group.name : 'Група відсутня' },
+          { id: 3, label: item.orderNumber || 'Номер наказу відсутній' },
           { id: 4, label: item.isFullTime ? 'Денна' : 'Заочна' },
-          { id: 5, label: item.user.email },
-          { id: 6, label: item.edeboId },
+          { id: 5, label: item.user.email || 'Електронна адреса відсутня' },
+          { id: 6, label: item.edeboId || 'ЄДЕБО відсутній' },
           {
             id: 7,
             label: <EditReviewDelete

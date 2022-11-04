@@ -67,8 +67,8 @@ const Administrators = (): JSX.Element => {
       setPagination(getAdministrators.data.meta);
       setDataRow(getAdministrators?.data?.items.map((item: IGetUserData) => ({
         list: [
-          { id: 1, label: `${item.lastName} ${item.firstName} ${item.patronymic}` },
-          { id: 2, label: item.email },
+          { id: 1, label: `${item.lastName} ${item.firstName} ${item.patronymic}` || 'Невідомі дані' },
+          { id: 2, label: item.email || 'Електронна адреса не відома' },
           {
             id: 3,
             label: <EditAndDelete

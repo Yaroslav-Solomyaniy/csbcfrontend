@@ -17,6 +17,7 @@ interface MultiSelect {
   placeholder?: string;
   isSearchable?: boolean;
   isClearable?: boolean;
+  disabled?: boolean;
 }
 
 const MultiSelect = ({
@@ -30,6 +31,7 @@ const MultiSelect = ({
   isSearchable,
   isClearable,
   type,
+  disabled,
 }: MultiSelect): JSX.Element => {
   const { isDesktop, isTablet, isPhone } = DeviceContext();
 
@@ -51,10 +53,12 @@ const MultiSelect = ({
           options={options}
           placeholder={placeholder}
           isClearable={isClearable}
+          closeMenuOnSelect={false}
           noOptionsMessage={() => 'Нічого не знайдено'}
           value={options.filter((option) => value.includes(`${option.value}`))}
           onChange={(newValue) => onChange(newValue ? newValue as Option[] : [])}
           isMulti
+          isDisabled={disabled}
         />
         {error && (
           <div className={styles.error}>
@@ -73,6 +77,7 @@ MultiSelect.defaultProps = {
   placeholder: '',
   isSearchable: false,
   isClearable: false,
+  disabled: false,
 };
 
 export default MultiSelect;

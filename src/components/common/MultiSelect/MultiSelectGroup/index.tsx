@@ -14,6 +14,7 @@ interface IMultiSelectGroup {
   error?: string;
   required?: boolean;
   type: SelectType;
+  disabled?: boolean;
 }
 
 const MultiSelectGroup = ({
@@ -26,6 +27,7 @@ const MultiSelectGroup = ({
   isClearable,
   required,
   error,
+  disabled,
 }: IMultiSelectGroup): JSX.Element => {
   const { optionsGroups, getListGroups } = useGetListGroups();
   const [options, setOptions] = useState<Option[]>([]);
@@ -53,6 +55,7 @@ const MultiSelectGroup = ({
       isClearable={isClearable}
       required={required}
       error={error}
+      disabled={disabled}
     />
   );
 };
@@ -65,6 +68,7 @@ MultiSelectGroup.defaultProps = {
   isFilter: false,
   label: '',
   error: '',
+  disabled: false,
 };
 
 export default MultiSelectGroup;

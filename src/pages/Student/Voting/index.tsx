@@ -76,9 +76,11 @@ const VotingStudents = (): JSX.Element => {
     () => {
       if (votingCreate?.data) {
         addInfo('Ви успішно проголосували.');
+      } else {
+        addInfo('Ви успішно змінили свій вибір.');
       }
     },
-    [votingCreate?.data],
+    [votingCreate?.data, votingEdit?.data],
   );
 
   const handleRadioClick = (e: React.ChangeEvent<HTMLInputElement>): void => {

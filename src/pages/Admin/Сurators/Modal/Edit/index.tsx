@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import ModalWindow from '../../../../../components/common/ModalWindow';
 import { IEditModal } from '../../../../../types';
-import { CuratorContext } from '../../../../../context/PagesInAdmin/Curators';
+import { CuratorContext } from '../../../../../context/Pages/admin/Curators';
 import { Email } from '../../../../../types/regExp';
-import { IUserEditParams } from '../../../../../hooks/All/useUser';
 import { MessagesContext } from '../../../../../context/All/Messages';
 import CuratorsForm from '../form/create&edit';
 import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
+import { IEditUserParams } from '../../../../../hooks/api/user/useEdit';
 
-const formInitialData: IUserEditParams = {
+const formInitialData: IEditUserParams = {
   firstName: '',
   lastName: '',
   patronymic: '',
@@ -18,9 +18,9 @@ const formInitialData: IUserEditParams = {
 
 export const CuratorEditModal = ({ modalActive, closeModal, studentId }: IEditModal): JSX.Element => {
   const [isSubmitted, setIsSubmited] = useState(false);
-  const [formData, setFormData] = useState<IUserEditParams>(formInitialData);
+  const [formData, setFormData] = useState<IEditUserParams>(formInitialData);
 
-  const { curatorEdit, getCuratorId } = CuratorContext();
+  const { editCurator, getCuratorById } = CuratorContext();
   const { addInfo } = MessagesContext();
 
   const handleClose = () => {
@@ -40,34 +40,34 @@ export const CuratorEditModal = ({ modalActive, closeModal, studentId }: IEditMo
       && formData.patronymic
       && formData.lastName
       && Email.test(formData.email)) {
-      curatorEdit?.userEdit({ ...formData }, studentId);
+      editCurator?.editUser({ ...formData }, studentId);
     }
   };
 
   useEffect(() => {
-    if (curatorEdit?.data) {
+    if (editCurator?.data) {
       handleClose();
       addInfo(`Куратор "${formData.lastName} ${formData.firstName} ${formData.patronymic}" відредагований`);
     }
-  }, [curatorEdit?.data]);
+  }, [editCurator?.data]);
 
   useEffect(() => {
     if (studentId) {
-      getCuratorId?.getUserId({ id: `${studentId}` });
+      getCuratorById?.getUserById({ id: `${studentId}` });
     }
   }, [studentId]);
 
   useEffect(() => {
-    if (getCuratorId?.data) {
+    if (getCuratorById?.data) {
       setFormData({
-        firstName: getCuratorId?.data.firstName,
-        lastName: getCuratorId?.data.lastName,
-        patronymic: getCuratorId?.data.patronymic,
-        email: getCuratorId?.data.email,
-        role: getCuratorId?.data.role,
+        firstName: getCuratorById?.data.firstName,
+        lastName: getCuratorById?.data.lastName,
+        patronymic: getCuratorById?.data.patronymic,
+        email: getCuratorById?.data.email,
+        role: getCuratorById?.data.role,
       });
     }
-  }, [getCuratorId?.data]);
+  }, [getCuratorById?.data]);
 
   return (
     <ModalWindow modalTitle="Редагування куратора" active={modalActive} closeModal={handleClose}>

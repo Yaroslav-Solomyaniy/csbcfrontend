@@ -1,15 +1,15 @@
 import React from 'react';
-import { IGroupCreateParams } from '../../../../../../hooks/PagesInAdmin/useGroups';
 import styles from '../../../../../pagesStyle.module.scss';
 import ModalInput from '../../../../../../components/common/MyInput';
 import { LettersAndNumbersEnUa, NumbersAndLettersEn } from '../../../../../../types/regExp';
 import SelectCurator from '../../../../../../components/common/Select/SelectCurator';
+import { ICreateGroupParams } from '../../../../../../hooks/api/admin/groups/useCreate';
 
 interface IGroupPageModalForm{
   onSubmit: (e: React.FormEvent | undefined) => void;
   isSubmitted: boolean;
-  formData:IGroupCreateParams;
-  setFormData: (value: IGroupCreateParams) => void;
+  formData:ICreateGroupParams;
+  setFormData: (value: ICreateGroupParams) => void;
   modalTitle?: string;
 }
 

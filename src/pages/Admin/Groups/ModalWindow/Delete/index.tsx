@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ModalWindow from '../../../../../components/common/ModalWindow';
-import { GroupsContext } from '../../../../../context/PagesInAdmin/Groups';
+import { GroupsContext } from '../../../../../context/Pages/admin/Groups';
 import { MessagesContext } from '../../../../../context/All/Messages';
 import { IDeleteModal } from '../../../../../types';
 import styles from '../../../../pagesStyle.module.scss';
@@ -17,7 +17,7 @@ export const GroupDelete = ({ modalActive, closeModal, Id }: IDeleteModal): JSX.
   const [formData, setFormData] = useState(formInitialData);
 
   const { addInfo } = MessagesContext();
-  const { groupDelete, getGroupId } = GroupsContext();
+  const { deleteGroup, getGroupById } = GroupsContext();
   const [orderNumber, setOrderNumber] = useState('');
 
   const handleClose = () => {
@@ -35,26 +35,26 @@ export const GroupDelete = ({ modalActive, closeModal, Id }: IDeleteModal): JSX.
     if (
       (`${formData.deletedOrderNumber}`.length >= 6 && `${formData.deletedOrderNumber}`.length <= 20)
       && formData.deletedOrderNumber === orderNumber) {
-      groupDelete?.groupDelete(Id);
+      deleteGroup?.deleteGroup(Id);
     }
   };
 
   useEffect(() => {
-    if (groupDelete?.data) {
+    if (deleteGroup?.data) {
       handleClose();
-      addInfo(`Група "${getGroupId?.data?.name}" успішно видалена`);
+      addInfo(`Група "${getGroupById?.data?.name}" успішно видалена`);
     }
-  }, [groupDelete?.data]);
+  }, [deleteGroup?.data]);
 
   useEffect(() => {
-    if (getGroupId?.data) {
-      setOrderNumber(getGroupId.data.orderNumber);
+    if (getGroupById?.data) {
+      setOrderNumber(getGroupById.data.orderNumber);
     }
-  }, [getGroupId?.data]);
+  }, [getGroupById?.data]);
 
   useEffect(() => {
     if (Id) {
-      getGroupId?.getGroupId({ id: `${Id}` });
+      getGroupById?.getGroupById({ id: `${Id}` });
     }
   }, [Id]);
 

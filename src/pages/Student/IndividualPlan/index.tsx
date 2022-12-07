@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Layout from '../../../loyout/Layout';
-import { IndividualPlanContext } from '../../../context/IndividualPlan';
+import { IndividualPlanContext } from '../../../context/Pages/student/IndvPlan';
 import TitlePage from '../../../components/common/TitlePage';
 import styles from './index.module.scss';
 import { AuthContext } from '../../../context/All/AuthContext';
@@ -9,9 +9,9 @@ import { IndividualPlanHeader } from './types';
 import Preloader from '../../../components/common/Preloader/Preloader';
 import SelectSemester from '../../../components/common/Select/SelectSemester';
 import Button from '../../../components/common/Button';
-import { downloadFile } from '../../../hooks/All/DownloadFile';
+import { useDownloadFile } from '../../../hooks/hooks/useDownloadFile';
 import { Semesters } from '../../../types';
-import { useQueryParam } from '../../../hooks/All/useQueryParams';
+import { useQueryParam } from '../../../hooks/hooks/useQueryParams';
 
 const StudentIndividualPlan = ():JSX.Element => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -31,7 +31,8 @@ const StudentIndividualPlan = ():JSX.Element => {
 
   useEffect(() => {
     if (download?.dataFile) {
-      downloadFile(
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      useDownloadFile(
         download.dataFile,
         // eslint-disable-next-line max-len
         `Індивідуальний план - ${Semesters[semester]}. ${user?.lastName} ${user?.firstName[0].toUpperCase()}.`,
@@ -49,7 +50,7 @@ const StudentIndividualPlan = ():JSX.Element => {
             <SelectSemester onChange={(value) => post({ semester: value })} type="mini" value={semester} />
             <Button
               className={styles.downloadButton}
-              onClick={() => download?.planDownload({ id: user?.id || 0, semester })}
+              onClick={() => download?.download({ id: user?.id || 0, semester })}
               size="large"
               nameClass="primary"
             >

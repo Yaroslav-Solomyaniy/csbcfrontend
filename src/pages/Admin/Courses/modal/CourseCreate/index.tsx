@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import ModalWindow from '../../../../../components/common/ModalWindow';
 import { MessagesContext } from '../../../../../context/All/Messages';
-import { ICoursesParams } from '../../../../../hooks/PagesInAdmin/useCourses';
 import { ICreateModal } from '../../../../../types';
-import { CoursesContext } from '../../../../../context/PagesInAdmin/Courses';
+import { CoursesContext } from '../../../../../context/Pages/admin/Courses';
 import CoursesInputForm from '../form/create&edit';
 import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
+import { ICoursesParams } from '../../../../../hooks/api/interfaces';
 
 const formInitialData: ICoursesParams = {
   name: '',
@@ -23,7 +23,7 @@ export const CourseCreateModal = ({ modalActive, closeModal }: ICreateModal): JS
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState<ICoursesParams>(formInitialData);
 
-  const { courseCreate } = CoursesContext();
+  const { createCourse } = CoursesContext();
   const { addInfo } = MessagesContext();
 
   const handleClose = () => {
@@ -43,19 +43,19 @@ export const CourseCreateModal = ({ modalActive, closeModal }: ICreateModal): JS
       && formData.type) {
       if (formData.type === 'Вибіркова фахова компетентність'
         || formData.type === 'Вибіркова загальна компетентність') {
-        courseCreate?.createCourse({ ...formData, groups: [] });
+        createCourse?.createCourse({ ...formData, groups: [] });
       } else {
-        courseCreate?.createCourse(formData);
+        createCourse?.createCourse(formData);
       }
     }
   };
 
   useEffect(() => {
-    if (courseCreate?.data) {
+    if (createCourse?.data) {
       handleClose();
       addInfo(`Предмет "${formData.name}" успішно додано`);
     }
-  }, [courseCreate?.data]);
+  }, [createCourse?.data]);
 
   return (
     <ModalWindow modalTitle="Створення предмету" active={modalActive} closeModal={handleClose}>

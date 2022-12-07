@@ -3,13 +3,13 @@ import ModalWindow from '../../../../../components/common/ModalWindow';
 import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
 import pagesStyle from '../../../../pagesStyle.module.scss';
 import ModalInput from '../../../../../components/common/MyInput';
-import { TeachersContext } from '../../../../../context/PagesInAdmin/Teachers';
+import { TeachersContext } from '../../../../../context/Pages/admin/Teachers';
 import { Email, EmailValidation } from '../../../../../types/regExp';
-import { IUserCreateParams } from '../../../../../hooks/All/useUser';
 import { ICreateModal } from '../../../../../types';
 import { MessagesContext } from '../../../../../context/All/Messages';
+import { ICreateUserParams } from '../../../../../hooks/api/user/useCreate';
 
-const formInitialData: IUserCreateParams = {
+const formInitialData: ICreateUserParams = {
   firstName: '',
   lastName: '',
   patronymic: '',
@@ -18,9 +18,9 @@ const formInitialData: IUserCreateParams = {
 };
 
 export const TeacherCreateModal = ({ modalActive, closeModal }: ICreateModal): JSX.Element => {
-  const { teacherCreate } = TeachersContext();
+  const { createTeacher } = TeachersContext();
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [formData, setFormData] = useState<IUserCreateParams>(formInitialData);
+  const [formData, setFormData] = useState<ICreateUserParams>(formInitialData);
   const { addInfo } = MessagesContext();
 
   const handleClose = () => {
@@ -36,16 +36,16 @@ export const TeacherCreateModal = ({ modalActive, closeModal }: ICreateModal): J
     setIsSubmitted(true);
 
     if (formData.firstName && formData.lastName && formData.patronymic && Email.test(formData.email)) {
-      teacherCreate?.createUser(formData);
+      createTeacher?.createUser(formData);
     }
   };
 
   useEffect(() => {
-    if (teacherCreate?.data) {
+    if (createTeacher?.data) {
       handleClose();
       addInfo(`${formData.lastName} ${formData.firstName} ${formData.patronymic} доданий у список`);
     }
-  }, [teacherCreate?.data]);
+  }, [createTeacher?.data]);
 
   return (
     <ModalWindow modalTitle="Створення викладача" active={modalActive} closeModal={handleClose}>

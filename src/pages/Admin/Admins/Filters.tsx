@@ -1,6 +1,6 @@
 import React from 'react';
 import SelectAdministrator from '../../../components/common/Select/SelectAdministrator';
-import { useQueryParam } from '../../../hooks/All/useQueryParams';
+import { useQueryParam } from '../../../hooks/hooks/useQueryParams';
 
 interface IAdministratorsFilters{
 adminId: number;

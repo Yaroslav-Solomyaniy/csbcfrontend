@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import ModalWindow from '../../../../../components/common/ModalWindow';
-import { IGroupEditParams } from '../../../../../hooks/PagesInAdmin/useGroups';
-import { GroupsContext } from '../../../../../context/PagesInAdmin/Groups';
+import { GroupsContext } from '../../../../../context/Pages/admin/Groups';
 import { MessagesContext } from '../../../../../context/All/Messages';
 import { IEditModal } from '../../../../../types';
 import GroupPageModalForm from '../form/Create&Edit/modalForm';
 import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
+import { IEditGroupParams } from '../../../../../hooks/api/admin/groups/useEdit';
 
 const formInitialData = {
   name: '',
@@ -14,14 +14,14 @@ const formInitialData = {
 };
 
 export const GroupEdit = ({ modalActive, closeModal, studentId }: IEditModal): JSX.Element => {
-  const [formData, setFormData] = useState<IGroupEditParams>(formInitialData);
-  const [isSubmitted, setIsSubmited] = useState(false);
+  const [formData, setFormData] = useState<IEditGroupParams>(formInitialData);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const { groupEdit, getGroupId } = GroupsContext();
+  const { editGroup, getGroupById } = GroupsContext();
   const { addInfo } = MessagesContext();
 
   const handleClose = () => {
-    setIsSubmited(false);
+    setIsSubmitted(false);
     closeModal();
     setTimeout(() => {
       setFormData(formInitialData);
@@ -30,35 +30,35 @@ export const GroupEdit = ({ modalActive, closeModal, studentId }: IEditModal): J
 
   const onSubmit = (e: React.FormEvent | undefined) => {
     e?.preventDefault?.();
-    setIsSubmited(true);
+    setIsSubmitted(true);
     if (formData.name && (`${formData.orderNumber}`.length >= 6
       && `${formData.orderNumber}`.length <= 20) && formData.curatorId) {
-      groupEdit?.groupEdit({ ...formData }, studentId);
+      editGroup?.editGroup({ ...formData }, studentId);
     }
   };
 
   useEffect(() => {
-    if (groupEdit?.data) {
+    if (editGroup?.data) {
       handleClose();
-      addInfo(`Група "${getGroupId?.data?.name}" успішно відредагована`);
+      addInfo(`Група "${getGroupById?.data?.name}" успішно відредагована`);
     }
-  }, [groupEdit?.data]);
+  }, [editGroup?.data]);
 
   useEffect(() => {
     if (studentId) {
-      getGroupId?.getGroupId({ id: `${studentId}` });
+      getGroupById?.getGroupById({ id: `${studentId}` });
     }
   }, [studentId]);
 
   useEffect(() => {
-    if (getGroupId?.data) {
+    if (getGroupById?.data) {
       setFormData({
-        name: getGroupId?.data?.name || '',
-        orderNumber: getGroupId?.data?.orderNumber || '',
-        curatorId: getGroupId?.data?.curator?.id || 0,
+        name: getGroupById?.data?.name || '',
+        orderNumber: getGroupById?.data?.orderNumber || '',
+        curatorId: getGroupById?.data?.curator?.id || 0,
       });
     }
-  }, [getGroupId?.data]);
+  }, [getGroupById?.data]);
 
   return (
     <ModalWindow modalTitle="Редагування групи" active={modalActive} closeModal={handleClose}>

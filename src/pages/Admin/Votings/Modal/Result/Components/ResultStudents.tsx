@@ -2,8 +2,9 @@ import React from 'react';
 import styles from '../index.module.scss';
 import Table from '../../../../../../components/common/Table';
 import { IsCheck } from '../../../../../../components/common/Icons';
-import { IGetVotingResultDataById } from '../../../../../../hooks/PagesInAdmin/useVotings';
 import { ITableHeader } from '../../../../../../components/common/Table/TypeDisplay/Desktop/TableHeader';
+// eslint-disable-next-line max-len
+import { IGetVotingResultDataById } from '../../../../../../hooks/api/admin/voting/useGetResult/IGetVotingResultDataById';
 
 const dataHeaderStudents: ITableHeader[] = [
   { id: 1, label: 'ПІБ' },

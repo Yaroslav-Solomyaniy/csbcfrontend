@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from './index.module.scss';
-import { ForgotPassword, useForgotPassword } from '../../../hooks/All/useAuth';
+import { ForgotPassword, useForgotPassword } from '../../../hooks/api/all/useAuth';
 import Layout from '../../../loyout/Layout';
 import Input from '../../../components/common/MyInput/Input';
 import { Email, EmailValidation } from '../../../types/regExp';

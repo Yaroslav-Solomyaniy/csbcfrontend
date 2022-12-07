@@ -1,7 +1,7 @@
 import React from 'react';
 import SelectStudent from '../../components/common/Select/SelectStudent';
 import SelectGroupById from '../../components/common/Select/SelectGroupById';
-import { useQueryParam } from '../../hooks/All/useQueryParams';
+import { useQueryParam } from '../../hooks/hooks/useQueryParams';
 
 interface ICuratorFilters{
   groupId: number;

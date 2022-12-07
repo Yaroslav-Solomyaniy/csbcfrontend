@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import ModalWindow from '../../../../../components/common/ModalWindow';
 import { MessagesContext } from '../../../../../context/All/Messages';
 import { IEditModal } from '../../../../../types';
-import { ICoursesParams } from '../../../../../hooks/PagesInAdmin/useCourses';
-import { CoursesContext } from '../../../../../context/PagesInAdmin/Courses';
+import { CoursesContext } from '../../../../../context/Pages/admin/Courses';
 import CoursesInputForm from '../form/create&edit';
 import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
+import { ICoursesParams } from '../../../../../hooks/api/interfaces';
 
 const formInitialData: ICoursesParams = {
   name: '',
@@ -23,7 +23,7 @@ export const CourseEdit = ({ modalActive, closeModal, studentId }: IEditModal): 
   const { addInfo } = MessagesContext();
   const [formData, setFormData] = useState<ICoursesParams>(formInitialData);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const { courseEdit, getCourseId } = CoursesContext();
+  const { editCourse, getCourseById } = CoursesContext();
 
   const handleClose = () => {
     setIsSubmitted(false);
@@ -40,40 +40,40 @@ export const CourseEdit = ({ modalActive, closeModal, studentId }: IEditModal): 
       && formData.teacher && formData.semester
       && formData.lectureHours
       && formData.type) {
-      courseEdit?.courseEdit(formData, studentId);
+      editCourse?.editCourse(formData, studentId);
     }
   };
 
   useEffect(() => {
     if (studentId) {
-      getCourseId?.getCourseId({ id: `${studentId}` });
+      getCourseById?.getCourseById({ id: `${studentId}` });
     }
   }, [studentId]);
 
   useEffect(() => {
-    if (getCourseId?.data) {
+    if (getCourseById?.data) {
       const data = {
-        name: getCourseId?.data.name,
-        groups: getCourseId.data.groups.map((item) => item.id),
-        teacher: getCourseId?.data?.teacher?.id || 0,
-        credits: getCourseId.data.credits ? +getCourseId.data.credits : null,
-        semester: getCourseId.data.semester,
-        isActive: getCourseId.data.isActive,
-        isExam: !!getCourseId.data.isExam,
-        lectureHours: getCourseId.data.lectureHours ? +getCourseId.data.lectureHours : null,
-        type: getCourseId.data.type,
+        name: getCourseById?.data.name,
+        groups: getCourseById.data.groups.map((item) => item.id),
+        teacher: getCourseById?.data?.teacher?.id || 0,
+        credits: getCourseById.data.credits ? +getCourseById.data.credits : null,
+        semester: getCourseById.data.semester,
+        isActive: getCourseById.data.isActive,
+        isExam: !!getCourseById.data.isExam,
+        lectureHours: getCourseById.data.lectureHours ? +getCourseById.data.lectureHours : null,
+        type: getCourseById.data.type,
       };
 
       setFormData(data);
     }
-  }, [getCourseId?.data]);
+  }, [getCourseById?.data]);
 
   useEffect(() => {
-    if (courseEdit?.data) {
+    if (editCourse?.data) {
       handleClose();
       addInfo(`Предмет "${formData.name}" успішно відредаговано`);
     }
-  }, [courseEdit?.data]);
+  }, [editCourse?.data]);
 
   return (
     <ModalWindow modalTitle="Редагування предмету" active={modalActive} closeModal={handleClose}>

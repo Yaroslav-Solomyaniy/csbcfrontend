@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import Select from '../index';
-import { Option, SelectType } from '../../../../types';
+import { Option, SelectTypes } from '../../../../types';
 
 interface ISelectCompulsory {
   value: string | boolean | null;
   onChange: (value: string) => void;
-  type: SelectType;
+  type: SelectTypes;
   label?: string;
   required?: boolean;
   error?: string;

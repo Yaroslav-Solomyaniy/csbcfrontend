@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import Button from '../Button';
 import styles from './index.module.scss';
 import { Dots } from '../Icons';
-import useOnClickOutside from '../../../hooks/All/UseClickOutsideElement';
+import useOnClickOutside from '../../../hooks/hooks/useClickOutsideElement';
 
 interface IAdaptiveTableModalButtons{
 children: React.ReactNode | React.ReactChild;

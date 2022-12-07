@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './index.module.scss';
-import loader from '../../../images/Loader.png';
+import loader from '../../../assets/images/Loader.png';
 
 const Preloader = () => (
   <div className={styles.loader}>

@@ -1,10 +1,10 @@
 import Select from '../index';
-import { SelectType } from '../../../../types';
+import { SelectTypes } from '../../../../types';
 
 interface ISelectIsFullTime {
   value: string | boolean | undefined;
   onChange: (value: string) => void;
-  type: SelectType;
+  type: SelectTypes;
   label?: string;
   required?: boolean;
   error?: string;

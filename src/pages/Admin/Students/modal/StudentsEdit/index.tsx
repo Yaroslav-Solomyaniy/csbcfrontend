@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
-import { StudentsContext } from '../../../../../context/PagesInAdmin/Students';
+import { StudentsContext } from '../../../../../context/Pages/admin/Students';
 import ModalWindow from '../../../../../components/common/ModalWindow';
-import { IStudentCreateParams } from '../../../../../hooks/PagesInAdmin/useStudents';
 import { Email } from '../../../../../types/regExp';
 import { MessagesContext } from '../../../../../context/All/Messages';
 import { IEditModal } from '../../../../../types';
 import CreateOrEditStudentsForm from '../form/CreateOrEdit';
 import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
+import { ICreateStudentParams } from '../../../../../hooks/api/admin/students/interfaces/ICreateStudentParams';
 
 const formInitialData = {
   dateOfBirth: null,
@@ -25,9 +25,9 @@ const formInitialData = {
 };
 
 export const StudentsEditModal = ({ modalActive, closeModal, studentId }: IEditModal): JSX.Element => {
-  const { studentEdit, getStudentById } = StudentsContext();
+  const { editStudent, getStudentById } = StudentsContext();
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [formData, setFormData] = useState<IStudentCreateParams>(formInitialData);
+  const [formData, setFormData] = useState<ICreateStudentParams>(formInitialData);
   const { addInfo } = MessagesContext();
 
   const handleClose = () => {
@@ -51,7 +51,7 @@ export const StudentsEditModal = ({ modalActive, closeModal, studentId }: IEditM
       && formData.user.patronymic
       && Email.test(formData.user.email)
     ) {
-      studentEdit?.studentEdit({
+      editStudent?.editStudent({
         ...formData,
         dateOfBirth: moment(formData.dateOfBirth).format('DD.MM.yyyy'),
         isFullTime: formData.isFullTime === 'true',
@@ -61,17 +61,17 @@ export const StudentsEditModal = ({ modalActive, closeModal, studentId }: IEditM
 
   useEffect(() => {
     if (studentId) {
-      getStudentById?.getStudentId({ id: studentId });
+      getStudentById?.getStudentById({ id: studentId });
     }
   }, [studentId]);
 
   useEffect(() => {
-    if (studentEdit?.data) {
+    if (editStudent?.data) {
       handleClose();
       addInfo(`Студента
     "${formData.user.lastName} ${formData.user.firstName} ${formData.user.patronymic}" успішно відредаговано`);
     }
-  }, [studentEdit?.data]);
+  }, [editStudent?.data]);
 
   useEffect(() => {
     if (getStudentById?.data) {

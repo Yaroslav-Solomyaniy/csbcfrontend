@@ -6,8 +6,8 @@ import SelectTeacher from '../../../../../../components/common/Select/SelectTeac
 import SelectSemester from '../../../../../../components/common/Select/SelectSemester';
 import SelectExam from '../../../../../../components/common/Select/SelectIsExam';
 import SelectCompulsory from '../../../../../../components/common/Select/SelectTypeCourse';
-import { ICoursesParams } from '../../../../../../hooks/PagesInAdmin/useCourses';
 import styles from '../../../../../pagesStyle.module.scss';
+import { ICoursesParams } from '../../../../../../hooks/api/interfaces';
 
 interface ICoursesInputForm{
   formData: ICoursesParams;

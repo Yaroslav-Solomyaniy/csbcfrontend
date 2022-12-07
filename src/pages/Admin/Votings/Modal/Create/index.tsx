@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import ModalWindow from '../../../../../components/common/ModalWindow';
 import { ICreateModal } from '../../../../../types';
-import { ICreateVotingParams } from '../../../../../hooks/PagesInAdmin/useVotings';
-import { VotingsAdmin } from '../../../../../context/PagesInAdmin/Votings';
+import { VotingsAdmin } from '../../../../../context/Pages/admin/Votings';
 import { MessagesContext } from '../../../../../context/All/Messages';
 import CreateEditRevoteFormVotingAdmin from '../form/CreateEditRevoteFormVotingAdmin';
 import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
+import { ICreateVotingParams } from '../../../../../hooks/api/admin/voting/useCreate';
 
 const formInitialData: ICreateVotingParams = {
   groups: [],
@@ -19,7 +19,7 @@ const formInitialData: ICreateVotingParams = {
 export const VotingCreateModal = ({ modalActive, closeModal }: ICreateModal): JSX.Element => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState<ICreateVotingParams>(formInitialData);
-  const { votingCreate } = VotingsAdmin();
+  const { createVoting } = VotingsAdmin();
   const { addInfo } = MessagesContext();
 
   const handleClose = () => {
@@ -40,18 +40,18 @@ export const VotingCreateModal = ({ modalActive, closeModal }: ICreateModal): JS
       && formData.endDate
       && (formData.endDate > formData.startDate)
     ) {
-      votingCreate?.votingCreate({ ...formData,
+      createVoting?.createVoting({ ...formData,
         startDate: moment(formData.startDate).format(),
         endDate: moment(formData.endDate).format() });
     }
   };
 
   useEffect(() => {
-    if (votingCreate?.data) {
+    if (createVoting?.data) {
       handleClose();
       addInfo('Нове голосування додане у список');
     }
-  }, [votingCreate?.data]);
+  }, [createVoting?.data]);
 
   return (
     <ModalWindow modalTitle="Створення голосування" active={modalActive} closeModal={handleClose}>

@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import Select from '../index';
-import { Option, SelectType } from '../../../../types';
-import { useGetListTeachers } from '../../../../hooks/All/useDropDowns';
+import { Option, SelectTypes } from '../../../../types';
+import { useGetListTeachers } from '../../../../hooks/api/all/useDropDowns';
 
 interface SelectTeacher {
   value: string | number | null;
   onChange: (value: string) => void;
-  type: SelectType;
+  type: SelectTypes;
   label?: string;
   required?: boolean;
   error?: string;

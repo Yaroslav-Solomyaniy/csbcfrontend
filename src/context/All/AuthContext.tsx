@@ -1,16 +1,24 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { LoginData, LoginParams, useLogin } from '../../hooks/All/useAuth';
+import { LoginData, LoginParams, useLogin } from '../../hooks/api/all/useAuth';
 
 interface IAuthContext {
   user: LoginData | null;
   postLogin: (credentials: LoginParams, check: boolean) => void;
   logout: () => void;
+  roleAdmin: boolean;
+  roleStudent: boolean;
+  roleTeacher: boolean;
+  roleCurator: boolean;
 }
 
 const defaultValue: IAuthContext = {
   user: null,
   postLogin: () => undefined,
   logout: () => undefined,
+  roleAdmin: false,
+  roleStudent: false,
+  roleTeacher: false,
+  roleCurator: false,
 };
 
 export const authContext = createContext<IAuthContext>(defaultValue);
@@ -60,8 +68,13 @@ const AuthProvider = ({ children }: { children: JSX.Element; }): JSX.Element => 
     setUser(null);
   };
 
+  const roleAdmin = user?.role === 'admin';
+  const roleStudent = user?.role === 'student';
+  const roleTeacher = user?.role === 'teacher';
+  const roleCurator = user?.role === 'curator';
+
   return (
-    <authContext.Provider value={{ user, postLogin, logout }}>
+    <authContext.Provider value={{ user, postLogin, logout, roleAdmin, roleCurator, roleStudent, roleTeacher }}>
       {children}
     </authContext.Provider>
   );

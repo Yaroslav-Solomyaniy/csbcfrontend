@@ -6,19 +6,20 @@ import pagesStyle from '../../pagesStyle.module.scss';
 import Layout from '../../../loyout/Layout';
 import { ITableHeader } from '../../../components/common/Table/TypeDisplay/Desktop/TableHeader';
 import { ITableRowItem } from '../../../components/common/Table/TypeDisplay/Desktop/TableBody';
-import { initialPagination, Pagination } from '../../../types';
+import { initialPagination, IPagination } from '../../../types';
 import { AdministratorCreateModal } from './ModalWindow/Create';
 import { AdministratorEditModal } from './ModalWindow/Edit';
 import { AdministratorDeleteModal } from './ModalWindow/Delete';
-import { AdministratorsContext } from '../../../context/PagesInAdmin/Administators';
-import { IGetUserData } from '../../../hooks/All/useUser';
-import { AddQueryParams, useQueryParam } from '../../../hooks/All/useQueryParams';
+import { AdministratorsContext } from '../../../context/Pages/admin/Administators';
+import { AddQueryParams, useQueryParam } from '../../../hooks/hooks/useQueryParams';
 import { DeviceContext } from '../../../context/All/DeviceType';
 import PhoneFilter from '../../../components/common/PhoneFilter';
 import AdministratorsFilters from './Filters';
 import { EditAndDelete } from '../../../components/common/CollectionMiniButtons';
 import Table from '../../../components/common/Table';
 import Preloader from '../../../components/common/Preloader/Preloader';
+import { IGetUserData } from '../../../hooks/api/user/useGet';
+import useCheckPage from '../../../hooks/hooks/useCheckPage';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІБ' },
@@ -37,40 +38,35 @@ const Administrators = (): JSX.Element => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isActiveModal, setIsActiveModal] = useState<Record<string, number | boolean>>(allCloseModalWindow);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
-  const [pagination, setPagination] = useState<Pagination>({ ...initialPagination });
-
-  const { get, post } = useQueryParam();
-  const { getAdministrators, administratorsCreate, administratorsDelete, administratorsEdit } = AdministratorsContext();
+  const [pagination, setPagination] = useState<IPagination>({ ...initialPagination });
+  const { get } = useQueryParam();
+  const { getAdmins, deleteAdmin, editAdmin, createAdmin } = AdministratorsContext();
   const { isPhone } = DeviceContext();
-
-  useEffect(() => {
-    if (currentPage > pagination.totalPages) {
-      post({ currentPage: pagination.totalPages });
-    }
-  }, [pagination]);
 
   const adminId = Number(get('adminId'));
   const currentPage = Number(get('currentPage')) || 1;
   const itemsPerPage = Number(get('itemsPerPage')) || 10;
+
+  useCheckPage({ pagination, currentPage });
 
   const closeModal = () => {
     setIsActiveModal(allCloseModalWindow);
   };
 
   useEffect(() => {
-    getAdministrators?.getUser(AddQueryParams({ id: adminId, page: currentPage, limit: itemsPerPage, role: 'admin' }));
-  }, [adminId, currentPage, itemsPerPage, administratorsCreate?.data,
-    administratorsEdit?.data, administratorsDelete?.data]);
+    getAdmins?.getUser(
+      AddQueryParams({ id: adminId, page: currentPage, limit: itemsPerPage, role: 'admin' }),
+    );
+  }, [adminId, currentPage, itemsPerPage, createAdmin?.data, editAdmin?.data, deleteAdmin?.data]);
 
   useEffect(() => {
-    if (getAdministrators?.data) {
-      setPagination(getAdministrators.data.meta);
-      setDataRow(getAdministrators?.data?.items.map((item: IGetUserData) => ({
+    if (getAdmins?.data) {
+      setPagination(getAdmins.data.meta);
+      setDataRow(getAdmins?.data?.items.map((item: IGetUserData) => ({
         list: [
           { id: 1, label: `${item.lastName} ${item.firstName} ${item.patronymic}` || 'Невідомі дані' },
           { id: 2, label: item.email || 'Електронна адреса не відома' },
-          {
-            id: 3,
+          { id: 3,
             label: <EditAndDelete
               isActiveModal={isActiveModal}
               setIsActiveModal={setIsActiveModal}
@@ -81,7 +77,7 @@ const Administrators = (): JSX.Element => {
       })));
     }
     setIsLoading(false);
-  }, [getAdministrators?.data]);
+  }, [getAdmins?.data]);
 
   return (
     <Layout>

@@ -5,20 +5,21 @@ import styles from './index.module.scss';
 import pagesStyle from '../../pagesStyle.module.scss';
 import Layout from '../../../loyout/Layout';
 import { ITableHeader } from '../../../components/common/Table/TypeDisplay/Desktop/TableHeader';
-import { IGroupData } from '../../../hooks/PagesInAdmin/useGroups';
 import { ITableRowItem } from '../../../components/common/Table/TypeDisplay/Desktop/TableBody';
-import { GroupsContext } from '../../../context/PagesInAdmin/Groups';
-import { initialPagination, Pagination } from '../../../types';
+import { GroupsContext } from '../../../context/Pages/admin/Groups';
+import { initialPagination, IPagination } from '../../../types';
 import GroupCreate from './ModalWindow/Create';
 import GroupDelete from './ModalWindow/Delete';
 import GroupEdit from './ModalWindow/Edit';
-import { AddQueryParams, useQueryParam } from '../../../hooks/All/useQueryParams';
+import { AddQueryParams, useQueryParam } from '../../../hooks/hooks/useQueryParams';
 import PhoneFilter from '../../../components/common/PhoneFilter';
 import FiltersGroups from './Filters';
 import { DeviceContext } from '../../../context/All/DeviceType';
 import { EditAndDelete } from '../../../components/common/CollectionMiniButtons';
 import Table from '../../../components/common/Table';
 import Preloader from '../../../components/common/Preloader/Preloader';
+import { IGetGroupData } from '../../../hooks/api/admin/groups/useGet';
+import useCheckPage from '../../../hooks/hooks/useCheckPage';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'Номер групи' },
@@ -39,11 +40,11 @@ const Group = (): JSX.Element => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isActiveModal, setIsActiveModal] = useState(allCloseModalWindow);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
-  const [pagination, setPagination] = useState<Pagination>({ ...initialPagination });
+  const [pagination, setPagination] = useState<IPagination>({ ...initialPagination });
 
-  const { getGroups, groupCreate, groupEdit, groupDelete } = GroupsContext();
+  const { getGroups, createGroup, editGroup, deleteGroup } = GroupsContext();
   const { isPhone } = DeviceContext();
-  const { get, post } = useQueryParam();
+  const { get } = useQueryParam();
 
   const curator = Number(get('curatorId'));
   const group = get('group') || '';
@@ -54,22 +55,18 @@ const Group = (): JSX.Element => {
     setIsActiveModal(allCloseModalWindow);
   };
 
-  useEffect(() => {
-    if (currentPage > pagination.totalPages) {
-      post({ currentPage: pagination.totalPages });
-    }
-  }, [pagination]);
+  useCheckPage({ pagination, currentPage });
 
   useEffect(() => {
     getGroups?.getGroups(
       AddQueryParams({ curatorId: curator, name: group.toString(), page: currentPage, limit: itemsPerPage }),
     );
-  }, [currentPage, itemsPerPage, curator, group, groupCreate?.data, groupEdit?.data, groupDelete?.data]);
+  }, [currentPage, itemsPerPage, curator, group, createGroup?.data, editGroup?.data, deleteGroup?.data]);
 
   useEffect(() => {
     if (getGroups?.data) {
       setPagination(getGroups.data.meta);
-      setDataRow(getGroups?.data?.items.map((item: IGroupData) => ({
+      setDataRow(getGroups?.data?.items.map((item: IGetGroupData) => ({
         list: [
           { id: 1, label: item.name ? item.name : 'Назва групи відсутня' },
           { id: 2,

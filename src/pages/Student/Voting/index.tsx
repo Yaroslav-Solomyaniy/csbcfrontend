@@ -5,14 +5,15 @@ import TitlePage from '../../../components/common/TitlePage';
 import styles from './index.module.scss';
 import Layout from '../../../loyout/Layout';
 import { ITableHeader } from '../../../components/common/Table/TypeDisplay/Desktop/TableHeader';
-import pagestyles from '../../pagesStyle.module.scss';
+import pageStyles from '../../pagesStyle.module.scss';
 import Table from '../../../components/common/Table';
-import { IGetStudentVotingData, IVotingStudentPostParams } from '../../../hooks/PagesInStudents/usePageInStudents';
 import Button from '../../../components/common/Button';
-import { StudentVotingContext } from '../../../context/PagesInStudent/Student';
+import { StudentVotingContext } from '../../../context/Pages/student/Student';
 import Preloader from '../../../components/common/Preloader/Preloader';
 import { MessagesContext } from '../../../context/All/Messages';
 import { DeviceContext } from '../../../context/All/DeviceType';
+import { IVoteStudentParams } from '../../../hooks/api/student/useVoting';
+import { IGetStudentVotingData } from '../../../hooks/api/student/useGetVoting';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'Дія' },
@@ -36,17 +37,17 @@ const VotingStudents = (): JSX.Element => {
   const [isDraw, setIsDraw] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  const [formData, setFormData] = useState<IVotingStudentPostParams>({ courses: [0, 0, 0, 0] });
+  const [formData, setFormData] = useState<IVoteStudentParams>({ courses: [0, 0, 0, 0] });
   const [votingInfo, setVotingInfo] = useState<IGetStudentVotingData>(formInitialDataVotingCourses);
 
-  const { getVoting, votingCreate, votingEdit } = StudentVotingContext();
+  const { getVoting, vote, revote } = StudentVotingContext();
   const { addInfo } = MessagesContext();
   const { isPhone } = DeviceContext();
   const compare = (a1:number[], a2: number[]) => a1.length === a2.length && a1.every((v, i) => v === a2[i]);
 
   useEffect(() => {
-    getVoting?.getVotingStudent();
-  }, [votingCreate?.data, votingEdit?.data]);
+    getVoting?.getStudentVoting();
+  }, [vote?.data, revote?.data]);
 
   useEffect(() => {
     if (getVoting?.data) {
@@ -66,21 +67,21 @@ const VotingStudents = (): JSX.Element => {
 
   const AnswerPostVoting = () => {
     if (votingInfo?.studentVotes.length === 0) {
-      votingCreate?.studentVotingCreate(formData);
+      vote?.studVote(formData);
     } else {
-      votingEdit?.studentVotingRevote(formData);
+      revote?.studRevote(formData);
     }
   };
 
   useEffect(
     () => {
-      if (votingCreate?.data) {
+      if (vote?.data) {
         addInfo('Ви успішно проголосували.');
       } else {
         addInfo('Ви успішно змінили свій вибір.');
       }
     },
-    [votingCreate?.data, votingEdit?.data],
+    [vote?.data, revote?.data],
   );
 
   const handleRadioClick = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -102,7 +103,7 @@ const VotingStudents = (): JSX.Element => {
         {isLoading ? <Preloader /> : (
           isDraw ? (
             <>
-              <h1 className={clsx(pagestyles.title, styles.firstTitle)}>Вибірковий профільний предмет(I семестр)</h1>
+              <h1 className={clsx(pageStyles.title, styles.firstTitle)}>Вибірковий профільний предмет(I семестр)</h1>
               <Table
                 dataHeader={dataHeader}
                 dataRow={votingInfo?.requiredCourses
@@ -134,7 +135,7 @@ const VotingStudents = (): JSX.Element => {
                 gridColumns={styles.columns}
                 isTableVoting
               />
-              <h1 className={pagestyles.title}>Вибірковий непрофільний предмет(I семестр)</h1>
+              <h1 className={pageStyles.title}>Вибірковий непрофільний предмет(I семестр)</h1>
               <Table
                 dataHeader={dataHeader}
                 dataRow={votingInfo?.notRequiredCourses
@@ -166,7 +167,7 @@ const VotingStudents = (): JSX.Element => {
                 gridColumns={styles.columns}
                 isTableVoting
               />
-              <h1 className={pagestyles.title}>Вибірковий профільний предмет(II семестр)</h1>
+              <h1 className={pageStyles.title}>Вибірковий профільний предмет(II семестр)</h1>
               <Table
                 dataHeader={dataHeader}
                 dataRow={votingInfo?.requiredCourses
@@ -198,7 +199,7 @@ const VotingStudents = (): JSX.Element => {
                 gridColumns={styles.columns}
                 isTableVoting
               />
-              <h1 className={pagestyles.title}>Вибірковий непрофільний предмет(II семестр)</h1>
+              <h1 className={pageStyles.title}>Вибірковий непрофільний предмет(II семестр)</h1>
               <Table
                 dataHeader={dataHeader}
                 dataRow={votingInfo?.notRequiredCourses

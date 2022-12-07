@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import Select from '../index';
-import { Option, SelectType } from '../../../../types';
-import { GroupsContext } from '../../../../context/PagesInAdmin/Groups';
-import { useGetListGroups } from '../../../../hooks/All/useDropDowns';
+import { Option, SelectTypes } from '../../../../types';
+import { GroupsContext } from '../../../../context/Pages/admin/Groups';
+import { useGetListGroups } from '../../../../hooks/api/all/useDropDowns';
 
 interface ISelectGroupByName {
   value: string | number | undefined;
   onChange: (value: string) => void;
-  type: SelectType;
+  type: SelectTypes;
   label?: string;
   required?: boolean;
   error?: string;
@@ -37,11 +37,11 @@ const SelectGroupByName = ({
 }: ISelectGroupByName): JSX.Element => {
   const { optionsGroups, getListGroups } = useGetListGroups();
   const [options, setOptions] = useState<Option[]>([]);
-  const { groupCreate, groupEdit, groupDelete } = GroupsContext();
+  const { createGroup, editGroup, deleteGroup } = GroupsContext();
 
   useEffect(() => {
     getListGroups();
-  }, [groupEdit?.data, groupCreate?.data, groupDelete?.data]);
+  }, [editGroup?.data, createGroup?.data, deleteGroup?.data]);
 
   useEffect(() => {
     if (optionsGroups?.length) {

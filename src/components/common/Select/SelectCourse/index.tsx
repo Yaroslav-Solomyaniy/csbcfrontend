@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import Select from '../index';
-import { Option, SelectType } from '../../../../types';
-import { useGetListCourses } from '../../../../hooks/All/useDropDowns';
-import { CoursesContext } from '../../../../context/PagesInAdmin/Courses';
+import { Option, SelectTypes } from '../../../../types';
+import { useGetListCourses } from '../../../../hooks/api/all/useDropDowns';
+import { CoursesContext } from '../../../../context/Pages/admin/Courses';
 import { AuthContext } from '../../../../context/All/AuthContext';
 
 interface SelectCourse {
   value: string | number | null;
   onChange: (value: string) => void;
-  type: SelectType;
+  type: SelectTypes;
   label?: string;
   required?: boolean;
   error?: string;
@@ -39,13 +39,13 @@ const SelectCourse = ({
   isTeacher,
 }: SelectCourse): JSX.Element => {
   const [options, setOptions] = useState<Option[]>([]);
-  const { courseCreate, courseEdit, courseDelete } = CoursesContext();
+  const { createCourse, editCourse, deleteCourse } = CoursesContext();
   const { optionCourses, getListCourses } = useGetListCourses();
   const { user } = AuthContext();
 
   useEffect(() => {
     getListCourses(isTeacher ? { teacherId: user?.id } : {});
-  }, [courseCreate?.data, courseEdit?.data, courseDelete?.data]);
+  }, [createCourse?.data, editCourse?.data, deleteCourse?.data]);
 
   useEffect(() => {
     if (optionCourses?.length) {

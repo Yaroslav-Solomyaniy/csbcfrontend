@@ -1,37 +1,37 @@
 import React, { useEffect, useState } from 'react';
 import ModalWindow from '../../../../../components/common/ModalWindow';
 import { MessagesContext } from '../../../../../context/All/Messages';
-import { CoursesContext } from '../../../../../context/PagesInAdmin/Courses';
+import { CoursesContext } from '../../../../../context/Pages/admin/Courses';
 import { IDeleteModal } from '../../../../../types';
 import styles from '../../../../pagesStyle.module.scss';
 import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
 
 export const CourseDeleteModal = ({ modalActive, closeModal, Id }: IDeleteModal): JSX.Element => {
   const [courseName, setCourseName] = useState<string>();
-  const { courseDelete, getCourseId } = CoursesContext();
+  const { deleteCourse, getCourseById } = CoursesContext();
   const { addInfo } = MessagesContext();
 
   const onSubmit = (e: React.FormEvent | undefined) => {
     e?.preventDefault?.();
-    courseDelete?.courseDelete(Id);
+    deleteCourse?.deleteCourse(Id);
   };
 
   useEffect(() => {
-    if (courseDelete?.data) {
+    if (deleteCourse?.data) {
       closeModal();
-      addInfo(`Предмет "${getCourseId?.data?.name}" успішно видалено`);
+      addInfo(`Предмет "${getCourseById?.data?.name}" успішно видалено`);
     }
-  }, [courseDelete?.data]);
+  }, [deleteCourse?.data]);
 
   useEffect(() => {
-    if (getCourseId?.data) {
-      setCourseName(getCourseId.data.name);
+    if (getCourseById?.data) {
+      setCourseName(getCourseById.data.name);
     }
-  }, [getCourseId?.data]);
+  }, [getCourseById?.data]);
 
   useEffect(() => {
     if (Id) {
-      getCourseId?.getCourseId({ id: `${Id}` });
+      getCourseById?.getCourseById({ id: `${Id}` });
     }
   }, [Id]);
 

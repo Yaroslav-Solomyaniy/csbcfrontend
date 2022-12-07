@@ -6,22 +6,23 @@ import pagesStyle from '../../pagesStyle.module.scss';
 import Layout from '../../../loyout/Layout';
 import { ITableHeader } from '../../../components/common/Table/TypeDisplay/Desktop/TableHeader';
 import { ITableRowItem } from '../../../components/common/Table/TypeDisplay/Desktop/TableBody';
-import { initialPagination, Pagination } from '../../../types';
-import { VotingsAdmin } from '../../../context/PagesInAdmin/Votings';
-import { IGetVotingAdminData } from '../../../hooks/PagesInAdmin/useVotings';
+import { initialPagination, IPagination } from '../../../types';
+import { VotingsAdmin } from '../../../context/Pages/admin/Votings';
 import VotingEditModal from './Modal/Edit';
 import VotingDeleteModal from './Modal/Delete';
 import VotingResultModal from './Modal/Result';
 import VotingCreateModal from './Modal/Create';
 import VotingFilters from './Filters';
 import { DeviceContext } from '../../../context/All/DeviceType';
-import { AddQueryParams, useQueryParam } from '../../../hooks/All/useQueryParams';
+import { AddQueryParams, useQueryParam } from '../../../hooks/hooks/useQueryParams';
 import { EditDeleteReviewApprove } from '../../../components/common/CollectionMiniButtons';
 import PhoneFilter from '../../../components/common/PhoneFilter';
 import Table from '../../../components/common/Table';
 import VotingSubmitModal from './Modal/Submit';
 import RevoteEditModal from './Modal/Revote';
 import Preloader from '../../../components/common/Preloader/Preloader';
+import useCheckPage from '../../../hooks/hooks/useCheckPage';
+import { IGetVotingsAdminData } from '../../../hooks/api/admin/voting/useGet';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'Групи' },
@@ -46,11 +47,11 @@ const VotingAdmin = (): JSX.Element => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isActiveModal, setIsActiveModal] = useState(allCloseModalWindow);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
-  const [pagination, setPagination] = useState<Pagination>({ ...initialPagination });
+  const [pagination, setPagination] = useState<IPagination>({ ...initialPagination });
 
-  const { getVoting, votingDelete, votingEdit, votingCreate, votingSubmit } = VotingsAdmin();
+  const { getVotings, deleteVoting, editVoting, createVoting, submitVoting } = VotingsAdmin();
   const { isPhone } = DeviceContext();
-  const { get, post } = useQueryParam();
+  const { get } = useQueryParam();
 
   const groupId = Number(get('groupId'));
   const statusMessage = get('statusMessage') || '';
@@ -61,11 +62,7 @@ const VotingAdmin = (): JSX.Element => {
     setIsActiveModal(allCloseModalWindow);
   };
 
-  useEffect(() => {
-    if (currentPage > pagination.totalPages) {
-      post({ currentPage: pagination.totalPages });
-    }
-  }, [pagination]);
+  useCheckPage({ pagination, currentPage });
 
   const changeWindow = (value: number) => {
     setIsActiveModal(allCloseModalWindow);
@@ -73,16 +70,16 @@ const VotingAdmin = (): JSX.Element => {
   };
 
   useEffect(() => {
-    getVoting?.votingGet(
+    getVotings?.getVotings(
       AddQueryParams({ groups: groupId, status: statusMessage.toString(), page: currentPage, limit: itemsPerPage }),
     );
-  }, [votingCreate?.data, votingEdit?.data, votingDelete?.data, votingSubmit?.data,
+  }, [createVoting?.data, editVoting?.data, deleteVoting?.data, submitVoting?.data,
     groupId, statusMessage, currentPage, itemsPerPage]);
 
   useEffect(() => {
-    if (getVoting?.data) {
-      setPagination(getVoting.data.meta);
-      setDataRow(getVoting?.data?.items.map((item: IGetVotingAdminData) => ({
+    if (getVotings?.data) {
+      setPagination(getVotings.data.meta);
+      setDataRow(getVotings?.data?.items.map((item: IGetVotingsAdminData) => ({
         list: [
           { id: 1, label: item.groups ? item.groups.map((group) => group.name).join(', ') : 'Групи відсутні' },
           { id: 2, label: new Date(item.startDate).toLocaleString() || 'Дата відсутня' },
@@ -117,7 +114,7 @@ const VotingAdmin = (): JSX.Element => {
       })));
       setIsLoading(false);
     }
-  }, [getVoting?.data]);
+  }, [getVotings?.data]);
 
   return (
     <Layout>

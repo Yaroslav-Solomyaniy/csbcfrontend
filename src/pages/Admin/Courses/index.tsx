@@ -6,19 +6,20 @@ import pagesStyle from '../../pagesStyle.module.scss';
 import Layout from '../../../loyout/Layout';
 import { ITableHeader } from '../../../components/common/Table/TypeDisplay/Desktop/TableHeader';
 import { ITableRowItem } from '../../../components/common/Table/TypeDisplay/Desktop/TableBody';
-import { initialPagination, Pagination, Semesters } from '../../../types';
-import { CoursesContext } from '../../../context/PagesInAdmin/Courses';
-import { IGetCoursesData } from '../../../hooks/PagesInAdmin/useCourses';
+import { initialPagination, IPagination, Semesters } from '../../../types';
+import { CoursesContext } from '../../../context/Pages/admin/Courses';
 import CourseCreateModal from './modal/CourseCreate';
 import CourseEditModal from './modal/CourseEdit';
 import CourseDeleteModal from './modal/CourseDelete';
 import { DeviceContext } from '../../../context/All/DeviceType';
-import { AddQueryParams, useQueryParam } from '../../../hooks/All/useQueryParams';
+import { AddQueryParams, useQueryParam } from '../../../hooks/hooks/useQueryParams';
 import { EditAndDelete } from '../../../components/common/CollectionMiniButtons';
 import CoursesFilters from './Filters';
 import PhoneFilter from '../../../components/common/PhoneFilter';
 import Table from '../../../components/common/Table';
 import Preloader from '../../../components/common/Preloader/Preloader';
+import useChangePage from '../../../hooks/hooks/useCheckPage';
+import { IGetCoursesData } from '../../../hooks/api/admin/courses/useGet';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'Назва' },
@@ -43,11 +44,11 @@ const Courses = (): JSX.Element => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isActiveModal, setIsActiveModal] = useState(allCloseModalWindow);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
-  const [pagination, setPagination] = useState<Pagination>({ ...initialPagination });
+  const [pagination, setPagination] = useState<IPagination>({ ...initialPagination });
 
-  const { getCourses, courseDelete, courseEdit, courseCreate } = CoursesContext();
+  const { getCourses, createCourse, deleteCourse, editCourse } = CoursesContext();
   const { isPhone } = DeviceContext();
-  const { get, post } = useQueryParam();
+  const { get } = useQueryParam();
 
   const courseId = Number(get('courseId'));
   const groupId = Number(get('groupId'));
@@ -60,11 +61,7 @@ const Courses = (): JSX.Element => {
     setIsActiveModal(allCloseModalWindow);
   };
 
-  useEffect(() => {
-    if (currentPage > pagination.totalPages) {
-      post({ currentPage: pagination.totalPages });
-    }
-  }, [pagination]);
+  useChangePage({ pagination, currentPage });
 
   useEffect(() => {
     getCourses?.getCourses(
@@ -76,7 +73,7 @@ const Courses = (): JSX.Element => {
         limit: itemsPerPage }),
     );
   }, [courseId, groupId, teacherId, courseType, currentPage,
-    itemsPerPage, courseCreate?.data, courseEdit?.data, courseDelete?.data]);
+    itemsPerPage, createCourse?.data, editCourse?.data, deleteCourse?.data]);
 
   useEffect(() => {
     if (getCourses?.data) {

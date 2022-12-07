@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
-import Header from '../components/Header';
-import Navigation from '../components/Navigation';
-import styles from '../components/Navigation/index.module.scss';
+import Header from '../components/common/Header';
+import Navigation from '../components/navigation';
+import styles from '../components/navigation/index.module.scss';
 import { MessagesContext } from '../context/All/Messages';
 import stylesPortal from './stylesPortal.module.scss';
 import { AuthContext } from '../context/All/AuthContext';

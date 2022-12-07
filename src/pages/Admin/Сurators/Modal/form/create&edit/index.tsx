@@ -1,12 +1,12 @@
 import React from 'react';
-import { IUserCreateParams } from '../../../../../../hooks/All/useUser';
 import styles from '../../../../../pagesStyle.module.scss';
 import ModalInput from '../../../../../../components/common/MyInput';
 import { Email, EmailValidation, LettersAndNumbersEnUa } from '../../../../../../types/regExp';
+import { ICreateUserParams } from '../../../../../../hooks/api/user/useCreate';
 
 interface ICuratorsForm{
-  formData: IUserCreateParams;
-  setFormData: (value:IUserCreateParams) => void;
+  formData: ICreateUserParams;
+  setFormData: (value:ICreateUserParams) => void;
   onSubmit: (e: React.FormEvent | undefined) => void;
   isSubmitted: boolean;
   modalTitle?: string;

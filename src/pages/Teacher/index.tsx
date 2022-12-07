@@ -4,19 +4,20 @@ import styles from './index.module.scss';
 import Layout from '../../loyout/Layout';
 import { ITableHeader } from '../../components/common/Table/TypeDisplay/Desktop/TableHeader';
 import { ITableRowItem } from '../../components/common/Table/TypeDisplay/Desktop/TableBody';
-import { initialPagination, Pagination } from '../../types';
+import { initialPagination, IPagination } from '../../types';
 import { TeacherRatingEdit } from './modal/RatingEdit';
 import TeacherRatingHistory from './modal/RatingHistory';
-import { TeacherContext } from '../../context/PageInTeacher/Teacher';
-import { IGetPageTeacherData, IGetPageTeacherParams } from '../../hooks/PageInTeacher/useTeacher';
-import { EstimatesContext } from '../../context/PagesInAdmin/Estimates';
+import { TeacherContext } from '../../context/Pages/teacher/Teacher';
+import { IGetTeacherData, IGetTeacherParams } from '../../hooks/api/teacher/useGet';
+import { EstimatesContext } from '../../context/Pages/admin/Estimates';
 import { DeviceContext } from '../../context/All/DeviceType';
 import TeacherFilters from './Filters';
 import { EditAndHistory } from '../../components/common/CollectionMiniButtons';
 import PhoneFilter from '../../components/common/PhoneFilter';
-import { useQueryParam } from '../../hooks/All/useQueryParams';
+import { useQueryParam } from '../../hooks/hooks/useQueryParams';
 import Table from '../../components/common/Table';
 import Preloader from '../../components/common/Preloader/Preloader';
+import useCheckPage from '../../hooks/hooks/useCheckPage';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІБ' },
@@ -36,12 +37,12 @@ const TeacherPage = (): JSX.Element => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isActiveModal, setIsActiveModal] = useState<Record<string, number | boolean>>(TeacherPageModalState);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
-  const [pagination, setPagination] = useState<Pagination>({ ...initialPagination });
+  const [pagination, setPagination] = useState<IPagination>({ ...initialPagination });
 
-  const { teacherDataGet, teacherEditRating } = TeacherContext();
-  const { gradesEdit } = EstimatesContext();
+  const { getTeacher, editGrade: teacherEditGrade } = TeacherContext();
+  const { editGrade } = EstimatesContext();
   const { isPhone } = DeviceContext();
-  const { get, post } = useQueryParam();
+  const { get } = useQueryParam();
 
   const groupId = Number(get('groupId'));
   const studentId = Number(get('studentId'));
@@ -49,18 +50,14 @@ const TeacherPage = (): JSX.Element => {
   const currentPage = Number(get('currentPage')) || 1;
   const itemsPerPage = Number(get('itemsPerPage')) || 10;
 
-  useEffect(() => {
-    if (currentPage > pagination.totalPages) {
-      post({ currentPage: pagination.totalPages });
-    }
-  }, [pagination]);
+  useCheckPage({ pagination, currentPage });
 
   const closeModal = () => {
     setIsActiveModal(TeacherPageModalState);
   };
 
   useEffect(() => {
-    const query: IGetPageTeacherParams = {};
+    const query: IGetTeacherParams = {};
 
     if (studentId) query.studentId = studentId;
     if (groupId) query.groupId = groupId;
@@ -69,9 +66,9 @@ const TeacherPage = (): JSX.Element => {
     if (currentPage) query.page = currentPage;
     if (itemsPerPage) query.limit = itemsPerPage;
 
-    teacherDataGet?.pageTeacherGet(query);
-  }, [teacherEditRating?.data,
-    gradesEdit?.data, groupId,
+    getTeacher?.getTeacher(query);
+  }, [teacherEditGrade?.data,
+    editGrade?.data, groupId,
     studentId,
     courseId,
     currentPage,
@@ -79,9 +76,9 @@ const TeacherPage = (): JSX.Element => {
   ]);
 
   useEffect(() => {
-    if (teacherDataGet?.data) {
-      setPagination(teacherDataGet.data.meta);
-      setDataRow(teacherDataGet?.data?.items.map((item: IGetPageTeacherData) => ({
+    if (getTeacher?.data) {
+      setPagination(getTeacher.data.meta);
+      setDataRow(getTeacher?.data?.items.map((item: IGetTeacherData) => ({
         list: [
           {
             id: 1,
@@ -104,7 +101,7 @@ const TeacherPage = (): JSX.Element => {
       })));
       setIsLoading(false);
     }
-  }, [teacherDataGet?.data]);
+  }, [getTeacher?.data]);
 
   return (
     <Layout>

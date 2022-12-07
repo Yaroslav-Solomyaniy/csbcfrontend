@@ -6,19 +6,20 @@ import pagesStyle from '../../pagesStyle.module.scss';
 import Layout from '../../../loyout/Layout';
 import { ITableHeader } from '../../../components/common/Table/TypeDisplay/Desktop/TableHeader';
 import { ITableRowItem } from '../../../components/common/Table/TypeDisplay/Desktop/TableBody';
-import { initialPagination, Pagination } from '../../../types';
-import CuratorCreateModal from './Modal/Create';
-import { CuratorContext } from '../../../context/PagesInAdmin/Curators';
-import { IGetCuratorData } from '../../../hooks/PagesInAdmin/useCurators';
+import { initialPagination, IPagination } from '../../../types';
+import { CuratorCreateModal } from './Modal/Create';
+import { CuratorContext } from '../../../context/Pages/admin/Curators';
+import { IGetCuratorData } from '../../../hooks/api/admin/curators/useGet';
 import CuratorEditModal from './Modal/Edit';
 import CuratorDeleteModal from './Modal/Delete';
 import { DeviceContext } from '../../../context/All/DeviceType';
-import { AddQueryParams, useQueryParam } from '../../../hooks/All/useQueryParams';
+import { AddQueryParams, useQueryParam } from '../../../hooks/hooks/useQueryParams';
 import { EditAndDelete } from '../../../components/common/CollectionMiniButtons';
 import Filters from './Filters';
 import PhoneFilter from '../../../components/common/PhoneFilter';
 import Table from '../../../components/common/Table';
 import Preloader from '../../../components/common/Preloader/Preloader';
+import useCheckPage from '../../../hooks/hooks/useCheckPage';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІБ' },
@@ -38,11 +39,11 @@ const Curators = (): JSX.Element => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isActiveModal, setIsActiveModal] = useState(allCloseModalWindow);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
-  const [pagination, setPagination] = useState<Pagination>({ ...initialPagination });
+  const [pagination, setPagination] = useState<IPagination>({ ...initialPagination });
 
-  const { getCurators, curatorCreate, curatorDelete, curatorEdit } = CuratorContext();
+  const { getCurators, createCurator, editCurator, deleteCurator } = CuratorContext();
   const { isPhone } = DeviceContext();
-  const { get, post } = useQueryParam();
+  const { get } = useQueryParam();
 
   const groupName = get('groupName') || '';
   const curatorId = Number(get('curatorId')) || 0;
@@ -51,17 +52,13 @@ const Curators = (): JSX.Element => {
 
   const closeModal = () => setIsActiveModal(allCloseModalWindow);
 
-  useEffect(() => {
-    if (currentPage > pagination.totalPages) {
-      post({ currentPage: pagination.totalPages });
-    }
-  }, [pagination]);
+  useCheckPage({ pagination, currentPage });
 
   useEffect(() => {
     getCurators?.getCurators(
       AddQueryParams({ curatorId, groupName: groupName.toString(), page: currentPage, limit: itemsPerPage }),
     );
-  }, [groupName, curatorId, currentPage, itemsPerPage, curatorCreate?.data, curatorEdit?.data, curatorDelete?.data]);
+  }, [groupName, curatorId, currentPage, itemsPerPage, createCurator?.data, editCurator?.data, deleteCurator?.data]);
 
   useEffect(() => {
     if (getCurators?.data) {

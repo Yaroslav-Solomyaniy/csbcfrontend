@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import ModalWindow from '../../../../../components/common/ModalWindow';
 import { IDeleteModal } from '../../../../../types';
 import { MessagesContext } from '../../../../../context/All/Messages';
-import { VotingsAdmin } from '../../../../../context/PagesInAdmin/Votings';
+import { VotingsAdmin } from '../../../../../context/Pages/admin/Votings';
 import styles from '../../../../pagesStyle.module.scss';
 import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
 
 export const VotingDeleteModal = ({ modalActive, closeModal, Id }: IDeleteModal): JSX.Element => {
   const [groups, setGroups] = useState<string[]>([]);
-  const { votingGetById, votingDelete } = VotingsAdmin();
+  const { getVotingById, deleteVoting } = VotingsAdmin();
   const { addInfo } = MessagesContext();
 
   const handleClose = () => {
@@ -20,26 +20,26 @@ export const VotingDeleteModal = ({ modalActive, closeModal, Id }: IDeleteModal)
 
   useEffect(() => {
     if (Id) {
-      votingGetById?.getVotingById({ id: `${Id}` });
+      getVotingById?.getVotingById({ id: `${Id}` });
     }
   }, [Id]);
 
   useEffect(() => {
-    if (votingGetById?.data) {
-      setGroups(votingGetById.data.groups.map((group) => group.name));
+    if (getVotingById?.data) {
+      setGroups(getVotingById.data.groups.map((group) => group.name));
     }
-  }, [votingGetById?.data]);
+  }, [getVotingById?.data]);
 
   useEffect(() => {
-    if (votingDelete?.data) {
+    if (deleteVoting?.data) {
       handleClose();
       addInfo(`Голосування для груп ${groups.map((group) => group).join(',')} видалене`);
     }
-  }, [votingDelete?.data]);
+  }, [deleteVoting?.data]);
 
   const onSubmit = (e: React.FormEvent | undefined) => {
     e?.preventDefault?.();
-    votingDelete?.votingDelete(Id);
+    deleteVoting?.deleteVoting(Id);
   };
 
   return (

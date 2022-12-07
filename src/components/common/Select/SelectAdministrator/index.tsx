@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import Select from '../index';
-import { Option, SelectType } from '../../../../types';
-import { useGetListAdministrators } from '../../../../hooks/All/useDropDowns';
-import { AdministratorsContext } from '../../../../context/PagesInAdmin/Administators';
+import { Option, SelectTypes } from '../../../../types';
+import { useGetListAdministrators } from '../../../../hooks/api/all/useDropDowns';
+import { AdministratorsContext } from '../../../../context/Pages/admin/Administators';
 
 interface ISelectAdministrator {
   value: string | number | undefined;
   onChange: (value: string) => void;
-  type: SelectType;
+  type: SelectTypes;
   label?: string;
   required?: boolean;
   error?: string;
@@ -38,11 +38,11 @@ const SelectAdministrator = ({
 }: ISelectAdministrator): JSX.Element => {
   const { listAdmins, getListAdministrators } = useGetListAdministrators();
   const [options, setOptions] = useState<Option[]>([]);
-  const { administratorsCreate, administratorsDelete, administratorsEdit } = AdministratorsContext();
+  const { createAdmin, deleteAdmin, editAdmin } = AdministratorsContext();
 
   useEffect(() => {
     getListAdministrators();
-  }, [administratorsDelete?.data, administratorsEdit?.data, administratorsCreate?.data]);
+  }, [deleteAdmin?.data, editAdmin?.data, createAdmin?.data]);
 
   useEffect(() => {
     if (listAdmins?.length) {

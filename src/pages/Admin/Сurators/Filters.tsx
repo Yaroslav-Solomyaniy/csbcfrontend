@@ -1,7 +1,7 @@
 import React from 'react';
 import SelectGroupByName from '../../../components/common/Select/SelectGroupByName';
 import SelectCurator from '../../../components/common/Select/SelectCurator';
-import { useQueryParam } from '../../../hooks/All/useQueryParams';
+import { useQueryParam } from '../../../hooks/hooks/useQueryParams';
 
 interface ICuratorsFilters{
   groupName: string;

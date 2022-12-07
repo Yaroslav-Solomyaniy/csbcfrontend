@@ -3,13 +3,13 @@ import ModalWindow from '../../../../../components/common/ModalWindow';
 import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
 import pagesStyle from '../../../../pagesStyle.module.scss';
 import ModalInput from '../../../../../components/common/MyInput';
-import { TeachersContext } from '../../../../../context/PagesInAdmin/Teachers';
+import { TeachersContext } from '../../../../../context/Pages/admin/Teachers';
 import { Email, EmailValidation } from '../../../../../types/regExp';
 import { IEditModal } from '../../../../../types';
-import { IUserEditParams } from '../../../../../hooks/All/useUser';
 import { MessagesContext } from '../../../../../context/All/Messages';
+import { IEditUserParams } from '../../../../../hooks/api/user/useEdit';
 
-const formInitialData: IUserEditParams = {
+const formInitialData: IEditUserParams = {
   firstName: '',
   lastName: '',
   patronymic: '',
@@ -18,9 +18,9 @@ const formInitialData: IUserEditParams = {
 };
 
 export const TeacherEditModal = ({ modalActive, closeModal, studentId }: IEditModal): JSX.Element => {
-  const { teacherEdit, getTeacherById } = TeachersContext();
+  const { editTeacher, getTeacherById } = TeachersContext();
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [formData, setFormData] = useState<IUserEditParams>(formInitialData);
+  const [formData, setFormData] = useState<IEditUserParams>(formInitialData);
   const { addInfo } = MessagesContext();
 
   const handleClose = () => {
@@ -40,20 +40,20 @@ export const TeacherEditModal = ({ modalActive, closeModal, studentId }: IEditMo
       && formData.patronymic
       && formData.lastName
       && Email.test(formData.email)) {
-      teacherEdit?.userEdit({ ...formData }, studentId);
+      editTeacher?.editUser({ ...formData }, studentId);
     }
   };
 
   useEffect(() => {
-    if (teacherEdit?.data) {
+    if (editTeacher?.data) {
       handleClose();
       addInfo(`Викладач "${formData.lastName} ${formData.firstName} ${formData.patronymic}" відредагований`);
     }
-  }, [teacherEdit?.data]);
+  }, [editTeacher?.data]);
 
   useEffect(() => {
     if (studentId) {
-      getTeacherById?.getUserId({ id: `${studentId}` });
+      getTeacherById?.getUserById({ id: `${studentId}` });
     }
   }, [studentId]);
 

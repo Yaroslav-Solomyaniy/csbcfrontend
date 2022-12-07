@@ -33,7 +33,7 @@ module.exports = {
   rules: {
     camelcase: 'off',
     'linebreak-style': 0,
-    'max-len': ['error', { code: 120 }],
+    'max-len': ['error', { code: 150 }],
     'no-bitwise': 'off',
     'import/namespace': 'off',
     'no-mixed-operators': 'off',

@@ -4,7 +4,7 @@ import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import ModalWindow from '../../../../components/common/ModalWindow';
 import { ITableHeader } from '../../../../components/common/Table/TypeDisplay/Desktop/TableHeader';
 import { ITableRowItem } from '../../../../components/common/Table/TypeDisplay/Desktop/TableBody';
-import { TeacherContext } from '../../../../context/PageInTeacher/Teacher';
+import { TeacherContext } from '../../../../context/Pages/teacher/Teacher';
 import RatingHistory from './Components/RatingHistory';
 
 const dataHeader: ITableHeader[] = [
@@ -44,7 +44,7 @@ interface ITeacherRatingHistory {
 export const TeacherRatingHistory = ({ modalActive, closeModal, Id, semester }: ITeacherRatingHistory): JSX.Element => {
   const [infoRow, setInfoRow] = useState<typeInfoStudent>(infoRowInitialization);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
-  const { teacherDataGetById, getHistory } = TeacherContext();
+  const { getTeacherById, historyGrade } = TeacherContext();
 
   const handleClose = () => {
     closeModal();
@@ -63,25 +63,25 @@ export const TeacherRatingHistory = ({ modalActive, closeModal, Id, semester }: 
 
   useEffect(() => {
     if (Id) {
-      teacherDataGetById?.pageTeacherGetById(Id);
+      getTeacherById?.getTeacherById(Id);
     }
   }, [Id]);
   useEffect(() => {
     setInfoRow({
-      firstName: teacherDataGetById?.data?.student.user.firstName || '',
-      patronymic: teacherDataGetById?.data?.student.user.patronymic || '',
-      lastName: teacherDataGetById?.data?.student.user.lastName || '',
-      courseId: teacherDataGetById?.data?.course.id || 0,
-      groupName: teacherDataGetById?.data?.student.group.name || '',
-      studentId: teacherDataGetById?.data?.student.id || 0,
-      courseName: teacherDataGetById?.data?.course.name || '',
+      firstName: getTeacherById?.data?.student.user.firstName || '',
+      patronymic: getTeacherById?.data?.student.user.patronymic || '',
+      lastName: getTeacherById?.data?.student.user.lastName || '',
+      courseId: getTeacherById?.data?.course.id || 0,
+      groupName: getTeacherById?.data?.student.group.name || '',
+      studentId: getTeacherById?.data?.student.id || 0,
+      courseName: getTeacherById?.data?.course.name || '',
     });
-  }, [teacherDataGetById?.data]);
+  }, [getTeacherById?.data]);
 
   useEffect(
     () => {
       if (infoRow.studentId !== 0 && infoRow.courseId !== 0) {
-        getHistory?.getHistoryGrades({
+        historyGrade?.getHistoryGrades({
           studentId: infoRow.studentId,
           courseId: infoRow.courseId,
           semester: semester ? +semester : undefined,
@@ -92,8 +92,8 @@ export const TeacherRatingHistory = ({ modalActive, closeModal, Id, semester }: 
   );
 
   useEffect(() => {
-    if (getHistory?.data) {
-      setDataRow(getHistory.data.reduce((acc: ITableRowItem[], historyGrades) => {
+    if (historyGrade?.data) {
+      setDataRow(historyGrade.data.reduce((acc: ITableRowItem[], historyGrades) => {
         const items: ITableRowItem[] = historyGrades.gradesHistories.map((history): ITableRowItem => ({
 
           key: history.id,
@@ -114,7 +114,7 @@ export const TeacherRatingHistory = ({ modalActive, closeModal, Id, semester }: 
         return [...acc, ...items];
       }, []));
     }
-  }, [getHistory?.data]);
+  }, [historyGrade?.data]);
 
   return (
     <ModalWindow modalTitle="Історія змін оцінки" active={modalActive} closeModal={handleClose}>

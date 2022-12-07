@@ -2,7 +2,7 @@ import React from 'react';
 import styles from '../index.module.scss';
 import Table from '../../../../../../components/common/Table';
 import { ITableHeader } from '../../../../../../components/common/Table/TypeDisplay/Desktop/TableHeader';
-import { IGetVotingResultDataById } from '../../../../../../hooks/PagesInAdmin/useVotings';
+import { IGetVotingResultDataById } from '../../../../../../hooks/api/admin/voting/useGetResult/IGetVotingResultDataById';
 
 const dataHeaderCourses: ITableHeader[] = [
   { id: 1, label: 'Предмет' },

@@ -4,7 +4,7 @@ import { Option } from '../../../../../../types';
 import Button from '../../../../Button';
 import Select from '../../../../Select';
 import { First, Last, Next, Prev } from '../../../../Icons';
-import { useQueryParam } from '../../../../../../hooks/All/useQueryParams';
+import { useQueryParam } from '../../../../../../hooks/hooks/useQueryParams';
 
 interface TableFooter {
   totalItems: number;

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Option, SelectType } from '../../../../types';
-import { GroupsContext } from '../../../../context/PagesInAdmin/Groups';
-import { useGetListGroups } from '../../../../hooks/All/useDropDowns';
+import { Option, SelectTypes } from '../../../../types';
+import { GroupsContext } from '../../../../context/Pages/admin/Groups';
+import { useGetListGroups } from '../../../../hooks/api/all/useDropDowns';
 import MultiSelect from '../index';
 
 interface IMultiSelectGroup {
@@ -13,7 +13,7 @@ interface IMultiSelectGroup {
   isClearable?: boolean;
   error?: string;
   required?: boolean;
-  type: SelectType;
+  type: SelectTypes;
   disabled?: boolean;
 }
 
@@ -31,11 +31,11 @@ const MultiSelectGroup = ({
 }: IMultiSelectGroup): JSX.Element => {
   const { optionsGroups, getListGroups } = useGetListGroups();
   const [options, setOptions] = useState<Option[]>([]);
-  const { groupCreate, groupEdit, groupDelete } = GroupsContext();
+  const { createGroup, editGroup, deleteGroup } = GroupsContext();
 
   useEffect(() => {
     getListGroups();
-  }, [groupEdit?.data, groupCreate?.data, groupDelete?.data]);
+  }, [createGroup?.data, editGroup?.data, deleteGroup?.data]);
 
   useEffect(() => {
     if (optionsGroups?.length) {

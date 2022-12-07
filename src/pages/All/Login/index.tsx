@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import styles from './index.module.scss';
-import { LoginParams } from '../../../hooks/All/useAuth';
+import { LoginParams } from '../../../hooks/api/all/useAuth';
 import { AuthContext } from '../../../context/All/AuthContext';
 import Layout from '../../../loyout/Layout';
 import Button from '../../../components/common/Button';

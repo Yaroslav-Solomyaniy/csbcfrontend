@@ -3,7 +3,7 @@ import styles from '../../../../pagesStyle.module.scss';
 import MultiSelectGroup from '../../../../../components/common/MultiSelect/MultiSelectGroup';
 import MultiSelectCoursesNoOptional from '../../../../../components/common/MultiSelect/MultiSelectCoursesNoOptional';
 import MyDatePicker from '../../../../../components/common/DatePicker';
-import { ICreateVotingParams } from '../../../../../hooks/PagesInAdmin/useVotings';
+import { ICreateVotingParams } from '../../../../../hooks/api/admin/voting/useCreate';
 
 interface ICreateEditRevoteFormVotingAdmin{
   formData: ICreateVotingParams;

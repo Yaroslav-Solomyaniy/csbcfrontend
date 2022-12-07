@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import Select from '../index';
-import { Option, SelectType } from '../../../../types';
-import { GroupsContext } from '../../../../context/PagesInAdmin/Groups';
-import { useGetListGroups } from '../../../../hooks/All/useDropDowns';
+import { Option, SelectTypes } from '../../../../types';
+import { GroupsContext } from '../../../../context/Pages/admin/Groups';
+import { useGetListGroups } from '../../../../hooks/api/all/useDropDowns';
 import { AuthContext } from '../../../../context/All/AuthContext';
 
 interface ISelectGroupById {
   value: string | number | undefined | null;
   onChange: (value: string) => void;
-  type: SelectType;
+  type: SelectTypes;
   label?: string;
   required?: boolean;
   error?: string;
@@ -42,12 +42,12 @@ const SelectGroupById = ({
 }: ISelectGroupById): JSX.Element => {
   const { optionsGroups, getListGroups } = useGetListGroups();
   const [options, setOptions] = useState<Option[]>([]);
-  const { groupCreate, groupEdit, groupDelete } = GroupsContext();
+  const { createGroup, editGroup, deleteGroup } = GroupsContext();
   const { user } = AuthContext();
 
   useEffect(() => {
     getListGroups((isTeacher && { teacherId: user?.id } || isCurator && { curatorId: user?.id }) || {});
-  }, [groupEdit?.data, groupCreate?.data, groupDelete?.data]);
+  }, [editGroup?.data, createGroup?.data, deleteGroup?.data]);
 
   useEffect(() => {
     if (optionsGroups?.length) {

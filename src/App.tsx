@@ -1,12 +1,21 @@
-import './App.css';
+import './assets/styles/App.css';
+import './assets/styles/normalize.css';
 import { BrowserRouter } from 'react-router-dom';
-import AppRoutes from './Routes';
+import React from 'react';
+import AppRouter from './Routes';
 import DeviceSizeProvider from './context/All/DeviceType';
-import './normalize.css';
+import MessagesProvider from './context/All/Messages';
+import AuthProvider from './context/All/AuthContext';
 
 const App = (): JSX.Element => (
   <BrowserRouter>
-    <DeviceSizeProvider><AppRoutes /></DeviceSizeProvider>
+    <DeviceSizeProvider>
+      <MessagesProvider>
+        <AuthProvider>
+          <AppRouter />
+        </AuthProvider>
+      </MessagesProvider>
+    </DeviceSizeProvider>
   </BrowserRouter>
 );
 

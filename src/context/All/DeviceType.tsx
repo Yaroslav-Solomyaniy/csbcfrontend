@@ -1,6 +1,6 @@
 import React, { createContext, useContext } from 'react';
 import { Size } from '../../types';
-import { useWindowSize } from '../../hooks/All/useWindowSize';
+import { useWindowSize } from '../../hooks/hooks/useWindowSize';
 
 interface IDeviceContext {
   deviceSize: Size | null;

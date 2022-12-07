@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import ResultControl from './ResultControl';
 import ResultCourses from './ResultCourses';
 import ResultStudents from './ResultStudents';
-import { IGetVotingResultDataById } from '../../../../../../hooks/PagesInAdmin/useVotings';
+import { IGetVotingResultDataById } from '../../../../../../hooks/api/admin/voting/useGetResult/IGetVotingResultDataById';
 
 interface IResultDisplay{
   votingId: number;

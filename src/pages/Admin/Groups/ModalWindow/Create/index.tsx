@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { GroupsContext } from '../../../../../context/PagesInAdmin/Groups';
-import { IGroupCreateParams } from '../../../../../hooks/PagesInAdmin/useGroups';
+import { GroupsContext } from '../../../../../context/Pages/admin/Groups';
 import ModalWindow from '../../../../../components/common/ModalWindow';
 import { MessagesContext } from '../../../../../context/All/Messages';
 import { ICreateModal } from '../../../../../types';
 import GroupPageModalForm from '../form/Create&Edit/modalForm';
 import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
+import { ICreateGroupParams } from '../../../../../hooks/api/admin/groups/useCreate';
 
 const formInitialData = {
   name: '',
@@ -14,9 +14,9 @@ const formInitialData = {
 };
 
 export const GroupCreate = ({ modalActive, closeModal }: ICreateModal): JSX.Element => {
-  const [formData, setFormData] = useState<IGroupCreateParams>(formInitialData);
+  const [formData, setFormData] = useState<ICreateGroupParams>(formInitialData);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const { groupCreate } = GroupsContext();
+  const { createGroup } = GroupsContext();
   const { addInfo } = MessagesContext();
 
   const handleClose = () => {
@@ -33,16 +33,16 @@ export const GroupCreate = ({ modalActive, closeModal }: ICreateModal): JSX.Elem
     if (formData.name
       && (`${formData.orderNumber}`.length >= 6 && `${formData.orderNumber}`.length <= 20)
       && formData.curatorId) {
-      groupCreate?.groupCreate(formData);
+      createGroup?.createGroup(formData);
     }
   };
 
   useEffect(() => {
     handleClose();
-    if (groupCreate?.data) {
-      addInfo(`Група "${groupCreate?.data?.name}" успішно створена`);
+    if (createGroup?.data) {
+      addInfo(`Група "${createGroup?.data?.name}" успішно створена`);
     }
-  }, [groupCreate?.data]);
+  }, [createGroup?.data]);
 
   return (
     <ModalWindow modalTitle="Створення групи" active={modalActive} closeModal={handleClose}>

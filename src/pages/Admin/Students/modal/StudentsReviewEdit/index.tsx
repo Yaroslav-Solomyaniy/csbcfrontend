@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import stylesStud from '../../../../pagesStyle.module.scss';
 import ModalWindow from '../../../../../components/common/ModalWindow';
 import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
-import { StudentsContext } from '../../../../../context/PagesInAdmin/Students';
-import { IndividualPlanContext } from '../../../../../context/IndividualPlan';
+import { StudentsContext } from '../../../../../context/Pages/admin/Students';
+import { IndividualPlanContext } from '../../../../../context/Pages/student/IndvPlan';
 import MultiSelectCoursesNoOptional from '../../../../../components/common/MultiSelect/MultiSelectCoursesNoOptional';
 import { MessagesContext } from '../../../../../context/All/Messages';
 
@@ -43,7 +43,7 @@ const StudentsReviewEdit = ({ modalActive, closeModal }: IStudentsReviewModal) =
 
   const onSubmit = (e: React.FormEvent | undefined) => {
     e?.preventDefault?.();
-    editPlan?.EditPlan({ courses: [...data.required, ...data.noRequired] }, getStudentById?.data?.user.id || 0);
+    editPlan?.editPlan({ courses: [...data.required, ...data.noRequired] }, getStudentById?.data?.user.id || 0);
   };
 
   useEffect(() => {

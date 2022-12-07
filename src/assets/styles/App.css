@@ -1,0 +1,60 @@
+* {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+@font-face {
+  font-family: "Helvetica";
+  src: url('../fonts/Helvetica/Helvetica.otf') format('otf');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url('../fonts/Roboto/Roboto.ttf') format('ttf');
+  font-weight: 400;
+}
+
+body {
+  height: 100vh;
+  font-family: Halvetica, Arial, sans-serif!important;
+  font-size: 14px;
+  background: white;
+  min-width: 380px;}
+
+.LinkPasswordRecovery {
+  color: #428BCA;
+}
+
+iframe {
+  display: none;
+}
+
+body #root {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+button, a {
+  cursor: pointer;
+}
+
+
+.clip {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+input{
+  outline: none;
+  border: 1px solid #e6e6e6;
+}
+
+input:hover, input:focus, input:active{
+  outline: none;
+  border: 1px solid rgba(39, 111, 173, 1)
+}

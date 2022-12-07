@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import Select from '../index';
-import { Option, SelectType } from '../../../../types';
-import { StudentsContext } from '../../../../context/PagesInAdmin/Students';
-import { useGetListStudents } from '../../../../hooks/All/useDropDowns';
+import { Option, SelectTypes } from '../../../../types';
+import { StudentsContext } from '../../../../context/Pages/admin/Students';
+import { useGetListStudents } from '../../../../hooks/api/all/useDropDowns';
 import { AuthContext } from '../../../../context/All/AuthContext';
 
 interface SelectPIB {
   value: string | number | null;
   onChange: (value: string) => void;
-  type: SelectType;
+  type: SelectTypes;
   label?: string;
   required?: boolean;
   error?: string;
@@ -42,12 +42,12 @@ const SelectStudent = ({
 }: SelectPIB): JSX.Element => {
   const { getListStudents, listStudents } = useGetListStudents();
   const [options, setOptions] = useState<Option[]>([]);
-  const { studentCreate, studentEdit, studentDelete } = StudentsContext();
+  const { createStudent, editStudent, deleteStudent } = StudentsContext();
   const { user } = AuthContext();
 
   useEffect(() => {
     getListStudents((isTeacher && { teacherId: user?.id } || isCurator && { curatorId: user?.id }) || {});
-  }, [studentCreate?.data, studentEdit?.data, studentDelete?.data]);
+  }, [createStudent?.data, editStudent?.data, deleteStudent?.data]);
 
   useEffect(() => {
     if (listStudents?.length) {

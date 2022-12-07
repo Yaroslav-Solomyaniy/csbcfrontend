@@ -3,7 +3,7 @@ import SelectCourse from '../../../components/common/Select/SelectCourse';
 import SelectTeacher from '../../../components/common/Select/SelectTeacher';
 import SelectGroupById from '../../../components/common/Select/SelectGroupById';
 import SelectCompulsory from '../../../components/common/Select/SelectTypeCourse';
-import { useQueryParam } from '../../../hooks/All/useQueryParams';
+import { useQueryParam } from '../../../hooks/hooks/useQueryParams';
 
 interface ICoursesFilters{
   courseId: number;

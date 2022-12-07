@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import clsx from 'clsx';
 import ReactSelect, { SingleValue } from 'react-select';
-import { Option, SelectType } from '../../../types';
+import { Option, SelectTypes } from '../../../types';
 import { DeviceContext } from '../../../context/All/DeviceType';
 import styles from './index.module.scss';
 import { SelectStylesDesktop, SelectStylesPhone, SelectStylesTablet } from './SelectStyle';
@@ -10,7 +10,7 @@ interface ISelect {
   options: Option[];
   value: string | number | boolean | null | undefined;
   onChange: (value: string) => void;
-  type: SelectType;
+  type: SelectTypes;
   label?: string;
   required?: boolean;
   error?: string;

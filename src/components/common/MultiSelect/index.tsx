@@ -1,14 +1,14 @@
 import React from 'react';
 import clsx from 'clsx';
 import ReactSelect from 'react-select';
-import { Option, SelectType } from '../../../types';
+import { Option, SelectTypes } from '../../../types';
 import { DeviceContext } from '../../../context/All/DeviceType';
 import styles from './index.module.scss';
 import { MultiSelectDesktopStyle, MultiSelectMobileStyle } from './SelectStyle';
 
 interface MultiSelect {
   options: Option[];
-  type: SelectType;
+  type: SelectTypes;
   value: string[];
   onChange: (value: Option[]) => void;
   label?: string;

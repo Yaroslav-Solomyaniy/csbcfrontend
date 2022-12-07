@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ModalWindow from '../../../../../components/common/ModalWindow';
 import { IDeleteModal } from '../../../../../types';
-import { CuratorContext } from '../../../../../context/PagesInAdmin/Curators';
+import { CuratorContext } from '../../../../../context/Pages/admin/Curators';
 import { MessagesContext } from '../../../../../context/All/Messages';
 import styles from '../../../../pagesStyle.module.scss';
 import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
@@ -16,7 +16,7 @@ export const CuratorDeleteModal = ({ modalActive, closeModal, Id }: IDeleteModal
   const [formData, setFormData] = useState(formInitialData);
 
   const { addInfo } = MessagesContext();
-  const { curatorDelete, getCuratorId } = CuratorContext();
+  const { deleteCurator, getCuratorById } = CuratorContext();
 
   const handleClose = () => {
     closeModal();
@@ -27,30 +27,30 @@ export const CuratorDeleteModal = ({ modalActive, closeModal, Id }: IDeleteModal
 
   useEffect(() => {
     if (Id) {
-      getCuratorId?.getUserId({ id: `${Id}` });
+      getCuratorById?.getUserById({ id: `${Id}` });
     }
   }, [Id]);
 
   useEffect(() => {
-    if (getCuratorId?.data) {
+    if (getCuratorById?.data) {
       setFormData({
-        firstName: getCuratorId?.data.firstName,
-        lastName: getCuratorId?.data.lastName,
-        patronymic: getCuratorId?.data.patronymic,
+        firstName: getCuratorById?.data.firstName,
+        lastName: getCuratorById?.data.lastName,
+        patronymic: getCuratorById?.data.patronymic,
       });
     }
-  }, [getCuratorId?.data]);
+  }, [getCuratorById?.data]);
 
   useEffect(() => {
-    if (curatorDelete?.data) {
+    if (deleteCurator?.data) {
       handleClose();
       addInfo(`Куратор "${formData.lastName} ${formData.firstName} ${formData.patronymic}" видалений`);
     }
-  }, [curatorDelete?.data]);
+  }, [deleteCurator?.data]);
 
   const onSubmit = (e: React.FormEvent | undefined) => {
     e?.preventDefault?.();
-    curatorDelete?.userDelete(Id);
+    deleteCurator?.deleteUser(Id);
   };
 
   return (

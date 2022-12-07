@@ -1,20 +1,18 @@
-import React, { useEffect } from 'react';
-import { Link, Navigate, Route, Routes, useLocation } from 'react-router-dom';
-import moment from 'moment';
-import GroupProvider from '../context/PagesInAdmin/Groups';
+import { Link, Navigate, Route, Routes } from 'react-router-dom';
+import GroupProvider from '../context/Pages/admin/Groups';
 import Group from '../pages/Admin/Groups';
-import StudentsProvider from '../context/PagesInAdmin/Students';
+import StudentsProvider from '../context/Pages/admin/Students';
 import Students from '../pages/Admin/Students';
-import CuratorsProvider from '../context/PagesInAdmin/Curators';
+import CuratorsProvider from '../context/Pages/admin/Curators';
 import Curators from '../pages/Admin/Сurators';
-import TeachersProvider from '../context/PagesInAdmin/Teachers';
+import TeachersProvider from '../context/Pages/admin/Teachers';
 import Teachers from '../pages/Admin/Teachers';
-import CoursesProvider from '../context/PagesInAdmin/Courses';
+import CoursesProvider from '../context/Pages/admin/Courses';
 import Courses from '../pages/Admin/Courses';
-import EstimatesProvider from '../context/PagesInAdmin/Estimates';
-import Estimates from '../pages/Admin/Estimates';
+import EstimatesProvider from '../context/Pages/admin/Estimates';
+import Estimates from '../pages/Admin/Grades';
 import VotingAdmin from '../pages/Admin/Votings';
-import AdministratorsProvider from '../context/PagesInAdmin/Administators';
+import AdministratorsProvider from '../context/Pages/admin/Administators';
 import Administrators from '../pages/Admin/Admins';
 import IndPlan from '../pages/Student/IndividualPlan/index';
 import VotingStudents from '../pages/Student/Voting';
@@ -24,53 +22,25 @@ import ChangePassword from '../pages/All/ChangePassword';
 import Login from '../pages/All/Login';
 import PasRec from '../pages/All/PasswordRecovery';
 import styles from '../pages/All/PasswordRecovery/index.module.scss';
-import leftArrow from '../images/login/leftArrow.svg';
+import leftArrow from '../assets/images/login/leftArrow.svg';
 import { AuthContext } from '../context/All/AuthContext';
-import VotingAdminProvider from '../context/PagesInAdmin/Votings';
-import StudentProvider from '../context/PagesInStudent/Student';
-import TeacherProvider from '../context/PageInTeacher/Teacher';
-import PlanProvider from '../context/IndividualPlan';
-import CuratorProvider from '../context/PageInCurator';
-import { MessagesContext } from '../context/All/Messages';
-import { useStudentVotingInfo } from '../hooks/PagesInStudents/usePageInStudents';
+import VotingAdminProvider from '../context/Pages/admin/Votings';
+import StudentProvider from '../context/Pages/student/Student';
+import TeacherProvider from '../context/Pages/teacher/Teacher';
+import PlanProvider from '../context/Pages/student/IndvPlan';
+import CuratorProvider from '../context/Pages/curator';
+import useGetVotingInfo from '../hooks/hooks/useGetVotingInfo';
+import useClearMessages from '../hooks/hooks/useClearMessages';
 
-const AppRoutes = () => {
-  const { user } = AuthContext();
-  const { clearMessages, addVoting, addWarning } = MessagesContext();
-  const location = useLocation();
-  const { getStudentVotingInfo, studentVotingInfo } = useStudentVotingInfo();
+const AppRouter = () => {
+  const { roleAdmin, roleTeacher, roleStudent, user, roleCurator } = AuthContext();
 
-  useEffect(() => {
-    clearMessages();
-  }, [location.pathname, user]);
-
-  useEffect(() => {
-    if (user?.role === 'student') {
-      getStudentVotingInfo();
-    }
-  }, [user?.role === 'student']);
-
-  useEffect(() => {
-    if (studentVotingInfo) {
-      if (new Date() < moment(studentVotingInfo.startDate).toDate()) {
-        addWarning(studentVotingInfo.isRevote
-          // eslint-disable-next-line max-len
-          ? `Скоро розпочнеться переголосування. До початку переголосування ${+moment(Math.abs(new Date().getTime() - moment(studentVotingInfo.startDate).toDate().getTime())).format('D') - 1} - дні(-в).`
-          // eslint-disable-next-line max-len
-          : `Скоро розпочнеться голосування. До початку голосування ${+moment(Math.abs(new Date().getTime() - moment(studentVotingInfo.startDate).toDate().getTime())).format('D') - 1} - дні(-в).`);
-      }
-      if (new Date() > moment(studentVotingInfo.startDate).toDate()
-        && new Date() < moment(studentVotingInfo.endDate).toDate()) {
-        addVoting(studentVotingInfo.isRevote
-          ? 'Розпочалось переголосування. Ви можете змінити свій вибір.'
-          : 'Розпочалось голосування. Ви можете обрати вибіркові предмети.');
-      }
-    }
-  }, [studentVotingInfo]);
+  useClearMessages();
+  useGetVotingInfo();
 
   return (
     <Routes>
-      {user?.role === 'admin' && (
+      {roleAdmin && (
         <>
           <Route
             index
@@ -93,7 +63,7 @@ const AppRoutes = () => {
             element={<CoursesProvider><Courses /></CoursesProvider>}
           />
           <Route
-            path="/estimates"
+            path="/grades"
             element={(<EstimatesProvider><Estimates /></EstimatesProvider>)}
           />
           <Route
@@ -106,16 +76,16 @@ const AppRoutes = () => {
           />
         </>
       )}
-      {user?.role === 'student' && (
+      {roleStudent && (
         <>
           <Route index element={<PlanProvider><IndPlan /></PlanProvider>} />
           <Route path="/voting-students" element={<StudentProvider><VotingStudents /></StudentProvider>} />
         </>
       )}
-      {user?.role === 'teacher' && (
+      {roleTeacher && (
         <Route index element={<TeacherProvider><TeacherPage /></TeacherProvider>} />
       )}
-      {user?.role === 'curator' && (
+      {roleCurator && (
         <Route index element={<CuratorProvider><Curator /></CuratorProvider>} />
       )}
       {user && (
@@ -143,4 +113,4 @@ const AppRoutes = () => {
   );
 };
 
-export default AppRoutes;
+export default AppRouter;

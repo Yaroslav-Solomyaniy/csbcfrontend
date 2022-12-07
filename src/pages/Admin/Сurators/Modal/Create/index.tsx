@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import ModalWindow from '../../../../../components/common/ModalWindow';
-import { CuratorContext } from '../../../../../context/PagesInAdmin/Curators';
+import { CuratorContext } from '../../../../../context/Pages/admin/Curators';
 import { ICreateModal } from '../../../../../types';
 import { Email } from '../../../../../types/regExp';
 import { MessagesContext } from '../../../../../context/All/Messages';
-import { IUserCreateParams } from '../../../../../hooks/All/useUser';
 import CuratorsForm from '../form/create&edit';
 import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
+import { ICreateUserParams } from '../../../../../hooks/api/user/useCreate';
 
-const formInitialData: IUserCreateParams = {
+const formInitialData: ICreateUserParams = {
   firstName: '',
   lastName: '',
   patronymic: '',
@@ -18,8 +18,8 @@ const formInitialData: IUserCreateParams = {
 
 export const CuratorCreateModal = ({ modalActive, closeModal }: ICreateModal): JSX.Element => {
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [formData, setFormData] = useState<IUserCreateParams>(formInitialData);
-  const { curatorCreate } = CuratorContext();
+  const [formData, setFormData] = useState<ICreateUserParams>(formInitialData);
+  const { createCurator } = CuratorContext();
   const { addInfo } = MessagesContext();
 
   const handleClose = () => {
@@ -34,16 +34,16 @@ export const CuratorCreateModal = ({ modalActive, closeModal }: ICreateModal): J
     e?.preventDefault?.();
     setIsSubmitted(true);
     if (formData.firstName && formData.lastName && formData.patronymic && Email.test(formData.email)) {
-      curatorCreate?.createUser(formData);
+      createCurator?.createUser(formData);
     }
   };
 
   useEffect(() => {
-    if (curatorCreate?.data) {
+    if (createCurator?.data) {
       handleClose();
       addInfo(`${formData.lastName} ${formData.firstName} ${formData.patronymic} доданий у список`);
     }
-  }, [curatorCreate?.data]);
+  }, [createCurator?.data]);
 
   return (
     <ModalWindow modalTitle="Створення куратора" active={modalActive} closeModal={handleClose}>

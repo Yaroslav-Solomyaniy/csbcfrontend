@@ -38,7 +38,7 @@ const AdaptiveTable = ({
                 {rowItem.list
                   .slice(0, rowItem.list.length - 1)
                   .map((item, index) => Array.isArray(item.label) ? (
-                    <div className={styles.ArrayRow}>
+                    <div key={item.id} className={styles.ArrayRow}>
                       <h6 key={item.id} className={clsx(index === 0 ? styles.Title : styles.Subtitle)}>
                         {index !== 0 && `${dataHeader[index]?.label}: `}
                       </h6>

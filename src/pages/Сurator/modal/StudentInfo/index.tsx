@@ -2,17 +2,17 @@ import React, { useEffect } from 'react';
 import clsx from 'clsx';
 import ModalWindow from '../../../../components/common/ModalWindow';
 import styles from '../../../pagesStyle.module.scss';
-import { useStudentGetId } from '../../../../hooks/PagesInAdmin/useStudents';
 import { IEditModal } from '../../../../types';
 import ModalControlButtons from '../../../../components/common/ModalControlButtons';
 import { DeviceContext } from '../../../../context/All/DeviceType';
+import { useGetStudentById } from '../../../../hooks/api/admin/students/useGetById';
 
 const StudentInfo = ({ modalActive, closeModal, studentId }: IEditModal) => {
   const { isPhone } = DeviceContext();
-  const { getStudentId, data } = useStudentGetId();
+  const { getStudentById, data } = useGetStudentById();
 
   useEffect(() => {
-    if (studentId) getStudentId({ id: +studentId });
+    if (studentId) getStudentById({ id: +studentId });
   }, [studentId]);
 
   return (

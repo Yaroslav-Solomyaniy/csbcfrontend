@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import styles from './index.module.scss';
-import StudentModalArrow from '../../../../../images/StudentModalArrow.svg';
-import { StudentsContext } from '../../../../../context/PagesInAdmin/Students';
+import StudentModalArrow from '../../../../../assets/images/StudentModalArrow.svg';
+import { StudentsContext } from '../../../../../context/Pages/admin/Students';
 import Table from '../../../../../components/common/Table';
 import Button from '../../../../../components/common/Button';
 import { IndividualPlanHeader } from '../../../../Student/IndividualPlan/types';
-import { IndividualPlanContext } from '../../../../../context/IndividualPlan';
+import { IndividualPlanContext } from '../../../../../context/Pages/student/IndvPlan';
 import ModalWindow from '../../../../../components/common/ModalWindow';
 
 interface IStudentsReviewModal {
@@ -31,7 +31,7 @@ const StudentsReview = ({ modalActive, closeModal, id, Open }: IStudentsReviewMo
 
   useEffect(() => {
     if (id) {
-      getStudentById?.getStudentId({ id });
+      getStudentById?.getStudentById({ id });
     }
   }, [id]);
 

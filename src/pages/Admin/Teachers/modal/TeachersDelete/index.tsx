@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ModalWindow from '../../../../../components/common/ModalWindow';
 import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
 import pagesStyle from '../../../../pagesStyle.module.scss';
-import { TeachersContext } from '../../../../../context/PagesInAdmin/Teachers';
+import { TeachersContext } from '../../../../../context/Pages/admin/Teachers';
 import { MessagesContext } from '../../../../../context/All/Messages';
 import { IDeleteModal } from '../../../../../types';
 
@@ -13,7 +13,7 @@ const formInitialData = {
 };
 
 export const TeachersDeleteModal = ({ modalActive, closeModal, Id }: IDeleteModal): JSX.Element => {
-  const { getTeacherById, teacherDelete } = TeachersContext();
+  const { getTeacherById, deleteTeacher } = TeachersContext();
   const [formData, setFormData] = useState(formInitialData);
   const { addInfo } = MessagesContext();
 
@@ -26,19 +26,19 @@ export const TeachersDeleteModal = ({ modalActive, closeModal, Id }: IDeleteModa
 
   const onSubmit = (e: React.FormEvent | undefined) => {
     e?.preventDefault?.();
-    teacherDelete?.userDelete(Id);
+    deleteTeacher?.deleteUser(Id);
   };
 
   useEffect(() => {
-    if (teacherDelete?.data) {
+    if (deleteTeacher?.data) {
       closeModal();
       addInfo(`Викладач "${formData.lastName} ${formData.firstName} ${formData.patronymic}" видалений`);
     }
-  }, [teacherDelete?.data]);
+  }, [deleteTeacher?.data]);
 
   useEffect(() => {
     if (Id) {
-      getTeacherById?.getUserId({ id: `${Id}` });
+      getTeacherById?.getUserById({ id: `${Id}` });
     }
   }, [Id]);
 

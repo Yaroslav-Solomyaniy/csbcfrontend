@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import ModalWindow from '../../../../../components/common/ModalWindow';
-import { StudentsContext } from '../../../../../context/PagesInAdmin/Students';
+import { StudentsContext } from '../../../../../context/Pages/admin/Students';
 import { MessagesContext } from '../../../../../context/All/Messages';
 import styles from '../../../../pagesStyle.module.scss';
 import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
@@ -12,25 +12,25 @@ interface IStudentsDeleteModal {
 }
 
 export const StudentsDeleteModal = ({ modalActive, closeModal, studentId }: IStudentsDeleteModal): JSX.Element => {
-  const { studentDelete, getStudentById } = StudentsContext();
+  const { deleteStudent, getStudentById } = StudentsContext();
   const { addInfo } = MessagesContext();
 
   const onSubmit = (e: React.FormEvent | undefined) => {
     e?.preventDefault?.();
-    studentDelete?.studentDelete(studentId);
+    deleteStudent?.deleteStudent(studentId);
   };
 
   useEffect(() => {
-    if (studentDelete?.data) {
+    if (deleteStudent?.data) {
       closeModal();
       addInfo(`Студента "${getStudentById?.data?.user.lastName}
       ${getStudentById?.data?.user.firstName} ${getStudentById?.data?.user.patronymic}" успішно видалено`);
     }
-  }, [studentDelete?.data]);
+  }, [deleteStudent?.data]);
 
   useEffect(() => {
     if (studentId) {
-      getStudentById?.getStudentId({ id: studentId });
+      getStudentById?.getStudentById({ id: studentId });
     }
   }, [studentId]);
 

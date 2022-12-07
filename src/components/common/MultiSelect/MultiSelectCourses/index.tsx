@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Option, SelectType } from '../../../../types';
-import { useGetListCourses } from '../../../../hooks/All/useDropDowns';
+import { Option, SelectTypes } from '../../../../types';
+import { useGetListCourses } from '../../../../hooks/api/all/useDropDowns';
 import MultiSelect from '../index';
-import { CoursesContext } from '../../../../context/PagesInAdmin/Courses';
+import { CoursesContext } from '../../../../context/Pages/admin/Courses';
 
 interface IMultiSelectCourses {
   label?: string;
@@ -13,7 +13,7 @@ interface IMultiSelectCourses {
   isClearable?: boolean;
   error?: string;
   required?: boolean;
-  type: SelectType;
+  type: SelectTypes;
 }
 
 const MultiSelectCourses = ({
@@ -27,13 +27,13 @@ const MultiSelectCourses = ({
   required,
   error,
 }: IMultiSelectCourses): JSX.Element => {
-  const { courseCreate, courseEdit, courseDelete } = CoursesContext();
+  const { createCourse, editCourse, deleteCourse } = CoursesContext();
   const { optionCourses, getListCourses } = useGetListCourses();
   const [options, setOptions] = useState<Option[]>([]);
 
   useEffect(() => {
     getListCourses();
-  }, [courseCreate?.data, courseEdit?.data, courseDelete?.data]);
+  }, [createCourse?.data, editCourse?.data, deleteCourse?.data]);
 
   useEffect(() => {
     if (optionCourses?.length) {

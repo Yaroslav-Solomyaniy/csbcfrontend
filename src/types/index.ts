@@ -19,7 +19,12 @@ export const Semesters:Record<number, string> = {
   8: 'VIII семестр',
 };
 
-export type SelectType = 'filter' | 'modal' | 'pagination' | 'mini';
+export type CourseTypes = 'Загальна компетентність'
+  | 'Фахова компетентність'
+  | 'Вибіркова загальна компетентність'
+  | 'Вибіркова фахова компетентність';
+
+export type SelectTypes = 'filter' | 'modal' | 'pagination' | 'mini';
 export type OrderBy = 'ASC' | 'DESC';
 
 export interface IEditModal {
@@ -42,7 +47,7 @@ export interface ICreateModal {
   closeModal: () => void;
 }
 
-export interface Pagination {
+export interface IPagination {
   totalItems: number;
   itemCount: number;
   itemsPerPage: number;
@@ -60,7 +65,7 @@ export const initialPagination = {
 
 export interface IPaginateData<Item> {
   items: Item[];
-  meta: Pagination;
+  meta: IPagination;
   links: {
     first: string;
     previous: string;

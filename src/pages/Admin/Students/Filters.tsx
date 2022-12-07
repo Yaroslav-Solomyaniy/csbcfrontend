@@ -1,5 +1,5 @@
 import React from 'react';
-import { useQueryParam } from '../../../hooks/All/useQueryParams';
+import { useQueryParam } from '../../../hooks/hooks/useQueryParams';
 import SelectStudent from '../../../components/common/Select/SelectStudent';
 import SelectGroupById from '../../../components/common/Select/SelectGroupById';
 import SelectIsFullTime from '../../../components/common/Select/SelectIsFullTime';

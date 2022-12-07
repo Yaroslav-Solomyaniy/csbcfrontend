@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import Select from '../index';
-import { Option, SelectType } from '../../../../types';
-import { useGetListCurators } from '../../../../hooks/All/useDropDowns';
-import { CuratorContext } from '../../../../context/PagesInAdmin/Curators';
+import { Option, SelectTypes } from '../../../../types';
+import { useGetListCurators } from '../../../../hooks/api/all/useDropDowns';
+import { CuratorContext } from '../../../../context/Pages/admin/Curators';
 
 interface SelectCurator {
   value: string | number | null;
   onChange: (value: string) => void;
-  type: SelectType;
+  type: SelectTypes;
   label?: string;
   required?: boolean;
   error?: string;
@@ -37,11 +37,11 @@ const SelectCurator = ({
 }: SelectCurator): JSX.Element => {
   const [options, setOptions] = useState<Option[]>([]);
   const { optionCurators, getListCurators } = useGetListCurators();
-  const { curatorDelete, curatorEdit, curatorCreate } = CuratorContext();
+  const { deleteCurator, editCurator, createCurator } = CuratorContext();
 
   useEffect(() => {
     getListCurators();
-  }, [curatorEdit, curatorDelete, curatorCreate]);
+  }, [editCurator, deleteCurator, createCurator]);
 
   useEffect(() => {
     if (optionCurators?.length) {

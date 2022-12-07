@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import ModalWindow from '../../../../../components/common/ModalWindow';
 import 'react-datepicker/dist/react-datepicker.css';
-import { IVotingEditParams } from '../../../../../hooks/PagesInAdmin/useVotings';
-import { VotingsAdmin } from '../../../../../context/PagesInAdmin/Votings';
+import { VotingsAdmin } from '../../../../../context/Pages/admin/Votings';
 import CreateEditRevoteFormVotingAdmin from '../form/CreateEditRevoteFormVotingAdmin';
 import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
+import { IEditVotingParams } from '../../../../../hooks/api/admin/voting/useEdit';
 
-const formInitialData: IVotingEditParams = {
+const formInitialData: IEditVotingParams = {
   groups: [],
   startDate: null,
   endDate: null,
@@ -30,7 +30,7 @@ export const RevoteEditModal = (
 ): JSX.Element => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState(formInitialData);
-  const { votingGetById, votingEdit } = VotingsAdmin();
+  const { getVotingById, editVoting } = VotingsAdmin();
 
   const handleClose = () => {
     setIsSubmitted(false);
@@ -50,7 +50,7 @@ export const RevoteEditModal = (
       && formData.endDate
       && (formData.endDate > formData.startDate)
     ) {
-      votingEdit?.votingEdit({
+      editVoting?.editVoting({
         ...formData,
         startDate: moment(formData.startDate).format(),
         endDate: moment(formData.endDate).format(),
@@ -61,21 +61,21 @@ export const RevoteEditModal = (
 
   useEffect(() => {
     if (id) {
-      votingGetById?.getVotingById({ id: `${id}` });
+      getVotingById?.getVotingById({ id: `${id}` });
     }
   }, [id]);
 
   useEffect(() => {
-    if (votingGetById?.data) {
+    if (getVotingById?.data) {
       setFormData({
-        groups: votingGetById.data.groups.map((group) => group.id),
-        requiredCourses: votingGetById.data.requiredCourses.map((course) => course.id),
-        notRequiredCourses: votingGetById.data.notRequiredCourses.map((course) => course.id),
-        startDate: moment(votingGetById.data.startDate).toDate(),
-        endDate: moment(votingGetById.data.endDate).toDate(),
+        groups: getVotingById.data.groups.map((group) => group.id),
+        requiredCourses: getVotingById.data.requiredCourses.map((course) => course.id),
+        notRequiredCourses: getVotingById.data.notRequiredCourses.map((course) => course.id),
+        startDate: moment(getVotingById.data.startDate).toDate(),
+        endDate: moment(getVotingById.data.endDate).toDate(),
       });
     }
-  }, [votingGetById?.data]);
+  }, [getVotingById?.data]);
 
   return (
     <ModalWindow modalTitle="Редагування переголосування" active={modalActive} closeModal={handleClose}>

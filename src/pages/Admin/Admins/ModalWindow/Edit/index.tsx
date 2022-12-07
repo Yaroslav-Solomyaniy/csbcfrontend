@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import ModalWindow from '../../../../../components/common/ModalWindow';
 import { IEditModal } from '../../../../../types';
 import { Email } from '../../../../../types/regExp';
-import { IUserEditParams } from '../../../../../hooks/All/useUser';
-import { AdministratorsContext } from '../../../../../context/PagesInAdmin/Administators';
+import { AdministratorsContext } from '../../../../../context/Pages/admin/Administators';
 import { MessagesContext } from '../../../../../context/All/Messages';
 import AdministratorsForm from '../form/Create&Edit';
 import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
+import { IEditUserParams } from '../../../../../hooks/api/user/useEdit';
 
-const formInitialData: IUserEditParams = {
+const formInitialData: IEditUserParams = {
   firstName: '',
   lastName: '',
   patronymic: '',
@@ -18,8 +18,8 @@ const formInitialData: IUserEditParams = {
 
 export const AdministratorEditModal = ({ modalActive, closeModal, studentId }: IEditModal): JSX.Element => {
   const [isSubmitted, setIsSubmited] = useState(false);
-  const [formData, setFormData] = useState<IUserEditParams>(formInitialData);
-  const { administratorsEdit, getAdministratorsId } = AdministratorsContext();
+  const [formData, setFormData] = useState<IEditUserParams>(formInitialData);
+  const { editAdmin, getAdminById } = AdministratorsContext();
   const { addInfo } = MessagesContext();
 
   const handleClose = () => {
@@ -39,34 +39,34 @@ export const AdministratorEditModal = ({ modalActive, closeModal, studentId }: I
       && formData.patronymic
       && formData.lastName
       && Email.test(formData.email)) {
-      administratorsEdit?.userEdit({ ...formData }, studentId);
+      editAdmin?.editUser({ ...formData }, studentId);
     }
   };
 
   useEffect(() => {
     handleClose();
-    if (administratorsEdit?.data) {
+    if (editAdmin?.data) {
       addInfo(`Адміністратор "${formData.lastName} ${formData.firstName} ${formData.patronymic}" відредагований`);
     }
-  }, [administratorsEdit?.data]);
+  }, [editAdmin?.data]);
 
   useEffect(() => {
     if (studentId) {
-      getAdministratorsId?.getUserId({ id: `${studentId}` });
+      getAdminById?.getUserById({ id: `${studentId}` });
     }
   }, [studentId]);
 
   useEffect(() => {
-    if (getAdministratorsId?.data) {
+    if (getAdminById?.data) {
       setFormData({
-        firstName: getAdministratorsId?.data.firstName,
-        lastName: getAdministratorsId?.data.lastName,
-        patronymic: getAdministratorsId?.data.patronymic,
-        email: getAdministratorsId?.data.email,
-        role: getAdministratorsId.data.role,
+        firstName: getAdminById?.data.firstName,
+        lastName: getAdminById?.data.lastName,
+        patronymic: getAdminById?.data.patronymic,
+        email: getAdminById?.data.email,
+        role: getAdminById.data.role,
       });
     }
-  }, [getAdministratorsId?.data]);
+  }, [getAdminById?.data]);
 
   return (
     <ModalWindow modalTitle="Редагування адміністратора" active={modalActive} closeModal={handleClose}>

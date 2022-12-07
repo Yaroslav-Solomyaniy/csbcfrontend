@@ -6,14 +6,13 @@ import TitlePage from '../../../components/common/TitlePage';
 import Button from '../../../components/common/Button';
 import { ITableHeader } from '../../../components/common/Table/TypeDisplay/Desktop/TableHeader';
 import StudentsCreateModal from './modal/StudentsCreate';
-import { StudentsContext } from '../../../context/PagesInAdmin/Students';
-import { initialPagination, Pagination } from '../../../types';
+import { StudentsContext } from '../../../context/Pages/admin/Students';
+import { initialPagination, IPagination } from '../../../types';
 import StudentsEditModal from './modal/StudentsEdit';
 import { ITableRowItem } from '../../../components/common/Table/TypeDisplay/Desktop/TableBody';
-import { IGetParams, IStudentData } from '../../../hooks/PagesInAdmin/useStudents';
 import StudentsDelete from './modal/StudentsDelete';
 import StudentsReview from './modal/StudentsReview';
-import { useQueryParam } from '../../../hooks/All/useQueryParams';
+import { useQueryParam } from '../../../hooks/hooks/useQueryParams';
 import { DeviceContext } from '../../../context/All/DeviceType';
 import { EditReviewDelete } from '../../../components/common/CollectionMiniButtons';
 import PhoneFilter from '../../../components/common/PhoneFilter';
@@ -21,6 +20,9 @@ import StudentsFilters from './Filters';
 import Table from '../../../components/common/Table';
 import StudentsReviewEdit from './modal/StudentsReviewEdit';
 import Preloader from '../../../components/common/Preloader/Preloader';
+import useCheckPage from '../../../hooks/hooks/useCheckPage';
+import { IGetStudentsParams } from '../../../hooks/api/admin/students/useGet';
+import { IStudentData } from '../../../hooks/api/admin/students/interfaces/IStudentData';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІБ студента' },
@@ -45,11 +47,11 @@ const Students = (): JSX.Element => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isActiveModal, setIsActiveModal] = useState<Record<string, number | boolean>>(allCloseModalWindow);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
-  const [pagination, setPagination] = useState<Pagination>({ ...initialPagination });
+  const [pagination, setPagination] = useState<IPagination>({ ...initialPagination });
 
-  const { getStudents, studentEdit, studentCreate, studentDelete } = StudentsContext();
+  const { getStudents, editStudent, deleteStudent, createStudent } = StudentsContext();
   const { isPhone } = DeviceContext();
-  const { get, post } = useQueryParam();
+  const { get } = useQueryParam();
 
   const studentId = Number(get('studentId'));
   const groupId = Number(get('groupId'));
@@ -61,14 +63,10 @@ const Students = (): JSX.Element => {
     setIsActiveModal(allCloseModalWindow);
   };
 
-  useEffect(() => {
-    if (currentPage > pagination.totalPages) {
-      post({ currentPage: pagination.totalPages });
-    }
-  }, [pagination]);
+  useCheckPage({ pagination, currentPage });
 
   useEffect(() => {
-    const query: IGetParams = {};
+    const query: IGetStudentsParams = {};
 
     if (studentId) query.id = studentId;
     if (isFullTime === 'true' || isFullTime === 'false') query.isFullTime = isFullTime === 'true';
@@ -82,9 +80,9 @@ const Students = (): JSX.Element => {
     isFullTime,
     currentPage,
     itemsPerPage,
-    studentCreate?.data,
-    studentEdit?.data,
-    studentDelete?.data]);
+    createStudent?.data,
+    editStudent?.data,
+    deleteStudent?.data]);
 
   useEffect(() => {
     if (getStudents?.data) {

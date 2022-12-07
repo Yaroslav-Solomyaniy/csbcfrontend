@@ -1,9 +1,11 @@
-import { IGetVotingSubmitDataById, IVotingSubmitParams } from '../../../../../hooks/PagesInAdmin/useVotings';
+import { ISubmitVotingParams } from '../../../../../hooks/api/admin/voting/useSubmit';
 import styles from '../../../../pagesStyle.module.scss';
 import columns from './submitForm.module.scss';
 import Table from '../../../../../components/common/Table';
 import { ITableHeader } from '../../../../../components/common/Table/TypeDisplay/Desktop/TableHeader';
 import CheckBox from '../../../../All/Login/MyCheckBox.module.scss';
+// eslint-disable-next-line max-len
+import { IGetVotingSubmitDataById } from '../../../../../hooks/api/admin/voting/useGetVotingSubmitById/IGetVotingSubmitDataById';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'Дія' },
@@ -17,7 +19,7 @@ interface ISubmitVotingForm{
 data: IGetVotingSubmitDataById | undefined;
 formData: number[];
 onSubmit: (e:React.FormEvent | undefined) => void;
-setFormData:(value:IVotingSubmitParams) => void;
+setFormData:(value:ISubmitVotingParams) => void;
 }
 
 const SubmitVotingForm = ({ data, formData, onSubmit, setFormData }:ISubmitVotingForm) => (

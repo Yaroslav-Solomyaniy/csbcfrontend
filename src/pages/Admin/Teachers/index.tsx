@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { ITableHeader } from '../../../components/common/Table/TypeDisplay/Desktop/TableHeader';
 import { ITableRowItem } from '../../../components/common/Table/TypeDisplay/Desktop/TableBody';
-import { TeachersContext } from '../../../context/PagesInAdmin/Teachers';
-import { IGetTeacherData } from '../../../hooks/PagesInAdmin/useTeachers';
+import { TeachersContext } from '../../../context/Pages/admin/Teachers';
+import { IGetTeachersData } from '../../../hooks/api/admin/teachers/useGet';
 import Layout from '../../../loyout/Layout';
 import Button from '../../../components/common/Button';
 import TitlePage from '../../../components/common/TitlePage';
@@ -13,12 +13,13 @@ import TeachersDeleteModal from './modal/TeachersDelete';
 import TeacherCreateModal from './modal/TeachersCreate';
 import TeacherEditModal from './modal/TeachersEdit';
 import TeachersFilters from './Filters';
-import { AddQueryParams, useQueryParam } from '../../../hooks/All/useQueryParams';
+import { AddQueryParams, useQueryParam } from '../../../hooks/hooks/useQueryParams';
 import { DeviceContext } from '../../../context/All/DeviceType';
 import { EditAndDelete } from '../../../components/common/CollectionMiniButtons';
-import { initialPagination, Pagination } from '../../../types';
+import { initialPagination, IPagination } from '../../../types';
 import Preloader from '../../../components/common/Preloader/Preloader';
 import PhoneFilter from '../../../components/common/PhoneFilter';
+import useCheckPage from '../../../hooks/hooks/useCheckPage';
 
 const dataHeader: ITableHeader[] = [
   { id: 1, label: 'ПІБ' },
@@ -37,19 +38,13 @@ const allCloseModalWindow: Record<string, number | boolean> = {
 
 const Teachers = (): JSX.Element => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const { teachersGet, teacherCreate, teacherEdit, teacherDelete } = TeachersContext();
+  const { getTeachers, createTeacher, editTeacher, deleteTeacher } = TeachersContext();
   const [isActiveModal, setIsActiveModal] = useState<Record<string, number | boolean>>(allCloseModalWindow);
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
-  const [pagination, setPagination] = useState<Pagination>({ ...initialPagination });
+  const [pagination, setPagination] = useState<IPagination>({ ...initialPagination });
 
   const { isPhone } = DeviceContext();
-  const { get, post } = useQueryParam();
-
-  useEffect(() => {
-    if (currentPage > pagination.totalPages) {
-      post({ currentPage: pagination.totalPages });
-    }
-  }, [pagination]);
+  const { get } = useQueryParam();
 
   const teacherId = Number(get('teacherId'));
   const groupId = Number(get('groupId'));
@@ -57,26 +52,28 @@ const Teachers = (): JSX.Element => {
   const currentPage = Number(get('currentPage')) || 1;
   const itemsPerPage = Number(get('itemsPerPage')) || 10;
 
+  useCheckPage({ pagination, currentPage });
+
   const closeModal = () => {
     setIsActiveModal(allCloseModalWindow);
   };
 
   useEffect(() => {
-    teachersGet?.getTeacher(
+    getTeachers?.getTeachers(
       AddQueryParams({ teacherId, groups: groupId, courses: courseId, page: currentPage, limit: itemsPerPage }),
     );
   }, [teacherId, groupId, courseId, currentPage,
-    itemsPerPage, teacherCreate?.data, teacherEdit?.data, teacherDelete?.data]);
+    itemsPerPage, createTeacher?.data, editTeacher?.data, deleteTeacher?.data]);
 
   useEffect(() => {
-    if (teachersGet?.data) {
+    if (getTeachers?.data) {
       setIsLoading(false);
-      setPagination(teachersGet.data.meta);
-      setDataRow(tableRows(teachersGet.data ? teachersGet.data.items : []));
+      setPagination(getTeachers.data.meta);
+      setDataRow(tableRows(getTeachers.data ? getTeachers.data.items : []));
     }
-  }, [teacherCreate?.data, teachersGet?.data, teacherEdit?.data, teacherDelete?.data]);
+  }, [createTeacher?.data, getTeachers?.data, editTeacher?.data, deleteTeacher?.data]);
 
-  const tableRows = (arrTableRows: IGetTeacherData[]) => (
+  const tableRows = (arrTableRows: IGetTeachersData[]) => (
     arrTableRows.length ? arrTableRows.map((item) => {
       const arr: { subject: string[]; group: string[]; } = { subject: [], group: [] };
 

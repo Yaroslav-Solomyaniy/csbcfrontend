@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ModalWindow from '../../../../components/common/ModalWindow';
 import { MessagesContext } from '../../../../context/All/Messages';
 import { IEditModal } from '../../../../types';
-import { TeacherContext } from '../../../../context/PageInTeacher/Teacher';
+import { TeacherContext } from '../../../../context/Pages/teacher/Teacher';
 import RatingEditForm from './RatingEditForm';
 
 export interface typeFormData {
@@ -38,7 +38,7 @@ const infoRowInitialization: typeInfoRow = {
 };
 
 export const TeacherRatingEdit = ({ modalActive, closeModal, studentId }: IEditModal): JSX.Element => {
-  const { teacherDataGetById, teacherEditRating } = TeacherContext();
+  const { getTeacherById, editGrade } = TeacherContext();
   const { addInfo } = MessagesContext();
 
   const [formData, setFormData] = useState<typeFormData>(formInitialData);
@@ -55,35 +55,35 @@ export const TeacherRatingEdit = ({ modalActive, closeModal, studentId }: IEditM
     e?.preventDefault?.();
     setIsSubmited(true);
     if (formData.courseId && formData.grade && formData.reasonForChange) {
-      teacherEditRating?.teacherPageEditRating(formData, infoRow.userId);
+      editGrade?.editTeacherGrade(formData, infoRow.userId);
     }
   };
 
   useEffect(() => {
-    if (teacherEditRating?.data) {
+    if (editGrade?.data) {
       handleClose();
       addInfo('Оцінку успішно змінено');
     }
-  }, [teacherEditRating?.data]);
+  }, [editGrade?.data]);
 
   useEffect(() => {
     setInfoRow({
-      firstName: teacherDataGetById?.data?.student.user.firstName || '',
-      patronymic: teacherDataGetById?.data?.student.user.patronymic || '',
-      lastName: teacherDataGetById?.data?.student.user.lastName || '',
-      courseName: teacherDataGetById?.data?.course.name || '',
-      groupName: teacherDataGetById?.data?.student.group.name || '',
-      grade: teacherDataGetById?.data?.grade || 0,
-      userId: teacherDataGetById?.data?.student.id || 0,
+      firstName: getTeacherById?.data?.student.user.firstName || '',
+      patronymic: getTeacherById?.data?.student.user.patronymic || '',
+      lastName: getTeacherById?.data?.student.user.lastName || '',
+      courseName: getTeacherById?.data?.course.name || '',
+      groupName: getTeacherById?.data?.student.group.name || '',
+      grade: getTeacherById?.data?.grade || 0,
+      userId: getTeacherById?.data?.student.id || 0,
     });
-    setFormData({ ...formData, courseId: teacherDataGetById?.data?.course.id || 0 });
+    setFormData({ ...formData, courseId: getTeacherById?.data?.course.id || 0 });
   }, [
-    teacherDataGetById?.data,
+    getTeacherById?.data,
   ]);
 
   useEffect(() => {
     if (studentId) {
-      teacherDataGetById?.pageTeacherGetById(studentId);
+      getTeacherById?.getTeacherById(studentId);
     }
   }, [studentId]);
 

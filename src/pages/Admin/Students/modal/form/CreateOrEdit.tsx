@@ -1,15 +1,15 @@
 import React from 'react';
-import { IStudentCreateParams } from '../../../../../hooks/PagesInAdmin/useStudents';
 import styles from '../../../../pagesStyle.module.scss';
 import ModalInput from '../../../../../components/common/MyInput';
 import { Email, EmailValidation } from '../../../../../types/regExp';
 import MyDatePicker from '../../../../../components/common/DatePicker';
 import SelectGroupById from '../../../../../components/common/Select/SelectGroupById';
 import SelectIsFullTime from '../../../../../components/common/Select/SelectIsFullTime';
+import { ICreateStudentParams } from '../../../../../hooks/api/admin/students/interfaces/ICreateStudentParams';
 
 interface ICreateOrEditStudentsForm{
-  formData: IStudentCreateParams;
-  setFormData: (value:IStudentCreateParams) => void;
+  formData: ICreateStudentParams;
+  setFormData: (value:ICreateStudentParams) => void;
   onSubmit: (e: React.FormEvent | undefined) => void;
   isSubmitted: boolean;
   modalTitle?: string;

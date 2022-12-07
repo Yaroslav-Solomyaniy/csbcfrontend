@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import ModalWindow from '../../../../../components/common/ModalWindow';
-import { IGetVotingResultDataById } from '../../../../../hooks/PagesInAdmin/useVotings';
-import { VotingsAdmin } from '../../../../../context/PagesInAdmin/Votings';
+import { VotingsAdmin } from '../../../../../context/Pages/admin/Votings';
 import ResultDisplay from './Components/ResultDisplay';
 import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
+import { IGetVotingResultDataById } from '../../../../../hooks/api/admin/voting/useGetResult/IGetVotingResultDataById';
 
 const formInitialData: IGetVotingResultDataById = {
   id: 0,
@@ -25,7 +25,7 @@ interface IResultModal {
 export const VotingResultModal = ({ modalActive, closeModal, votingId }: IResultModal): JSX.Element => {
   const [formData, setFormData] = useState(formInitialData);
 
-  const { votingResult } = VotingsAdmin();
+  const { getResultVoting } = VotingsAdmin();
 
   const handleClose = () => {
     closeModal();
@@ -36,23 +36,23 @@ export const VotingResultModal = ({ modalActive, closeModal, votingId }: IResult
 
   useEffect(() => {
     if (votingId) {
-      votingResult?.votingGetResultById({ id: votingId });
+      getResultVoting?.getVotingResultById({ id: votingId });
     }
   }, [votingId]);
 
   useEffect(() => {
-    if (votingResult?.data) {
+    if (getResultVoting?.data) {
       setFormData({
-        id: votingResult?.data.id,
-        tookPart: votingResult?.data.tookPart,
-        status: votingResult?.data.status,
-        students: votingResult?.data.students,
-        groups: votingResult?.data.groups,
-        startDate: votingResult.data.startDate,
-        courses: votingResult.data.courses,
+        id: getResultVoting?.data.id,
+        tookPart: getResultVoting?.data.tookPart,
+        status: getResultVoting?.data.status,
+        students: getResultVoting?.data.students,
+        groups: getResultVoting?.data.groups,
+        startDate: getResultVoting.data.startDate,
+        courses: getResultVoting.data.courses,
       });
     }
-  }, [votingResult?.data]);
+  }, [getResultVoting?.data]);
 
   return (
     <ModalWindow

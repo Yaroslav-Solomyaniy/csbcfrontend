@@ -1,7 +1,7 @@
 import React from 'react';
 import SelectGroupById from '../../../components/common/Select/SelectGroupById';
 import SelectStatusVoting from '../../../components/common/Select/SelectStatusVoting';
-import { useQueryParam } from '../../../hooks/All/useQueryParams';
+import { useQueryParam } from '../../../hooks/hooks/useQueryParams';
 
 interface IVotingFilters{
 groupId: number;

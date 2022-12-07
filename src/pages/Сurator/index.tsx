@@ -1,30 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import Layout from '../../loyout/Layout';
 import { ITableHeader } from '../../components/common/Table/TypeDisplay/Desktop/TableHeader';
-import { initialPagination, Pagination } from '../../types';
+import { initialPagination, IPagination } from '../../types';
 import { ITableRowItem } from '../../components/common/Table/TypeDisplay/Desktop/TableBody';
-import { useGetListCourses } from '../../hooks/All/useDropDowns';
+import { useGetListCourses } from '../../hooks/api/all/useDropDowns';
 import { DeviceContext } from '../../context/All/DeviceType';
-import { useQueryParam } from '../../hooks/All/useQueryParams';
-import { IGetGradesParams, UseGradesDownload } from '../../hooks/PagesInAdmin/useEstimates';
-import styles from '../Admin/Estimates/index.module.scss';
+import { useQueryParam } from '../../hooks/hooks/useQueryParams';
+import styles from '../Admin/Grades/index.module.scss';
 import TitlePage from '../../components/common/TitlePage';
 import Table from '../../components/common/Table';
-import EstimatesFilters from '../Admin/Estimates/Filters';
+import EstimatesFilters from '../Admin/Grades/Filters';
 import PhoneFilter from '../../components/common/PhoneFilter';
-import EstimatesHistory from '../Admin/Estimates/modal/EstimatesHystory';
+import EstimatesHistory from '../Admin/Grades/modal/EstimatesHystory';
 import CuratorFilters from './Filters';
 import { AuthContext } from '../../context/All/AuthContext';
-import { CuratorContext } from '../../context/PageInCurator';
-import { EstimatesContext } from '../../context/PagesInAdmin/Estimates';
+import { CuratorContext } from '../../context/Pages/curator';
+import { EstimatesContext } from '../../context/Pages/admin/Estimates';
 import { TablesActions } from '../../components/common/CollectionMiniButtons';
-import { IGetCuratorData } from '../../hooks/PageInCurator/CuratorPage';
+import { IGetCuratorData } from '../../hooks/api/curator/useGetCurator';
 import StudentInfo from './modal/StudentInfo';
 import Preloader from '../../components/common/Preloader/Preloader';
 import Button from '../../components/common/Button';
 import { Download, History, Listic } from '../../components/common/Icons';
-import { downloadFile } from '../../hooks/All/DownloadFile';
-import { useStudentGetId } from '../../hooks/PagesInAdmin/useStudents';
+import { useDownloadFile } from '../../hooks/hooks/useDownloadFile';
+import { IGetGradesParams } from '../../hooks/api/admin/grades/useGet';
+import { useDownloadGrades } from '../../hooks/api/admin/grades/useDownload';
+import { useGetStudentById } from '../../hooks/api/admin/students/useGetById';
 
 const allCloseModalWindow: Record<string, boolean | number> = {
   filter: false,
@@ -36,19 +37,19 @@ const Curator = (): JSX.Element => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isActiveModal, setIsActiveModal] = useState<Record<string, boolean | number>>(allCloseModalWindow);
   const [dataHeader, setDataHeader] = useState<ITableHeader[]>([]);
-  const [pagination, setPagination] = useState<Pagination>({ ...initialPagination });
+  const [pagination, setPagination] = useState<IPagination>({ ...initialPagination });
   const [dataRow, setDataRow] = useState<ITableRowItem[]>([]);
-  const { gradesDownload, dataFile } = UseGradesDownload();
-  const { getStudentId, data } = useStudentGetId();
+  const { download, dataFile } = useDownloadGrades();
+  const { getStudentById, data } = useGetStudentById();
 
   const { user } = AuthContext();
-  const { curatorGet } = CuratorContext();
-  const { gradesEdit } = EstimatesContext();
+  const { getCurator } = CuratorContext();
+  const { editGrade } = EstimatesContext();
 
   const { isPhone } = DeviceContext();
   const courses = useGetListCourses();
 
-  const { get, post } = useQueryParam();
+  const { get } = useQueryParam();
 
   const groupId = Number(get('groupId'));
   const semesterId = Number(get('semesterId'));
@@ -62,7 +63,7 @@ const Curator = (): JSX.Element => {
 
   useEffect(() => {
     courses.getListCourses({ curatorId: user?.id });
-  }, [curatorGet?.data]);
+  }, [getCurator?.data]);
 
   useEffect(() => {
     const query: IGetGradesParams = {};
@@ -73,9 +74,9 @@ const Curator = (): JSX.Element => {
     if (currentPage) query.page = currentPage;
     if (itemsPerPage) query.limit = itemsPerPage;
 
-    curatorGet?.getCuratorPage(query);
+    getCurator?.getCurator(query);
   }, [
-    gradesEdit?.data,
+    editGrade?.data,
     groupId,
     semesterId,
     studentId,
@@ -84,24 +85,19 @@ const Curator = (): JSX.Element => {
   ]);
 
   const downloadGrades = (id: number) => {
-    getStudentId({ id });
-    gradesDownload({ id });
+    getStudentById({ id });
+    download({ id });
   };
 
   useEffect(() => {
     if (data && dataFile) {
-      downloadFile(dataFile, data.user
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      useDownloadFile(dataFile, data.user
         // eslint-disable-next-line max-len
         ? `Оцінки - ${data.user.lastName} ${data.user.firstName[0].toUpperCase()}.${data.user.patronymic[0].toUpperCase()}.`
         : 'User');
     }
   }, [data, dataFile]);
-
-  useEffect(() => {
-    if (currentPage > pagination.totalPages) {
-      post({ currentPage: pagination.totalPages });
-    }
-  }, [pagination]);
 
   useEffect(() => {
     let id = 3;
@@ -116,11 +112,11 @@ const Curator = (): JSX.Element => {
       { id: ++id, label: 'Дії' },
     ]);
 
-    if (curatorGet?.data) {
-      setPagination(curatorGet.data.meta);
-      setDataRow(tableRows(curatorGet.data.items));
+    if (getCurator?.data) {
+      setPagination(getCurator.data.meta);
+      setDataRow(tableRows(getCurator.data.items));
     }
-  }, [curatorGet?.data, courses.optionCourses, isActiveModal]);
+  }, [getCurator?.data, courses.optionCourses, isActiveModal]);
 
   const tableRows = (arrTableRows: IGetCuratorData[]) => {
     let id = 3;

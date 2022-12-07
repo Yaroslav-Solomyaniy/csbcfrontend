@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Option, SelectType } from '../../../../types';
+import { Option, SelectTypes } from '../../../../types';
 import MultiSelect from '../index';
-import { CoursesContext } from '../../../../context/PagesInAdmin/Courses';
-import { useCoursesGet } from '../../../../hooks/PagesInAdmin/useCourses';
+import { CoursesContext } from '../../../../context/Pages/admin/Courses';
+import { useGetCourses } from '../../../../hooks/api/admin/courses/useGet';
 
 interface IMultiSelectCoursesNoOptional {
   label?: string;
@@ -13,7 +13,7 @@ interface IMultiSelectCoursesNoOptional {
   isClearable?: boolean;
   error?: string;
   required?: boolean;
-  type: SelectType;
+  type: SelectTypes;
   typeConduct: 'Загальна' | 'Фахова';
 }
 
@@ -29,8 +29,8 @@ const MultiSelectCoursesNoOptional = ({
   error,
   typeConduct,
 }: IMultiSelectCoursesNoOptional): JSX.Element => {
-  const { courseCreate, courseEdit, courseDelete } = CoursesContext();
-  const { getCourses, data } = useCoursesGet();
+  const { createCourse, editCourse, deleteCourse } = CoursesContext();
+  const { getCourses, data } = useGetCourses();
   const [options, setOptions] = useState<Option[]>([]);
 
   useEffect(() => {
@@ -39,7 +39,7 @@ const MultiSelectCoursesNoOptional = ({
         ? 'Вибіркова загальна компетентність'
         : 'Вибіркова фахова компетентність') },
     );
-  }, [courseCreate?.data, courseEdit?.data, courseDelete?.data]);
+  }, [createCourse?.data, editCourse?.data, deleteCourse?.data]);
 
   useEffect(() => {
     if (data?.items.length) {

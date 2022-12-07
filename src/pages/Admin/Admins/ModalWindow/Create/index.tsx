@@ -3,12 +3,12 @@ import ModalWindow from '../../../../../components/common/ModalWindow';
 import { ICreateModal } from '../../../../../types';
 import { Email } from '../../../../../types/regExp';
 import { MessagesContext } from '../../../../../context/All/Messages';
-import { IUserCreateParams } from '../../../../../hooks/All/useUser';
-import { AdministratorsContext } from '../../../../../context/PagesInAdmin/Administators';
+import { AdministratorsContext } from '../../../../../context/Pages/admin/Administators';
 import AdministratorsForm from '../form/Create&Edit';
 import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
+import { ICreateUserParams } from '../../../../../hooks/api/user/useCreate';
 
-const formInitialData: IUserCreateParams = {
+const formInitialData: ICreateUserParams = {
   firstName: '',
   lastName: '',
   patronymic: '',
@@ -18,9 +18,9 @@ const formInitialData: IUserCreateParams = {
 
 export const AdministratorCreateModal = ({ modalActive, closeModal }: ICreateModal): JSX.Element => {
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [formData, setFormData] = useState<IUserCreateParams>(formInitialData);
+  const [formData, setFormData] = useState<ICreateUserParams>(formInitialData);
 
-  const { administratorsCreate } = AdministratorsContext();
+  const { createAdmin } = AdministratorsContext();
   const { addInfo } = MessagesContext();
 
   const handleClose = () => {
@@ -35,17 +35,17 @@ export const AdministratorCreateModal = ({ modalActive, closeModal }: ICreateMod
     e?.preventDefault?.();
     setIsSubmitted(true);
     if (formData.firstName && formData.lastName && formData.patronymic && Email.test(formData.email)) {
-      administratorsCreate?.createUser(formData);
+      createAdmin?.createUser(formData);
     }
   };
 
   useEffect(() => {
-    if (administratorsCreate?.data) {
+    if (createAdmin?.data) {
       handleClose();
       addInfo(`${formData.lastName} ${formData.firstName} ${formData.patronymic}
       успішно доданий`);
     }
-  }, [administratorsCreate?.data]);
+  }, [createAdmin?.data]);
 
   return (
     <ModalWindow modalTitle="Створення адміністратора" active={modalActive} closeModal={handleClose}>

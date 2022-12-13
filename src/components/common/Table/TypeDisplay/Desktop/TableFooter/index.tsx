@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import clsx from 'clsx';
 import styles from './index.module.scss';
 import { Option } from '../../../../../../types';
 import Button from '../../../../Button';
 import Select from '../../../../Select';
 import { First, Last, Next, Prev } from '../../../../Icons';
 import { useQueryParam } from '../../../../../../hooks/hooks/useQueryParams';
+import { DeviceContext } from '../../../../../../context/All/DeviceType';
 
 interface TableFooter {
   totalItems: number;
@@ -15,6 +17,7 @@ const TableFooter = ({ totalItems }: TableFooter): JSX.Element => {
   const currentPage = Number(get('currentPage')) || 1;
   const itemsPerPage = Number(get('itemsPerPage')) || 10;
   const totalPages = Math.ceil(+totalItems / +itemsPerPage);
+  const { isDesktop, isPhone, isTablet } = DeviceContext();
   const [options] = useState<Option[]>([
     { label: 10, value: 10 },
     { label: 15, value: 15 },
@@ -28,15 +31,17 @@ const TableFooter = ({ totalItems }: TableFooter): JSX.Element => {
   }, [itemsPerPage]);
 
   return (
-    <div className={styles.footer}>
+    <div className={clsx(styles.footer, isPhone || isTablet && styles.adaptiveFooter, isDesktop && styles.desktopFooter)}>
       <label className={styles.footer__lable}>Рядків на сторінці</label>
-      <Select
-        isDisabled={!(totalItems > 10)}
-        type="pagination"
-        options={options}
-        onChange={(value) => post({ itemsPerPage: value, currentPage: 1 })}
-        value={+itemsPerPage}
-      />
+      {isDesktop && (
+        <Select
+          isDisabled={!(totalItems > 10)}
+          type="pagination"
+          options={options}
+          onChange={(value) => post({ itemsPerPage: value, currentPage: 1 })}
+          value={+itemsPerPage}
+        />
+      )}
       <div className={styles.footer__info}>
         {+currentPage * +itemsPerPage - +itemsPerPage + 1}
         {' - '}
@@ -51,7 +56,6 @@ const TableFooter = ({ totalItems }: TableFooter): JSX.Element => {
         {totalItems}
       </div>
       {totalItems > 10 && (
-
         <div className={styles.footer__buttons}>
           <Button
             isImg

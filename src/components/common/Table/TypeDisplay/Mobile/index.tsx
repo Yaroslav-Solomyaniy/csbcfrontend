@@ -1,10 +1,12 @@
 import React from 'react';
 import clsx from 'clsx';
 import ReactTooltip from 'react-tooltip';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import { ITableHeader } from '../Desktop/TableHeader';
 import { ITableRowItem } from '../Desktop/TableBody';
 import styles from './index.module.scss';
 import AdaptiveTableModalButtons from '../../../AdaptiveTableModalButtons';
+import TableFooter from '../Desktop/TableFooter';
 
 interface IAdaptiveTable {
   dataHeader: ITableHeader[];
@@ -14,6 +16,8 @@ interface IAdaptiveTable {
   isTwoColumns?: boolean;
   heightVH?: string;
   isTableVoting?: boolean;
+  totalItems?: number;
+
 }
 
 const AdaptiveTable = ({
@@ -24,9 +28,11 @@ const AdaptiveTable = ({
   isTwoColumns,
   heightVH,
   isTableVoting,
+  totalItems,
 }: IAdaptiveTable) => (
   // eslint-disable-next-line react/jsx-no-useless-fragment
   <>
+    {!!dataRow.length && totalItems ? <TableFooter totalItems={totalItems} /> : ''}
     {dataRow.length ? (
       <>
         {!isTableResult
@@ -70,6 +76,8 @@ const AdaptiveTable = ({
                       <a className={styles.label} data-tip data-for={`${rowItem.key}-${item.id}`}>
                         {item.label}
                       </a>
+                      {/* eslint-disable-next-line react/jsx-no-undef */}
+
                       <ReactTooltip
                         id={`${rowItem.key}-${item.id}`}
                         type="info"

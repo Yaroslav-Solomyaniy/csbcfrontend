@@ -63,7 +63,7 @@ const Table = ({
           heightVH={heightVH}
           isTwoColumns={isTwoColumns}
           isTableVoting={isTableVoting}
-
+          totalItems={totalItems}
         />
       )}
     </>

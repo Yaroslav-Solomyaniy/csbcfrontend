@@ -147,6 +147,7 @@ AdaptiveTable.defaultProps = {
   isTwoColumns: false,
   heightVH: 'auto',
   isTableVoting: false,
+  totalItems: 0,
 };
 
 export default AdaptiveTable;

@@ -6,7 +6,6 @@ import { VotingsAdmin } from '../../../../../context/Pages/admin/Votings';
 import SubmitVotingForm from './SubmitForm';
 import { MessagesContext } from '../../../../../context/All/Messages';
 import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
-import styles from './index.module.scss';
 import {
   IGetVotingSubmitDataById,
 } from '../../../../../hooks/api/admin/voting/useGetVotingSubmitById/IGetVotingSubmitDataById';

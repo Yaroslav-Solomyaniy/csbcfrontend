@@ -6,14 +6,17 @@ import AppRouter from './Routes';
 import DeviceSizeProvider from './context/All/DeviceType';
 import MessagesProvider from './context/All/Messages';
 import AuthProvider from './context/All/AuthContext';
+import { AxiosInterceptor } from './hooks/api/config';
 
 const App = (): JSX.Element => (
   <BrowserRouter>
     <DeviceSizeProvider>
       <MessagesProvider>
-        <AuthProvider>
-          <AppRouter />
-        </AuthProvider>
+        <AxiosInterceptor>
+          <AuthProvider>
+            <AppRouter />
+          </AuthProvider>
+        </AxiosInterceptor>
       </MessagesProvider>
     </DeviceSizeProvider>
   </BrowserRouter>

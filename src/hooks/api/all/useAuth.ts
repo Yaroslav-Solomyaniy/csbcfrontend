@@ -39,7 +39,7 @@ export const useLogin = (): ILogin => {
   const { addErrors } = MessagesContext();
 
   const postLogin = (params: LoginParams, check: boolean) => {
-    axios.post(`${process.env.REACT_APP_API_URL}/auth/login`, params)
+    axios.post(`${process.env.REACT_APP_API_URL}auth/login`, params)
       .then((response) => {
         const decode: IDecodedData = jwt_decode(`${response.data?.accessToken}`);
 
@@ -53,24 +53,6 @@ export const useLogin = (): ILogin => {
   return { data, postLogin, checked };
 };
 
-interface IRefreshToken {
-  data: LoginData | null;
-  authGet: () => void;
-}
-
-export const useRefreshToken = (): IRefreshToken => {
-  const { addErrors } = MessagesContext();
-  const [data, setData] = useState<LoginData | null>(null);
-  const authGet = () => {
-    axios.get(`${process.env.REACT_APP_API_URL}auth/refresh-token`).then((response) => {
-      setData(response.data);
-    }).catch((e) => {
-      addErrors(e.response.data.message);
-    });
-  };
-
-  return { data, authGet };
-};
 export interface ForgotPassword {
   email: string;
 }

@@ -45,9 +45,15 @@ const AuthProvider = ({ children }: { children: JSX.Element; }): JSX.Element => 
     if (data) {
       if (checked) {
         localStorage.setItem('auth', JSON.stringify(data));
+        localStorage.setItem('accessToken', JSON.stringify(data.accessToken));
+        localStorage.setItem('refreshToken', JSON.stringify(data.refreshToken));
+        sessionStorage.setItem('accessToken', JSON.stringify(data.accessToken));
+        sessionStorage.setItem('refreshToken', JSON.stringify(data.refreshToken));
         setUser(data);
       } else {
         sessionStorage.setItem('auth', JSON.stringify(data));
+        sessionStorage.setItem('accessToken', JSON.stringify(data.accessToken));
+        sessionStorage.setItem('refreshToken', JSON.stringify(data.refreshToken));
         setUser(data);
       }
     }
@@ -63,8 +69,10 @@ const AuthProvider = ({ children }: { children: JSX.Element; }): JSX.Element => 
   }, []);
 
   const logout = () => {
-    localStorage.setItem('auth', '');
-    sessionStorage.setItem('auth', '');
+    localStorage.removeItem('auth');
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    sessionStorage.clear();
     setUser(null);
   };
 

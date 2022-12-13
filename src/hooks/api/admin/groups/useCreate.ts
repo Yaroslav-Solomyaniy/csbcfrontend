@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import axios, { AxiosResponse } from 'axios';
-import { MessagesContext } from '../../../../context/All/Messages';
-import { AuthContext } from '../../../../context/All/AuthContext';
+import { AxiosResponse } from 'axios';
+import $api from '../../config';
 
 export interface ICreateGroupParams {
   name: string;
@@ -20,21 +19,12 @@ export interface IUseCreateGroup {
 }
 
 export const useCreateGroup = (): IUseCreateGroup => {
-  const { addErrors } = MessagesContext();
-  const { user } = AuthContext();
   const [data, setData] = useState<ICreateGroupData | null>(null);
 
   const createGroup = (params: ICreateGroupParams) => {
-    axios.post(`${process.env.REACT_APP_API_URL}/groups`, params, {
-      headers: {
-        Authorization: `Bearer ${user?.accessToken}`,
-      },
-    })
+    $api.post('/groups', params)
       .then((response: AxiosResponse<ICreateGroupData>) => {
         setData(response.data);
-      })
-      .catch((error) => {
-        addErrors(error.response.data.message);
       });
   };
 

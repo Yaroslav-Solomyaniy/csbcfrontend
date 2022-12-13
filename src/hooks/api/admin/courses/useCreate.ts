@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import axios, { AxiosResponse } from 'axios';
-import { AuthContext } from '../../../../context/All/AuthContext';
-import { MessagesContext } from '../../../../context/All/Messages';
+import { AxiosResponse } from 'axios';
 import { ICoursesParams } from '../../interfaces';
+import $api from '../../config';
 
 export interface ICreateCourseData {
   id: string;
@@ -14,21 +13,11 @@ export interface IUseCreateCourse {
 }
 
 export const useCreateCourse = (): IUseCreateCourse => {
-  const { user } = AuthContext();
-  const { addErrors } = MessagesContext();
   const [data, setData] = useState<ICreateCourseData | null>(null);
-
   const createCourse = (params: ICoursesParams) => {
-    axios.post(`${process.env.REACT_APP_API_URL}/courses`, params, {
-      headers: {
-        Authorization: `Bearer ${user?.accessToken}`,
-      },
-    })
+    $api.post('/courses', params)
       .then((response: AxiosResponse<ICreateCourseData | null>) => {
         setData(response.data);
-      })
-      .catch((error) => {
-        addErrors(error.response.message);
       });
   };
 

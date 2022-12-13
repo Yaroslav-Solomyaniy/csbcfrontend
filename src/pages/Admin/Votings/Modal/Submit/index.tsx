@@ -7,7 +7,6 @@ import SubmitVotingForm from './SubmitForm';
 import { MessagesContext } from '../../../../../context/All/Messages';
 import ModalControlButtons from '../../../../../components/common/ModalControlButtons';
 import styles from './index.module.scss';
-import Button from '../../../../../components/common/Button';
 import {
   IGetVotingSubmitDataById,
 } from '../../../../../hooks/api/admin/voting/useGetVotingSubmitById/IGetVotingSubmitDataById';
@@ -72,24 +71,16 @@ const VotingSubmitModal = ({ votingId, modalActive, closeModal, changeWindow }:I
         onSubmit={onSubmit}
         setFormData={setFormData}
       />
-      <div className={styles.buttons}>
-        <ModalControlButtons
-          handleClose={handleClose}
-          cancelButtonText="Відміна"
-          onSubmit={onSubmit}
-          mainButtonText="Затвердити компетентності"
-          isDisabled={formData.courses.length === 0}
-        />
-        <Button
-          onClick={() => changeWindow(votingId)}
-          size="small"
-          nameClass="primary"
-          className={styles.buttonCreateRevoting}
-        >
-          Створити переголосування
-        </Button>
-
-      </div>
+      <ModalControlButtons
+        handleClose={handleClose}
+        cancelButtonText="Відміна"
+        onSubmit={onSubmit}
+        mainButtonText="Затвердити компетентності"
+        isDisabled={formData.courses.length === 0}
+        isRevoteButton
+        changeWindow={changeWindow}
+        votingId={votingId}
+      />
     </ModalWindow>
   );
 };

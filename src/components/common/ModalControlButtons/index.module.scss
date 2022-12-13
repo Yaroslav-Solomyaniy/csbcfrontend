@@ -6,14 +6,15 @@
     border: none;
   }
 }
+
 .AdaptiveButtonsModal{
   display: flex;
   position: sticky;
   top: calc(100% - 56px);
   justify-content: center;
   margin: 10px 10px 48px 10px;
-
 }
+
 .block_Buttons {
   display: flex;
   justify-content: flex-end;
@@ -32,4 +33,8 @@
 .submitButton{
   min-width: 96px;
   min-height: 32px;
+}
+
+.buttonCreateRevoting{
+  margin-left: 16px;
 }

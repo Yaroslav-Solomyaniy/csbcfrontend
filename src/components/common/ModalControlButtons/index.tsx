@@ -10,6 +10,9 @@ interface IModalButtons {
   handleClose?: () => void;
   onSubmit?: (e: React.FormEvent | undefined) => void;
   isDisabled?: boolean;
+  isRevoteButton?: boolean;
+  changeWindow?: (value: number) => void;
+  votingId?: number;
 }
 
 const ModalControlButtons = ({
@@ -18,6 +21,9 @@ const ModalControlButtons = ({
   cancelButtonText,
   mainButtonText,
   isDisabled,
+  isRevoteButton,
+  changeWindow,
+  votingId,
 }: IModalButtons): JSX.Element => {
   const { isDesktop, isTablet, isPhone } = DeviceContext();
 
@@ -44,6 +50,16 @@ const ModalControlButtons = ({
         {mainButtonText}
       </Button>
       )}
+      {isRevoteButton && (
+        <Button
+          onClick={() => changeWindow && votingId ? changeWindow(votingId) : undefined}
+          size="small"
+          nameClass="primary"
+          className={clsx(styles.submitButton, styles.buttonCreateRevoting)}
+        >
+          Створити переголосування
+        </Button>
+      )}
     </div>
   );
 };
@@ -54,6 +70,9 @@ ModalControlButtons.defaultProps = {
   handleClose: undefined,
   onSubmit: undefined,
   isDisabled: false,
+  isRevoteButton: false,
+  changeWindow: () => undefined,
+  votingId: 0,
 };
 
 export default ModalControlButtons;

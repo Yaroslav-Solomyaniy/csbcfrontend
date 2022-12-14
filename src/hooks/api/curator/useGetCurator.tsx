@@ -1,9 +1,8 @@
 import { useState } from 'react';
-import axios, { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import { IPaginateData } from '../../../types';
-import { AuthContext } from '../../../context/All/AuthContext';
-import { MessagesContext } from '../../../context/All/Messages';
 import { ICourseIdAndName, IGroup, IUserNoMail } from '../interfaces';
+import $api from '../config';
 
 export interface IGetCuratorParams {
   courseId?: number;
@@ -32,15 +31,10 @@ export interface IUseGetCurator {
 }
 
 export const useGetCurator = (): IUseGetCurator => {
-  const { user } = AuthContext();
-  const { addErrors } = MessagesContext();
   const [data, setData] = useState<IPaginateData<IGetCuratorData> | null>(null);
 
   const getCurator = (params?: IGetCuratorParams) => {
-    axios.get(`${process.env.REACT_APP_API_URL}/users/curator/page`, {
-      headers: {
-        Authorization: `Bearer ${user?.accessToken}`,
-      },
+    $api.get('/users/curator/page', {
       params: {
         orderBy: 'DESC',
         ...params,
@@ -48,9 +42,6 @@ export const useGetCurator = (): IUseGetCurator => {
     })
       .then((response: AxiosResponse<IPaginateData<IGetCuratorData> | null>) => {
         setData(response.data);
-      })
-      .catch((error) => {
-        addErrors(error.response.data.message);
       });
   };
 

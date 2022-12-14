@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import axios, { AxiosResponse } from 'axios';
-import { AuthContext } from '../../../../context/All/AuthContext';
-import { MessagesContext } from '../../../../context/All/Messages';
+import { AxiosResponse } from 'axios';
+
 import { IGroup, IUser } from '../../interfaces';
+import $api from '../../config';
 
 interface IGetCourseIdParams {
   id: string;
@@ -26,21 +26,12 @@ export interface IUseGetCourseById {
 }
 
 export const useGetCourseById = (): IUseGetCourseById => {
-  const { user } = AuthContext();
-  const { addErrors } = MessagesContext();
   const [data, setData] = useState<IGetCourseIdData | null>(null);
 
   const getCourseById = (params: IGetCourseIdParams) => {
-    axios.get(`${process.env.REACT_APP_API_URL}/courses/${params.id}`, {
-      headers: {
-        Authorization: `Bearer ${user?.accessToken}`,
-      },
-    })
+    $api.get(`/courses/${params.id}`)
       .then((response: AxiosResponse<IGetCourseIdData | null>) => {
         setData(response.data);
-      })
-      .catch((error) => {
-        addErrors(error.response.data.message);
       });
   };
 

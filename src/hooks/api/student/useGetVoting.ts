@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import axios, { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import { IUser } from '../interfaces';
-import { AuthContext } from '../../../context/All/AuthContext';
+import $api from '../config';
 
 interface ICourse{
   id: number;
@@ -31,15 +31,10 @@ export interface IUseGetStudentVoting {
 }
 
 export const useGetStudentVoting = (): IUseGetStudentVoting => {
-  const { user } = AuthContext();
   const [data, setData] = useState<IGetStudentVotingData | [] | null>(null);
 
   const getStudentVoting = () => {
-    axios.get(`${process.env.REACT_APP_API_URL}/students/page/voting`, {
-      headers: {
-        Authorization: `Bearer ${user?.accessToken}`,
-      },
-    })
+    $api.get('/students/page/voting')
       .then((response: AxiosResponse<IGetStudentVotingData | [] | null>) => {
         setData(response.data);
       });

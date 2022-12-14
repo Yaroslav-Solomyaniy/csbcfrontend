@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import axios, { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import { IPaginateData, OrderBy } from '../../../../types';
-import { AuthContext } from '../../../../context/All/AuthContext';
-import { MessagesContext } from '../../../../context/All/Messages';
+
 import { IUser } from '../../interfaces';
+import $api from '../../config';
 
 type orderByColumn = | 'id' | 'Name' | 'curator_id' | 'order_number' | 'deleted_order_number' | 'created' | 'updated';
 export interface IGetGroupParams {
@@ -32,22 +32,14 @@ export interface IUseGetGroups {
 }
 
 export const useGetGroups = (): IUseGetGroups => {
-  const { user } = AuthContext();
-  const { addErrors } = MessagesContext();
   const [data, setData] = useState<IPaginateData<IGetGroupData> | null>(null);
 
   const getGroups = (params?: IGetGroupParams) => {
-    axios.get(`${process.env.REACT_APP_API_URL}/groups`, {
-      headers: {
-        Authorization: `Bearer ${user?.accessToken}`,
-      },
+    $api.get('/groups', {
       params: { orderByColumn: 'created', orderBy: 'DESC', ...params },
     })
       .then((response: AxiosResponse<IPaginateData<IGetGroupData> | null>) => {
         setData(response.data);
-      })
-      .catch((error) => {
-        addErrors(error.response.data.message);
       });
   };
 

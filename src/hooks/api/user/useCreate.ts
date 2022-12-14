@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import axios, { AxiosResponse } from 'axios';
-import { AuthContext } from '../../../context/All/AuthContext';
-import { MessagesContext } from '../../../context/All/Messages';
+import { AxiosResponse } from 'axios';
+import $api from '../config';
 
 export interface ICreateUserParams {
   firstName: string;
@@ -23,21 +22,12 @@ export interface IUseCreateUser {
 }
 
 export const useCreateUser = (): IUseCreateUser => {
-  const { user } = AuthContext();
-  const { addErrors } = MessagesContext();
   const [data, setData] = useState<ICreateUserData | null>(null);
 
   const createUser = (params: ICreateUserParams) => {
-    axios.post(`${process.env.REACT_APP_API_URL}/users`, params, {
-      headers: {
-        Authorization: `Bearer ${user?.accessToken}`,
-      },
-    })
+    $api.post('/users', params)
       .then((response: AxiosResponse<ICreateUserData | null>) => {
         setData(response.data);
-      })
-      .catch((error) => {
-        addErrors(error.response.data.message);
       });
   };
 

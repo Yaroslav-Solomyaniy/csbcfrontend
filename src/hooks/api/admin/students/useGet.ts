@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import axios, { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import { IPaginateData, OrderBy } from '../../../../types';
-import { AuthContext } from '../../../../context/All/AuthContext';
-import { MessagesContext } from '../../../../context/All/Messages';
+
 import { IStudentData } from './interfaces/IStudentData';
+import $api from '../../config';
 
 // eslint-disable-next-line max-len
 type orderByColumn = | 'id' | 'dateOfBirth' | 'groupId' | 'studentId' | 'orderNumber' | 'edeboId' | 'isFullTime' | 'updated' | 'created';
@@ -30,15 +30,10 @@ export interface IUseGetStudents {
 }
 
 export const useGetStudents = (): IUseGetStudents => {
-  const { user } = AuthContext();
   const [data, setData] = useState<IPaginateData<IStudentData> | null>(null);
-  const { addErrors } = MessagesContext();
 
   const getStudents = (params: IGetStudentsParams): void => {
-    axios.get(`${process.env.REACT_APP_API_URL}/students`, {
-      headers: {
-        Authorization: `Bearer ${user?.accessToken}`,
-      },
+    $api.get('/students', {
       params: {
         orderByColumn: 'created',
         orderBy: 'DESC',
@@ -46,8 +41,6 @@ export const useGetStudents = (): IUseGetStudents => {
       },
     }).then((response: AxiosResponse<IPaginateData<IStudentData> | null>) => {
       setData(response.data);
-    }).catch((error) => {
-      addErrors(error.response.data.message);
     });
   };
 

@@ -1,9 +1,8 @@
 import { useState } from 'react';
-import axios, { AxiosResponse } from 'axios';
-import { AuthContext } from '../../../context/All/AuthContext';
-import { MessagesContext } from '../../../context/All/Messages';
+import { AxiosResponse } from 'axios';
 import { IPaginateData, OrderBy } from '../../../types';
 import { ICourseIdAndName, IGroupNoOrder, IUserNoMail } from '../interfaces';
+import $api from '../config';
 
 type orderByColumn = | 'id' | 'firstname' | 'lastName' | 'email' | 'role' | 'created' | 'updated';
 export interface IGetTeacherParams {
@@ -35,20 +34,13 @@ export interface IUseGetTeacher {
 }
 
 export const useGetTeacher = (): IUseGetTeacher => {
-  const { user } = AuthContext();
   const [data, setData] = useState<IPaginateData<IGetTeacherData> | null>(null);
-  const { addErrors } = MessagesContext();
 
   const getTeacher = (params?: IGetTeacherParams): void => {
-    axios.get(`${process.env.REACT_APP_API_URL}/users/teacher/page`, {
-      headers: {
-        Authorization: `Bearer ${user?.accessToken}`,
-      },
+    $api.get('/users/teacher/page', {
       params: { orderBy: 'DESC', ...params },
     }).then((response: AxiosResponse<IPaginateData<IGetTeacherData>>) => {
       setData(response.data);
-    }).catch((error) => {
-      addErrors(error.response.data.message);
     });
   };
 

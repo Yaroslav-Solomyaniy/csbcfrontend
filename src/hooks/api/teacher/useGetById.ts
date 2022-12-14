@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import axios, { AxiosResponse } from 'axios';
-import { AuthContext } from '../../../context/All/AuthContext';
-import { MessagesContext } from '../../../context/All/Messages';
+import { AxiosResponse } from 'axios';
 import { IGetTeacherData } from './useGet';
+import $api from '../config';
 
 export interface IUseGetTeacherById {
   data:IGetTeacherData | null;
@@ -10,19 +9,11 @@ export interface IUseGetTeacherById {
 }
 
 export const useGetTeacherById = (): IUseGetTeacherById => {
-  const { user } = AuthContext();
   const [data, setData] = useState<IGetTeacherData| null>(null);
-  const { addErrors } = MessagesContext();
 
   const getTeacherById = (id:number): void => {
-    axios.get(`${process.env.REACT_APP_API_URL}/users/teacher/page/${id}`, {
-      headers: {
-        Authorization: `Bearer ${user?.accessToken}`,
-      },
-    }).then((response: AxiosResponse<IGetTeacherData>) => {
+    $api.get(`/users/teacher/page/${id}`).then((response: AxiosResponse<IGetTeacherData>) => {
       setData(response.data);
-    }).catch((error) => {
-      addErrors(error.response.data.message);
     });
   };
 

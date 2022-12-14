@@ -43,8 +43,12 @@ const AxiosInterceptor = ({ children }:IAxiosInterceptor) => {
             sessionStorage.setItem('accessToken', JSON.stringify(res.accessToken));
             sessionStorage.setItem('refreshToken', JSON.stringify(res.refreshToken));
 
-            // eslint-disable-next-line max-len
-            return axios({ ...originalRequest, headers: { ...originalRequest.headers, Authorization: `Bearer ${JSON.parse(sessionStorage.accessToken)}`, 'Content-Type': 'application/json' } });
+            return axios(
+              { ...originalRequest,
+                headers: { ...originalRequest.headers,
+                  Authorization: `Bearer ${JSON.parse(sessionStorage.accessToken)}`,
+                  'Content-Type': 'application/json' } },
+            );
           });
 
         resolve(response);

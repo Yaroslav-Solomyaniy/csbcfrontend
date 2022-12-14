@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import axios, { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import { CourseTypes, IPaginateData, OrderBy } from '../../../../types';
-import { AuthContext } from '../../../../context/All/AuthContext';
-import { MessagesContext } from '../../../../context/All/Messages';
+
 import { IGroup, IUser } from '../../interfaces';
+import $api from '../../config';
 
 // PARAMS
 // eslint-disable-next-line max-len
@@ -46,22 +46,14 @@ export interface IUseGetCourses {
 
 // HOOK
 export const useGetCourses = (): IUseGetCourses => {
-  const { user } = AuthContext();
-  const { addErrors } = MessagesContext();
   const [data, setData] = useState<IPaginateData<IGetCoursesData> | null>(null);
 
   const getCourses = (params?: IGetCoursesParams) => {
-    axios.get(`${process.env.REACT_APP_API_URL}/courses`, {
-      headers: {
-        Authorization: `Bearer ${user?.accessToken}`,
-      },
+    $api.get('/courses', {
       params: { orderByColumn: 'created', orderBy: 'DESC', ...params },
     })
       .then((response: AxiosResponse<IPaginateData<IGetCoursesData> | null>) => {
         setData(response.data);
-      })
-      .catch((error) => {
-        addErrors(error.response.data.message);
       });
   };
 

@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import axios, { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import { IPaginateData, OrderBy } from '../../../../types';
-import { AuthContext } from '../../../../context/All/AuthContext';
-import { MessagesContext } from '../../../../context/All/Messages';
+
 import { IGroup } from '../../interfaces';
+import $api from '../../config';
 
 // eslint-disable-next-line max-len
 type orderByColumn = 'id' | ' Groups' | 'startDate' | 'endDate' | 'requiredCourses' | 'notRequiredCourses' | 'created' | 'updated';
@@ -39,22 +39,14 @@ export interface IUseGetVotingsAdmin {
 }
 
 export const useGetVotingsAdmin = (): IUseGetVotingsAdmin => {
-  const { user } = AuthContext();
-  const { addErrors } = MessagesContext();
   const [data, setData] = useState<IPaginateData<IGetVotingsAdminData> | null>(null);
 
   const getVotings = (params?: IGetVotingsAdminParams) => {
-    axios.get(`${process.env.REACT_APP_API_URL}/voting`, {
-      headers: {
-        Authorization: `Bearer ${user?.accessToken}`,
-      },
+    $api.get('/voting', {
       params: { orderByColumn: 'created', orderBy: 'DESC', ...params },
     })
       .then((response: AxiosResponse<IPaginateData<IGetVotingsAdminData> | null>) => {
         setData(response.data);
-      })
-      .catch((error) => {
-        addErrors(error.response.data.message);
       });
   };
 

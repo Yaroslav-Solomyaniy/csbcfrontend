@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import axios, { AxiosResponse } from 'axios';
-import { AuthContext } from '../../../context/All/AuthContext';
-import { MessagesContext } from '../../../context/All/Messages';
+import { AxiosResponse } from 'axios';
+import $api from '../config';
 
 interface IGetUserByIdParams {
   id: string;
@@ -22,21 +21,12 @@ export interface IUseGetUserById {
 }
 
 export const useGetUserById = (): IUseGetUserById => {
-  const { user } = AuthContext();
-  const { addErrors } = MessagesContext();
   const [data, setData] = useState<IGetUserByIdData | null>(null);
 
   const getUserById = (params: IGetUserByIdParams) => {
-    axios.get(`${process.env.REACT_APP_API_URL}/users/${params.id}`, {
-      headers: {
-        Authorization: `Bearer ${user?.accessToken}`,
-      },
-    })
+    $api.get(`/users/${params.id}`)
       .then((response: AxiosResponse<IGetUserByIdData | null>) => {
         setData(response.data);
-      })
-      .catch((error) => {
-        addErrors(error.response.data.message);
       });
   };
 

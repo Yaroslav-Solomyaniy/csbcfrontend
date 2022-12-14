@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import axios, { AxiosResponse } from 'axios';
-import { AuthContext } from '../../../context/All/AuthContext';
-import { MessagesContext } from '../../../context/All/Messages';
+import { AxiosResponse } from 'axios';
 import { IUser, IUserNoMail } from '../interfaces';
+import $api from '../config';
 
 export interface IGetInvPlanParams {
   id: number;
@@ -37,22 +36,14 @@ export interface IUseGetIndvPlan {
 }
 
 export const useGetIndvPlan = (): IUseGetIndvPlan => {
-  const { user } = AuthContext();
-  const { addErrors } = MessagesContext();
   const [data, setData] = useState<IGetInvPlanData | null>(null);
 
   const getPlan = (params: IGetInvPlanParams) => {
-    axios.get(`${process.env.REACT_APP_API_URL}/students/get-individual-plan/${params.id}`, {
-      headers: {
-        Authorization: `Bearer ${user?.accessToken}`,
-      },
+    $api.get(`/students/get-individual-plan/${params.id}`, {
       params: { semester: params.semester },
     })
       .then((response: AxiosResponse<IGetInvPlanData | null>) => {
         setData(response.data);
-      })
-      .catch((error) => {
-        addErrors(error.response.data.message);
       });
   };
 

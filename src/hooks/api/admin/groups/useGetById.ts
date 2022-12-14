@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import axios, { AxiosResponse } from 'axios';
-import { MessagesContext } from '../../../../context/All/Messages';
-import { AuthContext } from '../../../../context/All/AuthContext';
+import { AxiosResponse } from 'axios';
+import $api from '../../config';
 
 interface IGetGroupByIdParams {
   id: string;
@@ -29,21 +28,12 @@ export interface IUseGetGroupById {
 }
 
 export const useGetGroupById = (): IUseGetGroupById => {
-  const { addErrors } = MessagesContext();
-  const { user } = AuthContext();
   const [data, setData] = useState<IGetGroupByIdData | null>(null);
 
   const getGroupById = (params: IGetGroupByIdParams) => {
-    axios.get(`${process.env.REACT_APP_API_URL}/groups/${params.id}`, {
-      headers: {
-        Authorization: `Bearer ${user?.accessToken}`,
-      },
-    })
+    $api.get(`/groups/${params.id}`)
       .then((response: AxiosResponse<IGetGroupByIdData | null>) => {
         setData(response.data);
-      })
-      .catch((error) => {
-        addErrors(error.response.data.message);
       });
   };
 

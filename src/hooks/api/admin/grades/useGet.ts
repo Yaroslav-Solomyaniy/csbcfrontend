@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import axios, { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import { IPaginateData } from '../../../../types';
-import { AuthContext } from '../../../../context/All/AuthContext';
-import { MessagesContext } from '../../../../context/All/Messages';
+
 import { IGetGradesData } from './interfaces/IGetGradesData';
+import $api from '../../config';
 
 export interface IGetGradesParams {
   orderByColumn?: string;
@@ -24,15 +24,10 @@ export interface IUseGetGrades {
 }
 
 export const useGetGrades = (): IUseGetGrades => {
-  const { user } = AuthContext();
-  const { addErrors } = MessagesContext();
   const [data, setData] = useState<IPaginateData<IGetGradesData> | null>(null);
 
   const getGrades = (params?: IGetGradesParams) => {
-    axios.get(`${process.env.REACT_APP_API_URL}/grades`, {
-      headers: {
-        Authorization: `Bearer ${user?.accessToken}`,
-      },
+    $api.get('/grades', {
       params: {
         orderBy: 'DESC',
         ...params,
@@ -40,9 +35,6 @@ export const useGetGrades = (): IUseGetGrades => {
     })
       .then((response: AxiosResponse<IPaginateData<IGetGradesData> | null>) => {
         setData(response.data);
-      })
-      .catch((error) => {
-        addErrors(error.response.data.message);
       });
   };
 

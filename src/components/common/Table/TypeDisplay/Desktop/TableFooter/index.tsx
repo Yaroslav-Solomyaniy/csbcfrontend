@@ -31,7 +31,7 @@ const TableFooter = ({ totalItems }: TableFooter): JSX.Element => {
   }, [itemsPerPage]);
 
   return (
-    <div className={clsx(styles.footer, isPhone || isTablet && styles.adaptiveFooter, isDesktop && styles.desktopFooter)}>
+    <div className={clsx(styles.footer, (isPhone || isTablet) && styles.adaptiveFooter, isDesktop && styles.desktopFooter)}>
       <label className={styles.footer__lable}>Рядків на сторінці</label>
       {isDesktop && (
         <Select

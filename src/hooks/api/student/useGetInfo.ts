@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import axios, { AxiosResponse } from 'axios';
-import { AuthContext } from '../../../context/All/AuthContext';
+import { AxiosResponse } from 'axios';
+import $api from '../config';
 
 export interface IGetStudentVotingInfo {
   startDate: string;
@@ -14,15 +14,10 @@ export interface IUseGetStudentVotingInfo {
 }
 
 export const useGetStudentVotingInfo = (): IUseGetStudentVotingInfo => {
-  const { user } = AuthContext();
   const [votingInfo, setVotingInfo] = useState<IGetStudentVotingInfo | null>(null);
 
   const getStudentVotingInfo = () => {
-    axios.get(`${process.env.REACT_APP_API_URL}/students/page/voting/info`, {
-      headers: {
-        Authorization: `Bearer ${user?.accessToken}`,
-      },
-    })
+    $api.get('/students/page/voting/info')
       .then((response: AxiosResponse<IGetStudentVotingInfo | null>) => {
         setVotingInfo(response.data);
       });

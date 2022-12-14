@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import axios, { AxiosResponse } from 'axios';
-import { AuthContext } from '../../../../../context/All/AuthContext';
-import { MessagesContext } from '../../../../../context/All/Messages';
+import { AxiosResponse } from 'axios';
 import { IGetVotingSubmitDataById } from './IGetVotingSubmitDataById';
+import $api from '../../../config';
 
 interface IGetVotingSubmitDataByIdParams {
   id: number;
@@ -14,21 +13,12 @@ export interface IUseGetVotingSubmitDataById {
 }
 
 export const useGetVotingSubmitDataById = (): IUseGetVotingSubmitDataById => {
-  const { user } = AuthContext();
-  const { addErrors } = MessagesContext();
   const [data, setData] = useState<IGetVotingSubmitDataById | null>(null);
 
   const getVotingSubmitDataById = (params: IGetVotingSubmitDataByIdParams) => {
-    axios.get(`${process.env.REACT_APP_API_URL}/voting/${params.id}/submit-form`, {
-      headers: {
-        Authorization: `Bearer ${user?.accessToken}`,
-      },
-    })
+    $api.get(`/voting/${params.id}/submit-form`)
       .then((response: AxiosResponse<IGetVotingSubmitDataById | null>) => {
         setData(response.data);
-      })
-      .catch((error) => {
-        addErrors(error.response.data.message);
       });
   };
 

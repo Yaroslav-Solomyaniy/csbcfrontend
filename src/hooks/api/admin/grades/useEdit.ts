@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import axios from 'axios';
 import { FetchSuccess } from '../../../../types';
-import { AuthContext } from '../../../../context/All/AuthContext';
 import { MessagesContext } from '../../../../context/All/Messages';
+import $api from '../../config';
 
 export interface IEditGradeParams {
   courseId: number;
@@ -16,22 +15,14 @@ export interface IUseEditGrade {
 }
 
 export const useEditGrade = (): IUseEditGrade => {
-  const { user } = AuthContext();
-  const { addErrors, addInfo } = MessagesContext();
+  const { addInfo } = MessagesContext();
   const [data, setData] = useState<FetchSuccess | null>(null);
 
   const editGrade = (params: IEditGradeParams, id: number) => {
-    axios.patch(`${process.env.REACT_APP_API_URL}/grades/student/${id}`, params, {
-      headers: {
-        Authorization: `Bearer ${user?.accessToken}`,
-      },
-    })
+    $api.patch(`/grades/student/${id}`, params)
       .then(() => {
         setData({ success: true });
         addInfo('Оцінку успішно відредаговано.');
-      })
-      .catch((error) => {
-        addErrors(error.response.data.message);
       });
   };
 

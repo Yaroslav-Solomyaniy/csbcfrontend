@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import axios, { AxiosResponse } from 'axios';
-import { MessagesContext } from '../../../context/All/Messages';
-import { AuthContext } from '../../../context/All/AuthContext';
+import { AxiosResponse } from 'axios';
+import $api from '../config';
 
 export interface IVoteStudentParams {
   courses: number[];
@@ -17,21 +16,12 @@ export interface IUseVoteStudent {
 }
 
 export const useVoteStudent = (): IUseVoteStudent => {
-  const { addErrors } = MessagesContext();
-  const { user } = AuthContext();
   const [data, setData] = useState<IVoteStudentData | null>(null);
 
   const studVote = (params: IVoteStudentParams) => {
-    axios.post(`${process.env.REACT_APP_API_URL}/students/page/voting`, params, {
-      headers: {
-        Authorization: `Bearer ${user?.accessToken}`,
-      },
-    })
+    $api.post('/students/page/voting', params)
       .then((response: AxiosResponse<IVoteStudentData>) => {
         setData(response.data);
-      })
-      .catch((error) => {
-        addErrors(error.response.data.message);
       });
   };
 

@@ -1,9 +1,8 @@
 import { useState } from 'react';
-import axios, { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import { OrderBy } from '../../../types';
-import { AuthContext } from '../../../context/All/AuthContext';
-import { MessagesContext } from '../../../context/All/Messages';
 import { IGroupNoOrder, IUserNoMail } from '../interfaces';
+import $api from '../config';
 
 export interface IGetHistoryGradesParams {
   semester?: number;
@@ -42,19 +41,13 @@ export interface IUseGetHistoryGrades {
 }
 
 export const useGetHistoryGrades = (): IUseGetHistoryGrades => {
-  const { user } = AuthContext();
-  const { addErrors } = MessagesContext();
   const [data, setData] = useState<IGetHistoryGradesData[]>([]);
 
   const getHistoryGrades = (params?: IGetHistoryGradesParams) => {
-    axios.get(`${process.env.REACT_APP_API_URL}/grades-history`, {
-      headers: {
-        Authorization: `Bearer ${user?.accessToken}`,
-      },
+    $api.get('/grades-history', {
       params: { orderByColumn: 'GradeHistory_Student.createdAt', orderBy: 'DESC', ...params },
     })
-      .then((response: AxiosResponse<IGetHistoryGradesData[]>) => setData(response.data))
-      .catch((error) => addErrors(error.response.data.message));
+      .then((response: AxiosResponse<IGetHistoryGradesData[]>) => setData(response.data));
   };
 
   return { data, getHistoryGrades };

@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import axios, { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import { FetchSuccess } from '../../../types';
-import { AuthContext } from '../../../context/All/AuthContext';
-import { MessagesContext } from '../../../context/All/Messages';
+import $api from '../config';
 
 interface IEditPlanParams{
   courses: number[];
@@ -14,21 +13,12 @@ export interface IUseEditIndvPlan {
 }
 
 export const useEditIndvPlan = (): IUseEditIndvPlan => {
-  const { user } = AuthContext();
-  const { addErrors } = MessagesContext();
   const [data, setData] = useState<FetchSuccess | null>(null);
 
   const editPlan = (params: IEditPlanParams, id: number) => {
-    axios.patch(`${process.env.REACT_APP_API_URL}/students/${id}/edit-individual-plan`, params, {
-      headers: {
-        Authorization: `Bearer ${user?.accessToken}`,
-      },
-    })
+    $api.patch(`/students/${id}/edit-individual-plan`, params)
       .then((response: AxiosResponse<FetchSuccess | null>) => {
         setData(response.data);
-      })
-      .catch((error) => {
-        addErrors(error.response.data.message);
       });
   };
 

@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import axios, { AxiosResponse } from 'axios';
-import { AuthContext } from '../../../../context/All/AuthContext';
-import { MessagesContext } from '../../../../context/All/Messages';
+import { AxiosResponse } from 'axios';
+import $api from '../../config';
 
 export interface ICreateVotingParams {
   groups: number[];
@@ -23,21 +22,12 @@ export interface IUseCreateVotingAdmin {
 }
 
 export const useCreateVotingAdmin = (): IUseCreateVotingAdmin => {
-  const { user } = AuthContext();
-  const { addErrors } = MessagesContext();
   const [data, setData] = useState<ICreateVotingData | null>(null);
 
   const createVoting = (params: ICreateVotingParams) => {
-    axios.post(`${process.env.REACT_APP_API_URL}/voting`, params, {
-      headers: {
-        Authorization: `Bearer ${user?.accessToken}`,
-      },
-    })
+    $api.post('/voting', params)
       .then((response: AxiosResponse< ICreateVotingData | null>) => {
         setData(response.data);
-      })
-      .catch((error) => {
-        addErrors(error.response.data.message);
       });
   };
 

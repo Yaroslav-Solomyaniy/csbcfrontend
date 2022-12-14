@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import axios, { AxiosResponse } from 'axios';
-import { AuthContext } from '../../../../context/All/AuthContext';
-import { MessagesContext } from '../../../../context/All/Messages';
+import { AxiosResponse } from 'axios';
+
 import { ICreateStudentParams } from './interfaces/ICreateStudentParams';
+import $api from '../../config';
 
 interface ICreateStudentData {
   id: number;
@@ -14,20 +14,13 @@ export interface IUseCreateStudent {
 }
 
 export const useCreateStudent = (): IUseCreateStudent => {
-  const { user } = AuthContext();
-  const { addErrors } = MessagesContext();
   const [data, setData] = useState<ICreateStudentData | null>(null);
 
   const createStudent = (params: ICreateStudentParams) => {
-    axios.post(`${process.env.REACT_APP_API_URL}/students`, params, {
-      headers: {
-        Authorization: `Bearer ${user?.accessToken}`,
-      },
-    }).then((response: AxiosResponse<ICreateStudentData>) => {
-      setData(response.data);
-    }).catch((error) => {
-      addErrors(error.response.data.message);
-    });
+    $api.post('/students', params)
+      .then((response: AxiosResponse<ICreateStudentData>) => {
+        setData(response.data);
+      });
   };
 
   return { data, createStudent };

@@ -1,0 +1,93 @@
+.modal__title {
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 28px;
+  text-align: center;
+
+  &_display {
+    font-size: 17px;
+    padding-top: 20px;
+    text-align: center;
+  }
+}
+
+
+.text {
+  text-align: center;
+  margin-top: 55px;
+}
+
+.form {
+  padding: 40px 0;
+
+  & p {
+    text-align: center;
+  }
+}
+
+.infoContent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.formCenter {
+  width: 50%;
+
+  &__mobile {
+    width: 100%;
+  }
+}
+
+
+.columns {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+
+.actions {
+  display: flex;
+  grid-template-columns: repeat(auto-fill, minmax(20px, 1fr));
+  grid-column-gap: 13px;
+}
+
+.subtitle {
+  text-align: center;
+  padding: 0 10px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.75);
+  margin-bottom: 5px;
+}
+
+
+.left {
+  width: 100%;
+  text-align: left;
+  padding-top: 15px;
+}
+
+.error {
+  transition: all .5s;
+  bottom: 0;
+}
+
+.buttonsCreate {
+  min-height: 42px;
+  min-width: 112px;
+}
+
+.title {
+  padding: 40px 0 0 0;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 19px;
+  line-height: 32px;
+  color: rgba(0, 0, 0, 0.85);
+  text-align: center;
+
+  &:first-child {
+    padding: 0;
+  }
+}

@@ -1,0 +1,35 @@
+.top_row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 42px;
+  margin-bottom: 24px;
+}
+.top_row_mobile{
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  margin-bottom: 24px;
+}
+.isAction{
+  padding: 10px;
+}
+.title{
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+  font-weight: 700;
+  color: rgba(0, 0, 0, 0.85);
+}
+.title_mobile{
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+  font-weight: 700;
+  color: rgba(0, 0, 0, 0.85);
+}

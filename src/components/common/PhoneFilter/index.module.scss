@@ -1,0 +1,31 @@
+.filterRow{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  margin-top: 20px;
+}
+.Button{
+  display: block;
+  text-align: center;
+  position: sticky;
+  top: calc(100vh - 56px);
+  margin: 20px auto;
+  width: 90%;
+  height: 44px;
+}
+.Title{
+  color: rgba(0, 0, 0, 0.85);
+  font-weight: 700;
+  font-size: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+  position: fixed;
+  top: 65px;
+  padding: 20px 0;
+}
+.Text{
+  margin-left: 5px;
+  cursor: pointer;
+}

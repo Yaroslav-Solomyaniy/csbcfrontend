@@ -1,0 +1,40 @@
+.redButton{
+  background: rgba(240, 0, 0, 1);
+  border: none;
+  &:hover{
+    background: rgba(255, 0, 0, 1);
+    border: none;
+  }
+}
+
+.AdaptiveButtonsModal{
+  display: flex;
+  position: sticky;
+  top: calc(100% - 56px);
+  justify-content: center;
+  margin: 10px 10px 48px 10px;
+}
+
+.block_Buttons {
+  display: flex;
+  justify-content: flex-end;
+
+  &:nth-child(n) {
+    margin-left: 16px;
+  }
+}
+
+.cancelButton{
+  min-width: 81px;
+  min-height: 32px;
+  margin-right: 16px;
+}
+
+.submitButton{
+  min-width: 96px;
+  min-height: 32px;
+}
+
+.buttonCreateRevoting{
+  margin-left: 16px;
+}

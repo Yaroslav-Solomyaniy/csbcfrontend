@@ -1,0 +1,90 @@
+.icon {
+  height: 16px;
+  width: 16px;
+  margin: 6px;
+  fill: #607180;
+  color: red;
+}
+
+.Active {
+  background-color: #ffffff;
+
+  .title {
+    color: #000000;
+  }
+
+  .link:hover {
+    background-color: #D7E7F4;
+  }
+
+  > svg {
+    color: black;
+  }
+
+  &:hover {
+    background-color: #ffffff;
+    color: black;
+
+    > svg {
+      color: black;
+    }
+  }
+}
+
+.h42p {
+  height: 42px;
+}
+
+.link {
+  margin: 0;
+  min-width: 42px;
+  color: #607180;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  border-radius: 8px;
+
+
+  .title {
+    overflow: hidden;
+    width: 155px;
+    transition: all 0.5s;
+    white-space: nowrap;
+  }
+
+  .icon {
+    margin: 12px;
+  }
+
+  > svg {
+    width: 16px;
+    height: 16px;
+    margin: 13px 16px;
+    transition: all 0.1s;
+    fill: #607180;
+    scale: 1.35;
+  }
+
+  &:hover {
+    background-color: #D7E7F4;
+    color: black;
+
+    > svg {
+      color: black;
+    }
+  }
+
+}
+
+.hidden {
+  .title {
+    overflow: hidden;
+    transition: all 0.5s;
+    width: 0;
+    transform: scale(0);
+  }
+
+  .icon {
+    margin: 0 16px;
+  }
+}

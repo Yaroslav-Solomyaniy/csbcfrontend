@@ -1,19 +1,25 @@
-import React, { useEffect } from 'react';
+import './assets/styles/App.css';
+import './assets/styles/normalize.css';
+import { BrowserRouter } from 'react-router-dom';
+import React from 'react';
+import AppRouter from './Routes';
+import DeviceSizeProvider from './context/All/DeviceType';
+import MessagesProvider from './context/All/Messages';
+import AuthProvider from './context/All/AuthContext';
+import { AxiosInterceptor } from './hooks/api/config';
 
-import './style/App.css';
-import { useLogin } from './hooks/auth';
-import Layout from './loyout/Layout';
-
-const App = ():JSX.Element => {
-  const { postLogin } = useLogin();
-
-  useEffect(() => {
-    postLogin({ email: 'root@gmail.com', password: 'root@gmail.com' });
-  }, []);
-
-  return (
-    <Layout />
-  );
-};
+const App = (): JSX.Element => (
+  <BrowserRouter>
+    <DeviceSizeProvider>
+      <MessagesProvider>
+        <AxiosInterceptor>
+          <AuthProvider>
+            <AppRouter />
+          </AuthProvider>
+        </AxiosInterceptor>
+      </MessagesProvider>
+    </DeviceSizeProvider>
+  </BrowserRouter>
+);
 
 export default App;

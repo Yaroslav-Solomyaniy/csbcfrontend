@@ -1,0 +1,20 @@
+.columns {
+  grid-template-columns: repeat(6, 1fr);
+}
+.circleStatus{
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: black;
+  margin-right: 5px;
+}
+.circleAndStatus{
+  display: grid;
+  grid-template-columns: 20px 1fr;
+  align-items: center;
+}
+.statusText{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

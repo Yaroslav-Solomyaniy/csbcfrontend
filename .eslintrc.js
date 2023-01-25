@@ -33,9 +33,12 @@ module.exports = {
   rules: {
     camelcase: 'off',
     'linebreak-style': 0,
-    'max-len': ['error', { code: 120 }],
+    'max-len': ['error', { code: 150 }],
     'no-bitwise': 'off',
     'import/namespace': 'off',
+    'no-mixed-operators': 'off',
+    'no-nested-ternary': 'off',
+    'prefer-regex-literals': 'off',
     '@typescript-eslint/member-delimiter-style': [
       2,
       { multiline: { delimiter: 'semi', requireLast: true }, singleline: { delimiter: 'semi', requireLast: true } },
@@ -46,10 +49,13 @@ module.exports = {
     'import/extensions': 'off',
     'react-hooks/exhaustive-deps': 'off',
     'no-plusplus': 'off',
+    'react/jsx-no-constructed-context-values': 'off',
     'react/prop-types': 'off',
     'react/jsx-props-no-spreading': 'off',
     'jsx-a11y/anchor-is-valid': 'off',
-    'react/function-component-definition': [2, { namedComponents: 'arrow-function' }],
+    'react/function-component-definition': [2, {
+      namedComponents: ['function-declaration', 'function-expression', 'arrow-function'],
+    }],
     'jsx-a11y/label-has-associated-control': 'off',
     '@typescript-eslint/ban-ts-comment': [
       'error',
@@ -79,7 +85,6 @@ module.exports = {
     'import/no-extraneous-dependencies': 'off',
     'object-curly-newline': 'off',
     'no-confusing-arrow': 'off',
-    'react/jsx-fragments': 'off',
     'jest/no-disabled-tests': 'warn',
     'jest/no-focused-tests': 'error',
     'jest/no-identical-title': 'error',

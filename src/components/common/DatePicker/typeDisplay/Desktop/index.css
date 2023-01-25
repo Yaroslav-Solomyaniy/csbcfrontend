@@ -1,0 +1,30 @@
+.MyDatePickerDesktop{
+  max-width: 280px;
+}
+.MyDatePickerDesktop > .react-datepicker__input-container > input {
+  width: 100%;
+  box-sizing: border-box;
+  height: 32px;
+  color: rgba(0, 0, 0, 0.75);
+  font-size: 14px;
+  padding: 4px 16px;
+  margin-top: 16px;
+  border-radius: 8px;
+}
+
+.MyDatePickerDesktop > .react-datepicker__close-icon {
+  max-height: 32px;
+  height: 100%;
+  margin-top: 16px;
+  background: transparent;
+  color: black;
+}
+
+.MyDatePickerDesktop > .react-datepicker__close-icon::after {
+  width: 0;
+  height: 32px;
+  color: black;
+  background: transparent;
+  padding: 0;
+  font-size: 25px;
+}

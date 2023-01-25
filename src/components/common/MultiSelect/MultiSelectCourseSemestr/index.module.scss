@@ -1,0 +1,33 @@
+.multiSel {
+  padding-left: 60px;
+}
+
+.row {
+  display: flex;
+  justify-content: center;
+}
+
+.title {
+  text-align: center;
+  font-size: 18px;
+  margin-top: 16px;
+  font-weight: 500;
+}
+
+.button {
+  margin-top: 20px;
+  margin-left: 4px;
+}
+
+.error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 4px;
+
+  .textError {
+    font-size: 12px;
+    font-weight: 400;
+    color: red;
+  }
+}

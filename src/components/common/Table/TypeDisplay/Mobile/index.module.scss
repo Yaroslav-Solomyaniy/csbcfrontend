@@ -1,0 +1,104 @@
+.block {
+  border: 1px solid #e8e8e8;
+  border-radius: 12px;
+  padding: 8px 12px 8px 12px;
+  margin: 12px 0 ;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+
+  &_no_data {
+    border: 1px solid #e8e8e8;
+    border-radius: 12px;
+    padding: 8px 12px 8px 12px;
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    justify-content: center;
+  }
+}
+
+.label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.marginHeder {
+  margin-right: 5px;
+}
+
+.tooltip {
+  opacity: 1 !important;
+  border: 1px solid #e8e8e8 !important;
+
+  > span {
+    font-size: 14px;
+    font-weight: 500;
+  }
+}
+
+.contentScroll {
+  overflow-y: auto;
+}
+.votings{
+  display: flex;
+}
+.radioButton{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.content {
+  width: 70%;
+  display: flex;
+  align-items: stretch;
+  flex-wrap: wrap;
+}
+
+.Buttons {
+  align-items: center;
+  margin-right: 15px;
+}
+
+.Title {
+  color: rgba(0, 0, 0, .75);
+  font-size: 20px;
+  font-weight: 700;
+  width: 100%;
+}
+
+.titleGrade {
+  width: 80%;
+  margin-right: 5px;
+}
+
+.none {
+  display: none;
+}
+
+.Subtitle {
+  display: flex;
+  color: #607180;
+  font-size: 14px;
+  font-weight: 400;
+  margin-top: 10px;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.no_data {
+  color: black;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.ArrayRow {
+  width: 50%;
+}

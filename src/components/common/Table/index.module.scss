@@ -1,0 +1,19 @@
+.table {
+  background: rgba(255, 255, 255, 1);
+  border: 1px solid #e8e8e8;
+  border-radius: 8px;
+  overflow: hidden;
+
+  &__scroll {
+    width: 100%;
+    overflow: auto;
+  }
+
+  &__not_found {
+    background: rgba(255, 255, 255, 1);
+    display: flex;
+    justify-content: center;
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+}

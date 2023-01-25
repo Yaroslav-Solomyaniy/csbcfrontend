@@ -1,0 +1,93 @@
+.default {
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 400;
+  display: block !important;
+}
+
+.large {
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.small {
+  padding: 5px 16px;
+  border-radius: 8px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.primary {
+  border: 1px solid rgba(66, 139, 202, 1);
+  background: rgba(66, 139, 202, 1);
+  color: rgba(255, 255, 255, 0.85);
+
+  &:hover {
+    background: rgba(39, 111, 173, 1);
+    border: 1px solid rgba(39, 111, 173, 1);
+  }
+
+  &_disabled {
+    background: rgba(220, 220, 220, 1);
+    border: none;
+    &:hover{
+      background: rgba(220, 220, 220, 1);
+      border: none;
+      cursor: default;
+    }
+  }
+}
+
+.secondary {
+  color: rgba(0, 0, 0, 0.75);
+  background: transparent;
+  border-radius: 8px;
+  border: 1px solid rgba(66, 139, 202, 1);
+
+  &:hover {
+    background: transparent;
+    border: 1px solid rgba(39, 111, 173, 1);
+  }
+
+  &_disabled {
+    background: transparent;
+    color: #DCDCDC;
+    border: 1px solid rgba(220, 220, 220, 1);
+    &:hover{
+      background: transparent;
+      color: #DCDCDC;
+      border: 1px solid rgba(220, 220, 220, 1);
+      cursor: default;
+    }
+  }
+
+  &_voting {
+    color: rgba(255, 0, 0, 1);
+    background: transparent;
+    border: 1px solid rgba(255, 0, 0, 1);
+  }
+}
+
+.img {
+  background: transparent;
+  font-size: 17px;
+  color:#565656;
+
+  &:hover {
+    background: transparent;
+    color: rgba(45, 112, 169, 1);
+  }
+
+  &Disabled{
+    color: #DCDCDC;
+    cursor: default;
+    &:hover{
+      color: #DCDCDC;
+      cursor: default;
+    }
+  }
+}

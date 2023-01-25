@@ -1,0 +1,41 @@
+.columns {
+  grid-template-columns: 20% 20% repeat(2, 1fr);
+}
+.infoBlock{
+  margin-top: 10px;
+  margin-bottom: 40px;
+}
+.blocs{
+  margin-top: 10px;
+  max-height: 70vh;
+  overflow: auto;
+}
+.subtitle {
+  margin-top: 10px;
+  text-align: center;
+  padding: 0 15px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.75);
+}
+.content{
+  margin: 25px 0;
+  padding: 20px;
+  border: 1px solid #e8e8e8;
+  border-radius: 10px;
+  height: 50vh;
+  overflow-y: scroll;
+}
+
+.Phone__title{
+  font-weight: 700;
+  font-size: 18px;
+  color: rgba(0, 0, 0, 0.75);
+}
+.Phone__subtitle{
+  margin-top: 10px;
+  color: rgba(96, 113, 128, 1);
+  font-weight: 400;
+  font-size: 13px;
+}
